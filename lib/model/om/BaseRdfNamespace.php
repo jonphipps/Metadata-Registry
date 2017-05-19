@@ -27,13 +27,6 @@ abstract class BaseRdfNamespace extends BaseObject  implements Persistent {
 
 
 	/**
-	 * The value for the schema_id field.
-	 * @var        int
-	 */
-	protected $schema_id;
-
-
-	/**
 	 * The value for the created_at field.
 	 * @var        int
 	 */
@@ -41,10 +34,24 @@ abstract class BaseRdfNamespace extends BaseObject  implements Persistent {
 
 
 	/**
+	 * The value for the updated_at field.
+	 * @var        int
+	 */
+	protected $updated_at;
+
+
+	/**
 	 * The value for the deleted_at field.
 	 * @var        int
 	 */
 	protected $deleted_at;
+
+
+	/**
+	 * The value for the schema_id field.
+	 * @var        int
+	 */
+	protected $schema_id;
 
 
 	/**
@@ -88,6 +95,27 @@ abstract class BaseRdfNamespace extends BaseObject  implements Persistent {
 	 */
 	protected $schema_location;
 
+
+	/**
+	 * The value for the created_by field.
+	 * @var        int
+	 */
+	protected $created_by;
+
+
+	/**
+	 * The value for the updated_by field.
+	 * @var        int
+	 */
+	protected $updated_by;
+
+
+	/**
+	 * The value for the deleted_by field.
+	 * @var        int
+	 */
+	protected $deleted_by;
+
 	/**
 	 * @var        Schema
 	 */
@@ -119,17 +147,6 @@ abstract class BaseRdfNamespace extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Get the [schema_id] column value.
-	 * 
-	 * @return     int
-	 */
-	public function getSchemaId()
-	{
-
-		return $this->schema_id;
-	}
-
-	/**
 	 * Get the [optionally formatted] [created_at] column value.
 	 * 
 	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
@@ -150,6 +167,37 @@ abstract class BaseRdfNamespace extends BaseObject  implements Persistent {
 			}
 		} else {
 			$ts = $this->created_at;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
+	}
+
+	/**
+	 * Get the [optionally formatted] [updated_at] column value.
+	 * 
+	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
+	 *							If format is NULL, then the integer unix timestamp will be returned.
+	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
+	 * @throws     PropelException - if unable to convert the date/time to timestamp.
+	 */
+	public function getUpdatedAt($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->updated_at === null || $this->updated_at === '') {
+			return null;
+		} elseif (!is_int($this->updated_at)) {
+			// a non-timestamp value was set externally, so we convert it
+			$ts = strtotime($this->updated_at);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse value of [updated_at] as date/time value: " . var_export($this->updated_at, true));
+			}
+		} else {
+			$ts = $this->updated_at;
 		}
 		if ($format === null) {
 			return $ts;
@@ -189,6 +237,17 @@ abstract class BaseRdfNamespace extends BaseObject  implements Persistent {
 		} else {
 			return date($format, $ts);
 		}
+	}
+
+	/**
+	 * Get the [schema_id] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getSchemaId()
+	{
+
+		return $this->schema_id;
 	}
 
 	/**
@@ -258,6 +317,39 @@ abstract class BaseRdfNamespace extends BaseObject  implements Persistent {
 	}
 
 	/**
+	 * Get the [created_by] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getCreatedBy()
+	{
+
+		return $this->created_by;
+	}
+
+	/**
+	 * Get the [updated_by] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getUpdatedBy()
+	{
+
+		return $this->updated_by;
+	}
+
+	/**
+	 * Get the [deleted_by] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getDeletedBy()
+	{
+
+		return $this->deleted_by;
+	}
+
+	/**
 	 * Set the value of [id] column.
 	 * 
 	 * @param      int $v new value
@@ -278,32 +370,6 @@ abstract class BaseRdfNamespace extends BaseObject  implements Persistent {
 		}
 
 	} // setId()
-
-	/**
-	 * Set the value of [schema_id] column.
-	 * 
-	 * @param      int $v new value
-	 * @return     void
-	 */
-	public function setSchemaId($v)
-	{
-
-		// Since the native PHP type for this column is integer,
-		// we will cast the input value to an int (if it is not).
-		if ($v !== null && !is_int($v) && is_numeric($v)) {
-			$v = (int) $v;
-		}
-
-		if ($this->schema_id !== $v) {
-			$this->schema_id = $v;
-			$this->modifiedColumns[] = RdfNamespacePeer::SCHEMA_ID;
-		}
-
-		if ($this->aSchema !== null && $this->aSchema->getId() !== $v) {
-			$this->aSchema = null;
-		}
-
-	} // setSchemaId()
 
 	/**
 	 * Set the value of [created_at] column.
@@ -330,6 +396,30 @@ abstract class BaseRdfNamespace extends BaseObject  implements Persistent {
 	} // setCreatedAt()
 
 	/**
+	 * Set the value of [updated_at] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setUpdatedAt($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse date/time value for [updated_at] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->updated_at !== $ts) {
+			$this->updated_at = $ts;
+			$this->modifiedColumns[] = RdfNamespacePeer::UPDATED_AT;
+		}
+
+	} // setUpdatedAt()
+
+	/**
 	 * Set the value of [deleted_at] column.
 	 * 
 	 * @param      int $v new value
@@ -352,6 +442,32 @@ abstract class BaseRdfNamespace extends BaseObject  implements Persistent {
 		}
 
 	} // setDeletedAt()
+
+	/**
+	 * Set the value of [schema_id] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setSchemaId($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->schema_id !== $v) {
+			$this->schema_id = $v;
+			$this->modifiedColumns[] = RdfNamespacePeer::SCHEMA_ID;
+		}
+
+		if ($this->aSchema !== null && $this->aSchema->getId() !== $v) {
+			$this->aSchema = null;
+		}
+
+	} // setSchemaId()
 
 	/**
 	 * Set the value of [created_user_id] column.
@@ -486,6 +602,72 @@ abstract class BaseRdfNamespace extends BaseObject  implements Persistent {
 	} // setSchemaLocation()
 
 	/**
+	 * Set the value of [created_by] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setCreatedBy($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->created_by !== $v) {
+			$this->created_by = $v;
+			$this->modifiedColumns[] = RdfNamespacePeer::CREATED_BY;
+		}
+
+	} // setCreatedBy()
+
+	/**
+	 * Set the value of [updated_by] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setUpdatedBy($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->updated_by !== $v) {
+			$this->updated_by = $v;
+			$this->modifiedColumns[] = RdfNamespacePeer::UPDATED_BY;
+		}
+
+	} // setUpdatedBy()
+
+	/**
+	 * Set the value of [deleted_by] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setDeletedBy($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->deleted_by !== $v) {
+			$this->deleted_by = $v;
+			$this->modifiedColumns[] = RdfNamespacePeer::DELETED_BY;
+		}
+
+	} // setDeletedBy()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -504,30 +686,38 @@ abstract class BaseRdfNamespace extends BaseObject  implements Persistent {
 
 			$this->id = $rs->getInt($startcol + 0);
 
-			$this->schema_id = $rs->getInt($startcol + 1);
+			$this->created_at = $rs->getTimestamp($startcol + 1, null);
 
-			$this->created_at = $rs->getTimestamp($startcol + 2, null);
+			$this->updated_at = $rs->getTimestamp($startcol + 2, null);
 
 			$this->deleted_at = $rs->getTimestamp($startcol + 3, null);
 
-			$this->created_user_id = $rs->getInt($startcol + 4);
+			$this->schema_id = $rs->getInt($startcol + 4);
 
-			$this->updated_user_id = $rs->getInt($startcol + 5);
+			$this->created_user_id = $rs->getInt($startcol + 5);
 
-			$this->token = $rs->getString($startcol + 6);
+			$this->updated_user_id = $rs->getInt($startcol + 6);
 
-			$this->note = $rs->getString($startcol + 7);
+			$this->token = $rs->getString($startcol + 7);
 
-			$this->uri = $rs->getString($startcol + 8);
+			$this->note = $rs->getString($startcol + 8);
 
-			$this->schema_location = $rs->getString($startcol + 9);
+			$this->uri = $rs->getString($startcol + 9);
+
+			$this->schema_location = $rs->getString($startcol + 10);
+
+			$this->created_by = $rs->getInt($startcol + 11);
+
+			$this->updated_by = $rs->getInt($startcol + 12);
+
+			$this->deleted_by = $rs->getInt($startcol + 13);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 10; // 10 = RdfNamespacePeer::NUM_COLUMNS - RdfNamespacePeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 14; // 14 = RdfNamespacePeer::NUM_COLUMNS - RdfNamespacePeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating RdfNamespace object", $e);
@@ -607,6 +797,11 @@ abstract class BaseRdfNamespace extends BaseObject  implements Persistent {
     if ($this->isNew() && !$this->isColumnModified(RdfNamespacePeer::CREATED_AT))
     {
       $this->setCreatedAt(time());
+    }
+
+    if ($this->isModified() && !$this->isColumnModified(RdfNamespacePeer::UPDATED_AT))
+    {
+      $this->setUpdatedAt(time());
     }
 
 		if ($this->isDeleted()) {
@@ -799,31 +994,43 @@ abstract class BaseRdfNamespace extends BaseObject  implements Persistent {
 				return $this->getId();
 				break;
 			case 1:
-				return $this->getSchemaId();
+				return $this->getCreatedAt();
 				break;
 			case 2:
-				return $this->getCreatedAt();
+				return $this->getUpdatedAt();
 				break;
 			case 3:
 				return $this->getDeletedAt();
 				break;
 			case 4:
-				return $this->getCreatedUserId();
+				return $this->getSchemaId();
 				break;
 			case 5:
-				return $this->getUpdatedUserId();
+				return $this->getCreatedUserId();
 				break;
 			case 6:
-				return $this->getToken();
+				return $this->getUpdatedUserId();
 				break;
 			case 7:
-				return $this->getNote();
+				return $this->getToken();
 				break;
 			case 8:
-				return $this->getUri();
+				return $this->getNote();
 				break;
 			case 9:
+				return $this->getUri();
+				break;
+			case 10:
 				return $this->getSchemaLocation();
+				break;
+			case 11:
+				return $this->getCreatedBy();
+				break;
+			case 12:
+				return $this->getUpdatedBy();
+				break;
+			case 13:
+				return $this->getDeletedBy();
 				break;
 			default:
 				return null;
@@ -846,15 +1053,19 @@ abstract class BaseRdfNamespace extends BaseObject  implements Persistent {
 		$keys = RdfNamespacePeer::getFieldNames($keyType);
 		$result = array(
 			$keys[0] => $this->getId(),
-			$keys[1] => $this->getSchemaId(),
-			$keys[2] => $this->getCreatedAt(),
+			$keys[1] => $this->getCreatedAt(),
+			$keys[2] => $this->getUpdatedAt(),
 			$keys[3] => $this->getDeletedAt(),
-			$keys[4] => $this->getCreatedUserId(),
-			$keys[5] => $this->getUpdatedUserId(),
-			$keys[6] => $this->getToken(),
-			$keys[7] => $this->getNote(),
-			$keys[8] => $this->getUri(),
-			$keys[9] => $this->getSchemaLocation(),
+			$keys[4] => $this->getSchemaId(),
+			$keys[5] => $this->getCreatedUserId(),
+			$keys[6] => $this->getUpdatedUserId(),
+			$keys[7] => $this->getToken(),
+			$keys[8] => $this->getNote(),
+			$keys[9] => $this->getUri(),
+			$keys[10] => $this->getSchemaLocation(),
+			$keys[11] => $this->getCreatedBy(),
+			$keys[12] => $this->getUpdatedBy(),
+			$keys[13] => $this->getDeletedBy(),
 		);
 		return $result;
 	}
@@ -890,31 +1101,43 @@ abstract class BaseRdfNamespace extends BaseObject  implements Persistent {
 				$this->setId($value);
 				break;
 			case 1:
-				$this->setSchemaId($value);
+				$this->setCreatedAt($value);
 				break;
 			case 2:
-				$this->setCreatedAt($value);
+				$this->setUpdatedAt($value);
 				break;
 			case 3:
 				$this->setDeletedAt($value);
 				break;
 			case 4:
-				$this->setCreatedUserId($value);
+				$this->setSchemaId($value);
 				break;
 			case 5:
-				$this->setUpdatedUserId($value);
+				$this->setCreatedUserId($value);
 				break;
 			case 6:
-				$this->setToken($value);
+				$this->setUpdatedUserId($value);
 				break;
 			case 7:
-				$this->setNote($value);
+				$this->setToken($value);
 				break;
 			case 8:
-				$this->setUri($value);
+				$this->setNote($value);
 				break;
 			case 9:
+				$this->setUri($value);
+				break;
+			case 10:
 				$this->setSchemaLocation($value);
+				break;
+			case 11:
+				$this->setCreatedBy($value);
+				break;
+			case 12:
+				$this->setUpdatedBy($value);
+				break;
+			case 13:
+				$this->setDeletedBy($value);
 				break;
 		} // switch()
 	}
@@ -940,15 +1163,19 @@ abstract class BaseRdfNamespace extends BaseObject  implements Persistent {
 		$keys = RdfNamespacePeer::getFieldNames($keyType);
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-		if (array_key_exists($keys[1], $arr)) $this->setSchemaId($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setCreatedAt($arr[$keys[2]]);
+		if (array_key_exists($keys[1], $arr)) $this->setCreatedAt($arr[$keys[1]]);
+		if (array_key_exists($keys[2], $arr)) $this->setUpdatedAt($arr[$keys[2]]);
 		if (array_key_exists($keys[3], $arr)) $this->setDeletedAt($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setCreatedUserId($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setUpdatedUserId($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setToken($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setNote($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setUri($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setSchemaLocation($arr[$keys[9]]);
+		if (array_key_exists($keys[4], $arr)) $this->setSchemaId($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setCreatedUserId($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setUpdatedUserId($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setToken($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setNote($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setUri($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setSchemaLocation($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setCreatedBy($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setUpdatedBy($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setDeletedBy($arr[$keys[13]]);
 	}
 
 	/**
@@ -961,15 +1188,19 @@ abstract class BaseRdfNamespace extends BaseObject  implements Persistent {
 		$criteria = new Criteria(RdfNamespacePeer::DATABASE_NAME);
 
 		if ($this->isColumnModified(RdfNamespacePeer::ID)) $criteria->add(RdfNamespacePeer::ID, $this->id);
-		if ($this->isColumnModified(RdfNamespacePeer::SCHEMA_ID)) $criteria->add(RdfNamespacePeer::SCHEMA_ID, $this->schema_id);
 		if ($this->isColumnModified(RdfNamespacePeer::CREATED_AT)) $criteria->add(RdfNamespacePeer::CREATED_AT, $this->created_at);
+		if ($this->isColumnModified(RdfNamespacePeer::UPDATED_AT)) $criteria->add(RdfNamespacePeer::UPDATED_AT, $this->updated_at);
 		if ($this->isColumnModified(RdfNamespacePeer::DELETED_AT)) $criteria->add(RdfNamespacePeer::DELETED_AT, $this->deleted_at);
+		if ($this->isColumnModified(RdfNamespacePeer::SCHEMA_ID)) $criteria->add(RdfNamespacePeer::SCHEMA_ID, $this->schema_id);
 		if ($this->isColumnModified(RdfNamespacePeer::CREATED_USER_ID)) $criteria->add(RdfNamespacePeer::CREATED_USER_ID, $this->created_user_id);
 		if ($this->isColumnModified(RdfNamespacePeer::UPDATED_USER_ID)) $criteria->add(RdfNamespacePeer::UPDATED_USER_ID, $this->updated_user_id);
 		if ($this->isColumnModified(RdfNamespacePeer::TOKEN)) $criteria->add(RdfNamespacePeer::TOKEN, $this->token);
 		if ($this->isColumnModified(RdfNamespacePeer::NOTE)) $criteria->add(RdfNamespacePeer::NOTE, $this->note);
 		if ($this->isColumnModified(RdfNamespacePeer::URI)) $criteria->add(RdfNamespacePeer::URI, $this->uri);
 		if ($this->isColumnModified(RdfNamespacePeer::SCHEMA_LOCATION)) $criteria->add(RdfNamespacePeer::SCHEMA_LOCATION, $this->schema_location);
+		if ($this->isColumnModified(RdfNamespacePeer::CREATED_BY)) $criteria->add(RdfNamespacePeer::CREATED_BY, $this->created_by);
+		if ($this->isColumnModified(RdfNamespacePeer::UPDATED_BY)) $criteria->add(RdfNamespacePeer::UPDATED_BY, $this->updated_by);
+		if ($this->isColumnModified(RdfNamespacePeer::DELETED_BY)) $criteria->add(RdfNamespacePeer::DELETED_BY, $this->deleted_by);
 
 		return $criteria;
 	}
@@ -1024,11 +1255,13 @@ abstract class BaseRdfNamespace extends BaseObject  implements Persistent {
 	public function copyInto($copyObj, $deepCopy = false)
 	{
 
-		$copyObj->setSchemaId($this->schema_id);
-
 		$copyObj->setCreatedAt($this->created_at);
 
+		$copyObj->setUpdatedAt($this->updated_at);
+
 		$copyObj->setDeletedAt($this->deleted_at);
+
+		$copyObj->setSchemaId($this->schema_id);
 
 		$copyObj->setCreatedUserId($this->created_user_id);
 
@@ -1041,6 +1274,12 @@ abstract class BaseRdfNamespace extends BaseObject  implements Persistent {
 		$copyObj->setUri($this->uri);
 
 		$copyObj->setSchemaLocation($this->schema_location);
+
+		$copyObj->setCreatedBy($this->created_by);
+
+		$copyObj->setUpdatedBy($this->updated_by);
+
+		$copyObj->setDeletedBy($this->deleted_by);
 
 
 		$copyObj->setNew(true);

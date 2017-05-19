@@ -76,10 +76,17 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 
 	/**
+	 * The value for the lexical_alias field.
+	 * @var        string
+	 */
+	protected $lexical_alias;
+
+
+	/**
 	 * The value for the pref_label field.
 	 * @var        string
 	 */
-	protected $pref_label;
+	protected $pref_label = '';
 
 
 	/**
@@ -116,15 +123,36 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	 */
 	protected $language = 'en';
 
-	/**
-	 * @var        User
-	 */
-	protected $aUserRelatedByCreatedUserId;
 
 	/**
-	 * @var        User
+	 * The value for the created_by field.
+	 * @var        int
 	 */
-	protected $aUserRelatedByUpdatedUserId;
+	protected $created_by;
+
+
+	/**
+	 * The value for the updated_by field.
+	 * @var        int
+	 */
+	protected $updated_by;
+
+
+	/**
+	 * The value for the deleted_by field.
+	 * @var        int
+	 */
+	protected $deleted_by;
+
+	/**
+	 * @var        Users
+	 */
+	protected $aUsersRelatedByCreatedUserId;
+
+	/**
+	 * @var        Users
+	 */
+	protected $aUsersRelatedByUpdatedUserId;
 
 	/**
 	 * @var        Vocabulary
@@ -140,6 +168,21 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	 * @var        Status
 	 */
 	protected $aStatus;
+
+	/**
+	 * @var        Users
+	 */
+	protected $aUsersRelatedByCreatedBy;
+
+	/**
+	 * @var        Users
+	 */
+	protected $aUsersRelatedByUpdatedBy;
+
+	/**
+	 * @var        Users
+	 */
+	protected $aUsersRelatedByDeletedBy;
 
 	/**
 	 * Collection to store aggregation of collConceptPropertysRelatedByConceptId.
@@ -384,6 +427,17 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	}
 
 	/**
+	 * Get the [lexical_alias] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getLexicalAlias()
+	{
+
+		return $this->lexical_alias;
+	}
+
+	/**
 	 * Get the [pref_label] column value.
 	 * 
 	 * @return     string
@@ -447,6 +501,39 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	{
 
 		return $this->language;
+	}
+
+	/**
+	 * Get the [created_by] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getCreatedBy()
+	{
+
+		return $this->created_by;
+	}
+
+	/**
+	 * Get the [updated_by] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getUpdatedBy()
+	{
+
+		return $this->updated_by;
+	}
+
+	/**
+	 * Get the [deleted_by] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getDeletedBy()
+	{
+
+		return $this->deleted_by;
 	}
 
 	/**
@@ -587,8 +674,8 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 			$this->modifiedColumns[] = ConceptPeer::CREATED_USER_ID;
 		}
 
-		if ($this->aUserRelatedByCreatedUserId !== null && $this->aUserRelatedByCreatedUserId->getId() !== $v) {
-			$this->aUserRelatedByCreatedUserId = null;
+		if ($this->aUsersRelatedByCreatedUserId !== null && $this->aUsersRelatedByCreatedUserId->getId() !== $v) {
+			$this->aUsersRelatedByCreatedUserId = null;
 		}
 
 	} // setCreatedUserId()
@@ -613,8 +700,8 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 			$this->modifiedColumns[] = ConceptPeer::UPDATED_USER_ID;
 		}
 
-		if ($this->aUserRelatedByUpdatedUserId !== null && $this->aUserRelatedByUpdatedUserId->getId() !== $v) {
-			$this->aUserRelatedByUpdatedUserId = null;
+		if ($this->aUsersRelatedByUpdatedUserId !== null && $this->aUsersRelatedByUpdatedUserId->getId() !== $v) {
+			$this->aUsersRelatedByUpdatedUserId = null;
 		}
 
 	} // setUpdatedUserId()
@@ -642,6 +729,28 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	} // setUri()
 
 	/**
+	 * Set the value of [lexical_alias] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setLexicalAlias($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->lexical_alias !== $v) {
+			$this->lexical_alias = $v;
+			$this->modifiedColumns[] = ConceptPeer::LEXICAL_ALIAS;
+		}
+
+	} // setLexicalAlias()
+
+	/**
 	 * Set the value of [pref_label] column.
 	 * 
 	 * @param      string $v new value
@@ -656,7 +765,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->pref_label !== $v) {
+		if ($this->pref_label !== $v || $v === '') {
 			$this->pref_label = $v;
 			$this->modifiedColumns[] = ConceptPeer::PREF_LABEL;
 		}
@@ -780,6 +889,84 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	} // setLanguage()
 
 	/**
+	 * Set the value of [created_by] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setCreatedBy($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->created_by !== $v) {
+			$this->created_by = $v;
+			$this->modifiedColumns[] = ConceptPeer::CREATED_BY;
+		}
+
+		if ($this->aUsersRelatedByCreatedBy !== null && $this->aUsersRelatedByCreatedBy->getId() !== $v) {
+			$this->aUsersRelatedByCreatedBy = null;
+		}
+
+	} // setCreatedBy()
+
+	/**
+	 * Set the value of [updated_by] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setUpdatedBy($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->updated_by !== $v) {
+			$this->updated_by = $v;
+			$this->modifiedColumns[] = ConceptPeer::UPDATED_BY;
+		}
+
+		if ($this->aUsersRelatedByUpdatedBy !== null && $this->aUsersRelatedByUpdatedBy->getId() !== $v) {
+			$this->aUsersRelatedByUpdatedBy = null;
+		}
+
+	} // setUpdatedBy()
+
+	/**
+	 * Set the value of [deleted_by] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setDeletedBy($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->deleted_by !== $v) {
+			$this->deleted_by = $v;
+			$this->modifiedColumns[] = ConceptPeer::DELETED_BY;
+		}
+
+		if ($this->aUsersRelatedByDeletedBy !== null && $this->aUsersRelatedByDeletedBy->getId() !== $v) {
+			$this->aUsersRelatedByDeletedBy = null;
+		}
+
+	} // setDeletedBy()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -812,24 +999,32 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 			$this->uri = $rs->getString($startcol + 7);
 
-			$this->pref_label = $rs->getString($startcol + 8);
+			$this->lexical_alias = $rs->getString($startcol + 8);
 
-			$this->vocabulary_id = $rs->getInt($startcol + 9);
+			$this->pref_label = $rs->getString($startcol + 9);
 
-			$this->is_top_concept = $rs->getBoolean($startcol + 10);
+			$this->vocabulary_id = $rs->getInt($startcol + 10);
 
-			$this->pref_label_id = $rs->getInt($startcol + 11);
+			$this->is_top_concept = $rs->getBoolean($startcol + 11);
 
-			$this->status_id = $rs->getInt($startcol + 12);
+			$this->pref_label_id = $rs->getInt($startcol + 12);
 
-			$this->language = $rs->getString($startcol + 13);
+			$this->status_id = $rs->getInt($startcol + 13);
+
+			$this->language = $rs->getString($startcol + 14);
+
+			$this->created_by = $rs->getInt($startcol + 15);
+
+			$this->updated_by = $rs->getInt($startcol + 16);
+
+			$this->deleted_by = $rs->getInt($startcol + 17);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 14; // 14 = ConceptPeer::NUM_COLUMNS - ConceptPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 18; // 18 = ConceptPeer::NUM_COLUMNS - ConceptPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Concept object", $e);
@@ -963,18 +1158,18 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
-			if ($this->aUserRelatedByCreatedUserId !== null) {
-				if ($this->aUserRelatedByCreatedUserId->isModified()) {
-					$affectedRows += $this->aUserRelatedByCreatedUserId->save($con);
+			if ($this->aUsersRelatedByCreatedUserId !== null) {
+				if ($this->aUsersRelatedByCreatedUserId->isModified()) {
+					$affectedRows += $this->aUsersRelatedByCreatedUserId->save($con);
 				}
-				$this->setUserRelatedByCreatedUserId($this->aUserRelatedByCreatedUserId);
+				$this->setUsersRelatedByCreatedUserId($this->aUsersRelatedByCreatedUserId);
 			}
 
-			if ($this->aUserRelatedByUpdatedUserId !== null) {
-				if ($this->aUserRelatedByUpdatedUserId->isModified()) {
-					$affectedRows += $this->aUserRelatedByUpdatedUserId->save($con);
+			if ($this->aUsersRelatedByUpdatedUserId !== null) {
+				if ($this->aUsersRelatedByUpdatedUserId->isModified()) {
+					$affectedRows += $this->aUsersRelatedByUpdatedUserId->save($con);
 				}
-				$this->setUserRelatedByUpdatedUserId($this->aUserRelatedByUpdatedUserId);
+				$this->setUsersRelatedByUpdatedUserId($this->aUsersRelatedByUpdatedUserId);
 			}
 
 			if ($this->aVocabulary !== null) {
@@ -996,6 +1191,27 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 					$affectedRows += $this->aStatus->save($con);
 				}
 				$this->setStatus($this->aStatus);
+			}
+
+			if ($this->aUsersRelatedByCreatedBy !== null) {
+				if ($this->aUsersRelatedByCreatedBy->isModified()) {
+					$affectedRows += $this->aUsersRelatedByCreatedBy->save($con);
+				}
+				$this->setUsersRelatedByCreatedBy($this->aUsersRelatedByCreatedBy);
+			}
+
+			if ($this->aUsersRelatedByUpdatedBy !== null) {
+				if ($this->aUsersRelatedByUpdatedBy->isModified()) {
+					$affectedRows += $this->aUsersRelatedByUpdatedBy->save($con);
+				}
+				$this->setUsersRelatedByUpdatedBy($this->aUsersRelatedByUpdatedBy);
+			}
+
+			if ($this->aUsersRelatedByDeletedBy !== null) {
+				if ($this->aUsersRelatedByDeletedBy->isModified()) {
+					$affectedRows += $this->aUsersRelatedByDeletedBy->save($con);
+				}
+				$this->setUsersRelatedByDeletedBy($this->aUsersRelatedByDeletedBy);
 			}
 
 
@@ -1126,15 +1342,15 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
-			if ($this->aUserRelatedByCreatedUserId !== null) {
-				if (!$this->aUserRelatedByCreatedUserId->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aUserRelatedByCreatedUserId->getValidationFailures());
+			if ($this->aUsersRelatedByCreatedUserId !== null) {
+				if (!$this->aUsersRelatedByCreatedUserId->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsersRelatedByCreatedUserId->getValidationFailures());
 				}
 			}
 
-			if ($this->aUserRelatedByUpdatedUserId !== null) {
-				if (!$this->aUserRelatedByUpdatedUserId->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aUserRelatedByUpdatedUserId->getValidationFailures());
+			if ($this->aUsersRelatedByUpdatedUserId !== null) {
+				if (!$this->aUsersRelatedByUpdatedUserId->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsersRelatedByUpdatedUserId->getValidationFailures());
 				}
 			}
 
@@ -1153,6 +1369,24 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 			if ($this->aStatus !== null) {
 				if (!$this->aStatus->validate($columns)) {
 					$failureMap = array_merge($failureMap, $this->aStatus->getValidationFailures());
+				}
+			}
+
+			if ($this->aUsersRelatedByCreatedBy !== null) {
+				if (!$this->aUsersRelatedByCreatedBy->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsersRelatedByCreatedBy->getValidationFailures());
+				}
+			}
+
+			if ($this->aUsersRelatedByUpdatedBy !== null) {
+				if (!$this->aUsersRelatedByUpdatedBy->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsersRelatedByUpdatedBy->getValidationFailures());
+				}
+			}
+
+			if ($this->aUsersRelatedByDeletedBy !== null) {
+				if (!$this->aUsersRelatedByDeletedBy->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsersRelatedByDeletedBy->getValidationFailures());
 				}
 			}
 
@@ -1259,22 +1493,34 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 				return $this->getUri();
 				break;
 			case 8:
-				return $this->getPrefLabel();
+				return $this->getLexicalAlias();
 				break;
 			case 9:
-				return $this->getVocabularyId();
+				return $this->getPrefLabel();
 				break;
 			case 10:
-				return $this->getIsTopConcept();
+				return $this->getVocabularyId();
 				break;
 			case 11:
-				return $this->getPrefLabelId();
+				return $this->getIsTopConcept();
 				break;
 			case 12:
-				return $this->getStatusId();
+				return $this->getPrefLabelId();
 				break;
 			case 13:
+				return $this->getStatusId();
+				break;
+			case 14:
 				return $this->getLanguage();
+				break;
+			case 15:
+				return $this->getCreatedBy();
+				break;
+			case 16:
+				return $this->getUpdatedBy();
+				break;
+			case 17:
+				return $this->getDeletedBy();
 				break;
 			default:
 				return null;
@@ -1304,12 +1550,16 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 			$keys[5] => $this->getCreatedUserId(),
 			$keys[6] => $this->getUpdatedUserId(),
 			$keys[7] => $this->getUri(),
-			$keys[8] => $this->getPrefLabel(),
-			$keys[9] => $this->getVocabularyId(),
-			$keys[10] => $this->getIsTopConcept(),
-			$keys[11] => $this->getPrefLabelId(),
-			$keys[12] => $this->getStatusId(),
-			$keys[13] => $this->getLanguage(),
+			$keys[8] => $this->getLexicalAlias(),
+			$keys[9] => $this->getPrefLabel(),
+			$keys[10] => $this->getVocabularyId(),
+			$keys[11] => $this->getIsTopConcept(),
+			$keys[12] => $this->getPrefLabelId(),
+			$keys[13] => $this->getStatusId(),
+			$keys[14] => $this->getLanguage(),
+			$keys[15] => $this->getCreatedBy(),
+			$keys[16] => $this->getUpdatedBy(),
+			$keys[17] => $this->getDeletedBy(),
 		);
 		return $result;
 	}
@@ -1366,22 +1616,34 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 				$this->setUri($value);
 				break;
 			case 8:
-				$this->setPrefLabel($value);
+				$this->setLexicalAlias($value);
 				break;
 			case 9:
-				$this->setVocabularyId($value);
+				$this->setPrefLabel($value);
 				break;
 			case 10:
-				$this->setIsTopConcept($value);
+				$this->setVocabularyId($value);
 				break;
 			case 11:
-				$this->setPrefLabelId($value);
+				$this->setIsTopConcept($value);
 				break;
 			case 12:
-				$this->setStatusId($value);
+				$this->setPrefLabelId($value);
 				break;
 			case 13:
+				$this->setStatusId($value);
+				break;
+			case 14:
 				$this->setLanguage($value);
+				break;
+			case 15:
+				$this->setCreatedBy($value);
+				break;
+			case 16:
+				$this->setUpdatedBy($value);
+				break;
+			case 17:
+				$this->setDeletedBy($value);
 				break;
 		} // switch()
 	}
@@ -1414,12 +1676,16 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[5], $arr)) $this->setCreatedUserId($arr[$keys[5]]);
 		if (array_key_exists($keys[6], $arr)) $this->setUpdatedUserId($arr[$keys[6]]);
 		if (array_key_exists($keys[7], $arr)) $this->setUri($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setPrefLabel($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setVocabularyId($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setIsTopConcept($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setPrefLabelId($arr[$keys[11]]);
-		if (array_key_exists($keys[12], $arr)) $this->setStatusId($arr[$keys[12]]);
-		if (array_key_exists($keys[13], $arr)) $this->setLanguage($arr[$keys[13]]);
+		if (array_key_exists($keys[8], $arr)) $this->setLexicalAlias($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setPrefLabel($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setVocabularyId($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setIsTopConcept($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setPrefLabelId($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setStatusId($arr[$keys[13]]);
+		if (array_key_exists($keys[14], $arr)) $this->setLanguage($arr[$keys[14]]);
+		if (array_key_exists($keys[15], $arr)) $this->setCreatedBy($arr[$keys[15]]);
+		if (array_key_exists($keys[16], $arr)) $this->setUpdatedBy($arr[$keys[16]]);
+		if (array_key_exists($keys[17], $arr)) $this->setDeletedBy($arr[$keys[17]]);
 	}
 
 	/**
@@ -1439,12 +1705,16 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(ConceptPeer::CREATED_USER_ID)) $criteria->add(ConceptPeer::CREATED_USER_ID, $this->created_user_id);
 		if ($this->isColumnModified(ConceptPeer::UPDATED_USER_ID)) $criteria->add(ConceptPeer::UPDATED_USER_ID, $this->updated_user_id);
 		if ($this->isColumnModified(ConceptPeer::URI)) $criteria->add(ConceptPeer::URI, $this->uri);
+		if ($this->isColumnModified(ConceptPeer::LEXICAL_ALIAS)) $criteria->add(ConceptPeer::LEXICAL_ALIAS, $this->lexical_alias);
 		if ($this->isColumnModified(ConceptPeer::PREF_LABEL)) $criteria->add(ConceptPeer::PREF_LABEL, $this->pref_label);
 		if ($this->isColumnModified(ConceptPeer::VOCABULARY_ID)) $criteria->add(ConceptPeer::VOCABULARY_ID, $this->vocabulary_id);
 		if ($this->isColumnModified(ConceptPeer::IS_TOP_CONCEPT)) $criteria->add(ConceptPeer::IS_TOP_CONCEPT, $this->is_top_concept);
 		if ($this->isColumnModified(ConceptPeer::PREF_LABEL_ID)) $criteria->add(ConceptPeer::PREF_LABEL_ID, $this->pref_label_id);
 		if ($this->isColumnModified(ConceptPeer::STATUS_ID)) $criteria->add(ConceptPeer::STATUS_ID, $this->status_id);
 		if ($this->isColumnModified(ConceptPeer::LANGUAGE)) $criteria->add(ConceptPeer::LANGUAGE, $this->language);
+		if ($this->isColumnModified(ConceptPeer::CREATED_BY)) $criteria->add(ConceptPeer::CREATED_BY, $this->created_by);
+		if ($this->isColumnModified(ConceptPeer::UPDATED_BY)) $criteria->add(ConceptPeer::UPDATED_BY, $this->updated_by);
+		if ($this->isColumnModified(ConceptPeer::DELETED_BY)) $criteria->add(ConceptPeer::DELETED_BY, $this->deleted_by);
 
 		return $criteria;
 	}
@@ -1513,6 +1783,8 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 		$copyObj->setUri($this->uri);
 
+		$copyObj->setLexicalAlias($this->lexical_alias);
+
 		$copyObj->setPrefLabel($this->pref_label);
 
 		$copyObj->setVocabularyId($this->vocabulary_id);
@@ -1524,6 +1796,12 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 		$copyObj->setStatusId($this->status_id);
 
 		$copyObj->setLanguage($this->language);
+
+		$copyObj->setCreatedBy($this->created_by);
+
+		$copyObj->setUpdatedBy($this->updated_by);
+
+		$copyObj->setDeletedBy($this->deleted_by);
 
 
 		if ($deepCopy) {
@@ -1599,13 +1877,13 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Declares an association between this object and a User object.
+	 * Declares an association between this object and a Users object.
 	 *
-	 * @param      User $v
+	 * @param      Users $v
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function setUserRelatedByCreatedUserId($v)
+	public function setUsersRelatedByCreatedUserId($v)
 	{
 
 
@@ -1616,24 +1894,24 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 		}
 
 
-		$this->aUserRelatedByCreatedUserId = $v;
+		$this->aUsersRelatedByCreatedUserId = $v;
 	}
 
 
 	/**
-	 * Get the associated User object
+	 * Get the associated Users object
 	 *
 	 * @param      Connection Optional Connection object.
-	 * @return     User The associated User object.
+	 * @return     Users The associated Users object.
 	 * @throws     PropelException
 	 */
-	public function getUserRelatedByCreatedUserId($con = null)
+	public function getUsersRelatedByCreatedUserId($con = null)
 	{
-		if ($this->aUserRelatedByCreatedUserId === null && ($this->created_user_id !== null)) {
+		if ($this->aUsersRelatedByCreatedUserId === null && ($this->created_user_id !== null)) {
 			// include the related Peer class
-			include_once 'lib/model/om/BaseUserPeer.php';
+			include_once 'lib/model/om/BaseUsersPeer.php';
 
-			$this->aUserRelatedByCreatedUserId = UserPeer::retrieveByPK($this->created_user_id, $con);
+			$this->aUsersRelatedByCreatedUserId = UsersPeer::retrieveByPK($this->created_user_id, $con);
 
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
@@ -1641,21 +1919,21 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 			   may be undesirable in many circumstances.
 			   As it can lead to a db query with many results that may
 			   never be used.
-			   $obj = UserPeer::retrieveByPK($this->created_user_id, $con);
-			   $obj->addUsersRelatedByCreatedUserId($this);
+			   $obj = UsersPeer::retrieveByPK($this->created_user_id, $con);
+			   $obj->addUserssRelatedByCreatedUserId($this);
 			 */
 		}
-		return $this->aUserRelatedByCreatedUserId;
+		return $this->aUsersRelatedByCreatedUserId;
 	}
 
 	/**
-	 * Declares an association between this object and a User object.
+	 * Declares an association between this object and a Users object.
 	 *
-	 * @param      User $v
+	 * @param      Users $v
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function setUserRelatedByUpdatedUserId($v)
+	public function setUsersRelatedByUpdatedUserId($v)
 	{
 
 
@@ -1666,24 +1944,24 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 		}
 
 
-		$this->aUserRelatedByUpdatedUserId = $v;
+		$this->aUsersRelatedByUpdatedUserId = $v;
 	}
 
 
 	/**
-	 * Get the associated User object
+	 * Get the associated Users object
 	 *
 	 * @param      Connection Optional Connection object.
-	 * @return     User The associated User object.
+	 * @return     Users The associated Users object.
 	 * @throws     PropelException
 	 */
-	public function getUserRelatedByUpdatedUserId($con = null)
+	public function getUsersRelatedByUpdatedUserId($con = null)
 	{
-		if ($this->aUserRelatedByUpdatedUserId === null && ($this->updated_user_id !== null)) {
+		if ($this->aUsersRelatedByUpdatedUserId === null && ($this->updated_user_id !== null)) {
 			// include the related Peer class
-			include_once 'lib/model/om/BaseUserPeer.php';
+			include_once 'lib/model/om/BaseUsersPeer.php';
 
-			$this->aUserRelatedByUpdatedUserId = UserPeer::retrieveByPK($this->updated_user_id, $con);
+			$this->aUsersRelatedByUpdatedUserId = UsersPeer::retrieveByPK($this->updated_user_id, $con);
 
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
@@ -1691,11 +1969,11 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 			   may be undesirable in many circumstances.
 			   As it can lead to a db query with many results that may
 			   never be used.
-			   $obj = UserPeer::retrieveByPK($this->updated_user_id, $con);
-			   $obj->addUsersRelatedByUpdatedUserId($this);
+			   $obj = UsersPeer::retrieveByPK($this->updated_user_id, $con);
+			   $obj->addUserssRelatedByUpdatedUserId($this);
 			 */
 		}
-		return $this->aUserRelatedByUpdatedUserId;
+		return $this->aUsersRelatedByUpdatedUserId;
 	}
 
 	/**
@@ -1849,6 +2127,156 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	}
 
 	/**
+	 * Declares an association between this object and a Users object.
+	 *
+	 * @param      Users $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setUsersRelatedByCreatedBy($v)
+	{
+
+
+		if ($v === null) {
+			$this->setCreatedBy(NULL);
+		} else {
+			$this->setCreatedBy($v->getId());
+		}
+
+
+		$this->aUsersRelatedByCreatedBy = $v;
+	}
+
+
+	/**
+	 * Get the associated Users object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     Users The associated Users object.
+	 * @throws     PropelException
+	 */
+	public function getUsersRelatedByCreatedBy($con = null)
+	{
+		if ($this->aUsersRelatedByCreatedBy === null && ($this->created_by !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseUsersPeer.php';
+
+			$this->aUsersRelatedByCreatedBy = UsersPeer::retrieveByPK($this->created_by, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = UsersPeer::retrieveByPK($this->created_by, $con);
+			   $obj->addUserssRelatedByCreatedBy($this);
+			 */
+		}
+		return $this->aUsersRelatedByCreatedBy;
+	}
+
+	/**
+	 * Declares an association between this object and a Users object.
+	 *
+	 * @param      Users $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setUsersRelatedByUpdatedBy($v)
+	{
+
+
+		if ($v === null) {
+			$this->setUpdatedBy(NULL);
+		} else {
+			$this->setUpdatedBy($v->getId());
+		}
+
+
+		$this->aUsersRelatedByUpdatedBy = $v;
+	}
+
+
+	/**
+	 * Get the associated Users object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     Users The associated Users object.
+	 * @throws     PropelException
+	 */
+	public function getUsersRelatedByUpdatedBy($con = null)
+	{
+		if ($this->aUsersRelatedByUpdatedBy === null && ($this->updated_by !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseUsersPeer.php';
+
+			$this->aUsersRelatedByUpdatedBy = UsersPeer::retrieveByPK($this->updated_by, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = UsersPeer::retrieveByPK($this->updated_by, $con);
+			   $obj->addUserssRelatedByUpdatedBy($this);
+			 */
+		}
+		return $this->aUsersRelatedByUpdatedBy;
+	}
+
+	/**
+	 * Declares an association between this object and a Users object.
+	 *
+	 * @param      Users $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setUsersRelatedByDeletedBy($v)
+	{
+
+
+		if ($v === null) {
+			$this->setDeletedBy(NULL);
+		} else {
+			$this->setDeletedBy($v->getId());
+		}
+
+
+		$this->aUsersRelatedByDeletedBy = $v;
+	}
+
+
+	/**
+	 * Get the associated Users object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     Users The associated Users object.
+	 * @throws     PropelException
+	 */
+	public function getUsersRelatedByDeletedBy($con = null)
+	{
+		if ($this->aUsersRelatedByDeletedBy === null && ($this->deleted_by !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseUsersPeer.php';
+
+			$this->aUsersRelatedByDeletedBy = UsersPeer::retrieveByPK($this->deleted_by, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = UsersPeer::retrieveByPK($this->deleted_by, $con);
+			   $obj->addUserssRelatedByDeletedBy($this);
+			 */
+		}
+		return $this->aUsersRelatedByDeletedBy;
+	}
+
+	/**
 	 * Temporary storage of collConceptPropertysRelatedByConceptId to save a possible db hit in
 	 * the event objects are add to the collection, but the
 	 * complete collection is never requested.
@@ -1967,7 +2395,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Concept.
 	 */
-	public function getConceptPropertysRelatedByConceptIdJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
+	public function getConceptPropertysRelatedByConceptIdJoinUsersRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
@@ -1986,7 +2414,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPropertyPeer::CONCEPT_ID, $this->getId());
 
-				$this->collConceptPropertysRelatedByConceptId = ConceptPropertyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collConceptPropertysRelatedByConceptId = ConceptPropertyPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -1996,7 +2424,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 			$criteria->add(ConceptPropertyPeer::CONCEPT_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyRelatedByConceptIdCriteria) || !$this->lastConceptPropertyRelatedByConceptIdCriteria->equals($criteria)) {
-				$this->collConceptPropertysRelatedByConceptId = ConceptPropertyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collConceptPropertysRelatedByConceptId = ConceptPropertyPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyRelatedByConceptIdCriteria = $criteria;
@@ -2016,7 +2444,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Concept.
 	 */
-	public function getConceptPropertysRelatedByConceptIdJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
+	public function getConceptPropertysRelatedByConceptIdJoinUsersRelatedByUpdatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
@@ -2035,7 +2463,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPropertyPeer::CONCEPT_ID, $this->getId());
 
-				$this->collConceptPropertysRelatedByConceptId = ConceptPropertyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collConceptPropertysRelatedByConceptId = ConceptPropertyPeer::doSelectJoinUsersRelatedByUpdatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -2045,7 +2473,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 			$criteria->add(ConceptPropertyPeer::CONCEPT_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyRelatedByConceptIdCriteria) || !$this->lastConceptPropertyRelatedByConceptIdCriteria->equals($criteria)) {
-				$this->collConceptPropertysRelatedByConceptId = ConceptPropertyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collConceptPropertysRelatedByConceptId = ConceptPropertyPeer::doSelectJoinUsersRelatedByUpdatedUserId($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyRelatedByConceptIdCriteria = $criteria;
@@ -2249,6 +2677,153 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 		return $this->collConceptPropertysRelatedByConceptId;
 	}
 
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Concept is new, it will return
+	 * an empty collection; or if this Concept has previously
+	 * been saved, it will retrieve related ConceptPropertysRelatedByConceptId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Concept.
+	 */
+	public function getConceptPropertysRelatedByConceptIdJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertysRelatedByConceptId === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertysRelatedByConceptId = array();
+			} else {
+
+				$criteria->add(ConceptPropertyPeer::CONCEPT_ID, $this->getId());
+
+				$this->collConceptPropertysRelatedByConceptId = ConceptPropertyPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyPeer::CONCEPT_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyRelatedByConceptIdCriteria) || !$this->lastConceptPropertyRelatedByConceptIdCriteria->equals($criteria)) {
+				$this->collConceptPropertysRelatedByConceptId = ConceptPropertyPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyRelatedByConceptIdCriteria = $criteria;
+
+		return $this->collConceptPropertysRelatedByConceptId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Concept is new, it will return
+	 * an empty collection; or if this Concept has previously
+	 * been saved, it will retrieve related ConceptPropertysRelatedByConceptId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Concept.
+	 */
+	public function getConceptPropertysRelatedByConceptIdJoinUsersRelatedByUpdatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertysRelatedByConceptId === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertysRelatedByConceptId = array();
+			} else {
+
+				$criteria->add(ConceptPropertyPeer::CONCEPT_ID, $this->getId());
+
+				$this->collConceptPropertysRelatedByConceptId = ConceptPropertyPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyPeer::CONCEPT_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyRelatedByConceptIdCriteria) || !$this->lastConceptPropertyRelatedByConceptIdCriteria->equals($criteria)) {
+				$this->collConceptPropertysRelatedByConceptId = ConceptPropertyPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyRelatedByConceptIdCriteria = $criteria;
+
+		return $this->collConceptPropertysRelatedByConceptId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Concept is new, it will return
+	 * an empty collection; or if this Concept has previously
+	 * been saved, it will retrieve related ConceptPropertysRelatedByConceptId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Concept.
+	 */
+	public function getConceptPropertysRelatedByConceptIdJoinUsersRelatedByDeletedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertysRelatedByConceptId === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertysRelatedByConceptId = array();
+			} else {
+
+				$criteria->add(ConceptPropertyPeer::CONCEPT_ID, $this->getId());
+
+				$this->collConceptPropertysRelatedByConceptId = ConceptPropertyPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyPeer::CONCEPT_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyRelatedByConceptIdCriteria) || !$this->lastConceptPropertyRelatedByConceptIdCriteria->equals($criteria)) {
+				$this->collConceptPropertysRelatedByConceptId = ConceptPropertyPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyRelatedByConceptIdCriteria = $criteria;
+
+		return $this->collConceptPropertysRelatedByConceptId;
+	}
+
 	/**
 	 * Temporary storage of collConceptPropertysRelatedByRelatedConceptId to save a possible db hit in
 	 * the event objects are add to the collection, but the
@@ -2368,7 +2943,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Concept.
 	 */
-	public function getConceptPropertysRelatedByRelatedConceptIdJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
+	public function getConceptPropertysRelatedByRelatedConceptIdJoinUsersRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
@@ -2387,7 +2962,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPropertyPeer::RELATED_CONCEPT_ID, $this->getId());
 
-				$this->collConceptPropertysRelatedByRelatedConceptId = ConceptPropertyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collConceptPropertysRelatedByRelatedConceptId = ConceptPropertyPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -2397,7 +2972,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 			$criteria->add(ConceptPropertyPeer::RELATED_CONCEPT_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyRelatedByRelatedConceptIdCriteria) || !$this->lastConceptPropertyRelatedByRelatedConceptIdCriteria->equals($criteria)) {
-				$this->collConceptPropertysRelatedByRelatedConceptId = ConceptPropertyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collConceptPropertysRelatedByRelatedConceptId = ConceptPropertyPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyRelatedByRelatedConceptIdCriteria = $criteria;
@@ -2417,7 +2992,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Concept.
 	 */
-	public function getConceptPropertysRelatedByRelatedConceptIdJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
+	public function getConceptPropertysRelatedByRelatedConceptIdJoinUsersRelatedByUpdatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
@@ -2436,7 +3011,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPropertyPeer::RELATED_CONCEPT_ID, $this->getId());
 
-				$this->collConceptPropertysRelatedByRelatedConceptId = ConceptPropertyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collConceptPropertysRelatedByRelatedConceptId = ConceptPropertyPeer::doSelectJoinUsersRelatedByUpdatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -2446,7 +3021,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 			$criteria->add(ConceptPropertyPeer::RELATED_CONCEPT_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyRelatedByRelatedConceptIdCriteria) || !$this->lastConceptPropertyRelatedByRelatedConceptIdCriteria->equals($criteria)) {
-				$this->collConceptPropertysRelatedByRelatedConceptId = ConceptPropertyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collConceptPropertysRelatedByRelatedConceptId = ConceptPropertyPeer::doSelectJoinUsersRelatedByUpdatedUserId($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyRelatedByRelatedConceptIdCriteria = $criteria;
@@ -2643,6 +3218,153 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastConceptPropertyRelatedByRelatedConceptIdCriteria) || !$this->lastConceptPropertyRelatedByRelatedConceptIdCriteria->equals($criteria)) {
 				$this->collConceptPropertysRelatedByRelatedConceptId = ConceptPropertyPeer::doSelectJoinProfilePropertyRelatedByProfilePropertyId($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyRelatedByRelatedConceptIdCriteria = $criteria;
+
+		return $this->collConceptPropertysRelatedByRelatedConceptId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Concept is new, it will return
+	 * an empty collection; or if this Concept has previously
+	 * been saved, it will retrieve related ConceptPropertysRelatedByRelatedConceptId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Concept.
+	 */
+	public function getConceptPropertysRelatedByRelatedConceptIdJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertysRelatedByRelatedConceptId === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertysRelatedByRelatedConceptId = array();
+			} else {
+
+				$criteria->add(ConceptPropertyPeer::RELATED_CONCEPT_ID, $this->getId());
+
+				$this->collConceptPropertysRelatedByRelatedConceptId = ConceptPropertyPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyPeer::RELATED_CONCEPT_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyRelatedByRelatedConceptIdCriteria) || !$this->lastConceptPropertyRelatedByRelatedConceptIdCriteria->equals($criteria)) {
+				$this->collConceptPropertysRelatedByRelatedConceptId = ConceptPropertyPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyRelatedByRelatedConceptIdCriteria = $criteria;
+
+		return $this->collConceptPropertysRelatedByRelatedConceptId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Concept is new, it will return
+	 * an empty collection; or if this Concept has previously
+	 * been saved, it will retrieve related ConceptPropertysRelatedByRelatedConceptId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Concept.
+	 */
+	public function getConceptPropertysRelatedByRelatedConceptIdJoinUsersRelatedByUpdatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertysRelatedByRelatedConceptId === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertysRelatedByRelatedConceptId = array();
+			} else {
+
+				$criteria->add(ConceptPropertyPeer::RELATED_CONCEPT_ID, $this->getId());
+
+				$this->collConceptPropertysRelatedByRelatedConceptId = ConceptPropertyPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyPeer::RELATED_CONCEPT_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyRelatedByRelatedConceptIdCriteria) || !$this->lastConceptPropertyRelatedByRelatedConceptIdCriteria->equals($criteria)) {
+				$this->collConceptPropertysRelatedByRelatedConceptId = ConceptPropertyPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyRelatedByRelatedConceptIdCriteria = $criteria;
+
+		return $this->collConceptPropertysRelatedByRelatedConceptId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Concept is new, it will return
+	 * an empty collection; or if this Concept has previously
+	 * been saved, it will retrieve related ConceptPropertysRelatedByRelatedConceptId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Concept.
+	 */
+	public function getConceptPropertysRelatedByRelatedConceptIdJoinUsersRelatedByDeletedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertysRelatedByRelatedConceptId === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertysRelatedByRelatedConceptId = array();
+			} else {
+
+				$criteria->add(ConceptPropertyPeer::RELATED_CONCEPT_ID, $this->getId());
+
+				$this->collConceptPropertysRelatedByRelatedConceptId = ConceptPropertyPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyPeer::RELATED_CONCEPT_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyRelatedByRelatedConceptIdCriteria) || !$this->lastConceptPropertyRelatedByRelatedConceptIdCriteria->equals($criteria)) {
+				$this->collConceptPropertysRelatedByRelatedConceptId = ConceptPropertyPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyRelatedByRelatedConceptIdCriteria = $criteria;
@@ -3014,7 +3736,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Concept.
 	 */
-	public function getConceptPropertyHistorysRelatedByConceptIdJoinUser($criteria = null, $con = null)
+	public function getConceptPropertyHistorysRelatedByConceptIdJoinUsersRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
@@ -3033,7 +3755,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPropertyHistoryPeer::CONCEPT_ID, $this->getId());
 
-				$this->collConceptPropertyHistorysRelatedByConceptId = ConceptPropertyHistoryPeer::doSelectJoinUser($criteria, $con);
+				$this->collConceptPropertyHistorysRelatedByConceptId = ConceptPropertyHistoryPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -3043,7 +3765,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 			$criteria->add(ConceptPropertyHistoryPeer::CONCEPT_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyHistoryRelatedByConceptIdCriteria) || !$this->lastConceptPropertyHistoryRelatedByConceptIdCriteria->equals($criteria)) {
-				$this->collConceptPropertyHistorysRelatedByConceptId = ConceptPropertyHistoryPeer::doSelectJoinUser($criteria, $con);
+				$this->collConceptPropertyHistorysRelatedByConceptId = ConceptPropertyHistoryPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyHistoryRelatedByConceptIdCriteria = $criteria;
@@ -3142,6 +3864,55 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastConceptPropertyHistoryRelatedByConceptIdCriteria) || !$this->lastConceptPropertyHistoryRelatedByConceptIdCriteria->equals($criteria)) {
 				$this->collConceptPropertyHistorysRelatedByConceptId = ConceptPropertyHistoryPeer::doSelectJoinProfileProperty($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyHistoryRelatedByConceptIdCriteria = $criteria;
+
+		return $this->collConceptPropertyHistorysRelatedByConceptId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Concept is new, it will return
+	 * an empty collection; or if this Concept has previously
+	 * been saved, it will retrieve related ConceptPropertyHistorysRelatedByConceptId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Concept.
+	 */
+	public function getConceptPropertyHistorysRelatedByConceptIdJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertyHistorysRelatedByConceptId === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertyHistorysRelatedByConceptId = array();
+			} else {
+
+				$criteria->add(ConceptPropertyHistoryPeer::CONCEPT_ID, $this->getId());
+
+				$this->collConceptPropertyHistorysRelatedByConceptId = ConceptPropertyHistoryPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyHistoryPeer::CONCEPT_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyHistoryRelatedByConceptIdCriteria) || !$this->lastConceptPropertyHistoryRelatedByConceptIdCriteria->equals($criteria)) {
+				$this->collConceptPropertyHistorysRelatedByConceptId = ConceptPropertyHistoryPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyHistoryRelatedByConceptIdCriteria = $criteria;
@@ -3513,7 +4284,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Concept.
 	 */
-	public function getConceptPropertyHistorysRelatedByRelatedConceptIdJoinUser($criteria = null, $con = null)
+	public function getConceptPropertyHistorysRelatedByRelatedConceptIdJoinUsersRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
@@ -3532,7 +4303,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPropertyHistoryPeer::RELATED_CONCEPT_ID, $this->getId());
 
-				$this->collConceptPropertyHistorysRelatedByRelatedConceptId = ConceptPropertyHistoryPeer::doSelectJoinUser($criteria, $con);
+				$this->collConceptPropertyHistorysRelatedByRelatedConceptId = ConceptPropertyHistoryPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -3542,7 +4313,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 			$criteria->add(ConceptPropertyHistoryPeer::RELATED_CONCEPT_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyHistoryRelatedByRelatedConceptIdCriteria) || !$this->lastConceptPropertyHistoryRelatedByRelatedConceptIdCriteria->equals($criteria)) {
-				$this->collConceptPropertyHistorysRelatedByRelatedConceptId = ConceptPropertyHistoryPeer::doSelectJoinUser($criteria, $con);
+				$this->collConceptPropertyHistorysRelatedByRelatedConceptId = ConceptPropertyHistoryPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyHistoryRelatedByRelatedConceptIdCriteria = $criteria;
@@ -3641,6 +4412,55 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastConceptPropertyHistoryRelatedByRelatedConceptIdCriteria) || !$this->lastConceptPropertyHistoryRelatedByRelatedConceptIdCriteria->equals($criteria)) {
 				$this->collConceptPropertyHistorysRelatedByRelatedConceptId = ConceptPropertyHistoryPeer::doSelectJoinProfileProperty($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyHistoryRelatedByRelatedConceptIdCriteria = $criteria;
+
+		return $this->collConceptPropertyHistorysRelatedByRelatedConceptId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Concept is new, it will return
+	 * an empty collection; or if this Concept has previously
+	 * been saved, it will retrieve related ConceptPropertyHistorysRelatedByRelatedConceptId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Concept.
+	 */
+	public function getConceptPropertyHistorysRelatedByRelatedConceptIdJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertyHistorysRelatedByRelatedConceptId === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertyHistorysRelatedByRelatedConceptId = array();
+			} else {
+
+				$criteria->add(ConceptPropertyHistoryPeer::RELATED_CONCEPT_ID, $this->getId());
+
+				$this->collConceptPropertyHistorysRelatedByRelatedConceptId = ConceptPropertyHistoryPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyHistoryPeer::RELATED_CONCEPT_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyHistoryRelatedByRelatedConceptIdCriteria) || !$this->lastConceptPropertyHistoryRelatedByRelatedConceptIdCriteria->equals($criteria)) {
+				$this->collConceptPropertyHistorysRelatedByRelatedConceptId = ConceptPropertyHistoryPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyHistoryRelatedByRelatedConceptIdCriteria = $criteria;
@@ -3767,7 +4587,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Concept.
 	 */
-	public function getDiscusssJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
+	public function getDiscusssJoinUsersRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseDiscussPeer.php';
@@ -3786,7 +4606,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 				$criteria->add(DiscussPeer::CONCEPT_ID, $this->getId());
 
-				$this->collDiscusss = DiscussPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collDiscusss = DiscussPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -3796,7 +4616,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 			$criteria->add(DiscussPeer::CONCEPT_ID, $this->getId());
 
 			if (!isset($this->lastDiscussCriteria) || !$this->lastDiscussCriteria->equals($criteria)) {
-				$this->collDiscusss = DiscussPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collDiscusss = DiscussPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		}
 		$this->lastDiscussCriteria = $criteria;
@@ -3816,7 +4636,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Concept.
 	 */
-	public function getDiscusssJoinUserRelatedByDeletedUserId($criteria = null, $con = null)
+	public function getDiscusssJoinUsersRelatedByDeletedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseDiscussPeer.php';
@@ -3835,7 +4655,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 				$criteria->add(DiscussPeer::CONCEPT_ID, $this->getId());
 
-				$this->collDiscusss = DiscussPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
+				$this->collDiscusss = DiscussPeer::doSelectJoinUsersRelatedByDeletedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -3845,7 +4665,7 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 			$criteria->add(DiscussPeer::CONCEPT_ID, $this->getId());
 
 			if (!isset($this->lastDiscussCriteria) || !$this->lastDiscussCriteria->equals($criteria)) {
-				$this->collDiscusss = DiscussPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
+				$this->collDiscusss = DiscussPeer::doSelectJoinUsersRelatedByDeletedUserId($criteria, $con);
 			}
 		}
 		$this->lastDiscussCriteria = $criteria;
@@ -4189,6 +5009,104 @@ abstract class BaseConcept extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastDiscussCriteria) || !$this->lastDiscussCriteria->equals($criteria)) {
 				$this->collDiscusss = DiscussPeer::doSelectJoinDiscussRelatedByParentId($criteria, $con);
+			}
+		}
+		$this->lastDiscussCriteria = $criteria;
+
+		return $this->collDiscusss;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Concept is new, it will return
+	 * an empty collection; or if this Concept has previously
+	 * been saved, it will retrieve related Discusss from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Concept.
+	 */
+	public function getDiscusssJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseDiscussPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collDiscusss === null) {
+			if ($this->isNew()) {
+				$this->collDiscusss = array();
+			} else {
+
+				$criteria->add(DiscussPeer::CONCEPT_ID, $this->getId());
+
+				$this->collDiscusss = DiscussPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(DiscussPeer::CONCEPT_ID, $this->getId());
+
+			if (!isset($this->lastDiscussCriteria) || !$this->lastDiscussCriteria->equals($criteria)) {
+				$this->collDiscusss = DiscussPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		}
+		$this->lastDiscussCriteria = $criteria;
+
+		return $this->collDiscusss;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Concept is new, it will return
+	 * an empty collection; or if this Concept has previously
+	 * been saved, it will retrieve related Discusss from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Concept.
+	 */
+	public function getDiscusssJoinUsersRelatedByDeletedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseDiscussPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collDiscusss === null) {
+			if ($this->isNew()) {
+				$this->collDiscusss = array();
+			} else {
+
+				$criteria->add(DiscussPeer::CONCEPT_ID, $this->getId());
+
+				$this->collDiscusss = DiscussPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(DiscussPeer::CONCEPT_ID, $this->getId());
+
+			if (!isset($this->lastDiscussCriteria) || !$this->lastDiscussCriteria->equals($criteria)) {
+				$this->collDiscusss = DiscussPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
 			}
 		}
 		$this->lastDiscussCriteria = $criteria;

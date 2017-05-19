@@ -67,7 +67,7 @@ class LookupMapBuilder {
 
 		$tMap->addColumn('SHORT_VALUE', 'ShortValue', 'string', CreoleTypes::CHAR, false, 20);
 
-		$tMap->addColumn('LONG_VALUE', 'LongValue', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('LONG_VALUE', 'LongValue', 'string', CreoleTypes::VARCHAR, false, 191);
 
 		$tMap->addColumn('DISPLAY_ORDER', 'DisplayOrder', 'int', CreoleTypes::INTEGER, false, null);
 

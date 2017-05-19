@@ -27,13 +27,6 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 
 
 	/**
-	 * The value for the agent_id field.
-	 * @var        int
-	 */
-	protected $agent_id;
-
-
-	/**
 	 * The value for the created_at field.
 	 * @var        int
 	 */
@@ -159,34 +152,53 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 	protected $language = 'en';
 
 	/**
-	 * @var        Agent
+	 * @var        Users
 	 */
-	protected $aAgent;
+	protected $aUsersRelatedByCreatedBy;
 
 	/**
-	 * @var        User
+	 * @var        Users
 	 */
-	protected $aUserRelatedByCreatedBy;
+	protected $aUsersRelatedByUpdatedBy;
 
 	/**
-	 * @var        User
+	 * @var        Users
 	 */
-	protected $aUserRelatedByUpdatedBy;
+	protected $aUsersRelatedByDeletedBy;
 
 	/**
-	 * @var        User
+	 * @var        Users
 	 */
-	protected $aUserRelatedByDeletedBy;
-
-	/**
-	 * @var        User
-	 */
-	protected $aUserRelatedByChildUpdatedBy;
+	protected $aUsersRelatedByChildUpdatedBy;
 
 	/**
 	 * @var        Status
 	 */
 	protected $aStatus;
+
+	/**
+	 * Collection to store aggregation of collExportss.
+	 * @var        array
+	 */
+	protected $collExportss;
+
+	/**
+	 * The criteria used to select the current contents of collExportss.
+	 * @var        Criteria
+	 */
+	protected $lastExportsCriteria = null;
+
+	/**
+	 * Collection to store aggregation of collProfileProjects.
+	 * @var        array
+	 */
+	protected $collProfileProjects;
+
+	/**
+	 * The criteria used to select the current contents of collProfileProjects.
+	 * @var        Criteria
+	 */
+	protected $lastProfileProjectCriteria = null;
 
 	/**
 	 * Collection to store aggregation of collProfilePropertys.
@@ -259,17 +271,6 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 	{
 
 		return $this->id;
-	}
-
-	/**
-	 * Get the [agent_id] column value.
-	 * 
-	 * @return     int
-	 */
-	public function getAgentId()
-	{
-
-		return $this->agent_id;
 	}
 
 	/**
@@ -573,32 +574,6 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 	} // setId()
 
 	/**
-	 * Set the value of [agent_id] column.
-	 * 
-	 * @param      int $v new value
-	 * @return     void
-	 */
-	public function setAgentId($v)
-	{
-
-		// Since the native PHP type for this column is integer,
-		// we will cast the input value to an int (if it is not).
-		if ($v !== null && !is_int($v) && is_numeric($v)) {
-			$v = (int) $v;
-		}
-
-		if ($this->agent_id !== $v) {
-			$this->agent_id = $v;
-			$this->modifiedColumns[] = ProfilePeer::AGENT_ID;
-		}
-
-		if ($this->aAgent !== null && $this->aAgent->getId() !== $v) {
-			$this->aAgent = null;
-		}
-
-	} // setAgentId()
-
-	/**
 	 * Set the value of [created_at] column.
 	 * 
 	 * @param      int $v new value
@@ -690,8 +665,8 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 			$this->modifiedColumns[] = ProfilePeer::CREATED_BY;
 		}
 
-		if ($this->aUserRelatedByCreatedBy !== null && $this->aUserRelatedByCreatedBy->getId() !== $v) {
-			$this->aUserRelatedByCreatedBy = null;
+		if ($this->aUsersRelatedByCreatedBy !== null && $this->aUsersRelatedByCreatedBy->getId() !== $v) {
+			$this->aUsersRelatedByCreatedBy = null;
 		}
 
 	} // setCreatedBy()
@@ -716,8 +691,8 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 			$this->modifiedColumns[] = ProfilePeer::UPDATED_BY;
 		}
 
-		if ($this->aUserRelatedByUpdatedBy !== null && $this->aUserRelatedByUpdatedBy->getId() !== $v) {
-			$this->aUserRelatedByUpdatedBy = null;
+		if ($this->aUsersRelatedByUpdatedBy !== null && $this->aUsersRelatedByUpdatedBy->getId() !== $v) {
+			$this->aUsersRelatedByUpdatedBy = null;
 		}
 
 	} // setUpdatedBy()
@@ -742,8 +717,8 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 			$this->modifiedColumns[] = ProfilePeer::DELETED_BY;
 		}
 
-		if ($this->aUserRelatedByDeletedBy !== null && $this->aUserRelatedByDeletedBy->getId() !== $v) {
-			$this->aUserRelatedByDeletedBy = null;
+		if ($this->aUsersRelatedByDeletedBy !== null && $this->aUsersRelatedByDeletedBy->getId() !== $v) {
+			$this->aUsersRelatedByDeletedBy = null;
 		}
 
 	} // setDeletedBy()
@@ -792,8 +767,8 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 			$this->modifiedColumns[] = ProfilePeer::CHILD_UPDATED_BY;
 		}
 
-		if ($this->aUserRelatedByChildUpdatedBy !== null && $this->aUserRelatedByChildUpdatedBy->getId() !== $v) {
-			$this->aUserRelatedByChildUpdatedBy = null;
+		if ($this->aUsersRelatedByChildUpdatedBy !== null && $this->aUsersRelatedByChildUpdatedBy->getId() !== $v) {
+			$this->aUsersRelatedByChildUpdatedBy = null;
 		}
 
 	} // setChildUpdatedBy()
@@ -1041,50 +1016,48 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 
 			$this->id = $rs->getInt($startcol + 0);
 
-			$this->agent_id = $rs->getInt($startcol + 1);
+			$this->created_at = $rs->getTimestamp($startcol + 1, null);
 
-			$this->created_at = $rs->getTimestamp($startcol + 2, null);
+			$this->updated_at = $rs->getTimestamp($startcol + 2, null);
 
-			$this->updated_at = $rs->getTimestamp($startcol + 3, null);
+			$this->deleted_at = $rs->getTimestamp($startcol + 3, null);
 
-			$this->deleted_at = $rs->getTimestamp($startcol + 4, null);
+			$this->created_by = $rs->getInt($startcol + 4);
 
-			$this->created_by = $rs->getInt($startcol + 5);
+			$this->updated_by = $rs->getInt($startcol + 5);
 
-			$this->updated_by = $rs->getInt($startcol + 6);
+			$this->deleted_by = $rs->getInt($startcol + 6);
 
-			$this->deleted_by = $rs->getInt($startcol + 7);
+			$this->child_updated_at = $rs->getTimestamp($startcol + 7, null);
 
-			$this->child_updated_at = $rs->getTimestamp($startcol + 8, null);
+			$this->child_updated_by = $rs->getInt($startcol + 8);
 
-			$this->child_updated_by = $rs->getInt($startcol + 9);
+			$this->name = $rs->getString($startcol + 9);
 
-			$this->name = $rs->getString($startcol + 10);
+			$this->note = $rs->getString($startcol + 10);
 
-			$this->note = $rs->getString($startcol + 11);
+			$this->uri = $rs->getString($startcol + 11);
 
-			$this->uri = $rs->getString($startcol + 12);
+			$this->url = $rs->getString($startcol + 12);
 
-			$this->url = $rs->getString($startcol + 13);
+			$this->base_domain = $rs->getString($startcol + 13);
 
-			$this->base_domain = $rs->getString($startcol + 14);
+			$this->token = $rs->getString($startcol + 14);
 
-			$this->token = $rs->getString($startcol + 15);
+			$this->community = $rs->getString($startcol + 15);
 
-			$this->community = $rs->getString($startcol + 16);
+			$this->last_uri_id = $rs->getInt($startcol + 16);
 
-			$this->last_uri_id = $rs->getInt($startcol + 17);
+			$this->status_id = $rs->getInt($startcol + 17);
 
-			$this->status_id = $rs->getInt($startcol + 18);
-
-			$this->language = $rs->getString($startcol + 19);
+			$this->language = $rs->getString($startcol + 18);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 20; // 20 = ProfilePeer::NUM_COLUMNS - ProfilePeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 19; // 19 = ProfilePeer::NUM_COLUMNS - ProfilePeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Profile object", $e);
@@ -1218,39 +1191,32 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
-			if ($this->aAgent !== null) {
-				if ($this->aAgent->isModified()) {
-					$affectedRows += $this->aAgent->save($con);
+			if ($this->aUsersRelatedByCreatedBy !== null) {
+				if ($this->aUsersRelatedByCreatedBy->isModified()) {
+					$affectedRows += $this->aUsersRelatedByCreatedBy->save($con);
 				}
-				$this->setAgent($this->aAgent);
+				$this->setUsersRelatedByCreatedBy($this->aUsersRelatedByCreatedBy);
 			}
 
-			if ($this->aUserRelatedByCreatedBy !== null) {
-				if ($this->aUserRelatedByCreatedBy->isModified()) {
-					$affectedRows += $this->aUserRelatedByCreatedBy->save($con);
+			if ($this->aUsersRelatedByUpdatedBy !== null) {
+				if ($this->aUsersRelatedByUpdatedBy->isModified()) {
+					$affectedRows += $this->aUsersRelatedByUpdatedBy->save($con);
 				}
-				$this->setUserRelatedByCreatedBy($this->aUserRelatedByCreatedBy);
+				$this->setUsersRelatedByUpdatedBy($this->aUsersRelatedByUpdatedBy);
 			}
 
-			if ($this->aUserRelatedByUpdatedBy !== null) {
-				if ($this->aUserRelatedByUpdatedBy->isModified()) {
-					$affectedRows += $this->aUserRelatedByUpdatedBy->save($con);
+			if ($this->aUsersRelatedByDeletedBy !== null) {
+				if ($this->aUsersRelatedByDeletedBy->isModified()) {
+					$affectedRows += $this->aUsersRelatedByDeletedBy->save($con);
 				}
-				$this->setUserRelatedByUpdatedBy($this->aUserRelatedByUpdatedBy);
+				$this->setUsersRelatedByDeletedBy($this->aUsersRelatedByDeletedBy);
 			}
 
-			if ($this->aUserRelatedByDeletedBy !== null) {
-				if ($this->aUserRelatedByDeletedBy->isModified()) {
-					$affectedRows += $this->aUserRelatedByDeletedBy->save($con);
+			if ($this->aUsersRelatedByChildUpdatedBy !== null) {
+				if ($this->aUsersRelatedByChildUpdatedBy->isModified()) {
+					$affectedRows += $this->aUsersRelatedByChildUpdatedBy->save($con);
 				}
-				$this->setUserRelatedByDeletedBy($this->aUserRelatedByDeletedBy);
-			}
-
-			if ($this->aUserRelatedByChildUpdatedBy !== null) {
-				if ($this->aUserRelatedByChildUpdatedBy->isModified()) {
-					$affectedRows += $this->aUserRelatedByChildUpdatedBy->save($con);
-				}
-				$this->setUserRelatedByChildUpdatedBy($this->aUserRelatedByChildUpdatedBy);
+				$this->setUsersRelatedByChildUpdatedBy($this->aUsersRelatedByChildUpdatedBy);
 			}
 
 			if ($this->aStatus !== null) {
@@ -1276,6 +1242,22 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 					$affectedRows += ProfilePeer::doUpdate($this, $con);
 				}
 				$this->resetModified(); // [HL] After being saved an object is no longer 'modified'
+			}
+
+			if ($this->collExportss !== null) {
+				foreach($this->collExportss as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->collProfileProjects !== null) {
+				foreach($this->collProfileProjects as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
 			}
 
 			if ($this->collProfilePropertys !== null) {
@@ -1380,33 +1362,27 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
-			if ($this->aAgent !== null) {
-				if (!$this->aAgent->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aAgent->getValidationFailures());
+			if ($this->aUsersRelatedByCreatedBy !== null) {
+				if (!$this->aUsersRelatedByCreatedBy->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsersRelatedByCreatedBy->getValidationFailures());
 				}
 			}
 
-			if ($this->aUserRelatedByCreatedBy !== null) {
-				if (!$this->aUserRelatedByCreatedBy->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aUserRelatedByCreatedBy->getValidationFailures());
+			if ($this->aUsersRelatedByUpdatedBy !== null) {
+				if (!$this->aUsersRelatedByUpdatedBy->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsersRelatedByUpdatedBy->getValidationFailures());
 				}
 			}
 
-			if ($this->aUserRelatedByUpdatedBy !== null) {
-				if (!$this->aUserRelatedByUpdatedBy->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aUserRelatedByUpdatedBy->getValidationFailures());
+			if ($this->aUsersRelatedByDeletedBy !== null) {
+				if (!$this->aUsersRelatedByDeletedBy->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsersRelatedByDeletedBy->getValidationFailures());
 				}
 			}
 
-			if ($this->aUserRelatedByDeletedBy !== null) {
-				if (!$this->aUserRelatedByDeletedBy->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aUserRelatedByDeletedBy->getValidationFailures());
-				}
-			}
-
-			if ($this->aUserRelatedByChildUpdatedBy !== null) {
-				if (!$this->aUserRelatedByChildUpdatedBy->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aUserRelatedByChildUpdatedBy->getValidationFailures());
+			if ($this->aUsersRelatedByChildUpdatedBy !== null) {
+				if (!$this->aUsersRelatedByChildUpdatedBy->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsersRelatedByChildUpdatedBy->getValidationFailures());
 				}
 			}
 
@@ -1421,6 +1397,22 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 				$failureMap = array_merge($failureMap, $retval);
 			}
 
+
+				if ($this->collExportss !== null) {
+					foreach($this->collExportss as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collProfileProjects !== null) {
+					foreach($this->collProfileProjects as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
 
 				if ($this->collProfilePropertys !== null) {
 					foreach($this->collProfilePropertys as $referrerFK) {
@@ -1490,60 +1482,57 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 				return $this->getId();
 				break;
 			case 1:
-				return $this->getAgentId();
-				break;
-			case 2:
 				return $this->getCreatedAt();
 				break;
-			case 3:
+			case 2:
 				return $this->getUpdatedAt();
 				break;
-			case 4:
+			case 3:
 				return $this->getDeletedAt();
 				break;
-			case 5:
+			case 4:
 				return $this->getCreatedBy();
 				break;
-			case 6:
+			case 5:
 				return $this->getUpdatedBy();
 				break;
-			case 7:
+			case 6:
 				return $this->getDeletedBy();
 				break;
-			case 8:
+			case 7:
 				return $this->getChildUpdatedAt();
 				break;
-			case 9:
+			case 8:
 				return $this->getChildUpdatedBy();
 				break;
-			case 10:
+			case 9:
 				return $this->getName();
 				break;
-			case 11:
+			case 10:
 				return $this->getNote();
 				break;
-			case 12:
+			case 11:
 				return $this->getUri();
 				break;
-			case 13:
+			case 12:
 				return $this->getUrl();
 				break;
-			case 14:
+			case 13:
 				return $this->getBaseDomain();
 				break;
-			case 15:
+			case 14:
 				return $this->getToken();
 				break;
-			case 16:
+			case 15:
 				return $this->getCommunity();
 				break;
-			case 17:
+			case 16:
 				return $this->getLastUriId();
 				break;
-			case 18:
+			case 17:
 				return $this->getStatusId();
 				break;
-			case 19:
+			case 18:
 				return $this->getLanguage();
 				break;
 			default:
@@ -1567,25 +1556,24 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 		$keys = ProfilePeer::getFieldNames($keyType);
 		$result = array(
 			$keys[0] => $this->getId(),
-			$keys[1] => $this->getAgentId(),
-			$keys[2] => $this->getCreatedAt(),
-			$keys[3] => $this->getUpdatedAt(),
-			$keys[4] => $this->getDeletedAt(),
-			$keys[5] => $this->getCreatedBy(),
-			$keys[6] => $this->getUpdatedBy(),
-			$keys[7] => $this->getDeletedBy(),
-			$keys[8] => $this->getChildUpdatedAt(),
-			$keys[9] => $this->getChildUpdatedBy(),
-			$keys[10] => $this->getName(),
-			$keys[11] => $this->getNote(),
-			$keys[12] => $this->getUri(),
-			$keys[13] => $this->getUrl(),
-			$keys[14] => $this->getBaseDomain(),
-			$keys[15] => $this->getToken(),
-			$keys[16] => $this->getCommunity(),
-			$keys[17] => $this->getLastUriId(),
-			$keys[18] => $this->getStatusId(),
-			$keys[19] => $this->getLanguage(),
+			$keys[1] => $this->getCreatedAt(),
+			$keys[2] => $this->getUpdatedAt(),
+			$keys[3] => $this->getDeletedAt(),
+			$keys[4] => $this->getCreatedBy(),
+			$keys[5] => $this->getUpdatedBy(),
+			$keys[6] => $this->getDeletedBy(),
+			$keys[7] => $this->getChildUpdatedAt(),
+			$keys[8] => $this->getChildUpdatedBy(),
+			$keys[9] => $this->getName(),
+			$keys[10] => $this->getNote(),
+			$keys[11] => $this->getUri(),
+			$keys[12] => $this->getUrl(),
+			$keys[13] => $this->getBaseDomain(),
+			$keys[14] => $this->getToken(),
+			$keys[15] => $this->getCommunity(),
+			$keys[16] => $this->getLastUriId(),
+			$keys[17] => $this->getStatusId(),
+			$keys[18] => $this->getLanguage(),
 		);
 		return $result;
 	}
@@ -1621,60 +1609,57 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 				$this->setId($value);
 				break;
 			case 1:
-				$this->setAgentId($value);
-				break;
-			case 2:
 				$this->setCreatedAt($value);
 				break;
-			case 3:
+			case 2:
 				$this->setUpdatedAt($value);
 				break;
-			case 4:
+			case 3:
 				$this->setDeletedAt($value);
 				break;
-			case 5:
+			case 4:
 				$this->setCreatedBy($value);
 				break;
-			case 6:
+			case 5:
 				$this->setUpdatedBy($value);
 				break;
-			case 7:
+			case 6:
 				$this->setDeletedBy($value);
 				break;
-			case 8:
+			case 7:
 				$this->setChildUpdatedAt($value);
 				break;
-			case 9:
+			case 8:
 				$this->setChildUpdatedBy($value);
 				break;
-			case 10:
+			case 9:
 				$this->setName($value);
 				break;
-			case 11:
+			case 10:
 				$this->setNote($value);
 				break;
-			case 12:
+			case 11:
 				$this->setUri($value);
 				break;
-			case 13:
+			case 12:
 				$this->setUrl($value);
 				break;
-			case 14:
+			case 13:
 				$this->setBaseDomain($value);
 				break;
-			case 15:
+			case 14:
 				$this->setToken($value);
 				break;
-			case 16:
+			case 15:
 				$this->setCommunity($value);
 				break;
-			case 17:
+			case 16:
 				$this->setLastUriId($value);
 				break;
-			case 18:
+			case 17:
 				$this->setStatusId($value);
 				break;
-			case 19:
+			case 18:
 				$this->setLanguage($value);
 				break;
 		} // switch()
@@ -1701,25 +1686,24 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 		$keys = ProfilePeer::getFieldNames($keyType);
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-		if (array_key_exists($keys[1], $arr)) $this->setAgentId($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setCreatedAt($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setUpdatedAt($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setDeletedAt($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setCreatedBy($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setUpdatedBy($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setDeletedBy($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setChildUpdatedAt($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setChildUpdatedBy($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setName($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setNote($arr[$keys[11]]);
-		if (array_key_exists($keys[12], $arr)) $this->setUri($arr[$keys[12]]);
-		if (array_key_exists($keys[13], $arr)) $this->setUrl($arr[$keys[13]]);
-		if (array_key_exists($keys[14], $arr)) $this->setBaseDomain($arr[$keys[14]]);
-		if (array_key_exists($keys[15], $arr)) $this->setToken($arr[$keys[15]]);
-		if (array_key_exists($keys[16], $arr)) $this->setCommunity($arr[$keys[16]]);
-		if (array_key_exists($keys[17], $arr)) $this->setLastUriId($arr[$keys[17]]);
-		if (array_key_exists($keys[18], $arr)) $this->setStatusId($arr[$keys[18]]);
-		if (array_key_exists($keys[19], $arr)) $this->setLanguage($arr[$keys[19]]);
+		if (array_key_exists($keys[1], $arr)) $this->setCreatedAt($arr[$keys[1]]);
+		if (array_key_exists($keys[2], $arr)) $this->setUpdatedAt($arr[$keys[2]]);
+		if (array_key_exists($keys[3], $arr)) $this->setDeletedAt($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setCreatedBy($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setUpdatedBy($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setDeletedBy($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setChildUpdatedAt($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setChildUpdatedBy($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setName($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setNote($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setUri($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setUrl($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setBaseDomain($arr[$keys[13]]);
+		if (array_key_exists($keys[14], $arr)) $this->setToken($arr[$keys[14]]);
+		if (array_key_exists($keys[15], $arr)) $this->setCommunity($arr[$keys[15]]);
+		if (array_key_exists($keys[16], $arr)) $this->setLastUriId($arr[$keys[16]]);
+		if (array_key_exists($keys[17], $arr)) $this->setStatusId($arr[$keys[17]]);
+		if (array_key_exists($keys[18], $arr)) $this->setLanguage($arr[$keys[18]]);
 	}
 
 	/**
@@ -1732,7 +1716,6 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 		$criteria = new Criteria(ProfilePeer::DATABASE_NAME);
 
 		if ($this->isColumnModified(ProfilePeer::ID)) $criteria->add(ProfilePeer::ID, $this->id);
-		if ($this->isColumnModified(ProfilePeer::AGENT_ID)) $criteria->add(ProfilePeer::AGENT_ID, $this->agent_id);
 		if ($this->isColumnModified(ProfilePeer::CREATED_AT)) $criteria->add(ProfilePeer::CREATED_AT, $this->created_at);
 		if ($this->isColumnModified(ProfilePeer::UPDATED_AT)) $criteria->add(ProfilePeer::UPDATED_AT, $this->updated_at);
 		if ($this->isColumnModified(ProfilePeer::DELETED_AT)) $criteria->add(ProfilePeer::DELETED_AT, $this->deleted_at);
@@ -1805,8 +1788,6 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 	public function copyInto($copyObj, $deepCopy = false)
 	{
 
-		$copyObj->setAgentId($this->agent_id);
-
 		$copyObj->setCreatedAt($this->created_at);
 
 		$copyObj->setUpdatedAt($this->updated_at);
@@ -1848,6 +1829,14 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 			// important: temporarily setNew(false) because this affects the behavior of
 			// the getter/setter methods for fkey referrer objects.
 			$copyObj->setNew(false);
+
+			foreach($this->getExportss() as $relObj) {
+				$copyObj->addExports($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getProfileProjects() as $relObj) {
+				$copyObj->addProfileProject($relObj->copy($deepCopy));
+			}
 
 			foreach($this->getProfilePropertys() as $relObj) {
 				$copyObj->addProfileProperty($relObj->copy($deepCopy));
@@ -1913,63 +1902,13 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Declares an association between this object and a Agent object.
+	 * Declares an association between this object and a Users object.
 	 *
-	 * @param      Agent $v
+	 * @param      Users $v
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function setAgent($v)
-	{
-
-
-		if ($v === null) {
-			$this->setAgentId(NULL);
-		} else {
-			$this->setAgentId($v->getId());
-		}
-
-
-		$this->aAgent = $v;
-	}
-
-
-	/**
-	 * Get the associated Agent object
-	 *
-	 * @param      Connection Optional Connection object.
-	 * @return     Agent The associated Agent object.
-	 * @throws     PropelException
-	 */
-	public function getAgent($con = null)
-	{
-		if ($this->aAgent === null && ($this->agent_id !== null)) {
-			// include the related Peer class
-			include_once 'lib/model/om/BaseAgentPeer.php';
-
-			$this->aAgent = AgentPeer::retrieveByPK($this->agent_id, $con);
-
-			/* The following can be used instead of the line above to
-			   guarantee the related object contains a reference
-			   to this object, but this level of coupling
-			   may be undesirable in many circumstances.
-			   As it can lead to a db query with many results that may
-			   never be used.
-			   $obj = AgentPeer::retrieveByPK($this->agent_id, $con);
-			   $obj->addAgents($this);
-			 */
-		}
-		return $this->aAgent;
-	}
-
-	/**
-	 * Declares an association between this object and a User object.
-	 *
-	 * @param      User $v
-	 * @return     void
-	 * @throws     PropelException
-	 */
-	public function setUserRelatedByCreatedBy($v)
+	public function setUsersRelatedByCreatedBy($v)
 	{
 
 
@@ -1980,24 +1919,24 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 		}
 
 
-		$this->aUserRelatedByCreatedBy = $v;
+		$this->aUsersRelatedByCreatedBy = $v;
 	}
 
 
 	/**
-	 * Get the associated User object
+	 * Get the associated Users object
 	 *
 	 * @param      Connection Optional Connection object.
-	 * @return     User The associated User object.
+	 * @return     Users The associated Users object.
 	 * @throws     PropelException
 	 */
-	public function getUserRelatedByCreatedBy($con = null)
+	public function getUsersRelatedByCreatedBy($con = null)
 	{
-		if ($this->aUserRelatedByCreatedBy === null && ($this->created_by !== null)) {
+		if ($this->aUsersRelatedByCreatedBy === null && ($this->created_by !== null)) {
 			// include the related Peer class
-			include_once 'lib/model/om/BaseUserPeer.php';
+			include_once 'lib/model/om/BaseUsersPeer.php';
 
-			$this->aUserRelatedByCreatedBy = UserPeer::retrieveByPK($this->created_by, $con);
+			$this->aUsersRelatedByCreatedBy = UsersPeer::retrieveByPK($this->created_by, $con);
 
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
@@ -2005,21 +1944,21 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 			   may be undesirable in many circumstances.
 			   As it can lead to a db query with many results that may
 			   never be used.
-			   $obj = UserPeer::retrieveByPK($this->created_by, $con);
-			   $obj->addUsersRelatedByCreatedBy($this);
+			   $obj = UsersPeer::retrieveByPK($this->created_by, $con);
+			   $obj->addUserssRelatedByCreatedBy($this);
 			 */
 		}
-		return $this->aUserRelatedByCreatedBy;
+		return $this->aUsersRelatedByCreatedBy;
 	}
 
 	/**
-	 * Declares an association between this object and a User object.
+	 * Declares an association between this object and a Users object.
 	 *
-	 * @param      User $v
+	 * @param      Users $v
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function setUserRelatedByUpdatedBy($v)
+	public function setUsersRelatedByUpdatedBy($v)
 	{
 
 
@@ -2030,24 +1969,24 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 		}
 
 
-		$this->aUserRelatedByUpdatedBy = $v;
+		$this->aUsersRelatedByUpdatedBy = $v;
 	}
 
 
 	/**
-	 * Get the associated User object
+	 * Get the associated Users object
 	 *
 	 * @param      Connection Optional Connection object.
-	 * @return     User The associated User object.
+	 * @return     Users The associated Users object.
 	 * @throws     PropelException
 	 */
-	public function getUserRelatedByUpdatedBy($con = null)
+	public function getUsersRelatedByUpdatedBy($con = null)
 	{
-		if ($this->aUserRelatedByUpdatedBy === null && ($this->updated_by !== null)) {
+		if ($this->aUsersRelatedByUpdatedBy === null && ($this->updated_by !== null)) {
 			// include the related Peer class
-			include_once 'lib/model/om/BaseUserPeer.php';
+			include_once 'lib/model/om/BaseUsersPeer.php';
 
-			$this->aUserRelatedByUpdatedBy = UserPeer::retrieveByPK($this->updated_by, $con);
+			$this->aUsersRelatedByUpdatedBy = UsersPeer::retrieveByPK($this->updated_by, $con);
 
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
@@ -2055,21 +1994,21 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 			   may be undesirable in many circumstances.
 			   As it can lead to a db query with many results that may
 			   never be used.
-			   $obj = UserPeer::retrieveByPK($this->updated_by, $con);
-			   $obj->addUsersRelatedByUpdatedBy($this);
+			   $obj = UsersPeer::retrieveByPK($this->updated_by, $con);
+			   $obj->addUserssRelatedByUpdatedBy($this);
 			 */
 		}
-		return $this->aUserRelatedByUpdatedBy;
+		return $this->aUsersRelatedByUpdatedBy;
 	}
 
 	/**
-	 * Declares an association between this object and a User object.
+	 * Declares an association between this object and a Users object.
 	 *
-	 * @param      User $v
+	 * @param      Users $v
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function setUserRelatedByDeletedBy($v)
+	public function setUsersRelatedByDeletedBy($v)
 	{
 
 
@@ -2080,24 +2019,24 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 		}
 
 
-		$this->aUserRelatedByDeletedBy = $v;
+		$this->aUsersRelatedByDeletedBy = $v;
 	}
 
 
 	/**
-	 * Get the associated User object
+	 * Get the associated Users object
 	 *
 	 * @param      Connection Optional Connection object.
-	 * @return     User The associated User object.
+	 * @return     Users The associated Users object.
 	 * @throws     PropelException
 	 */
-	public function getUserRelatedByDeletedBy($con = null)
+	public function getUsersRelatedByDeletedBy($con = null)
 	{
-		if ($this->aUserRelatedByDeletedBy === null && ($this->deleted_by !== null)) {
+		if ($this->aUsersRelatedByDeletedBy === null && ($this->deleted_by !== null)) {
 			// include the related Peer class
-			include_once 'lib/model/om/BaseUserPeer.php';
+			include_once 'lib/model/om/BaseUsersPeer.php';
 
-			$this->aUserRelatedByDeletedBy = UserPeer::retrieveByPK($this->deleted_by, $con);
+			$this->aUsersRelatedByDeletedBy = UsersPeer::retrieveByPK($this->deleted_by, $con);
 
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
@@ -2105,21 +2044,21 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 			   may be undesirable in many circumstances.
 			   As it can lead to a db query with many results that may
 			   never be used.
-			   $obj = UserPeer::retrieveByPK($this->deleted_by, $con);
-			   $obj->addUsersRelatedByDeletedBy($this);
+			   $obj = UsersPeer::retrieveByPK($this->deleted_by, $con);
+			   $obj->addUserssRelatedByDeletedBy($this);
 			 */
 		}
-		return $this->aUserRelatedByDeletedBy;
+		return $this->aUsersRelatedByDeletedBy;
 	}
 
 	/**
-	 * Declares an association between this object and a User object.
+	 * Declares an association between this object and a Users object.
 	 *
-	 * @param      User $v
+	 * @param      Users $v
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function setUserRelatedByChildUpdatedBy($v)
+	public function setUsersRelatedByChildUpdatedBy($v)
 	{
 
 
@@ -2130,24 +2069,24 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 		}
 
 
-		$this->aUserRelatedByChildUpdatedBy = $v;
+		$this->aUsersRelatedByChildUpdatedBy = $v;
 	}
 
 
 	/**
-	 * Get the associated User object
+	 * Get the associated Users object
 	 *
 	 * @param      Connection Optional Connection object.
-	 * @return     User The associated User object.
+	 * @return     Users The associated Users object.
 	 * @throws     PropelException
 	 */
-	public function getUserRelatedByChildUpdatedBy($con = null)
+	public function getUsersRelatedByChildUpdatedBy($con = null)
 	{
-		if ($this->aUserRelatedByChildUpdatedBy === null && ($this->child_updated_by !== null)) {
+		if ($this->aUsersRelatedByChildUpdatedBy === null && ($this->child_updated_by !== null)) {
 			// include the related Peer class
-			include_once 'lib/model/om/BaseUserPeer.php';
+			include_once 'lib/model/om/BaseUsersPeer.php';
 
-			$this->aUserRelatedByChildUpdatedBy = UserPeer::retrieveByPK($this->child_updated_by, $con);
+			$this->aUsersRelatedByChildUpdatedBy = UsersPeer::retrieveByPK($this->child_updated_by, $con);
 
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
@@ -2155,11 +2094,11 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 			   may be undesirable in many circumstances.
 			   As it can lead to a db query with many results that may
 			   never be used.
-			   $obj = UserPeer::retrieveByPK($this->child_updated_by, $con);
-			   $obj->addUsersRelatedByChildUpdatedBy($this);
+			   $obj = UsersPeer::retrieveByPK($this->child_updated_by, $con);
+			   $obj->addUserssRelatedByChildUpdatedBy($this);
 			 */
 		}
-		return $this->aUserRelatedByChildUpdatedBy;
+		return $this->aUsersRelatedByChildUpdatedBy;
 	}
 
 	/**
@@ -2210,6 +2149,416 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 			 */
 		}
 		return $this->aStatus;
+	}
+
+	/**
+	 * Temporary storage of collExportss to save a possible db hit in
+	 * the event objects are add to the collection, but the
+	 * complete collection is never requested.
+	 * @return     void
+	 */
+	public function initExportss()
+	{
+		if ($this->collExportss === null) {
+			$this->collExportss = array();
+		}
+	}
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Profile has previously
+	 * been saved, it will retrieve related Exportss from storage.
+	 * If this Profile is new, it will return
+	 * an empty collection or the current collection, the criteria
+	 * is ignored on a new object.
+	 *
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
+	 */
+	public function getExportss($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseExportsPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collExportss === null) {
+			if ($this->isNew()) {
+			   $this->collExportss = array();
+			} else {
+
+				$criteria->add(ExportsPeer::PROFILE_ID, $this->getId());
+
+				ExportsPeer::addSelectColumns($criteria);
+				$this->collExportss = ExportsPeer::doSelect($criteria, $con);
+			}
+		} else {
+			// criteria has no effect for a new object
+			if (!$this->isNew()) {
+				// the following code is to determine if a new query is
+				// called for.  If the criteria is the same as the last
+				// one, just return the collection.
+
+
+				$criteria->add(ExportsPeer::PROFILE_ID, $this->getId());
+
+				ExportsPeer::addSelectColumns($criteria);
+				if (!isset($this->lastExportsCriteria) || !$this->lastExportsCriteria->equals($criteria)) {
+					$this->collExportss = ExportsPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastExportsCriteria = $criteria;
+		return $this->collExportss;
+	}
+
+	/**
+	 * Returns the number of related Exportss.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
+	 */
+	public function countExportss($criteria = null, $distinct = false, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseExportsPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(ExportsPeer::PROFILE_ID, $this->getId());
+
+		return ExportsPeer::doCount($criteria, $distinct, $con);
+	}
+
+	/**
+	 * Method called to associate a Exports object to this object
+	 * through the Exports foreign key attribute
+	 *
+	 * @param      Exports $l Exports
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function addExports(Exports $l)
+	{
+		$this->collExportss[] = $l;
+		$l->setProfile($this);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Profile is new, it will return
+	 * an empty collection; or if this Profile has previously
+	 * been saved, it will retrieve related Exportss from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Profile.
+	 */
+	public function getExportssJoinUsers($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseExportsPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collExportss === null) {
+			if ($this->isNew()) {
+				$this->collExportss = array();
+			} else {
+
+				$criteria->add(ExportsPeer::PROFILE_ID, $this->getId());
+
+				$this->collExportss = ExportsPeer::doSelectJoinUsers($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ExportsPeer::PROFILE_ID, $this->getId());
+
+			if (!isset($this->lastExportsCriteria) || !$this->lastExportsCriteria->equals($criteria)) {
+				$this->collExportss = ExportsPeer::doSelectJoinUsers($criteria, $con);
+			}
+		}
+		$this->lastExportsCriteria = $criteria;
+
+		return $this->collExportss;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Profile is new, it will return
+	 * an empty collection; or if this Profile has previously
+	 * been saved, it will retrieve related Exportss from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Profile.
+	 */
+	public function getExportssJoinVocabulary($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseExportsPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collExportss === null) {
+			if ($this->isNew()) {
+				$this->collExportss = array();
+			} else {
+
+				$criteria->add(ExportsPeer::PROFILE_ID, $this->getId());
+
+				$this->collExportss = ExportsPeer::doSelectJoinVocabulary($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ExportsPeer::PROFILE_ID, $this->getId());
+
+			if (!isset($this->lastExportsCriteria) || !$this->lastExportsCriteria->equals($criteria)) {
+				$this->collExportss = ExportsPeer::doSelectJoinVocabulary($criteria, $con);
+			}
+		}
+		$this->lastExportsCriteria = $criteria;
+
+		return $this->collExportss;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Profile is new, it will return
+	 * an empty collection; or if this Profile has previously
+	 * been saved, it will retrieve related Exportss from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Profile.
+	 */
+	public function getExportssJoinSchema($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseExportsPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collExportss === null) {
+			if ($this->isNew()) {
+				$this->collExportss = array();
+			} else {
+
+				$criteria->add(ExportsPeer::PROFILE_ID, $this->getId());
+
+				$this->collExportss = ExportsPeer::doSelectJoinSchema($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ExportsPeer::PROFILE_ID, $this->getId());
+
+			if (!isset($this->lastExportsCriteria) || !$this->lastExportsCriteria->equals($criteria)) {
+				$this->collExportss = ExportsPeer::doSelectJoinSchema($criteria, $con);
+			}
+		}
+		$this->lastExportsCriteria = $criteria;
+
+		return $this->collExportss;
+	}
+
+	/**
+	 * Temporary storage of collProfileProjects to save a possible db hit in
+	 * the event objects are add to the collection, but the
+	 * complete collection is never requested.
+	 * @return     void
+	 */
+	public function initProfileProjects()
+	{
+		if ($this->collProfileProjects === null) {
+			$this->collProfileProjects = array();
+		}
+	}
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Profile has previously
+	 * been saved, it will retrieve related ProfileProjects from storage.
+	 * If this Profile is new, it will return
+	 * an empty collection or the current collection, the criteria
+	 * is ignored on a new object.
+	 *
+	 * @param      Connection $con
+	 * @param      Criteria $criteria
+	 * @throws     PropelException
+	 */
+	public function getProfileProjects($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseProfileProjectPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collProfileProjects === null) {
+			if ($this->isNew()) {
+			   $this->collProfileProjects = array();
+			} else {
+
+				$criteria->add(ProfileProjectPeer::PROFILE_ID, $this->getId());
+
+				ProfileProjectPeer::addSelectColumns($criteria);
+				$this->collProfileProjects = ProfileProjectPeer::doSelect($criteria, $con);
+			}
+		} else {
+			// criteria has no effect for a new object
+			if (!$this->isNew()) {
+				// the following code is to determine if a new query is
+				// called for.  If the criteria is the same as the last
+				// one, just return the collection.
+
+
+				$criteria->add(ProfileProjectPeer::PROFILE_ID, $this->getId());
+
+				ProfileProjectPeer::addSelectColumns($criteria);
+				if (!isset($this->lastProfileProjectCriteria) || !$this->lastProfileProjectCriteria->equals($criteria)) {
+					$this->collProfileProjects = ProfileProjectPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastProfileProjectCriteria = $criteria;
+		return $this->collProfileProjects;
+	}
+
+	/**
+	 * Returns the number of related ProfileProjects.
+	 *
+	 * @param      Criteria $criteria
+	 * @param      boolean $distinct
+	 * @param      Connection $con
+	 * @throws     PropelException
+	 */
+	public function countProfileProjects($criteria = null, $distinct = false, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseProfileProjectPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(ProfileProjectPeer::PROFILE_ID, $this->getId());
+
+		return ProfileProjectPeer::doCount($criteria, $distinct, $con);
+	}
+
+	/**
+	 * Method called to associate a ProfileProject object to this object
+	 * through the ProfileProject foreign key attribute
+	 *
+	 * @param      ProfileProject $l ProfileProject
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function addProfileProject(ProfileProject $l)
+	{
+		$this->collProfileProjects[] = $l;
+		$l->setProfile($this);
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Profile is new, it will return
+	 * an empty collection; or if this Profile has previously
+	 * been saved, it will retrieve related ProfileProjects from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Profile.
+	 */
+	public function getProfileProjectsJoinProjects($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseProfileProjectPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collProfileProjects === null) {
+			if ($this->isNew()) {
+				$this->collProfileProjects = array();
+			} else {
+
+				$criteria->add(ProfileProjectPeer::PROFILE_ID, $this->getId());
+
+				$this->collProfileProjects = ProfileProjectPeer::doSelectJoinProjects($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ProfileProjectPeer::PROFILE_ID, $this->getId());
+
+			if (!isset($this->lastProfileProjectCriteria) || !$this->lastProfileProjectCriteria->equals($criteria)) {
+				$this->collProfileProjects = ProfileProjectPeer::doSelectJoinProjects($criteria, $con);
+			}
+		}
+		$this->lastProfileProjectCriteria = $criteria;
+
+		return $this->collProfileProjects;
 	}
 
 	/**
@@ -2331,7 +2680,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Profile.
 	 */
-	public function getProfilePropertysJoinUserRelatedByCreatedBy($criteria = null, $con = null)
+	public function getProfilePropertysJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseProfilePropertyPeer.php';
@@ -2350,7 +2699,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 
 				$criteria->add(ProfilePropertyPeer::PROFILE_ID, $this->getId());
 
-				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinUserRelatedByCreatedBy($criteria, $con);
+				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -2360,7 +2709,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 			$criteria->add(ProfilePropertyPeer::PROFILE_ID, $this->getId());
 
 			if (!isset($this->lastProfilePropertyCriteria) || !$this->lastProfilePropertyCriteria->equals($criteria)) {
-				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinUserRelatedByCreatedBy($criteria, $con);
+				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
 			}
 		}
 		$this->lastProfilePropertyCriteria = $criteria;
@@ -2380,7 +2729,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Profile.
 	 */
-	public function getProfilePropertysJoinUserRelatedByUpdatedBy($criteria = null, $con = null)
+	public function getProfilePropertysJoinUsersRelatedByUpdatedBy($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseProfilePropertyPeer.php';
@@ -2399,7 +2748,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 
 				$criteria->add(ProfilePropertyPeer::PROFILE_ID, $this->getId());
 
-				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinUserRelatedByUpdatedBy($criteria, $con);
+				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -2409,7 +2758,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 			$criteria->add(ProfilePropertyPeer::PROFILE_ID, $this->getId());
 
 			if (!isset($this->lastProfilePropertyCriteria) || !$this->lastProfilePropertyCriteria->equals($criteria)) {
-				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinUserRelatedByUpdatedBy($criteria, $con);
+				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
 			}
 		}
 		$this->lastProfilePropertyCriteria = $criteria;
@@ -2429,7 +2778,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Profile.
 	 */
-	public function getProfilePropertysJoinUserRelatedByDeletedBy($criteria = null, $con = null)
+	public function getProfilePropertysJoinUsersRelatedByDeletedBy($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseProfilePropertyPeer.php';
@@ -2448,7 +2797,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 
 				$criteria->add(ProfilePropertyPeer::PROFILE_ID, $this->getId());
 
-				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinUserRelatedByDeletedBy($criteria, $con);
+				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -2458,7 +2807,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 			$criteria->add(ProfilePropertyPeer::PROFILE_ID, $this->getId());
 
 			if (!isset($this->lastProfilePropertyCriteria) || !$this->lastProfilePropertyCriteria->equals($criteria)) {
-				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinUserRelatedByDeletedBy($criteria, $con);
+				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
 			}
 		}
 		$this->lastProfilePropertyCriteria = $criteria;
@@ -2683,7 +3032,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Profile.
 	 */
-	public function getExportHistorysJoinUser($criteria = null, $con = null)
+	public function getExportHistorysJoinUsersRelatedByUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseExportHistoryPeer.php';
@@ -2702,7 +3051,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 
 				$criteria->add(ExportHistoryPeer::PROFILE_ID, $this->getId());
 
-				$this->collExportHistorys = ExportHistoryPeer::doSelectJoinUser($criteria, $con);
+				$this->collExportHistorys = ExportHistoryPeer::doSelectJoinUsersRelatedByUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -2712,7 +3061,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 			$criteria->add(ExportHistoryPeer::PROFILE_ID, $this->getId());
 
 			if (!isset($this->lastExportHistoryCriteria) || !$this->lastExportHistoryCriteria->equals($criteria)) {
-				$this->collExportHistorys = ExportHistoryPeer::doSelectJoinUser($criteria, $con);
+				$this->collExportHistorys = ExportHistoryPeer::doSelectJoinUsersRelatedByUserId($criteria, $con);
 			}
 		}
 		$this->lastExportHistoryCriteria = $criteria;
@@ -2811,6 +3160,55 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastExportHistoryCriteria) || !$this->lastExportHistoryCriteria->equals($criteria)) {
 				$this->collExportHistorys = ExportHistoryPeer::doSelectJoinSchema($criteria, $con);
+			}
+		}
+		$this->lastExportHistoryCriteria = $criteria;
+
+		return $this->collExportHistorys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Profile is new, it will return
+	 * an empty collection; or if this Profile has previously
+	 * been saved, it will retrieve related ExportHistorys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Profile.
+	 */
+	public function getExportHistorysJoinUsersRelatedByExportedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseExportHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collExportHistorys === null) {
+			if ($this->isNew()) {
+				$this->collExportHistorys = array();
+			} else {
+
+				$criteria->add(ExportHistoryPeer::PROFILE_ID, $this->getId());
+
+				$this->collExportHistorys = ExportHistoryPeer::doSelectJoinUsersRelatedByExportedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ExportHistoryPeer::PROFILE_ID, $this->getId());
+
+			if (!isset($this->lastExportHistoryCriteria) || !$this->lastExportHistoryCriteria->equals($criteria)) {
+				$this->collExportHistorys = ExportHistoryPeer::doSelectJoinUsersRelatedByExportedBy($criteria, $con);
 			}
 		}
 		$this->lastExportHistoryCriteria = $criteria;
@@ -2937,7 +3335,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Profile.
 	 */
-	public function getSchemasJoinAgent($criteria = null, $con = null)
+	public function getSchemasJoinUsersRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseSchemaPeer.php';
@@ -2956,7 +3354,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 
 				$criteria->add(SchemaPeer::PROFILE_ID, $this->getId());
 
-				$this->collSchemas = SchemaPeer::doSelectJoinAgent($criteria, $con);
+				$this->collSchemas = SchemaPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -2966,7 +3364,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 			$criteria->add(SchemaPeer::PROFILE_ID, $this->getId());
 
 			if (!isset($this->lastSchemaCriteria) || !$this->lastSchemaCriteria->equals($criteria)) {
-				$this->collSchemas = SchemaPeer::doSelectJoinAgent($criteria, $con);
+				$this->collSchemas = SchemaPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		}
 		$this->lastSchemaCriteria = $criteria;
@@ -2986,7 +3384,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Profile.
 	 */
-	public function getSchemasJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
+	public function getSchemasJoinUsersRelatedByUpdatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseSchemaPeer.php';
@@ -3005,7 +3403,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 
 				$criteria->add(SchemaPeer::PROFILE_ID, $this->getId());
 
-				$this->collSchemas = SchemaPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collSchemas = SchemaPeer::doSelectJoinUsersRelatedByUpdatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -3015,7 +3413,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 			$criteria->add(SchemaPeer::PROFILE_ID, $this->getId());
 
 			if (!isset($this->lastSchemaCriteria) || !$this->lastSchemaCriteria->equals($criteria)) {
-				$this->collSchemas = SchemaPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collSchemas = SchemaPeer::doSelectJoinUsersRelatedByUpdatedUserId($criteria, $con);
 			}
 		}
 		$this->lastSchemaCriteria = $criteria;
@@ -3035,7 +3433,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Profile.
 	 */
-	public function getSchemasJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
+	public function getSchemasJoinUsersRelatedByDeletedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseSchemaPeer.php';
@@ -3054,7 +3452,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 
 				$criteria->add(SchemaPeer::PROFILE_ID, $this->getId());
 
-				$this->collSchemas = SchemaPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collSchemas = SchemaPeer::doSelectJoinUsersRelatedByDeletedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -3064,7 +3462,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 			$criteria->add(SchemaPeer::PROFILE_ID, $this->getId());
 
 			if (!isset($this->lastSchemaCriteria) || !$this->lastSchemaCriteria->equals($criteria)) {
-				$this->collSchemas = SchemaPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collSchemas = SchemaPeer::doSelectJoinUsersRelatedByDeletedUserId($criteria, $con);
 			}
 		}
 		$this->lastSchemaCriteria = $criteria;
@@ -3084,7 +3482,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Profile.
 	 */
-	public function getSchemasJoinUserRelatedByDeletedUserId($criteria = null, $con = null)
+	public function getSchemasJoinProjectsRelatedByProjectId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseSchemaPeer.php';
@@ -3103,7 +3501,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 
 				$criteria->add(SchemaPeer::PROFILE_ID, $this->getId());
 
-				$this->collSchemas = SchemaPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
+				$this->collSchemas = SchemaPeer::doSelectJoinProjectsRelatedByProjectId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -3113,7 +3511,56 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 			$criteria->add(SchemaPeer::PROFILE_ID, $this->getId());
 
 			if (!isset($this->lastSchemaCriteria) || !$this->lastSchemaCriteria->equals($criteria)) {
-				$this->collSchemas = SchemaPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
+				$this->collSchemas = SchemaPeer::doSelectJoinProjectsRelatedByProjectId($criteria, $con);
+			}
+		}
+		$this->lastSchemaCriteria = $criteria;
+
+		return $this->collSchemas;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Profile is new, it will return
+	 * an empty collection; or if this Profile has previously
+	 * been saved, it will retrieve related Schemas from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Profile.
+	 */
+	public function getSchemasJoinProjectsRelatedByAgentId($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemas === null) {
+			if ($this->isNew()) {
+				$this->collSchemas = array();
+			} else {
+
+				$criteria->add(SchemaPeer::PROFILE_ID, $this->getId());
+
+				$this->collSchemas = SchemaPeer::doSelectJoinProjectsRelatedByAgentId($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPeer::PROFILE_ID, $this->getId());
+
+			if (!isset($this->lastSchemaCriteria) || !$this->lastSchemaCriteria->equals($criteria)) {
+				$this->collSchemas = SchemaPeer::doSelectJoinProjectsRelatedByAgentId($criteria, $con);
 			}
 		}
 		$this->lastSchemaCriteria = $criteria;
@@ -3163,6 +3610,153 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastSchemaCriteria) || !$this->lastSchemaCriteria->equals($criteria)) {
 				$this->collSchemas = SchemaPeer::doSelectJoinStatus($criteria, $con);
+			}
+		}
+		$this->lastSchemaCriteria = $criteria;
+
+		return $this->collSchemas;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Profile is new, it will return
+	 * an empty collection; or if this Profile has previously
+	 * been saved, it will retrieve related Schemas from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Profile.
+	 */
+	public function getSchemasJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemas === null) {
+			if ($this->isNew()) {
+				$this->collSchemas = array();
+			} else {
+
+				$criteria->add(SchemaPeer::PROFILE_ID, $this->getId());
+
+				$this->collSchemas = SchemaPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPeer::PROFILE_ID, $this->getId());
+
+			if (!isset($this->lastSchemaCriteria) || !$this->lastSchemaCriteria->equals($criteria)) {
+				$this->collSchemas = SchemaPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		}
+		$this->lastSchemaCriteria = $criteria;
+
+		return $this->collSchemas;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Profile is new, it will return
+	 * an empty collection; or if this Profile has previously
+	 * been saved, it will retrieve related Schemas from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Profile.
+	 */
+	public function getSchemasJoinUsersRelatedByUpdatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemas === null) {
+			if ($this->isNew()) {
+				$this->collSchemas = array();
+			} else {
+
+				$criteria->add(SchemaPeer::PROFILE_ID, $this->getId());
+
+				$this->collSchemas = SchemaPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPeer::PROFILE_ID, $this->getId());
+
+			if (!isset($this->lastSchemaCriteria) || !$this->lastSchemaCriteria->equals($criteria)) {
+				$this->collSchemas = SchemaPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
+			}
+		}
+		$this->lastSchemaCriteria = $criteria;
+
+		return $this->collSchemas;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Profile is new, it will return
+	 * an empty collection; or if this Profile has previously
+	 * been saved, it will retrieve related Schemas from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Profile.
+	 */
+	public function getSchemasJoinUsersRelatedByDeletedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemas === null) {
+			if ($this->isNew()) {
+				$this->collSchemas = array();
+			} else {
+
+				$criteria->add(SchemaPeer::PROFILE_ID, $this->getId());
+
+				$this->collSchemas = SchemaPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPeer::PROFILE_ID, $this->getId());
+
+			if (!isset($this->lastSchemaCriteria) || !$this->lastSchemaCriteria->equals($criteria)) {
+				$this->collSchemas = SchemaPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
 			}
 		}
 		$this->lastSchemaCriteria = $criteria;
@@ -3289,7 +3883,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Profile.
 	 */
-	public function getVocabularysJoinAgent($criteria = null, $con = null)
+	public function getVocabularysJoinProjectsRelatedByProjectId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseVocabularyPeer.php';
@@ -3308,7 +3902,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 
 				$criteria->add(VocabularyPeer::PROFILE_ID, $this->getId());
 
-				$this->collVocabularys = VocabularyPeer::doSelectJoinAgent($criteria, $con);
+				$this->collVocabularys = VocabularyPeer::doSelectJoinProjectsRelatedByProjectId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -3318,7 +3912,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 			$criteria->add(VocabularyPeer::PROFILE_ID, $this->getId());
 
 			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
-				$this->collVocabularys = VocabularyPeer::doSelectJoinAgent($criteria, $con);
+				$this->collVocabularys = VocabularyPeer::doSelectJoinProjectsRelatedByProjectId($criteria, $con);
 			}
 		}
 		$this->lastVocabularyCriteria = $criteria;
@@ -3338,7 +3932,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Profile.
 	 */
-	public function getVocabularysJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
+	public function getVocabularysJoinProjectsRelatedByAgentId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseVocabularyPeer.php';
@@ -3357,7 +3951,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 
 				$criteria->add(VocabularyPeer::PROFILE_ID, $this->getId());
 
-				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collVocabularys = VocabularyPeer::doSelectJoinProjectsRelatedByAgentId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -3367,7 +3961,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 			$criteria->add(VocabularyPeer::PROFILE_ID, $this->getId());
 
 			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
-				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collVocabularys = VocabularyPeer::doSelectJoinProjectsRelatedByAgentId($criteria, $con);
 			}
 		}
 		$this->lastVocabularyCriteria = $criteria;
@@ -3387,7 +3981,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Profile.
 	 */
-	public function getVocabularysJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
+	public function getVocabularysJoinUsersRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseVocabularyPeer.php';
@@ -3406,7 +4000,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 
 				$criteria->add(VocabularyPeer::PROFILE_ID, $this->getId());
 
-				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -3416,7 +4010,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 			$criteria->add(VocabularyPeer::PROFILE_ID, $this->getId());
 
 			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
-				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		}
 		$this->lastVocabularyCriteria = $criteria;
@@ -3436,7 +4030,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Profile.
 	 */
-	public function getVocabularysJoinUserRelatedByDeletedUserId($criteria = null, $con = null)
+	public function getVocabularysJoinUsersRelatedByUpdatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseVocabularyPeer.php';
@@ -3455,7 +4049,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 
 				$criteria->add(VocabularyPeer::PROFILE_ID, $this->getId());
 
-				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUsersRelatedByUpdatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -3465,7 +4059,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 			$criteria->add(VocabularyPeer::PROFILE_ID, $this->getId());
 
 			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
-				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUsersRelatedByUpdatedUserId($criteria, $con);
 			}
 		}
 		$this->lastVocabularyCriteria = $criteria;
@@ -3485,7 +4079,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Profile.
 	 */
-	public function getVocabularysJoinUserRelatedByChildUpdatedUserId($criteria = null, $con = null)
+	public function getVocabularysJoinUsersRelatedByDeletedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseVocabularyPeer.php';
@@ -3504,7 +4098,7 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 
 				$criteria->add(VocabularyPeer::PROFILE_ID, $this->getId());
 
-				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByChildUpdatedUserId($criteria, $con);
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUsersRelatedByDeletedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -3514,7 +4108,56 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 			$criteria->add(VocabularyPeer::PROFILE_ID, $this->getId());
 
 			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
-				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByChildUpdatedUserId($criteria, $con);
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUsersRelatedByDeletedUserId($criteria, $con);
+			}
+		}
+		$this->lastVocabularyCriteria = $criteria;
+
+		return $this->collVocabularys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Profile is new, it will return
+	 * an empty collection; or if this Profile has previously
+	 * been saved, it will retrieve related Vocabularys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Profile.
+	 */
+	public function getVocabularysJoinUsersRelatedByChildUpdatedUserId($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collVocabularys === null) {
+			if ($this->isNew()) {
+				$this->collVocabularys = array();
+			} else {
+
+				$criteria->add(VocabularyPeer::PROFILE_ID, $this->getId());
+
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUsersRelatedByChildUpdatedUserId($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(VocabularyPeer::PROFILE_ID, $this->getId());
+
+			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUsersRelatedByChildUpdatedUserId($criteria, $con);
 			}
 		}
 		$this->lastVocabularyCriteria = $criteria;
@@ -3564,6 +4207,202 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
 				$this->collVocabularys = VocabularyPeer::doSelectJoinStatus($criteria, $con);
+			}
+		}
+		$this->lastVocabularyCriteria = $criteria;
+
+		return $this->collVocabularys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Profile is new, it will return
+	 * an empty collection; or if this Profile has previously
+	 * been saved, it will retrieve related Vocabularys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Profile.
+	 */
+	public function getVocabularysJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collVocabularys === null) {
+			if ($this->isNew()) {
+				$this->collVocabularys = array();
+			} else {
+
+				$criteria->add(VocabularyPeer::PROFILE_ID, $this->getId());
+
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(VocabularyPeer::PROFILE_ID, $this->getId());
+
+			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		}
+		$this->lastVocabularyCriteria = $criteria;
+
+		return $this->collVocabularys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Profile is new, it will return
+	 * an empty collection; or if this Profile has previously
+	 * been saved, it will retrieve related Vocabularys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Profile.
+	 */
+	public function getVocabularysJoinUsersRelatedByUpdatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collVocabularys === null) {
+			if ($this->isNew()) {
+				$this->collVocabularys = array();
+			} else {
+
+				$criteria->add(VocabularyPeer::PROFILE_ID, $this->getId());
+
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(VocabularyPeer::PROFILE_ID, $this->getId());
+
+			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
+			}
+		}
+		$this->lastVocabularyCriteria = $criteria;
+
+		return $this->collVocabularys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Profile is new, it will return
+	 * an empty collection; or if this Profile has previously
+	 * been saved, it will retrieve related Vocabularys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Profile.
+	 */
+	public function getVocabularysJoinUsersRelatedByDeletedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collVocabularys === null) {
+			if ($this->isNew()) {
+				$this->collVocabularys = array();
+			} else {
+
+				$criteria->add(VocabularyPeer::PROFILE_ID, $this->getId());
+
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(VocabularyPeer::PROFILE_ID, $this->getId());
+
+			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
+			}
+		}
+		$this->lastVocabularyCriteria = $criteria;
+
+		return $this->collVocabularys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Profile is new, it will return
+	 * an empty collection; or if this Profile has previously
+	 * been saved, it will retrieve related Vocabularys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Profile.
+	 */
+	public function getVocabularysJoinUsersRelatedByChildUpdatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collVocabularys === null) {
+			if ($this->isNew()) {
+				$this->collVocabularys = array();
+			} else {
+
+				$criteria->add(VocabularyPeer::PROFILE_ID, $this->getId());
+
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUsersRelatedByChildUpdatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(VocabularyPeer::PROFILE_ID, $this->getId());
+
+			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUsersRelatedByChildUpdatedBy($criteria, $con);
 			}
 		}
 		$this->lastVocabularyCriteria = $criteria;

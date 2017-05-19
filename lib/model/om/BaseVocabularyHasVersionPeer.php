@@ -19,7 +19,7 @@ abstract class BaseVocabularyHasVersionPeer {
 	const CLASS_DEFAULT = 'lib.model.VocabularyHasVersion';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 8;
+	const NUM_COLUMNS = 9;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -34,11 +34,11 @@ abstract class BaseVocabularyHasVersionPeer {
 	/** the column name for the CREATED_AT field */
 	const CREATED_AT = 'reg_vocabulary_has_version.CREATED_AT';
 
-	/** the column name for the DELETED_AT field */
-	const DELETED_AT = 'reg_vocabulary_has_version.DELETED_AT';
-
 	/** the column name for the UPDATED_AT field */
 	const UPDATED_AT = 'reg_vocabulary_has_version.UPDATED_AT';
+
+	/** the column name for the DELETED_AT field */
+	const DELETED_AT = 'reg_vocabulary_has_version.DELETED_AT';
 
 	/** the column name for the CREATED_USER_ID field */
 	const CREATED_USER_ID = 'reg_vocabulary_has_version.CREATED_USER_ID';
@@ -48,6 +48,9 @@ abstract class BaseVocabularyHasVersionPeer {
 
 	/** the column name for the TIMESLICE field */
 	const TIMESLICE = 'reg_vocabulary_has_version.TIMESLICE';
+
+	/** the column name for the CREATED_BY field */
+	const CREATED_BY = 'reg_vocabulary_has_version.CREATED_BY';
 
 	/** The PHP to DB Name Mapping */
 	private static $phpNameMap = null;
@@ -60,10 +63,10 @@ abstract class BaseVocabularyHasVersionPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Name', 'CreatedAt', 'DeletedAt', 'UpdatedAt', 'CreatedUserId', 'VocabularyId', 'Timeslice', ),
-		BasePeer::TYPE_COLNAME => array (VocabularyHasVersionPeer::ID, VocabularyHasVersionPeer::NAME, VocabularyHasVersionPeer::CREATED_AT, VocabularyHasVersionPeer::DELETED_AT, VocabularyHasVersionPeer::UPDATED_AT, VocabularyHasVersionPeer::CREATED_USER_ID, VocabularyHasVersionPeer::VOCABULARY_ID, VocabularyHasVersionPeer::TIMESLICE, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'name', 'created_at', 'deleted_at', 'updated_at', 'created_user_id', 'vocabulary_id', 'timeslice', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Name', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'CreatedUserId', 'VocabularyId', 'Timeslice', 'CreatedBy', ),
+		BasePeer::TYPE_COLNAME => array (VocabularyHasVersionPeer::ID, VocabularyHasVersionPeer::NAME, VocabularyHasVersionPeer::CREATED_AT, VocabularyHasVersionPeer::UPDATED_AT, VocabularyHasVersionPeer::DELETED_AT, VocabularyHasVersionPeer::CREATED_USER_ID, VocabularyHasVersionPeer::VOCABULARY_ID, VocabularyHasVersionPeer::TIMESLICE, VocabularyHasVersionPeer::CREATED_BY, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'name', 'created_at', 'updated_at', 'deleted_at', 'created_user_id', 'vocabulary_id', 'timeslice', 'created_by', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
 	);
 
 	/**
@@ -73,10 +76,10 @@ abstract class BaseVocabularyHasVersionPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Name' => 1, 'CreatedAt' => 2, 'DeletedAt' => 3, 'UpdatedAt' => 4, 'CreatedUserId' => 5, 'VocabularyId' => 6, 'Timeslice' => 7, ),
-		BasePeer::TYPE_COLNAME => array (VocabularyHasVersionPeer::ID => 0, VocabularyHasVersionPeer::NAME => 1, VocabularyHasVersionPeer::CREATED_AT => 2, VocabularyHasVersionPeer::DELETED_AT => 3, VocabularyHasVersionPeer::UPDATED_AT => 4, VocabularyHasVersionPeer::CREATED_USER_ID => 5, VocabularyHasVersionPeer::VOCABULARY_ID => 6, VocabularyHasVersionPeer::TIMESLICE => 7, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'name' => 1, 'created_at' => 2, 'deleted_at' => 3, 'updated_at' => 4, 'created_user_id' => 5, 'vocabulary_id' => 6, 'timeslice' => 7, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Name' => 1, 'CreatedAt' => 2, 'UpdatedAt' => 3, 'DeletedAt' => 4, 'CreatedUserId' => 5, 'VocabularyId' => 6, 'Timeslice' => 7, 'CreatedBy' => 8, ),
+		BasePeer::TYPE_COLNAME => array (VocabularyHasVersionPeer::ID => 0, VocabularyHasVersionPeer::NAME => 1, VocabularyHasVersionPeer::CREATED_AT => 2, VocabularyHasVersionPeer::UPDATED_AT => 3, VocabularyHasVersionPeer::DELETED_AT => 4, VocabularyHasVersionPeer::CREATED_USER_ID => 5, VocabularyHasVersionPeer::VOCABULARY_ID => 6, VocabularyHasVersionPeer::TIMESLICE => 7, VocabularyHasVersionPeer::CREATED_BY => 8, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'name' => 1, 'created_at' => 2, 'updated_at' => 3, 'deleted_at' => 4, 'created_user_id' => 5, 'vocabulary_id' => 6, 'timeslice' => 7, 'created_by' => 8, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
 	);
 
 	/**
@@ -183,15 +186,17 @@ abstract class BaseVocabularyHasVersionPeer {
 
         $criteria->addSelectColumn(($tableAlias) ? VocabularyHasVersionPeer::alias($tableAlias, VocabularyHasVersionPeer::CREATED_AT) : VocabularyHasVersionPeer::CREATED_AT);
 
-        $criteria->addSelectColumn(($tableAlias) ? VocabularyHasVersionPeer::alias($tableAlias, VocabularyHasVersionPeer::DELETED_AT) : VocabularyHasVersionPeer::DELETED_AT);
-
         $criteria->addSelectColumn(($tableAlias) ? VocabularyHasVersionPeer::alias($tableAlias, VocabularyHasVersionPeer::UPDATED_AT) : VocabularyHasVersionPeer::UPDATED_AT);
+
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyHasVersionPeer::alias($tableAlias, VocabularyHasVersionPeer::DELETED_AT) : VocabularyHasVersionPeer::DELETED_AT);
 
         $criteria->addSelectColumn(($tableAlias) ? VocabularyHasVersionPeer::alias($tableAlias, VocabularyHasVersionPeer::CREATED_USER_ID) : VocabularyHasVersionPeer::CREATED_USER_ID);
 
         $criteria->addSelectColumn(($tableAlias) ? VocabularyHasVersionPeer::alias($tableAlias, VocabularyHasVersionPeer::VOCABULARY_ID) : VocabularyHasVersionPeer::VOCABULARY_ID);
 
         $criteria->addSelectColumn(($tableAlias) ? VocabularyHasVersionPeer::alias($tableAlias, VocabularyHasVersionPeer::TIMESLICE) : VocabularyHasVersionPeer::TIMESLICE);
+
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyHasVersionPeer::alias($tableAlias, VocabularyHasVersionPeer::CREATED_BY) : VocabularyHasVersionPeer::CREATED_BY);
 
 	}
 
@@ -330,14 +335,14 @@ abstract class BaseVocabularyHasVersionPeer {
 	}
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related User table
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByCreatedUserId table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinUser(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinUsersRelatedByCreatedUserId(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -356,7 +361,7 @@ abstract class BaseVocabularyHasVersionPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(VocabularyHasVersionPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(VocabularyHasVersionPeer::CREATED_USER_ID, UsersPeer::ID);
 
 		$rs = VocabularyHasVersionPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -408,13 +413,52 @@ abstract class BaseVocabularyHasVersionPeer {
 
 
 	/**
-	 * Selects a collection of VocabularyHasVersion objects pre-filled with their User objects.
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByCreatedBy table
+	 *
+	 * @param Criteria $c
+	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
+	 * @param Connection $con
+	 * @return int Number of matching rows.
+	 */
+	public static function doCountJoinUsersRelatedByCreatedBy(Criteria $criteria, $distinct = false, $con = null)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// clear out anything that might confuse the ORDER BY clause
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(VocabularyHasVersionPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(VocabularyHasVersionPeer::COUNT);
+		}
+
+		// just in case we're grouping: add those columns to the select statement
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(VocabularyHasVersionPeer::CREATED_BY, UsersPeer::ID);
+
+		$rs = VocabularyHasVersionPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			// no rows returned; we infer that means 0 matches.
+			return 0;
+		}
+	}
+
+
+	/**
+	 * Selects a collection of VocabularyHasVersion objects pre-filled with their Users objects.
 	 *
 	 * @return array Array of VocabularyHasVersion objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinUser(Criteria $c, $con = null)
+	public static function doSelectJoinUsersRelatedByCreatedUserId(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -425,9 +469,9 @@ abstract class BaseVocabularyHasVersionPeer {
 
 		VocabularyHasVersionPeer::addSelectColumns($c);
 		$startcol = (VocabularyHasVersionPeer::NUM_COLUMNS - VocabularyHasVersionPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-		UserPeer::addSelectColumns($c);
+		UsersPeer::addSelectColumns($c);
 
-		$c->addJoin(VocabularyHasVersionPeer::CREATED_USER_ID, UserPeer::ID);
+		$c->addJoin(VocabularyHasVersionPeer::CREATED_USER_ID, UsersPeer::ID);
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
@@ -439,7 +483,7 @@ abstract class BaseVocabularyHasVersionPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
@@ -447,17 +491,17 @@ abstract class BaseVocabularyHasVersionPeer {
 
 			$newObject = true;
 			foreach($results as $temp_obj1) {
-				$temp_obj2 = $temp_obj1->getUser(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedUserId(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					// e.g. $author->addBookRelatedByBookId()
-					$temp_obj2->addVocabularyHasVersion($obj1); //CHECKME
+					$temp_obj2->addVocabularyHasVersionRelatedByCreatedUserId($obj1); //CHECKME
 					break;
 				}
 			}
 			if ($newObject) {
-				$obj2->initVocabularyHasVersions();
-				$obj2->addVocabularyHasVersion($obj1); //CHECKME
+				$obj2->initVocabularyHasVersionsRelatedByCreatedUserId();
+				$obj2->addVocabularyHasVersionRelatedByCreatedUserId($obj1); //CHECKME
 			}
 			$results[] = $obj1;
 		}
@@ -524,6 +568,64 @@ abstract class BaseVocabularyHasVersionPeer {
 
 
 	/**
+	 * Selects a collection of VocabularyHasVersion objects pre-filled with their Users objects.
+	 *
+	 * @return array Array of VocabularyHasVersion objects.
+	 * @throws PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinUsersRelatedByCreatedBy(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		// Set the correct dbName if it has not been overridden
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		VocabularyHasVersionPeer::addSelectColumns($c);
+		$startcol = (VocabularyHasVersionPeer::NUM_COLUMNS - VocabularyHasVersionPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		UsersPeer::addSelectColumns($c);
+
+		$c->addJoin(VocabularyHasVersionPeer::CREATED_BY, UsersPeer::ID);
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = VocabularyHasVersionPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = UsersPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol);
+
+			$newObject = true;
+			foreach($results as $temp_obj1) {
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedBy(); //CHECKME
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					// e.g. $author->addBookRelatedByBookId()
+					$temp_obj2->addVocabularyHasVersionRelatedByCreatedBy($obj1); //CHECKME
+					break;
+				}
+			}
+			if ($newObject) {
+				$obj2->initVocabularyHasVersionsRelatedByCreatedBy();
+				$obj2->addVocabularyHasVersionRelatedByCreatedBy($obj1); //CHECKME
+			}
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	/**
 	 * Returns the number of rows matching criteria, joining all related tables
 	 *
 	 * @param Criteria $c
@@ -549,9 +651,11 @@ abstract class BaseVocabularyHasVersionPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(VocabularyHasVersionPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(VocabularyHasVersionPeer::CREATED_USER_ID, UsersPeer::ID);
 
 		$criteria->addJoin(VocabularyHasVersionPeer::VOCABULARY_ID, VocabularyPeer::ID);
+
+		$criteria->addJoin(VocabularyHasVersionPeer::CREATED_BY, UsersPeer::ID);
 
 		$rs = VocabularyHasVersionPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -582,17 +686,23 @@ abstract class BaseVocabularyHasVersionPeer {
 		VocabularyHasVersionPeer::addSelectColumns($c);
 		$startcol2 = (VocabularyHasVersionPeer::NUM_COLUMNS - VocabularyHasVersionPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c, 'a1');
-		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c, 'a1');
+		$startcol3 = $startcol2 + UsersPeer::NUM_COLUMNS;
 
-        $c->addJoin(VocabularyHasVersionPeer::CREATED_USER_ID, UserPeer::alias('a1', UserPeer::ID));
-        $c->addAlias('a1', UserPeer::TABLE_NAME);
+        $c->addJoin(VocabularyHasVersionPeer::CREATED_USER_ID, UsersPeer::alias('a1', UsersPeer::ID));
+        $c->addAlias('a1', UsersPeer::TABLE_NAME);
 
 		VocabularyPeer::addSelectColumns($c, 'a2');
 		$startcol4 = $startcol3 + VocabularyPeer::NUM_COLUMNS;
 
         $c->addJoin(VocabularyHasVersionPeer::VOCABULARY_ID, VocabularyPeer::alias('a2', VocabularyPeer::ID));
         $c->addAlias('a2', VocabularyPeer::TABLE_NAME);
+
+		UsersPeer::addSelectColumns($c, 'a3');
+		$startcol5 = $startcol4 + UsersPeer::NUM_COLUMNS;
+
+        $c->addJoin(VocabularyHasVersionPeer::CREATED_BY, UsersPeer::alias('a3', UsersPeer::ID));
+        $c->addAlias('a3', UsersPeer::TABLE_NAME);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
@@ -607,9 +717,9 @@ abstract class BaseVocabularyHasVersionPeer {
 			$obj1->hydrate($rs);
 
 
-				// Add objects for joined User rows
+				// Add objects for joined Users rows
 	
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -619,17 +729,17 @@ abstract class BaseVocabularyHasVersionPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUser(); // CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedUserId(); // CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj2->addVocabularyHasVersion($obj1); // CHECKME
+					$temp_obj2->addVocabularyHasVersionRelatedByCreatedUserId($obj1); // CHECKME
 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj2->initVocabularyHasVersions();
-				$obj2->addVocabularyHasVersion($obj1);
+				$obj2->initVocabularyHasVersionsRelatedByCreatedUserId();
+				$obj2->addVocabularyHasVersionRelatedByCreatedUserId($obj1);
 			}
 
 
@@ -658,6 +768,32 @@ abstract class BaseVocabularyHasVersionPeer {
 				$obj3->addVocabularyHasVersion($obj1);
 			}
 
+
+				// Add objects for joined Users rows
+	
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj4 = new $cls();
+			$obj4->hydrate($rs, $startcol4);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj4 = $temp_obj1->getUsersRelatedByCreatedBy(); // CHECKME
+				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj4->addVocabularyHasVersionRelatedByCreatedBy($obj1); // CHECKME
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj4->initVocabularyHasVersionsRelatedByCreatedBy();
+				$obj4->addVocabularyHasVersionRelatedByCreatedBy($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -665,14 +801,14 @@ abstract class BaseVocabularyHasVersionPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related User table
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByCreatedUserId table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinAllExceptUser(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinAllExceptUsersRelatedByCreatedUserId(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -730,7 +866,9 @@ abstract class BaseVocabularyHasVersionPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(VocabularyHasVersionPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(VocabularyHasVersionPeer::CREATED_USER_ID, UsersPeer::ID);
+
+		$criteria->addJoin(VocabularyHasVersionPeer::CREATED_BY, UsersPeer::ID);
 
 		$rs = VocabularyHasVersionPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -743,13 +881,52 @@ abstract class BaseVocabularyHasVersionPeer {
 
 
 	/**
-	 * Selects a collection of VocabularyHasVersion objects pre-filled with all related objects except User.
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByCreatedBy table
+	 *
+	 * @param Criteria $c
+	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
+	 * @param Connection $con
+	 * @return int Number of matching rows.
+	 */
+	public static function doCountJoinAllExceptUsersRelatedByCreatedBy(Criteria $criteria, $distinct = false, $con = null)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// clear out anything that might confuse the ORDER BY clause
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(VocabularyHasVersionPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(VocabularyHasVersionPeer::COUNT);
+		}
+
+		// just in case we're grouping: add those columns to the select statement
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(VocabularyHasVersionPeer::VOCABULARY_ID, VocabularyPeer::ID);
+
+		$rs = VocabularyHasVersionPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			// no rows returned; we infer that means 0 matches.
+			return 0;
+		}
+	}
+
+
+	/**
+	 * Selects a collection of VocabularyHasVersion objects pre-filled with all related objects except UsersRelatedByCreatedUserId.
 	 *
 	 * @return array Array of VocabularyHasVersion objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinAllExceptUser(Criteria $c, $con = null)
+	public static function doSelectJoinAllExceptUsersRelatedByCreatedUserId(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -830,10 +1007,15 @@ abstract class BaseVocabularyHasVersionPeer {
 		VocabularyHasVersionPeer::addSelectColumns($c);
 		$startcol2 = (VocabularyHasVersionPeer::NUM_COLUMNS - VocabularyHasVersionPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + UsersPeer::NUM_COLUMNS;
 
-		$c->addJoin(VocabularyHasVersionPeer::CREATED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + UsersPeer::NUM_COLUMNS;
+
+		$c->addJoin(VocabularyHasVersionPeer::CREATED_USER_ID, UsersPeer::ID);
+
+		$c->addJoin(VocabularyHasVersionPeer::CREATED_BY, UsersPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -847,7 +1029,7 @@ abstract class BaseVocabularyHasVersionPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -857,7 +1039,97 @@ abstract class BaseVocabularyHasVersionPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUser(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedUserId(); //CHECKME
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj2->addVocabularyHasVersionRelatedByCreatedUserId($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj2->initVocabularyHasVersionsRelatedByCreatedUserId();
+				$obj2->addVocabularyHasVersionRelatedByCreatedUserId($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj3  = new $cls();
+			$obj3->hydrate($rs, $startcol3);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj3 = $temp_obj1->getUsersRelatedByCreatedBy(); //CHECKME
+				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj3->addVocabularyHasVersionRelatedByCreatedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj3->initVocabularyHasVersionsRelatedByCreatedBy();
+				$obj3->addVocabularyHasVersionRelatedByCreatedBy($obj1);
+			}
+
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	/**
+	 * Selects a collection of VocabularyHasVersion objects pre-filled with all related objects except UsersRelatedByCreatedBy.
+	 *
+	 * @return array Array of VocabularyHasVersion objects.
+	 * @throws PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinAllExceptUsersRelatedByCreatedBy(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		// Set the correct dbName if it has not been overridden
+		// $c->getDbName() will return the same object if not set to another value
+		// so == check is okay and faster
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		VocabularyHasVersionPeer::addSelectColumns($c);
+		$startcol2 = (VocabularyHasVersionPeer::NUM_COLUMNS - VocabularyHasVersionPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+		VocabularyPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + VocabularyPeer::NUM_COLUMNS;
+
+		$c->addJoin(VocabularyHasVersionPeer::VOCABULARY_ID, VocabularyPeer::ID);
+
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = VocabularyHasVersionPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = VocabularyPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj2  = new $cls();
+			$obj2->hydrate($rs, $startcol2);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj2 = $temp_obj1->getVocabulary(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addVocabularyHasVersion($obj1);

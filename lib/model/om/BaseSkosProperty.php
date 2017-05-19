@@ -27,6 +27,20 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 
 
 	/**
+	 * The value for the created_at field.
+	 * @var        int
+	 */
+	protected $created_at;
+
+
+	/**
+	 * The value for the updated_at field.
+	 * @var        int
+	 */
+	protected $updated_at;
+
+
+	/**
 	 * The value for the parent_id field.
 	 * @var        int
 	 */
@@ -44,14 +58,14 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	 * The value for the name field.
 	 * @var        string
 	 */
-	protected $name;
+	protected $name = '';
 
 
 	/**
 	 * The value for the uri field.
 	 * @var        string
 	 */
-	protected $uri;
+	protected $uri = '';
 
 
 	/**
@@ -172,6 +186,68 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	{
 
 		return $this->id;
+	}
+
+	/**
+	 * Get the [optionally formatted] [created_at] column value.
+	 * 
+	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
+	 *							If format is NULL, then the integer unix timestamp will be returned.
+	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
+	 * @throws     PropelException - if unable to convert the date/time to timestamp.
+	 */
+	public function getCreatedAt($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->created_at === null || $this->created_at === '') {
+			return null;
+		} elseif (!is_int($this->created_at)) {
+			// a non-timestamp value was set externally, so we convert it
+			$ts = strtotime($this->created_at);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse value of [created_at] as date/time value: " . var_export($this->created_at, true));
+			}
+		} else {
+			$ts = $this->created_at;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
+	}
+
+	/**
+	 * Get the [optionally formatted] [updated_at] column value.
+	 * 
+	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
+	 *							If format is NULL, then the integer unix timestamp will be returned.
+	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
+	 * @throws     PropelException - if unable to convert the date/time to timestamp.
+	 */
+	public function getUpdatedAt($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->updated_at === null || $this->updated_at === '') {
+			return null;
+		} elseif (!is_int($this->updated_at)) {
+			// a non-timestamp value was set externally, so we convert it
+			$ts = strtotime($this->updated_at);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse value of [updated_at] as date/time value: " . var_export($this->updated_at, true));
+			}
+		} else {
+			$ts = $this->updated_at;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
 	}
 
 	/**
@@ -373,6 +449,54 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	} // setId()
 
 	/**
+	 * Set the value of [created_at] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setCreatedAt($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse date/time value for [created_at] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->created_at !== $ts) {
+			$this->created_at = $ts;
+			$this->modifiedColumns[] = SkosPropertyPeer::CREATED_AT;
+		}
+
+	} // setCreatedAt()
+
+	/**
+	 * Set the value of [updated_at] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setUpdatedAt($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse date/time value for [updated_at] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->updated_at !== $ts) {
+			$this->updated_at = $ts;
+			$this->modifiedColumns[] = SkosPropertyPeer::UPDATED_AT;
+		}
+
+	} // setUpdatedAt()
+
+	/**
 	 * Set the value of [parent_id] column.
 	 * 
 	 * @param      int $v new value
@@ -431,7 +555,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->name !== $v) {
+		if ($this->name !== $v || $v === '') {
 			$this->name = $v;
 			$this->modifiedColumns[] = SkosPropertyPeer::NAME;
 		}
@@ -453,7 +577,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->uri !== $v) {
+		if ($this->uri !== $v || $v === '') {
 			$this->uri = $v;
 			$this->modifiedColumns[] = SkosPropertyPeer::URI;
 		}
@@ -713,44 +837,48 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 
 			$this->id = $rs->getInt($startcol + 0);
 
-			$this->parent_id = $rs->getInt($startcol + 1);
+			$this->created_at = $rs->getTimestamp($startcol + 1, null);
 
-			$this->inverse_id = $rs->getInt($startcol + 2);
+			$this->updated_at = $rs->getTimestamp($startcol + 2, null);
 
-			$this->name = $rs->getString($startcol + 3);
+			$this->parent_id = $rs->getInt($startcol + 3);
 
-			$this->uri = $rs->getString($startcol + 4);
+			$this->inverse_id = $rs->getInt($startcol + 4);
 
-			$this->object_type = $rs->getString($startcol + 5);
+			$this->name = $rs->getString($startcol + 5);
 
-			$this->display_order = $rs->getInt($startcol + 6);
+			$this->uri = $rs->getString($startcol + 6);
 
-			$this->picklist_order = $rs->getInt($startcol + 7);
+			$this->object_type = $rs->getString($startcol + 7);
 
-			$this->label = $rs->getString($startcol + 8);
+			$this->display_order = $rs->getInt($startcol + 8);
 
-			$this->definition = $rs->getString($startcol + 9);
+			$this->picklist_order = $rs->getInt($startcol + 9);
 
-			$this->comment = $rs->getString($startcol + 10);
+			$this->label = $rs->getString($startcol + 10);
 
-			$this->examples = $rs->getString($startcol + 11);
+			$this->definition = $rs->getString($startcol + 11);
 
-			$this->is_required = $rs->getBoolean($startcol + 12);
+			$this->comment = $rs->getString($startcol + 12);
 
-			$this->is_reciprocal = $rs->getBoolean($startcol + 13);
+			$this->examples = $rs->getString($startcol + 13);
 
-			$this->is_singleton = $rs->getBoolean($startcol + 14);
+			$this->is_required = $rs->getBoolean($startcol + 14);
 
-			$this->is_scheme = $rs->getBoolean($startcol + 15);
+			$this->is_reciprocal = $rs->getBoolean($startcol + 15);
 
-			$this->is_in_picklist = $rs->getBoolean($startcol + 16);
+			$this->is_singleton = $rs->getBoolean($startcol + 16);
+
+			$this->is_scheme = $rs->getBoolean($startcol + 17);
+
+			$this->is_in_picklist = $rs->getBoolean($startcol + 18);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 17; // 17 = SkosPropertyPeer::NUM_COLUMNS - SkosPropertyPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 19; // 19 = SkosPropertyPeer::NUM_COLUMNS - SkosPropertyPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating SkosProperty object", $e);
@@ -826,6 +954,16 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
       }
     }
 
+
+    if ($this->isNew() && !$this->isColumnModified(SkosPropertyPeer::CREATED_AT))
+    {
+      $this->setCreatedAt(time());
+    }
+
+    if ($this->isModified() && !$this->isColumnModified(SkosPropertyPeer::UPDATED_AT))
+    {
+      $this->setUpdatedAt(time());
+    }
 
 		if ($this->isDeleted()) {
 			throw new PropelException("You cannot save an object that has been deleted.");
@@ -1008,51 +1146,57 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 				return $this->getId();
 				break;
 			case 1:
-				return $this->getParentId();
+				return $this->getCreatedAt();
 				break;
 			case 2:
-				return $this->getInverseId();
+				return $this->getUpdatedAt();
 				break;
 			case 3:
-				return $this->getName();
+				return $this->getParentId();
 				break;
 			case 4:
-				return $this->getUri();
+				return $this->getInverseId();
 				break;
 			case 5:
-				return $this->getObjectType();
+				return $this->getName();
 				break;
 			case 6:
-				return $this->getDisplayOrder();
+				return $this->getUri();
 				break;
 			case 7:
-				return $this->getPicklistOrder();
+				return $this->getObjectType();
 				break;
 			case 8:
-				return $this->getLabel();
+				return $this->getDisplayOrder();
 				break;
 			case 9:
-				return $this->getDefinition();
+				return $this->getPicklistOrder();
 				break;
 			case 10:
-				return $this->getComment();
+				return $this->getLabel();
 				break;
 			case 11:
-				return $this->getExamples();
+				return $this->getDefinition();
 				break;
 			case 12:
-				return $this->getIsRequired();
+				return $this->getComment();
 				break;
 			case 13:
-				return $this->getIsReciprocal();
+				return $this->getExamples();
 				break;
 			case 14:
-				return $this->getIsSingleton();
+				return $this->getIsRequired();
 				break;
 			case 15:
-				return $this->getIsScheme();
+				return $this->getIsReciprocal();
 				break;
 			case 16:
+				return $this->getIsSingleton();
+				break;
+			case 17:
+				return $this->getIsScheme();
+				break;
+			case 18:
 				return $this->getIsInPicklist();
 				break;
 			default:
@@ -1076,22 +1220,24 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 		$keys = SkosPropertyPeer::getFieldNames($keyType);
 		$result = array(
 			$keys[0] => $this->getId(),
-			$keys[1] => $this->getParentId(),
-			$keys[2] => $this->getInverseId(),
-			$keys[3] => $this->getName(),
-			$keys[4] => $this->getUri(),
-			$keys[5] => $this->getObjectType(),
-			$keys[6] => $this->getDisplayOrder(),
-			$keys[7] => $this->getPicklistOrder(),
-			$keys[8] => $this->getLabel(),
-			$keys[9] => $this->getDefinition(),
-			$keys[10] => $this->getComment(),
-			$keys[11] => $this->getExamples(),
-			$keys[12] => $this->getIsRequired(),
-			$keys[13] => $this->getIsReciprocal(),
-			$keys[14] => $this->getIsSingleton(),
-			$keys[15] => $this->getIsScheme(),
-			$keys[16] => $this->getIsInPicklist(),
+			$keys[1] => $this->getCreatedAt(),
+			$keys[2] => $this->getUpdatedAt(),
+			$keys[3] => $this->getParentId(),
+			$keys[4] => $this->getInverseId(),
+			$keys[5] => $this->getName(),
+			$keys[6] => $this->getUri(),
+			$keys[7] => $this->getObjectType(),
+			$keys[8] => $this->getDisplayOrder(),
+			$keys[9] => $this->getPicklistOrder(),
+			$keys[10] => $this->getLabel(),
+			$keys[11] => $this->getDefinition(),
+			$keys[12] => $this->getComment(),
+			$keys[13] => $this->getExamples(),
+			$keys[14] => $this->getIsRequired(),
+			$keys[15] => $this->getIsReciprocal(),
+			$keys[16] => $this->getIsSingleton(),
+			$keys[17] => $this->getIsScheme(),
+			$keys[18] => $this->getIsInPicklist(),
 		);
 		return $result;
 	}
@@ -1127,51 +1273,57 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 				$this->setId($value);
 				break;
 			case 1:
-				$this->setParentId($value);
+				$this->setCreatedAt($value);
 				break;
 			case 2:
-				$this->setInverseId($value);
+				$this->setUpdatedAt($value);
 				break;
 			case 3:
-				$this->setName($value);
+				$this->setParentId($value);
 				break;
 			case 4:
-				$this->setUri($value);
+				$this->setInverseId($value);
 				break;
 			case 5:
-				$this->setObjectType($value);
+				$this->setName($value);
 				break;
 			case 6:
-				$this->setDisplayOrder($value);
+				$this->setUri($value);
 				break;
 			case 7:
-				$this->setPicklistOrder($value);
+				$this->setObjectType($value);
 				break;
 			case 8:
-				$this->setLabel($value);
+				$this->setDisplayOrder($value);
 				break;
 			case 9:
-				$this->setDefinition($value);
+				$this->setPicklistOrder($value);
 				break;
 			case 10:
-				$this->setComment($value);
+				$this->setLabel($value);
 				break;
 			case 11:
-				$this->setExamples($value);
+				$this->setDefinition($value);
 				break;
 			case 12:
-				$this->setIsRequired($value);
+				$this->setComment($value);
 				break;
 			case 13:
-				$this->setIsReciprocal($value);
+				$this->setExamples($value);
 				break;
 			case 14:
-				$this->setIsSingleton($value);
+				$this->setIsRequired($value);
 				break;
 			case 15:
-				$this->setIsScheme($value);
+				$this->setIsReciprocal($value);
 				break;
 			case 16:
+				$this->setIsSingleton($value);
+				break;
+			case 17:
+				$this->setIsScheme($value);
+				break;
+			case 18:
 				$this->setIsInPicklist($value);
 				break;
 		} // switch()
@@ -1198,22 +1350,24 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 		$keys = SkosPropertyPeer::getFieldNames($keyType);
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-		if (array_key_exists($keys[1], $arr)) $this->setParentId($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setInverseId($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setName($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setUri($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setObjectType($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setDisplayOrder($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setPicklistOrder($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setLabel($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setDefinition($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setComment($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setExamples($arr[$keys[11]]);
-		if (array_key_exists($keys[12], $arr)) $this->setIsRequired($arr[$keys[12]]);
-		if (array_key_exists($keys[13], $arr)) $this->setIsReciprocal($arr[$keys[13]]);
-		if (array_key_exists($keys[14], $arr)) $this->setIsSingleton($arr[$keys[14]]);
-		if (array_key_exists($keys[15], $arr)) $this->setIsScheme($arr[$keys[15]]);
-		if (array_key_exists($keys[16], $arr)) $this->setIsInPicklist($arr[$keys[16]]);
+		if (array_key_exists($keys[1], $arr)) $this->setCreatedAt($arr[$keys[1]]);
+		if (array_key_exists($keys[2], $arr)) $this->setUpdatedAt($arr[$keys[2]]);
+		if (array_key_exists($keys[3], $arr)) $this->setParentId($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setInverseId($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setName($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setUri($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setObjectType($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setDisplayOrder($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setPicklistOrder($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setLabel($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setDefinition($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setComment($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setExamples($arr[$keys[13]]);
+		if (array_key_exists($keys[14], $arr)) $this->setIsRequired($arr[$keys[14]]);
+		if (array_key_exists($keys[15], $arr)) $this->setIsReciprocal($arr[$keys[15]]);
+		if (array_key_exists($keys[16], $arr)) $this->setIsSingleton($arr[$keys[16]]);
+		if (array_key_exists($keys[17], $arr)) $this->setIsScheme($arr[$keys[17]]);
+		if (array_key_exists($keys[18], $arr)) $this->setIsInPicklist($arr[$keys[18]]);
 	}
 
 	/**
@@ -1226,6 +1380,8 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 		$criteria = new Criteria(SkosPropertyPeer::DATABASE_NAME);
 
 		if ($this->isColumnModified(SkosPropertyPeer::ID)) $criteria->add(SkosPropertyPeer::ID, $this->id);
+		if ($this->isColumnModified(SkosPropertyPeer::CREATED_AT)) $criteria->add(SkosPropertyPeer::CREATED_AT, $this->created_at);
+		if ($this->isColumnModified(SkosPropertyPeer::UPDATED_AT)) $criteria->add(SkosPropertyPeer::UPDATED_AT, $this->updated_at);
 		if ($this->isColumnModified(SkosPropertyPeer::PARENT_ID)) $criteria->add(SkosPropertyPeer::PARENT_ID, $this->parent_id);
 		if ($this->isColumnModified(SkosPropertyPeer::INVERSE_ID)) $criteria->add(SkosPropertyPeer::INVERSE_ID, $this->inverse_id);
 		if ($this->isColumnModified(SkosPropertyPeer::NAME)) $criteria->add(SkosPropertyPeer::NAME, $this->name);
@@ -1295,6 +1451,10 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	 */
 	public function copyInto($copyObj, $deepCopy = false)
 	{
+
+		$copyObj->setCreatedAt($this->created_at);
+
+		$copyObj->setUpdatedAt($this->updated_at);
 
 		$copyObj->setParentId($this->parent_id);
 
@@ -1798,7 +1958,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in SkosProperty.
 	 */
-	public function getConceptPropertyHistorysJoinUser($criteria = null, $con = null)
+	public function getConceptPropertyHistorysJoinUsersRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
@@ -1817,7 +1977,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPropertyHistoryPeer::SKOS_PROPERTY_ID, $this->getId());
 
-				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUser($criteria, $con);
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -1827,7 +1987,7 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 			$criteria->add(ConceptPropertyHistoryPeer::SKOS_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyHistoryCriteria) || !$this->lastConceptPropertyHistoryCriteria->equals($criteria)) {
-				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUser($criteria, $con);
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyHistoryCriteria = $criteria;
@@ -1926,6 +2086,55 @@ abstract class BaseSkosProperty extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastConceptPropertyHistoryCriteria) || !$this->lastConceptPropertyHistoryCriteria->equals($criteria)) {
 				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinProfileProperty($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyHistoryCriteria = $criteria;
+
+		return $this->collConceptPropertyHistorys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this SkosProperty is new, it will return
+	 * an empty collection; or if this SkosProperty has previously
+	 * been saved, it will retrieve related ConceptPropertyHistorys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in SkosProperty.
+	 */
+	public function getConceptPropertyHistorysJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertyHistorys === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertyHistorys = array();
+			} else {
+
+				$criteria->add(ConceptPropertyHistoryPeer::SKOS_PROPERTY_ID, $this->getId());
+
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyHistoryPeer::SKOS_PROPERTY_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyHistoryCriteria) || !$this->lastConceptPropertyHistoryCriteria->equals($criteria)) {
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyHistoryCriteria = $criteria;

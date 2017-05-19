@@ -73,7 +73,7 @@ class DiscussMapBuilder {
 
 		$tMap->addForeignKey('DELETED_USER_ID', 'DeletedUserId', 'int', CreoleTypes::INTEGER, 'users', 'ID', false, null);
 
-		$tMap->addColumn('URI', 'Uri', 'string', CreoleTypes::CHAR, false, 255);
+		$tMap->addColumn('URI', 'Uri', 'string', CreoleTypes::CHAR, false, 191);
 
 		$tMap->addForeignKey('SCHEMA_ID', 'SchemaId', 'int', CreoleTypes::INTEGER, 'reg_schema', 'ID', false, null);
 
@@ -91,9 +91,15 @@ class DiscussMapBuilder {
 
 		$tMap->addForeignKey('PARENT_ID', 'ParentId', 'int', CreoleTypes::INTEGER, 'reg_discuss', 'ID', false, null);
 
-		$tMap->addColumn('SUBJECT', 'Subject', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('SUBJECT', 'Subject', 'string', CreoleTypes::VARCHAR, false, 191);
 
 		$tMap->addColumn('CONTENT', 'Content', 'string', CreoleTypes::LONGVARCHAR, false, null);
+
+		$tMap->addForeignKey('CREATED_BY', 'CreatedBy', 'int', CreoleTypes::INTEGER, 'users', 'ID', false, null);
+
+		$tMap->addColumn('UPDATED_BY', 'UpdatedBy', 'int', CreoleTypes::INTEGER, false, null);
+
+		$tMap->addForeignKey('DELETED_BY', 'DeletedBy', 'int', CreoleTypes::INTEGER, 'users', 'ID', false, null);
 
 	} // doBuild()
 

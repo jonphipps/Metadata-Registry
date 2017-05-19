@@ -1154,7 +1154,7 @@ abstract class BaseBatch extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Batch.
 	 */
-	public function getFileImportHistorysJoinUser($criteria = null, $con = null)
+	public function getFileImportHistorysJoinUsersRelatedByUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseFileImportHistoryPeer.php';
@@ -1173,7 +1173,7 @@ abstract class BaseBatch extends BaseObject  implements Persistent {
 
 				$criteria->add(FileImportHistoryPeer::BATCH_ID, $this->getId());
 
-				$this->collFileImportHistorys = FileImportHistoryPeer::doSelectJoinUser($criteria, $con);
+				$this->collFileImportHistorys = FileImportHistoryPeer::doSelectJoinUsersRelatedByUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -1183,7 +1183,7 @@ abstract class BaseBatch extends BaseObject  implements Persistent {
 			$criteria->add(FileImportHistoryPeer::BATCH_ID, $this->getId());
 
 			if (!isset($this->lastFileImportHistoryCriteria) || !$this->lastFileImportHistoryCriteria->equals($criteria)) {
-				$this->collFileImportHistorys = FileImportHistoryPeer::doSelectJoinUser($criteria, $con);
+				$this->collFileImportHistorys = FileImportHistoryPeer::doSelectJoinUsersRelatedByUserId($criteria, $con);
 			}
 		}
 		$this->lastFileImportHistoryCriteria = $criteria;
@@ -1282,6 +1282,55 @@ abstract class BaseBatch extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastFileImportHistoryCriteria) || !$this->lastFileImportHistoryCriteria->equals($criteria)) {
 				$this->collFileImportHistorys = FileImportHistoryPeer::doSelectJoinSchema($criteria, $con);
+			}
+		}
+		$this->lastFileImportHistoryCriteria = $criteria;
+
+		return $this->collFileImportHistorys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Batch is new, it will return
+	 * an empty collection; or if this Batch has previously
+	 * been saved, it will retrieve related FileImportHistorys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Batch.
+	 */
+	public function getFileImportHistorysJoinUsersRelatedByImportedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseFileImportHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collFileImportHistorys === null) {
+			if ($this->isNew()) {
+				$this->collFileImportHistorys = array();
+			} else {
+
+				$criteria->add(FileImportHistoryPeer::BATCH_ID, $this->getId());
+
+				$this->collFileImportHistorys = FileImportHistoryPeer::doSelectJoinUsersRelatedByImportedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(FileImportHistoryPeer::BATCH_ID, $this->getId());
+
+			if (!isset($this->lastFileImportHistoryCriteria) || !$this->lastFileImportHistoryCriteria->equals($criteria)) {
+				$this->collFileImportHistorys = FileImportHistoryPeer::doSelectJoinUsersRelatedByImportedBy($criteria, $con);
 			}
 		}
 		$this->lastFileImportHistoryCriteria = $criteria;

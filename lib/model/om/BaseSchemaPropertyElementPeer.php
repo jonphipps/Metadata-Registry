@@ -19,7 +19,7 @@ abstract class BaseSchemaPropertyElementPeer {
 	const CLASS_DEFAULT = 'lib.model.SchemaPropertyElement';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 15;
+	const NUM_COLUMNS = 18;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -70,6 +70,15 @@ abstract class BaseSchemaPropertyElementPeer {
 	/** the column name for the IS_GENERATED field */
 	const IS_GENERATED = 'reg_schema_property_element.IS_GENERATED';
 
+	/** the column name for the CREATED_BY field */
+	const CREATED_BY = 'reg_schema_property_element.CREATED_BY';
+
+	/** the column name for the UPDATED_BY field */
+	const UPDATED_BY = 'reg_schema_property_element.UPDATED_BY';
+
+	/** the column name for the DELETED_BY field */
+	const DELETED_BY = 'reg_schema_property_element.DELETED_BY';
+
 	/** The PHP to DB Name Mapping */
 	private static $phpNameMap = null;
 
@@ -81,10 +90,10 @@ abstract class BaseSchemaPropertyElementPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'CreatedUserId', 'UpdatedUserId', 'DeletedUserId', 'SchemaPropertyId', 'ProfilePropertyId', 'IsSchemaProperty', 'Object', 'RelatedSchemaPropertyId', 'Language', 'StatusId', 'IsGenerated', ),
-		BasePeer::TYPE_COLNAME => array (SchemaPropertyElementPeer::ID, SchemaPropertyElementPeer::CREATED_AT, SchemaPropertyElementPeer::UPDATED_AT, SchemaPropertyElementPeer::DELETED_AT, SchemaPropertyElementPeer::CREATED_USER_ID, SchemaPropertyElementPeer::UPDATED_USER_ID, SchemaPropertyElementPeer::DELETED_USER_ID, SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, SchemaPropertyElementPeer::IS_SCHEMA_PROPERTY, SchemaPropertyElementPeer::OBJECT, SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID, SchemaPropertyElementPeer::LANGUAGE, SchemaPropertyElementPeer::STATUS_ID, SchemaPropertyElementPeer::IS_GENERATED, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'deleted_at', 'created_user_id', 'updated_user_id', 'deleted_user_id', 'schema_property_id', 'profile_property_id', 'is_schema_property', 'object', 'related_schema_property_id', 'language', 'status_id', 'is_generated', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'CreatedUserId', 'UpdatedUserId', 'DeletedUserId', 'SchemaPropertyId', 'ProfilePropertyId', 'IsSchemaProperty', 'Object', 'RelatedSchemaPropertyId', 'Language', 'StatusId', 'IsGenerated', 'CreatedBy', 'UpdatedBy', 'DeletedBy', ),
+		BasePeer::TYPE_COLNAME => array (SchemaPropertyElementPeer::ID, SchemaPropertyElementPeer::CREATED_AT, SchemaPropertyElementPeer::UPDATED_AT, SchemaPropertyElementPeer::DELETED_AT, SchemaPropertyElementPeer::CREATED_USER_ID, SchemaPropertyElementPeer::UPDATED_USER_ID, SchemaPropertyElementPeer::DELETED_USER_ID, SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, SchemaPropertyElementPeer::IS_SCHEMA_PROPERTY, SchemaPropertyElementPeer::OBJECT, SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID, SchemaPropertyElementPeer::LANGUAGE, SchemaPropertyElementPeer::STATUS_ID, SchemaPropertyElementPeer::IS_GENERATED, SchemaPropertyElementPeer::CREATED_BY, SchemaPropertyElementPeer::UPDATED_BY, SchemaPropertyElementPeer::DELETED_BY, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'deleted_at', 'created_user_id', 'updated_user_id', 'deleted_user_id', 'schema_property_id', 'profile_property_id', 'is_schema_property', 'object', 'related_schema_property_id', 'language', 'status_id', 'is_generated', 'created_by', 'updated_by', 'deleted_by', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, )
 	);
 
 	/**
@@ -94,10 +103,10 @@ abstract class BaseSchemaPropertyElementPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'DeletedAt' => 3, 'CreatedUserId' => 4, 'UpdatedUserId' => 5, 'DeletedUserId' => 6, 'SchemaPropertyId' => 7, 'ProfilePropertyId' => 8, 'IsSchemaProperty' => 9, 'Object' => 10, 'RelatedSchemaPropertyId' => 11, 'Language' => 12, 'StatusId' => 13, 'IsGenerated' => 14, ),
-		BasePeer::TYPE_COLNAME => array (SchemaPropertyElementPeer::ID => 0, SchemaPropertyElementPeer::CREATED_AT => 1, SchemaPropertyElementPeer::UPDATED_AT => 2, SchemaPropertyElementPeer::DELETED_AT => 3, SchemaPropertyElementPeer::CREATED_USER_ID => 4, SchemaPropertyElementPeer::UPDATED_USER_ID => 5, SchemaPropertyElementPeer::DELETED_USER_ID => 6, SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID => 7, SchemaPropertyElementPeer::PROFILE_PROPERTY_ID => 8, SchemaPropertyElementPeer::IS_SCHEMA_PROPERTY => 9, SchemaPropertyElementPeer::OBJECT => 10, SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID => 11, SchemaPropertyElementPeer::LANGUAGE => 12, SchemaPropertyElementPeer::STATUS_ID => 13, SchemaPropertyElementPeer::IS_GENERATED => 14, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'deleted_at' => 3, 'created_user_id' => 4, 'updated_user_id' => 5, 'deleted_user_id' => 6, 'schema_property_id' => 7, 'profile_property_id' => 8, 'is_schema_property' => 9, 'object' => 10, 'related_schema_property_id' => 11, 'language' => 12, 'status_id' => 13, 'is_generated' => 14, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'DeletedAt' => 3, 'CreatedUserId' => 4, 'UpdatedUserId' => 5, 'DeletedUserId' => 6, 'SchemaPropertyId' => 7, 'ProfilePropertyId' => 8, 'IsSchemaProperty' => 9, 'Object' => 10, 'RelatedSchemaPropertyId' => 11, 'Language' => 12, 'StatusId' => 13, 'IsGenerated' => 14, 'CreatedBy' => 15, 'UpdatedBy' => 16, 'DeletedBy' => 17, ),
+		BasePeer::TYPE_COLNAME => array (SchemaPropertyElementPeer::ID => 0, SchemaPropertyElementPeer::CREATED_AT => 1, SchemaPropertyElementPeer::UPDATED_AT => 2, SchemaPropertyElementPeer::DELETED_AT => 3, SchemaPropertyElementPeer::CREATED_USER_ID => 4, SchemaPropertyElementPeer::UPDATED_USER_ID => 5, SchemaPropertyElementPeer::DELETED_USER_ID => 6, SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID => 7, SchemaPropertyElementPeer::PROFILE_PROPERTY_ID => 8, SchemaPropertyElementPeer::IS_SCHEMA_PROPERTY => 9, SchemaPropertyElementPeer::OBJECT => 10, SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID => 11, SchemaPropertyElementPeer::LANGUAGE => 12, SchemaPropertyElementPeer::STATUS_ID => 13, SchemaPropertyElementPeer::IS_GENERATED => 14, SchemaPropertyElementPeer::CREATED_BY => 15, SchemaPropertyElementPeer::UPDATED_BY => 16, SchemaPropertyElementPeer::DELETED_BY => 17, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'deleted_at' => 3, 'created_user_id' => 4, 'updated_user_id' => 5, 'deleted_user_id' => 6, 'schema_property_id' => 7, 'profile_property_id' => 8, 'is_schema_property' => 9, 'object' => 10, 'related_schema_property_id' => 11, 'language' => 12, 'status_id' => 13, 'is_generated' => 14, 'created_by' => 15, 'updated_by' => 16, 'deleted_by' => 17, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, )
 	);
 
 	/**
@@ -227,6 +236,12 @@ abstract class BaseSchemaPropertyElementPeer {
         $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementPeer::alias($tableAlias, SchemaPropertyElementPeer::STATUS_ID) : SchemaPropertyElementPeer::STATUS_ID);
 
         $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementPeer::alias($tableAlias, SchemaPropertyElementPeer::IS_GENERATED) : SchemaPropertyElementPeer::IS_GENERATED);
+
+        $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementPeer::alias($tableAlias, SchemaPropertyElementPeer::CREATED_BY) : SchemaPropertyElementPeer::CREATED_BY);
+
+        $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementPeer::alias($tableAlias, SchemaPropertyElementPeer::UPDATED_BY) : SchemaPropertyElementPeer::UPDATED_BY);
+
+        $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementPeer::alias($tableAlias, SchemaPropertyElementPeer::DELETED_BY) : SchemaPropertyElementPeer::DELETED_BY);
 
 	}
 
@@ -365,14 +380,14 @@ abstract class BaseSchemaPropertyElementPeer {
 	}
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related UserRelatedByCreatedUserId table
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByCreatedUserId table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinUserRelatedByCreatedUserId(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinUsersRelatedByCreatedUserId(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -391,7 +406,7 @@ abstract class BaseSchemaPropertyElementPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(SchemaPropertyElementPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(SchemaPropertyElementPeer::CREATED_USER_ID, UsersPeer::ID);
 
 		$rs = SchemaPropertyElementPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -404,14 +419,14 @@ abstract class BaseSchemaPropertyElementPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related UserRelatedByUpdatedUserId table
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByUpdatedUserId table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinUserRelatedByUpdatedUserId(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinUsersRelatedByUpdatedUserId(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -430,7 +445,7 @@ abstract class BaseSchemaPropertyElementPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(SchemaPropertyElementPeer::UPDATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(SchemaPropertyElementPeer::UPDATED_USER_ID, UsersPeer::ID);
 
 		$rs = SchemaPropertyElementPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -443,14 +458,14 @@ abstract class BaseSchemaPropertyElementPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related UserRelatedByDeletedUserId table
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByDeletedUserId table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinUserRelatedByDeletedUserId(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinUsersRelatedByDeletedUserId(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -469,7 +484,7 @@ abstract class BaseSchemaPropertyElementPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(SchemaPropertyElementPeer::DELETED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(SchemaPropertyElementPeer::DELETED_USER_ID, UsersPeer::ID);
 
 		$rs = SchemaPropertyElementPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -638,13 +653,130 @@ abstract class BaseSchemaPropertyElementPeer {
 
 
 	/**
-	 * Selects a collection of SchemaPropertyElement objects pre-filled with their User objects.
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByCreatedBy table
+	 *
+	 * @param Criteria $c
+	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
+	 * @param Connection $con
+	 * @return int Number of matching rows.
+	 */
+	public static function doCountJoinUsersRelatedByCreatedBy(Criteria $criteria, $distinct = false, $con = null)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// clear out anything that might confuse the ORDER BY clause
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(SchemaPropertyElementPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(SchemaPropertyElementPeer::COUNT);
+		}
+
+		// just in case we're grouping: add those columns to the select statement
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(SchemaPropertyElementPeer::CREATED_BY, UsersPeer::ID);
+
+		$rs = SchemaPropertyElementPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			// no rows returned; we infer that means 0 matches.
+			return 0;
+		}
+	}
+
+
+	/**
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByUpdatedBy table
+	 *
+	 * @param Criteria $c
+	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
+	 * @param Connection $con
+	 * @return int Number of matching rows.
+	 */
+	public static function doCountJoinUsersRelatedByUpdatedBy(Criteria $criteria, $distinct = false, $con = null)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// clear out anything that might confuse the ORDER BY clause
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(SchemaPropertyElementPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(SchemaPropertyElementPeer::COUNT);
+		}
+
+		// just in case we're grouping: add those columns to the select statement
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(SchemaPropertyElementPeer::UPDATED_BY, UsersPeer::ID);
+
+		$rs = SchemaPropertyElementPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			// no rows returned; we infer that means 0 matches.
+			return 0;
+		}
+	}
+
+
+	/**
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByDeletedBy table
+	 *
+	 * @param Criteria $c
+	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
+	 * @param Connection $con
+	 * @return int Number of matching rows.
+	 */
+	public static function doCountJoinUsersRelatedByDeletedBy(Criteria $criteria, $distinct = false, $con = null)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// clear out anything that might confuse the ORDER BY clause
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(SchemaPropertyElementPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(SchemaPropertyElementPeer::COUNT);
+		}
+
+		// just in case we're grouping: add those columns to the select statement
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(SchemaPropertyElementPeer::DELETED_BY, UsersPeer::ID);
+
+		$rs = SchemaPropertyElementPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			// no rows returned; we infer that means 0 matches.
+			return 0;
+		}
+	}
+
+
+	/**
+	 * Selects a collection of SchemaPropertyElement objects pre-filled with their Users objects.
 	 *
 	 * @return array Array of SchemaPropertyElement objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinUserRelatedByCreatedUserId(Criteria $c, $con = null)
+	public static function doSelectJoinUsersRelatedByCreatedUserId(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -655,9 +787,9 @@ abstract class BaseSchemaPropertyElementPeer {
 
 		SchemaPropertyElementPeer::addSelectColumns($c);
 		$startcol = (SchemaPropertyElementPeer::NUM_COLUMNS - SchemaPropertyElementPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-		UserPeer::addSelectColumns($c);
+		UsersPeer::addSelectColumns($c);
 
-		$c->addJoin(SchemaPropertyElementPeer::CREATED_USER_ID, UserPeer::ID);
+		$c->addJoin(SchemaPropertyElementPeer::CREATED_USER_ID, UsersPeer::ID);
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
@@ -669,7 +801,7 @@ abstract class BaseSchemaPropertyElementPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
@@ -677,7 +809,7 @@ abstract class BaseSchemaPropertyElementPeer {
 
 			$newObject = true;
 			foreach($results as $temp_obj1) {
-				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedUserId(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedUserId(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					// e.g. $author->addBookRelatedByBookId()
@@ -696,13 +828,13 @@ abstract class BaseSchemaPropertyElementPeer {
 
 
 	/**
-	 * Selects a collection of SchemaPropertyElement objects pre-filled with their User objects.
+	 * Selects a collection of SchemaPropertyElement objects pre-filled with their Users objects.
 	 *
 	 * @return array Array of SchemaPropertyElement objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinUserRelatedByUpdatedUserId(Criteria $c, $con = null)
+	public static function doSelectJoinUsersRelatedByUpdatedUserId(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -713,9 +845,9 @@ abstract class BaseSchemaPropertyElementPeer {
 
 		SchemaPropertyElementPeer::addSelectColumns($c);
 		$startcol = (SchemaPropertyElementPeer::NUM_COLUMNS - SchemaPropertyElementPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-		UserPeer::addSelectColumns($c);
+		UsersPeer::addSelectColumns($c);
 
-		$c->addJoin(SchemaPropertyElementPeer::UPDATED_USER_ID, UserPeer::ID);
+		$c->addJoin(SchemaPropertyElementPeer::UPDATED_USER_ID, UsersPeer::ID);
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
@@ -727,7 +859,7 @@ abstract class BaseSchemaPropertyElementPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
@@ -735,7 +867,7 @@ abstract class BaseSchemaPropertyElementPeer {
 
 			$newObject = true;
 			foreach($results as $temp_obj1) {
-				$temp_obj2 = $temp_obj1->getUserRelatedByUpdatedUserId(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByUpdatedUserId(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					// e.g. $author->addBookRelatedByBookId()
@@ -754,13 +886,13 @@ abstract class BaseSchemaPropertyElementPeer {
 
 
 	/**
-	 * Selects a collection of SchemaPropertyElement objects pre-filled with their User objects.
+	 * Selects a collection of SchemaPropertyElement objects pre-filled with their Users objects.
 	 *
 	 * @return array Array of SchemaPropertyElement objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinUserRelatedByDeletedUserId(Criteria $c, $con = null)
+	public static function doSelectJoinUsersRelatedByDeletedUserId(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -771,9 +903,9 @@ abstract class BaseSchemaPropertyElementPeer {
 
 		SchemaPropertyElementPeer::addSelectColumns($c);
 		$startcol = (SchemaPropertyElementPeer::NUM_COLUMNS - SchemaPropertyElementPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-		UserPeer::addSelectColumns($c);
+		UsersPeer::addSelectColumns($c);
 
-		$c->addJoin(SchemaPropertyElementPeer::DELETED_USER_ID, UserPeer::ID);
+		$c->addJoin(SchemaPropertyElementPeer::DELETED_USER_ID, UsersPeer::ID);
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
@@ -785,7 +917,7 @@ abstract class BaseSchemaPropertyElementPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
@@ -793,7 +925,7 @@ abstract class BaseSchemaPropertyElementPeer {
 
 			$newObject = true;
 			foreach($results as $temp_obj1) {
-				$temp_obj2 = $temp_obj1->getUserRelatedByDeletedUserId(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByDeletedUserId(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					// e.g. $author->addBookRelatedByBookId()
@@ -1044,6 +1176,180 @@ abstract class BaseSchemaPropertyElementPeer {
 
 
 	/**
+	 * Selects a collection of SchemaPropertyElement objects pre-filled with their Users objects.
+	 *
+	 * @return array Array of SchemaPropertyElement objects.
+	 * @throws PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinUsersRelatedByCreatedBy(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		// Set the correct dbName if it has not been overridden
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		SchemaPropertyElementPeer::addSelectColumns($c);
+		$startcol = (SchemaPropertyElementPeer::NUM_COLUMNS - SchemaPropertyElementPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		UsersPeer::addSelectColumns($c);
+
+		$c->addJoin(SchemaPropertyElementPeer::CREATED_BY, UsersPeer::ID);
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = SchemaPropertyElementPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = UsersPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol);
+
+			$newObject = true;
+			foreach($results as $temp_obj1) {
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedBy(); //CHECKME
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					// e.g. $author->addBookRelatedByBookId()
+					$temp_obj2->addSchemaPropertyElementRelatedByCreatedBy($obj1); //CHECKME
+					break;
+				}
+			}
+			if ($newObject) {
+				$obj2->initSchemaPropertyElementsRelatedByCreatedBy();
+				$obj2->addSchemaPropertyElementRelatedByCreatedBy($obj1); //CHECKME
+			}
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	/**
+	 * Selects a collection of SchemaPropertyElement objects pre-filled with their Users objects.
+	 *
+	 * @return array Array of SchemaPropertyElement objects.
+	 * @throws PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinUsersRelatedByUpdatedBy(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		// Set the correct dbName if it has not been overridden
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		SchemaPropertyElementPeer::addSelectColumns($c);
+		$startcol = (SchemaPropertyElementPeer::NUM_COLUMNS - SchemaPropertyElementPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		UsersPeer::addSelectColumns($c);
+
+		$c->addJoin(SchemaPropertyElementPeer::UPDATED_BY, UsersPeer::ID);
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = SchemaPropertyElementPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = UsersPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol);
+
+			$newObject = true;
+			foreach($results as $temp_obj1) {
+				$temp_obj2 = $temp_obj1->getUsersRelatedByUpdatedBy(); //CHECKME
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					// e.g. $author->addBookRelatedByBookId()
+					$temp_obj2->addSchemaPropertyElementRelatedByUpdatedBy($obj1); //CHECKME
+					break;
+				}
+			}
+			if ($newObject) {
+				$obj2->initSchemaPropertyElementsRelatedByUpdatedBy();
+				$obj2->addSchemaPropertyElementRelatedByUpdatedBy($obj1); //CHECKME
+			}
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	/**
+	 * Selects a collection of SchemaPropertyElement objects pre-filled with their Users objects.
+	 *
+	 * @return array Array of SchemaPropertyElement objects.
+	 * @throws PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinUsersRelatedByDeletedBy(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		// Set the correct dbName if it has not been overridden
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		SchemaPropertyElementPeer::addSelectColumns($c);
+		$startcol = (SchemaPropertyElementPeer::NUM_COLUMNS - SchemaPropertyElementPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		UsersPeer::addSelectColumns($c);
+
+		$c->addJoin(SchemaPropertyElementPeer::DELETED_BY, UsersPeer::ID);
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = SchemaPropertyElementPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = UsersPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol);
+
+			$newObject = true;
+			foreach($results as $temp_obj1) {
+				$temp_obj2 = $temp_obj1->getUsersRelatedByDeletedBy(); //CHECKME
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					// e.g. $author->addBookRelatedByBookId()
+					$temp_obj2->addSchemaPropertyElementRelatedByDeletedBy($obj1); //CHECKME
+					break;
+				}
+			}
+			if ($newObject) {
+				$obj2->initSchemaPropertyElementsRelatedByDeletedBy();
+				$obj2->addSchemaPropertyElementRelatedByDeletedBy($obj1); //CHECKME
+			}
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	/**
 	 * Returns the number of rows matching criteria, joining all related tables
 	 *
 	 * @param Criteria $c
@@ -1069,11 +1375,11 @@ abstract class BaseSchemaPropertyElementPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(SchemaPropertyElementPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(SchemaPropertyElementPeer::CREATED_USER_ID, UsersPeer::ID);
 
-		$criteria->addJoin(SchemaPropertyElementPeer::UPDATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(SchemaPropertyElementPeer::UPDATED_USER_ID, UsersPeer::ID);
 
-		$criteria->addJoin(SchemaPropertyElementPeer::DELETED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(SchemaPropertyElementPeer::DELETED_USER_ID, UsersPeer::ID);
 
 		$criteria->addJoin(SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
 
@@ -1082,6 +1388,12 @@ abstract class BaseSchemaPropertyElementPeer {
 		$criteria->addJoin(SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
 
 		$criteria->addJoin(SchemaPropertyElementPeer::STATUS_ID, StatusPeer::ID);
+
+		$criteria->addJoin(SchemaPropertyElementPeer::CREATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(SchemaPropertyElementPeer::UPDATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(SchemaPropertyElementPeer::DELETED_BY, UsersPeer::ID);
 
 		$rs = SchemaPropertyElementPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -1112,23 +1424,23 @@ abstract class BaseSchemaPropertyElementPeer {
 		SchemaPropertyElementPeer::addSelectColumns($c);
 		$startcol2 = (SchemaPropertyElementPeer::NUM_COLUMNS - SchemaPropertyElementPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c, 'a1');
-		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c, 'a1');
+		$startcol3 = $startcol2 + UsersPeer::NUM_COLUMNS;
 
-        $c->addJoin(SchemaPropertyElementPeer::CREATED_USER_ID, UserPeer::alias('a1', UserPeer::ID));
-        $c->addAlias('a1', UserPeer::TABLE_NAME);
+        $c->addJoin(SchemaPropertyElementPeer::CREATED_USER_ID, UsersPeer::alias('a1', UsersPeer::ID));
+        $c->addAlias('a1', UsersPeer::TABLE_NAME);
 
-		UserPeer::addSelectColumns($c, 'a2');
-		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c, 'a2');
+		$startcol4 = $startcol3 + UsersPeer::NUM_COLUMNS;
 
-        $c->addJoin(SchemaPropertyElementPeer::UPDATED_USER_ID, UserPeer::alias('a2', UserPeer::ID));
-        $c->addAlias('a2', UserPeer::TABLE_NAME);
+        $c->addJoin(SchemaPropertyElementPeer::UPDATED_USER_ID, UsersPeer::alias('a2', UsersPeer::ID));
+        $c->addAlias('a2', UsersPeer::TABLE_NAME);
 
-		UserPeer::addSelectColumns($c, 'a3');
-		$startcol5 = $startcol4 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c, 'a3');
+		$startcol5 = $startcol4 + UsersPeer::NUM_COLUMNS;
 
-        $c->addJoin(SchemaPropertyElementPeer::DELETED_USER_ID, UserPeer::alias('a3', UserPeer::ID));
-        $c->addAlias('a3', UserPeer::TABLE_NAME);
+        $c->addJoin(SchemaPropertyElementPeer::DELETED_USER_ID, UsersPeer::alias('a3', UsersPeer::ID));
+        $c->addAlias('a3', UsersPeer::TABLE_NAME);
 
 		SchemaPropertyPeer::addSelectColumns($c, 'a4');
 		$startcol6 = $startcol5 + SchemaPropertyPeer::NUM_COLUMNS;
@@ -1154,6 +1466,24 @@ abstract class BaseSchemaPropertyElementPeer {
         $c->addJoin(SchemaPropertyElementPeer::STATUS_ID, StatusPeer::alias('a7', StatusPeer::ID));
         $c->addAlias('a7', StatusPeer::TABLE_NAME);
 
+		UsersPeer::addSelectColumns($c, 'a8');
+		$startcol10 = $startcol9 + UsersPeer::NUM_COLUMNS;
+
+        $c->addJoin(SchemaPropertyElementPeer::CREATED_BY, UsersPeer::alias('a8', UsersPeer::ID));
+        $c->addAlias('a8', UsersPeer::TABLE_NAME);
+
+		UsersPeer::addSelectColumns($c, 'a9');
+		$startcol11 = $startcol10 + UsersPeer::NUM_COLUMNS;
+
+        $c->addJoin(SchemaPropertyElementPeer::UPDATED_BY, UsersPeer::alias('a9', UsersPeer::ID));
+        $c->addAlias('a9', UsersPeer::TABLE_NAME);
+
+		UsersPeer::addSelectColumns($c, 'a10');
+		$startcol12 = $startcol11 + UsersPeer::NUM_COLUMNS;
+
+        $c->addJoin(SchemaPropertyElementPeer::DELETED_BY, UsersPeer::alias('a10', UsersPeer::ID));
+        $c->addAlias('a10', UsersPeer::TABLE_NAME);
+
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
@@ -1167,9 +1497,9 @@ abstract class BaseSchemaPropertyElementPeer {
 			$obj1->hydrate($rs);
 
 
-				// Add objects for joined User rows
+				// Add objects for joined Users rows
 	
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -1179,7 +1509,7 @@ abstract class BaseSchemaPropertyElementPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedUserId(); // CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedUserId(); // CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addSchemaPropertyElementRelatedByCreatedUserId($obj1); // CHECKME
@@ -1193,9 +1523,9 @@ abstract class BaseSchemaPropertyElementPeer {
 			}
 
 
-				// Add objects for joined User rows
+				// Add objects for joined Users rows
 	
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -1205,7 +1535,7 @@ abstract class BaseSchemaPropertyElementPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getUserRelatedByUpdatedUserId(); // CHECKME
+				$temp_obj3 = $temp_obj1->getUsersRelatedByUpdatedUserId(); // CHECKME
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj3->addSchemaPropertyElementRelatedByUpdatedUserId($obj1); // CHECKME
@@ -1219,9 +1549,9 @@ abstract class BaseSchemaPropertyElementPeer {
 			}
 
 
-				// Add objects for joined User rows
+				// Add objects for joined Users rows
 	
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -1231,7 +1561,7 @@ abstract class BaseSchemaPropertyElementPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj4 = $temp_obj1->getUserRelatedByDeletedUserId(); // CHECKME
+				$temp_obj4 = $temp_obj1->getUsersRelatedByDeletedUserId(); // CHECKME
 				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj4->addSchemaPropertyElementRelatedByDeletedUserId($obj1); // CHECKME
@@ -1348,6 +1678,84 @@ abstract class BaseSchemaPropertyElementPeer {
 				$obj8->addSchemaPropertyElement($obj1);
 			}
 
+
+				// Add objects for joined Users rows
+	
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj9 = new $cls();
+			$obj9->hydrate($rs, $startcol9);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj9 = $temp_obj1->getUsersRelatedByCreatedBy(); // CHECKME
+				if ($temp_obj9->getPrimaryKey() === $obj9->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj9->addSchemaPropertyElementRelatedByCreatedBy($obj1); // CHECKME
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj9->initSchemaPropertyElementsRelatedByCreatedBy();
+				$obj9->addSchemaPropertyElementRelatedByCreatedBy($obj1);
+			}
+
+
+				// Add objects for joined Users rows
+	
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj10 = new $cls();
+			$obj10->hydrate($rs, $startcol10);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj10 = $temp_obj1->getUsersRelatedByUpdatedBy(); // CHECKME
+				if ($temp_obj10->getPrimaryKey() === $obj10->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj10->addSchemaPropertyElementRelatedByUpdatedBy($obj1); // CHECKME
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj10->initSchemaPropertyElementsRelatedByUpdatedBy();
+				$obj10->addSchemaPropertyElementRelatedByUpdatedBy($obj1);
+			}
+
+
+				// Add objects for joined Users rows
+	
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj11 = new $cls();
+			$obj11->hydrate($rs, $startcol11);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj11 = $temp_obj1->getUsersRelatedByDeletedBy(); // CHECKME
+				if ($temp_obj11->getPrimaryKey() === $obj11->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj11->addSchemaPropertyElementRelatedByDeletedBy($obj1); // CHECKME
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj11->initSchemaPropertyElementsRelatedByDeletedBy();
+				$obj11->addSchemaPropertyElementRelatedByDeletedBy($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -1355,14 +1763,14 @@ abstract class BaseSchemaPropertyElementPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related UserRelatedByCreatedUserId table
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByCreatedUserId table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinAllExceptUserRelatedByCreatedUserId(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinAllExceptUsersRelatedByCreatedUserId(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -1400,14 +1808,14 @@ abstract class BaseSchemaPropertyElementPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related UserRelatedByUpdatedUserId table
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByUpdatedUserId table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinAllExceptUserRelatedByUpdatedUserId(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinAllExceptUsersRelatedByUpdatedUserId(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -1445,14 +1853,14 @@ abstract class BaseSchemaPropertyElementPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related UserRelatedByDeletedUserId table
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByDeletedUserId table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinAllExceptUserRelatedByDeletedUserId(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinAllExceptUsersRelatedByDeletedUserId(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -1516,15 +1924,21 @@ abstract class BaseSchemaPropertyElementPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(SchemaPropertyElementPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(SchemaPropertyElementPeer::CREATED_USER_ID, UsersPeer::ID);
 
-		$criteria->addJoin(SchemaPropertyElementPeer::UPDATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(SchemaPropertyElementPeer::UPDATED_USER_ID, UsersPeer::ID);
 
-		$criteria->addJoin(SchemaPropertyElementPeer::DELETED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(SchemaPropertyElementPeer::DELETED_USER_ID, UsersPeer::ID);
 
 		$criteria->addJoin(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::ID);
 
 		$criteria->addJoin(SchemaPropertyElementPeer::STATUS_ID, StatusPeer::ID);
+
+		$criteria->addJoin(SchemaPropertyElementPeer::CREATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(SchemaPropertyElementPeer::UPDATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(SchemaPropertyElementPeer::DELETED_BY, UsersPeer::ID);
 
 		$rs = SchemaPropertyElementPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -1563,17 +1977,23 @@ abstract class BaseSchemaPropertyElementPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(SchemaPropertyElementPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(SchemaPropertyElementPeer::CREATED_USER_ID, UsersPeer::ID);
 
-		$criteria->addJoin(SchemaPropertyElementPeer::UPDATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(SchemaPropertyElementPeer::UPDATED_USER_ID, UsersPeer::ID);
 
-		$criteria->addJoin(SchemaPropertyElementPeer::DELETED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(SchemaPropertyElementPeer::DELETED_USER_ID, UsersPeer::ID);
 
 		$criteria->addJoin(SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
 
 		$criteria->addJoin(SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
 
 		$criteria->addJoin(SchemaPropertyElementPeer::STATUS_ID, StatusPeer::ID);
+
+		$criteria->addJoin(SchemaPropertyElementPeer::CREATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(SchemaPropertyElementPeer::UPDATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(SchemaPropertyElementPeer::DELETED_BY, UsersPeer::ID);
 
 		$rs = SchemaPropertyElementPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -1612,15 +2032,21 @@ abstract class BaseSchemaPropertyElementPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(SchemaPropertyElementPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(SchemaPropertyElementPeer::CREATED_USER_ID, UsersPeer::ID);
 
-		$criteria->addJoin(SchemaPropertyElementPeer::UPDATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(SchemaPropertyElementPeer::UPDATED_USER_ID, UsersPeer::ID);
 
-		$criteria->addJoin(SchemaPropertyElementPeer::DELETED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(SchemaPropertyElementPeer::DELETED_USER_ID, UsersPeer::ID);
 
 		$criteria->addJoin(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::ID);
 
 		$criteria->addJoin(SchemaPropertyElementPeer::STATUS_ID, StatusPeer::ID);
+
+		$criteria->addJoin(SchemaPropertyElementPeer::CREATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(SchemaPropertyElementPeer::UPDATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(SchemaPropertyElementPeer::DELETED_BY, UsersPeer::ID);
 
 		$rs = SchemaPropertyElementPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -1659,17 +2085,23 @@ abstract class BaseSchemaPropertyElementPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(SchemaPropertyElementPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(SchemaPropertyElementPeer::CREATED_USER_ID, UsersPeer::ID);
 
-		$criteria->addJoin(SchemaPropertyElementPeer::UPDATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(SchemaPropertyElementPeer::UPDATED_USER_ID, UsersPeer::ID);
 
-		$criteria->addJoin(SchemaPropertyElementPeer::DELETED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(SchemaPropertyElementPeer::DELETED_USER_ID, UsersPeer::ID);
 
 		$criteria->addJoin(SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
 
 		$criteria->addJoin(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::ID);
 
 		$criteria->addJoin(SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
+
+		$criteria->addJoin(SchemaPropertyElementPeer::CREATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(SchemaPropertyElementPeer::UPDATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(SchemaPropertyElementPeer::DELETED_BY, UsersPeer::ID);
 
 		$rs = SchemaPropertyElementPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -1682,13 +2114,148 @@ abstract class BaseSchemaPropertyElementPeer {
 
 
 	/**
-	 * Selects a collection of SchemaPropertyElement objects pre-filled with all related objects except UserRelatedByCreatedUserId.
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByCreatedBy table
+	 *
+	 * @param Criteria $c
+	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
+	 * @param Connection $con
+	 * @return int Number of matching rows.
+	 */
+	public static function doCountJoinAllExceptUsersRelatedByCreatedBy(Criteria $criteria, $distinct = false, $con = null)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// clear out anything that might confuse the ORDER BY clause
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(SchemaPropertyElementPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(SchemaPropertyElementPeer::COUNT);
+		}
+
+		// just in case we're grouping: add those columns to the select statement
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
+
+		$criteria->addJoin(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::ID);
+
+		$criteria->addJoin(SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
+
+		$criteria->addJoin(SchemaPropertyElementPeer::STATUS_ID, StatusPeer::ID);
+
+		$rs = SchemaPropertyElementPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			// no rows returned; we infer that means 0 matches.
+			return 0;
+		}
+	}
+
+
+	/**
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByUpdatedBy table
+	 *
+	 * @param Criteria $c
+	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
+	 * @param Connection $con
+	 * @return int Number of matching rows.
+	 */
+	public static function doCountJoinAllExceptUsersRelatedByUpdatedBy(Criteria $criteria, $distinct = false, $con = null)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// clear out anything that might confuse the ORDER BY clause
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(SchemaPropertyElementPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(SchemaPropertyElementPeer::COUNT);
+		}
+
+		// just in case we're grouping: add those columns to the select statement
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
+
+		$criteria->addJoin(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::ID);
+
+		$criteria->addJoin(SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
+
+		$criteria->addJoin(SchemaPropertyElementPeer::STATUS_ID, StatusPeer::ID);
+
+		$rs = SchemaPropertyElementPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			// no rows returned; we infer that means 0 matches.
+			return 0;
+		}
+	}
+
+
+	/**
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByDeletedBy table
+	 *
+	 * @param Criteria $c
+	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
+	 * @param Connection $con
+	 * @return int Number of matching rows.
+	 */
+	public static function doCountJoinAllExceptUsersRelatedByDeletedBy(Criteria $criteria, $distinct = false, $con = null)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// clear out anything that might confuse the ORDER BY clause
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(SchemaPropertyElementPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(SchemaPropertyElementPeer::COUNT);
+		}
+
+		// just in case we're grouping: add those columns to the select statement
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
+
+		$criteria->addJoin(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::ID);
+
+		$criteria->addJoin(SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
+
+		$criteria->addJoin(SchemaPropertyElementPeer::STATUS_ID, StatusPeer::ID);
+
+		$rs = SchemaPropertyElementPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			// no rows returned; we infer that means 0 matches.
+			return 0;
+		}
+	}
+
+
+	/**
+	 * Selects a collection of SchemaPropertyElement objects pre-filled with all related objects except UsersRelatedByCreatedUserId.
 	 *
 	 * @return array Array of SchemaPropertyElement objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinAllExceptUserRelatedByCreatedUserId(Criteria $c, $con = null)
+	public static function doSelectJoinAllExceptUsersRelatedByCreatedUserId(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -1833,13 +2400,13 @@ abstract class BaseSchemaPropertyElementPeer {
 
 
 	/**
-	 * Selects a collection of SchemaPropertyElement objects pre-filled with all related objects except UserRelatedByUpdatedUserId.
+	 * Selects a collection of SchemaPropertyElement objects pre-filled with all related objects except UsersRelatedByUpdatedUserId.
 	 *
 	 * @return array Array of SchemaPropertyElement objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinAllExceptUserRelatedByUpdatedUserId(Criteria $c, $con = null)
+	public static function doSelectJoinAllExceptUsersRelatedByUpdatedUserId(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -1984,13 +2551,13 @@ abstract class BaseSchemaPropertyElementPeer {
 
 
 	/**
-	 * Selects a collection of SchemaPropertyElement objects pre-filled with all related objects except UserRelatedByDeletedUserId.
+	 * Selects a collection of SchemaPropertyElement objects pre-filled with all related objects except UsersRelatedByDeletedUserId.
 	 *
 	 * @return array Array of SchemaPropertyElement objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinAllExceptUserRelatedByDeletedUserId(Criteria $c, $con = null)
+	public static function doSelectJoinAllExceptUsersRelatedByDeletedUserId(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -2155,14 +2722,14 @@ abstract class BaseSchemaPropertyElementPeer {
 		SchemaPropertyElementPeer::addSelectColumns($c);
 		$startcol2 = (SchemaPropertyElementPeer::NUM_COLUMNS - SchemaPropertyElementPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + UsersPeer::NUM_COLUMNS;
 
-		UserPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + UsersPeer::NUM_COLUMNS;
 
-		UserPeer::addSelectColumns($c);
-		$startcol5 = $startcol4 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol5 = $startcol4 + UsersPeer::NUM_COLUMNS;
 
 		ProfilePropertyPeer::addSelectColumns($c);
 		$startcol6 = $startcol5 + ProfilePropertyPeer::NUM_COLUMNS;
@@ -2170,15 +2737,30 @@ abstract class BaseSchemaPropertyElementPeer {
 		StatusPeer::addSelectColumns($c);
 		$startcol7 = $startcol6 + StatusPeer::NUM_COLUMNS;
 
-		$c->addJoin(SchemaPropertyElementPeer::CREATED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol8 = $startcol7 + UsersPeer::NUM_COLUMNS;
 
-		$c->addJoin(SchemaPropertyElementPeer::UPDATED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol9 = $startcol8 + UsersPeer::NUM_COLUMNS;
 
-		$c->addJoin(SchemaPropertyElementPeer::DELETED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol10 = $startcol9 + UsersPeer::NUM_COLUMNS;
+
+		$c->addJoin(SchemaPropertyElementPeer::CREATED_USER_ID, UsersPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementPeer::UPDATED_USER_ID, UsersPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementPeer::DELETED_USER_ID, UsersPeer::ID);
 
 		$c->addJoin(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::ID);
 
 		$c->addJoin(SchemaPropertyElementPeer::STATUS_ID, StatusPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementPeer::CREATED_BY, UsersPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementPeer::UPDATED_BY, UsersPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementPeer::DELETED_BY, UsersPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -2192,7 +2774,7 @@ abstract class BaseSchemaPropertyElementPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -2202,7 +2784,7 @@ abstract class BaseSchemaPropertyElementPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedUserId(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedUserId(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addSchemaPropertyElementRelatedByCreatedUserId($obj1);
@@ -2215,7 +2797,7 @@ abstract class BaseSchemaPropertyElementPeer {
 				$obj2->addSchemaPropertyElementRelatedByCreatedUserId($obj1);
 			}
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -2225,7 +2807,7 @@ abstract class BaseSchemaPropertyElementPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getUserRelatedByUpdatedUserId(); //CHECKME
+				$temp_obj3 = $temp_obj1->getUsersRelatedByUpdatedUserId(); //CHECKME
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj3->addSchemaPropertyElementRelatedByUpdatedUserId($obj1);
@@ -2238,7 +2820,7 @@ abstract class BaseSchemaPropertyElementPeer {
 				$obj3->addSchemaPropertyElementRelatedByUpdatedUserId($obj1);
 			}
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -2248,7 +2830,7 @@ abstract class BaseSchemaPropertyElementPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj4 = $temp_obj1->getUserRelatedByDeletedUserId(); //CHECKME
+				$temp_obj4 = $temp_obj1->getUsersRelatedByDeletedUserId(); //CHECKME
 				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj4->addSchemaPropertyElementRelatedByDeletedUserId($obj1);
@@ -2307,6 +2889,75 @@ abstract class BaseSchemaPropertyElementPeer {
 				$obj6->addSchemaPropertyElement($obj1);
 			}
 
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj7  = new $cls();
+			$obj7->hydrate($rs, $startcol7);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj7 = $temp_obj1->getUsersRelatedByCreatedBy(); //CHECKME
+				if ($temp_obj7->getPrimaryKey() === $obj7->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj7->addSchemaPropertyElementRelatedByCreatedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj7->initSchemaPropertyElementsRelatedByCreatedBy();
+				$obj7->addSchemaPropertyElementRelatedByCreatedBy($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj8  = new $cls();
+			$obj8->hydrate($rs, $startcol8);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj8 = $temp_obj1->getUsersRelatedByUpdatedBy(); //CHECKME
+				if ($temp_obj8->getPrimaryKey() === $obj8->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj8->addSchemaPropertyElementRelatedByUpdatedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj8->initSchemaPropertyElementsRelatedByUpdatedBy();
+				$obj8->addSchemaPropertyElementRelatedByUpdatedBy($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj9  = new $cls();
+			$obj9->hydrate($rs, $startcol9);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj9 = $temp_obj1->getUsersRelatedByDeletedBy(); //CHECKME
+				if ($temp_obj9->getPrimaryKey() === $obj9->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj9->addSchemaPropertyElementRelatedByDeletedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj9->initSchemaPropertyElementsRelatedByDeletedBy();
+				$obj9->addSchemaPropertyElementRelatedByDeletedBy($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -2334,14 +2985,14 @@ abstract class BaseSchemaPropertyElementPeer {
 		SchemaPropertyElementPeer::addSelectColumns($c);
 		$startcol2 = (SchemaPropertyElementPeer::NUM_COLUMNS - SchemaPropertyElementPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + UsersPeer::NUM_COLUMNS;
 
-		UserPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + UsersPeer::NUM_COLUMNS;
 
-		UserPeer::addSelectColumns($c);
-		$startcol5 = $startcol4 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol5 = $startcol4 + UsersPeer::NUM_COLUMNS;
 
 		SchemaPropertyPeer::addSelectColumns($c);
 		$startcol6 = $startcol5 + SchemaPropertyPeer::NUM_COLUMNS;
@@ -2352,17 +3003,32 @@ abstract class BaseSchemaPropertyElementPeer {
 		StatusPeer::addSelectColumns($c);
 		$startcol8 = $startcol7 + StatusPeer::NUM_COLUMNS;
 
-		$c->addJoin(SchemaPropertyElementPeer::CREATED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol9 = $startcol8 + UsersPeer::NUM_COLUMNS;
 
-		$c->addJoin(SchemaPropertyElementPeer::UPDATED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol10 = $startcol9 + UsersPeer::NUM_COLUMNS;
 
-		$c->addJoin(SchemaPropertyElementPeer::DELETED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol11 = $startcol10 + UsersPeer::NUM_COLUMNS;
+
+		$c->addJoin(SchemaPropertyElementPeer::CREATED_USER_ID, UsersPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementPeer::UPDATED_USER_ID, UsersPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementPeer::DELETED_USER_ID, UsersPeer::ID);
 
 		$c->addJoin(SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
 
 		$c->addJoin(SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
 
 		$c->addJoin(SchemaPropertyElementPeer::STATUS_ID, StatusPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementPeer::CREATED_BY, UsersPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementPeer::UPDATED_BY, UsersPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementPeer::DELETED_BY, UsersPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -2376,7 +3042,7 @@ abstract class BaseSchemaPropertyElementPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -2386,7 +3052,7 @@ abstract class BaseSchemaPropertyElementPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedUserId(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedUserId(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addSchemaPropertyElementRelatedByCreatedUserId($obj1);
@@ -2399,7 +3065,7 @@ abstract class BaseSchemaPropertyElementPeer {
 				$obj2->addSchemaPropertyElementRelatedByCreatedUserId($obj1);
 			}
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -2409,7 +3075,7 @@ abstract class BaseSchemaPropertyElementPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getUserRelatedByUpdatedUserId(); //CHECKME
+				$temp_obj3 = $temp_obj1->getUsersRelatedByUpdatedUserId(); //CHECKME
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj3->addSchemaPropertyElementRelatedByUpdatedUserId($obj1);
@@ -2422,7 +3088,7 @@ abstract class BaseSchemaPropertyElementPeer {
 				$obj3->addSchemaPropertyElementRelatedByUpdatedUserId($obj1);
 			}
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -2432,7 +3098,7 @@ abstract class BaseSchemaPropertyElementPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj4 = $temp_obj1->getUserRelatedByDeletedUserId(); //CHECKME
+				$temp_obj4 = $temp_obj1->getUsersRelatedByDeletedUserId(); //CHECKME
 				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj4->addSchemaPropertyElementRelatedByDeletedUserId($obj1);
@@ -2514,6 +3180,75 @@ abstract class BaseSchemaPropertyElementPeer {
 				$obj7->addSchemaPropertyElement($obj1);
 			}
 
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj8  = new $cls();
+			$obj8->hydrate($rs, $startcol8);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj8 = $temp_obj1->getUsersRelatedByCreatedBy(); //CHECKME
+				if ($temp_obj8->getPrimaryKey() === $obj8->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj8->addSchemaPropertyElementRelatedByCreatedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj8->initSchemaPropertyElementsRelatedByCreatedBy();
+				$obj8->addSchemaPropertyElementRelatedByCreatedBy($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj9  = new $cls();
+			$obj9->hydrate($rs, $startcol9);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj9 = $temp_obj1->getUsersRelatedByUpdatedBy(); //CHECKME
+				if ($temp_obj9->getPrimaryKey() === $obj9->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj9->addSchemaPropertyElementRelatedByUpdatedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj9->initSchemaPropertyElementsRelatedByUpdatedBy();
+				$obj9->addSchemaPropertyElementRelatedByUpdatedBy($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj10  = new $cls();
+			$obj10->hydrate($rs, $startcol10);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj10 = $temp_obj1->getUsersRelatedByDeletedBy(); //CHECKME
+				if ($temp_obj10->getPrimaryKey() === $obj10->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj10->addSchemaPropertyElementRelatedByDeletedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj10->initSchemaPropertyElementsRelatedByDeletedBy();
+				$obj10->addSchemaPropertyElementRelatedByDeletedBy($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -2541,14 +3276,14 @@ abstract class BaseSchemaPropertyElementPeer {
 		SchemaPropertyElementPeer::addSelectColumns($c);
 		$startcol2 = (SchemaPropertyElementPeer::NUM_COLUMNS - SchemaPropertyElementPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + UsersPeer::NUM_COLUMNS;
 
-		UserPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + UsersPeer::NUM_COLUMNS;
 
-		UserPeer::addSelectColumns($c);
-		$startcol5 = $startcol4 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol5 = $startcol4 + UsersPeer::NUM_COLUMNS;
 
 		ProfilePropertyPeer::addSelectColumns($c);
 		$startcol6 = $startcol5 + ProfilePropertyPeer::NUM_COLUMNS;
@@ -2556,15 +3291,30 @@ abstract class BaseSchemaPropertyElementPeer {
 		StatusPeer::addSelectColumns($c);
 		$startcol7 = $startcol6 + StatusPeer::NUM_COLUMNS;
 
-		$c->addJoin(SchemaPropertyElementPeer::CREATED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol8 = $startcol7 + UsersPeer::NUM_COLUMNS;
 
-		$c->addJoin(SchemaPropertyElementPeer::UPDATED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol9 = $startcol8 + UsersPeer::NUM_COLUMNS;
 
-		$c->addJoin(SchemaPropertyElementPeer::DELETED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol10 = $startcol9 + UsersPeer::NUM_COLUMNS;
+
+		$c->addJoin(SchemaPropertyElementPeer::CREATED_USER_ID, UsersPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementPeer::UPDATED_USER_ID, UsersPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementPeer::DELETED_USER_ID, UsersPeer::ID);
 
 		$c->addJoin(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::ID);
 
 		$c->addJoin(SchemaPropertyElementPeer::STATUS_ID, StatusPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementPeer::CREATED_BY, UsersPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementPeer::UPDATED_BY, UsersPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementPeer::DELETED_BY, UsersPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -2578,7 +3328,7 @@ abstract class BaseSchemaPropertyElementPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -2588,7 +3338,7 @@ abstract class BaseSchemaPropertyElementPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedUserId(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedUserId(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addSchemaPropertyElementRelatedByCreatedUserId($obj1);
@@ -2601,7 +3351,7 @@ abstract class BaseSchemaPropertyElementPeer {
 				$obj2->addSchemaPropertyElementRelatedByCreatedUserId($obj1);
 			}
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -2611,7 +3361,7 @@ abstract class BaseSchemaPropertyElementPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getUserRelatedByUpdatedUserId(); //CHECKME
+				$temp_obj3 = $temp_obj1->getUsersRelatedByUpdatedUserId(); //CHECKME
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj3->addSchemaPropertyElementRelatedByUpdatedUserId($obj1);
@@ -2624,7 +3374,7 @@ abstract class BaseSchemaPropertyElementPeer {
 				$obj3->addSchemaPropertyElementRelatedByUpdatedUserId($obj1);
 			}
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -2634,7 +3384,7 @@ abstract class BaseSchemaPropertyElementPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj4 = $temp_obj1->getUserRelatedByDeletedUserId(); //CHECKME
+				$temp_obj4 = $temp_obj1->getUsersRelatedByDeletedUserId(); //CHECKME
 				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj4->addSchemaPropertyElementRelatedByDeletedUserId($obj1);
@@ -2693,6 +3443,75 @@ abstract class BaseSchemaPropertyElementPeer {
 				$obj6->addSchemaPropertyElement($obj1);
 			}
 
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj7  = new $cls();
+			$obj7->hydrate($rs, $startcol7);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj7 = $temp_obj1->getUsersRelatedByCreatedBy(); //CHECKME
+				if ($temp_obj7->getPrimaryKey() === $obj7->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj7->addSchemaPropertyElementRelatedByCreatedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj7->initSchemaPropertyElementsRelatedByCreatedBy();
+				$obj7->addSchemaPropertyElementRelatedByCreatedBy($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj8  = new $cls();
+			$obj8->hydrate($rs, $startcol8);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj8 = $temp_obj1->getUsersRelatedByUpdatedBy(); //CHECKME
+				if ($temp_obj8->getPrimaryKey() === $obj8->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj8->addSchemaPropertyElementRelatedByUpdatedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj8->initSchemaPropertyElementsRelatedByUpdatedBy();
+				$obj8->addSchemaPropertyElementRelatedByUpdatedBy($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj9  = new $cls();
+			$obj9->hydrate($rs, $startcol9);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj9 = $temp_obj1->getUsersRelatedByDeletedBy(); //CHECKME
+				if ($temp_obj9->getPrimaryKey() === $obj9->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj9->addSchemaPropertyElementRelatedByDeletedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj9->initSchemaPropertyElementsRelatedByDeletedBy();
+				$obj9->addSchemaPropertyElementRelatedByDeletedBy($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -2720,14 +3539,14 @@ abstract class BaseSchemaPropertyElementPeer {
 		SchemaPropertyElementPeer::addSelectColumns($c);
 		$startcol2 = (SchemaPropertyElementPeer::NUM_COLUMNS - SchemaPropertyElementPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + UsersPeer::NUM_COLUMNS;
 
-		UserPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + UsersPeer::NUM_COLUMNS;
 
-		UserPeer::addSelectColumns($c);
-		$startcol5 = $startcol4 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol5 = $startcol4 + UsersPeer::NUM_COLUMNS;
 
 		SchemaPropertyPeer::addSelectColumns($c);
 		$startcol6 = $startcol5 + SchemaPropertyPeer::NUM_COLUMNS;
@@ -2738,17 +3557,32 @@ abstract class BaseSchemaPropertyElementPeer {
 		SchemaPropertyPeer::addSelectColumns($c);
 		$startcol8 = $startcol7 + SchemaPropertyPeer::NUM_COLUMNS;
 
-		$c->addJoin(SchemaPropertyElementPeer::CREATED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol9 = $startcol8 + UsersPeer::NUM_COLUMNS;
 
-		$c->addJoin(SchemaPropertyElementPeer::UPDATED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol10 = $startcol9 + UsersPeer::NUM_COLUMNS;
 
-		$c->addJoin(SchemaPropertyElementPeer::DELETED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol11 = $startcol10 + UsersPeer::NUM_COLUMNS;
+
+		$c->addJoin(SchemaPropertyElementPeer::CREATED_USER_ID, UsersPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementPeer::UPDATED_USER_ID, UsersPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementPeer::DELETED_USER_ID, UsersPeer::ID);
 
 		$c->addJoin(SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
 
 		$c->addJoin(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::ID);
 
 		$c->addJoin(SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementPeer::CREATED_BY, UsersPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementPeer::UPDATED_BY, UsersPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementPeer::DELETED_BY, UsersPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -2762,7 +3596,7 @@ abstract class BaseSchemaPropertyElementPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -2772,7 +3606,7 @@ abstract class BaseSchemaPropertyElementPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedUserId(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedUserId(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addSchemaPropertyElementRelatedByCreatedUserId($obj1);
@@ -2785,7 +3619,7 @@ abstract class BaseSchemaPropertyElementPeer {
 				$obj2->addSchemaPropertyElementRelatedByCreatedUserId($obj1);
 			}
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -2795,7 +3629,7 @@ abstract class BaseSchemaPropertyElementPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getUserRelatedByUpdatedUserId(); //CHECKME
+				$temp_obj3 = $temp_obj1->getUsersRelatedByUpdatedUserId(); //CHECKME
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj3->addSchemaPropertyElementRelatedByUpdatedUserId($obj1);
@@ -2808,7 +3642,7 @@ abstract class BaseSchemaPropertyElementPeer {
 				$obj3->addSchemaPropertyElementRelatedByUpdatedUserId($obj1);
 			}
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -2818,7 +3652,7 @@ abstract class BaseSchemaPropertyElementPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj4 = $temp_obj1->getUserRelatedByDeletedUserId(); //CHECKME
+				$temp_obj4 = $temp_obj1->getUsersRelatedByDeletedUserId(); //CHECKME
 				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj4->addSchemaPropertyElementRelatedByDeletedUserId($obj1);
@@ -2898,6 +3732,528 @@ abstract class BaseSchemaPropertyElementPeer {
 			if ($newObject) {
 				$obj7->initSchemaPropertyElementsRelatedByRelatedSchemaPropertyId();
 				$obj7->addSchemaPropertyElementRelatedByRelatedSchemaPropertyId($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj8  = new $cls();
+			$obj8->hydrate($rs, $startcol8);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj8 = $temp_obj1->getUsersRelatedByCreatedBy(); //CHECKME
+				if ($temp_obj8->getPrimaryKey() === $obj8->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj8->addSchemaPropertyElementRelatedByCreatedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj8->initSchemaPropertyElementsRelatedByCreatedBy();
+				$obj8->addSchemaPropertyElementRelatedByCreatedBy($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj9  = new $cls();
+			$obj9->hydrate($rs, $startcol9);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj9 = $temp_obj1->getUsersRelatedByUpdatedBy(); //CHECKME
+				if ($temp_obj9->getPrimaryKey() === $obj9->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj9->addSchemaPropertyElementRelatedByUpdatedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj9->initSchemaPropertyElementsRelatedByUpdatedBy();
+				$obj9->addSchemaPropertyElementRelatedByUpdatedBy($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj10  = new $cls();
+			$obj10->hydrate($rs, $startcol10);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj10 = $temp_obj1->getUsersRelatedByDeletedBy(); //CHECKME
+				if ($temp_obj10->getPrimaryKey() === $obj10->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj10->addSchemaPropertyElementRelatedByDeletedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj10->initSchemaPropertyElementsRelatedByDeletedBy();
+				$obj10->addSchemaPropertyElementRelatedByDeletedBy($obj1);
+			}
+
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	/**
+	 * Selects a collection of SchemaPropertyElement objects pre-filled with all related objects except UsersRelatedByCreatedBy.
+	 *
+	 * @return array Array of SchemaPropertyElement objects.
+	 * @throws PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinAllExceptUsersRelatedByCreatedBy(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		// Set the correct dbName if it has not been overridden
+		// $c->getDbName() will return the same object if not set to another value
+		// so == check is okay and faster
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		SchemaPropertyElementPeer::addSelectColumns($c);
+		$startcol2 = (SchemaPropertyElementPeer::NUM_COLUMNS - SchemaPropertyElementPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+		SchemaPropertyPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + SchemaPropertyPeer::NUM_COLUMNS;
+
+		ProfilePropertyPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + ProfilePropertyPeer::NUM_COLUMNS;
+
+		SchemaPropertyPeer::addSelectColumns($c);
+		$startcol5 = $startcol4 + SchemaPropertyPeer::NUM_COLUMNS;
+
+		StatusPeer::addSelectColumns($c);
+		$startcol6 = $startcol5 + StatusPeer::NUM_COLUMNS;
+
+		$c->addJoin(SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementPeer::STATUS_ID, StatusPeer::ID);
+
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = SchemaPropertyElementPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = SchemaPropertyPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj2  = new $cls();
+			$obj2->hydrate($rs, $startcol2);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj2 = $temp_obj1->getSchemaPropertyRelatedBySchemaPropertyId(); //CHECKME
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj2->addSchemaPropertyElementRelatedBySchemaPropertyId($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj2->initSchemaPropertyElementsRelatedBySchemaPropertyId();
+				$obj2->addSchemaPropertyElementRelatedBySchemaPropertyId($obj1);
+			}
+
+			$omClass = ProfilePropertyPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj3  = new $cls();
+			$obj3->hydrate($rs, $startcol3);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj3 = $temp_obj1->getProfileProperty(); //CHECKME
+				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj3->addSchemaPropertyElement($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj3->initSchemaPropertyElements();
+				$obj3->addSchemaPropertyElement($obj1);
+			}
+
+			$omClass = SchemaPropertyPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj4  = new $cls();
+			$obj4->hydrate($rs, $startcol4);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj4 = $temp_obj1->getSchemaPropertyRelatedByRelatedSchemaPropertyId(); //CHECKME
+				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj4->addSchemaPropertyElementRelatedByRelatedSchemaPropertyId($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj4->initSchemaPropertyElementsRelatedByRelatedSchemaPropertyId();
+				$obj4->addSchemaPropertyElementRelatedByRelatedSchemaPropertyId($obj1);
+			}
+
+			$omClass = StatusPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj5  = new $cls();
+			$obj5->hydrate($rs, $startcol5);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj5 = $temp_obj1->getStatus(); //CHECKME
+				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj5->addSchemaPropertyElement($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj5->initSchemaPropertyElements();
+				$obj5->addSchemaPropertyElement($obj1);
+			}
+
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	/**
+	 * Selects a collection of SchemaPropertyElement objects pre-filled with all related objects except UsersRelatedByUpdatedBy.
+	 *
+	 * @return array Array of SchemaPropertyElement objects.
+	 * @throws PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinAllExceptUsersRelatedByUpdatedBy(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		// Set the correct dbName if it has not been overridden
+		// $c->getDbName() will return the same object if not set to another value
+		// so == check is okay and faster
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		SchemaPropertyElementPeer::addSelectColumns($c);
+		$startcol2 = (SchemaPropertyElementPeer::NUM_COLUMNS - SchemaPropertyElementPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+		SchemaPropertyPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + SchemaPropertyPeer::NUM_COLUMNS;
+
+		ProfilePropertyPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + ProfilePropertyPeer::NUM_COLUMNS;
+
+		SchemaPropertyPeer::addSelectColumns($c);
+		$startcol5 = $startcol4 + SchemaPropertyPeer::NUM_COLUMNS;
+
+		StatusPeer::addSelectColumns($c);
+		$startcol6 = $startcol5 + StatusPeer::NUM_COLUMNS;
+
+		$c->addJoin(SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementPeer::STATUS_ID, StatusPeer::ID);
+
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = SchemaPropertyElementPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = SchemaPropertyPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj2  = new $cls();
+			$obj2->hydrate($rs, $startcol2);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj2 = $temp_obj1->getSchemaPropertyRelatedBySchemaPropertyId(); //CHECKME
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj2->addSchemaPropertyElementRelatedBySchemaPropertyId($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj2->initSchemaPropertyElementsRelatedBySchemaPropertyId();
+				$obj2->addSchemaPropertyElementRelatedBySchemaPropertyId($obj1);
+			}
+
+			$omClass = ProfilePropertyPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj3  = new $cls();
+			$obj3->hydrate($rs, $startcol3);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj3 = $temp_obj1->getProfileProperty(); //CHECKME
+				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj3->addSchemaPropertyElement($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj3->initSchemaPropertyElements();
+				$obj3->addSchemaPropertyElement($obj1);
+			}
+
+			$omClass = SchemaPropertyPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj4  = new $cls();
+			$obj4->hydrate($rs, $startcol4);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj4 = $temp_obj1->getSchemaPropertyRelatedByRelatedSchemaPropertyId(); //CHECKME
+				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj4->addSchemaPropertyElementRelatedByRelatedSchemaPropertyId($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj4->initSchemaPropertyElementsRelatedByRelatedSchemaPropertyId();
+				$obj4->addSchemaPropertyElementRelatedByRelatedSchemaPropertyId($obj1);
+			}
+
+			$omClass = StatusPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj5  = new $cls();
+			$obj5->hydrate($rs, $startcol5);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj5 = $temp_obj1->getStatus(); //CHECKME
+				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj5->addSchemaPropertyElement($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj5->initSchemaPropertyElements();
+				$obj5->addSchemaPropertyElement($obj1);
+			}
+
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	/**
+	 * Selects a collection of SchemaPropertyElement objects pre-filled with all related objects except UsersRelatedByDeletedBy.
+	 *
+	 * @return array Array of SchemaPropertyElement objects.
+	 * @throws PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinAllExceptUsersRelatedByDeletedBy(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		// Set the correct dbName if it has not been overridden
+		// $c->getDbName() will return the same object if not set to another value
+		// so == check is okay and faster
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		SchemaPropertyElementPeer::addSelectColumns($c);
+		$startcol2 = (SchemaPropertyElementPeer::NUM_COLUMNS - SchemaPropertyElementPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+		SchemaPropertyPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + SchemaPropertyPeer::NUM_COLUMNS;
+
+		ProfilePropertyPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + ProfilePropertyPeer::NUM_COLUMNS;
+
+		SchemaPropertyPeer::addSelectColumns($c);
+		$startcol5 = $startcol4 + SchemaPropertyPeer::NUM_COLUMNS;
+
+		StatusPeer::addSelectColumns($c);
+		$startcol6 = $startcol5 + StatusPeer::NUM_COLUMNS;
+
+		$c->addJoin(SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
+
+		$c->addJoin(SchemaPropertyElementPeer::STATUS_ID, StatusPeer::ID);
+
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = SchemaPropertyElementPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = SchemaPropertyPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj2  = new $cls();
+			$obj2->hydrate($rs, $startcol2);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj2 = $temp_obj1->getSchemaPropertyRelatedBySchemaPropertyId(); //CHECKME
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj2->addSchemaPropertyElementRelatedBySchemaPropertyId($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj2->initSchemaPropertyElementsRelatedBySchemaPropertyId();
+				$obj2->addSchemaPropertyElementRelatedBySchemaPropertyId($obj1);
+			}
+
+			$omClass = ProfilePropertyPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj3  = new $cls();
+			$obj3->hydrate($rs, $startcol3);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj3 = $temp_obj1->getProfileProperty(); //CHECKME
+				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj3->addSchemaPropertyElement($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj3->initSchemaPropertyElements();
+				$obj3->addSchemaPropertyElement($obj1);
+			}
+
+			$omClass = SchemaPropertyPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj4  = new $cls();
+			$obj4->hydrate($rs, $startcol4);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj4 = $temp_obj1->getSchemaPropertyRelatedByRelatedSchemaPropertyId(); //CHECKME
+				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj4->addSchemaPropertyElementRelatedByRelatedSchemaPropertyId($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj4->initSchemaPropertyElementsRelatedByRelatedSchemaPropertyId();
+				$obj4->addSchemaPropertyElementRelatedByRelatedSchemaPropertyId($obj1);
+			}
+
+			$omClass = StatusPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj5  = new $cls();
+			$obj5->hydrate($rs, $startcol5);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj5 = $temp_obj1->getStatus(); //CHECKME
+				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj5->addSchemaPropertyElement($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj5->initSchemaPropertyElements();
+				$obj5->addSchemaPropertyElement($obj1);
 			}
 
 			$results[] = $obj1;

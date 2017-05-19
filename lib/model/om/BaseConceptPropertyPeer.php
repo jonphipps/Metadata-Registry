@@ -19,7 +19,7 @@ abstract class BaseConceptPropertyPeer {
 	const CLASS_DEFAULT = 'lib.model.ConceptProperty';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 18;
+	const NUM_COLUMNS = 21;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -79,6 +79,15 @@ abstract class BaseConceptPropertyPeer {
 	/** the column name for the IS_GENERATED field */
 	const IS_GENERATED = 'reg_concept_property.IS_GENERATED';
 
+	/** the column name for the CREATED_BY field */
+	const CREATED_BY = 'reg_concept_property.CREATED_BY';
+
+	/** the column name for the UPDATED_BY field */
+	const UPDATED_BY = 'reg_concept_property.UPDATED_BY';
+
+	/** the column name for the DELETED_BY field */
+	const DELETED_BY = 'reg_concept_property.DELETED_BY';
+
 	/** The PHP to DB Name Mapping */
 	private static $phpNameMap = null;
 
@@ -90,10 +99,10 @@ abstract class BaseConceptPropertyPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'LastUpdated', 'CreatedUserId', 'UpdatedUserId', 'ConceptId', 'PrimaryPrefLabel', 'SkosPropertyId', 'Object', 'SchemeId', 'RelatedConceptId', 'Language', 'StatusId', 'IsConceptProperty', 'ProfilePropertyId', 'IsGenerated', ),
-		BasePeer::TYPE_COLNAME => array (ConceptPropertyPeer::ID, ConceptPropertyPeer::CREATED_AT, ConceptPropertyPeer::UPDATED_AT, ConceptPropertyPeer::DELETED_AT, ConceptPropertyPeer::LAST_UPDATED, ConceptPropertyPeer::CREATED_USER_ID, ConceptPropertyPeer::UPDATED_USER_ID, ConceptPropertyPeer::CONCEPT_ID, ConceptPropertyPeer::PRIMARY_PREF_LABEL, ConceptPropertyPeer::SKOS_PROPERTY_ID, ConceptPropertyPeer::OBJECT, ConceptPropertyPeer::SCHEME_ID, ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPropertyPeer::LANGUAGE, ConceptPropertyPeer::STATUS_ID, ConceptPropertyPeer::IS_CONCEPT_PROPERTY, ConceptPropertyPeer::PROFILE_PROPERTY_ID, ConceptPropertyPeer::IS_GENERATED, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'deleted_at', 'last_updated', 'created_user_id', 'updated_user_id', 'concept_id', 'primary_pref_label', 'skos_property_id', 'object', 'scheme_id', 'related_concept_id', 'language', 'status_id', 'is_concept_property', 'profile_property_id', 'is_generated', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'LastUpdated', 'CreatedUserId', 'UpdatedUserId', 'ConceptId', 'PrimaryPrefLabel', 'SkosPropertyId', 'Object', 'SchemeId', 'RelatedConceptId', 'Language', 'StatusId', 'IsConceptProperty', 'ProfilePropertyId', 'IsGenerated', 'CreatedBy', 'UpdatedBy', 'DeletedBy', ),
+		BasePeer::TYPE_COLNAME => array (ConceptPropertyPeer::ID, ConceptPropertyPeer::CREATED_AT, ConceptPropertyPeer::UPDATED_AT, ConceptPropertyPeer::DELETED_AT, ConceptPropertyPeer::LAST_UPDATED, ConceptPropertyPeer::CREATED_USER_ID, ConceptPropertyPeer::UPDATED_USER_ID, ConceptPropertyPeer::CONCEPT_ID, ConceptPropertyPeer::PRIMARY_PREF_LABEL, ConceptPropertyPeer::SKOS_PROPERTY_ID, ConceptPropertyPeer::OBJECT, ConceptPropertyPeer::SCHEME_ID, ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPropertyPeer::LANGUAGE, ConceptPropertyPeer::STATUS_ID, ConceptPropertyPeer::IS_CONCEPT_PROPERTY, ConceptPropertyPeer::PROFILE_PROPERTY_ID, ConceptPropertyPeer::IS_GENERATED, ConceptPropertyPeer::CREATED_BY, ConceptPropertyPeer::UPDATED_BY, ConceptPropertyPeer::DELETED_BY, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'deleted_at', 'last_updated', 'created_user_id', 'updated_user_id', 'concept_id', 'primary_pref_label', 'skos_property_id', 'object', 'scheme_id', 'related_concept_id', 'language', 'status_id', 'is_concept_property', 'profile_property_id', 'is_generated', 'created_by', 'updated_by', 'deleted_by', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, )
 	);
 
 	/**
@@ -103,10 +112,10 @@ abstract class BaseConceptPropertyPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'DeletedAt' => 3, 'LastUpdated' => 4, 'CreatedUserId' => 5, 'UpdatedUserId' => 6, 'ConceptId' => 7, 'PrimaryPrefLabel' => 8, 'SkosPropertyId' => 9, 'Object' => 10, 'SchemeId' => 11, 'RelatedConceptId' => 12, 'Language' => 13, 'StatusId' => 14, 'IsConceptProperty' => 15, 'ProfilePropertyId' => 16, 'IsGenerated' => 17, ),
-		BasePeer::TYPE_COLNAME => array (ConceptPropertyPeer::ID => 0, ConceptPropertyPeer::CREATED_AT => 1, ConceptPropertyPeer::UPDATED_AT => 2, ConceptPropertyPeer::DELETED_AT => 3, ConceptPropertyPeer::LAST_UPDATED => 4, ConceptPropertyPeer::CREATED_USER_ID => 5, ConceptPropertyPeer::UPDATED_USER_ID => 6, ConceptPropertyPeer::CONCEPT_ID => 7, ConceptPropertyPeer::PRIMARY_PREF_LABEL => 8, ConceptPropertyPeer::SKOS_PROPERTY_ID => 9, ConceptPropertyPeer::OBJECT => 10, ConceptPropertyPeer::SCHEME_ID => 11, ConceptPropertyPeer::RELATED_CONCEPT_ID => 12, ConceptPropertyPeer::LANGUAGE => 13, ConceptPropertyPeer::STATUS_ID => 14, ConceptPropertyPeer::IS_CONCEPT_PROPERTY => 15, ConceptPropertyPeer::PROFILE_PROPERTY_ID => 16, ConceptPropertyPeer::IS_GENERATED => 17, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'deleted_at' => 3, 'last_updated' => 4, 'created_user_id' => 5, 'updated_user_id' => 6, 'concept_id' => 7, 'primary_pref_label' => 8, 'skos_property_id' => 9, 'object' => 10, 'scheme_id' => 11, 'related_concept_id' => 12, 'language' => 13, 'status_id' => 14, 'is_concept_property' => 15, 'profile_property_id' => 16, 'is_generated' => 17, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'DeletedAt' => 3, 'LastUpdated' => 4, 'CreatedUserId' => 5, 'UpdatedUserId' => 6, 'ConceptId' => 7, 'PrimaryPrefLabel' => 8, 'SkosPropertyId' => 9, 'Object' => 10, 'SchemeId' => 11, 'RelatedConceptId' => 12, 'Language' => 13, 'StatusId' => 14, 'IsConceptProperty' => 15, 'ProfilePropertyId' => 16, 'IsGenerated' => 17, 'CreatedBy' => 18, 'UpdatedBy' => 19, 'DeletedBy' => 20, ),
+		BasePeer::TYPE_COLNAME => array (ConceptPropertyPeer::ID => 0, ConceptPropertyPeer::CREATED_AT => 1, ConceptPropertyPeer::UPDATED_AT => 2, ConceptPropertyPeer::DELETED_AT => 3, ConceptPropertyPeer::LAST_UPDATED => 4, ConceptPropertyPeer::CREATED_USER_ID => 5, ConceptPropertyPeer::UPDATED_USER_ID => 6, ConceptPropertyPeer::CONCEPT_ID => 7, ConceptPropertyPeer::PRIMARY_PREF_LABEL => 8, ConceptPropertyPeer::SKOS_PROPERTY_ID => 9, ConceptPropertyPeer::OBJECT => 10, ConceptPropertyPeer::SCHEME_ID => 11, ConceptPropertyPeer::RELATED_CONCEPT_ID => 12, ConceptPropertyPeer::LANGUAGE => 13, ConceptPropertyPeer::STATUS_ID => 14, ConceptPropertyPeer::IS_CONCEPT_PROPERTY => 15, ConceptPropertyPeer::PROFILE_PROPERTY_ID => 16, ConceptPropertyPeer::IS_GENERATED => 17, ConceptPropertyPeer::CREATED_BY => 18, ConceptPropertyPeer::UPDATED_BY => 19, ConceptPropertyPeer::DELETED_BY => 20, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'deleted_at' => 3, 'last_updated' => 4, 'created_user_id' => 5, 'updated_user_id' => 6, 'concept_id' => 7, 'primary_pref_label' => 8, 'skos_property_id' => 9, 'object' => 10, 'scheme_id' => 11, 'related_concept_id' => 12, 'language' => 13, 'status_id' => 14, 'is_concept_property' => 15, 'profile_property_id' => 16, 'is_generated' => 17, 'created_by' => 18, 'updated_by' => 19, 'deleted_by' => 20, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, )
 	);
 
 	/**
@@ -242,6 +251,12 @@ abstract class BaseConceptPropertyPeer {
         $criteria->addSelectColumn(($tableAlias) ? ConceptPropertyPeer::alias($tableAlias, ConceptPropertyPeer::PROFILE_PROPERTY_ID) : ConceptPropertyPeer::PROFILE_PROPERTY_ID);
 
         $criteria->addSelectColumn(($tableAlias) ? ConceptPropertyPeer::alias($tableAlias, ConceptPropertyPeer::IS_GENERATED) : ConceptPropertyPeer::IS_GENERATED);
+
+        $criteria->addSelectColumn(($tableAlias) ? ConceptPropertyPeer::alias($tableAlias, ConceptPropertyPeer::CREATED_BY) : ConceptPropertyPeer::CREATED_BY);
+
+        $criteria->addSelectColumn(($tableAlias) ? ConceptPropertyPeer::alias($tableAlias, ConceptPropertyPeer::UPDATED_BY) : ConceptPropertyPeer::UPDATED_BY);
+
+        $criteria->addSelectColumn(($tableAlias) ? ConceptPropertyPeer::alias($tableAlias, ConceptPropertyPeer::DELETED_BY) : ConceptPropertyPeer::DELETED_BY);
 
 	}
 
@@ -380,14 +395,14 @@ abstract class BaseConceptPropertyPeer {
 	}
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related UserRelatedByCreatedUserId table
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByCreatedUserId table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinUserRelatedByCreatedUserId(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinUsersRelatedByCreatedUserId(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -406,7 +421,7 @@ abstract class BaseConceptPropertyPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(ConceptPropertyPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(ConceptPropertyPeer::CREATED_USER_ID, UsersPeer::ID);
 
 		$rs = ConceptPropertyPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -419,14 +434,14 @@ abstract class BaseConceptPropertyPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related UserRelatedByUpdatedUserId table
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByUpdatedUserId table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinUserRelatedByUpdatedUserId(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinUsersRelatedByUpdatedUserId(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -445,7 +460,7 @@ abstract class BaseConceptPropertyPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UsersPeer::ID);
 
 		$rs = ConceptPropertyPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -692,13 +707,130 @@ abstract class BaseConceptPropertyPeer {
 
 
 	/**
-	 * Selects a collection of ConceptProperty objects pre-filled with their User objects.
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByCreatedBy table
+	 *
+	 * @param Criteria $c
+	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
+	 * @param Connection $con
+	 * @return int Number of matching rows.
+	 */
+	public static function doCountJoinUsersRelatedByCreatedBy(Criteria $criteria, $distinct = false, $con = null)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// clear out anything that might confuse the ORDER BY clause
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(ConceptPropertyPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(ConceptPropertyPeer::COUNT);
+		}
+
+		// just in case we're grouping: add those columns to the select statement
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(ConceptPropertyPeer::CREATED_BY, UsersPeer::ID);
+
+		$rs = ConceptPropertyPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			// no rows returned; we infer that means 0 matches.
+			return 0;
+		}
+	}
+
+
+	/**
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByUpdatedBy table
+	 *
+	 * @param Criteria $c
+	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
+	 * @param Connection $con
+	 * @return int Number of matching rows.
+	 */
+	public static function doCountJoinUsersRelatedByUpdatedBy(Criteria $criteria, $distinct = false, $con = null)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// clear out anything that might confuse the ORDER BY clause
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(ConceptPropertyPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(ConceptPropertyPeer::COUNT);
+		}
+
+		// just in case we're grouping: add those columns to the select statement
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(ConceptPropertyPeer::UPDATED_BY, UsersPeer::ID);
+
+		$rs = ConceptPropertyPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			// no rows returned; we infer that means 0 matches.
+			return 0;
+		}
+	}
+
+
+	/**
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByDeletedBy table
+	 *
+	 * @param Criteria $c
+	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
+	 * @param Connection $con
+	 * @return int Number of matching rows.
+	 */
+	public static function doCountJoinUsersRelatedByDeletedBy(Criteria $criteria, $distinct = false, $con = null)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// clear out anything that might confuse the ORDER BY clause
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(ConceptPropertyPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(ConceptPropertyPeer::COUNT);
+		}
+
+		// just in case we're grouping: add those columns to the select statement
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(ConceptPropertyPeer::DELETED_BY, UsersPeer::ID);
+
+		$rs = ConceptPropertyPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			// no rows returned; we infer that means 0 matches.
+			return 0;
+		}
+	}
+
+
+	/**
+	 * Selects a collection of ConceptProperty objects pre-filled with their Users objects.
 	 *
 	 * @return array Array of ConceptProperty objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinUserRelatedByCreatedUserId(Criteria $c, $con = null)
+	public static function doSelectJoinUsersRelatedByCreatedUserId(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -709,9 +841,9 @@ abstract class BaseConceptPropertyPeer {
 
 		ConceptPropertyPeer::addSelectColumns($c);
 		$startcol = (ConceptPropertyPeer::NUM_COLUMNS - ConceptPropertyPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-		UserPeer::addSelectColumns($c);
+		UsersPeer::addSelectColumns($c);
 
-		$c->addJoin(ConceptPropertyPeer::CREATED_USER_ID, UserPeer::ID);
+		$c->addJoin(ConceptPropertyPeer::CREATED_USER_ID, UsersPeer::ID);
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
@@ -723,7 +855,7 @@ abstract class BaseConceptPropertyPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
@@ -731,7 +863,7 @@ abstract class BaseConceptPropertyPeer {
 
 			$newObject = true;
 			foreach($results as $temp_obj1) {
-				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedUserId(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedUserId(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					// e.g. $author->addBookRelatedByBookId()
@@ -750,13 +882,13 @@ abstract class BaseConceptPropertyPeer {
 
 
 	/**
-	 * Selects a collection of ConceptProperty objects pre-filled with their User objects.
+	 * Selects a collection of ConceptProperty objects pre-filled with their Users objects.
 	 *
 	 * @return array Array of ConceptProperty objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinUserRelatedByUpdatedUserId(Criteria $c, $con = null)
+	public static function doSelectJoinUsersRelatedByUpdatedUserId(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -767,9 +899,9 @@ abstract class BaseConceptPropertyPeer {
 
 		ConceptPropertyPeer::addSelectColumns($c);
 		$startcol = (ConceptPropertyPeer::NUM_COLUMNS - ConceptPropertyPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-		UserPeer::addSelectColumns($c);
+		UsersPeer::addSelectColumns($c);
 
-		$c->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UserPeer::ID);
+		$c->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UsersPeer::ID);
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
@@ -781,7 +913,7 @@ abstract class BaseConceptPropertyPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
@@ -789,7 +921,7 @@ abstract class BaseConceptPropertyPeer {
 
 			$newObject = true;
 			foreach($results as $temp_obj1) {
-				$temp_obj2 = $temp_obj1->getUserRelatedByUpdatedUserId(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByUpdatedUserId(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					// e.g. $author->addBookRelatedByBookId()
@@ -1156,6 +1288,180 @@ abstract class BaseConceptPropertyPeer {
 
 
 	/**
+	 * Selects a collection of ConceptProperty objects pre-filled with their Users objects.
+	 *
+	 * @return array Array of ConceptProperty objects.
+	 * @throws PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinUsersRelatedByCreatedBy(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		// Set the correct dbName if it has not been overridden
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		ConceptPropertyPeer::addSelectColumns($c);
+		$startcol = (ConceptPropertyPeer::NUM_COLUMNS - ConceptPropertyPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		UsersPeer::addSelectColumns($c);
+
+		$c->addJoin(ConceptPropertyPeer::CREATED_BY, UsersPeer::ID);
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = ConceptPropertyPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = UsersPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol);
+
+			$newObject = true;
+			foreach($results as $temp_obj1) {
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedBy(); //CHECKME
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					// e.g. $author->addBookRelatedByBookId()
+					$temp_obj2->addConceptPropertyRelatedByCreatedBy($obj1); //CHECKME
+					break;
+				}
+			}
+			if ($newObject) {
+				$obj2->initConceptPropertysRelatedByCreatedBy();
+				$obj2->addConceptPropertyRelatedByCreatedBy($obj1); //CHECKME
+			}
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	/**
+	 * Selects a collection of ConceptProperty objects pre-filled with their Users objects.
+	 *
+	 * @return array Array of ConceptProperty objects.
+	 * @throws PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinUsersRelatedByUpdatedBy(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		// Set the correct dbName if it has not been overridden
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		ConceptPropertyPeer::addSelectColumns($c);
+		$startcol = (ConceptPropertyPeer::NUM_COLUMNS - ConceptPropertyPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		UsersPeer::addSelectColumns($c);
+
+		$c->addJoin(ConceptPropertyPeer::UPDATED_BY, UsersPeer::ID);
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = ConceptPropertyPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = UsersPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol);
+
+			$newObject = true;
+			foreach($results as $temp_obj1) {
+				$temp_obj2 = $temp_obj1->getUsersRelatedByUpdatedBy(); //CHECKME
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					// e.g. $author->addBookRelatedByBookId()
+					$temp_obj2->addConceptPropertyRelatedByUpdatedBy($obj1); //CHECKME
+					break;
+				}
+			}
+			if ($newObject) {
+				$obj2->initConceptPropertysRelatedByUpdatedBy();
+				$obj2->addConceptPropertyRelatedByUpdatedBy($obj1); //CHECKME
+			}
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	/**
+	 * Selects a collection of ConceptProperty objects pre-filled with their Users objects.
+	 *
+	 * @return array Array of ConceptProperty objects.
+	 * @throws PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinUsersRelatedByDeletedBy(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		// Set the correct dbName if it has not been overridden
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		ConceptPropertyPeer::addSelectColumns($c);
+		$startcol = (ConceptPropertyPeer::NUM_COLUMNS - ConceptPropertyPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		UsersPeer::addSelectColumns($c);
+
+		$c->addJoin(ConceptPropertyPeer::DELETED_BY, UsersPeer::ID);
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = ConceptPropertyPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = UsersPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol);
+
+			$newObject = true;
+			foreach($results as $temp_obj1) {
+				$temp_obj2 = $temp_obj1->getUsersRelatedByDeletedBy(); //CHECKME
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					// e.g. $author->addBookRelatedByBookId()
+					$temp_obj2->addConceptPropertyRelatedByDeletedBy($obj1); //CHECKME
+					break;
+				}
+			}
+			if ($newObject) {
+				$obj2->initConceptPropertysRelatedByDeletedBy();
+				$obj2->addConceptPropertyRelatedByDeletedBy($obj1); //CHECKME
+			}
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	/**
 	 * Returns the number of rows matching criteria, joining all related tables
 	 *
 	 * @param Criteria $c
@@ -1181,9 +1487,9 @@ abstract class BaseConceptPropertyPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(ConceptPropertyPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(ConceptPropertyPeer::CREATED_USER_ID, UsersPeer::ID);
 
-		$criteria->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UsersPeer::ID);
 
 		$criteria->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
 
@@ -1196,6 +1502,12 @@ abstract class BaseConceptPropertyPeer {
 		$criteria->addJoin(ConceptPropertyPeer::STATUS_ID, StatusPeer::ID);
 
 		$criteria->addJoin(ConceptPropertyPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::CREATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::UPDATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::DELETED_BY, UsersPeer::ID);
 
 		$rs = ConceptPropertyPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -1226,17 +1538,17 @@ abstract class BaseConceptPropertyPeer {
 		ConceptPropertyPeer::addSelectColumns($c);
 		$startcol2 = (ConceptPropertyPeer::NUM_COLUMNS - ConceptPropertyPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c, 'a1');
-		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c, 'a1');
+		$startcol3 = $startcol2 + UsersPeer::NUM_COLUMNS;
 
-        $c->addJoin(ConceptPropertyPeer::CREATED_USER_ID, UserPeer::alias('a1', UserPeer::ID));
-        $c->addAlias('a1', UserPeer::TABLE_NAME);
+        $c->addJoin(ConceptPropertyPeer::CREATED_USER_ID, UsersPeer::alias('a1', UsersPeer::ID));
+        $c->addAlias('a1', UsersPeer::TABLE_NAME);
 
-		UserPeer::addSelectColumns($c, 'a2');
-		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c, 'a2');
+		$startcol4 = $startcol3 + UsersPeer::NUM_COLUMNS;
 
-        $c->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UserPeer::alias('a2', UserPeer::ID));
-        $c->addAlias('a2', UserPeer::TABLE_NAME);
+        $c->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UsersPeer::alias('a2', UsersPeer::ID));
+        $c->addAlias('a2', UsersPeer::TABLE_NAME);
 
 		ConceptPeer::addSelectColumns($c, 'a3');
 		$startcol5 = $startcol4 + ConceptPeer::NUM_COLUMNS;
@@ -1274,6 +1586,24 @@ abstract class BaseConceptPropertyPeer {
         $c->addJoin(ConceptPropertyPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::alias('a8', ProfilePropertyPeer::ID));
         $c->addAlias('a8', ProfilePropertyPeer::TABLE_NAME);
 
+		UsersPeer::addSelectColumns($c, 'a9');
+		$startcol11 = $startcol10 + UsersPeer::NUM_COLUMNS;
+
+        $c->addJoin(ConceptPropertyPeer::CREATED_BY, UsersPeer::alias('a9', UsersPeer::ID));
+        $c->addAlias('a9', UsersPeer::TABLE_NAME);
+
+		UsersPeer::addSelectColumns($c, 'a10');
+		$startcol12 = $startcol11 + UsersPeer::NUM_COLUMNS;
+
+        $c->addJoin(ConceptPropertyPeer::UPDATED_BY, UsersPeer::alias('a10', UsersPeer::ID));
+        $c->addAlias('a10', UsersPeer::TABLE_NAME);
+
+		UsersPeer::addSelectColumns($c, 'a11');
+		$startcol13 = $startcol12 + UsersPeer::NUM_COLUMNS;
+
+        $c->addJoin(ConceptPropertyPeer::DELETED_BY, UsersPeer::alias('a11', UsersPeer::ID));
+        $c->addAlias('a11', UsersPeer::TABLE_NAME);
+
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
@@ -1287,9 +1617,9 @@ abstract class BaseConceptPropertyPeer {
 			$obj1->hydrate($rs);
 
 
-				// Add objects for joined User rows
+				// Add objects for joined Users rows
 	
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -1299,7 +1629,7 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedUserId(); // CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedUserId(); // CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addConceptPropertyRelatedByCreatedUserId($obj1); // CHECKME
@@ -1313,9 +1643,9 @@ abstract class BaseConceptPropertyPeer {
 			}
 
 
-				// Add objects for joined User rows
+				// Add objects for joined Users rows
 	
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -1325,7 +1655,7 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getUserRelatedByUpdatedUserId(); // CHECKME
+				$temp_obj3 = $temp_obj1->getUsersRelatedByUpdatedUserId(); // CHECKME
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj3->addConceptPropertyRelatedByUpdatedUserId($obj1); // CHECKME
@@ -1494,6 +1824,84 @@ abstract class BaseConceptPropertyPeer {
 				$obj9->addConceptPropertyRelatedByProfilePropertyId($obj1);
 			}
 
+
+				// Add objects for joined Users rows
+	
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj10 = new $cls();
+			$obj10->hydrate($rs, $startcol10);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj10 = $temp_obj1->getUsersRelatedByCreatedBy(); // CHECKME
+				if ($temp_obj10->getPrimaryKey() === $obj10->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj10->addConceptPropertyRelatedByCreatedBy($obj1); // CHECKME
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj10->initConceptPropertysRelatedByCreatedBy();
+				$obj10->addConceptPropertyRelatedByCreatedBy($obj1);
+			}
+
+
+				// Add objects for joined Users rows
+	
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj11 = new $cls();
+			$obj11->hydrate($rs, $startcol11);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj11 = $temp_obj1->getUsersRelatedByUpdatedBy(); // CHECKME
+				if ($temp_obj11->getPrimaryKey() === $obj11->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj11->addConceptPropertyRelatedByUpdatedBy($obj1); // CHECKME
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj11->initConceptPropertysRelatedByUpdatedBy();
+				$obj11->addConceptPropertyRelatedByUpdatedBy($obj1);
+			}
+
+
+				// Add objects for joined Users rows
+	
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj12 = new $cls();
+			$obj12->hydrate($rs, $startcol12);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj12 = $temp_obj1->getUsersRelatedByDeletedBy(); // CHECKME
+				if ($temp_obj12->getPrimaryKey() === $obj12->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj12->addConceptPropertyRelatedByDeletedBy($obj1); // CHECKME
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj12->initConceptPropertysRelatedByDeletedBy();
+				$obj12->addConceptPropertyRelatedByDeletedBy($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -1501,14 +1909,14 @@ abstract class BaseConceptPropertyPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related UserRelatedByCreatedUserId table
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByCreatedUserId table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinAllExceptUserRelatedByCreatedUserId(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinAllExceptUsersRelatedByCreatedUserId(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -1550,14 +1958,14 @@ abstract class BaseConceptPropertyPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related UserRelatedByUpdatedUserId table
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByUpdatedUserId table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinAllExceptUserRelatedByUpdatedUserId(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinAllExceptUsersRelatedByUpdatedUserId(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -1625,9 +2033,9 @@ abstract class BaseConceptPropertyPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(ConceptPropertyPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(ConceptPropertyPeer::CREATED_USER_ID, UsersPeer::ID);
 
-		$criteria->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UsersPeer::ID);
 
 		$criteria->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, ProfilePropertyPeer::SKOS_ID);
 
@@ -1636,6 +2044,12 @@ abstract class BaseConceptPropertyPeer {
 		$criteria->addJoin(ConceptPropertyPeer::STATUS_ID, StatusPeer::ID);
 
 		$criteria->addJoin(ConceptPropertyPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::CREATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::UPDATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::DELETED_BY, UsersPeer::ID);
 
 		$rs = ConceptPropertyPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -1674,9 +2088,9 @@ abstract class BaseConceptPropertyPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(ConceptPropertyPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(ConceptPropertyPeer::CREATED_USER_ID, UsersPeer::ID);
 
-		$criteria->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UsersPeer::ID);
 
 		$criteria->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
 
@@ -1685,6 +2099,12 @@ abstract class BaseConceptPropertyPeer {
 		$criteria->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
 
 		$criteria->addJoin(ConceptPropertyPeer::STATUS_ID, StatusPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::CREATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::UPDATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::DELETED_BY, UsersPeer::ID);
 
 		$rs = ConceptPropertyPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -1723,9 +2143,9 @@ abstract class BaseConceptPropertyPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(ConceptPropertyPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(ConceptPropertyPeer::CREATED_USER_ID, UsersPeer::ID);
 
-		$criteria->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UsersPeer::ID);
 
 		$criteria->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
 
@@ -1736,6 +2156,12 @@ abstract class BaseConceptPropertyPeer {
 		$criteria->addJoin(ConceptPropertyPeer::STATUS_ID, StatusPeer::ID);
 
 		$criteria->addJoin(ConceptPropertyPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::CREATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::UPDATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::DELETED_BY, UsersPeer::ID);
 
 		$rs = ConceptPropertyPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -1774,9 +2200,9 @@ abstract class BaseConceptPropertyPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(ConceptPropertyPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(ConceptPropertyPeer::CREATED_USER_ID, UsersPeer::ID);
 
-		$criteria->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UsersPeer::ID);
 
 		$criteria->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, ProfilePropertyPeer::SKOS_ID);
 
@@ -1785,6 +2211,12 @@ abstract class BaseConceptPropertyPeer {
 		$criteria->addJoin(ConceptPropertyPeer::STATUS_ID, StatusPeer::ID);
 
 		$criteria->addJoin(ConceptPropertyPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::CREATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::UPDATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::DELETED_BY, UsersPeer::ID);
 
 		$rs = ConceptPropertyPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -1823,9 +2255,9 @@ abstract class BaseConceptPropertyPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(ConceptPropertyPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(ConceptPropertyPeer::CREATED_USER_ID, UsersPeer::ID);
 
-		$criteria->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UsersPeer::ID);
 
 		$criteria->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
 
@@ -1836,6 +2268,12 @@ abstract class BaseConceptPropertyPeer {
 		$criteria->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
 
 		$criteria->addJoin(ConceptPropertyPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::CREATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::UPDATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::DELETED_BY, UsersPeer::ID);
 
 		$rs = ConceptPropertyPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -1874,9 +2312,9 @@ abstract class BaseConceptPropertyPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(ConceptPropertyPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(ConceptPropertyPeer::CREATED_USER_ID, UsersPeer::ID);
 
-		$criteria->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UsersPeer::ID);
 
 		$criteria->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
 
@@ -1885,6 +2323,12 @@ abstract class BaseConceptPropertyPeer {
 		$criteria->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
 
 		$criteria->addJoin(ConceptPropertyPeer::STATUS_ID, StatusPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::CREATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::UPDATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::DELETED_BY, UsersPeer::ID);
 
 		$rs = ConceptPropertyPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -1897,13 +2341,160 @@ abstract class BaseConceptPropertyPeer {
 
 
 	/**
-	 * Selects a collection of ConceptProperty objects pre-filled with all related objects except UserRelatedByCreatedUserId.
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByCreatedBy table
+	 *
+	 * @param Criteria $c
+	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
+	 * @param Connection $con
+	 * @return int Number of matching rows.
+	 */
+	public static function doCountJoinAllExceptUsersRelatedByCreatedBy(Criteria $criteria, $distinct = false, $con = null)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// clear out anything that might confuse the ORDER BY clause
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(ConceptPropertyPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(ConceptPropertyPeer::COUNT);
+		}
+
+		// just in case we're grouping: add those columns to the select statement
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, ProfilePropertyPeer::SKOS_ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::SCHEME_ID, VocabularyPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::STATUS_ID, StatusPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::ID);
+
+		$rs = ConceptPropertyPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			// no rows returned; we infer that means 0 matches.
+			return 0;
+		}
+	}
+
+
+	/**
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByUpdatedBy table
+	 *
+	 * @param Criteria $c
+	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
+	 * @param Connection $con
+	 * @return int Number of matching rows.
+	 */
+	public static function doCountJoinAllExceptUsersRelatedByUpdatedBy(Criteria $criteria, $distinct = false, $con = null)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// clear out anything that might confuse the ORDER BY clause
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(ConceptPropertyPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(ConceptPropertyPeer::COUNT);
+		}
+
+		// just in case we're grouping: add those columns to the select statement
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, ProfilePropertyPeer::SKOS_ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::SCHEME_ID, VocabularyPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::STATUS_ID, StatusPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::ID);
+
+		$rs = ConceptPropertyPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			// no rows returned; we infer that means 0 matches.
+			return 0;
+		}
+	}
+
+
+	/**
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByDeletedBy table
+	 *
+	 * @param Criteria $c
+	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
+	 * @param Connection $con
+	 * @return int Number of matching rows.
+	 */
+	public static function doCountJoinAllExceptUsersRelatedByDeletedBy(Criteria $criteria, $distinct = false, $con = null)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// clear out anything that might confuse the ORDER BY clause
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(ConceptPropertyPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(ConceptPropertyPeer::COUNT);
+		}
+
+		// just in case we're grouping: add those columns to the select statement
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, ProfilePropertyPeer::SKOS_ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::SCHEME_ID, VocabularyPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::STATUS_ID, StatusPeer::ID);
+
+		$criteria->addJoin(ConceptPropertyPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::ID);
+
+		$rs = ConceptPropertyPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			// no rows returned; we infer that means 0 matches.
+			return 0;
+		}
+	}
+
+
+	/**
+	 * Selects a collection of ConceptProperty objects pre-filled with all related objects except UsersRelatedByCreatedUserId.
 	 *
 	 * @return array Array of ConceptProperty objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinAllExceptUserRelatedByCreatedUserId(Criteria $c, $con = null)
+	public static function doSelectJoinAllExceptUsersRelatedByCreatedUserId(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -2104,13 +2695,13 @@ abstract class BaseConceptPropertyPeer {
 
 
 	/**
-	 * Selects a collection of ConceptProperty objects pre-filled with all related objects except UserRelatedByUpdatedUserId.
+	 * Selects a collection of ConceptProperty objects pre-filled with all related objects except UsersRelatedByUpdatedUserId.
 	 *
 	 * @return array Array of ConceptProperty objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinAllExceptUserRelatedByUpdatedUserId(Criteria $c, $con = null)
+	public static function doSelectJoinAllExceptUsersRelatedByUpdatedUserId(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -2331,11 +2922,11 @@ abstract class BaseConceptPropertyPeer {
 		ConceptPropertyPeer::addSelectColumns($c);
 		$startcol2 = (ConceptPropertyPeer::NUM_COLUMNS - ConceptPropertyPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + UsersPeer::NUM_COLUMNS;
 
-		UserPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + UsersPeer::NUM_COLUMNS;
 
 		ProfilePropertyPeer::addSelectColumns($c);
 		$startcol5 = $startcol4 + ProfilePropertyPeer::NUM_COLUMNS;
@@ -2349,9 +2940,18 @@ abstract class BaseConceptPropertyPeer {
 		ProfilePropertyPeer::addSelectColumns($c);
 		$startcol8 = $startcol7 + ProfilePropertyPeer::NUM_COLUMNS;
 
-		$c->addJoin(ConceptPropertyPeer::CREATED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol9 = $startcol8 + UsersPeer::NUM_COLUMNS;
 
-		$c->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol10 = $startcol9 + UsersPeer::NUM_COLUMNS;
+
+		UsersPeer::addSelectColumns($c);
+		$startcol11 = $startcol10 + UsersPeer::NUM_COLUMNS;
+
+		$c->addJoin(ConceptPropertyPeer::CREATED_USER_ID, UsersPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UsersPeer::ID);
 
 		$c->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, ProfilePropertyPeer::SKOS_ID);
 
@@ -2360,6 +2960,12 @@ abstract class BaseConceptPropertyPeer {
 		$c->addJoin(ConceptPropertyPeer::STATUS_ID, StatusPeer::ID);
 
 		$c->addJoin(ConceptPropertyPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::CREATED_BY, UsersPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::UPDATED_BY, UsersPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::DELETED_BY, UsersPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -2373,7 +2979,7 @@ abstract class BaseConceptPropertyPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -2383,7 +2989,7 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedUserId(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedUserId(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addConceptPropertyRelatedByCreatedUserId($obj1);
@@ -2396,7 +3002,7 @@ abstract class BaseConceptPropertyPeer {
 				$obj2->addConceptPropertyRelatedByCreatedUserId($obj1);
 			}
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -2406,7 +3012,7 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getUserRelatedByUpdatedUserId(); //CHECKME
+				$temp_obj3 = $temp_obj1->getUsersRelatedByUpdatedUserId(); //CHECKME
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj3->addConceptPropertyRelatedByUpdatedUserId($obj1);
@@ -2511,6 +3117,75 @@ abstract class BaseConceptPropertyPeer {
 				$obj7->addConceptPropertyRelatedByProfilePropertyId($obj1);
 			}
 
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj8  = new $cls();
+			$obj8->hydrate($rs, $startcol8);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj8 = $temp_obj1->getUsersRelatedByCreatedBy(); //CHECKME
+				if ($temp_obj8->getPrimaryKey() === $obj8->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj8->addConceptPropertyRelatedByCreatedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj8->initConceptPropertysRelatedByCreatedBy();
+				$obj8->addConceptPropertyRelatedByCreatedBy($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj9  = new $cls();
+			$obj9->hydrate($rs, $startcol9);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj9 = $temp_obj1->getUsersRelatedByUpdatedBy(); //CHECKME
+				if ($temp_obj9->getPrimaryKey() === $obj9->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj9->addConceptPropertyRelatedByUpdatedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj9->initConceptPropertysRelatedByUpdatedBy();
+				$obj9->addConceptPropertyRelatedByUpdatedBy($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj10  = new $cls();
+			$obj10->hydrate($rs, $startcol10);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj10 = $temp_obj1->getUsersRelatedByDeletedBy(); //CHECKME
+				if ($temp_obj10->getPrimaryKey() === $obj10->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj10->addConceptPropertyRelatedByDeletedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj10->initConceptPropertysRelatedByDeletedBy();
+				$obj10->addConceptPropertyRelatedByDeletedBy($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -2538,11 +3213,11 @@ abstract class BaseConceptPropertyPeer {
 		ConceptPropertyPeer::addSelectColumns($c);
 		$startcol2 = (ConceptPropertyPeer::NUM_COLUMNS - ConceptPropertyPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + UsersPeer::NUM_COLUMNS;
 
-		UserPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + UsersPeer::NUM_COLUMNS;
 
 		ConceptPeer::addSelectColumns($c);
 		$startcol5 = $startcol4 + ConceptPeer::NUM_COLUMNS;
@@ -2556,9 +3231,18 @@ abstract class BaseConceptPropertyPeer {
 		StatusPeer::addSelectColumns($c);
 		$startcol8 = $startcol7 + StatusPeer::NUM_COLUMNS;
 
-		$c->addJoin(ConceptPropertyPeer::CREATED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol9 = $startcol8 + UsersPeer::NUM_COLUMNS;
 
-		$c->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol10 = $startcol9 + UsersPeer::NUM_COLUMNS;
+
+		UsersPeer::addSelectColumns($c);
+		$startcol11 = $startcol10 + UsersPeer::NUM_COLUMNS;
+
+		$c->addJoin(ConceptPropertyPeer::CREATED_USER_ID, UsersPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UsersPeer::ID);
 
 		$c->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
 
@@ -2567,6 +3251,12 @@ abstract class BaseConceptPropertyPeer {
 		$c->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
 
 		$c->addJoin(ConceptPropertyPeer::STATUS_ID, StatusPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::CREATED_BY, UsersPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::UPDATED_BY, UsersPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::DELETED_BY, UsersPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -2580,7 +3270,7 @@ abstract class BaseConceptPropertyPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -2590,7 +3280,7 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedUserId(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedUserId(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addConceptPropertyRelatedByCreatedUserId($obj1);
@@ -2603,7 +3293,7 @@ abstract class BaseConceptPropertyPeer {
 				$obj2->addConceptPropertyRelatedByCreatedUserId($obj1);
 			}
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -2613,7 +3303,7 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getUserRelatedByUpdatedUserId(); //CHECKME
+				$temp_obj3 = $temp_obj1->getUsersRelatedByUpdatedUserId(); //CHECKME
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj3->addConceptPropertyRelatedByUpdatedUserId($obj1);
@@ -2718,6 +3408,75 @@ abstract class BaseConceptPropertyPeer {
 				$obj7->addConceptProperty($obj1);
 			}
 
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj8  = new $cls();
+			$obj8->hydrate($rs, $startcol8);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj8 = $temp_obj1->getUsersRelatedByCreatedBy(); //CHECKME
+				if ($temp_obj8->getPrimaryKey() === $obj8->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj8->addConceptPropertyRelatedByCreatedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj8->initConceptPropertysRelatedByCreatedBy();
+				$obj8->addConceptPropertyRelatedByCreatedBy($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj9  = new $cls();
+			$obj9->hydrate($rs, $startcol9);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj9 = $temp_obj1->getUsersRelatedByUpdatedBy(); //CHECKME
+				if ($temp_obj9->getPrimaryKey() === $obj9->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj9->addConceptPropertyRelatedByUpdatedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj9->initConceptPropertysRelatedByUpdatedBy();
+				$obj9->addConceptPropertyRelatedByUpdatedBy($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj10  = new $cls();
+			$obj10->hydrate($rs, $startcol10);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj10 = $temp_obj1->getUsersRelatedByDeletedBy(); //CHECKME
+				if ($temp_obj10->getPrimaryKey() === $obj10->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj10->addConceptPropertyRelatedByDeletedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj10->initConceptPropertysRelatedByDeletedBy();
+				$obj10->addConceptPropertyRelatedByDeletedBy($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -2745,11 +3504,11 @@ abstract class BaseConceptPropertyPeer {
 		ConceptPropertyPeer::addSelectColumns($c);
 		$startcol2 = (ConceptPropertyPeer::NUM_COLUMNS - ConceptPropertyPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + UsersPeer::NUM_COLUMNS;
 
-		UserPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + UsersPeer::NUM_COLUMNS;
 
 		ConceptPeer::addSelectColumns($c);
 		$startcol5 = $startcol4 + ConceptPeer::NUM_COLUMNS;
@@ -2766,9 +3525,18 @@ abstract class BaseConceptPropertyPeer {
 		ProfilePropertyPeer::addSelectColumns($c);
 		$startcol9 = $startcol8 + ProfilePropertyPeer::NUM_COLUMNS;
 
-		$c->addJoin(ConceptPropertyPeer::CREATED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol10 = $startcol9 + UsersPeer::NUM_COLUMNS;
 
-		$c->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol11 = $startcol10 + UsersPeer::NUM_COLUMNS;
+
+		UsersPeer::addSelectColumns($c);
+		$startcol12 = $startcol11 + UsersPeer::NUM_COLUMNS;
+
+		$c->addJoin(ConceptPropertyPeer::CREATED_USER_ID, UsersPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UsersPeer::ID);
 
 		$c->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
 
@@ -2779,6 +3547,12 @@ abstract class BaseConceptPropertyPeer {
 		$c->addJoin(ConceptPropertyPeer::STATUS_ID, StatusPeer::ID);
 
 		$c->addJoin(ConceptPropertyPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::CREATED_BY, UsersPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::UPDATED_BY, UsersPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::DELETED_BY, UsersPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -2792,7 +3566,7 @@ abstract class BaseConceptPropertyPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -2802,7 +3576,7 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedUserId(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedUserId(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addConceptPropertyRelatedByCreatedUserId($obj1);
@@ -2815,7 +3589,7 @@ abstract class BaseConceptPropertyPeer {
 				$obj2->addConceptPropertyRelatedByCreatedUserId($obj1);
 			}
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -2825,7 +3599,7 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getUserRelatedByUpdatedUserId(); //CHECKME
+				$temp_obj3 = $temp_obj1->getUsersRelatedByUpdatedUserId(); //CHECKME
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj3->addConceptPropertyRelatedByUpdatedUserId($obj1);
@@ -2953,6 +3727,75 @@ abstract class BaseConceptPropertyPeer {
 				$obj8->addConceptPropertyRelatedByProfilePropertyId($obj1);
 			}
 
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj9  = new $cls();
+			$obj9->hydrate($rs, $startcol9);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj9 = $temp_obj1->getUsersRelatedByCreatedBy(); //CHECKME
+				if ($temp_obj9->getPrimaryKey() === $obj9->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj9->addConceptPropertyRelatedByCreatedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj9->initConceptPropertysRelatedByCreatedBy();
+				$obj9->addConceptPropertyRelatedByCreatedBy($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj10  = new $cls();
+			$obj10->hydrate($rs, $startcol10);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj10 = $temp_obj1->getUsersRelatedByUpdatedBy(); //CHECKME
+				if ($temp_obj10->getPrimaryKey() === $obj10->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj10->addConceptPropertyRelatedByUpdatedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj10->initConceptPropertysRelatedByUpdatedBy();
+				$obj10->addConceptPropertyRelatedByUpdatedBy($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj11  = new $cls();
+			$obj11->hydrate($rs, $startcol11);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj11 = $temp_obj1->getUsersRelatedByDeletedBy(); //CHECKME
+				if ($temp_obj11->getPrimaryKey() === $obj11->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj11->addConceptPropertyRelatedByDeletedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj11->initConceptPropertysRelatedByDeletedBy();
+				$obj11->addConceptPropertyRelatedByDeletedBy($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -2980,11 +3823,11 @@ abstract class BaseConceptPropertyPeer {
 		ConceptPropertyPeer::addSelectColumns($c);
 		$startcol2 = (ConceptPropertyPeer::NUM_COLUMNS - ConceptPropertyPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + UsersPeer::NUM_COLUMNS;
 
-		UserPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + UsersPeer::NUM_COLUMNS;
 
 		ProfilePropertyPeer::addSelectColumns($c);
 		$startcol5 = $startcol4 + ProfilePropertyPeer::NUM_COLUMNS;
@@ -2998,9 +3841,18 @@ abstract class BaseConceptPropertyPeer {
 		ProfilePropertyPeer::addSelectColumns($c);
 		$startcol8 = $startcol7 + ProfilePropertyPeer::NUM_COLUMNS;
 
-		$c->addJoin(ConceptPropertyPeer::CREATED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol9 = $startcol8 + UsersPeer::NUM_COLUMNS;
 
-		$c->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol10 = $startcol9 + UsersPeer::NUM_COLUMNS;
+
+		UsersPeer::addSelectColumns($c);
+		$startcol11 = $startcol10 + UsersPeer::NUM_COLUMNS;
+
+		$c->addJoin(ConceptPropertyPeer::CREATED_USER_ID, UsersPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UsersPeer::ID);
 
 		$c->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, ProfilePropertyPeer::SKOS_ID);
 
@@ -3009,6 +3861,12 @@ abstract class BaseConceptPropertyPeer {
 		$c->addJoin(ConceptPropertyPeer::STATUS_ID, StatusPeer::ID);
 
 		$c->addJoin(ConceptPropertyPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::CREATED_BY, UsersPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::UPDATED_BY, UsersPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::DELETED_BY, UsersPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -3022,7 +3880,7 @@ abstract class BaseConceptPropertyPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -3032,7 +3890,7 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedUserId(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedUserId(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addConceptPropertyRelatedByCreatedUserId($obj1);
@@ -3045,7 +3903,7 @@ abstract class BaseConceptPropertyPeer {
 				$obj2->addConceptPropertyRelatedByCreatedUserId($obj1);
 			}
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -3055,7 +3913,7 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getUserRelatedByUpdatedUserId(); //CHECKME
+				$temp_obj3 = $temp_obj1->getUsersRelatedByUpdatedUserId(); //CHECKME
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj3->addConceptPropertyRelatedByUpdatedUserId($obj1);
@@ -3160,6 +4018,75 @@ abstract class BaseConceptPropertyPeer {
 				$obj7->addConceptPropertyRelatedByProfilePropertyId($obj1);
 			}
 
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj8  = new $cls();
+			$obj8->hydrate($rs, $startcol8);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj8 = $temp_obj1->getUsersRelatedByCreatedBy(); //CHECKME
+				if ($temp_obj8->getPrimaryKey() === $obj8->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj8->addConceptPropertyRelatedByCreatedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj8->initConceptPropertysRelatedByCreatedBy();
+				$obj8->addConceptPropertyRelatedByCreatedBy($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj9  = new $cls();
+			$obj9->hydrate($rs, $startcol9);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj9 = $temp_obj1->getUsersRelatedByUpdatedBy(); //CHECKME
+				if ($temp_obj9->getPrimaryKey() === $obj9->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj9->addConceptPropertyRelatedByUpdatedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj9->initConceptPropertysRelatedByUpdatedBy();
+				$obj9->addConceptPropertyRelatedByUpdatedBy($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj10  = new $cls();
+			$obj10->hydrate($rs, $startcol10);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj10 = $temp_obj1->getUsersRelatedByDeletedBy(); //CHECKME
+				if ($temp_obj10->getPrimaryKey() === $obj10->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj10->addConceptPropertyRelatedByDeletedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj10->initConceptPropertysRelatedByDeletedBy();
+				$obj10->addConceptPropertyRelatedByDeletedBy($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -3187,11 +4114,11 @@ abstract class BaseConceptPropertyPeer {
 		ConceptPropertyPeer::addSelectColumns($c);
 		$startcol2 = (ConceptPropertyPeer::NUM_COLUMNS - ConceptPropertyPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + UsersPeer::NUM_COLUMNS;
 
-		UserPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + UsersPeer::NUM_COLUMNS;
 
 		ConceptPeer::addSelectColumns($c);
 		$startcol5 = $startcol4 + ConceptPeer::NUM_COLUMNS;
@@ -3208,9 +4135,18 @@ abstract class BaseConceptPropertyPeer {
 		ProfilePropertyPeer::addSelectColumns($c);
 		$startcol9 = $startcol8 + ProfilePropertyPeer::NUM_COLUMNS;
 
-		$c->addJoin(ConceptPropertyPeer::CREATED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol10 = $startcol9 + UsersPeer::NUM_COLUMNS;
 
-		$c->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol11 = $startcol10 + UsersPeer::NUM_COLUMNS;
+
+		UsersPeer::addSelectColumns($c);
+		$startcol12 = $startcol11 + UsersPeer::NUM_COLUMNS;
+
+		$c->addJoin(ConceptPropertyPeer::CREATED_USER_ID, UsersPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UsersPeer::ID);
 
 		$c->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
 
@@ -3221,6 +4157,12 @@ abstract class BaseConceptPropertyPeer {
 		$c->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
 
 		$c->addJoin(ConceptPropertyPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::CREATED_BY, UsersPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::UPDATED_BY, UsersPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::DELETED_BY, UsersPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -3234,7 +4176,7 @@ abstract class BaseConceptPropertyPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -3244,7 +4186,7 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedUserId(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedUserId(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addConceptPropertyRelatedByCreatedUserId($obj1);
@@ -3257,7 +4199,7 @@ abstract class BaseConceptPropertyPeer {
 				$obj2->addConceptPropertyRelatedByCreatedUserId($obj1);
 			}
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -3267,7 +4209,7 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getUserRelatedByUpdatedUserId(); //CHECKME
+				$temp_obj3 = $temp_obj1->getUsersRelatedByUpdatedUserId(); //CHECKME
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj3->addConceptPropertyRelatedByUpdatedUserId($obj1);
@@ -3395,6 +4337,75 @@ abstract class BaseConceptPropertyPeer {
 				$obj8->addConceptPropertyRelatedByProfilePropertyId($obj1);
 			}
 
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj9  = new $cls();
+			$obj9->hydrate($rs, $startcol9);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj9 = $temp_obj1->getUsersRelatedByCreatedBy(); //CHECKME
+				if ($temp_obj9->getPrimaryKey() === $obj9->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj9->addConceptPropertyRelatedByCreatedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj9->initConceptPropertysRelatedByCreatedBy();
+				$obj9->addConceptPropertyRelatedByCreatedBy($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj10  = new $cls();
+			$obj10->hydrate($rs, $startcol10);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj10 = $temp_obj1->getUsersRelatedByUpdatedBy(); //CHECKME
+				if ($temp_obj10->getPrimaryKey() === $obj10->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj10->addConceptPropertyRelatedByUpdatedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj10->initConceptPropertysRelatedByUpdatedBy();
+				$obj10->addConceptPropertyRelatedByUpdatedBy($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj11  = new $cls();
+			$obj11->hydrate($rs, $startcol11);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj11 = $temp_obj1->getUsersRelatedByDeletedBy(); //CHECKME
+				if ($temp_obj11->getPrimaryKey() === $obj11->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj11->addConceptPropertyRelatedByDeletedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj11->initConceptPropertysRelatedByDeletedBy();
+				$obj11->addConceptPropertyRelatedByDeletedBy($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -3422,11 +4433,11 @@ abstract class BaseConceptPropertyPeer {
 		ConceptPropertyPeer::addSelectColumns($c);
 		$startcol2 = (ConceptPropertyPeer::NUM_COLUMNS - ConceptPropertyPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + UsersPeer::NUM_COLUMNS;
 
-		UserPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + UsersPeer::NUM_COLUMNS;
 
 		ConceptPeer::addSelectColumns($c);
 		$startcol5 = $startcol4 + ConceptPeer::NUM_COLUMNS;
@@ -3440,9 +4451,18 @@ abstract class BaseConceptPropertyPeer {
 		StatusPeer::addSelectColumns($c);
 		$startcol8 = $startcol7 + StatusPeer::NUM_COLUMNS;
 
-		$c->addJoin(ConceptPropertyPeer::CREATED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol9 = $startcol8 + UsersPeer::NUM_COLUMNS;
 
-		$c->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol10 = $startcol9 + UsersPeer::NUM_COLUMNS;
+
+		UsersPeer::addSelectColumns($c);
+		$startcol11 = $startcol10 + UsersPeer::NUM_COLUMNS;
+
+		$c->addJoin(ConceptPropertyPeer::CREATED_USER_ID, UsersPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::UPDATED_USER_ID, UsersPeer::ID);
 
 		$c->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
 
@@ -3451,6 +4471,12 @@ abstract class BaseConceptPropertyPeer {
 		$c->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
 
 		$c->addJoin(ConceptPropertyPeer::STATUS_ID, StatusPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::CREATED_BY, UsersPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::UPDATED_BY, UsersPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::DELETED_BY, UsersPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -3464,7 +4490,7 @@ abstract class BaseConceptPropertyPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -3474,7 +4500,7 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedUserId(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedUserId(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addConceptPropertyRelatedByCreatedUserId($obj1);
@@ -3487,7 +4513,7 @@ abstract class BaseConceptPropertyPeer {
 				$obj2->addConceptPropertyRelatedByCreatedUserId($obj1);
 			}
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -3497,7 +4523,7 @@ abstract class BaseConceptPropertyPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getUserRelatedByUpdatedUserId(); //CHECKME
+				$temp_obj3 = $temp_obj1->getUsersRelatedByUpdatedUserId(); //CHECKME
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj3->addConceptPropertyRelatedByUpdatedUserId($obj1);
@@ -3600,6 +4626,696 @@ abstract class BaseConceptPropertyPeer {
 			if ($newObject) {
 				$obj7->initConceptPropertys();
 				$obj7->addConceptProperty($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj8  = new $cls();
+			$obj8->hydrate($rs, $startcol8);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj8 = $temp_obj1->getUsersRelatedByCreatedBy(); //CHECKME
+				if ($temp_obj8->getPrimaryKey() === $obj8->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj8->addConceptPropertyRelatedByCreatedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj8->initConceptPropertysRelatedByCreatedBy();
+				$obj8->addConceptPropertyRelatedByCreatedBy($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj9  = new $cls();
+			$obj9->hydrate($rs, $startcol9);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj9 = $temp_obj1->getUsersRelatedByUpdatedBy(); //CHECKME
+				if ($temp_obj9->getPrimaryKey() === $obj9->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj9->addConceptPropertyRelatedByUpdatedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj9->initConceptPropertysRelatedByUpdatedBy();
+				$obj9->addConceptPropertyRelatedByUpdatedBy($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj10  = new $cls();
+			$obj10->hydrate($rs, $startcol10);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj10 = $temp_obj1->getUsersRelatedByDeletedBy(); //CHECKME
+				if ($temp_obj10->getPrimaryKey() === $obj10->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj10->addConceptPropertyRelatedByDeletedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj10->initConceptPropertysRelatedByDeletedBy();
+				$obj10->addConceptPropertyRelatedByDeletedBy($obj1);
+			}
+
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	/**
+	 * Selects a collection of ConceptProperty objects pre-filled with all related objects except UsersRelatedByCreatedBy.
+	 *
+	 * @return array Array of ConceptProperty objects.
+	 * @throws PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinAllExceptUsersRelatedByCreatedBy(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		// Set the correct dbName if it has not been overridden
+		// $c->getDbName() will return the same object if not set to another value
+		// so == check is okay and faster
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		ConceptPropertyPeer::addSelectColumns($c);
+		$startcol2 = (ConceptPropertyPeer::NUM_COLUMNS - ConceptPropertyPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+		ConceptPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + ConceptPeer::NUM_COLUMNS;
+
+		ProfilePropertyPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + ProfilePropertyPeer::NUM_COLUMNS;
+
+		VocabularyPeer::addSelectColumns($c);
+		$startcol5 = $startcol4 + VocabularyPeer::NUM_COLUMNS;
+
+		ConceptPeer::addSelectColumns($c);
+		$startcol6 = $startcol5 + ConceptPeer::NUM_COLUMNS;
+
+		StatusPeer::addSelectColumns($c);
+		$startcol7 = $startcol6 + StatusPeer::NUM_COLUMNS;
+
+		ProfilePropertyPeer::addSelectColumns($c);
+		$startcol8 = $startcol7 + ProfilePropertyPeer::NUM_COLUMNS;
+
+		$c->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, ProfilePropertyPeer::SKOS_ID);
+
+		$c->addJoin(ConceptPropertyPeer::SCHEME_ID, VocabularyPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::STATUS_ID, StatusPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::ID);
+
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = ConceptPropertyPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = ConceptPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj2  = new $cls();
+			$obj2->hydrate($rs, $startcol2);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj2 = $temp_obj1->getConceptRelatedByConceptId(); //CHECKME
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj2->addConceptPropertyRelatedByConceptId($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj2->initConceptPropertysRelatedByConceptId();
+				$obj2->addConceptPropertyRelatedByConceptId($obj1);
+			}
+
+			$omClass = ProfilePropertyPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj3  = new $cls();
+			$obj3->hydrate($rs, $startcol3);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj3 = $temp_obj1->getProfilePropertyRelatedBySkosPropertyId(); //CHECKME
+				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj3->addConceptPropertyRelatedBySkosPropertyId($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj3->initConceptPropertysRelatedBySkosPropertyId();
+				$obj3->addConceptPropertyRelatedBySkosPropertyId($obj1);
+			}
+
+			$omClass = VocabularyPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj4  = new $cls();
+			$obj4->hydrate($rs, $startcol4);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj4 = $temp_obj1->getVocabulary(); //CHECKME
+				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj4->addConceptProperty($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj4->initConceptPropertys();
+				$obj4->addConceptProperty($obj1);
+			}
+
+			$omClass = ConceptPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj5  = new $cls();
+			$obj5->hydrate($rs, $startcol5);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj5 = $temp_obj1->getConceptRelatedByRelatedConceptId(); //CHECKME
+				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj5->addConceptPropertyRelatedByRelatedConceptId($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj5->initConceptPropertysRelatedByRelatedConceptId();
+				$obj5->addConceptPropertyRelatedByRelatedConceptId($obj1);
+			}
+
+			$omClass = StatusPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj6  = new $cls();
+			$obj6->hydrate($rs, $startcol6);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj6 = $temp_obj1->getStatus(); //CHECKME
+				if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj6->addConceptProperty($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj6->initConceptPropertys();
+				$obj6->addConceptProperty($obj1);
+			}
+
+			$omClass = ProfilePropertyPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj7  = new $cls();
+			$obj7->hydrate($rs, $startcol7);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj7 = $temp_obj1->getProfilePropertyRelatedByProfilePropertyId(); //CHECKME
+				if ($temp_obj7->getPrimaryKey() === $obj7->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj7->addConceptPropertyRelatedByProfilePropertyId($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj7->initConceptPropertysRelatedByProfilePropertyId();
+				$obj7->addConceptPropertyRelatedByProfilePropertyId($obj1);
+			}
+
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	/**
+	 * Selects a collection of ConceptProperty objects pre-filled with all related objects except UsersRelatedByUpdatedBy.
+	 *
+	 * @return array Array of ConceptProperty objects.
+	 * @throws PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinAllExceptUsersRelatedByUpdatedBy(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		// Set the correct dbName if it has not been overridden
+		// $c->getDbName() will return the same object if not set to another value
+		// so == check is okay and faster
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		ConceptPropertyPeer::addSelectColumns($c);
+		$startcol2 = (ConceptPropertyPeer::NUM_COLUMNS - ConceptPropertyPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+		ConceptPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + ConceptPeer::NUM_COLUMNS;
+
+		ProfilePropertyPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + ProfilePropertyPeer::NUM_COLUMNS;
+
+		VocabularyPeer::addSelectColumns($c);
+		$startcol5 = $startcol4 + VocabularyPeer::NUM_COLUMNS;
+
+		ConceptPeer::addSelectColumns($c);
+		$startcol6 = $startcol5 + ConceptPeer::NUM_COLUMNS;
+
+		StatusPeer::addSelectColumns($c);
+		$startcol7 = $startcol6 + StatusPeer::NUM_COLUMNS;
+
+		ProfilePropertyPeer::addSelectColumns($c);
+		$startcol8 = $startcol7 + ProfilePropertyPeer::NUM_COLUMNS;
+
+		$c->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, ProfilePropertyPeer::SKOS_ID);
+
+		$c->addJoin(ConceptPropertyPeer::SCHEME_ID, VocabularyPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::STATUS_ID, StatusPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::ID);
+
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = ConceptPropertyPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = ConceptPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj2  = new $cls();
+			$obj2->hydrate($rs, $startcol2);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj2 = $temp_obj1->getConceptRelatedByConceptId(); //CHECKME
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj2->addConceptPropertyRelatedByConceptId($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj2->initConceptPropertysRelatedByConceptId();
+				$obj2->addConceptPropertyRelatedByConceptId($obj1);
+			}
+
+			$omClass = ProfilePropertyPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj3  = new $cls();
+			$obj3->hydrate($rs, $startcol3);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj3 = $temp_obj1->getProfilePropertyRelatedBySkosPropertyId(); //CHECKME
+				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj3->addConceptPropertyRelatedBySkosPropertyId($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj3->initConceptPropertysRelatedBySkosPropertyId();
+				$obj3->addConceptPropertyRelatedBySkosPropertyId($obj1);
+			}
+
+			$omClass = VocabularyPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj4  = new $cls();
+			$obj4->hydrate($rs, $startcol4);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj4 = $temp_obj1->getVocabulary(); //CHECKME
+				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj4->addConceptProperty($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj4->initConceptPropertys();
+				$obj4->addConceptProperty($obj1);
+			}
+
+			$omClass = ConceptPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj5  = new $cls();
+			$obj5->hydrate($rs, $startcol5);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj5 = $temp_obj1->getConceptRelatedByRelatedConceptId(); //CHECKME
+				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj5->addConceptPropertyRelatedByRelatedConceptId($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj5->initConceptPropertysRelatedByRelatedConceptId();
+				$obj5->addConceptPropertyRelatedByRelatedConceptId($obj1);
+			}
+
+			$omClass = StatusPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj6  = new $cls();
+			$obj6->hydrate($rs, $startcol6);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj6 = $temp_obj1->getStatus(); //CHECKME
+				if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj6->addConceptProperty($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj6->initConceptPropertys();
+				$obj6->addConceptProperty($obj1);
+			}
+
+			$omClass = ProfilePropertyPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj7  = new $cls();
+			$obj7->hydrate($rs, $startcol7);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj7 = $temp_obj1->getProfilePropertyRelatedByProfilePropertyId(); //CHECKME
+				if ($temp_obj7->getPrimaryKey() === $obj7->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj7->addConceptPropertyRelatedByProfilePropertyId($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj7->initConceptPropertysRelatedByProfilePropertyId();
+				$obj7->addConceptPropertyRelatedByProfilePropertyId($obj1);
+			}
+
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	/**
+	 * Selects a collection of ConceptProperty objects pre-filled with all related objects except UsersRelatedByDeletedBy.
+	 *
+	 * @return array Array of ConceptProperty objects.
+	 * @throws PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinAllExceptUsersRelatedByDeletedBy(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		// Set the correct dbName if it has not been overridden
+		// $c->getDbName() will return the same object if not set to another value
+		// so == check is okay and faster
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		ConceptPropertyPeer::addSelectColumns($c);
+		$startcol2 = (ConceptPropertyPeer::NUM_COLUMNS - ConceptPropertyPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+		ConceptPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + ConceptPeer::NUM_COLUMNS;
+
+		ProfilePropertyPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + ProfilePropertyPeer::NUM_COLUMNS;
+
+		VocabularyPeer::addSelectColumns($c);
+		$startcol5 = $startcol4 + VocabularyPeer::NUM_COLUMNS;
+
+		ConceptPeer::addSelectColumns($c);
+		$startcol6 = $startcol5 + ConceptPeer::NUM_COLUMNS;
+
+		StatusPeer::addSelectColumns($c);
+		$startcol7 = $startcol6 + StatusPeer::NUM_COLUMNS;
+
+		ProfilePropertyPeer::addSelectColumns($c);
+		$startcol8 = $startcol7 + ProfilePropertyPeer::NUM_COLUMNS;
+
+		$c->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::SKOS_PROPERTY_ID, ProfilePropertyPeer::SKOS_ID);
+
+		$c->addJoin(ConceptPropertyPeer::SCHEME_ID, VocabularyPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::RELATED_CONCEPT_ID, ConceptPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::STATUS_ID, StatusPeer::ID);
+
+		$c->addJoin(ConceptPropertyPeer::PROFILE_PROPERTY_ID, ProfilePropertyPeer::ID);
+
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = ConceptPropertyPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = ConceptPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj2  = new $cls();
+			$obj2->hydrate($rs, $startcol2);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj2 = $temp_obj1->getConceptRelatedByConceptId(); //CHECKME
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj2->addConceptPropertyRelatedByConceptId($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj2->initConceptPropertysRelatedByConceptId();
+				$obj2->addConceptPropertyRelatedByConceptId($obj1);
+			}
+
+			$omClass = ProfilePropertyPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj3  = new $cls();
+			$obj3->hydrate($rs, $startcol3);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj3 = $temp_obj1->getProfilePropertyRelatedBySkosPropertyId(); //CHECKME
+				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj3->addConceptPropertyRelatedBySkosPropertyId($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj3->initConceptPropertysRelatedBySkosPropertyId();
+				$obj3->addConceptPropertyRelatedBySkosPropertyId($obj1);
+			}
+
+			$omClass = VocabularyPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj4  = new $cls();
+			$obj4->hydrate($rs, $startcol4);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj4 = $temp_obj1->getVocabulary(); //CHECKME
+				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj4->addConceptProperty($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj4->initConceptPropertys();
+				$obj4->addConceptProperty($obj1);
+			}
+
+			$omClass = ConceptPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj5  = new $cls();
+			$obj5->hydrate($rs, $startcol5);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj5 = $temp_obj1->getConceptRelatedByRelatedConceptId(); //CHECKME
+				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj5->addConceptPropertyRelatedByRelatedConceptId($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj5->initConceptPropertysRelatedByRelatedConceptId();
+				$obj5->addConceptPropertyRelatedByRelatedConceptId($obj1);
+			}
+
+			$omClass = StatusPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj6  = new $cls();
+			$obj6->hydrate($rs, $startcol6);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj6 = $temp_obj1->getStatus(); //CHECKME
+				if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj6->addConceptProperty($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj6->initConceptPropertys();
+				$obj6->addConceptProperty($obj1);
+			}
+
+			$omClass = ProfilePropertyPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj7  = new $cls();
+			$obj7->hydrate($rs, $startcol7);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj7 = $temp_obj1->getProfilePropertyRelatedByProfilePropertyId(); //CHECKME
+				if ($temp_obj7->getPrimaryKey() === $obj7->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj7->addConceptPropertyRelatedByProfilePropertyId($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj7->initConceptPropertysRelatedByProfilePropertyId();
+				$obj7->addConceptPropertyRelatedByProfilePropertyId($obj1);
 			}
 
 			$results[] = $obj1;

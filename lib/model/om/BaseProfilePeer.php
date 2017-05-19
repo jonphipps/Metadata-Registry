@@ -19,7 +19,7 @@ abstract class BaseProfilePeer {
 	const CLASS_DEFAULT = 'lib.model.Profile';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 20;
+	const NUM_COLUMNS = 19;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -27,9 +27,6 @@ abstract class BaseProfilePeer {
 
 	/** the column name for the ID field */
 	const ID = 'profile.ID';
-
-	/** the column name for the AGENT_ID field */
-	const AGENT_ID = 'profile.AGENT_ID';
 
 	/** the column name for the CREATED_AT field */
 	const CREATED_AT = 'profile.CREATED_AT';
@@ -96,10 +93,10 @@ abstract class BaseProfilePeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'AgentId', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'CreatedBy', 'UpdatedBy', 'DeletedBy', 'ChildUpdatedAt', 'ChildUpdatedBy', 'Name', 'Note', 'Uri', 'Url', 'BaseDomain', 'Token', 'Community', 'LastUriId', 'StatusId', 'Language', ),
-		BasePeer::TYPE_COLNAME => array (ProfilePeer::ID, ProfilePeer::AGENT_ID, ProfilePeer::CREATED_AT, ProfilePeer::UPDATED_AT, ProfilePeer::DELETED_AT, ProfilePeer::CREATED_BY, ProfilePeer::UPDATED_BY, ProfilePeer::DELETED_BY, ProfilePeer::CHILD_UPDATED_AT, ProfilePeer::CHILD_UPDATED_BY, ProfilePeer::NAME, ProfilePeer::NOTE, ProfilePeer::URI, ProfilePeer::URL, ProfilePeer::BASE_DOMAIN, ProfilePeer::TOKEN, ProfilePeer::COMMUNITY, ProfilePeer::LAST_URI_ID, ProfilePeer::STATUS_ID, ProfilePeer::LANGUAGE, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'agent_id', 'created_at', 'updated_at', 'deleted_at', 'created_by', 'updated_by', 'deleted_by', 'child_updated_at', 'child_updated_by', 'name', 'note', 'uri', 'url', 'base_domain', 'token', 'community', 'last_uri_id', 'status_id', 'language', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'CreatedBy', 'UpdatedBy', 'DeletedBy', 'ChildUpdatedAt', 'ChildUpdatedBy', 'Name', 'Note', 'Uri', 'Url', 'BaseDomain', 'Token', 'Community', 'LastUriId', 'StatusId', 'Language', ),
+		BasePeer::TYPE_COLNAME => array (ProfilePeer::ID, ProfilePeer::CREATED_AT, ProfilePeer::UPDATED_AT, ProfilePeer::DELETED_AT, ProfilePeer::CREATED_BY, ProfilePeer::UPDATED_BY, ProfilePeer::DELETED_BY, ProfilePeer::CHILD_UPDATED_AT, ProfilePeer::CHILD_UPDATED_BY, ProfilePeer::NAME, ProfilePeer::NOTE, ProfilePeer::URI, ProfilePeer::URL, ProfilePeer::BASE_DOMAIN, ProfilePeer::TOKEN, ProfilePeer::COMMUNITY, ProfilePeer::LAST_URI_ID, ProfilePeer::STATUS_ID, ProfilePeer::LANGUAGE, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'deleted_at', 'created_by', 'updated_by', 'deleted_by', 'child_updated_at', 'child_updated_by', 'name', 'note', 'uri', 'url', 'base_domain', 'token', 'community', 'last_uri_id', 'status_id', 'language', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, )
 	);
 
 	/**
@@ -109,10 +106,10 @@ abstract class BaseProfilePeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'AgentId' => 1, 'CreatedAt' => 2, 'UpdatedAt' => 3, 'DeletedAt' => 4, 'CreatedBy' => 5, 'UpdatedBy' => 6, 'DeletedBy' => 7, 'ChildUpdatedAt' => 8, 'ChildUpdatedBy' => 9, 'Name' => 10, 'Note' => 11, 'Uri' => 12, 'Url' => 13, 'BaseDomain' => 14, 'Token' => 15, 'Community' => 16, 'LastUriId' => 17, 'StatusId' => 18, 'Language' => 19, ),
-		BasePeer::TYPE_COLNAME => array (ProfilePeer::ID => 0, ProfilePeer::AGENT_ID => 1, ProfilePeer::CREATED_AT => 2, ProfilePeer::UPDATED_AT => 3, ProfilePeer::DELETED_AT => 4, ProfilePeer::CREATED_BY => 5, ProfilePeer::UPDATED_BY => 6, ProfilePeer::DELETED_BY => 7, ProfilePeer::CHILD_UPDATED_AT => 8, ProfilePeer::CHILD_UPDATED_BY => 9, ProfilePeer::NAME => 10, ProfilePeer::NOTE => 11, ProfilePeer::URI => 12, ProfilePeer::URL => 13, ProfilePeer::BASE_DOMAIN => 14, ProfilePeer::TOKEN => 15, ProfilePeer::COMMUNITY => 16, ProfilePeer::LAST_URI_ID => 17, ProfilePeer::STATUS_ID => 18, ProfilePeer::LANGUAGE => 19, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'agent_id' => 1, 'created_at' => 2, 'updated_at' => 3, 'deleted_at' => 4, 'created_by' => 5, 'updated_by' => 6, 'deleted_by' => 7, 'child_updated_at' => 8, 'child_updated_by' => 9, 'name' => 10, 'note' => 11, 'uri' => 12, 'url' => 13, 'base_domain' => 14, 'token' => 15, 'community' => 16, 'last_uri_id' => 17, 'status_id' => 18, 'language' => 19, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'DeletedAt' => 3, 'CreatedBy' => 4, 'UpdatedBy' => 5, 'DeletedBy' => 6, 'ChildUpdatedAt' => 7, 'ChildUpdatedBy' => 8, 'Name' => 9, 'Note' => 10, 'Uri' => 11, 'Url' => 12, 'BaseDomain' => 13, 'Token' => 14, 'Community' => 15, 'LastUriId' => 16, 'StatusId' => 17, 'Language' => 18, ),
+		BasePeer::TYPE_COLNAME => array (ProfilePeer::ID => 0, ProfilePeer::CREATED_AT => 1, ProfilePeer::UPDATED_AT => 2, ProfilePeer::DELETED_AT => 3, ProfilePeer::CREATED_BY => 4, ProfilePeer::UPDATED_BY => 5, ProfilePeer::DELETED_BY => 6, ProfilePeer::CHILD_UPDATED_AT => 7, ProfilePeer::CHILD_UPDATED_BY => 8, ProfilePeer::NAME => 9, ProfilePeer::NOTE => 10, ProfilePeer::URI => 11, ProfilePeer::URL => 12, ProfilePeer::BASE_DOMAIN => 13, ProfilePeer::TOKEN => 14, ProfilePeer::COMMUNITY => 15, ProfilePeer::LAST_URI_ID => 16, ProfilePeer::STATUS_ID => 17, ProfilePeer::LANGUAGE => 18, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'deleted_at' => 3, 'created_by' => 4, 'updated_by' => 5, 'deleted_by' => 6, 'child_updated_at' => 7, 'child_updated_by' => 8, 'name' => 9, 'note' => 10, 'uri' => 11, 'url' => 12, 'base_domain' => 13, 'token' => 14, 'community' => 15, 'last_uri_id' => 16, 'status_id' => 17, 'language' => 18, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, )
 	);
 
 	/**
@@ -214,8 +211,6 @@ abstract class BaseProfilePeer {
 	{
 
         $criteria->addSelectColumn(($tableAlias) ? ProfilePeer::alias($tableAlias, ProfilePeer::ID) : ProfilePeer::ID);
-
-        $criteria->addSelectColumn(($tableAlias) ? ProfilePeer::alias($tableAlias, ProfilePeer::AGENT_ID) : ProfilePeer::AGENT_ID);
 
         $criteria->addSelectColumn(($tableAlias) ? ProfilePeer::alias($tableAlias, ProfilePeer::CREATED_AT) : ProfilePeer::CREATED_AT);
 
@@ -390,14 +385,14 @@ abstract class BaseProfilePeer {
 	}
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related Agent table
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByCreatedBy table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinAgent(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinUsersRelatedByCreatedBy(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -416,7 +411,7 @@ abstract class BaseProfilePeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(ProfilePeer::AGENT_ID, AgentPeer::ID);
+		$criteria->addJoin(ProfilePeer::CREATED_BY, UsersPeer::ID);
 
 		$rs = ProfilePeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -429,14 +424,14 @@ abstract class BaseProfilePeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related UserRelatedByCreatedBy table
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByUpdatedBy table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinUserRelatedByCreatedBy(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinUsersRelatedByUpdatedBy(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -455,7 +450,7 @@ abstract class BaseProfilePeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(ProfilePeer::CREATED_BY, UserPeer::ID);
+		$criteria->addJoin(ProfilePeer::UPDATED_BY, UsersPeer::ID);
 
 		$rs = ProfilePeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -468,14 +463,14 @@ abstract class BaseProfilePeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related UserRelatedByUpdatedBy table
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByDeletedBy table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinUserRelatedByUpdatedBy(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinUsersRelatedByDeletedBy(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -494,7 +489,7 @@ abstract class BaseProfilePeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(ProfilePeer::UPDATED_BY, UserPeer::ID);
+		$criteria->addJoin(ProfilePeer::DELETED_BY, UsersPeer::ID);
 
 		$rs = ProfilePeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -507,14 +502,14 @@ abstract class BaseProfilePeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related UserRelatedByDeletedBy table
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByChildUpdatedBy table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinUserRelatedByDeletedBy(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinUsersRelatedByChildUpdatedBy(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -533,46 +528,7 @@ abstract class BaseProfilePeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(ProfilePeer::DELETED_BY, UserPeer::ID);
-
-		$rs = ProfilePeer::doSelectRS($criteria, $con);
-		if ($rs->next()) {
-			return $rs->getInt(1);
-		} else {
-			// no rows returned; we infer that means 0 matches.
-			return 0;
-		}
-	}
-
-
-	/**
-	 * Returns the number of rows matching criteria, joining the related UserRelatedByChildUpdatedBy table
-	 *
-	 * @param Criteria $c
-	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
-	 * @param Connection $con
-	 * @return int Number of matching rows.
-	 */
-	public static function doCountJoinUserRelatedByChildUpdatedBy(Criteria $criteria, $distinct = false, $con = null)
-	{
-		// we're going to modify criteria, so copy it first
-		$criteria = clone $criteria;
-
-		// clear out anything that might confuse the ORDER BY clause
-		$criteria->clearSelectColumns()->clearOrderByColumns();
-		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(ProfilePeer::COUNT_DISTINCT);
-		} else {
-			$criteria->addSelectColumn(ProfilePeer::COUNT);
-		}
-
-		// just in case we're grouping: add those columns to the select statement
-		foreach($criteria->getGroupByColumns() as $column)
-		{
-			$criteria->addSelectColumn($column);
-		}
-
-		$criteria->addJoin(ProfilePeer::CHILD_UPDATED_BY, UserPeer::ID);
+		$criteria->addJoin(ProfilePeer::CHILD_UPDATED_BY, UsersPeer::ID);
 
 		$rs = ProfilePeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -624,13 +580,13 @@ abstract class BaseProfilePeer {
 
 
 	/**
-	 * Selects a collection of Profile objects pre-filled with their Agent objects.
+	 * Selects a collection of Profile objects pre-filled with their Users objects.
 	 *
 	 * @return array Array of Profile objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinAgent(Criteria $c, $con = null)
+	public static function doSelectJoinUsersRelatedByCreatedBy(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -641,9 +597,9 @@ abstract class BaseProfilePeer {
 
 		ProfilePeer::addSelectColumns($c);
 		$startcol = (ProfilePeer::NUM_COLUMNS - ProfilePeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-		AgentPeer::addSelectColumns($c);
+		UsersPeer::addSelectColumns($c);
 
-		$c->addJoin(ProfilePeer::AGENT_ID, AgentPeer::ID);
+		$c->addJoin(ProfilePeer::CREATED_BY, UsersPeer::ID);
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
@@ -655,7 +611,7 @@ abstract class BaseProfilePeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = AgentPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
@@ -663,65 +619,7 @@ abstract class BaseProfilePeer {
 
 			$newObject = true;
 			foreach($results as $temp_obj1) {
-				$temp_obj2 = $temp_obj1->getAgent(); //CHECKME
-				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
-					$newObject = false;
-					// e.g. $author->addBookRelatedByBookId()
-					$temp_obj2->addProfile($obj1); //CHECKME
-					break;
-				}
-			}
-			if ($newObject) {
-				$obj2->initProfiles();
-				$obj2->addProfile($obj1); //CHECKME
-			}
-			$results[] = $obj1;
-		}
-		return $results;
-	}
-
-
-	/**
-	 * Selects a collection of Profile objects pre-filled with their User objects.
-	 *
-	 * @return array Array of Profile objects.
-	 * @throws PropelException Any exceptions caught during processing will be
-	 *		 rethrown wrapped into a PropelException.
-	 */
-	public static function doSelectJoinUserRelatedByCreatedBy(Criteria $c, $con = null)
-	{
-		$c = clone $c;
-
-		// Set the correct dbName if it has not been overridden
-		if ($c->getDbName() == Propel::getDefaultDB()) {
-			$c->setDbName(self::DATABASE_NAME);
-		}
-
-		ProfilePeer::addSelectColumns($c);
-		$startcol = (ProfilePeer::NUM_COLUMNS - ProfilePeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-		UserPeer::addSelectColumns($c);
-
-		$c->addJoin(ProfilePeer::CREATED_BY, UserPeer::ID);
-		$rs = BasePeer::doSelect($c, $con);
-		$results = array();
-
-		while($rs->next()) {
-
-			$omClass = ProfilePeer::getOMClass();
-
-			$cls = Propel::import($omClass);
-			$obj1 = new $cls();
-			$obj1->hydrate($rs);
-
-			$omClass = UserPeer::getOMClass();
-
-			$cls = Propel::import($omClass);
-			$obj2 = new $cls();
-			$obj2->hydrate($rs, $startcol);
-
-			$newObject = true;
-			foreach($results as $temp_obj1) {
-				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedBy(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedBy(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					// e.g. $author->addBookRelatedByBookId()
@@ -740,13 +638,13 @@ abstract class BaseProfilePeer {
 
 
 	/**
-	 * Selects a collection of Profile objects pre-filled with their User objects.
+	 * Selects a collection of Profile objects pre-filled with their Users objects.
 	 *
 	 * @return array Array of Profile objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinUserRelatedByUpdatedBy(Criteria $c, $con = null)
+	public static function doSelectJoinUsersRelatedByUpdatedBy(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -757,9 +655,9 @@ abstract class BaseProfilePeer {
 
 		ProfilePeer::addSelectColumns($c);
 		$startcol = (ProfilePeer::NUM_COLUMNS - ProfilePeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-		UserPeer::addSelectColumns($c);
+		UsersPeer::addSelectColumns($c);
 
-		$c->addJoin(ProfilePeer::UPDATED_BY, UserPeer::ID);
+		$c->addJoin(ProfilePeer::UPDATED_BY, UsersPeer::ID);
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
@@ -771,7 +669,7 @@ abstract class BaseProfilePeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
@@ -779,7 +677,7 @@ abstract class BaseProfilePeer {
 
 			$newObject = true;
 			foreach($results as $temp_obj1) {
-				$temp_obj2 = $temp_obj1->getUserRelatedByUpdatedBy(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByUpdatedBy(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					// e.g. $author->addBookRelatedByBookId()
@@ -798,13 +696,13 @@ abstract class BaseProfilePeer {
 
 
 	/**
-	 * Selects a collection of Profile objects pre-filled with their User objects.
+	 * Selects a collection of Profile objects pre-filled with their Users objects.
 	 *
 	 * @return array Array of Profile objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinUserRelatedByDeletedBy(Criteria $c, $con = null)
+	public static function doSelectJoinUsersRelatedByDeletedBy(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -815,9 +713,9 @@ abstract class BaseProfilePeer {
 
 		ProfilePeer::addSelectColumns($c);
 		$startcol = (ProfilePeer::NUM_COLUMNS - ProfilePeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-		UserPeer::addSelectColumns($c);
+		UsersPeer::addSelectColumns($c);
 
-		$c->addJoin(ProfilePeer::DELETED_BY, UserPeer::ID);
+		$c->addJoin(ProfilePeer::DELETED_BY, UsersPeer::ID);
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
@@ -829,7 +727,7 @@ abstract class BaseProfilePeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
@@ -837,7 +735,7 @@ abstract class BaseProfilePeer {
 
 			$newObject = true;
 			foreach($results as $temp_obj1) {
-				$temp_obj2 = $temp_obj1->getUserRelatedByDeletedBy(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByDeletedBy(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					// e.g. $author->addBookRelatedByBookId()
@@ -856,13 +754,13 @@ abstract class BaseProfilePeer {
 
 
 	/**
-	 * Selects a collection of Profile objects pre-filled with their User objects.
+	 * Selects a collection of Profile objects pre-filled with their Users objects.
 	 *
 	 * @return array Array of Profile objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinUserRelatedByChildUpdatedBy(Criteria $c, $con = null)
+	public static function doSelectJoinUsersRelatedByChildUpdatedBy(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -873,9 +771,9 @@ abstract class BaseProfilePeer {
 
 		ProfilePeer::addSelectColumns($c);
 		$startcol = (ProfilePeer::NUM_COLUMNS - ProfilePeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-		UserPeer::addSelectColumns($c);
+		UsersPeer::addSelectColumns($c);
 
-		$c->addJoin(ProfilePeer::CHILD_UPDATED_BY, UserPeer::ID);
+		$c->addJoin(ProfilePeer::CHILD_UPDATED_BY, UsersPeer::ID);
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
@@ -887,7 +785,7 @@ abstract class BaseProfilePeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
@@ -895,7 +793,7 @@ abstract class BaseProfilePeer {
 
 			$newObject = true;
 			foreach($results as $temp_obj1) {
-				$temp_obj2 = $temp_obj1->getUserRelatedByChildUpdatedBy(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByChildUpdatedBy(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					// e.g. $author->addBookRelatedByBookId()
@@ -997,15 +895,13 @@ abstract class BaseProfilePeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(ProfilePeer::AGENT_ID, AgentPeer::ID);
+		$criteria->addJoin(ProfilePeer::CREATED_BY, UsersPeer::ID);
 
-		$criteria->addJoin(ProfilePeer::CREATED_BY, UserPeer::ID);
+		$criteria->addJoin(ProfilePeer::UPDATED_BY, UsersPeer::ID);
 
-		$criteria->addJoin(ProfilePeer::UPDATED_BY, UserPeer::ID);
+		$criteria->addJoin(ProfilePeer::DELETED_BY, UsersPeer::ID);
 
-		$criteria->addJoin(ProfilePeer::DELETED_BY, UserPeer::ID);
-
-		$criteria->addJoin(ProfilePeer::CHILD_UPDATED_BY, UserPeer::ID);
+		$criteria->addJoin(ProfilePeer::CHILD_UPDATED_BY, UsersPeer::ID);
 
 		$criteria->addJoin(ProfilePeer::STATUS_ID, StatusPeer::ID);
 
@@ -1038,41 +934,35 @@ abstract class BaseProfilePeer {
 		ProfilePeer::addSelectColumns($c);
 		$startcol2 = (ProfilePeer::NUM_COLUMNS - ProfilePeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		AgentPeer::addSelectColumns($c, 'a1');
-		$startcol3 = $startcol2 + AgentPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c, 'a1');
+		$startcol3 = $startcol2 + UsersPeer::NUM_COLUMNS;
 
-        $c->addJoin(ProfilePeer::AGENT_ID, AgentPeer::alias('a1', AgentPeer::ID));
-        $c->addAlias('a1', AgentPeer::TABLE_NAME);
+        $c->addJoin(ProfilePeer::CREATED_BY, UsersPeer::alias('a1', UsersPeer::ID));
+        $c->addAlias('a1', UsersPeer::TABLE_NAME);
 
-		UserPeer::addSelectColumns($c, 'a2');
-		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c, 'a2');
+		$startcol4 = $startcol3 + UsersPeer::NUM_COLUMNS;
 
-        $c->addJoin(ProfilePeer::CREATED_BY, UserPeer::alias('a2', UserPeer::ID));
-        $c->addAlias('a2', UserPeer::TABLE_NAME);
+        $c->addJoin(ProfilePeer::UPDATED_BY, UsersPeer::alias('a2', UsersPeer::ID));
+        $c->addAlias('a2', UsersPeer::TABLE_NAME);
 
-		UserPeer::addSelectColumns($c, 'a3');
-		$startcol5 = $startcol4 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c, 'a3');
+		$startcol5 = $startcol4 + UsersPeer::NUM_COLUMNS;
 
-        $c->addJoin(ProfilePeer::UPDATED_BY, UserPeer::alias('a3', UserPeer::ID));
-        $c->addAlias('a3', UserPeer::TABLE_NAME);
+        $c->addJoin(ProfilePeer::DELETED_BY, UsersPeer::alias('a3', UsersPeer::ID));
+        $c->addAlias('a3', UsersPeer::TABLE_NAME);
 
-		UserPeer::addSelectColumns($c, 'a4');
-		$startcol6 = $startcol5 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c, 'a4');
+		$startcol6 = $startcol5 + UsersPeer::NUM_COLUMNS;
 
-        $c->addJoin(ProfilePeer::DELETED_BY, UserPeer::alias('a4', UserPeer::ID));
-        $c->addAlias('a4', UserPeer::TABLE_NAME);
+        $c->addJoin(ProfilePeer::CHILD_UPDATED_BY, UsersPeer::alias('a4', UsersPeer::ID));
+        $c->addAlias('a4', UsersPeer::TABLE_NAME);
 
-		UserPeer::addSelectColumns($c, 'a5');
-		$startcol7 = $startcol6 + UserPeer::NUM_COLUMNS;
+		StatusPeer::addSelectColumns($c, 'a5');
+		$startcol7 = $startcol6 + StatusPeer::NUM_COLUMNS;
 
-        $c->addJoin(ProfilePeer::CHILD_UPDATED_BY, UserPeer::alias('a5', UserPeer::ID));
-        $c->addAlias('a5', UserPeer::TABLE_NAME);
-
-		StatusPeer::addSelectColumns($c, 'a6');
-		$startcol8 = $startcol7 + StatusPeer::NUM_COLUMNS;
-
-        $c->addJoin(ProfilePeer::STATUS_ID, StatusPeer::alias('a6', StatusPeer::ID));
-        $c->addAlias('a6', StatusPeer::TABLE_NAME);
+        $c->addJoin(ProfilePeer::STATUS_ID, StatusPeer::alias('a5', StatusPeer::ID));
+        $c->addAlias('a5', StatusPeer::TABLE_NAME);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
@@ -1087,9 +977,9 @@ abstract class BaseProfilePeer {
 			$obj1->hydrate($rs);
 
 
-				// Add objects for joined Agent rows
+				// Add objects for joined Users rows
 	
-			$omClass = AgentPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -1099,23 +989,23 @@ abstract class BaseProfilePeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getAgent(); // CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedBy(); // CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj2->addProfile($obj1); // CHECKME
+					$temp_obj2->addProfileRelatedByCreatedBy($obj1); // CHECKME
 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj2->initProfiles();
-				$obj2->addProfile($obj1);
+				$obj2->initProfilesRelatedByCreatedBy();
+				$obj2->addProfileRelatedByCreatedBy($obj1);
 			}
 
 
-				// Add objects for joined User rows
+				// Add objects for joined Users rows
 	
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -1125,23 +1015,23 @@ abstract class BaseProfilePeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getUserRelatedByCreatedBy(); // CHECKME
+				$temp_obj3 = $temp_obj1->getUsersRelatedByUpdatedBy(); // CHECKME
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj3->addProfileRelatedByCreatedBy($obj1); // CHECKME
+					$temp_obj3->addProfileRelatedByUpdatedBy($obj1); // CHECKME
 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj3->initProfilesRelatedByCreatedBy();
-				$obj3->addProfileRelatedByCreatedBy($obj1);
+				$obj3->initProfilesRelatedByUpdatedBy();
+				$obj3->addProfileRelatedByUpdatedBy($obj1);
 			}
 
 
-				// Add objects for joined User rows
+				// Add objects for joined Users rows
 	
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -1151,23 +1041,23 @@ abstract class BaseProfilePeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj4 = $temp_obj1->getUserRelatedByUpdatedBy(); // CHECKME
+				$temp_obj4 = $temp_obj1->getUsersRelatedByDeletedBy(); // CHECKME
 				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj4->addProfileRelatedByUpdatedBy($obj1); // CHECKME
+					$temp_obj4->addProfileRelatedByDeletedBy($obj1); // CHECKME
 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj4->initProfilesRelatedByUpdatedBy();
-				$obj4->addProfileRelatedByUpdatedBy($obj1);
+				$obj4->initProfilesRelatedByDeletedBy();
+				$obj4->addProfileRelatedByDeletedBy($obj1);
 			}
 
 
-				// Add objects for joined User rows
+				// Add objects for joined Users rows
 	
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -1177,43 +1067,17 @@ abstract class BaseProfilePeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj5 = $temp_obj1->getUserRelatedByDeletedBy(); // CHECKME
+				$temp_obj5 = $temp_obj1->getUsersRelatedByChildUpdatedBy(); // CHECKME
 				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj5->addProfileRelatedByDeletedBy($obj1); // CHECKME
+					$temp_obj5->addProfileRelatedByChildUpdatedBy($obj1); // CHECKME
 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj5->initProfilesRelatedByDeletedBy();
-				$obj5->addProfileRelatedByDeletedBy($obj1);
-			}
-
-
-				// Add objects for joined User rows
-	
-			$omClass = UserPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj6 = new $cls();
-			$obj6->hydrate($rs, $startcol6);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj6 = $temp_obj1->getUserRelatedByChildUpdatedBy(); // CHECKME
-				if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj6->addProfileRelatedByChildUpdatedBy($obj1); // CHECKME
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj6->initProfilesRelatedByChildUpdatedBy();
-				$obj6->addProfileRelatedByChildUpdatedBy($obj1);
+				$obj5->initProfilesRelatedByChildUpdatedBy();
+				$obj5->addProfileRelatedByChildUpdatedBy($obj1);
 			}
 
 
@@ -1223,23 +1087,23 @@ abstract class BaseProfilePeer {
 
 
 			$cls = Propel::import($omClass);
-			$obj7 = new $cls();
-			$obj7->hydrate($rs, $startcol7);
+			$obj6 = new $cls();
+			$obj6->hydrate($rs, $startcol6);
 
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj7 = $temp_obj1->getStatus(); // CHECKME
-				if ($temp_obj7->getPrimaryKey() === $obj7->getPrimaryKey()) {
+				$temp_obj6 = $temp_obj1->getStatus(); // CHECKME
+				if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj7->addProfile($obj1); // CHECKME
+					$temp_obj6->addProfile($obj1); // CHECKME
 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj7->initProfiles();
-				$obj7->addProfile($obj1);
+				$obj6->initProfiles();
+				$obj6->addProfile($obj1);
 			}
 
 			$results[] = $obj1;
@@ -1249,14 +1113,14 @@ abstract class BaseProfilePeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related Agent table
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByCreatedBy table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinAllExceptAgent(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinAllExceptUsersRelatedByCreatedBy(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -1274,14 +1138,6 @@ abstract class BaseProfilePeer {
 		{
 			$criteria->addSelectColumn($column);
 		}
-
-		$criteria->addJoin(ProfilePeer::CREATED_BY, UserPeer::ID);
-
-		$criteria->addJoin(ProfilePeer::UPDATED_BY, UserPeer::ID);
-
-		$criteria->addJoin(ProfilePeer::DELETED_BY, UserPeer::ID);
-
-		$criteria->addJoin(ProfilePeer::CHILD_UPDATED_BY, UserPeer::ID);
 
 		$criteria->addJoin(ProfilePeer::STATUS_ID, StatusPeer::ID);
 
@@ -1296,14 +1152,14 @@ abstract class BaseProfilePeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related UserRelatedByCreatedBy table
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByUpdatedBy table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinAllExceptUserRelatedByCreatedBy(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinAllExceptUsersRelatedByUpdatedBy(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -1321,8 +1177,6 @@ abstract class BaseProfilePeer {
 		{
 			$criteria->addSelectColumn($column);
 		}
-
-		$criteria->addJoin(ProfilePeer::AGENT_ID, AgentPeer::ID);
 
 		$criteria->addJoin(ProfilePeer::STATUS_ID, StatusPeer::ID);
 
@@ -1337,14 +1191,14 @@ abstract class BaseProfilePeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related UserRelatedByUpdatedBy table
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByDeletedBy table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinAllExceptUserRelatedByUpdatedBy(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinAllExceptUsersRelatedByDeletedBy(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -1362,8 +1216,6 @@ abstract class BaseProfilePeer {
 		{
 			$criteria->addSelectColumn($column);
 		}
-
-		$criteria->addJoin(ProfilePeer::AGENT_ID, AgentPeer::ID);
 
 		$criteria->addJoin(ProfilePeer::STATUS_ID, StatusPeer::ID);
 
@@ -1378,14 +1230,14 @@ abstract class BaseProfilePeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related UserRelatedByDeletedBy table
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByChildUpdatedBy table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinAllExceptUserRelatedByDeletedBy(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinAllExceptUsersRelatedByChildUpdatedBy(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -1403,49 +1255,6 @@ abstract class BaseProfilePeer {
 		{
 			$criteria->addSelectColumn($column);
 		}
-
-		$criteria->addJoin(ProfilePeer::AGENT_ID, AgentPeer::ID);
-
-		$criteria->addJoin(ProfilePeer::STATUS_ID, StatusPeer::ID);
-
-		$rs = ProfilePeer::doSelectRS($criteria, $con);
-		if ($rs->next()) {
-			return $rs->getInt(1);
-		} else {
-			// no rows returned; we infer that means 0 matches.
-			return 0;
-		}
-	}
-
-
-	/**
-	 * Returns the number of rows matching criteria, joining the related UserRelatedByChildUpdatedBy table
-	 *
-	 * @param Criteria $c
-	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
-	 * @param Connection $con
-	 * @return int Number of matching rows.
-	 */
-	public static function doCountJoinAllExceptUserRelatedByChildUpdatedBy(Criteria $criteria, $distinct = false, $con = null)
-	{
-		// we're going to modify criteria, so copy it first
-		$criteria = clone $criteria;
-
-		// clear out anything that might confuse the ORDER BY clause
-		$criteria->clearSelectColumns()->clearOrderByColumns();
-		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(ProfilePeer::COUNT_DISTINCT);
-		} else {
-			$criteria->addSelectColumn(ProfilePeer::COUNT);
-		}
-
-		// just in case we're grouping: add those columns to the select statement
-		foreach($criteria->getGroupByColumns() as $column)
-		{
-			$criteria->addSelectColumn($column);
-		}
-
-		$criteria->addJoin(ProfilePeer::AGENT_ID, AgentPeer::ID);
 
 		$criteria->addJoin(ProfilePeer::STATUS_ID, StatusPeer::ID);
 
@@ -1486,15 +1295,13 @@ abstract class BaseProfilePeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(ProfilePeer::AGENT_ID, AgentPeer::ID);
+		$criteria->addJoin(ProfilePeer::CREATED_BY, UsersPeer::ID);
 
-		$criteria->addJoin(ProfilePeer::CREATED_BY, UserPeer::ID);
+		$criteria->addJoin(ProfilePeer::UPDATED_BY, UsersPeer::ID);
 
-		$criteria->addJoin(ProfilePeer::UPDATED_BY, UserPeer::ID);
+		$criteria->addJoin(ProfilePeer::DELETED_BY, UsersPeer::ID);
 
-		$criteria->addJoin(ProfilePeer::DELETED_BY, UserPeer::ID);
-
-		$criteria->addJoin(ProfilePeer::CHILD_UPDATED_BY, UserPeer::ID);
+		$criteria->addJoin(ProfilePeer::CHILD_UPDATED_BY, UsersPeer::ID);
 
 		$rs = ProfilePeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -1507,13 +1314,13 @@ abstract class BaseProfilePeer {
 
 
 	/**
-	 * Selects a collection of Profile objects pre-filled with all related objects except Agent.
+	 * Selects a collection of Profile objects pre-filled with all related objects except UsersRelatedByCreatedBy.
 	 *
 	 * @return array Array of Profile objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinAllExceptAgent(Criteria $c, $con = null)
+	public static function doSelectJoinAllExceptUsersRelatedByCreatedBy(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -1527,28 +1334,8 @@ abstract class BaseProfilePeer {
 		ProfilePeer::addSelectColumns($c);
 		$startcol2 = (ProfilePeer::NUM_COLUMNS - ProfilePeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
-
-		UserPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
-
-		UserPeer::addSelectColumns($c);
-		$startcol5 = $startcol4 + UserPeer::NUM_COLUMNS;
-
-		UserPeer::addSelectColumns($c);
-		$startcol6 = $startcol5 + UserPeer::NUM_COLUMNS;
-
 		StatusPeer::addSelectColumns($c);
-		$startcol7 = $startcol6 + StatusPeer::NUM_COLUMNS;
-
-		$c->addJoin(ProfilePeer::CREATED_BY, UserPeer::ID);
-
-		$c->addJoin(ProfilePeer::UPDATED_BY, UserPeer::ID);
-
-		$c->addJoin(ProfilePeer::DELETED_BY, UserPeer::ID);
-
-		$c->addJoin(ProfilePeer::CHILD_UPDATED_BY, UserPeer::ID);
+		$startcol3 = $startcol2 + StatusPeer::NUM_COLUMNS;
 
 		$c->addJoin(ProfilePeer::STATUS_ID, StatusPeer::ID);
 
@@ -1563,182 +1350,18 @@ abstract class BaseProfilePeer {
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
-
-			$omClass = UserPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj2  = new $cls();
-			$obj2->hydrate($rs, $startcol2);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedBy(); //CHECKME
-				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj2->addProfileRelatedByCreatedBy($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj2->initProfilesRelatedByCreatedBy();
-				$obj2->addProfileRelatedByCreatedBy($obj1);
-			}
-
-			$omClass = UserPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj3  = new $cls();
-			$obj3->hydrate($rs, $startcol3);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getUserRelatedByUpdatedBy(); //CHECKME
-				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj3->addProfileRelatedByUpdatedBy($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj3->initProfilesRelatedByUpdatedBy();
-				$obj3->addProfileRelatedByUpdatedBy($obj1);
-			}
-
-			$omClass = UserPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj4  = new $cls();
-			$obj4->hydrate($rs, $startcol4);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj4 = $temp_obj1->getUserRelatedByDeletedBy(); //CHECKME
-				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj4->addProfileRelatedByDeletedBy($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj4->initProfilesRelatedByDeletedBy();
-				$obj4->addProfileRelatedByDeletedBy($obj1);
-			}
-
-			$omClass = UserPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj5  = new $cls();
-			$obj5->hydrate($rs, $startcol5);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj5 = $temp_obj1->getUserRelatedByChildUpdatedBy(); //CHECKME
-				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj5->addProfileRelatedByChildUpdatedBy($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj5->initProfilesRelatedByChildUpdatedBy();
-				$obj5->addProfileRelatedByChildUpdatedBy($obj1);
-			}
 
 			$omClass = StatusPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
-			$obj6  = new $cls();
-			$obj6->hydrate($rs, $startcol6);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj6 = $temp_obj1->getStatus(); //CHECKME
-				if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj6->addProfile($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj6->initProfiles();
-				$obj6->addProfile($obj1);
-			}
-
-			$results[] = $obj1;
-		}
-		return $results;
-	}
-
-
-	/**
-	 * Selects a collection of Profile objects pre-filled with all related objects except UserRelatedByCreatedBy.
-	 *
-	 * @return array Array of Profile objects.
-	 * @throws PropelException Any exceptions caught during processing will be
-	 *		 rethrown wrapped into a PropelException.
-	 */
-	public static function doSelectJoinAllExceptUserRelatedByCreatedBy(Criteria $c, $con = null)
-	{
-		$c = clone $c;
-
-		// Set the correct dbName if it has not been overridden
-		// $c->getDbName() will return the same object if not set to another value
-		// so == check is okay and faster
-		if ($c->getDbName() == Propel::getDefaultDB()) {
-			$c->setDbName(self::DATABASE_NAME);
-		}
-
-		ProfilePeer::addSelectColumns($c);
-		$startcol2 = (ProfilePeer::NUM_COLUMNS - ProfilePeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-
-		AgentPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + AgentPeer::NUM_COLUMNS;
-
-		StatusPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + StatusPeer::NUM_COLUMNS;
-
-		$c->addJoin(ProfilePeer::AGENT_ID, AgentPeer::ID);
-
-		$c->addJoin(ProfilePeer::STATUS_ID, StatusPeer::ID);
-
-
-		$rs = BasePeer::doSelect($c, $con);
-		$results = array();
-
-		while($rs->next()) {
-
-			$omClass = ProfilePeer::getOMClass();
-
-			$cls = Propel::import($omClass);
-			$obj1 = new $cls();
-			$obj1->hydrate($rs);
-
-			$omClass = AgentPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
 			$obj2  = new $cls();
 			$obj2->hydrate($rs, $startcol2);
 
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getAgent(); //CHECKME
+				$temp_obj2 = $temp_obj1->getStatus(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addProfile($obj1);
@@ -1751,29 +1374,6 @@ abstract class BaseProfilePeer {
 				$obj2->addProfile($obj1);
 			}
 
-			$omClass = StatusPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj3  = new $cls();
-			$obj3->hydrate($rs, $startcol3);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getStatus(); //CHECKME
-				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj3->addProfile($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj3->initProfiles();
-				$obj3->addProfile($obj1);
-			}
-
 			$results[] = $obj1;
 		}
 		return $results;
@@ -1781,13 +1381,13 @@ abstract class BaseProfilePeer {
 
 
 	/**
-	 * Selects a collection of Profile objects pre-filled with all related objects except UserRelatedByUpdatedBy.
+	 * Selects a collection of Profile objects pre-filled with all related objects except UsersRelatedByUpdatedBy.
 	 *
 	 * @return array Array of Profile objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinAllExceptUserRelatedByUpdatedBy(Criteria $c, $con = null)
+	public static function doSelectJoinAllExceptUsersRelatedByUpdatedBy(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -1801,13 +1401,8 @@ abstract class BaseProfilePeer {
 		ProfilePeer::addSelectColumns($c);
 		$startcol2 = (ProfilePeer::NUM_COLUMNS - ProfilePeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		AgentPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + AgentPeer::NUM_COLUMNS;
-
 		StatusPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + StatusPeer::NUM_COLUMNS;
-
-		$c->addJoin(ProfilePeer::AGENT_ID, AgentPeer::ID);
+		$startcol3 = $startcol2 + StatusPeer::NUM_COLUMNS;
 
 		$c->addJoin(ProfilePeer::STATUS_ID, StatusPeer::ID);
 
@@ -1823,7 +1418,7 @@ abstract class BaseProfilePeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = AgentPeer::getOMClass();
+			$omClass = StatusPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -1833,7 +1428,7 @@ abstract class BaseProfilePeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getAgent(); //CHECKME
+				$temp_obj2 = $temp_obj1->getStatus(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addProfile($obj1);
@@ -1846,29 +1441,6 @@ abstract class BaseProfilePeer {
 				$obj2->addProfile($obj1);
 			}
 
-			$omClass = StatusPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj3  = new $cls();
-			$obj3->hydrate($rs, $startcol3);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getStatus(); //CHECKME
-				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj3->addProfile($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj3->initProfiles();
-				$obj3->addProfile($obj1);
-			}
-
 			$results[] = $obj1;
 		}
 		return $results;
@@ -1876,13 +1448,13 @@ abstract class BaseProfilePeer {
 
 
 	/**
-	 * Selects a collection of Profile objects pre-filled with all related objects except UserRelatedByDeletedBy.
+	 * Selects a collection of Profile objects pre-filled with all related objects except UsersRelatedByDeletedBy.
 	 *
 	 * @return array Array of Profile objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinAllExceptUserRelatedByDeletedBy(Criteria $c, $con = null)
+	public static function doSelectJoinAllExceptUsersRelatedByDeletedBy(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -1896,13 +1468,8 @@ abstract class BaseProfilePeer {
 		ProfilePeer::addSelectColumns($c);
 		$startcol2 = (ProfilePeer::NUM_COLUMNS - ProfilePeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		AgentPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + AgentPeer::NUM_COLUMNS;
-
 		StatusPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + StatusPeer::NUM_COLUMNS;
-
-		$c->addJoin(ProfilePeer::AGENT_ID, AgentPeer::ID);
+		$startcol3 = $startcol2 + StatusPeer::NUM_COLUMNS;
 
 		$c->addJoin(ProfilePeer::STATUS_ID, StatusPeer::ID);
 
@@ -1918,7 +1485,7 @@ abstract class BaseProfilePeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = AgentPeer::getOMClass();
+			$omClass = StatusPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -1928,7 +1495,7 @@ abstract class BaseProfilePeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getAgent(); //CHECKME
+				$temp_obj2 = $temp_obj1->getStatus(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addProfile($obj1);
@@ -1941,29 +1508,6 @@ abstract class BaseProfilePeer {
 				$obj2->addProfile($obj1);
 			}
 
-			$omClass = StatusPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj3  = new $cls();
-			$obj3->hydrate($rs, $startcol3);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getStatus(); //CHECKME
-				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj3->addProfile($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj3->initProfiles();
-				$obj3->addProfile($obj1);
-			}
-
 			$results[] = $obj1;
 		}
 		return $results;
@@ -1971,13 +1515,13 @@ abstract class BaseProfilePeer {
 
 
 	/**
-	 * Selects a collection of Profile objects pre-filled with all related objects except UserRelatedByChildUpdatedBy.
+	 * Selects a collection of Profile objects pre-filled with all related objects except UsersRelatedByChildUpdatedBy.
 	 *
 	 * @return array Array of Profile objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinAllExceptUserRelatedByChildUpdatedBy(Criteria $c, $con = null)
+	public static function doSelectJoinAllExceptUsersRelatedByChildUpdatedBy(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -1991,13 +1535,8 @@ abstract class BaseProfilePeer {
 		ProfilePeer::addSelectColumns($c);
 		$startcol2 = (ProfilePeer::NUM_COLUMNS - ProfilePeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		AgentPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + AgentPeer::NUM_COLUMNS;
-
 		StatusPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + StatusPeer::NUM_COLUMNS;
-
-		$c->addJoin(ProfilePeer::AGENT_ID, AgentPeer::ID);
+		$startcol3 = $startcol2 + StatusPeer::NUM_COLUMNS;
 
 		$c->addJoin(ProfilePeer::STATUS_ID, StatusPeer::ID);
 
@@ -2013,7 +1552,7 @@ abstract class BaseProfilePeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = AgentPeer::getOMClass();
+			$omClass = StatusPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -2023,7 +1562,7 @@ abstract class BaseProfilePeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getAgent(); //CHECKME
+				$temp_obj2 = $temp_obj1->getStatus(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addProfile($obj1);
@@ -2034,29 +1573,6 @@ abstract class BaseProfilePeer {
 			if ($newObject) {
 				$obj2->initProfiles();
 				$obj2->addProfile($obj1);
-			}
-
-			$omClass = StatusPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj3  = new $cls();
-			$obj3->hydrate($rs, $startcol3);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getStatus(); //CHECKME
-				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj3->addProfile($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj3->initProfiles();
-				$obj3->addProfile($obj1);
 			}
 
 			$results[] = $obj1;
@@ -2086,30 +1602,25 @@ abstract class BaseProfilePeer {
 		ProfilePeer::addSelectColumns($c);
 		$startcol2 = (ProfilePeer::NUM_COLUMNS - ProfilePeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		AgentPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + AgentPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + UsersPeer::NUM_COLUMNS;
 
-		UserPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + UsersPeer::NUM_COLUMNS;
 
-		UserPeer::addSelectColumns($c);
-		$startcol5 = $startcol4 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol5 = $startcol4 + UsersPeer::NUM_COLUMNS;
 
-		UserPeer::addSelectColumns($c);
-		$startcol6 = $startcol5 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol6 = $startcol5 + UsersPeer::NUM_COLUMNS;
 
-		UserPeer::addSelectColumns($c);
-		$startcol7 = $startcol6 + UserPeer::NUM_COLUMNS;
+		$c->addJoin(ProfilePeer::CREATED_BY, UsersPeer::ID);
 
-		$c->addJoin(ProfilePeer::AGENT_ID, AgentPeer::ID);
+		$c->addJoin(ProfilePeer::UPDATED_BY, UsersPeer::ID);
 
-		$c->addJoin(ProfilePeer::CREATED_BY, UserPeer::ID);
+		$c->addJoin(ProfilePeer::DELETED_BY, UsersPeer::ID);
 
-		$c->addJoin(ProfilePeer::UPDATED_BY, UserPeer::ID);
-
-		$c->addJoin(ProfilePeer::DELETED_BY, UserPeer::ID);
-
-		$c->addJoin(ProfilePeer::CHILD_UPDATED_BY, UserPeer::ID);
+		$c->addJoin(ProfilePeer::CHILD_UPDATED_BY, UsersPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -2123,7 +1634,7 @@ abstract class BaseProfilePeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = AgentPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -2133,20 +1644,20 @@ abstract class BaseProfilePeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getAgent(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedBy(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj2->addProfile($obj1);
+					$temp_obj2->addProfileRelatedByCreatedBy($obj1);
 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj2->initProfiles();
-				$obj2->addProfile($obj1);
+				$obj2->initProfilesRelatedByCreatedBy();
+				$obj2->addProfileRelatedByCreatedBy($obj1);
 			}
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -2156,20 +1667,20 @@ abstract class BaseProfilePeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getUserRelatedByCreatedBy(); //CHECKME
+				$temp_obj3 = $temp_obj1->getUsersRelatedByUpdatedBy(); //CHECKME
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj3->addProfileRelatedByCreatedBy($obj1);
+					$temp_obj3->addProfileRelatedByUpdatedBy($obj1);
 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj3->initProfilesRelatedByCreatedBy();
-				$obj3->addProfileRelatedByCreatedBy($obj1);
+				$obj3->initProfilesRelatedByUpdatedBy();
+				$obj3->addProfileRelatedByUpdatedBy($obj1);
 			}
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -2179,20 +1690,20 @@ abstract class BaseProfilePeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj4 = $temp_obj1->getUserRelatedByUpdatedBy(); //CHECKME
+				$temp_obj4 = $temp_obj1->getUsersRelatedByDeletedBy(); //CHECKME
 				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj4->addProfileRelatedByUpdatedBy($obj1);
+					$temp_obj4->addProfileRelatedByDeletedBy($obj1);
 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj4->initProfilesRelatedByUpdatedBy();
-				$obj4->addProfileRelatedByUpdatedBy($obj1);
+				$obj4->initProfilesRelatedByDeletedBy();
+				$obj4->addProfileRelatedByDeletedBy($obj1);
 			}
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -2202,40 +1713,17 @@ abstract class BaseProfilePeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj5 = $temp_obj1->getUserRelatedByDeletedBy(); //CHECKME
+				$temp_obj5 = $temp_obj1->getUsersRelatedByChildUpdatedBy(); //CHECKME
 				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj5->addProfileRelatedByDeletedBy($obj1);
+					$temp_obj5->addProfileRelatedByChildUpdatedBy($obj1);
 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj5->initProfilesRelatedByDeletedBy();
-				$obj5->addProfileRelatedByDeletedBy($obj1);
-			}
-
-			$omClass = UserPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj6  = new $cls();
-			$obj6->hydrate($rs, $startcol6);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj6 = $temp_obj1->getUserRelatedByChildUpdatedBy(); //CHECKME
-				if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj6->addProfileRelatedByChildUpdatedBy($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj6->initProfilesRelatedByChildUpdatedBy();
-				$obj6->addProfileRelatedByChildUpdatedBy($obj1);
+				$obj5->initProfilesRelatedByChildUpdatedBy();
+				$obj5->addProfileRelatedByChildUpdatedBy($obj1);
 			}
 
 			$results[] = $obj1;

@@ -63,7 +63,9 @@ class ConceptPropertyHistoryMapBuilder {
 
 		$tMap->addPrimaryKey('ID', 'Id', 'int', CreoleTypes::INTEGER, true, null);
 
-		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, true, null);
+		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
+
+		$tMap->addColumn('UPDATED_AT', 'UpdatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
 		$tMap->addColumn('ACTION', 'Action', 'string', CreoleTypes::CHAR, false, null);
 
@@ -92,6 +94,8 @@ class ConceptPropertyHistoryMapBuilder {
 		$tMap->addForeignKey('IMPORT_ID', 'ImportId', 'int', CreoleTypes::INTEGER, 'reg_file_import_history', 'ID', false, null);
 
 		$tMap->addForeignKey('PROFILE_PROPERTY_ID', 'ProfilePropertyId', 'int', CreoleTypes::INTEGER, 'profile_property', 'ID', false, null);
+
+		$tMap->addForeignKey('CREATED_BY', 'CreatedBy', 'int', CreoleTypes::INTEGER, 'users', 'ID', false, null);
 
 	} // doBuild()
 

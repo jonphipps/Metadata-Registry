@@ -65,7 +65,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	 * The value for the org_name field.
 	 * @var        string
 	 */
-	protected $org_name;
+	protected $org_name = '';
 
 
 	/**
@@ -194,31 +194,19 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	protected $deleted_by;
 
 	/**
-	 * @var        User
+	 * @var        Users
 	 */
-	protected $aUserRelatedByCreatedBy;
+	protected $aUsersRelatedByCreatedBy;
 
 	/**
-	 * @var        User
+	 * @var        Users
 	 */
-	protected $aUserRelatedByUpdatedBy;
+	protected $aUsersRelatedByUpdatedBy;
 
 	/**
-	 * @var        User
+	 * @var        Users
 	 */
-	protected $aUserRelatedByDeletedBy;
-
-	/**
-	 * Collection to store aggregation of collProfiles.
-	 * @var        array
-	 */
-	protected $collProfiles;
-
-	/**
-	 * The criteria used to select the current contents of collProfiles.
-	 * @var        Criteria
-	 */
-	protected $lastProfileCriteria = null;
+	protected $aUsersRelatedByDeletedBy;
 
 	/**
 	 * Collection to store aggregation of collAgentHasUsers.
@@ -231,30 +219,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	 * @var        Criteria
 	 */
 	protected $lastAgentHasUserCriteria = null;
-
-	/**
-	 * Collection to store aggregation of collSchemas.
-	 * @var        array
-	 */
-	protected $collSchemas;
-
-	/**
-	 * The criteria used to select the current contents of collSchemas.
-	 * @var        Criteria
-	 */
-	protected $lastSchemaCriteria = null;
-
-	/**
-	 * Collection to store aggregation of collVocabularys.
-	 * @var        array
-	 */
-	protected $collVocabularys;
-
-	/**
-	 * The criteria used to select the current contents of collVocabularys.
-	 * @var        Criteria
-	 */
-	protected $lastVocabularyCriteria = null;
 
 	/**
 	 * Flag to prevent endless save loop, if this object is referenced
@@ -780,7 +744,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->org_name !== $v) {
+		if ($this->org_name !== $v || $v === '') {
 			$this->org_name = $v;
 			$this->modifiedColumns[] = AgentPeer::ORG_NAME;
 		}
@@ -1131,8 +1095,8 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			$this->modifiedColumns[] = AgentPeer::CREATED_BY;
 		}
 
-		if ($this->aUserRelatedByCreatedBy !== null && $this->aUserRelatedByCreatedBy->getId() !== $v) {
-			$this->aUserRelatedByCreatedBy = null;
+		if ($this->aUsersRelatedByCreatedBy !== null && $this->aUsersRelatedByCreatedBy->getId() !== $v) {
+			$this->aUsersRelatedByCreatedBy = null;
 		}
 
 	} // setCreatedBy()
@@ -1157,8 +1121,8 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			$this->modifiedColumns[] = AgentPeer::UPDATED_BY;
 		}
 
-		if ($this->aUserRelatedByUpdatedBy !== null && $this->aUserRelatedByUpdatedBy->getId() !== $v) {
-			$this->aUserRelatedByUpdatedBy = null;
+		if ($this->aUsersRelatedByUpdatedBy !== null && $this->aUsersRelatedByUpdatedBy->getId() !== $v) {
+			$this->aUsersRelatedByUpdatedBy = null;
 		}
 
 	} // setUpdatedBy()
@@ -1183,8 +1147,8 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			$this->modifiedColumns[] = AgentPeer::DELETED_BY;
 		}
 
-		if ($this->aUserRelatedByDeletedBy !== null && $this->aUserRelatedByDeletedBy->getId() !== $v) {
-			$this->aUserRelatedByDeletedBy = null;
+		if ($this->aUsersRelatedByDeletedBy !== null && $this->aUsersRelatedByDeletedBy->getId() !== $v) {
+			$this->aUsersRelatedByDeletedBy = null;
 		}
 
 	} // setDeletedBy()
@@ -1395,25 +1359,25 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
-			if ($this->aUserRelatedByCreatedBy !== null) {
-				if ($this->aUserRelatedByCreatedBy->isModified()) {
-					$affectedRows += $this->aUserRelatedByCreatedBy->save($con);
+			if ($this->aUsersRelatedByCreatedBy !== null) {
+				if ($this->aUsersRelatedByCreatedBy->isModified()) {
+					$affectedRows += $this->aUsersRelatedByCreatedBy->save($con);
 				}
-				$this->setUserRelatedByCreatedBy($this->aUserRelatedByCreatedBy);
+				$this->setUsersRelatedByCreatedBy($this->aUsersRelatedByCreatedBy);
 			}
 
-			if ($this->aUserRelatedByUpdatedBy !== null) {
-				if ($this->aUserRelatedByUpdatedBy->isModified()) {
-					$affectedRows += $this->aUserRelatedByUpdatedBy->save($con);
+			if ($this->aUsersRelatedByUpdatedBy !== null) {
+				if ($this->aUsersRelatedByUpdatedBy->isModified()) {
+					$affectedRows += $this->aUsersRelatedByUpdatedBy->save($con);
 				}
-				$this->setUserRelatedByUpdatedBy($this->aUserRelatedByUpdatedBy);
+				$this->setUsersRelatedByUpdatedBy($this->aUsersRelatedByUpdatedBy);
 			}
 
-			if ($this->aUserRelatedByDeletedBy !== null) {
-				if ($this->aUserRelatedByDeletedBy->isModified()) {
-					$affectedRows += $this->aUserRelatedByDeletedBy->save($con);
+			if ($this->aUsersRelatedByDeletedBy !== null) {
+				if ($this->aUsersRelatedByDeletedBy->isModified()) {
+					$affectedRows += $this->aUsersRelatedByDeletedBy->save($con);
 				}
-				$this->setUserRelatedByDeletedBy($this->aUserRelatedByDeletedBy);
+				$this->setUsersRelatedByDeletedBy($this->aUsersRelatedByDeletedBy);
 			}
 
 
@@ -1434,32 +1398,8 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 				$this->resetModified(); // [HL] After being saved an object is no longer 'modified'
 			}
 
-			if ($this->collProfiles !== null) {
-				foreach($this->collProfiles as $referrerFK) {
-					if (!$referrerFK->isDeleted()) {
-						$affectedRows += $referrerFK->save($con);
-					}
-				}
-			}
-
 			if ($this->collAgentHasUsers !== null) {
 				foreach($this->collAgentHasUsers as $referrerFK) {
-					if (!$referrerFK->isDeleted()) {
-						$affectedRows += $referrerFK->save($con);
-					}
-				}
-			}
-
-			if ($this->collSchemas !== null) {
-				foreach($this->collSchemas as $referrerFK) {
-					if (!$referrerFK->isDeleted()) {
-						$affectedRows += $referrerFK->save($con);
-					}
-				}
-			}
-
-			if ($this->collVocabularys !== null) {
-				foreach($this->collVocabularys as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
@@ -1536,21 +1476,21 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
-			if ($this->aUserRelatedByCreatedBy !== null) {
-				if (!$this->aUserRelatedByCreatedBy->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aUserRelatedByCreatedBy->getValidationFailures());
+			if ($this->aUsersRelatedByCreatedBy !== null) {
+				if (!$this->aUsersRelatedByCreatedBy->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsersRelatedByCreatedBy->getValidationFailures());
 				}
 			}
 
-			if ($this->aUserRelatedByUpdatedBy !== null) {
-				if (!$this->aUserRelatedByUpdatedBy->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aUserRelatedByUpdatedBy->getValidationFailures());
+			if ($this->aUsersRelatedByUpdatedBy !== null) {
+				if (!$this->aUsersRelatedByUpdatedBy->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsersRelatedByUpdatedBy->getValidationFailures());
 				}
 			}
 
-			if ($this->aUserRelatedByDeletedBy !== null) {
-				if (!$this->aUserRelatedByDeletedBy->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aUserRelatedByDeletedBy->getValidationFailures());
+			if ($this->aUsersRelatedByDeletedBy !== null) {
+				if (!$this->aUsersRelatedByDeletedBy->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsersRelatedByDeletedBy->getValidationFailures());
 				}
 			}
 
@@ -1560,32 +1500,8 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			}
 
 
-				if ($this->collProfiles !== null) {
-					foreach($this->collProfiles as $referrerFK) {
-						if (!$referrerFK->validate($columns)) {
-							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
-						}
-					}
-				}
-
 				if ($this->collAgentHasUsers !== null) {
 					foreach($this->collAgentHasUsers as $referrerFK) {
-						if (!$referrerFK->validate($columns)) {
-							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
-						}
-					}
-				}
-
-				if ($this->collSchemas !== null) {
-					foreach($this->collSchemas as $referrerFK) {
-						if (!$referrerFK->validate($columns)) {
-							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
-						}
-					}
-				}
-
-				if ($this->collVocabularys !== null) {
-					foreach($this->collVocabularys as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -2042,20 +1958,8 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			// the getter/setter methods for fkey referrer objects.
 			$copyObj->setNew(false);
 
-			foreach($this->getProfiles() as $relObj) {
-				$copyObj->addProfile($relObj->copy($deepCopy));
-			}
-
 			foreach($this->getAgentHasUsers() as $relObj) {
 				$copyObj->addAgentHasUser($relObj->copy($deepCopy));
-			}
-
-			foreach($this->getSchemas() as $relObj) {
-				$copyObj->addSchema($relObj->copy($deepCopy));
-			}
-
-			foreach($this->getVocabularys() as $relObj) {
-				$copyObj->addVocabulary($relObj->copy($deepCopy));
 			}
 
 		} // if ($deepCopy)
@@ -2106,13 +2010,13 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Declares an association between this object and a User object.
+	 * Declares an association between this object and a Users object.
 	 *
-	 * @param      User $v
+	 * @param      Users $v
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function setUserRelatedByCreatedBy($v)
+	public function setUsersRelatedByCreatedBy($v)
 	{
 
 
@@ -2123,24 +2027,24 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		}
 
 
-		$this->aUserRelatedByCreatedBy = $v;
+		$this->aUsersRelatedByCreatedBy = $v;
 	}
 
 
 	/**
-	 * Get the associated User object
+	 * Get the associated Users object
 	 *
 	 * @param      Connection Optional Connection object.
-	 * @return     User The associated User object.
+	 * @return     Users The associated Users object.
 	 * @throws     PropelException
 	 */
-	public function getUserRelatedByCreatedBy($con = null)
+	public function getUsersRelatedByCreatedBy($con = null)
 	{
-		if ($this->aUserRelatedByCreatedBy === null && ($this->created_by !== null)) {
+		if ($this->aUsersRelatedByCreatedBy === null && ($this->created_by !== null)) {
 			// include the related Peer class
-			include_once 'lib/model/om/BaseUserPeer.php';
+			include_once 'lib/model/om/BaseUsersPeer.php';
 
-			$this->aUserRelatedByCreatedBy = UserPeer::retrieveByPK($this->created_by, $con);
+			$this->aUsersRelatedByCreatedBy = UsersPeer::retrieveByPK($this->created_by, $con);
 
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
@@ -2148,21 +2052,21 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			   may be undesirable in many circumstances.
 			   As it can lead to a db query with many results that may
 			   never be used.
-			   $obj = UserPeer::retrieveByPK($this->created_by, $con);
-			   $obj->addUsersRelatedByCreatedBy($this);
+			   $obj = UsersPeer::retrieveByPK($this->created_by, $con);
+			   $obj->addUserssRelatedByCreatedBy($this);
 			 */
 		}
-		return $this->aUserRelatedByCreatedBy;
+		return $this->aUsersRelatedByCreatedBy;
 	}
 
 	/**
-	 * Declares an association between this object and a User object.
+	 * Declares an association between this object and a Users object.
 	 *
-	 * @param      User $v
+	 * @param      Users $v
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function setUserRelatedByUpdatedBy($v)
+	public function setUsersRelatedByUpdatedBy($v)
 	{
 
 
@@ -2173,24 +2077,24 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		}
 
 
-		$this->aUserRelatedByUpdatedBy = $v;
+		$this->aUsersRelatedByUpdatedBy = $v;
 	}
 
 
 	/**
-	 * Get the associated User object
+	 * Get the associated Users object
 	 *
 	 * @param      Connection Optional Connection object.
-	 * @return     User The associated User object.
+	 * @return     Users The associated Users object.
 	 * @throws     PropelException
 	 */
-	public function getUserRelatedByUpdatedBy($con = null)
+	public function getUsersRelatedByUpdatedBy($con = null)
 	{
-		if ($this->aUserRelatedByUpdatedBy === null && ($this->updated_by !== null)) {
+		if ($this->aUsersRelatedByUpdatedBy === null && ($this->updated_by !== null)) {
 			// include the related Peer class
-			include_once 'lib/model/om/BaseUserPeer.php';
+			include_once 'lib/model/om/BaseUsersPeer.php';
 
-			$this->aUserRelatedByUpdatedBy = UserPeer::retrieveByPK($this->updated_by, $con);
+			$this->aUsersRelatedByUpdatedBy = UsersPeer::retrieveByPK($this->updated_by, $con);
 
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
@@ -2198,21 +2102,21 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			   may be undesirable in many circumstances.
 			   As it can lead to a db query with many results that may
 			   never be used.
-			   $obj = UserPeer::retrieveByPK($this->updated_by, $con);
-			   $obj->addUsersRelatedByUpdatedBy($this);
+			   $obj = UsersPeer::retrieveByPK($this->updated_by, $con);
+			   $obj->addUserssRelatedByUpdatedBy($this);
 			 */
 		}
-		return $this->aUserRelatedByUpdatedBy;
+		return $this->aUsersRelatedByUpdatedBy;
 	}
 
 	/**
-	 * Declares an association between this object and a User object.
+	 * Declares an association between this object and a Users object.
 	 *
-	 * @param      User $v
+	 * @param      Users $v
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function setUserRelatedByDeletedBy($v)
+	public function setUsersRelatedByDeletedBy($v)
 	{
 
 
@@ -2223,24 +2127,24 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		}
 
 
-		$this->aUserRelatedByDeletedBy = $v;
+		$this->aUsersRelatedByDeletedBy = $v;
 	}
 
 
 	/**
-	 * Get the associated User object
+	 * Get the associated Users object
 	 *
 	 * @param      Connection Optional Connection object.
-	 * @return     User The associated User object.
+	 * @return     Users The associated Users object.
 	 * @throws     PropelException
 	 */
-	public function getUserRelatedByDeletedBy($con = null)
+	public function getUsersRelatedByDeletedBy($con = null)
 	{
-		if ($this->aUserRelatedByDeletedBy === null && ($this->deleted_by !== null)) {
+		if ($this->aUsersRelatedByDeletedBy === null && ($this->deleted_by !== null)) {
 			// include the related Peer class
-			include_once 'lib/model/om/BaseUserPeer.php';
+			include_once 'lib/model/om/BaseUsersPeer.php';
 
-			$this->aUserRelatedByDeletedBy = UserPeer::retrieveByPK($this->deleted_by, $con);
+			$this->aUsersRelatedByDeletedBy = UsersPeer::retrieveByPK($this->deleted_by, $con);
 
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
@@ -2248,363 +2152,11 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			   may be undesirable in many circumstances.
 			   As it can lead to a db query with many results that may
 			   never be used.
-			   $obj = UserPeer::retrieveByPK($this->deleted_by, $con);
-			   $obj->addUsersRelatedByDeletedBy($this);
+			   $obj = UsersPeer::retrieveByPK($this->deleted_by, $con);
+			   $obj->addUserssRelatedByDeletedBy($this);
 			 */
 		}
-		return $this->aUserRelatedByDeletedBy;
-	}
-
-	/**
-	 * Temporary storage of collProfiles to save a possible db hit in
-	 * the event objects are add to the collection, but the
-	 * complete collection is never requested.
-	 * @return     void
-	 */
-	public function initProfiles()
-	{
-		if ($this->collProfiles === null) {
-			$this->collProfiles = array();
-		}
-	}
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Agent has previously
-	 * been saved, it will retrieve related Profiles from storage.
-	 * If this Agent is new, it will return
-	 * an empty collection or the current collection, the criteria
-	 * is ignored on a new object.
-	 *
-	 * @param      Connection $con
-	 * @param      Criteria $criteria
-	 * @throws     PropelException
-	 */
-	public function getProfiles($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseProfilePeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collProfiles === null) {
-			if ($this->isNew()) {
-			   $this->collProfiles = array();
-			} else {
-
-				$criteria->add(ProfilePeer::AGENT_ID, $this->getId());
-
-				ProfilePeer::addSelectColumns($criteria);
-				$this->collProfiles = ProfilePeer::doSelect($criteria, $con);
-			}
-		} else {
-			// criteria has no effect for a new object
-			if (!$this->isNew()) {
-				// the following code is to determine if a new query is
-				// called for.  If the criteria is the same as the last
-				// one, just return the collection.
-
-
-				$criteria->add(ProfilePeer::AGENT_ID, $this->getId());
-
-				ProfilePeer::addSelectColumns($criteria);
-				if (!isset($this->lastProfileCriteria) || !$this->lastProfileCriteria->equals($criteria)) {
-					$this->collProfiles = ProfilePeer::doSelect($criteria, $con);
-				}
-			}
-		}
-		$this->lastProfileCriteria = $criteria;
-		return $this->collProfiles;
-	}
-
-	/**
-	 * Returns the number of related Profiles.
-	 *
-	 * @param      Criteria $criteria
-	 * @param      boolean $distinct
-	 * @param      Connection $con
-	 * @throws     PropelException
-	 */
-	public function countProfiles($criteria = null, $distinct = false, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseProfilePeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		$criteria->add(ProfilePeer::AGENT_ID, $this->getId());
-
-		return ProfilePeer::doCount($criteria, $distinct, $con);
-	}
-
-	/**
-	 * Method called to associate a Profile object to this object
-	 * through the Profile foreign key attribute
-	 *
-	 * @param      Profile $l Profile
-	 * @return     void
-	 * @throws     PropelException
-	 */
-	public function addProfile(Profile $l)
-	{
-		$this->collProfiles[] = $l;
-		$l->setAgent($this);
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Agent is new, it will return
-	 * an empty collection; or if this Agent has previously
-	 * been saved, it will retrieve related Profiles from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Agent.
-	 */
-	public function getProfilesJoinUserRelatedByCreatedBy($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseProfilePeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collProfiles === null) {
-			if ($this->isNew()) {
-				$this->collProfiles = array();
-			} else {
-
-				$criteria->add(ProfilePeer::AGENT_ID, $this->getId());
-
-				$this->collProfiles = ProfilePeer::doSelectJoinUserRelatedByCreatedBy($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ProfilePeer::AGENT_ID, $this->getId());
-
-			if (!isset($this->lastProfileCriteria) || !$this->lastProfileCriteria->equals($criteria)) {
-				$this->collProfiles = ProfilePeer::doSelectJoinUserRelatedByCreatedBy($criteria, $con);
-			}
-		}
-		$this->lastProfileCriteria = $criteria;
-
-		return $this->collProfiles;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Agent is new, it will return
-	 * an empty collection; or if this Agent has previously
-	 * been saved, it will retrieve related Profiles from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Agent.
-	 */
-	public function getProfilesJoinUserRelatedByUpdatedBy($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseProfilePeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collProfiles === null) {
-			if ($this->isNew()) {
-				$this->collProfiles = array();
-			} else {
-
-				$criteria->add(ProfilePeer::AGENT_ID, $this->getId());
-
-				$this->collProfiles = ProfilePeer::doSelectJoinUserRelatedByUpdatedBy($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ProfilePeer::AGENT_ID, $this->getId());
-
-			if (!isset($this->lastProfileCriteria) || !$this->lastProfileCriteria->equals($criteria)) {
-				$this->collProfiles = ProfilePeer::doSelectJoinUserRelatedByUpdatedBy($criteria, $con);
-			}
-		}
-		$this->lastProfileCriteria = $criteria;
-
-		return $this->collProfiles;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Agent is new, it will return
-	 * an empty collection; or if this Agent has previously
-	 * been saved, it will retrieve related Profiles from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Agent.
-	 */
-	public function getProfilesJoinUserRelatedByDeletedBy($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseProfilePeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collProfiles === null) {
-			if ($this->isNew()) {
-				$this->collProfiles = array();
-			} else {
-
-				$criteria->add(ProfilePeer::AGENT_ID, $this->getId());
-
-				$this->collProfiles = ProfilePeer::doSelectJoinUserRelatedByDeletedBy($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ProfilePeer::AGENT_ID, $this->getId());
-
-			if (!isset($this->lastProfileCriteria) || !$this->lastProfileCriteria->equals($criteria)) {
-				$this->collProfiles = ProfilePeer::doSelectJoinUserRelatedByDeletedBy($criteria, $con);
-			}
-		}
-		$this->lastProfileCriteria = $criteria;
-
-		return $this->collProfiles;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Agent is new, it will return
-	 * an empty collection; or if this Agent has previously
-	 * been saved, it will retrieve related Profiles from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Agent.
-	 */
-	public function getProfilesJoinUserRelatedByChildUpdatedBy($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseProfilePeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collProfiles === null) {
-			if ($this->isNew()) {
-				$this->collProfiles = array();
-			} else {
-
-				$criteria->add(ProfilePeer::AGENT_ID, $this->getId());
-
-				$this->collProfiles = ProfilePeer::doSelectJoinUserRelatedByChildUpdatedBy($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ProfilePeer::AGENT_ID, $this->getId());
-
-			if (!isset($this->lastProfileCriteria) || !$this->lastProfileCriteria->equals($criteria)) {
-				$this->collProfiles = ProfilePeer::doSelectJoinUserRelatedByChildUpdatedBy($criteria, $con);
-			}
-		}
-		$this->lastProfileCriteria = $criteria;
-
-		return $this->collProfiles;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Agent is new, it will return
-	 * an empty collection; or if this Agent has previously
-	 * been saved, it will retrieve related Profiles from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Agent.
-	 */
-	public function getProfilesJoinStatus($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseProfilePeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collProfiles === null) {
-			if ($this->isNew()) {
-				$this->collProfiles = array();
-			} else {
-
-				$criteria->add(ProfilePeer::AGENT_ID, $this->getId());
-
-				$this->collProfiles = ProfilePeer::doSelectJoinStatus($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ProfilePeer::AGENT_ID, $this->getId());
-
-			if (!isset($this->lastProfileCriteria) || !$this->lastProfileCriteria->equals($criteria)) {
-				$this->collProfiles = ProfilePeer::doSelectJoinStatus($criteria, $con);
-			}
-		}
-		$this->lastProfileCriteria = $criteria;
-
-		return $this->collProfiles;
+		return $this->aUsersRelatedByDeletedBy;
 	}
 
 	/**
@@ -2726,7 +2278,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Agent.
 	 */
-	public function getAgentHasUsersJoinUser($criteria = null, $con = null)
+	public function getAgentHasUsersJoinUsers($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseAgentHasUserPeer.php';
@@ -2745,7 +2297,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 
 				$criteria->add(AgentHasUserPeer::AGENT_ID, $this->getId());
 
-				$this->collAgentHasUsers = AgentHasUserPeer::doSelectJoinUser($criteria, $con);
+				$this->collAgentHasUsers = AgentHasUserPeer::doSelectJoinUsers($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -2755,765 +2307,12 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			$criteria->add(AgentHasUserPeer::AGENT_ID, $this->getId());
 
 			if (!isset($this->lastAgentHasUserCriteria) || !$this->lastAgentHasUserCriteria->equals($criteria)) {
-				$this->collAgentHasUsers = AgentHasUserPeer::doSelectJoinUser($criteria, $con);
+				$this->collAgentHasUsers = AgentHasUserPeer::doSelectJoinUsers($criteria, $con);
 			}
 		}
 		$this->lastAgentHasUserCriteria = $criteria;
 
 		return $this->collAgentHasUsers;
-	}
-
-	/**
-	 * Temporary storage of collSchemas to save a possible db hit in
-	 * the event objects are add to the collection, but the
-	 * complete collection is never requested.
-	 * @return     void
-	 */
-	public function initSchemas()
-	{
-		if ($this->collSchemas === null) {
-			$this->collSchemas = array();
-		}
-	}
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Agent has previously
-	 * been saved, it will retrieve related Schemas from storage.
-	 * If this Agent is new, it will return
-	 * an empty collection or the current collection, the criteria
-	 * is ignored on a new object.
-	 *
-	 * @param      Connection $con
-	 * @param      Criteria $criteria
-	 * @throws     PropelException
-	 */
-	public function getSchemas($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseSchemaPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collSchemas === null) {
-			if ($this->isNew()) {
-			   $this->collSchemas = array();
-			} else {
-
-				$criteria->add(SchemaPeer::AGENT_ID, $this->getId());
-
-				SchemaPeer::addSelectColumns($criteria);
-				$this->collSchemas = SchemaPeer::doSelect($criteria, $con);
-			}
-		} else {
-			// criteria has no effect for a new object
-			if (!$this->isNew()) {
-				// the following code is to determine if a new query is
-				// called for.  If the criteria is the same as the last
-				// one, just return the collection.
-
-
-				$criteria->add(SchemaPeer::AGENT_ID, $this->getId());
-
-				SchemaPeer::addSelectColumns($criteria);
-				if (!isset($this->lastSchemaCriteria) || !$this->lastSchemaCriteria->equals($criteria)) {
-					$this->collSchemas = SchemaPeer::doSelect($criteria, $con);
-				}
-			}
-		}
-		$this->lastSchemaCriteria = $criteria;
-		return $this->collSchemas;
-	}
-
-	/**
-	 * Returns the number of related Schemas.
-	 *
-	 * @param      Criteria $criteria
-	 * @param      boolean $distinct
-	 * @param      Connection $con
-	 * @throws     PropelException
-	 */
-	public function countSchemas($criteria = null, $distinct = false, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseSchemaPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		$criteria->add(SchemaPeer::AGENT_ID, $this->getId());
-
-		return SchemaPeer::doCount($criteria, $distinct, $con);
-	}
-
-	/**
-	 * Method called to associate a Schema object to this object
-	 * through the Schema foreign key attribute
-	 *
-	 * @param      Schema $l Schema
-	 * @return     void
-	 * @throws     PropelException
-	 */
-	public function addSchema(Schema $l)
-	{
-		$this->collSchemas[] = $l;
-		$l->setAgent($this);
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Agent is new, it will return
-	 * an empty collection; or if this Agent has previously
-	 * been saved, it will retrieve related Schemas from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Agent.
-	 */
-	public function getSchemasJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseSchemaPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collSchemas === null) {
-			if ($this->isNew()) {
-				$this->collSchemas = array();
-			} else {
-
-				$criteria->add(SchemaPeer::AGENT_ID, $this->getId());
-
-				$this->collSchemas = SchemaPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(SchemaPeer::AGENT_ID, $this->getId());
-
-			if (!isset($this->lastSchemaCriteria) || !$this->lastSchemaCriteria->equals($criteria)) {
-				$this->collSchemas = SchemaPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
-			}
-		}
-		$this->lastSchemaCriteria = $criteria;
-
-		return $this->collSchemas;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Agent is new, it will return
-	 * an empty collection; or if this Agent has previously
-	 * been saved, it will retrieve related Schemas from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Agent.
-	 */
-	public function getSchemasJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseSchemaPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collSchemas === null) {
-			if ($this->isNew()) {
-				$this->collSchemas = array();
-			} else {
-
-				$criteria->add(SchemaPeer::AGENT_ID, $this->getId());
-
-				$this->collSchemas = SchemaPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(SchemaPeer::AGENT_ID, $this->getId());
-
-			if (!isset($this->lastSchemaCriteria) || !$this->lastSchemaCriteria->equals($criteria)) {
-				$this->collSchemas = SchemaPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
-			}
-		}
-		$this->lastSchemaCriteria = $criteria;
-
-		return $this->collSchemas;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Agent is new, it will return
-	 * an empty collection; or if this Agent has previously
-	 * been saved, it will retrieve related Schemas from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Agent.
-	 */
-	public function getSchemasJoinUserRelatedByDeletedUserId($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseSchemaPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collSchemas === null) {
-			if ($this->isNew()) {
-				$this->collSchemas = array();
-			} else {
-
-				$criteria->add(SchemaPeer::AGENT_ID, $this->getId());
-
-				$this->collSchemas = SchemaPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(SchemaPeer::AGENT_ID, $this->getId());
-
-			if (!isset($this->lastSchemaCriteria) || !$this->lastSchemaCriteria->equals($criteria)) {
-				$this->collSchemas = SchemaPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
-			}
-		}
-		$this->lastSchemaCriteria = $criteria;
-
-		return $this->collSchemas;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Agent is new, it will return
-	 * an empty collection; or if this Agent has previously
-	 * been saved, it will retrieve related Schemas from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Agent.
-	 */
-	public function getSchemasJoinStatus($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseSchemaPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collSchemas === null) {
-			if ($this->isNew()) {
-				$this->collSchemas = array();
-			} else {
-
-				$criteria->add(SchemaPeer::AGENT_ID, $this->getId());
-
-				$this->collSchemas = SchemaPeer::doSelectJoinStatus($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(SchemaPeer::AGENT_ID, $this->getId());
-
-			if (!isset($this->lastSchemaCriteria) || !$this->lastSchemaCriteria->equals($criteria)) {
-				$this->collSchemas = SchemaPeer::doSelectJoinStatus($criteria, $con);
-			}
-		}
-		$this->lastSchemaCriteria = $criteria;
-
-		return $this->collSchemas;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Agent is new, it will return
-	 * an empty collection; or if this Agent has previously
-	 * been saved, it will retrieve related Schemas from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Agent.
-	 */
-	public function getSchemasJoinProfile($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseSchemaPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collSchemas === null) {
-			if ($this->isNew()) {
-				$this->collSchemas = array();
-			} else {
-
-				$criteria->add(SchemaPeer::AGENT_ID, $this->getId());
-
-				$this->collSchemas = SchemaPeer::doSelectJoinProfile($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(SchemaPeer::AGENT_ID, $this->getId());
-
-			if (!isset($this->lastSchemaCriteria) || !$this->lastSchemaCriteria->equals($criteria)) {
-				$this->collSchemas = SchemaPeer::doSelectJoinProfile($criteria, $con);
-			}
-		}
-		$this->lastSchemaCriteria = $criteria;
-
-		return $this->collSchemas;
-	}
-
-	/**
-	 * Temporary storage of collVocabularys to save a possible db hit in
-	 * the event objects are add to the collection, but the
-	 * complete collection is never requested.
-	 * @return     void
-	 */
-	public function initVocabularys()
-	{
-		if ($this->collVocabularys === null) {
-			$this->collVocabularys = array();
-		}
-	}
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Agent has previously
-	 * been saved, it will retrieve related Vocabularys from storage.
-	 * If this Agent is new, it will return
-	 * an empty collection or the current collection, the criteria
-	 * is ignored on a new object.
-	 *
-	 * @param      Connection $con
-	 * @param      Criteria $criteria
-	 * @throws     PropelException
-	 */
-	public function getVocabularys($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseVocabularyPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collVocabularys === null) {
-			if ($this->isNew()) {
-			   $this->collVocabularys = array();
-			} else {
-
-				$criteria->add(VocabularyPeer::AGENT_ID, $this->getId());
-
-				VocabularyPeer::addSelectColumns($criteria);
-				$this->collVocabularys = VocabularyPeer::doSelect($criteria, $con);
-			}
-		} else {
-			// criteria has no effect for a new object
-			if (!$this->isNew()) {
-				// the following code is to determine if a new query is
-				// called for.  If the criteria is the same as the last
-				// one, just return the collection.
-
-
-				$criteria->add(VocabularyPeer::AGENT_ID, $this->getId());
-
-				VocabularyPeer::addSelectColumns($criteria);
-				if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
-					$this->collVocabularys = VocabularyPeer::doSelect($criteria, $con);
-				}
-			}
-		}
-		$this->lastVocabularyCriteria = $criteria;
-		return $this->collVocabularys;
-	}
-
-	/**
-	 * Returns the number of related Vocabularys.
-	 *
-	 * @param      Criteria $criteria
-	 * @param      boolean $distinct
-	 * @param      Connection $con
-	 * @throws     PropelException
-	 */
-	public function countVocabularys($criteria = null, $distinct = false, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseVocabularyPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		$criteria->add(VocabularyPeer::AGENT_ID, $this->getId());
-
-		return VocabularyPeer::doCount($criteria, $distinct, $con);
-	}
-
-	/**
-	 * Method called to associate a Vocabulary object to this object
-	 * through the Vocabulary foreign key attribute
-	 *
-	 * @param      Vocabulary $l Vocabulary
-	 * @return     void
-	 * @throws     PropelException
-	 */
-	public function addVocabulary(Vocabulary $l)
-	{
-		$this->collVocabularys[] = $l;
-		$l->setAgent($this);
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Agent is new, it will return
-	 * an empty collection; or if this Agent has previously
-	 * been saved, it will retrieve related Vocabularys from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Agent.
-	 */
-	public function getVocabularysJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseVocabularyPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collVocabularys === null) {
-			if ($this->isNew()) {
-				$this->collVocabularys = array();
-			} else {
-
-				$criteria->add(VocabularyPeer::AGENT_ID, $this->getId());
-
-				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(VocabularyPeer::AGENT_ID, $this->getId());
-
-			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
-				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
-			}
-		}
-		$this->lastVocabularyCriteria = $criteria;
-
-		return $this->collVocabularys;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Agent is new, it will return
-	 * an empty collection; or if this Agent has previously
-	 * been saved, it will retrieve related Vocabularys from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Agent.
-	 */
-	public function getVocabularysJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseVocabularyPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collVocabularys === null) {
-			if ($this->isNew()) {
-				$this->collVocabularys = array();
-			} else {
-
-				$criteria->add(VocabularyPeer::AGENT_ID, $this->getId());
-
-				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(VocabularyPeer::AGENT_ID, $this->getId());
-
-			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
-				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
-			}
-		}
-		$this->lastVocabularyCriteria = $criteria;
-
-		return $this->collVocabularys;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Agent is new, it will return
-	 * an empty collection; or if this Agent has previously
-	 * been saved, it will retrieve related Vocabularys from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Agent.
-	 */
-	public function getVocabularysJoinUserRelatedByDeletedUserId($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseVocabularyPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collVocabularys === null) {
-			if ($this->isNew()) {
-				$this->collVocabularys = array();
-			} else {
-
-				$criteria->add(VocabularyPeer::AGENT_ID, $this->getId());
-
-				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(VocabularyPeer::AGENT_ID, $this->getId());
-
-			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
-				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
-			}
-		}
-		$this->lastVocabularyCriteria = $criteria;
-
-		return $this->collVocabularys;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Agent is new, it will return
-	 * an empty collection; or if this Agent has previously
-	 * been saved, it will retrieve related Vocabularys from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Agent.
-	 */
-	public function getVocabularysJoinUserRelatedByChildUpdatedUserId($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseVocabularyPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collVocabularys === null) {
-			if ($this->isNew()) {
-				$this->collVocabularys = array();
-			} else {
-
-				$criteria->add(VocabularyPeer::AGENT_ID, $this->getId());
-
-				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByChildUpdatedUserId($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(VocabularyPeer::AGENT_ID, $this->getId());
-
-			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
-				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByChildUpdatedUserId($criteria, $con);
-			}
-		}
-		$this->lastVocabularyCriteria = $criteria;
-
-		return $this->collVocabularys;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Agent is new, it will return
-	 * an empty collection; or if this Agent has previously
-	 * been saved, it will retrieve related Vocabularys from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Agent.
-	 */
-	public function getVocabularysJoinStatus($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseVocabularyPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collVocabularys === null) {
-			if ($this->isNew()) {
-				$this->collVocabularys = array();
-			} else {
-
-				$criteria->add(VocabularyPeer::AGENT_ID, $this->getId());
-
-				$this->collVocabularys = VocabularyPeer::doSelectJoinStatus($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(VocabularyPeer::AGENT_ID, $this->getId());
-
-			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
-				$this->collVocabularys = VocabularyPeer::doSelectJoinStatus($criteria, $con);
-			}
-		}
-		$this->lastVocabularyCriteria = $criteria;
-
-		return $this->collVocabularys;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Agent is new, it will return
-	 * an empty collection; or if this Agent has previously
-	 * been saved, it will retrieve related Vocabularys from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Agent.
-	 */
-	public function getVocabularysJoinProfile($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseVocabularyPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collVocabularys === null) {
-			if ($this->isNew()) {
-				$this->collVocabularys = array();
-			} else {
-
-				$criteria->add(VocabularyPeer::AGENT_ID, $this->getId());
-
-				$this->collVocabularys = VocabularyPeer::doSelectJoinProfile($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(VocabularyPeer::AGENT_ID, $this->getId());
-
-			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
-				$this->collVocabularys = VocabularyPeer::doSelectJoinProfile($criteria, $con);
-			}
-		}
-		$this->lastVocabularyCriteria = $criteria;
-
-		return $this->collVocabularys;
 	}
 
 

@@ -19,11 +19,14 @@ abstract class BaseMigrationsPeer {
 	const CLASS_DEFAULT = 'lib.model.Migrations';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 2;
+	const NUM_COLUMNS = 3;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
+
+	/** the column name for the ID field */
+	const ID = 'migrations.ID';
 
 	/** the column name for the MIGRATION field */
 	const MIGRATION = 'migrations.MIGRATION';
@@ -42,10 +45,10 @@ abstract class BaseMigrationsPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Migration', 'Batch', ),
-		BasePeer::TYPE_COLNAME => array (MigrationsPeer::MIGRATION, MigrationsPeer::BATCH, ),
-		BasePeer::TYPE_FIELDNAME => array ('migration', 'batch', ),
-		BasePeer::TYPE_NUM => array (0, 1, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Migration', 'Batch', ),
+		BasePeer::TYPE_COLNAME => array (MigrationsPeer::ID, MigrationsPeer::MIGRATION, MigrationsPeer::BATCH, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'migration', 'batch', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, )
 	);
 
 	/**
@@ -55,10 +58,10 @@ abstract class BaseMigrationsPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Migration' => 0, 'Batch' => 1, ),
-		BasePeer::TYPE_COLNAME => array (MigrationsPeer::MIGRATION => 0, MigrationsPeer::BATCH => 1, ),
-		BasePeer::TYPE_FIELDNAME => array ('migration' => 0, 'batch' => 1, ),
-		BasePeer::TYPE_NUM => array (0, 1, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Migration' => 1, 'Batch' => 2, ),
+		BasePeer::TYPE_COLNAME => array (MigrationsPeer::ID => 0, MigrationsPeer::MIGRATION => 1, MigrationsPeer::BATCH => 2, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'migration' => 1, 'batch' => 2, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, )
 	);
 
 	/**
@@ -159,14 +162,16 @@ abstract class BaseMigrationsPeer {
 	public static function addSelectColumns(Criteria $criteria, $tableAlias = null)
 	{
 
+        $criteria->addSelectColumn(($tableAlias) ? MigrationsPeer::alias($tableAlias, MigrationsPeer::ID) : MigrationsPeer::ID);
+
         $criteria->addSelectColumn(($tableAlias) ? MigrationsPeer::alias($tableAlias, MigrationsPeer::MIGRATION) : MigrationsPeer::MIGRATION);
 
         $criteria->addSelectColumn(($tableAlias) ? MigrationsPeer::alias($tableAlias, MigrationsPeer::BATCH) : MigrationsPeer::BATCH);
 
 	}
 
-	const COUNT = 'COUNT(migrations.MIGRATION)';
-	const COUNT_DISTINCT = 'COUNT(DISTINCT migrations.MIGRATION)';
+	const COUNT = 'COUNT(migrations.ID)';
+	const COUNT_DISTINCT = 'COUNT(DISTINCT migrations.ID)';
 
 	/**
 	 * Returns the number of rows matching criteria.
@@ -356,6 +361,8 @@ abstract class BaseMigrationsPeer {
 			$criteria = $values->buildCriteria(); // build Criteria from Migrations object
 		}
 
+		$criteria->remove(MigrationsPeer::ID); // remove pkey col since this table uses auto-increment
+
 
 		// Set the correct dbName
 		$criteria->setDbName(self::DATABASE_NAME);
@@ -411,11 +418,8 @@ abstract class BaseMigrationsPeer {
 		if ($values instanceof Criteria) {
 			$criteria = clone $values; // rename for clarity
 
-			$comparison = $criteria->getComparison(MigrationsPeer::MIGRATION);
-			$selectCriteria->add(MigrationsPeer::MIGRATION, $criteria->remove(MigrationsPeer::MIGRATION), $comparison);
-
-			$comparison = $criteria->getComparison(MigrationsPeer::BATCH);
-			$selectCriteria->add(MigrationsPeer::BATCH, $criteria->remove(MigrationsPeer::BATCH), $comparison);
+			$comparison = $criteria->getComparison(MigrationsPeer::ID);
+			$selectCriteria->add(MigrationsPeer::ID, $criteria->remove(MigrationsPeer::ID), $comparison);
 
 		} else { // $values is Migrations object
 			$criteria = $values->buildCriteria(); // gets full criteria
@@ -485,24 +489,7 @@ abstract class BaseMigrationsPeer {
 		} else {
 			// it must be the primary key
 			$criteria = new Criteria(self::DATABASE_NAME);
-			// primary key is composite; we therefore, expect
-			// the primary key passed to be an array of pkey
-			// values
-			if(count($values) == count($values, COUNT_RECURSIVE))
-			{
-				// array is not multi-dimensional
-				$values = array($values);
-			}
-			$vals = array();
-			foreach($values as $value)
-			{
-
-				$vals[0][] = $value[0];
-				$vals[1][] = $value[1];
-			}
-
-			$criteria->add(MigrationsPeer::MIGRATION, $vals[0], Criteria::IN);
-			$criteria->add(MigrationsPeer::BATCH, $vals[1], Criteria::IN);
+			$criteria->add(MigrationsPeer::ID, (array) $values, Criteria::IN);
 		}
 
 		// Set the correct dbName
@@ -571,24 +558,53 @@ abstract class BaseMigrationsPeer {
 	}
 
 	/**
-	 * Retrieve object using using composite pkey values.
-	 * @param string $migration
-	   @param int $batch
-	   
-	 * @param      Connection $con
+	 * Retrieve a single object by pkey.
+	 *
+	 * @param      mixed $pk the primary key.
+	 * @param      Connection $con the connection to use
 	 * @return     Migrations
 	 */
-	public static function retrieveByPK( $migration, $batch, $con = null) {
+	public static function retrieveByPK($pk, $con = null)
+	{
 		if ($con === null) {
 			$con = Propel::getConnection(self::DATABASE_NAME);
 		}
-		$criteria = new Criteria();
-		$criteria->add(MigrationsPeer::MIGRATION, $migration);
-		$criteria->add(MigrationsPeer::BATCH, $batch);
+
+		$criteria = new Criteria(MigrationsPeer::DATABASE_NAME);
+
+		$criteria->add(MigrationsPeer::ID, $pk);
+
+
 		$v = MigrationsPeer::doSelect($criteria, $con);
 
-		return !empty($v) ? $v[0] : null;
+		return !empty($v) > 0 ? $v[0] : null;
 	}
+
+	/**
+	 * Retrieve multiple objects by pkey.
+	 *
+	 * @param      array $pks List of primary keys
+	 * @param      Connection $con the connection to use
+	 * @throws     PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function retrieveByPKs($pks, $con = null)
+	{
+		if ($con === null) {
+			$con = Propel::getConnection(self::DATABASE_NAME);
+		}
+
+		$objs = null;
+		if (empty($pks)) {
+			$objs = array();
+		} else {
+			$criteria = new Criteria();
+			$criteria->add(MigrationsPeer::ID, $pks, Criteria::IN);
+			$objs = MigrationsPeer::doSelect($criteria, $con);
+		}
+		return $objs;
+	}
+
 } // BaseMigrationsPeer
 
 // static code to register the map builder for this Peer with the main Propel class

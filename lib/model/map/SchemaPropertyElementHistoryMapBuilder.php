@@ -63,7 +63,9 @@ class SchemaPropertyElementHistoryMapBuilder {
 
 		$tMap->addPrimaryKey('ID', 'Id', 'int', CreoleTypes::INTEGER, true, null);
 
-		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, true, null);
+		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
+
+		$tMap->addColumn('UPDATED_AT', 'UpdatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
 		$tMap->addForeignKey('CREATED_USER_ID', 'CreatedUserId', 'int', CreoleTypes::INTEGER, 'users', 'ID', false, null);
 
@@ -88,6 +90,8 @@ class SchemaPropertyElementHistoryMapBuilder {
 		$tMap->addColumn('CHANGE_NOTE', 'ChangeNote', 'string', CreoleTypes::LONGVARCHAR, false, null);
 
 		$tMap->addForeignKey('IMPORT_ID', 'ImportId', 'int', CreoleTypes::INTEGER, 'reg_file_import_history', 'ID', false, null);
+
+		$tMap->addForeignKey('CREATED_BY', 'CreatedBy', 'int', CreoleTypes::INTEGER, 'users', 'ID', false, null);
 
 	} // doBuild()
 

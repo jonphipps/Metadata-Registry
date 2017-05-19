@@ -63,7 +63,7 @@ class ArcS2valMapBuilder {
 
 		$tMap->addPrimaryKey('ID', 'Id', 'int', CreoleTypes::INTEGER, true, null);
 
-		$tMap->addColumn('CID', 'Cid', 'int', CreoleTypes::SMALLINT, true, null);
+		$tMap->addColumn('CID', 'Cid', 'int', CreoleTypes::INTEGER, true, null);
 
 		$tMap->addColumn('MISC', 'Misc', 'boolean', CreoleTypes::BOOLEAN, true, null);
 

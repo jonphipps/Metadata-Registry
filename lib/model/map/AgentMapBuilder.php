@@ -65,7 +65,7 @@ class AgentMapBuilder {
 
 		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
-		$tMap->addColumn('UPDATED_AT', 'UpdatedAt', 'int', CreoleTypes::TIMESTAMP, true, null);
+		$tMap->addColumn('UPDATED_AT', 'UpdatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
 		$tMap->addColumn('LAST_UPDATED', 'LastUpdated', 'int', CreoleTypes::TIMESTAMP, true, null);
 
@@ -73,15 +73,15 @@ class AgentMapBuilder {
 
 		$tMap->addColumn('ORG_EMAIL', 'OrgEmail', 'string', CreoleTypes::VARCHAR, true, 100);
 
-		$tMap->addColumn('ORG_NAME', 'OrgName', 'string', CreoleTypes::VARCHAR, true, 255);
+		$tMap->addColumn('ORG_NAME', 'OrgName', 'string', CreoleTypes::VARCHAR, true, 191);
 
-		$tMap->addColumn('IND_AFFILIATION', 'IndAffiliation', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('IND_AFFILIATION', 'IndAffiliation', 'string', CreoleTypes::VARCHAR, false, 191);
 
 		$tMap->addColumn('IND_ROLE', 'IndRole', 'string', CreoleTypes::VARCHAR, false, 45);
 
-		$tMap->addColumn('ADDRESS1', 'Address1', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('ADDRESS1', 'Address1', 'string', CreoleTypes::VARCHAR, false, 191);
 
-		$tMap->addColumn('ADDRESS2', 'Address2', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('ADDRESS2', 'Address2', 'string', CreoleTypes::VARCHAR, false, 191);
 
 		$tMap->addColumn('CITY', 'City', 'string', CreoleTypes::VARCHAR, false, 45);
 
@@ -93,15 +93,15 @@ class AgentMapBuilder {
 
 		$tMap->addColumn('PHONE', 'Phone', 'string', CreoleTypes::VARCHAR, false, 45);
 
-		$tMap->addColumn('WEB_ADDRESS', 'WebAddress', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('WEB_ADDRESS', 'WebAddress', 'string', CreoleTypes::VARCHAR, false, 191);
 
 		$tMap->addColumn('TYPE', 'Type', 'string', CreoleTypes::CHAR, false, 15);
 
-		$tMap->addColumn('REPO', 'Repo', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('REPO', 'Repo', 'string', CreoleTypes::VARCHAR, false, 191);
 
 		$tMap->addColumn('IS_PRIVATE', 'IsPrivate', 'boolean', CreoleTypes::BOOLEAN, true, null);
 
-		$tMap->addColumn('LICENSE', 'License', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('LICENSE', 'License', 'string', CreoleTypes::VARCHAR, false, 191);
 
 		$tMap->addColumn('DESCRIPTION', 'Description', 'string', CreoleTypes::LONGVARCHAR, false, null);
 

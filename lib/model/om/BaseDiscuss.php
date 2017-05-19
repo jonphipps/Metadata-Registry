@@ -137,15 +137,36 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 	 */
 	protected $content;
 
-	/**
-	 * @var        User
-	 */
-	protected $aUserRelatedByCreatedUserId;
 
 	/**
-	 * @var        User
+	 * The value for the created_by field.
+	 * @var        int
 	 */
-	protected $aUserRelatedByDeletedUserId;
+	protected $created_by;
+
+
+	/**
+	 * The value for the updated_by field.
+	 * @var        int
+	 */
+	protected $updated_by;
+
+
+	/**
+	 * The value for the deleted_by field.
+	 * @var        int
+	 */
+	protected $deleted_by;
+
+	/**
+	 * @var        Users
+	 */
+	protected $aUsersRelatedByCreatedUserId;
+
+	/**
+	 * @var        Users
+	 */
+	protected $aUsersRelatedByDeletedUserId;
 
 	/**
 	 * @var        Schema
@@ -186,6 +207,16 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 	 * @var        Discuss
 	 */
 	protected $aDiscussRelatedByParentId;
+
+	/**
+	 * @var        Users
+	 */
+	protected $aUsersRelatedByCreatedBy;
+
+	/**
+	 * @var        Users
+	 */
+	protected $aUsersRelatedByDeletedBy;
 
 	/**
 	 * Collection to store aggregation of collDiscusssRelatedByRootId.
@@ -473,6 +504,39 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 	}
 
 	/**
+	 * Get the [created_by] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getCreatedBy()
+	{
+
+		return $this->created_by;
+	}
+
+	/**
+	 * Get the [updated_by] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getUpdatedBy()
+	{
+
+		return $this->updated_by;
+	}
+
+	/**
+	 * Get the [deleted_by] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getDeletedBy()
+	{
+
+		return $this->deleted_by;
+	}
+
+	/**
 	 * Set the value of [id] column.
 	 * 
 	 * @param      int $v new value
@@ -586,8 +650,8 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 			$this->modifiedColumns[] = DiscussPeer::CREATED_USER_ID;
 		}
 
-		if ($this->aUserRelatedByCreatedUserId !== null && $this->aUserRelatedByCreatedUserId->getId() !== $v) {
-			$this->aUserRelatedByCreatedUserId = null;
+		if ($this->aUsersRelatedByCreatedUserId !== null && $this->aUsersRelatedByCreatedUserId->getId() !== $v) {
+			$this->aUsersRelatedByCreatedUserId = null;
 		}
 
 	} // setCreatedUserId()
@@ -612,8 +676,8 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 			$this->modifiedColumns[] = DiscussPeer::DELETED_USER_ID;
 		}
 
-		if ($this->aUserRelatedByDeletedUserId !== null && $this->aUserRelatedByDeletedUserId->getId() !== $v) {
-			$this->aUserRelatedByDeletedUserId = null;
+		if ($this->aUsersRelatedByDeletedUserId !== null && $this->aUsersRelatedByDeletedUserId->getId() !== $v) {
+			$this->aUsersRelatedByDeletedUserId = null;
 		}
 
 	} // setDeletedUserId()
@@ -893,6 +957,80 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 	} // setContent()
 
 	/**
+	 * Set the value of [created_by] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setCreatedBy($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->created_by !== $v) {
+			$this->created_by = $v;
+			$this->modifiedColumns[] = DiscussPeer::CREATED_BY;
+		}
+
+		if ($this->aUsersRelatedByCreatedBy !== null && $this->aUsersRelatedByCreatedBy->getId() !== $v) {
+			$this->aUsersRelatedByCreatedBy = null;
+		}
+
+	} // setCreatedBy()
+
+	/**
+	 * Set the value of [updated_by] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setUpdatedBy($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->updated_by !== $v) {
+			$this->updated_by = $v;
+			$this->modifiedColumns[] = DiscussPeer::UPDATED_BY;
+		}
+
+	} // setUpdatedBy()
+
+	/**
+	 * Set the value of [deleted_by] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setDeletedBy($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->deleted_by !== $v) {
+			$this->deleted_by = $v;
+			$this->modifiedColumns[] = DiscussPeer::DELETED_BY;
+		}
+
+		if ($this->aUsersRelatedByDeletedBy !== null && $this->aUsersRelatedByDeletedBy->getId() !== $v) {
+			$this->aUsersRelatedByDeletedBy = null;
+		}
+
+	} // setDeletedBy()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -943,12 +1081,18 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 
 			$this->content = $rs->getString($startcol + 16);
 
+			$this->created_by = $rs->getInt($startcol + 17);
+
+			$this->updated_by = $rs->getInt($startcol + 18);
+
+			$this->deleted_by = $rs->getInt($startcol + 19);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 17; // 17 = DiscussPeer::NUM_COLUMNS - DiscussPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 20; // 20 = DiscussPeer::NUM_COLUMNS - DiscussPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Discuss object", $e);
@@ -1082,18 +1226,18 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
-			if ($this->aUserRelatedByCreatedUserId !== null) {
-				if ($this->aUserRelatedByCreatedUserId->isModified()) {
-					$affectedRows += $this->aUserRelatedByCreatedUserId->save($con);
+			if ($this->aUsersRelatedByCreatedUserId !== null) {
+				if ($this->aUsersRelatedByCreatedUserId->isModified()) {
+					$affectedRows += $this->aUsersRelatedByCreatedUserId->save($con);
 				}
-				$this->setUserRelatedByCreatedUserId($this->aUserRelatedByCreatedUserId);
+				$this->setUsersRelatedByCreatedUserId($this->aUsersRelatedByCreatedUserId);
 			}
 
-			if ($this->aUserRelatedByDeletedUserId !== null) {
-				if ($this->aUserRelatedByDeletedUserId->isModified()) {
-					$affectedRows += $this->aUserRelatedByDeletedUserId->save($con);
+			if ($this->aUsersRelatedByDeletedUserId !== null) {
+				if ($this->aUsersRelatedByDeletedUserId->isModified()) {
+					$affectedRows += $this->aUsersRelatedByDeletedUserId->save($con);
 				}
-				$this->setUserRelatedByDeletedUserId($this->aUserRelatedByDeletedUserId);
+				$this->setUsersRelatedByDeletedUserId($this->aUsersRelatedByDeletedUserId);
 			}
 
 			if ($this->aSchema !== null) {
@@ -1150,6 +1294,20 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 					$affectedRows += $this->aDiscussRelatedByParentId->save($con);
 				}
 				$this->setDiscussRelatedByParentId($this->aDiscussRelatedByParentId);
+			}
+
+			if ($this->aUsersRelatedByCreatedBy !== null) {
+				if ($this->aUsersRelatedByCreatedBy->isModified()) {
+					$affectedRows += $this->aUsersRelatedByCreatedBy->save($con);
+				}
+				$this->setUsersRelatedByCreatedBy($this->aUsersRelatedByCreatedBy);
+			}
+
+			if ($this->aUsersRelatedByDeletedBy !== null) {
+				if ($this->aUsersRelatedByDeletedBy->isModified()) {
+					$affectedRows += $this->aUsersRelatedByDeletedBy->save($con);
+				}
+				$this->setUsersRelatedByDeletedBy($this->aUsersRelatedByDeletedBy);
 			}
 
 
@@ -1256,15 +1414,15 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
-			if ($this->aUserRelatedByCreatedUserId !== null) {
-				if (!$this->aUserRelatedByCreatedUserId->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aUserRelatedByCreatedUserId->getValidationFailures());
+			if ($this->aUsersRelatedByCreatedUserId !== null) {
+				if (!$this->aUsersRelatedByCreatedUserId->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsersRelatedByCreatedUserId->getValidationFailures());
 				}
 			}
 
-			if ($this->aUserRelatedByDeletedUserId !== null) {
-				if (!$this->aUserRelatedByDeletedUserId->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aUserRelatedByDeletedUserId->getValidationFailures());
+			if ($this->aUsersRelatedByDeletedUserId !== null) {
+				if (!$this->aUsersRelatedByDeletedUserId->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsersRelatedByDeletedUserId->getValidationFailures());
 				}
 			}
 
@@ -1313,6 +1471,18 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 			if ($this->aDiscussRelatedByParentId !== null) {
 				if (!$this->aDiscussRelatedByParentId->validate($columns)) {
 					$failureMap = array_merge($failureMap, $this->aDiscussRelatedByParentId->getValidationFailures());
+				}
+			}
+
+			if ($this->aUsersRelatedByCreatedBy !== null) {
+				if (!$this->aUsersRelatedByCreatedBy->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsersRelatedByCreatedBy->getValidationFailures());
+				}
+			}
+
+			if ($this->aUsersRelatedByDeletedBy !== null) {
+				if (!$this->aUsersRelatedByDeletedBy->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsersRelatedByDeletedBy->getValidationFailures());
 				}
 			}
 
@@ -1405,6 +1575,15 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 			case 16:
 				return $this->getContent();
 				break;
+			case 17:
+				return $this->getCreatedBy();
+				break;
+			case 18:
+				return $this->getUpdatedBy();
+				break;
+			case 19:
+				return $this->getDeletedBy();
+				break;
 			default:
 				return null;
 				break;
@@ -1442,6 +1621,9 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 			$keys[14] => $this->getParentId(),
 			$keys[15] => $this->getSubject(),
 			$keys[16] => $this->getContent(),
+			$keys[17] => $this->getCreatedBy(),
+			$keys[18] => $this->getUpdatedBy(),
+			$keys[19] => $this->getDeletedBy(),
 		);
 		return $result;
 	}
@@ -1524,6 +1706,15 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 			case 16:
 				$this->setContent($value);
 				break;
+			case 17:
+				$this->setCreatedBy($value);
+				break;
+			case 18:
+				$this->setUpdatedBy($value);
+				break;
+			case 19:
+				$this->setDeletedBy($value);
+				break;
 		} // switch()
 	}
 
@@ -1564,6 +1755,9 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[14], $arr)) $this->setParentId($arr[$keys[14]]);
 		if (array_key_exists($keys[15], $arr)) $this->setSubject($arr[$keys[15]]);
 		if (array_key_exists($keys[16], $arr)) $this->setContent($arr[$keys[16]]);
+		if (array_key_exists($keys[17], $arr)) $this->setCreatedBy($arr[$keys[17]]);
+		if (array_key_exists($keys[18], $arr)) $this->setUpdatedBy($arr[$keys[18]]);
+		if (array_key_exists($keys[19], $arr)) $this->setDeletedBy($arr[$keys[19]]);
 	}
 
 	/**
@@ -1592,6 +1786,9 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(DiscussPeer::PARENT_ID)) $criteria->add(DiscussPeer::PARENT_ID, $this->parent_id);
 		if ($this->isColumnModified(DiscussPeer::SUBJECT)) $criteria->add(DiscussPeer::SUBJECT, $this->subject);
 		if ($this->isColumnModified(DiscussPeer::CONTENT)) $criteria->add(DiscussPeer::CONTENT, $this->content);
+		if ($this->isColumnModified(DiscussPeer::CREATED_BY)) $criteria->add(DiscussPeer::CREATED_BY, $this->created_by);
+		if ($this->isColumnModified(DiscussPeer::UPDATED_BY)) $criteria->add(DiscussPeer::UPDATED_BY, $this->updated_by);
+		if ($this->isColumnModified(DiscussPeer::DELETED_BY)) $criteria->add(DiscussPeer::DELETED_BY, $this->deleted_by);
 
 		return $criteria;
 	}
@@ -1678,6 +1875,12 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 
 		$copyObj->setContent($this->content);
 
+		$copyObj->setCreatedBy($this->created_by);
+
+		$copyObj->setUpdatedBy($this->updated_by);
+
+		$copyObj->setDeletedBy($this->deleted_by);
+
 
 		if ($deepCopy) {
 			// important: temporarily setNew(false) because this affects the behavior of
@@ -1748,13 +1951,13 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Declares an association between this object and a User object.
+	 * Declares an association between this object and a Users object.
 	 *
-	 * @param      User $v
+	 * @param      Users $v
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function setUserRelatedByCreatedUserId($v)
+	public function setUsersRelatedByCreatedUserId($v)
 	{
 
 
@@ -1765,24 +1968,24 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 		}
 
 
-		$this->aUserRelatedByCreatedUserId = $v;
+		$this->aUsersRelatedByCreatedUserId = $v;
 	}
 
 
 	/**
-	 * Get the associated User object
+	 * Get the associated Users object
 	 *
 	 * @param      Connection Optional Connection object.
-	 * @return     User The associated User object.
+	 * @return     Users The associated Users object.
 	 * @throws     PropelException
 	 */
-	public function getUserRelatedByCreatedUserId($con = null)
+	public function getUsersRelatedByCreatedUserId($con = null)
 	{
-		if ($this->aUserRelatedByCreatedUserId === null && ($this->created_user_id !== null)) {
+		if ($this->aUsersRelatedByCreatedUserId === null && ($this->created_user_id !== null)) {
 			// include the related Peer class
-			include_once 'lib/model/om/BaseUserPeer.php';
+			include_once 'lib/model/om/BaseUsersPeer.php';
 
-			$this->aUserRelatedByCreatedUserId = UserPeer::retrieveByPK($this->created_user_id, $con);
+			$this->aUsersRelatedByCreatedUserId = UsersPeer::retrieveByPK($this->created_user_id, $con);
 
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
@@ -1790,21 +1993,21 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 			   may be undesirable in many circumstances.
 			   As it can lead to a db query with many results that may
 			   never be used.
-			   $obj = UserPeer::retrieveByPK($this->created_user_id, $con);
-			   $obj->addUsersRelatedByCreatedUserId($this);
+			   $obj = UsersPeer::retrieveByPK($this->created_user_id, $con);
+			   $obj->addUserssRelatedByCreatedUserId($this);
 			 */
 		}
-		return $this->aUserRelatedByCreatedUserId;
+		return $this->aUsersRelatedByCreatedUserId;
 	}
 
 	/**
-	 * Declares an association between this object and a User object.
+	 * Declares an association between this object and a Users object.
 	 *
-	 * @param      User $v
+	 * @param      Users $v
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function setUserRelatedByDeletedUserId($v)
+	public function setUsersRelatedByDeletedUserId($v)
 	{
 
 
@@ -1815,24 +2018,24 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 		}
 
 
-		$this->aUserRelatedByDeletedUserId = $v;
+		$this->aUsersRelatedByDeletedUserId = $v;
 	}
 
 
 	/**
-	 * Get the associated User object
+	 * Get the associated Users object
 	 *
 	 * @param      Connection Optional Connection object.
-	 * @return     User The associated User object.
+	 * @return     Users The associated Users object.
 	 * @throws     PropelException
 	 */
-	public function getUserRelatedByDeletedUserId($con = null)
+	public function getUsersRelatedByDeletedUserId($con = null)
 	{
-		if ($this->aUserRelatedByDeletedUserId === null && ($this->deleted_user_id !== null)) {
+		if ($this->aUsersRelatedByDeletedUserId === null && ($this->deleted_user_id !== null)) {
 			// include the related Peer class
-			include_once 'lib/model/om/BaseUserPeer.php';
+			include_once 'lib/model/om/BaseUsersPeer.php';
 
-			$this->aUserRelatedByDeletedUserId = UserPeer::retrieveByPK($this->deleted_user_id, $con);
+			$this->aUsersRelatedByDeletedUserId = UsersPeer::retrieveByPK($this->deleted_user_id, $con);
 
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
@@ -1840,11 +2043,11 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 			   may be undesirable in many circumstances.
 			   As it can lead to a db query with many results that may
 			   never be used.
-			   $obj = UserPeer::retrieveByPK($this->deleted_user_id, $con);
-			   $obj->addUsersRelatedByDeletedUserId($this);
+			   $obj = UsersPeer::retrieveByPK($this->deleted_user_id, $con);
+			   $obj->addUserssRelatedByDeletedUserId($this);
 			 */
 		}
-		return $this->aUserRelatedByDeletedUserId;
+		return $this->aUsersRelatedByDeletedUserId;
 	}
 
 	/**
@@ -2248,6 +2451,106 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 	}
 
 	/**
+	 * Declares an association between this object and a Users object.
+	 *
+	 * @param      Users $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setUsersRelatedByCreatedBy($v)
+	{
+
+
+		if ($v === null) {
+			$this->setCreatedBy(NULL);
+		} else {
+			$this->setCreatedBy($v->getId());
+		}
+
+
+		$this->aUsersRelatedByCreatedBy = $v;
+	}
+
+
+	/**
+	 * Get the associated Users object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     Users The associated Users object.
+	 * @throws     PropelException
+	 */
+	public function getUsersRelatedByCreatedBy($con = null)
+	{
+		if ($this->aUsersRelatedByCreatedBy === null && ($this->created_by !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseUsersPeer.php';
+
+			$this->aUsersRelatedByCreatedBy = UsersPeer::retrieveByPK($this->created_by, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = UsersPeer::retrieveByPK($this->created_by, $con);
+			   $obj->addUserssRelatedByCreatedBy($this);
+			 */
+		}
+		return $this->aUsersRelatedByCreatedBy;
+	}
+
+	/**
+	 * Declares an association between this object and a Users object.
+	 *
+	 * @param      Users $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setUsersRelatedByDeletedBy($v)
+	{
+
+
+		if ($v === null) {
+			$this->setDeletedBy(NULL);
+		} else {
+			$this->setDeletedBy($v->getId());
+		}
+
+
+		$this->aUsersRelatedByDeletedBy = $v;
+	}
+
+
+	/**
+	 * Get the associated Users object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     Users The associated Users object.
+	 * @throws     PropelException
+	 */
+	public function getUsersRelatedByDeletedBy($con = null)
+	{
+		if ($this->aUsersRelatedByDeletedBy === null && ($this->deleted_by !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseUsersPeer.php';
+
+			$this->aUsersRelatedByDeletedBy = UsersPeer::retrieveByPK($this->deleted_by, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = UsersPeer::retrieveByPK($this->deleted_by, $con);
+			   $obj->addUserssRelatedByDeletedBy($this);
+			 */
+		}
+		return $this->aUsersRelatedByDeletedBy;
+	}
+
+	/**
 	 * Temporary storage of collDiscusssRelatedByRootId to save a possible db hit in
 	 * the event objects are add to the collection, but the
 	 * complete collection is never requested.
@@ -2366,7 +2669,7 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Discuss.
 	 */
-	public function getDiscusssRelatedByRootIdJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
+	public function getDiscusssRelatedByRootIdJoinUsersRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseDiscussPeer.php';
@@ -2385,7 +2688,7 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 
 				$criteria->add(DiscussPeer::ROOT_ID, $this->getId());
 
-				$this->collDiscusssRelatedByRootId = DiscussPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collDiscusssRelatedByRootId = DiscussPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -2395,7 +2698,7 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 			$criteria->add(DiscussPeer::ROOT_ID, $this->getId());
 
 			if (!isset($this->lastDiscussRelatedByRootIdCriteria) || !$this->lastDiscussRelatedByRootIdCriteria->equals($criteria)) {
-				$this->collDiscusssRelatedByRootId = DiscussPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collDiscusssRelatedByRootId = DiscussPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		}
 		$this->lastDiscussRelatedByRootIdCriteria = $criteria;
@@ -2415,7 +2718,7 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Discuss.
 	 */
-	public function getDiscusssRelatedByRootIdJoinUserRelatedByDeletedUserId($criteria = null, $con = null)
+	public function getDiscusssRelatedByRootIdJoinUsersRelatedByDeletedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseDiscussPeer.php';
@@ -2434,7 +2737,7 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 
 				$criteria->add(DiscussPeer::ROOT_ID, $this->getId());
 
-				$this->collDiscusssRelatedByRootId = DiscussPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
+				$this->collDiscusssRelatedByRootId = DiscussPeer::doSelectJoinUsersRelatedByDeletedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -2444,7 +2747,7 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 			$criteria->add(DiscussPeer::ROOT_ID, $this->getId());
 
 			if (!isset($this->lastDiscussRelatedByRootIdCriteria) || !$this->lastDiscussRelatedByRootIdCriteria->equals($criteria)) {
-				$this->collDiscusssRelatedByRootId = DiscussPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
+				$this->collDiscusssRelatedByRootId = DiscussPeer::doSelectJoinUsersRelatedByDeletedUserId($criteria, $con);
 			}
 		}
 		$this->lastDiscussRelatedByRootIdCriteria = $criteria;
@@ -2746,6 +3049,104 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 		return $this->collDiscusssRelatedByRootId;
 	}
 
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Discuss is new, it will return
+	 * an empty collection; or if this Discuss has previously
+	 * been saved, it will retrieve related DiscusssRelatedByRootId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Discuss.
+	 */
+	public function getDiscusssRelatedByRootIdJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseDiscussPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collDiscusssRelatedByRootId === null) {
+			if ($this->isNew()) {
+				$this->collDiscusssRelatedByRootId = array();
+			} else {
+
+				$criteria->add(DiscussPeer::ROOT_ID, $this->getId());
+
+				$this->collDiscusssRelatedByRootId = DiscussPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(DiscussPeer::ROOT_ID, $this->getId());
+
+			if (!isset($this->lastDiscussRelatedByRootIdCriteria) || !$this->lastDiscussRelatedByRootIdCriteria->equals($criteria)) {
+				$this->collDiscusssRelatedByRootId = DiscussPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		}
+		$this->lastDiscussRelatedByRootIdCriteria = $criteria;
+
+		return $this->collDiscusssRelatedByRootId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Discuss is new, it will return
+	 * an empty collection; or if this Discuss has previously
+	 * been saved, it will retrieve related DiscusssRelatedByRootId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Discuss.
+	 */
+	public function getDiscusssRelatedByRootIdJoinUsersRelatedByDeletedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseDiscussPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collDiscusssRelatedByRootId === null) {
+			if ($this->isNew()) {
+				$this->collDiscusssRelatedByRootId = array();
+			} else {
+
+				$criteria->add(DiscussPeer::ROOT_ID, $this->getId());
+
+				$this->collDiscusssRelatedByRootId = DiscussPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(DiscussPeer::ROOT_ID, $this->getId());
+
+			if (!isset($this->lastDiscussRelatedByRootIdCriteria) || !$this->lastDiscussRelatedByRootIdCriteria->equals($criteria)) {
+				$this->collDiscusssRelatedByRootId = DiscussPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
+			}
+		}
+		$this->lastDiscussRelatedByRootIdCriteria = $criteria;
+
+		return $this->collDiscusssRelatedByRootId;
+	}
+
 	/**
 	 * Temporary storage of collDiscusssRelatedByParentId to save a possible db hit in
 	 * the event objects are add to the collection, but the
@@ -2865,7 +3266,7 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Discuss.
 	 */
-	public function getDiscusssRelatedByParentIdJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
+	public function getDiscusssRelatedByParentIdJoinUsersRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseDiscussPeer.php';
@@ -2884,7 +3285,7 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 
 				$criteria->add(DiscussPeer::PARENT_ID, $this->getId());
 
-				$this->collDiscusssRelatedByParentId = DiscussPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collDiscusssRelatedByParentId = DiscussPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -2894,7 +3295,7 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 			$criteria->add(DiscussPeer::PARENT_ID, $this->getId());
 
 			if (!isset($this->lastDiscussRelatedByParentIdCriteria) || !$this->lastDiscussRelatedByParentIdCriteria->equals($criteria)) {
-				$this->collDiscusssRelatedByParentId = DiscussPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collDiscusssRelatedByParentId = DiscussPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		}
 		$this->lastDiscussRelatedByParentIdCriteria = $criteria;
@@ -2914,7 +3315,7 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Discuss.
 	 */
-	public function getDiscusssRelatedByParentIdJoinUserRelatedByDeletedUserId($criteria = null, $con = null)
+	public function getDiscusssRelatedByParentIdJoinUsersRelatedByDeletedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseDiscussPeer.php';
@@ -2933,7 +3334,7 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 
 				$criteria->add(DiscussPeer::PARENT_ID, $this->getId());
 
-				$this->collDiscusssRelatedByParentId = DiscussPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
+				$this->collDiscusssRelatedByParentId = DiscussPeer::doSelectJoinUsersRelatedByDeletedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -2943,7 +3344,7 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 			$criteria->add(DiscussPeer::PARENT_ID, $this->getId());
 
 			if (!isset($this->lastDiscussRelatedByParentIdCriteria) || !$this->lastDiscussRelatedByParentIdCriteria->equals($criteria)) {
-				$this->collDiscusssRelatedByParentId = DiscussPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
+				$this->collDiscusssRelatedByParentId = DiscussPeer::doSelectJoinUsersRelatedByDeletedUserId($criteria, $con);
 			}
 		}
 		$this->lastDiscussRelatedByParentIdCriteria = $criteria;
@@ -3238,6 +3639,104 @@ abstract class BaseDiscuss extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastDiscussRelatedByParentIdCriteria) || !$this->lastDiscussRelatedByParentIdCriteria->equals($criteria)) {
 				$this->collDiscusssRelatedByParentId = DiscussPeer::doSelectJoinConceptProperty($criteria, $con);
+			}
+		}
+		$this->lastDiscussRelatedByParentIdCriteria = $criteria;
+
+		return $this->collDiscusssRelatedByParentId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Discuss is new, it will return
+	 * an empty collection; or if this Discuss has previously
+	 * been saved, it will retrieve related DiscusssRelatedByParentId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Discuss.
+	 */
+	public function getDiscusssRelatedByParentIdJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseDiscussPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collDiscusssRelatedByParentId === null) {
+			if ($this->isNew()) {
+				$this->collDiscusssRelatedByParentId = array();
+			} else {
+
+				$criteria->add(DiscussPeer::PARENT_ID, $this->getId());
+
+				$this->collDiscusssRelatedByParentId = DiscussPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(DiscussPeer::PARENT_ID, $this->getId());
+
+			if (!isset($this->lastDiscussRelatedByParentIdCriteria) || !$this->lastDiscussRelatedByParentIdCriteria->equals($criteria)) {
+				$this->collDiscusssRelatedByParentId = DiscussPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		}
+		$this->lastDiscussRelatedByParentIdCriteria = $criteria;
+
+		return $this->collDiscusssRelatedByParentId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Discuss is new, it will return
+	 * an empty collection; or if this Discuss has previously
+	 * been saved, it will retrieve related DiscusssRelatedByParentId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Discuss.
+	 */
+	public function getDiscusssRelatedByParentIdJoinUsersRelatedByDeletedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseDiscussPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collDiscusssRelatedByParentId === null) {
+			if ($this->isNew()) {
+				$this->collDiscusssRelatedByParentId = array();
+			} else {
+
+				$criteria->add(DiscussPeer::PARENT_ID, $this->getId());
+
+				$this->collDiscusssRelatedByParentId = DiscussPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(DiscussPeer::PARENT_ID, $this->getId());
+
+			if (!isset($this->lastDiscussRelatedByParentIdCriteria) || !$this->lastDiscussRelatedByParentIdCriteria->equals($criteria)) {
+				$this->collDiscusssRelatedByParentId = DiscussPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
 			}
 		}
 		$this->lastDiscussRelatedByParentIdCriteria = $criteria;

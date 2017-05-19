@@ -330,14 +330,14 @@ abstract class BaseAgentHasUserPeer {
 	}
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related User table
+	 * Returns the number of rows matching criteria, joining the related Users table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinUser(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinUsers(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -356,7 +356,7 @@ abstract class BaseAgentHasUserPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(AgentHasUserPeer::USER_ID, UserPeer::ID);
+		$criteria->addJoin(AgentHasUserPeer::USER_ID, UsersPeer::ID);
 
 		$rs = AgentHasUserPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -408,13 +408,13 @@ abstract class BaseAgentHasUserPeer {
 
 
 	/**
-	 * Selects a collection of AgentHasUser objects pre-filled with their User objects.
+	 * Selects a collection of AgentHasUser objects pre-filled with their Users objects.
 	 *
 	 * @return array Array of AgentHasUser objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinUser(Criteria $c, $con = null)
+	public static function doSelectJoinUsers(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -425,9 +425,9 @@ abstract class BaseAgentHasUserPeer {
 
 		AgentHasUserPeer::addSelectColumns($c);
 		$startcol = (AgentHasUserPeer::NUM_COLUMNS - AgentHasUserPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-		UserPeer::addSelectColumns($c);
+		UsersPeer::addSelectColumns($c);
 
-		$c->addJoin(AgentHasUserPeer::USER_ID, UserPeer::ID);
+		$c->addJoin(AgentHasUserPeer::USER_ID, UsersPeer::ID);
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
@@ -439,7 +439,7 @@ abstract class BaseAgentHasUserPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
@@ -447,7 +447,7 @@ abstract class BaseAgentHasUserPeer {
 
 			$newObject = true;
 			foreach($results as $temp_obj1) {
-				$temp_obj2 = $temp_obj1->getUser(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsers(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					// e.g. $author->addBookRelatedByBookId()
@@ -549,7 +549,7 @@ abstract class BaseAgentHasUserPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(AgentHasUserPeer::USER_ID, UserPeer::ID);
+		$criteria->addJoin(AgentHasUserPeer::USER_ID, UsersPeer::ID);
 
 		$criteria->addJoin(AgentHasUserPeer::AGENT_ID, AgentPeer::ID);
 
@@ -582,11 +582,11 @@ abstract class BaseAgentHasUserPeer {
 		AgentHasUserPeer::addSelectColumns($c);
 		$startcol2 = (AgentHasUserPeer::NUM_COLUMNS - AgentHasUserPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c, 'a1');
-		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c, 'a1');
+		$startcol3 = $startcol2 + UsersPeer::NUM_COLUMNS;
 
-        $c->addJoin(AgentHasUserPeer::USER_ID, UserPeer::alias('a1', UserPeer::ID));
-        $c->addAlias('a1', UserPeer::TABLE_NAME);
+        $c->addJoin(AgentHasUserPeer::USER_ID, UsersPeer::alias('a1', UsersPeer::ID));
+        $c->addAlias('a1', UsersPeer::TABLE_NAME);
 
 		AgentPeer::addSelectColumns($c, 'a2');
 		$startcol4 = $startcol3 + AgentPeer::NUM_COLUMNS;
@@ -607,9 +607,9 @@ abstract class BaseAgentHasUserPeer {
 			$obj1->hydrate($rs);
 
 
-				// Add objects for joined User rows
+				// Add objects for joined Users rows
 	
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -619,7 +619,7 @@ abstract class BaseAgentHasUserPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUser(); // CHECKME
+				$temp_obj2 = $temp_obj1->getUsers(); // CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addAgentHasUser($obj1); // CHECKME
@@ -665,14 +665,14 @@ abstract class BaseAgentHasUserPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related User table
+	 * Returns the number of rows matching criteria, joining the related Users table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinAllExceptUser(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinAllExceptUsers(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -730,7 +730,7 @@ abstract class BaseAgentHasUserPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(AgentHasUserPeer::USER_ID, UserPeer::ID);
+		$criteria->addJoin(AgentHasUserPeer::USER_ID, UsersPeer::ID);
 
 		$rs = AgentHasUserPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -743,13 +743,13 @@ abstract class BaseAgentHasUserPeer {
 
 
 	/**
-	 * Selects a collection of AgentHasUser objects pre-filled with all related objects except User.
+	 * Selects a collection of AgentHasUser objects pre-filled with all related objects except Users.
 	 *
 	 * @return array Array of AgentHasUser objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinAllExceptUser(Criteria $c, $con = null)
+	public static function doSelectJoinAllExceptUsers(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -830,10 +830,10 @@ abstract class BaseAgentHasUserPeer {
 		AgentHasUserPeer::addSelectColumns($c);
 		$startcol2 = (AgentHasUserPeer::NUM_COLUMNS - AgentHasUserPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + UsersPeer::NUM_COLUMNS;
 
-		$c->addJoin(AgentHasUserPeer::USER_ID, UserPeer::ID);
+		$c->addJoin(AgentHasUserPeer::USER_ID, UsersPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -847,7 +847,7 @@ abstract class BaseAgentHasUserPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -857,7 +857,7 @@ abstract class BaseAgentHasUserPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUser(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsers(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addAgentHasUser($obj1);

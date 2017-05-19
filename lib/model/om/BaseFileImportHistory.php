@@ -34,6 +34,13 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 
 
 	/**
+	 * The value for the updated_at field.
+	 * @var        int
+	 */
+	protected $updated_at;
+
+
+	/**
 	 * The value for the map field.
 	 * @var        string
 	 */
@@ -66,6 +73,13 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 	 * @var        string
 	 */
 	protected $file_name;
+
+
+	/**
+	 * The value for the source field.
+	 * @var        string
+	 */
+	protected $source = 'upload';
 
 
 	/**
@@ -123,10 +137,17 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 	 */
 	protected $token;
 
+
 	/**
-	 * @var        User
+	 * The value for the imported_by field.
+	 * @var        int
 	 */
-	protected $aUser;
+	protected $imported_by;
+
+	/**
+	 * @var        Users
+	 */
+	protected $aUsersRelatedByUserId;
 
 	/**
 	 * @var        Vocabulary
@@ -142,6 +163,11 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 	 * @var        Batch
 	 */
 	protected $aBatch;
+
+	/**
+	 * @var        Users
+	 */
+	protected $aUsersRelatedByImportedBy;
 
 	/**
 	 * Collection to store aggregation of collConceptPropertyHistorys.
@@ -224,6 +250,37 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 	}
 
 	/**
+	 * Get the [optionally formatted] [updated_at] column value.
+	 * 
+	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
+	 *							If format is NULL, then the integer unix timestamp will be returned.
+	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
+	 * @throws     PropelException - if unable to convert the date/time to timestamp.
+	 */
+	public function getUpdatedAt($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->updated_at === null || $this->updated_at === '') {
+			return null;
+		} elseif (!is_int($this->updated_at)) {
+			// a non-timestamp value was set externally, so we convert it
+			$ts = strtotime($this->updated_at);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse value of [updated_at] as date/time value: " . var_export($this->updated_at, true));
+			}
+		} else {
+			$ts = $this->updated_at;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
+	}
+
+	/**
 	 * Get the [map] column value.
 	 * 
 	 * @return     string
@@ -276,6 +333,17 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 	{
 
 		return $this->file_name;
+	}
+
+	/**
+	 * Get the [source] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getSource()
+	{
+
+		return $this->source;
 	}
 
 	/**
@@ -367,6 +435,17 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 	}
 
 	/**
+	 * Get the [imported_by] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getImportedBy()
+	{
+
+		return $this->imported_by;
+	}
+
+	/**
 	 * Set the value of [id] column.
 	 * 
 	 * @param      int $v new value
@@ -413,6 +492,30 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 	} // setCreatedAt()
 
 	/**
+	 * Set the value of [updated_at] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setUpdatedAt($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse date/time value for [updated_at] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->updated_at !== $ts) {
+			$this->updated_at = $ts;
+			$this->modifiedColumns[] = FileImportHistoryPeer::UPDATED_AT;
+		}
+
+	} // setUpdatedAt()
+
+	/**
 	 * Set the value of [map] column.
 	 * 
 	 * @param      string $v new value
@@ -454,8 +557,8 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 			$this->modifiedColumns[] = FileImportHistoryPeer::USER_ID;
 		}
 
-		if ($this->aUser !== null && $this->aUser->getId() !== $v) {
-			$this->aUser = null;
+		if ($this->aUsersRelatedByUserId !== null && $this->aUsersRelatedByUserId->getId() !== $v) {
+			$this->aUsersRelatedByUserId = null;
 		}
 
 	} // setUserId()
@@ -533,6 +636,28 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 		}
 
 	} // setFileName()
+
+	/**
+	 * Set the value of [source] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setSource($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->source !== $v || $v === 'upload') {
+			$this->source = $v;
+			$this->modifiedColumns[] = FileImportHistoryPeer::SOURCE;
+		}
+
+	} // setSource()
 
 	/**
 	 * Set the value of [source_file_name] column.
@@ -715,6 +840,32 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 	} // setToken()
 
 	/**
+	 * Set the value of [imported_by] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setImportedBy($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->imported_by !== $v) {
+			$this->imported_by = $v;
+			$this->modifiedColumns[] = FileImportHistoryPeer::IMPORTED_BY;
+		}
+
+		if ($this->aUsersRelatedByImportedBy !== null && $this->aUsersRelatedByImportedBy->getId() !== $v) {
+			$this->aUsersRelatedByImportedBy = null;
+		}
+
+	} // setImportedBy()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -735,38 +886,44 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 
 			$this->created_at = $rs->getTimestamp($startcol + 1, null);
 
-			$this->map = $rs->getString($startcol + 2);
+			$this->updated_at = $rs->getTimestamp($startcol + 2, null);
 
-			$this->user_id = $rs->getInt($startcol + 3);
+			$this->map = $rs->getString($startcol + 3);
 
-			$this->vocabulary_id = $rs->getInt($startcol + 4);
+			$this->user_id = $rs->getInt($startcol + 4);
 
-			$this->schema_id = $rs->getInt($startcol + 5);
+			$this->vocabulary_id = $rs->getInt($startcol + 5);
 
-			$this->file_name = $rs->getString($startcol + 6);
+			$this->schema_id = $rs->getInt($startcol + 6);
 
-			$this->source_file_name = $rs->getString($startcol + 7);
+			$this->file_name = $rs->getString($startcol + 7);
 
-			$this->file_type = $rs->getString($startcol + 8);
+			$this->source = $rs->getString($startcol + 8);
 
-			$this->batch_id = $rs->getInt($startcol + 9);
+			$this->source_file_name = $rs->getString($startcol + 9);
 
-			$this->results = $rs->getString($startcol + 10);
+			$this->file_type = $rs->getString($startcol + 10);
 
-			$this->total_processed_count = $rs->getInt($startcol + 11);
+			$this->batch_id = $rs->getInt($startcol + 11);
 
-			$this->error_count = $rs->getInt($startcol + 12);
+			$this->results = $rs->getString($startcol + 12);
 
-			$this->success_count = $rs->getInt($startcol + 13);
+			$this->total_processed_count = $rs->getInt($startcol + 13);
 
-			$this->token = $rs->getInt($startcol + 14);
+			$this->error_count = $rs->getInt($startcol + 14);
+
+			$this->success_count = $rs->getInt($startcol + 15);
+
+			$this->token = $rs->getInt($startcol + 16);
+
+			$this->imported_by = $rs->getInt($startcol + 17);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 15; // 15 = FileImportHistoryPeer::NUM_COLUMNS - FileImportHistoryPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 18; // 18 = FileImportHistoryPeer::NUM_COLUMNS - FileImportHistoryPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating FileImportHistory object", $e);
@@ -848,6 +1005,11 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
       $this->setCreatedAt(time());
     }
 
+    if ($this->isModified() && !$this->isColumnModified(FileImportHistoryPeer::UPDATED_AT))
+    {
+      $this->setUpdatedAt(time());
+    }
+
 		if ($this->isDeleted()) {
 			throw new PropelException("You cannot save an object that has been deleted.");
 		}
@@ -895,11 +1057,11 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
-			if ($this->aUser !== null) {
-				if ($this->aUser->isModified()) {
-					$affectedRows += $this->aUser->save($con);
+			if ($this->aUsersRelatedByUserId !== null) {
+				if ($this->aUsersRelatedByUserId->isModified()) {
+					$affectedRows += $this->aUsersRelatedByUserId->save($con);
 				}
-				$this->setUser($this->aUser);
+				$this->setUsersRelatedByUserId($this->aUsersRelatedByUserId);
 			}
 
 			if ($this->aVocabulary !== null) {
@@ -921,6 +1083,13 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 					$affectedRows += $this->aBatch->save($con);
 				}
 				$this->setBatch($this->aBatch);
+			}
+
+			if ($this->aUsersRelatedByImportedBy !== null) {
+				if ($this->aUsersRelatedByImportedBy->isModified()) {
+					$affectedRows += $this->aUsersRelatedByImportedBy->save($con);
+				}
+				$this->setUsersRelatedByImportedBy($this->aUsersRelatedByImportedBy);
 			}
 
 
@@ -1027,9 +1196,9 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
-			if ($this->aUser !== null) {
-				if (!$this->aUser->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aUser->getValidationFailures());
+			if ($this->aUsersRelatedByUserId !== null) {
+				if (!$this->aUsersRelatedByUserId->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsersRelatedByUserId->getValidationFailures());
 				}
 			}
 
@@ -1048,6 +1217,12 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 			if ($this->aBatch !== null) {
 				if (!$this->aBatch->validate($columns)) {
 					$failureMap = array_merge($failureMap, $this->aBatch->getValidationFailures());
+				}
+			}
+
+			if ($this->aUsersRelatedByImportedBy !== null) {
+				if (!$this->aUsersRelatedByImportedBy->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsersRelatedByImportedBy->getValidationFailures());
 				}
 			}
 
@@ -1112,43 +1287,52 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 				return $this->getCreatedAt();
 				break;
 			case 2:
-				return $this->getMap();
+				return $this->getUpdatedAt();
 				break;
 			case 3:
-				return $this->getUserId();
+				return $this->getMap();
 				break;
 			case 4:
-				return $this->getVocabularyId();
+				return $this->getUserId();
 				break;
 			case 5:
-				return $this->getSchemaId();
+				return $this->getVocabularyId();
 				break;
 			case 6:
-				return $this->getFileName();
+				return $this->getSchemaId();
 				break;
 			case 7:
-				return $this->getSourceFileName();
+				return $this->getFileName();
 				break;
 			case 8:
-				return $this->getFileType();
+				return $this->getSource();
 				break;
 			case 9:
-				return $this->getBatchId();
+				return $this->getSourceFileName();
 				break;
 			case 10:
-				return $this->getResults();
+				return $this->getFileType();
 				break;
 			case 11:
-				return $this->getTotalProcessedCount();
+				return $this->getBatchId();
 				break;
 			case 12:
-				return $this->getErrorCount();
+				return $this->getResults();
 				break;
 			case 13:
-				return $this->getSuccessCount();
+				return $this->getTotalProcessedCount();
 				break;
 			case 14:
+				return $this->getErrorCount();
+				break;
+			case 15:
+				return $this->getSuccessCount();
+				break;
+			case 16:
 				return $this->getToken();
+				break;
+			case 17:
+				return $this->getImportedBy();
 				break;
 			default:
 				return null;
@@ -1172,19 +1356,22 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 		$result = array(
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getCreatedAt(),
-			$keys[2] => $this->getMap(),
-			$keys[3] => $this->getUserId(),
-			$keys[4] => $this->getVocabularyId(),
-			$keys[5] => $this->getSchemaId(),
-			$keys[6] => $this->getFileName(),
-			$keys[7] => $this->getSourceFileName(),
-			$keys[8] => $this->getFileType(),
-			$keys[9] => $this->getBatchId(),
-			$keys[10] => $this->getResults(),
-			$keys[11] => $this->getTotalProcessedCount(),
-			$keys[12] => $this->getErrorCount(),
-			$keys[13] => $this->getSuccessCount(),
-			$keys[14] => $this->getToken(),
+			$keys[2] => $this->getUpdatedAt(),
+			$keys[3] => $this->getMap(),
+			$keys[4] => $this->getUserId(),
+			$keys[5] => $this->getVocabularyId(),
+			$keys[6] => $this->getSchemaId(),
+			$keys[7] => $this->getFileName(),
+			$keys[8] => $this->getSource(),
+			$keys[9] => $this->getSourceFileName(),
+			$keys[10] => $this->getFileType(),
+			$keys[11] => $this->getBatchId(),
+			$keys[12] => $this->getResults(),
+			$keys[13] => $this->getTotalProcessedCount(),
+			$keys[14] => $this->getErrorCount(),
+			$keys[15] => $this->getSuccessCount(),
+			$keys[16] => $this->getToken(),
+			$keys[17] => $this->getImportedBy(),
 		);
 		return $result;
 	}
@@ -1223,43 +1410,52 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 				$this->setCreatedAt($value);
 				break;
 			case 2:
-				$this->setMap($value);
+				$this->setUpdatedAt($value);
 				break;
 			case 3:
-				$this->setUserId($value);
+				$this->setMap($value);
 				break;
 			case 4:
-				$this->setVocabularyId($value);
+				$this->setUserId($value);
 				break;
 			case 5:
-				$this->setSchemaId($value);
+				$this->setVocabularyId($value);
 				break;
 			case 6:
-				$this->setFileName($value);
+				$this->setSchemaId($value);
 				break;
 			case 7:
-				$this->setSourceFileName($value);
+				$this->setFileName($value);
 				break;
 			case 8:
-				$this->setFileType($value);
+				$this->setSource($value);
 				break;
 			case 9:
-				$this->setBatchId($value);
+				$this->setSourceFileName($value);
 				break;
 			case 10:
-				$this->setResults($value);
+				$this->setFileType($value);
 				break;
 			case 11:
-				$this->setTotalProcessedCount($value);
+				$this->setBatchId($value);
 				break;
 			case 12:
-				$this->setErrorCount($value);
+				$this->setResults($value);
 				break;
 			case 13:
-				$this->setSuccessCount($value);
+				$this->setTotalProcessedCount($value);
 				break;
 			case 14:
+				$this->setErrorCount($value);
+				break;
+			case 15:
+				$this->setSuccessCount($value);
+				break;
+			case 16:
 				$this->setToken($value);
+				break;
+			case 17:
+				$this->setImportedBy($value);
 				break;
 		} // switch()
 	}
@@ -1286,19 +1482,22 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setCreatedAt($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setMap($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setUserId($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setVocabularyId($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setSchemaId($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setFileName($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setSourceFileName($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setFileType($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setBatchId($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setResults($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setTotalProcessedCount($arr[$keys[11]]);
-		if (array_key_exists($keys[12], $arr)) $this->setErrorCount($arr[$keys[12]]);
-		if (array_key_exists($keys[13], $arr)) $this->setSuccessCount($arr[$keys[13]]);
-		if (array_key_exists($keys[14], $arr)) $this->setToken($arr[$keys[14]]);
+		if (array_key_exists($keys[2], $arr)) $this->setUpdatedAt($arr[$keys[2]]);
+		if (array_key_exists($keys[3], $arr)) $this->setMap($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setUserId($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setVocabularyId($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setSchemaId($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setFileName($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setSource($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setSourceFileName($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setFileType($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setBatchId($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setResults($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setTotalProcessedCount($arr[$keys[13]]);
+		if (array_key_exists($keys[14], $arr)) $this->setErrorCount($arr[$keys[14]]);
+		if (array_key_exists($keys[15], $arr)) $this->setSuccessCount($arr[$keys[15]]);
+		if (array_key_exists($keys[16], $arr)) $this->setToken($arr[$keys[16]]);
+		if (array_key_exists($keys[17], $arr)) $this->setImportedBy($arr[$keys[17]]);
 	}
 
 	/**
@@ -1312,11 +1511,13 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 
 		if ($this->isColumnModified(FileImportHistoryPeer::ID)) $criteria->add(FileImportHistoryPeer::ID, $this->id);
 		if ($this->isColumnModified(FileImportHistoryPeer::CREATED_AT)) $criteria->add(FileImportHistoryPeer::CREATED_AT, $this->created_at);
+		if ($this->isColumnModified(FileImportHistoryPeer::UPDATED_AT)) $criteria->add(FileImportHistoryPeer::UPDATED_AT, $this->updated_at);
 		if ($this->isColumnModified(FileImportHistoryPeer::MAP)) $criteria->add(FileImportHistoryPeer::MAP, $this->map);
 		if ($this->isColumnModified(FileImportHistoryPeer::USER_ID)) $criteria->add(FileImportHistoryPeer::USER_ID, $this->user_id);
 		if ($this->isColumnModified(FileImportHistoryPeer::VOCABULARY_ID)) $criteria->add(FileImportHistoryPeer::VOCABULARY_ID, $this->vocabulary_id);
 		if ($this->isColumnModified(FileImportHistoryPeer::SCHEMA_ID)) $criteria->add(FileImportHistoryPeer::SCHEMA_ID, $this->schema_id);
 		if ($this->isColumnModified(FileImportHistoryPeer::FILE_NAME)) $criteria->add(FileImportHistoryPeer::FILE_NAME, $this->file_name);
+		if ($this->isColumnModified(FileImportHistoryPeer::SOURCE)) $criteria->add(FileImportHistoryPeer::SOURCE, $this->source);
 		if ($this->isColumnModified(FileImportHistoryPeer::SOURCE_FILE_NAME)) $criteria->add(FileImportHistoryPeer::SOURCE_FILE_NAME, $this->source_file_name);
 		if ($this->isColumnModified(FileImportHistoryPeer::FILE_TYPE)) $criteria->add(FileImportHistoryPeer::FILE_TYPE, $this->file_type);
 		if ($this->isColumnModified(FileImportHistoryPeer::BATCH_ID)) $criteria->add(FileImportHistoryPeer::BATCH_ID, $this->batch_id);
@@ -1325,6 +1526,7 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(FileImportHistoryPeer::ERROR_COUNT)) $criteria->add(FileImportHistoryPeer::ERROR_COUNT, $this->error_count);
 		if ($this->isColumnModified(FileImportHistoryPeer::SUCCESS_COUNT)) $criteria->add(FileImportHistoryPeer::SUCCESS_COUNT, $this->success_count);
 		if ($this->isColumnModified(FileImportHistoryPeer::TOKEN)) $criteria->add(FileImportHistoryPeer::TOKEN, $this->token);
+		if ($this->isColumnModified(FileImportHistoryPeer::IMPORTED_BY)) $criteria->add(FileImportHistoryPeer::IMPORTED_BY, $this->imported_by);
 
 		return $criteria;
 	}
@@ -1381,6 +1583,8 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 
 		$copyObj->setCreatedAt($this->created_at);
 
+		$copyObj->setUpdatedAt($this->updated_at);
+
 		$copyObj->setMap($this->map);
 
 		$copyObj->setUserId($this->user_id);
@@ -1390,6 +1594,8 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 		$copyObj->setSchemaId($this->schema_id);
 
 		$copyObj->setFileName($this->file_name);
+
+		$copyObj->setSource($this->source);
 
 		$copyObj->setSourceFileName($this->source_file_name);
 
@@ -1406,6 +1612,8 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 		$copyObj->setSuccessCount($this->success_count);
 
 		$copyObj->setToken($this->token);
+
+		$copyObj->setImportedBy($this->imported_by);
 
 
 		if ($deepCopy) {
@@ -1469,13 +1677,13 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Declares an association between this object and a User object.
+	 * Declares an association between this object and a Users object.
 	 *
-	 * @param      User $v
+	 * @param      Users $v
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function setUser($v)
+	public function setUsersRelatedByUserId($v)
 	{
 
 
@@ -1486,24 +1694,24 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 		}
 
 
-		$this->aUser = $v;
+		$this->aUsersRelatedByUserId = $v;
 	}
 
 
 	/**
-	 * Get the associated User object
+	 * Get the associated Users object
 	 *
 	 * @param      Connection Optional Connection object.
-	 * @return     User The associated User object.
+	 * @return     Users The associated Users object.
 	 * @throws     PropelException
 	 */
-	public function getUser($con = null)
+	public function getUsersRelatedByUserId($con = null)
 	{
-		if ($this->aUser === null && ($this->user_id !== null)) {
+		if ($this->aUsersRelatedByUserId === null && ($this->user_id !== null)) {
 			// include the related Peer class
-			include_once 'lib/model/om/BaseUserPeer.php';
+			include_once 'lib/model/om/BaseUsersPeer.php';
 
-			$this->aUser = UserPeer::retrieveByPK($this->user_id, $con);
+			$this->aUsersRelatedByUserId = UsersPeer::retrieveByPK($this->user_id, $con);
 
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
@@ -1511,11 +1719,11 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 			   may be undesirable in many circumstances.
 			   As it can lead to a db query with many results that may
 			   never be used.
-			   $obj = UserPeer::retrieveByPK($this->user_id, $con);
-			   $obj->addUsers($this);
+			   $obj = UsersPeer::retrieveByPK($this->user_id, $con);
+			   $obj->addUserssRelatedByUserId($this);
 			 */
 		}
-		return $this->aUser;
+		return $this->aUsersRelatedByUserId;
 	}
 
 	/**
@@ -1666,6 +1874,56 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 			 */
 		}
 		return $this->aBatch;
+	}
+
+	/**
+	 * Declares an association between this object and a Users object.
+	 *
+	 * @param      Users $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setUsersRelatedByImportedBy($v)
+	{
+
+
+		if ($v === null) {
+			$this->setImportedBy(NULL);
+		} else {
+			$this->setImportedBy($v->getId());
+		}
+
+
+		$this->aUsersRelatedByImportedBy = $v;
+	}
+
+
+	/**
+	 * Get the associated Users object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     Users The associated Users object.
+	 * @throws     PropelException
+	 */
+	public function getUsersRelatedByImportedBy($con = null)
+	{
+		if ($this->aUsersRelatedByImportedBy === null && ($this->imported_by !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseUsersPeer.php';
+
+			$this->aUsersRelatedByImportedBy = UsersPeer::retrieveByPK($this->imported_by, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = UsersPeer::retrieveByPK($this->imported_by, $con);
+			   $obj->addUserssRelatedByImportedBy($this);
+			 */
+		}
+		return $this->aUsersRelatedByImportedBy;
 	}
 
 	/**
@@ -2130,7 +2388,7 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in FileImportHistory.
 	 */
-	public function getConceptPropertyHistorysJoinUser($criteria = null, $con = null)
+	public function getConceptPropertyHistorysJoinUsersRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
@@ -2149,7 +2407,7 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPropertyHistoryPeer::IMPORT_ID, $this->getId());
 
-				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUser($criteria, $con);
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -2159,7 +2417,7 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 			$criteria->add(ConceptPropertyHistoryPeer::IMPORT_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyHistoryCriteria) || !$this->lastConceptPropertyHistoryCriteria->equals($criteria)) {
-				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUser($criteria, $con);
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyHistoryCriteria = $criteria;
@@ -2209,6 +2467,55 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastConceptPropertyHistoryCriteria) || !$this->lastConceptPropertyHistoryCriteria->equals($criteria)) {
 				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinProfileProperty($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyHistoryCriteria = $criteria;
+
+		return $this->collConceptPropertyHistorys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this FileImportHistory is new, it will return
+	 * an empty collection; or if this FileImportHistory has previously
+	 * been saved, it will retrieve related ConceptPropertyHistorys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in FileImportHistory.
+	 */
+	public function getConceptPropertyHistorysJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertyHistorys === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertyHistorys = array();
+			} else {
+
+				$criteria->add(ConceptPropertyHistoryPeer::IMPORT_ID, $this->getId());
+
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyHistoryPeer::IMPORT_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyHistoryCriteria) || !$this->lastConceptPropertyHistoryCriteria->equals($criteria)) {
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyHistoryCriteria = $criteria;
@@ -2335,7 +2642,7 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in FileImportHistory.
 	 */
-	public function getSchemaPropertyElementHistorysJoinUser($criteria = null, $con = null)
+	public function getSchemaPropertyElementHistorysJoinUsersRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseSchemaPropertyElementHistoryPeer.php';
@@ -2354,7 +2661,7 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 
 				$criteria->add(SchemaPropertyElementHistoryPeer::IMPORT_ID, $this->getId());
 
-				$this->collSchemaPropertyElementHistorys = SchemaPropertyElementHistoryPeer::doSelectJoinUser($criteria, $con);
+				$this->collSchemaPropertyElementHistorys = SchemaPropertyElementHistoryPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -2364,7 +2671,7 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 			$criteria->add(SchemaPropertyElementHistoryPeer::IMPORT_ID, $this->getId());
 
 			if (!isset($this->lastSchemaPropertyElementHistoryCriteria) || !$this->lastSchemaPropertyElementHistoryCriteria->equals($criteria)) {
-				$this->collSchemaPropertyElementHistorys = SchemaPropertyElementHistoryPeer::doSelectJoinUser($criteria, $con);
+				$this->collSchemaPropertyElementHistorys = SchemaPropertyElementHistoryPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyElementHistoryCriteria = $criteria;
@@ -2659,6 +2966,55 @@ abstract class BaseFileImportHistory extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastSchemaPropertyElementHistoryCriteria) || !$this->lastSchemaPropertyElementHistoryCriteria->equals($criteria)) {
 				$this->collSchemaPropertyElementHistorys = SchemaPropertyElementHistoryPeer::doSelectJoinStatus($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyElementHistoryCriteria = $criteria;
+
+		return $this->collSchemaPropertyElementHistorys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this FileImportHistory is new, it will return
+	 * an empty collection; or if this FileImportHistory has previously
+	 * been saved, it will retrieve related SchemaPropertyElementHistorys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in FileImportHistory.
+	 */
+	public function getSchemaPropertyElementHistorysJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyElementHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertyElementHistorys === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertyElementHistorys = array();
+			} else {
+
+				$criteria->add(SchemaPropertyElementHistoryPeer::IMPORT_ID, $this->getId());
+
+				$this->collSchemaPropertyElementHistorys = SchemaPropertyElementHistoryPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyElementHistoryPeer::IMPORT_ID, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyElementHistoryCriteria) || !$this->lastSchemaPropertyElementHistoryCriteria->equals($criteria)) {
+				$this->collSchemaPropertyElementHistorys = SchemaPropertyElementHistoryPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyElementHistoryCriteria = $criteria;

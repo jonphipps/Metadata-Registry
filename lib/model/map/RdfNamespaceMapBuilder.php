@@ -63,23 +63,31 @@ class RdfNamespaceMapBuilder {
 
 		$tMap->addPrimaryKey('ID', 'Id', 'int', CreoleTypes::INTEGER, true, null);
 
-		$tMap->addForeignKey('SCHEMA_ID', 'SchemaId', 'int', CreoleTypes::INTEGER, 'reg_schema', 'ID', true, null);
-
 		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
+		$tMap->addColumn('UPDATED_AT', 'UpdatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
+
 		$tMap->addColumn('DELETED_AT', 'DeletedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
+
+		$tMap->addForeignKey('SCHEMA_ID', 'SchemaId', 'int', CreoleTypes::INTEGER, 'reg_schema', 'ID', true, null);
 
 		$tMap->addColumn('CREATED_USER_ID', 'CreatedUserId', 'int', CreoleTypes::INTEGER, false, null);
 
 		$tMap->addColumn('UPDATED_USER_ID', 'UpdatedUserId', 'int', CreoleTypes::INTEGER, false, null);
 
-		$tMap->addColumn('TOKEN', 'Token', 'string', CreoleTypes::VARCHAR, true, 255);
+		$tMap->addColumn('TOKEN', 'Token', 'string', CreoleTypes::VARCHAR, true, 191);
 
 		$tMap->addColumn('NOTE', 'Note', 'string', CreoleTypes::LONGVARCHAR, false, null);
 
-		$tMap->addColumn('URI', 'Uri', 'string', CreoleTypes::VARCHAR, true, 255);
+		$tMap->addColumn('URI', 'Uri', 'string', CreoleTypes::VARCHAR, true, 191);
 
-		$tMap->addColumn('SCHEMA_LOCATION', 'SchemaLocation', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('SCHEMA_LOCATION', 'SchemaLocation', 'string', CreoleTypes::VARCHAR, false, 191);
+
+		$tMap->addColumn('CREATED_BY', 'CreatedBy', 'int', CreoleTypes::INTEGER, false, null);
+
+		$tMap->addColumn('UPDATED_BY', 'UpdatedBy', 'int', CreoleTypes::INTEGER, false, null);
+
+		$tMap->addColumn('DELETED_BY', 'DeletedBy', 'int', CreoleTypes::INTEGER, false, null);
 
 	} // doBuild()
 

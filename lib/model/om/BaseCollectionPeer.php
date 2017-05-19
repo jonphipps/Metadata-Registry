@@ -19,7 +19,7 @@ abstract class BaseCollectionPeer {
 	const CLASS_DEFAULT = 'lib.model.Collection';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 12;
+	const NUM_COLUMNS = 15;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -61,6 +61,15 @@ abstract class BaseCollectionPeer {
 	/** the column name for the STATUS_ID field */
 	const STATUS_ID = 'reg_collection.STATUS_ID';
 
+	/** the column name for the CREATED_BY field */
+	const CREATED_BY = 'reg_collection.CREATED_BY';
+
+	/** the column name for the UPDATED_BY field */
+	const UPDATED_BY = 'reg_collection.UPDATED_BY';
+
+	/** the column name for the DELETED_BY field */
+	const DELETED_BY = 'reg_collection.DELETED_BY';
+
 	/** The PHP to DB Name Mapping */
 	private static $phpNameMap = null;
 
@@ -72,10 +81,10 @@ abstract class BaseCollectionPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'LastUpdated', 'CreatedUserId', 'UpdatedUserId', 'VocabularyId', 'Name', 'Uri', 'PrefLabel', 'StatusId', ),
-		BasePeer::TYPE_COLNAME => array (CollectionPeer::ID, CollectionPeer::CREATED_AT, CollectionPeer::UPDATED_AT, CollectionPeer::DELETED_AT, CollectionPeer::LAST_UPDATED, CollectionPeer::CREATED_USER_ID, CollectionPeer::UPDATED_USER_ID, CollectionPeer::VOCABULARY_ID, CollectionPeer::NAME, CollectionPeer::URI, CollectionPeer::PREF_LABEL, CollectionPeer::STATUS_ID, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'deleted_at', 'last_updated', 'created_user_id', 'updated_user_id', 'vocabulary_id', 'name', 'uri', 'pref_label', 'status_id', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'LastUpdated', 'CreatedUserId', 'UpdatedUserId', 'VocabularyId', 'Name', 'Uri', 'PrefLabel', 'StatusId', 'CreatedBy', 'UpdatedBy', 'DeletedBy', ),
+		BasePeer::TYPE_COLNAME => array (CollectionPeer::ID, CollectionPeer::CREATED_AT, CollectionPeer::UPDATED_AT, CollectionPeer::DELETED_AT, CollectionPeer::LAST_UPDATED, CollectionPeer::CREATED_USER_ID, CollectionPeer::UPDATED_USER_ID, CollectionPeer::VOCABULARY_ID, CollectionPeer::NAME, CollectionPeer::URI, CollectionPeer::PREF_LABEL, CollectionPeer::STATUS_ID, CollectionPeer::CREATED_BY, CollectionPeer::UPDATED_BY, CollectionPeer::DELETED_BY, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'deleted_at', 'last_updated', 'created_user_id', 'updated_user_id', 'vocabulary_id', 'name', 'uri', 'pref_label', 'status_id', 'created_by', 'updated_by', 'deleted_by', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
 	);
 
 	/**
@@ -85,10 +94,10 @@ abstract class BaseCollectionPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'DeletedAt' => 3, 'LastUpdated' => 4, 'CreatedUserId' => 5, 'UpdatedUserId' => 6, 'VocabularyId' => 7, 'Name' => 8, 'Uri' => 9, 'PrefLabel' => 10, 'StatusId' => 11, ),
-		BasePeer::TYPE_COLNAME => array (CollectionPeer::ID => 0, CollectionPeer::CREATED_AT => 1, CollectionPeer::UPDATED_AT => 2, CollectionPeer::DELETED_AT => 3, CollectionPeer::LAST_UPDATED => 4, CollectionPeer::CREATED_USER_ID => 5, CollectionPeer::UPDATED_USER_ID => 6, CollectionPeer::VOCABULARY_ID => 7, CollectionPeer::NAME => 8, CollectionPeer::URI => 9, CollectionPeer::PREF_LABEL => 10, CollectionPeer::STATUS_ID => 11, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'deleted_at' => 3, 'last_updated' => 4, 'created_user_id' => 5, 'updated_user_id' => 6, 'vocabulary_id' => 7, 'name' => 8, 'uri' => 9, 'pref_label' => 10, 'status_id' => 11, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'DeletedAt' => 3, 'LastUpdated' => 4, 'CreatedUserId' => 5, 'UpdatedUserId' => 6, 'VocabularyId' => 7, 'Name' => 8, 'Uri' => 9, 'PrefLabel' => 10, 'StatusId' => 11, 'CreatedBy' => 12, 'UpdatedBy' => 13, 'DeletedBy' => 14, ),
+		BasePeer::TYPE_COLNAME => array (CollectionPeer::ID => 0, CollectionPeer::CREATED_AT => 1, CollectionPeer::UPDATED_AT => 2, CollectionPeer::DELETED_AT => 3, CollectionPeer::LAST_UPDATED => 4, CollectionPeer::CREATED_USER_ID => 5, CollectionPeer::UPDATED_USER_ID => 6, CollectionPeer::VOCABULARY_ID => 7, CollectionPeer::NAME => 8, CollectionPeer::URI => 9, CollectionPeer::PREF_LABEL => 10, CollectionPeer::STATUS_ID => 11, CollectionPeer::CREATED_BY => 12, CollectionPeer::UPDATED_BY => 13, CollectionPeer::DELETED_BY => 14, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'deleted_at' => 3, 'last_updated' => 4, 'created_user_id' => 5, 'updated_user_id' => 6, 'vocabulary_id' => 7, 'name' => 8, 'uri' => 9, 'pref_label' => 10, 'status_id' => 11, 'created_by' => 12, 'updated_by' => 13, 'deleted_by' => 14, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
 	);
 
 	/**
@@ -212,6 +221,12 @@ abstract class BaseCollectionPeer {
         $criteria->addSelectColumn(($tableAlias) ? CollectionPeer::alias($tableAlias, CollectionPeer::PREF_LABEL) : CollectionPeer::PREF_LABEL);
 
         $criteria->addSelectColumn(($tableAlias) ? CollectionPeer::alias($tableAlias, CollectionPeer::STATUS_ID) : CollectionPeer::STATUS_ID);
+
+        $criteria->addSelectColumn(($tableAlias) ? CollectionPeer::alias($tableAlias, CollectionPeer::CREATED_BY) : CollectionPeer::CREATED_BY);
+
+        $criteria->addSelectColumn(($tableAlias) ? CollectionPeer::alias($tableAlias, CollectionPeer::UPDATED_BY) : CollectionPeer::UPDATED_BY);
+
+        $criteria->addSelectColumn(($tableAlias) ? CollectionPeer::alias($tableAlias, CollectionPeer::DELETED_BY) : CollectionPeer::DELETED_BY);
 
 	}
 
@@ -350,14 +365,14 @@ abstract class BaseCollectionPeer {
 	}
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related UserRelatedByCreatedUserId table
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByCreatedUserId table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinUserRelatedByCreatedUserId(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinUsersRelatedByCreatedUserId(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -376,7 +391,7 @@ abstract class BaseCollectionPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(CollectionPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(CollectionPeer::CREATED_USER_ID, UsersPeer::ID);
 
 		$rs = CollectionPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -389,14 +404,14 @@ abstract class BaseCollectionPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related UserRelatedByUpdatedUserId table
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByUpdatedUserId table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinUserRelatedByUpdatedUserId(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinUsersRelatedByUpdatedUserId(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -415,7 +430,7 @@ abstract class BaseCollectionPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(CollectionPeer::UPDATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(CollectionPeer::UPDATED_USER_ID, UsersPeer::ID);
 
 		$rs = CollectionPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -506,13 +521,130 @@ abstract class BaseCollectionPeer {
 
 
 	/**
-	 * Selects a collection of Collection objects pre-filled with their User objects.
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByCreatedBy table
+	 *
+	 * @param Criteria $c
+	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
+	 * @param Connection $con
+	 * @return int Number of matching rows.
+	 */
+	public static function doCountJoinUsersRelatedByCreatedBy(Criteria $criteria, $distinct = false, $con = null)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// clear out anything that might confuse the ORDER BY clause
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(CollectionPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(CollectionPeer::COUNT);
+		}
+
+		// just in case we're grouping: add those columns to the select statement
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(CollectionPeer::CREATED_BY, UsersPeer::ID);
+
+		$rs = CollectionPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			// no rows returned; we infer that means 0 matches.
+			return 0;
+		}
+	}
+
+
+	/**
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByUpdatedBy table
+	 *
+	 * @param Criteria $c
+	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
+	 * @param Connection $con
+	 * @return int Number of matching rows.
+	 */
+	public static function doCountJoinUsersRelatedByUpdatedBy(Criteria $criteria, $distinct = false, $con = null)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// clear out anything that might confuse the ORDER BY clause
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(CollectionPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(CollectionPeer::COUNT);
+		}
+
+		// just in case we're grouping: add those columns to the select statement
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(CollectionPeer::UPDATED_BY, UsersPeer::ID);
+
+		$rs = CollectionPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			// no rows returned; we infer that means 0 matches.
+			return 0;
+		}
+	}
+
+
+	/**
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByDeletedBy table
+	 *
+	 * @param Criteria $c
+	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
+	 * @param Connection $con
+	 * @return int Number of matching rows.
+	 */
+	public static function doCountJoinUsersRelatedByDeletedBy(Criteria $criteria, $distinct = false, $con = null)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// clear out anything that might confuse the ORDER BY clause
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(CollectionPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(CollectionPeer::COUNT);
+		}
+
+		// just in case we're grouping: add those columns to the select statement
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(CollectionPeer::DELETED_BY, UsersPeer::ID);
+
+		$rs = CollectionPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			// no rows returned; we infer that means 0 matches.
+			return 0;
+		}
+	}
+
+
+	/**
+	 * Selects a collection of Collection objects pre-filled with their Users objects.
 	 *
 	 * @return array Array of Collection objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinUserRelatedByCreatedUserId(Criteria $c, $con = null)
+	public static function doSelectJoinUsersRelatedByCreatedUserId(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -523,9 +655,9 @@ abstract class BaseCollectionPeer {
 
 		CollectionPeer::addSelectColumns($c);
 		$startcol = (CollectionPeer::NUM_COLUMNS - CollectionPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-		UserPeer::addSelectColumns($c);
+		UsersPeer::addSelectColumns($c);
 
-		$c->addJoin(CollectionPeer::CREATED_USER_ID, UserPeer::ID);
+		$c->addJoin(CollectionPeer::CREATED_USER_ID, UsersPeer::ID);
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
@@ -537,7 +669,7 @@ abstract class BaseCollectionPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
@@ -545,7 +677,7 @@ abstract class BaseCollectionPeer {
 
 			$newObject = true;
 			foreach($results as $temp_obj1) {
-				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedUserId(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedUserId(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					// e.g. $author->addBookRelatedByBookId()
@@ -564,13 +696,13 @@ abstract class BaseCollectionPeer {
 
 
 	/**
-	 * Selects a collection of Collection objects pre-filled with their User objects.
+	 * Selects a collection of Collection objects pre-filled with their Users objects.
 	 *
 	 * @return array Array of Collection objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinUserRelatedByUpdatedUserId(Criteria $c, $con = null)
+	public static function doSelectJoinUsersRelatedByUpdatedUserId(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -581,9 +713,9 @@ abstract class BaseCollectionPeer {
 
 		CollectionPeer::addSelectColumns($c);
 		$startcol = (CollectionPeer::NUM_COLUMNS - CollectionPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-		UserPeer::addSelectColumns($c);
+		UsersPeer::addSelectColumns($c);
 
-		$c->addJoin(CollectionPeer::UPDATED_USER_ID, UserPeer::ID);
+		$c->addJoin(CollectionPeer::UPDATED_USER_ID, UsersPeer::ID);
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
@@ -595,7 +727,7 @@ abstract class BaseCollectionPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
@@ -603,7 +735,7 @@ abstract class BaseCollectionPeer {
 
 			$newObject = true;
 			foreach($results as $temp_obj1) {
-				$temp_obj2 = $temp_obj1->getUserRelatedByUpdatedUserId(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByUpdatedUserId(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					// e.g. $author->addBookRelatedByBookId()
@@ -738,6 +870,180 @@ abstract class BaseCollectionPeer {
 
 
 	/**
+	 * Selects a collection of Collection objects pre-filled with their Users objects.
+	 *
+	 * @return array Array of Collection objects.
+	 * @throws PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinUsersRelatedByCreatedBy(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		// Set the correct dbName if it has not been overridden
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		CollectionPeer::addSelectColumns($c);
+		$startcol = (CollectionPeer::NUM_COLUMNS - CollectionPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		UsersPeer::addSelectColumns($c);
+
+		$c->addJoin(CollectionPeer::CREATED_BY, UsersPeer::ID);
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = CollectionPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = UsersPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol);
+
+			$newObject = true;
+			foreach($results as $temp_obj1) {
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedBy(); //CHECKME
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					// e.g. $author->addBookRelatedByBookId()
+					$temp_obj2->addCollectionRelatedByCreatedBy($obj1); //CHECKME
+					break;
+				}
+			}
+			if ($newObject) {
+				$obj2->initCollectionsRelatedByCreatedBy();
+				$obj2->addCollectionRelatedByCreatedBy($obj1); //CHECKME
+			}
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	/**
+	 * Selects a collection of Collection objects pre-filled with their Users objects.
+	 *
+	 * @return array Array of Collection objects.
+	 * @throws PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinUsersRelatedByUpdatedBy(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		// Set the correct dbName if it has not been overridden
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		CollectionPeer::addSelectColumns($c);
+		$startcol = (CollectionPeer::NUM_COLUMNS - CollectionPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		UsersPeer::addSelectColumns($c);
+
+		$c->addJoin(CollectionPeer::UPDATED_BY, UsersPeer::ID);
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = CollectionPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = UsersPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol);
+
+			$newObject = true;
+			foreach($results as $temp_obj1) {
+				$temp_obj2 = $temp_obj1->getUsersRelatedByUpdatedBy(); //CHECKME
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					// e.g. $author->addBookRelatedByBookId()
+					$temp_obj2->addCollectionRelatedByUpdatedBy($obj1); //CHECKME
+					break;
+				}
+			}
+			if ($newObject) {
+				$obj2->initCollectionsRelatedByUpdatedBy();
+				$obj2->addCollectionRelatedByUpdatedBy($obj1); //CHECKME
+			}
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	/**
+	 * Selects a collection of Collection objects pre-filled with their Users objects.
+	 *
+	 * @return array Array of Collection objects.
+	 * @throws PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinUsersRelatedByDeletedBy(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		// Set the correct dbName if it has not been overridden
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		CollectionPeer::addSelectColumns($c);
+		$startcol = (CollectionPeer::NUM_COLUMNS - CollectionPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		UsersPeer::addSelectColumns($c);
+
+		$c->addJoin(CollectionPeer::DELETED_BY, UsersPeer::ID);
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = CollectionPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = UsersPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol);
+
+			$newObject = true;
+			foreach($results as $temp_obj1) {
+				$temp_obj2 = $temp_obj1->getUsersRelatedByDeletedBy(); //CHECKME
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					// e.g. $author->addBookRelatedByBookId()
+					$temp_obj2->addCollectionRelatedByDeletedBy($obj1); //CHECKME
+					break;
+				}
+			}
+			if ($newObject) {
+				$obj2->initCollectionsRelatedByDeletedBy();
+				$obj2->addCollectionRelatedByDeletedBy($obj1); //CHECKME
+			}
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	/**
 	 * Returns the number of rows matching criteria, joining all related tables
 	 *
 	 * @param Criteria $c
@@ -763,13 +1069,19 @@ abstract class BaseCollectionPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(CollectionPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(CollectionPeer::CREATED_USER_ID, UsersPeer::ID);
 
-		$criteria->addJoin(CollectionPeer::UPDATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(CollectionPeer::UPDATED_USER_ID, UsersPeer::ID);
 
 		$criteria->addJoin(CollectionPeer::VOCABULARY_ID, VocabularyPeer::ID);
 
 		$criteria->addJoin(CollectionPeer::STATUS_ID, StatusPeer::ID);
+
+		$criteria->addJoin(CollectionPeer::CREATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(CollectionPeer::UPDATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(CollectionPeer::DELETED_BY, UsersPeer::ID);
 
 		$rs = CollectionPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -800,17 +1112,17 @@ abstract class BaseCollectionPeer {
 		CollectionPeer::addSelectColumns($c);
 		$startcol2 = (CollectionPeer::NUM_COLUMNS - CollectionPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c, 'a1');
-		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c, 'a1');
+		$startcol3 = $startcol2 + UsersPeer::NUM_COLUMNS;
 
-        $c->addJoin(CollectionPeer::CREATED_USER_ID, UserPeer::alias('a1', UserPeer::ID));
-        $c->addAlias('a1', UserPeer::TABLE_NAME);
+        $c->addJoin(CollectionPeer::CREATED_USER_ID, UsersPeer::alias('a1', UsersPeer::ID));
+        $c->addAlias('a1', UsersPeer::TABLE_NAME);
 
-		UserPeer::addSelectColumns($c, 'a2');
-		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c, 'a2');
+		$startcol4 = $startcol3 + UsersPeer::NUM_COLUMNS;
 
-        $c->addJoin(CollectionPeer::UPDATED_USER_ID, UserPeer::alias('a2', UserPeer::ID));
-        $c->addAlias('a2', UserPeer::TABLE_NAME);
+        $c->addJoin(CollectionPeer::UPDATED_USER_ID, UsersPeer::alias('a2', UsersPeer::ID));
+        $c->addAlias('a2', UsersPeer::TABLE_NAME);
 
 		VocabularyPeer::addSelectColumns($c, 'a3');
 		$startcol5 = $startcol4 + VocabularyPeer::NUM_COLUMNS;
@@ -823,6 +1135,24 @@ abstract class BaseCollectionPeer {
 
         $c->addJoin(CollectionPeer::STATUS_ID, StatusPeer::alias('a4', StatusPeer::ID));
         $c->addAlias('a4', StatusPeer::TABLE_NAME);
+
+		UsersPeer::addSelectColumns($c, 'a5');
+		$startcol7 = $startcol6 + UsersPeer::NUM_COLUMNS;
+
+        $c->addJoin(CollectionPeer::CREATED_BY, UsersPeer::alias('a5', UsersPeer::ID));
+        $c->addAlias('a5', UsersPeer::TABLE_NAME);
+
+		UsersPeer::addSelectColumns($c, 'a6');
+		$startcol8 = $startcol7 + UsersPeer::NUM_COLUMNS;
+
+        $c->addJoin(CollectionPeer::UPDATED_BY, UsersPeer::alias('a6', UsersPeer::ID));
+        $c->addAlias('a6', UsersPeer::TABLE_NAME);
+
+		UsersPeer::addSelectColumns($c, 'a7');
+		$startcol9 = $startcol8 + UsersPeer::NUM_COLUMNS;
+
+        $c->addJoin(CollectionPeer::DELETED_BY, UsersPeer::alias('a7', UsersPeer::ID));
+        $c->addAlias('a7', UsersPeer::TABLE_NAME);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
@@ -837,9 +1167,9 @@ abstract class BaseCollectionPeer {
 			$obj1->hydrate($rs);
 
 
-				// Add objects for joined User rows
+				// Add objects for joined Users rows
 	
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -849,7 +1179,7 @@ abstract class BaseCollectionPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedUserId(); // CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedUserId(); // CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addCollectionRelatedByCreatedUserId($obj1); // CHECKME
@@ -863,9 +1193,9 @@ abstract class BaseCollectionPeer {
 			}
 
 
-				// Add objects for joined User rows
+				// Add objects for joined Users rows
 	
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -875,7 +1205,7 @@ abstract class BaseCollectionPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getUserRelatedByUpdatedUserId(); // CHECKME
+				$temp_obj3 = $temp_obj1->getUsersRelatedByUpdatedUserId(); // CHECKME
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj3->addCollectionRelatedByUpdatedUserId($obj1); // CHECKME
@@ -940,6 +1270,84 @@ abstract class BaseCollectionPeer {
 				$obj5->addCollection($obj1);
 			}
 
+
+				// Add objects for joined Users rows
+	
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj6 = new $cls();
+			$obj6->hydrate($rs, $startcol6);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj6 = $temp_obj1->getUsersRelatedByCreatedBy(); // CHECKME
+				if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj6->addCollectionRelatedByCreatedBy($obj1); // CHECKME
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj6->initCollectionsRelatedByCreatedBy();
+				$obj6->addCollectionRelatedByCreatedBy($obj1);
+			}
+
+
+				// Add objects for joined Users rows
+	
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj7 = new $cls();
+			$obj7->hydrate($rs, $startcol7);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj7 = $temp_obj1->getUsersRelatedByUpdatedBy(); // CHECKME
+				if ($temp_obj7->getPrimaryKey() === $obj7->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj7->addCollectionRelatedByUpdatedBy($obj1); // CHECKME
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj7->initCollectionsRelatedByUpdatedBy();
+				$obj7->addCollectionRelatedByUpdatedBy($obj1);
+			}
+
+
+				// Add objects for joined Users rows
+	
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj8 = new $cls();
+			$obj8->hydrate($rs, $startcol8);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj8 = $temp_obj1->getUsersRelatedByDeletedBy(); // CHECKME
+				if ($temp_obj8->getPrimaryKey() === $obj8->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj8->addCollectionRelatedByDeletedBy($obj1); // CHECKME
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj8->initCollectionsRelatedByDeletedBy();
+				$obj8->addCollectionRelatedByDeletedBy($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -947,14 +1355,14 @@ abstract class BaseCollectionPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related UserRelatedByCreatedUserId table
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByCreatedUserId table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinAllExceptUserRelatedByCreatedUserId(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinAllExceptUsersRelatedByCreatedUserId(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -988,14 +1396,14 @@ abstract class BaseCollectionPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related UserRelatedByUpdatedUserId table
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByUpdatedUserId table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinAllExceptUserRelatedByUpdatedUserId(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinAllExceptUsersRelatedByUpdatedUserId(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -1055,11 +1463,17 @@ abstract class BaseCollectionPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(CollectionPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(CollectionPeer::CREATED_USER_ID, UsersPeer::ID);
 
-		$criteria->addJoin(CollectionPeer::UPDATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(CollectionPeer::UPDATED_USER_ID, UsersPeer::ID);
 
 		$criteria->addJoin(CollectionPeer::STATUS_ID, StatusPeer::ID);
+
+		$criteria->addJoin(CollectionPeer::CREATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(CollectionPeer::UPDATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(CollectionPeer::DELETED_BY, UsersPeer::ID);
 
 		$rs = CollectionPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -1098,11 +1512,17 @@ abstract class BaseCollectionPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(CollectionPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(CollectionPeer::CREATED_USER_ID, UsersPeer::ID);
 
-		$criteria->addJoin(CollectionPeer::UPDATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(CollectionPeer::UPDATED_USER_ID, UsersPeer::ID);
 
 		$criteria->addJoin(CollectionPeer::VOCABULARY_ID, VocabularyPeer::ID);
+
+		$criteria->addJoin(CollectionPeer::CREATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(CollectionPeer::UPDATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(CollectionPeer::DELETED_BY, UsersPeer::ID);
 
 		$rs = CollectionPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -1115,13 +1535,136 @@ abstract class BaseCollectionPeer {
 
 
 	/**
-	 * Selects a collection of Collection objects pre-filled with all related objects except UserRelatedByCreatedUserId.
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByCreatedBy table
+	 *
+	 * @param Criteria $c
+	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
+	 * @param Connection $con
+	 * @return int Number of matching rows.
+	 */
+	public static function doCountJoinAllExceptUsersRelatedByCreatedBy(Criteria $criteria, $distinct = false, $con = null)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// clear out anything that might confuse the ORDER BY clause
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(CollectionPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(CollectionPeer::COUNT);
+		}
+
+		// just in case we're grouping: add those columns to the select statement
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(CollectionPeer::VOCABULARY_ID, VocabularyPeer::ID);
+
+		$criteria->addJoin(CollectionPeer::STATUS_ID, StatusPeer::ID);
+
+		$rs = CollectionPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			// no rows returned; we infer that means 0 matches.
+			return 0;
+		}
+	}
+
+
+	/**
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByUpdatedBy table
+	 *
+	 * @param Criteria $c
+	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
+	 * @param Connection $con
+	 * @return int Number of matching rows.
+	 */
+	public static function doCountJoinAllExceptUsersRelatedByUpdatedBy(Criteria $criteria, $distinct = false, $con = null)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// clear out anything that might confuse the ORDER BY clause
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(CollectionPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(CollectionPeer::COUNT);
+		}
+
+		// just in case we're grouping: add those columns to the select statement
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(CollectionPeer::VOCABULARY_ID, VocabularyPeer::ID);
+
+		$criteria->addJoin(CollectionPeer::STATUS_ID, StatusPeer::ID);
+
+		$rs = CollectionPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			// no rows returned; we infer that means 0 matches.
+			return 0;
+		}
+	}
+
+
+	/**
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByDeletedBy table
+	 *
+	 * @param Criteria $c
+	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
+	 * @param Connection $con
+	 * @return int Number of matching rows.
+	 */
+	public static function doCountJoinAllExceptUsersRelatedByDeletedBy(Criteria $criteria, $distinct = false, $con = null)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// clear out anything that might confuse the ORDER BY clause
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(CollectionPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(CollectionPeer::COUNT);
+		}
+
+		// just in case we're grouping: add those columns to the select statement
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(CollectionPeer::VOCABULARY_ID, VocabularyPeer::ID);
+
+		$criteria->addJoin(CollectionPeer::STATUS_ID, StatusPeer::ID);
+
+		$rs = CollectionPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			// no rows returned; we infer that means 0 matches.
+			return 0;
+		}
+	}
+
+
+	/**
+	 * Selects a collection of Collection objects pre-filled with all related objects except UsersRelatedByCreatedUserId.
 	 *
 	 * @return array Array of Collection objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinAllExceptUserRelatedByCreatedUserId(Criteria $c, $con = null)
+	public static function doSelectJoinAllExceptUsersRelatedByCreatedUserId(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -1210,13 +1753,13 @@ abstract class BaseCollectionPeer {
 
 
 	/**
-	 * Selects a collection of Collection objects pre-filled with all related objects except UserRelatedByUpdatedUserId.
+	 * Selects a collection of Collection objects pre-filled with all related objects except UsersRelatedByUpdatedUserId.
 	 *
 	 * @return array Array of Collection objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinAllExceptUserRelatedByUpdatedUserId(Criteria $c, $con = null)
+	public static function doSelectJoinAllExceptUsersRelatedByUpdatedUserId(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -1325,20 +1868,35 @@ abstract class BaseCollectionPeer {
 		CollectionPeer::addSelectColumns($c);
 		$startcol2 = (CollectionPeer::NUM_COLUMNS - CollectionPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + UsersPeer::NUM_COLUMNS;
 
-		UserPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + UsersPeer::NUM_COLUMNS;
 
 		StatusPeer::addSelectColumns($c);
 		$startcol5 = $startcol4 + StatusPeer::NUM_COLUMNS;
 
-		$c->addJoin(CollectionPeer::CREATED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol6 = $startcol5 + UsersPeer::NUM_COLUMNS;
 
-		$c->addJoin(CollectionPeer::UPDATED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol7 = $startcol6 + UsersPeer::NUM_COLUMNS;
+
+		UsersPeer::addSelectColumns($c);
+		$startcol8 = $startcol7 + UsersPeer::NUM_COLUMNS;
+
+		$c->addJoin(CollectionPeer::CREATED_USER_ID, UsersPeer::ID);
+
+		$c->addJoin(CollectionPeer::UPDATED_USER_ID, UsersPeer::ID);
 
 		$c->addJoin(CollectionPeer::STATUS_ID, StatusPeer::ID);
+
+		$c->addJoin(CollectionPeer::CREATED_BY, UsersPeer::ID);
+
+		$c->addJoin(CollectionPeer::UPDATED_BY, UsersPeer::ID);
+
+		$c->addJoin(CollectionPeer::DELETED_BY, UsersPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -1352,7 +1910,7 @@ abstract class BaseCollectionPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -1362,7 +1920,7 @@ abstract class BaseCollectionPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedUserId(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedUserId(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addCollectionRelatedByCreatedUserId($obj1);
@@ -1375,7 +1933,7 @@ abstract class BaseCollectionPeer {
 				$obj2->addCollectionRelatedByCreatedUserId($obj1);
 			}
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -1385,7 +1943,7 @@ abstract class BaseCollectionPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getUserRelatedByUpdatedUserId(); //CHECKME
+				$temp_obj3 = $temp_obj1->getUsersRelatedByUpdatedUserId(); //CHECKME
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj3->addCollectionRelatedByUpdatedUserId($obj1);
@@ -1421,6 +1979,75 @@ abstract class BaseCollectionPeer {
 				$obj4->addCollection($obj1);
 			}
 
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj5  = new $cls();
+			$obj5->hydrate($rs, $startcol5);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj5 = $temp_obj1->getUsersRelatedByCreatedBy(); //CHECKME
+				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj5->addCollectionRelatedByCreatedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj5->initCollectionsRelatedByCreatedBy();
+				$obj5->addCollectionRelatedByCreatedBy($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj6  = new $cls();
+			$obj6->hydrate($rs, $startcol6);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj6 = $temp_obj1->getUsersRelatedByUpdatedBy(); //CHECKME
+				if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj6->addCollectionRelatedByUpdatedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj6->initCollectionsRelatedByUpdatedBy();
+				$obj6->addCollectionRelatedByUpdatedBy($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj7  = new $cls();
+			$obj7->hydrate($rs, $startcol7);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj7 = $temp_obj1->getUsersRelatedByDeletedBy(); //CHECKME
+				if ($temp_obj7->getPrimaryKey() === $obj7->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj7->addCollectionRelatedByDeletedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj7->initCollectionsRelatedByDeletedBy();
+				$obj7->addCollectionRelatedByDeletedBy($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -1448,20 +2075,35 @@ abstract class BaseCollectionPeer {
 		CollectionPeer::addSelectColumns($c);
 		$startcol2 = (CollectionPeer::NUM_COLUMNS - CollectionPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + UsersPeer::NUM_COLUMNS;
 
-		UserPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + UsersPeer::NUM_COLUMNS;
 
 		VocabularyPeer::addSelectColumns($c);
 		$startcol5 = $startcol4 + VocabularyPeer::NUM_COLUMNS;
 
-		$c->addJoin(CollectionPeer::CREATED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol6 = $startcol5 + UsersPeer::NUM_COLUMNS;
 
-		$c->addJoin(CollectionPeer::UPDATED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol7 = $startcol6 + UsersPeer::NUM_COLUMNS;
+
+		UsersPeer::addSelectColumns($c);
+		$startcol8 = $startcol7 + UsersPeer::NUM_COLUMNS;
+
+		$c->addJoin(CollectionPeer::CREATED_USER_ID, UsersPeer::ID);
+
+		$c->addJoin(CollectionPeer::UPDATED_USER_ID, UsersPeer::ID);
 
 		$c->addJoin(CollectionPeer::VOCABULARY_ID, VocabularyPeer::ID);
+
+		$c->addJoin(CollectionPeer::CREATED_BY, UsersPeer::ID);
+
+		$c->addJoin(CollectionPeer::UPDATED_BY, UsersPeer::ID);
+
+		$c->addJoin(CollectionPeer::DELETED_BY, UsersPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -1475,7 +2117,7 @@ abstract class BaseCollectionPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -1485,7 +2127,7 @@ abstract class BaseCollectionPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedUserId(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedUserId(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addCollectionRelatedByCreatedUserId($obj1);
@@ -1498,7 +2140,7 @@ abstract class BaseCollectionPeer {
 				$obj2->addCollectionRelatedByCreatedUserId($obj1);
 			}
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -1508,7 +2150,7 @@ abstract class BaseCollectionPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getUserRelatedByUpdatedUserId(); //CHECKME
+				$temp_obj3 = $temp_obj1->getUsersRelatedByUpdatedUserId(); //CHECKME
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj3->addCollectionRelatedByUpdatedUserId($obj1);
@@ -1542,6 +2184,360 @@ abstract class BaseCollectionPeer {
 			if ($newObject) {
 				$obj4->initCollections();
 				$obj4->addCollection($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj5  = new $cls();
+			$obj5->hydrate($rs, $startcol5);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj5 = $temp_obj1->getUsersRelatedByCreatedBy(); //CHECKME
+				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj5->addCollectionRelatedByCreatedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj5->initCollectionsRelatedByCreatedBy();
+				$obj5->addCollectionRelatedByCreatedBy($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj6  = new $cls();
+			$obj6->hydrate($rs, $startcol6);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj6 = $temp_obj1->getUsersRelatedByUpdatedBy(); //CHECKME
+				if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj6->addCollectionRelatedByUpdatedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj6->initCollectionsRelatedByUpdatedBy();
+				$obj6->addCollectionRelatedByUpdatedBy($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj7  = new $cls();
+			$obj7->hydrate($rs, $startcol7);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj7 = $temp_obj1->getUsersRelatedByDeletedBy(); //CHECKME
+				if ($temp_obj7->getPrimaryKey() === $obj7->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj7->addCollectionRelatedByDeletedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj7->initCollectionsRelatedByDeletedBy();
+				$obj7->addCollectionRelatedByDeletedBy($obj1);
+			}
+
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	/**
+	 * Selects a collection of Collection objects pre-filled with all related objects except UsersRelatedByCreatedBy.
+	 *
+	 * @return array Array of Collection objects.
+	 * @throws PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinAllExceptUsersRelatedByCreatedBy(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		// Set the correct dbName if it has not been overridden
+		// $c->getDbName() will return the same object if not set to another value
+		// so == check is okay and faster
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		CollectionPeer::addSelectColumns($c);
+		$startcol2 = (CollectionPeer::NUM_COLUMNS - CollectionPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+		VocabularyPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + VocabularyPeer::NUM_COLUMNS;
+
+		StatusPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + StatusPeer::NUM_COLUMNS;
+
+		$c->addJoin(CollectionPeer::VOCABULARY_ID, VocabularyPeer::ID);
+
+		$c->addJoin(CollectionPeer::STATUS_ID, StatusPeer::ID);
+
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = CollectionPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = VocabularyPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj2  = new $cls();
+			$obj2->hydrate($rs, $startcol2);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj2 = $temp_obj1->getVocabulary(); //CHECKME
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj2->addCollection($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj2->initCollections();
+				$obj2->addCollection($obj1);
+			}
+
+			$omClass = StatusPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj3  = new $cls();
+			$obj3->hydrate($rs, $startcol3);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj3 = $temp_obj1->getStatus(); //CHECKME
+				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj3->addCollection($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj3->initCollections();
+				$obj3->addCollection($obj1);
+			}
+
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	/**
+	 * Selects a collection of Collection objects pre-filled with all related objects except UsersRelatedByUpdatedBy.
+	 *
+	 * @return array Array of Collection objects.
+	 * @throws PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinAllExceptUsersRelatedByUpdatedBy(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		// Set the correct dbName if it has not been overridden
+		// $c->getDbName() will return the same object if not set to another value
+		// so == check is okay and faster
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		CollectionPeer::addSelectColumns($c);
+		$startcol2 = (CollectionPeer::NUM_COLUMNS - CollectionPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+		VocabularyPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + VocabularyPeer::NUM_COLUMNS;
+
+		StatusPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + StatusPeer::NUM_COLUMNS;
+
+		$c->addJoin(CollectionPeer::VOCABULARY_ID, VocabularyPeer::ID);
+
+		$c->addJoin(CollectionPeer::STATUS_ID, StatusPeer::ID);
+
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = CollectionPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = VocabularyPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj2  = new $cls();
+			$obj2->hydrate($rs, $startcol2);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj2 = $temp_obj1->getVocabulary(); //CHECKME
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj2->addCollection($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj2->initCollections();
+				$obj2->addCollection($obj1);
+			}
+
+			$omClass = StatusPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj3  = new $cls();
+			$obj3->hydrate($rs, $startcol3);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj3 = $temp_obj1->getStatus(); //CHECKME
+				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj3->addCollection($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj3->initCollections();
+				$obj3->addCollection($obj1);
+			}
+
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	/**
+	 * Selects a collection of Collection objects pre-filled with all related objects except UsersRelatedByDeletedBy.
+	 *
+	 * @return array Array of Collection objects.
+	 * @throws PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinAllExceptUsersRelatedByDeletedBy(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		// Set the correct dbName if it has not been overridden
+		// $c->getDbName() will return the same object if not set to another value
+		// so == check is okay and faster
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		CollectionPeer::addSelectColumns($c);
+		$startcol2 = (CollectionPeer::NUM_COLUMNS - CollectionPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+		VocabularyPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + VocabularyPeer::NUM_COLUMNS;
+
+		StatusPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + StatusPeer::NUM_COLUMNS;
+
+		$c->addJoin(CollectionPeer::VOCABULARY_ID, VocabularyPeer::ID);
+
+		$c->addJoin(CollectionPeer::STATUS_ID, StatusPeer::ID);
+
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = CollectionPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = VocabularyPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj2  = new $cls();
+			$obj2->hydrate($rs, $startcol2);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj2 = $temp_obj1->getVocabulary(); //CHECKME
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj2->addCollection($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj2->initCollections();
+				$obj2->addCollection($obj1);
+			}
+
+			$omClass = StatusPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj3  = new $cls();
+			$obj3->hydrate($rs, $startcol3);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj3 = $temp_obj1->getStatus(); //CHECKME
+				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj3->addCollection($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj3->initCollections();
+				$obj3->addCollection($obj1);
 			}
 
 			$results[] = $obj1;

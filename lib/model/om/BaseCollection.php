@@ -102,15 +102,36 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 	 */
 	protected $status_id = 1;
 
-	/**
-	 * @var        User
-	 */
-	protected $aUserRelatedByCreatedUserId;
 
 	/**
-	 * @var        User
+	 * The value for the created_by field.
+	 * @var        int
 	 */
-	protected $aUserRelatedByUpdatedUserId;
+	protected $created_by;
+
+
+	/**
+	 * The value for the updated_by field.
+	 * @var        int
+	 */
+	protected $updated_by;
+
+
+	/**
+	 * The value for the deleted_by field.
+	 * @var        int
+	 */
+	protected $deleted_by;
+
+	/**
+	 * @var        Users
+	 */
+	protected $aUsersRelatedByCreatedUserId;
+
+	/**
+	 * @var        Users
+	 */
+	protected $aUsersRelatedByUpdatedUserId;
 
 	/**
 	 * @var        Vocabulary
@@ -121,6 +142,21 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 	 * @var        Status
 	 */
 	protected $aStatus;
+
+	/**
+	 * @var        Users
+	 */
+	protected $aUsersRelatedByCreatedBy;
+
+	/**
+	 * @var        Users
+	 */
+	protected $aUsersRelatedByUpdatedBy;
+
+	/**
+	 * @var        Users
+	 */
+	protected $aUsersRelatedByDeletedBy;
 
 	/**
 	 * Flag to prevent endless save loop, if this object is referenced
@@ -349,6 +385,39 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 	}
 
 	/**
+	 * Get the [created_by] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getCreatedBy()
+	{
+
+		return $this->created_by;
+	}
+
+	/**
+	 * Get the [updated_by] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getUpdatedBy()
+	{
+
+		return $this->updated_by;
+	}
+
+	/**
+	 * Get the [deleted_by] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getDeletedBy()
+	{
+
+		return $this->deleted_by;
+	}
+
+	/**
 	 * Set the value of [id] column.
 	 * 
 	 * @param      int $v new value
@@ -486,8 +555,8 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 			$this->modifiedColumns[] = CollectionPeer::CREATED_USER_ID;
 		}
 
-		if ($this->aUserRelatedByCreatedUserId !== null && $this->aUserRelatedByCreatedUserId->getId() !== $v) {
-			$this->aUserRelatedByCreatedUserId = null;
+		if ($this->aUsersRelatedByCreatedUserId !== null && $this->aUsersRelatedByCreatedUserId->getId() !== $v) {
+			$this->aUsersRelatedByCreatedUserId = null;
 		}
 
 	} // setCreatedUserId()
@@ -512,8 +581,8 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 			$this->modifiedColumns[] = CollectionPeer::UPDATED_USER_ID;
 		}
 
-		if ($this->aUserRelatedByUpdatedUserId !== null && $this->aUserRelatedByUpdatedUserId->getId() !== $v) {
-			$this->aUserRelatedByUpdatedUserId = null;
+		if ($this->aUsersRelatedByUpdatedUserId !== null && $this->aUsersRelatedByUpdatedUserId->getId() !== $v) {
+			$this->aUsersRelatedByUpdatedUserId = null;
 		}
 
 	} // setUpdatedUserId()
@@ -637,6 +706,84 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 	} // setStatusId()
 
 	/**
+	 * Set the value of [created_by] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setCreatedBy($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->created_by !== $v) {
+			$this->created_by = $v;
+			$this->modifiedColumns[] = CollectionPeer::CREATED_BY;
+		}
+
+		if ($this->aUsersRelatedByCreatedBy !== null && $this->aUsersRelatedByCreatedBy->getId() !== $v) {
+			$this->aUsersRelatedByCreatedBy = null;
+		}
+
+	} // setCreatedBy()
+
+	/**
+	 * Set the value of [updated_by] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setUpdatedBy($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->updated_by !== $v) {
+			$this->updated_by = $v;
+			$this->modifiedColumns[] = CollectionPeer::UPDATED_BY;
+		}
+
+		if ($this->aUsersRelatedByUpdatedBy !== null && $this->aUsersRelatedByUpdatedBy->getId() !== $v) {
+			$this->aUsersRelatedByUpdatedBy = null;
+		}
+
+	} // setUpdatedBy()
+
+	/**
+	 * Set the value of [deleted_by] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setDeletedBy($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->deleted_by !== $v) {
+			$this->deleted_by = $v;
+			$this->modifiedColumns[] = CollectionPeer::DELETED_BY;
+		}
+
+		if ($this->aUsersRelatedByDeletedBy !== null && $this->aUsersRelatedByDeletedBy->getId() !== $v) {
+			$this->aUsersRelatedByDeletedBy = null;
+		}
+
+	} // setDeletedBy()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -677,12 +824,18 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 
 			$this->status_id = $rs->getInt($startcol + 11);
 
+			$this->created_by = $rs->getInt($startcol + 12);
+
+			$this->updated_by = $rs->getInt($startcol + 13);
+
+			$this->deleted_by = $rs->getInt($startcol + 14);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 12; // 12 = CollectionPeer::NUM_COLUMNS - CollectionPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 15; // 15 = CollectionPeer::NUM_COLUMNS - CollectionPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Collection object", $e);
@@ -816,18 +969,18 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
-			if ($this->aUserRelatedByCreatedUserId !== null) {
-				if ($this->aUserRelatedByCreatedUserId->isModified()) {
-					$affectedRows += $this->aUserRelatedByCreatedUserId->save($con);
+			if ($this->aUsersRelatedByCreatedUserId !== null) {
+				if ($this->aUsersRelatedByCreatedUserId->isModified()) {
+					$affectedRows += $this->aUsersRelatedByCreatedUserId->save($con);
 				}
-				$this->setUserRelatedByCreatedUserId($this->aUserRelatedByCreatedUserId);
+				$this->setUsersRelatedByCreatedUserId($this->aUsersRelatedByCreatedUserId);
 			}
 
-			if ($this->aUserRelatedByUpdatedUserId !== null) {
-				if ($this->aUserRelatedByUpdatedUserId->isModified()) {
-					$affectedRows += $this->aUserRelatedByUpdatedUserId->save($con);
+			if ($this->aUsersRelatedByUpdatedUserId !== null) {
+				if ($this->aUsersRelatedByUpdatedUserId->isModified()) {
+					$affectedRows += $this->aUsersRelatedByUpdatedUserId->save($con);
 				}
-				$this->setUserRelatedByUpdatedUserId($this->aUserRelatedByUpdatedUserId);
+				$this->setUsersRelatedByUpdatedUserId($this->aUsersRelatedByUpdatedUserId);
 			}
 
 			if ($this->aVocabulary !== null) {
@@ -842,6 +995,27 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 					$affectedRows += $this->aStatus->save($con);
 				}
 				$this->setStatus($this->aStatus);
+			}
+
+			if ($this->aUsersRelatedByCreatedBy !== null) {
+				if ($this->aUsersRelatedByCreatedBy->isModified()) {
+					$affectedRows += $this->aUsersRelatedByCreatedBy->save($con);
+				}
+				$this->setUsersRelatedByCreatedBy($this->aUsersRelatedByCreatedBy);
+			}
+
+			if ($this->aUsersRelatedByUpdatedBy !== null) {
+				if ($this->aUsersRelatedByUpdatedBy->isModified()) {
+					$affectedRows += $this->aUsersRelatedByUpdatedBy->save($con);
+				}
+				$this->setUsersRelatedByUpdatedBy($this->aUsersRelatedByUpdatedBy);
+			}
+
+			if ($this->aUsersRelatedByDeletedBy !== null) {
+				if ($this->aUsersRelatedByDeletedBy->isModified()) {
+					$affectedRows += $this->aUsersRelatedByDeletedBy->save($con);
+				}
+				$this->setUsersRelatedByDeletedBy($this->aUsersRelatedByDeletedBy);
 			}
 
 
@@ -932,15 +1106,15 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
-			if ($this->aUserRelatedByCreatedUserId !== null) {
-				if (!$this->aUserRelatedByCreatedUserId->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aUserRelatedByCreatedUserId->getValidationFailures());
+			if ($this->aUsersRelatedByCreatedUserId !== null) {
+				if (!$this->aUsersRelatedByCreatedUserId->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsersRelatedByCreatedUserId->getValidationFailures());
 				}
 			}
 
-			if ($this->aUserRelatedByUpdatedUserId !== null) {
-				if (!$this->aUserRelatedByUpdatedUserId->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aUserRelatedByUpdatedUserId->getValidationFailures());
+			if ($this->aUsersRelatedByUpdatedUserId !== null) {
+				if (!$this->aUsersRelatedByUpdatedUserId->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsersRelatedByUpdatedUserId->getValidationFailures());
 				}
 			}
 
@@ -953,6 +1127,24 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 			if ($this->aStatus !== null) {
 				if (!$this->aStatus->validate($columns)) {
 					$failureMap = array_merge($failureMap, $this->aStatus->getValidationFailures());
+				}
+			}
+
+			if ($this->aUsersRelatedByCreatedBy !== null) {
+				if (!$this->aUsersRelatedByCreatedBy->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsersRelatedByCreatedBy->getValidationFailures());
+				}
+			}
+
+			if ($this->aUsersRelatedByUpdatedBy !== null) {
+				if (!$this->aUsersRelatedByUpdatedBy->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsersRelatedByUpdatedBy->getValidationFailures());
+				}
+			}
+
+			if ($this->aUsersRelatedByDeletedBy !== null) {
+				if (!$this->aUsersRelatedByDeletedBy->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsersRelatedByDeletedBy->getValidationFailures());
 				}
 			}
 
@@ -1030,6 +1222,15 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 			case 11:
 				return $this->getStatusId();
 				break;
+			case 12:
+				return $this->getCreatedBy();
+				break;
+			case 13:
+				return $this->getUpdatedBy();
+				break;
+			case 14:
+				return $this->getDeletedBy();
+				break;
 			default:
 				return null;
 				break;
@@ -1062,6 +1263,9 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 			$keys[9] => $this->getUri(),
 			$keys[10] => $this->getPrefLabel(),
 			$keys[11] => $this->getStatusId(),
+			$keys[12] => $this->getCreatedBy(),
+			$keys[13] => $this->getUpdatedBy(),
+			$keys[14] => $this->getDeletedBy(),
 		);
 		return $result;
 	}
@@ -1129,6 +1333,15 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 			case 11:
 				$this->setStatusId($value);
 				break;
+			case 12:
+				$this->setCreatedBy($value);
+				break;
+			case 13:
+				$this->setUpdatedBy($value);
+				break;
+			case 14:
+				$this->setDeletedBy($value);
+				break;
 		} // switch()
 	}
 
@@ -1164,6 +1377,9 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[9], $arr)) $this->setUri($arr[$keys[9]]);
 		if (array_key_exists($keys[10], $arr)) $this->setPrefLabel($arr[$keys[10]]);
 		if (array_key_exists($keys[11], $arr)) $this->setStatusId($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setCreatedBy($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setUpdatedBy($arr[$keys[13]]);
+		if (array_key_exists($keys[14], $arr)) $this->setDeletedBy($arr[$keys[14]]);
 	}
 
 	/**
@@ -1187,6 +1403,9 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(CollectionPeer::URI)) $criteria->add(CollectionPeer::URI, $this->uri);
 		if ($this->isColumnModified(CollectionPeer::PREF_LABEL)) $criteria->add(CollectionPeer::PREF_LABEL, $this->pref_label);
 		if ($this->isColumnModified(CollectionPeer::STATUS_ID)) $criteria->add(CollectionPeer::STATUS_ID, $this->status_id);
+		if ($this->isColumnModified(CollectionPeer::CREATED_BY)) $criteria->add(CollectionPeer::CREATED_BY, $this->created_by);
+		if ($this->isColumnModified(CollectionPeer::UPDATED_BY)) $criteria->add(CollectionPeer::UPDATED_BY, $this->updated_by);
+		if ($this->isColumnModified(CollectionPeer::DELETED_BY)) $criteria->add(CollectionPeer::DELETED_BY, $this->deleted_by);
 
 		return $criteria;
 	}
@@ -1263,6 +1482,12 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 
 		$copyObj->setStatusId($this->status_id);
 
+		$copyObj->setCreatedBy($this->created_by);
+
+		$copyObj->setUpdatedBy($this->updated_by);
+
+		$copyObj->setDeletedBy($this->deleted_by);
+
 
 		$copyObj->setNew(true);
 
@@ -1309,13 +1534,13 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Declares an association between this object and a User object.
+	 * Declares an association between this object and a Users object.
 	 *
-	 * @param      User $v
+	 * @param      Users $v
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function setUserRelatedByCreatedUserId($v)
+	public function setUsersRelatedByCreatedUserId($v)
 	{
 
 
@@ -1326,24 +1551,24 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 		}
 
 
-		$this->aUserRelatedByCreatedUserId = $v;
+		$this->aUsersRelatedByCreatedUserId = $v;
 	}
 
 
 	/**
-	 * Get the associated User object
+	 * Get the associated Users object
 	 *
 	 * @param      Connection Optional Connection object.
-	 * @return     User The associated User object.
+	 * @return     Users The associated Users object.
 	 * @throws     PropelException
 	 */
-	public function getUserRelatedByCreatedUserId($con = null)
+	public function getUsersRelatedByCreatedUserId($con = null)
 	{
-		if ($this->aUserRelatedByCreatedUserId === null && ($this->created_user_id !== null)) {
+		if ($this->aUsersRelatedByCreatedUserId === null && ($this->created_user_id !== null)) {
 			// include the related Peer class
-			include_once 'lib/model/om/BaseUserPeer.php';
+			include_once 'lib/model/om/BaseUsersPeer.php';
 
-			$this->aUserRelatedByCreatedUserId = UserPeer::retrieveByPK($this->created_user_id, $con);
+			$this->aUsersRelatedByCreatedUserId = UsersPeer::retrieveByPK($this->created_user_id, $con);
 
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
@@ -1351,21 +1576,21 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 			   may be undesirable in many circumstances.
 			   As it can lead to a db query with many results that may
 			   never be used.
-			   $obj = UserPeer::retrieveByPK($this->created_user_id, $con);
-			   $obj->addUsersRelatedByCreatedUserId($this);
+			   $obj = UsersPeer::retrieveByPK($this->created_user_id, $con);
+			   $obj->addUserssRelatedByCreatedUserId($this);
 			 */
 		}
-		return $this->aUserRelatedByCreatedUserId;
+		return $this->aUsersRelatedByCreatedUserId;
 	}
 
 	/**
-	 * Declares an association between this object and a User object.
+	 * Declares an association between this object and a Users object.
 	 *
-	 * @param      User $v
+	 * @param      Users $v
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function setUserRelatedByUpdatedUserId($v)
+	public function setUsersRelatedByUpdatedUserId($v)
 	{
 
 
@@ -1376,24 +1601,24 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 		}
 
 
-		$this->aUserRelatedByUpdatedUserId = $v;
+		$this->aUsersRelatedByUpdatedUserId = $v;
 	}
 
 
 	/**
-	 * Get the associated User object
+	 * Get the associated Users object
 	 *
 	 * @param      Connection Optional Connection object.
-	 * @return     User The associated User object.
+	 * @return     Users The associated Users object.
 	 * @throws     PropelException
 	 */
-	public function getUserRelatedByUpdatedUserId($con = null)
+	public function getUsersRelatedByUpdatedUserId($con = null)
 	{
-		if ($this->aUserRelatedByUpdatedUserId === null && ($this->updated_user_id !== null)) {
+		if ($this->aUsersRelatedByUpdatedUserId === null && ($this->updated_user_id !== null)) {
 			// include the related Peer class
-			include_once 'lib/model/om/BaseUserPeer.php';
+			include_once 'lib/model/om/BaseUsersPeer.php';
 
-			$this->aUserRelatedByUpdatedUserId = UserPeer::retrieveByPK($this->updated_user_id, $con);
+			$this->aUsersRelatedByUpdatedUserId = UsersPeer::retrieveByPK($this->updated_user_id, $con);
 
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
@@ -1401,11 +1626,11 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 			   may be undesirable in many circumstances.
 			   As it can lead to a db query with many results that may
 			   never be used.
-			   $obj = UserPeer::retrieveByPK($this->updated_user_id, $con);
-			   $obj->addUsersRelatedByUpdatedUserId($this);
+			   $obj = UsersPeer::retrieveByPK($this->updated_user_id, $con);
+			   $obj->addUserssRelatedByUpdatedUserId($this);
 			 */
 		}
-		return $this->aUserRelatedByUpdatedUserId;
+		return $this->aUsersRelatedByUpdatedUserId;
 	}
 
 	/**
@@ -1506,6 +1731,156 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 			 */
 		}
 		return $this->aStatus;
+	}
+
+	/**
+	 * Declares an association between this object and a Users object.
+	 *
+	 * @param      Users $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setUsersRelatedByCreatedBy($v)
+	{
+
+
+		if ($v === null) {
+			$this->setCreatedBy(NULL);
+		} else {
+			$this->setCreatedBy($v->getId());
+		}
+
+
+		$this->aUsersRelatedByCreatedBy = $v;
+	}
+
+
+	/**
+	 * Get the associated Users object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     Users The associated Users object.
+	 * @throws     PropelException
+	 */
+	public function getUsersRelatedByCreatedBy($con = null)
+	{
+		if ($this->aUsersRelatedByCreatedBy === null && ($this->created_by !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseUsersPeer.php';
+
+			$this->aUsersRelatedByCreatedBy = UsersPeer::retrieveByPK($this->created_by, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = UsersPeer::retrieveByPK($this->created_by, $con);
+			   $obj->addUserssRelatedByCreatedBy($this);
+			 */
+		}
+		return $this->aUsersRelatedByCreatedBy;
+	}
+
+	/**
+	 * Declares an association between this object and a Users object.
+	 *
+	 * @param      Users $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setUsersRelatedByUpdatedBy($v)
+	{
+
+
+		if ($v === null) {
+			$this->setUpdatedBy(NULL);
+		} else {
+			$this->setUpdatedBy($v->getId());
+		}
+
+
+		$this->aUsersRelatedByUpdatedBy = $v;
+	}
+
+
+	/**
+	 * Get the associated Users object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     Users The associated Users object.
+	 * @throws     PropelException
+	 */
+	public function getUsersRelatedByUpdatedBy($con = null)
+	{
+		if ($this->aUsersRelatedByUpdatedBy === null && ($this->updated_by !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseUsersPeer.php';
+
+			$this->aUsersRelatedByUpdatedBy = UsersPeer::retrieveByPK($this->updated_by, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = UsersPeer::retrieveByPK($this->updated_by, $con);
+			   $obj->addUserssRelatedByUpdatedBy($this);
+			 */
+		}
+		return $this->aUsersRelatedByUpdatedBy;
+	}
+
+	/**
+	 * Declares an association between this object and a Users object.
+	 *
+	 * @param      Users $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setUsersRelatedByDeletedBy($v)
+	{
+
+
+		if ($v === null) {
+			$this->setDeletedBy(NULL);
+		} else {
+			$this->setDeletedBy($v->getId());
+		}
+
+
+		$this->aUsersRelatedByDeletedBy = $v;
+	}
+
+
+	/**
+	 * Get the associated Users object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     Users The associated Users object.
+	 * @throws     PropelException
+	 */
+	public function getUsersRelatedByDeletedBy($con = null)
+	{
+		if ($this->aUsersRelatedByDeletedBy === null && ($this->deleted_by !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseUsersPeer.php';
+
+			$this->aUsersRelatedByDeletedBy = UsersPeer::retrieveByPK($this->deleted_by, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = UsersPeer::retrieveByPK($this->deleted_by, $con);
+			   $obj->addUserssRelatedByDeletedBy($this);
+			 */
+		}
+		return $this->aUsersRelatedByDeletedBy;
 	}
 
 

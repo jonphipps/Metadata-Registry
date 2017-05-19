@@ -62,6 +62,13 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 
 	/**
+	 * The value for the deleted_user_id field.
+	 * @var        int
+	 */
+	protected $deleted_user_id;
+
+
+	/**
 	 * The value for the schema_id field.
 	 * @var        int
 	 */
@@ -72,14 +79,14 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 * The value for the name field.
 	 * @var        string
 	 */
-	protected $name = '';
+	protected $name;
 
 
 	/**
 	 * The value for the label field.
 	 * @var        string
 	 */
-	protected $label = '';
+	protected $label;
 
 
 	/**
@@ -184,17 +191,38 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 * The value for the hash_id field.
 	 * @var        string
 	 */
-	protected $hash_id;
+	protected $hash_id = '';
+
 
 	/**
-	 * @var        User
+	 * The value for the created_by field.
+	 * @var        int
 	 */
-	protected $aUserRelatedByCreatedUserId;
+	protected $created_by;
+
 
 	/**
-	 * @var        User
+	 * The value for the updated_by field.
+	 * @var        int
 	 */
-	protected $aUserRelatedByUpdatedUserId;
+	protected $updated_by;
+
+
+	/**
+	 * The value for the deleted_by field.
+	 * @var        int
+	 */
+	protected $deleted_by;
+
+	/**
+	 * @var        Users
+	 */
+	protected $aUsersRelatedByCreatedUserId;
+
+	/**
+	 * @var        Users
+	 */
+	protected $aUsersRelatedByUpdatedUserId;
 
 	/**
 	 * @var        Schema
@@ -210,6 +238,21 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 * @var        Status
 	 */
 	protected $aStatus;
+
+	/**
+	 * @var        Users
+	 */
+	protected $aUsersRelatedByCreatedBy;
+
+	/**
+	 * @var        Users
+	 */
+	protected $aUsersRelatedByUpdatedBy;
+
+	/**
+	 * @var        Users
+	 */
+	protected $aUsersRelatedByDeletedBy;
 
 	/**
 	 * Collection to store aggregation of collDiscusss.
@@ -424,6 +467,17 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	}
 
 	/**
+	 * Get the [deleted_user_id] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getDeletedUserId()
+	{
+
+		return $this->deleted_user_id;
+	}
+
+	/**
 	 * Get the [schema_id] column value.
 	 * 
 	 * @return     int
@@ -622,6 +676,39 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	}
 
 	/**
+	 * Get the [created_by] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getCreatedBy()
+	{
+
+		return $this->created_by;
+	}
+
+	/**
+	 * Get the [updated_by] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getUpdatedBy()
+	{
+
+		return $this->updated_by;
+	}
+
+	/**
+	 * Get the [deleted_by] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getDeletedBy()
+	{
+
+		return $this->deleted_by;
+	}
+
+	/**
 	 * Set the value of [id] column.
 	 * 
 	 * @param      int $v new value
@@ -735,8 +822,8 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$this->modifiedColumns[] = SchemaPropertyPeer::CREATED_USER_ID;
 		}
 
-		if ($this->aUserRelatedByCreatedUserId !== null && $this->aUserRelatedByCreatedUserId->getId() !== $v) {
-			$this->aUserRelatedByCreatedUserId = null;
+		if ($this->aUsersRelatedByCreatedUserId !== null && $this->aUsersRelatedByCreatedUserId->getId() !== $v) {
+			$this->aUsersRelatedByCreatedUserId = null;
 		}
 
 	} // setCreatedUserId()
@@ -761,11 +848,33 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$this->modifiedColumns[] = SchemaPropertyPeer::UPDATED_USER_ID;
 		}
 
-		if ($this->aUserRelatedByUpdatedUserId !== null && $this->aUserRelatedByUpdatedUserId->getId() !== $v) {
-			$this->aUserRelatedByUpdatedUserId = null;
+		if ($this->aUsersRelatedByUpdatedUserId !== null && $this->aUsersRelatedByUpdatedUserId->getId() !== $v) {
+			$this->aUsersRelatedByUpdatedUserId = null;
 		}
 
 	} // setUpdatedUserId()
+
+	/**
+	 * Set the value of [deleted_user_id] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setDeletedUserId($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->deleted_user_id !== $v) {
+			$this->deleted_user_id = $v;
+			$this->modifiedColumns[] = SchemaPropertyPeer::DELETED_USER_ID;
+		}
+
+	} // setDeletedUserId()
 
 	/**
 	 * Set the value of [schema_id] column.
@@ -808,7 +917,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->name !== $v || $v === '') {
+		if ($this->name !== $v) {
 			$this->name = $v;
 			$this->modifiedColumns[] = SchemaPropertyPeer::NAME;
 		}
@@ -830,7 +939,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->label !== $v || $v === '') {
+		if ($this->label !== $v) {
 			$this->label = $v;
 			$this->modifiedColumns[] = SchemaPropertyPeer::LABEL;
 		}
@@ -1162,12 +1271,90 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->hash_id !== $v) {
+		if ($this->hash_id !== $v || $v === '') {
 			$this->hash_id = $v;
 			$this->modifiedColumns[] = SchemaPropertyPeer::HASH_ID;
 		}
 
 	} // setHashId()
+
+	/**
+	 * Set the value of [created_by] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setCreatedBy($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->created_by !== $v) {
+			$this->created_by = $v;
+			$this->modifiedColumns[] = SchemaPropertyPeer::CREATED_BY;
+		}
+
+		if ($this->aUsersRelatedByCreatedBy !== null && $this->aUsersRelatedByCreatedBy->getId() !== $v) {
+			$this->aUsersRelatedByCreatedBy = null;
+		}
+
+	} // setCreatedBy()
+
+	/**
+	 * Set the value of [updated_by] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setUpdatedBy($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->updated_by !== $v) {
+			$this->updated_by = $v;
+			$this->modifiedColumns[] = SchemaPropertyPeer::UPDATED_BY;
+		}
+
+		if ($this->aUsersRelatedByUpdatedBy !== null && $this->aUsersRelatedByUpdatedBy->getId() !== $v) {
+			$this->aUsersRelatedByUpdatedBy = null;
+		}
+
+	} // setUpdatedBy()
+
+	/**
+	 * Set the value of [deleted_by] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setDeletedBy($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->deleted_by !== $v) {
+			$this->deleted_by = $v;
+			$this->modifiedColumns[] = SchemaPropertyPeer::DELETED_BY;
+		}
+
+		if ($this->aUsersRelatedByDeletedBy !== null && $this->aUsersRelatedByDeletedBy->getId() !== $v) {
+			$this->aUsersRelatedByDeletedBy = null;
+		}
+
+	} // setDeletedBy()
 
 	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
@@ -1198,48 +1385,56 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 			$this->updated_user_id = $rs->getInt($startcol + 5);
 
-			$this->schema_id = $rs->getInt($startcol + 6);
+			$this->deleted_user_id = $rs->getInt($startcol + 6);
 
-			$this->name = $rs->getString($startcol + 7);
+			$this->schema_id = $rs->getInt($startcol + 7);
 
-			$this->label = $rs->getString($startcol + 8);
+			$this->name = $rs->getString($startcol + 8);
 
-			$this->definition = $rs->getString($startcol + 9);
+			$this->label = $rs->getString($startcol + 9);
 
-			$this->comment = $rs->getString($startcol + 10);
+			$this->definition = $rs->getString($startcol + 10);
 
-			$this->type = $rs->getString($startcol + 11);
+			$this->comment = $rs->getString($startcol + 11);
 
-			$this->is_subproperty_of = $rs->getInt($startcol + 12);
+			$this->type = $rs->getString($startcol + 12);
 
-			$this->parent_uri = $rs->getString($startcol + 13);
+			$this->is_subproperty_of = $rs->getInt($startcol + 13);
 
-			$this->uri = $rs->getString($startcol + 14);
+			$this->parent_uri = $rs->getString($startcol + 14);
 
-			$this->status_id = $rs->getInt($startcol + 15);
+			$this->uri = $rs->getString($startcol + 15);
 
-			$this->language = $rs->getString($startcol + 16);
+			$this->status_id = $rs->getInt($startcol + 16);
 
-			$this->note = $rs->getString($startcol + 17);
+			$this->language = $rs->getString($startcol + 17);
 
-			$this->domain = $rs->getString($startcol + 18);
+			$this->note = $rs->getString($startcol + 18);
 
-			$this->orange = $rs->getString($startcol + 19);
+			$this->domain = $rs->getString($startcol + 19);
 
-			$this->is_deprecated = $rs->getBoolean($startcol + 20);
+			$this->orange = $rs->getString($startcol + 20);
 
-			$this->url = $rs->getString($startcol + 21);
+			$this->is_deprecated = $rs->getBoolean($startcol + 21);
 
-			$this->lexical_alias = $rs->getString($startcol + 22);
+			$this->url = $rs->getString($startcol + 22);
 
-			$this->hash_id = $rs->getString($startcol + 23);
+			$this->lexical_alias = $rs->getString($startcol + 23);
+
+			$this->hash_id = $rs->getString($startcol + 24);
+
+			$this->created_by = $rs->getInt($startcol + 25);
+
+			$this->updated_by = $rs->getInt($startcol + 26);
+
+			$this->deleted_by = $rs->getInt($startcol + 27);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 24; // 24 = SchemaPropertyPeer::NUM_COLUMNS - SchemaPropertyPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 28; // 28 = SchemaPropertyPeer::NUM_COLUMNS - SchemaPropertyPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating SchemaProperty object", $e);
@@ -1373,18 +1568,18 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
-			if ($this->aUserRelatedByCreatedUserId !== null) {
-				if ($this->aUserRelatedByCreatedUserId->isModified()) {
-					$affectedRows += $this->aUserRelatedByCreatedUserId->save($con);
+			if ($this->aUsersRelatedByCreatedUserId !== null) {
+				if ($this->aUsersRelatedByCreatedUserId->isModified()) {
+					$affectedRows += $this->aUsersRelatedByCreatedUserId->save($con);
 				}
-				$this->setUserRelatedByCreatedUserId($this->aUserRelatedByCreatedUserId);
+				$this->setUsersRelatedByCreatedUserId($this->aUsersRelatedByCreatedUserId);
 			}
 
-			if ($this->aUserRelatedByUpdatedUserId !== null) {
-				if ($this->aUserRelatedByUpdatedUserId->isModified()) {
-					$affectedRows += $this->aUserRelatedByUpdatedUserId->save($con);
+			if ($this->aUsersRelatedByUpdatedUserId !== null) {
+				if ($this->aUsersRelatedByUpdatedUserId->isModified()) {
+					$affectedRows += $this->aUsersRelatedByUpdatedUserId->save($con);
 				}
-				$this->setUserRelatedByUpdatedUserId($this->aUserRelatedByUpdatedUserId);
+				$this->setUsersRelatedByUpdatedUserId($this->aUsersRelatedByUpdatedUserId);
 			}
 
 			if ($this->aSchema !== null) {
@@ -1406,6 +1601,27 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 					$affectedRows += $this->aStatus->save($con);
 				}
 				$this->setStatus($this->aStatus);
+			}
+
+			if ($this->aUsersRelatedByCreatedBy !== null) {
+				if ($this->aUsersRelatedByCreatedBy->isModified()) {
+					$affectedRows += $this->aUsersRelatedByCreatedBy->save($con);
+				}
+				$this->setUsersRelatedByCreatedBy($this->aUsersRelatedByCreatedBy);
+			}
+
+			if ($this->aUsersRelatedByUpdatedBy !== null) {
+				if ($this->aUsersRelatedByUpdatedBy->isModified()) {
+					$affectedRows += $this->aUsersRelatedByUpdatedBy->save($con);
+				}
+				$this->setUsersRelatedByUpdatedBy($this->aUsersRelatedByUpdatedBy);
+			}
+
+			if ($this->aUsersRelatedByDeletedBy !== null) {
+				if ($this->aUsersRelatedByDeletedBy->isModified()) {
+					$affectedRows += $this->aUsersRelatedByDeletedBy->save($con);
+				}
+				$this->setUsersRelatedByDeletedBy($this->aUsersRelatedByDeletedBy);
 			}
 
 
@@ -1544,15 +1760,15 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
-			if ($this->aUserRelatedByCreatedUserId !== null) {
-				if (!$this->aUserRelatedByCreatedUserId->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aUserRelatedByCreatedUserId->getValidationFailures());
+			if ($this->aUsersRelatedByCreatedUserId !== null) {
+				if (!$this->aUsersRelatedByCreatedUserId->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsersRelatedByCreatedUserId->getValidationFailures());
 				}
 			}
 
-			if ($this->aUserRelatedByUpdatedUserId !== null) {
-				if (!$this->aUserRelatedByUpdatedUserId->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aUserRelatedByUpdatedUserId->getValidationFailures());
+			if ($this->aUsersRelatedByUpdatedUserId !== null) {
+				if (!$this->aUsersRelatedByUpdatedUserId->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsersRelatedByUpdatedUserId->getValidationFailures());
 				}
 			}
 
@@ -1571,6 +1787,24 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			if ($this->aStatus !== null) {
 				if (!$this->aStatus->validate($columns)) {
 					$failureMap = array_merge($failureMap, $this->aStatus->getValidationFailures());
+				}
+			}
+
+			if ($this->aUsersRelatedByCreatedBy !== null) {
+				if (!$this->aUsersRelatedByCreatedBy->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsersRelatedByCreatedBy->getValidationFailures());
+				}
+			}
+
+			if ($this->aUsersRelatedByUpdatedBy !== null) {
+				if (!$this->aUsersRelatedByUpdatedBy->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsersRelatedByUpdatedBy->getValidationFailures());
+				}
+			}
+
+			if ($this->aUsersRelatedByDeletedBy !== null) {
+				if (!$this->aUsersRelatedByDeletedBy->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsersRelatedByDeletedBy->getValidationFailures());
 				}
 			}
 
@@ -1671,58 +1905,70 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 				return $this->getUpdatedUserId();
 				break;
 			case 6:
-				return $this->getSchemaId();
+				return $this->getDeletedUserId();
 				break;
 			case 7:
-				return $this->getName();
+				return $this->getSchemaId();
 				break;
 			case 8:
-				return $this->getLabel();
+				return $this->getName();
 				break;
 			case 9:
-				return $this->getDefinition();
+				return $this->getLabel();
 				break;
 			case 10:
-				return $this->getComment();
+				return $this->getDefinition();
 				break;
 			case 11:
-				return $this->getType();
+				return $this->getComment();
 				break;
 			case 12:
-				return $this->getIsSubpropertyOf();
+				return $this->getType();
 				break;
 			case 13:
-				return $this->getParentUri();
+				return $this->getIsSubpropertyOf();
 				break;
 			case 14:
-				return $this->getUri();
+				return $this->getParentUri();
 				break;
 			case 15:
-				return $this->getStatusId();
+				return $this->getUri();
 				break;
 			case 16:
-				return $this->getLanguage();
+				return $this->getStatusId();
 				break;
 			case 17:
-				return $this->getNote();
+				return $this->getLanguage();
 				break;
 			case 18:
-				return $this->getDomain();
+				return $this->getNote();
 				break;
 			case 19:
-				return $this->getOrange();
+				return $this->getDomain();
 				break;
 			case 20:
-				return $this->getIsDeprecated();
+				return $this->getOrange();
 				break;
 			case 21:
-				return $this->getUrl();
+				return $this->getIsDeprecated();
 				break;
 			case 22:
-				return $this->getLexicalAlias();
+				return $this->getUrl();
 				break;
 			case 23:
+				return $this->getLexicalAlias();
+				break;
+			case 24:
 				return $this->getHashId();
+				break;
+			case 25:
+				return $this->getCreatedBy();
+				break;
+			case 26:
+				return $this->getUpdatedBy();
+				break;
+			case 27:
+				return $this->getDeletedBy();
 				break;
 			default:
 				return null;
@@ -1750,24 +1996,28 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$keys[3] => $this->getDeletedAt(),
 			$keys[4] => $this->getCreatedUserId(),
 			$keys[5] => $this->getUpdatedUserId(),
-			$keys[6] => $this->getSchemaId(),
-			$keys[7] => $this->getName(),
-			$keys[8] => $this->getLabel(),
-			$keys[9] => $this->getDefinition(),
-			$keys[10] => $this->getComment(),
-			$keys[11] => $this->getType(),
-			$keys[12] => $this->getIsSubpropertyOf(),
-			$keys[13] => $this->getParentUri(),
-			$keys[14] => $this->getUri(),
-			$keys[15] => $this->getStatusId(),
-			$keys[16] => $this->getLanguage(),
-			$keys[17] => $this->getNote(),
-			$keys[18] => $this->getDomain(),
-			$keys[19] => $this->getOrange(),
-			$keys[20] => $this->getIsDeprecated(),
-			$keys[21] => $this->getUrl(),
-			$keys[22] => $this->getLexicalAlias(),
-			$keys[23] => $this->getHashId(),
+			$keys[6] => $this->getDeletedUserId(),
+			$keys[7] => $this->getSchemaId(),
+			$keys[8] => $this->getName(),
+			$keys[9] => $this->getLabel(),
+			$keys[10] => $this->getDefinition(),
+			$keys[11] => $this->getComment(),
+			$keys[12] => $this->getType(),
+			$keys[13] => $this->getIsSubpropertyOf(),
+			$keys[14] => $this->getParentUri(),
+			$keys[15] => $this->getUri(),
+			$keys[16] => $this->getStatusId(),
+			$keys[17] => $this->getLanguage(),
+			$keys[18] => $this->getNote(),
+			$keys[19] => $this->getDomain(),
+			$keys[20] => $this->getOrange(),
+			$keys[21] => $this->getIsDeprecated(),
+			$keys[22] => $this->getUrl(),
+			$keys[23] => $this->getLexicalAlias(),
+			$keys[24] => $this->getHashId(),
+			$keys[25] => $this->getCreatedBy(),
+			$keys[26] => $this->getUpdatedBy(),
+			$keys[27] => $this->getDeletedBy(),
 		);
 		return $result;
 	}
@@ -1818,58 +2068,70 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 				$this->setUpdatedUserId($value);
 				break;
 			case 6:
-				$this->setSchemaId($value);
+				$this->setDeletedUserId($value);
 				break;
 			case 7:
-				$this->setName($value);
+				$this->setSchemaId($value);
 				break;
 			case 8:
-				$this->setLabel($value);
+				$this->setName($value);
 				break;
 			case 9:
-				$this->setDefinition($value);
+				$this->setLabel($value);
 				break;
 			case 10:
-				$this->setComment($value);
+				$this->setDefinition($value);
 				break;
 			case 11:
-				$this->setType($value);
+				$this->setComment($value);
 				break;
 			case 12:
-				$this->setIsSubpropertyOf($value);
+				$this->setType($value);
 				break;
 			case 13:
-				$this->setParentUri($value);
+				$this->setIsSubpropertyOf($value);
 				break;
 			case 14:
-				$this->setUri($value);
+				$this->setParentUri($value);
 				break;
 			case 15:
-				$this->setStatusId($value);
+				$this->setUri($value);
 				break;
 			case 16:
-				$this->setLanguage($value);
+				$this->setStatusId($value);
 				break;
 			case 17:
-				$this->setNote($value);
+				$this->setLanguage($value);
 				break;
 			case 18:
-				$this->setDomain($value);
+				$this->setNote($value);
 				break;
 			case 19:
-				$this->setOrange($value);
+				$this->setDomain($value);
 				break;
 			case 20:
-				$this->setIsDeprecated($value);
+				$this->setOrange($value);
 				break;
 			case 21:
-				$this->setUrl($value);
+				$this->setIsDeprecated($value);
 				break;
 			case 22:
-				$this->setLexicalAlias($value);
+				$this->setUrl($value);
 				break;
 			case 23:
+				$this->setLexicalAlias($value);
+				break;
+			case 24:
 				$this->setHashId($value);
+				break;
+			case 25:
+				$this->setCreatedBy($value);
+				break;
+			case 26:
+				$this->setUpdatedBy($value);
+				break;
+			case 27:
+				$this->setDeletedBy($value);
 				break;
 		} // switch()
 	}
@@ -1900,24 +2162,28 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[3], $arr)) $this->setDeletedAt($arr[$keys[3]]);
 		if (array_key_exists($keys[4], $arr)) $this->setCreatedUserId($arr[$keys[4]]);
 		if (array_key_exists($keys[5], $arr)) $this->setUpdatedUserId($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setSchemaId($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setName($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setLabel($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setDefinition($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setComment($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setType($arr[$keys[11]]);
-		if (array_key_exists($keys[12], $arr)) $this->setIsSubpropertyOf($arr[$keys[12]]);
-		if (array_key_exists($keys[13], $arr)) $this->setParentUri($arr[$keys[13]]);
-		if (array_key_exists($keys[14], $arr)) $this->setUri($arr[$keys[14]]);
-		if (array_key_exists($keys[15], $arr)) $this->setStatusId($arr[$keys[15]]);
-		if (array_key_exists($keys[16], $arr)) $this->setLanguage($arr[$keys[16]]);
-		if (array_key_exists($keys[17], $arr)) $this->setNote($arr[$keys[17]]);
-		if (array_key_exists($keys[18], $arr)) $this->setDomain($arr[$keys[18]]);
-		if (array_key_exists($keys[19], $arr)) $this->setOrange($arr[$keys[19]]);
-		if (array_key_exists($keys[20], $arr)) $this->setIsDeprecated($arr[$keys[20]]);
-		if (array_key_exists($keys[21], $arr)) $this->setUrl($arr[$keys[21]]);
-		if (array_key_exists($keys[22], $arr)) $this->setLexicalAlias($arr[$keys[22]]);
-		if (array_key_exists($keys[23], $arr)) $this->setHashId($arr[$keys[23]]);
+		if (array_key_exists($keys[6], $arr)) $this->setDeletedUserId($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setSchemaId($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setName($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setLabel($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setDefinition($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setComment($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setType($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setIsSubpropertyOf($arr[$keys[13]]);
+		if (array_key_exists($keys[14], $arr)) $this->setParentUri($arr[$keys[14]]);
+		if (array_key_exists($keys[15], $arr)) $this->setUri($arr[$keys[15]]);
+		if (array_key_exists($keys[16], $arr)) $this->setStatusId($arr[$keys[16]]);
+		if (array_key_exists($keys[17], $arr)) $this->setLanguage($arr[$keys[17]]);
+		if (array_key_exists($keys[18], $arr)) $this->setNote($arr[$keys[18]]);
+		if (array_key_exists($keys[19], $arr)) $this->setDomain($arr[$keys[19]]);
+		if (array_key_exists($keys[20], $arr)) $this->setOrange($arr[$keys[20]]);
+		if (array_key_exists($keys[21], $arr)) $this->setIsDeprecated($arr[$keys[21]]);
+		if (array_key_exists($keys[22], $arr)) $this->setUrl($arr[$keys[22]]);
+		if (array_key_exists($keys[23], $arr)) $this->setLexicalAlias($arr[$keys[23]]);
+		if (array_key_exists($keys[24], $arr)) $this->setHashId($arr[$keys[24]]);
+		if (array_key_exists($keys[25], $arr)) $this->setCreatedBy($arr[$keys[25]]);
+		if (array_key_exists($keys[26], $arr)) $this->setUpdatedBy($arr[$keys[26]]);
+		if (array_key_exists($keys[27], $arr)) $this->setDeletedBy($arr[$keys[27]]);
 	}
 
 	/**
@@ -1935,6 +2201,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(SchemaPropertyPeer::DELETED_AT)) $criteria->add(SchemaPropertyPeer::DELETED_AT, $this->deleted_at);
 		if ($this->isColumnModified(SchemaPropertyPeer::CREATED_USER_ID)) $criteria->add(SchemaPropertyPeer::CREATED_USER_ID, $this->created_user_id);
 		if ($this->isColumnModified(SchemaPropertyPeer::UPDATED_USER_ID)) $criteria->add(SchemaPropertyPeer::UPDATED_USER_ID, $this->updated_user_id);
+		if ($this->isColumnModified(SchemaPropertyPeer::DELETED_USER_ID)) $criteria->add(SchemaPropertyPeer::DELETED_USER_ID, $this->deleted_user_id);
 		if ($this->isColumnModified(SchemaPropertyPeer::SCHEMA_ID)) $criteria->add(SchemaPropertyPeer::SCHEMA_ID, $this->schema_id);
 		if ($this->isColumnModified(SchemaPropertyPeer::NAME)) $criteria->add(SchemaPropertyPeer::NAME, $this->name);
 		if ($this->isColumnModified(SchemaPropertyPeer::LABEL)) $criteria->add(SchemaPropertyPeer::LABEL, $this->label);
@@ -1953,6 +2220,9 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(SchemaPropertyPeer::URL)) $criteria->add(SchemaPropertyPeer::URL, $this->url);
 		if ($this->isColumnModified(SchemaPropertyPeer::LEXICAL_ALIAS)) $criteria->add(SchemaPropertyPeer::LEXICAL_ALIAS, $this->lexical_alias);
 		if ($this->isColumnModified(SchemaPropertyPeer::HASH_ID)) $criteria->add(SchemaPropertyPeer::HASH_ID, $this->hash_id);
+		if ($this->isColumnModified(SchemaPropertyPeer::CREATED_BY)) $criteria->add(SchemaPropertyPeer::CREATED_BY, $this->created_by);
+		if ($this->isColumnModified(SchemaPropertyPeer::UPDATED_BY)) $criteria->add(SchemaPropertyPeer::UPDATED_BY, $this->updated_by);
+		if ($this->isColumnModified(SchemaPropertyPeer::DELETED_BY)) $criteria->add(SchemaPropertyPeer::DELETED_BY, $this->deleted_by);
 
 		return $criteria;
 	}
@@ -2017,6 +2287,8 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 		$copyObj->setUpdatedUserId($this->updated_user_id);
 
+		$copyObj->setDeletedUserId($this->deleted_user_id);
+
 		$copyObj->setSchemaId($this->schema_id);
 
 		$copyObj->setName($this->name);
@@ -2052,6 +2324,12 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		$copyObj->setLexicalAlias($this->lexical_alias);
 
 		$copyObj->setHashId($this->hash_id);
+
+		$copyObj->setCreatedBy($this->created_by);
+
+		$copyObj->setUpdatedBy($this->updated_by);
+
+		$copyObj->setDeletedBy($this->deleted_by);
 
 
 		if ($deepCopy) {
@@ -2135,13 +2413,13 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Declares an association between this object and a User object.
+	 * Declares an association between this object and a Users object.
 	 *
-	 * @param      User $v
+	 * @param      Users $v
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function setUserRelatedByCreatedUserId($v)
+	public function setUsersRelatedByCreatedUserId($v)
 	{
 
 
@@ -2152,24 +2430,24 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		}
 
 
-		$this->aUserRelatedByCreatedUserId = $v;
+		$this->aUsersRelatedByCreatedUserId = $v;
 	}
 
 
 	/**
-	 * Get the associated User object
+	 * Get the associated Users object
 	 *
 	 * @param      Connection Optional Connection object.
-	 * @return     User The associated User object.
+	 * @return     Users The associated Users object.
 	 * @throws     PropelException
 	 */
-	public function getUserRelatedByCreatedUserId($con = null)
+	public function getUsersRelatedByCreatedUserId($con = null)
 	{
-		if ($this->aUserRelatedByCreatedUserId === null && ($this->created_user_id !== null)) {
+		if ($this->aUsersRelatedByCreatedUserId === null && ($this->created_user_id !== null)) {
 			// include the related Peer class
-			include_once 'lib/model/om/BaseUserPeer.php';
+			include_once 'lib/model/om/BaseUsersPeer.php';
 
-			$this->aUserRelatedByCreatedUserId = UserPeer::retrieveByPK($this->created_user_id, $con);
+			$this->aUsersRelatedByCreatedUserId = UsersPeer::retrieveByPK($this->created_user_id, $con);
 
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
@@ -2177,21 +2455,21 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			   may be undesirable in many circumstances.
 			   As it can lead to a db query with many results that may
 			   never be used.
-			   $obj = UserPeer::retrieveByPK($this->created_user_id, $con);
-			   $obj->addUsersRelatedByCreatedUserId($this);
+			   $obj = UsersPeer::retrieveByPK($this->created_user_id, $con);
+			   $obj->addUserssRelatedByCreatedUserId($this);
 			 */
 		}
-		return $this->aUserRelatedByCreatedUserId;
+		return $this->aUsersRelatedByCreatedUserId;
 	}
 
 	/**
-	 * Declares an association between this object and a User object.
+	 * Declares an association between this object and a Users object.
 	 *
-	 * @param      User $v
+	 * @param      Users $v
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function setUserRelatedByUpdatedUserId($v)
+	public function setUsersRelatedByUpdatedUserId($v)
 	{
 
 
@@ -2202,24 +2480,24 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		}
 
 
-		$this->aUserRelatedByUpdatedUserId = $v;
+		$this->aUsersRelatedByUpdatedUserId = $v;
 	}
 
 
 	/**
-	 * Get the associated User object
+	 * Get the associated Users object
 	 *
 	 * @param      Connection Optional Connection object.
-	 * @return     User The associated User object.
+	 * @return     Users The associated Users object.
 	 * @throws     PropelException
 	 */
-	public function getUserRelatedByUpdatedUserId($con = null)
+	public function getUsersRelatedByUpdatedUserId($con = null)
 	{
-		if ($this->aUserRelatedByUpdatedUserId === null && ($this->updated_user_id !== null)) {
+		if ($this->aUsersRelatedByUpdatedUserId === null && ($this->updated_user_id !== null)) {
 			// include the related Peer class
-			include_once 'lib/model/om/BaseUserPeer.php';
+			include_once 'lib/model/om/BaseUsersPeer.php';
 
-			$this->aUserRelatedByUpdatedUserId = UserPeer::retrieveByPK($this->updated_user_id, $con);
+			$this->aUsersRelatedByUpdatedUserId = UsersPeer::retrieveByPK($this->updated_user_id, $con);
 
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
@@ -2227,11 +2505,11 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			   may be undesirable in many circumstances.
 			   As it can lead to a db query with many results that may
 			   never be used.
-			   $obj = UserPeer::retrieveByPK($this->updated_user_id, $con);
-			   $obj->addUsersRelatedByUpdatedUserId($this);
+			   $obj = UsersPeer::retrieveByPK($this->updated_user_id, $con);
+			   $obj->addUserssRelatedByUpdatedUserId($this);
 			 */
 		}
-		return $this->aUserRelatedByUpdatedUserId;
+		return $this->aUsersRelatedByUpdatedUserId;
 	}
 
 	/**
@@ -2385,6 +2663,156 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	}
 
 	/**
+	 * Declares an association between this object and a Users object.
+	 *
+	 * @param      Users $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setUsersRelatedByCreatedBy($v)
+	{
+
+
+		if ($v === null) {
+			$this->setCreatedBy(NULL);
+		} else {
+			$this->setCreatedBy($v->getId());
+		}
+
+
+		$this->aUsersRelatedByCreatedBy = $v;
+	}
+
+
+	/**
+	 * Get the associated Users object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     Users The associated Users object.
+	 * @throws     PropelException
+	 */
+	public function getUsersRelatedByCreatedBy($con = null)
+	{
+		if ($this->aUsersRelatedByCreatedBy === null && ($this->created_by !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseUsersPeer.php';
+
+			$this->aUsersRelatedByCreatedBy = UsersPeer::retrieveByPK($this->created_by, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = UsersPeer::retrieveByPK($this->created_by, $con);
+			   $obj->addUserssRelatedByCreatedBy($this);
+			 */
+		}
+		return $this->aUsersRelatedByCreatedBy;
+	}
+
+	/**
+	 * Declares an association between this object and a Users object.
+	 *
+	 * @param      Users $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setUsersRelatedByUpdatedBy($v)
+	{
+
+
+		if ($v === null) {
+			$this->setUpdatedBy(NULL);
+		} else {
+			$this->setUpdatedBy($v->getId());
+		}
+
+
+		$this->aUsersRelatedByUpdatedBy = $v;
+	}
+
+
+	/**
+	 * Get the associated Users object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     Users The associated Users object.
+	 * @throws     PropelException
+	 */
+	public function getUsersRelatedByUpdatedBy($con = null)
+	{
+		if ($this->aUsersRelatedByUpdatedBy === null && ($this->updated_by !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseUsersPeer.php';
+
+			$this->aUsersRelatedByUpdatedBy = UsersPeer::retrieveByPK($this->updated_by, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = UsersPeer::retrieveByPK($this->updated_by, $con);
+			   $obj->addUserssRelatedByUpdatedBy($this);
+			 */
+		}
+		return $this->aUsersRelatedByUpdatedBy;
+	}
+
+	/**
+	 * Declares an association between this object and a Users object.
+	 *
+	 * @param      Users $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setUsersRelatedByDeletedBy($v)
+	{
+
+
+		if ($v === null) {
+			$this->setDeletedBy(NULL);
+		} else {
+			$this->setDeletedBy($v->getId());
+		}
+
+
+		$this->aUsersRelatedByDeletedBy = $v;
+	}
+
+
+	/**
+	 * Get the associated Users object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     Users The associated Users object.
+	 * @throws     PropelException
+	 */
+	public function getUsersRelatedByDeletedBy($con = null)
+	{
+		if ($this->aUsersRelatedByDeletedBy === null && ($this->deleted_by !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseUsersPeer.php';
+
+			$this->aUsersRelatedByDeletedBy = UsersPeer::retrieveByPK($this->deleted_by, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = UsersPeer::retrieveByPK($this->deleted_by, $con);
+			   $obj->addUserssRelatedByDeletedBy($this);
+			 */
+		}
+		return $this->aUsersRelatedByDeletedBy;
+	}
+
+	/**
 	 * Temporary storage of collDiscusss to save a possible db hit in
 	 * the event objects are add to the collection, but the
 	 * complete collection is never requested.
@@ -2503,7 +2931,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in SchemaProperty.
 	 */
-	public function getDiscusssJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
+	public function getDiscusssJoinUsersRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseDiscussPeer.php';
@@ -2522,7 +2950,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(DiscussPeer::SCHEMA_PROPERTY_ID, $this->getId());
 
-				$this->collDiscusss = DiscussPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collDiscusss = DiscussPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -2532,7 +2960,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$criteria->add(DiscussPeer::SCHEMA_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastDiscussCriteria) || !$this->lastDiscussCriteria->equals($criteria)) {
-				$this->collDiscusss = DiscussPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collDiscusss = DiscussPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		}
 		$this->lastDiscussCriteria = $criteria;
@@ -2552,7 +2980,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in SchemaProperty.
 	 */
-	public function getDiscusssJoinUserRelatedByDeletedUserId($criteria = null, $con = null)
+	public function getDiscusssJoinUsersRelatedByDeletedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseDiscussPeer.php';
@@ -2571,7 +2999,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(DiscussPeer::SCHEMA_PROPERTY_ID, $this->getId());
 
-				$this->collDiscusss = DiscussPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
+				$this->collDiscusss = DiscussPeer::doSelectJoinUsersRelatedByDeletedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -2581,7 +3009,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$criteria->add(DiscussPeer::SCHEMA_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastDiscussCriteria) || !$this->lastDiscussCriteria->equals($criteria)) {
-				$this->collDiscusss = DiscussPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
+				$this->collDiscusss = DiscussPeer::doSelectJoinUsersRelatedByDeletedUserId($criteria, $con);
 			}
 		}
 		$this->lastDiscussCriteria = $criteria;
@@ -2932,6 +3360,104 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		return $this->collDiscusss;
 	}
 
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this SchemaProperty is new, it will return
+	 * an empty collection; or if this SchemaProperty has previously
+	 * been saved, it will retrieve related Discusss from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in SchemaProperty.
+	 */
+	public function getDiscusssJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseDiscussPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collDiscusss === null) {
+			if ($this->isNew()) {
+				$this->collDiscusss = array();
+			} else {
+
+				$criteria->add(DiscussPeer::SCHEMA_PROPERTY_ID, $this->getId());
+
+				$this->collDiscusss = DiscussPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(DiscussPeer::SCHEMA_PROPERTY_ID, $this->getId());
+
+			if (!isset($this->lastDiscussCriteria) || !$this->lastDiscussCriteria->equals($criteria)) {
+				$this->collDiscusss = DiscussPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		}
+		$this->lastDiscussCriteria = $criteria;
+
+		return $this->collDiscusss;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this SchemaProperty is new, it will return
+	 * an empty collection; or if this SchemaProperty has previously
+	 * been saved, it will retrieve related Discusss from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in SchemaProperty.
+	 */
+	public function getDiscusssJoinUsersRelatedByDeletedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseDiscussPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collDiscusss === null) {
+			if ($this->isNew()) {
+				$this->collDiscusss = array();
+			} else {
+
+				$criteria->add(DiscussPeer::SCHEMA_PROPERTY_ID, $this->getId());
+
+				$this->collDiscusss = DiscussPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(DiscussPeer::SCHEMA_PROPERTY_ID, $this->getId());
+
+			if (!isset($this->lastDiscussCriteria) || !$this->lastDiscussCriteria->equals($criteria)) {
+				$this->collDiscusss = DiscussPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
+			}
+		}
+		$this->lastDiscussCriteria = $criteria;
+
+		return $this->collDiscusss;
+	}
+
 	/**
 	 * Temporary storage of collSchemaPropertysRelatedByIsSubpropertyOf to save a possible db hit in
 	 * the event objects are add to the collection, but the
@@ -3051,7 +3577,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in SchemaProperty.
 	 */
-	public function getSchemaPropertysRelatedByIsSubpropertyOfJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
+	public function getSchemaPropertysRelatedByIsSubpropertyOfJoinUsersRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseSchemaPropertyPeer.php';
@@ -3070,7 +3596,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(SchemaPropertyPeer::IS_SUBPROPERTY_OF, $this->getId());
 
-				$this->collSchemaPropertysRelatedByIsSubpropertyOf = SchemaPropertyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collSchemaPropertysRelatedByIsSubpropertyOf = SchemaPropertyPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -3080,7 +3606,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$criteria->add(SchemaPropertyPeer::IS_SUBPROPERTY_OF, $this->getId());
 
 			if (!isset($this->lastSchemaPropertyRelatedByIsSubpropertyOfCriteria) || !$this->lastSchemaPropertyRelatedByIsSubpropertyOfCriteria->equals($criteria)) {
-				$this->collSchemaPropertysRelatedByIsSubpropertyOf = SchemaPropertyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collSchemaPropertysRelatedByIsSubpropertyOf = SchemaPropertyPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyRelatedByIsSubpropertyOfCriteria = $criteria;
@@ -3100,7 +3626,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in SchemaProperty.
 	 */
-	public function getSchemaPropertysRelatedByIsSubpropertyOfJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
+	public function getSchemaPropertysRelatedByIsSubpropertyOfJoinUsersRelatedByUpdatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseSchemaPropertyPeer.php';
@@ -3119,7 +3645,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(SchemaPropertyPeer::IS_SUBPROPERTY_OF, $this->getId());
 
-				$this->collSchemaPropertysRelatedByIsSubpropertyOf = SchemaPropertyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collSchemaPropertysRelatedByIsSubpropertyOf = SchemaPropertyPeer::doSelectJoinUsersRelatedByUpdatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -3129,7 +3655,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$criteria->add(SchemaPropertyPeer::IS_SUBPROPERTY_OF, $this->getId());
 
 			if (!isset($this->lastSchemaPropertyRelatedByIsSubpropertyOfCriteria) || !$this->lastSchemaPropertyRelatedByIsSubpropertyOfCriteria->equals($criteria)) {
-				$this->collSchemaPropertysRelatedByIsSubpropertyOf = SchemaPropertyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collSchemaPropertysRelatedByIsSubpropertyOf = SchemaPropertyPeer::doSelectJoinUsersRelatedByUpdatedUserId($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyRelatedByIsSubpropertyOfCriteria = $criteria;
@@ -3228,6 +3754,153 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastSchemaPropertyRelatedByIsSubpropertyOfCriteria) || !$this->lastSchemaPropertyRelatedByIsSubpropertyOfCriteria->equals($criteria)) {
 				$this->collSchemaPropertysRelatedByIsSubpropertyOf = SchemaPropertyPeer::doSelectJoinStatus($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyRelatedByIsSubpropertyOfCriteria = $criteria;
+
+		return $this->collSchemaPropertysRelatedByIsSubpropertyOf;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this SchemaProperty is new, it will return
+	 * an empty collection; or if this SchemaProperty has previously
+	 * been saved, it will retrieve related SchemaPropertysRelatedByIsSubpropertyOf from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in SchemaProperty.
+	 */
+	public function getSchemaPropertysRelatedByIsSubpropertyOfJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertysRelatedByIsSubpropertyOf === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertysRelatedByIsSubpropertyOf = array();
+			} else {
+
+				$criteria->add(SchemaPropertyPeer::IS_SUBPROPERTY_OF, $this->getId());
+
+				$this->collSchemaPropertysRelatedByIsSubpropertyOf = SchemaPropertyPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyPeer::IS_SUBPROPERTY_OF, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyRelatedByIsSubpropertyOfCriteria) || !$this->lastSchemaPropertyRelatedByIsSubpropertyOfCriteria->equals($criteria)) {
+				$this->collSchemaPropertysRelatedByIsSubpropertyOf = SchemaPropertyPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyRelatedByIsSubpropertyOfCriteria = $criteria;
+
+		return $this->collSchemaPropertysRelatedByIsSubpropertyOf;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this SchemaProperty is new, it will return
+	 * an empty collection; or if this SchemaProperty has previously
+	 * been saved, it will retrieve related SchemaPropertysRelatedByIsSubpropertyOf from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in SchemaProperty.
+	 */
+	public function getSchemaPropertysRelatedByIsSubpropertyOfJoinUsersRelatedByUpdatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertysRelatedByIsSubpropertyOf === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertysRelatedByIsSubpropertyOf = array();
+			} else {
+
+				$criteria->add(SchemaPropertyPeer::IS_SUBPROPERTY_OF, $this->getId());
+
+				$this->collSchemaPropertysRelatedByIsSubpropertyOf = SchemaPropertyPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyPeer::IS_SUBPROPERTY_OF, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyRelatedByIsSubpropertyOfCriteria) || !$this->lastSchemaPropertyRelatedByIsSubpropertyOfCriteria->equals($criteria)) {
+				$this->collSchemaPropertysRelatedByIsSubpropertyOf = SchemaPropertyPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyRelatedByIsSubpropertyOfCriteria = $criteria;
+
+		return $this->collSchemaPropertysRelatedByIsSubpropertyOf;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this SchemaProperty is new, it will return
+	 * an empty collection; or if this SchemaProperty has previously
+	 * been saved, it will retrieve related SchemaPropertysRelatedByIsSubpropertyOf from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in SchemaProperty.
+	 */
+	public function getSchemaPropertysRelatedByIsSubpropertyOfJoinUsersRelatedByDeletedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertysRelatedByIsSubpropertyOf === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertysRelatedByIsSubpropertyOf = array();
+			} else {
+
+				$criteria->add(SchemaPropertyPeer::IS_SUBPROPERTY_OF, $this->getId());
+
+				$this->collSchemaPropertysRelatedByIsSubpropertyOf = SchemaPropertyPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyPeer::IS_SUBPROPERTY_OF, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyRelatedByIsSubpropertyOfCriteria) || !$this->lastSchemaPropertyRelatedByIsSubpropertyOfCriteria->equals($criteria)) {
+				$this->collSchemaPropertysRelatedByIsSubpropertyOf = SchemaPropertyPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyRelatedByIsSubpropertyOfCriteria = $criteria;
@@ -3354,7 +4027,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in SchemaProperty.
 	 */
-	public function getSchemaPropertyElementsRelatedBySchemaPropertyIdJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
+	public function getSchemaPropertyElementsRelatedBySchemaPropertyIdJoinUsersRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseSchemaPropertyElementPeer.php';
@@ -3373,7 +4046,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, $this->getId());
 
-				$this->collSchemaPropertyElementsRelatedBySchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collSchemaPropertyElementsRelatedBySchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -3383,7 +4056,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$criteria->add(SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastSchemaPropertyElementRelatedBySchemaPropertyIdCriteria) || !$this->lastSchemaPropertyElementRelatedBySchemaPropertyIdCriteria->equals($criteria)) {
-				$this->collSchemaPropertyElementsRelatedBySchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collSchemaPropertyElementsRelatedBySchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyElementRelatedBySchemaPropertyIdCriteria = $criteria;
@@ -3403,7 +4076,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in SchemaProperty.
 	 */
-	public function getSchemaPropertyElementsRelatedBySchemaPropertyIdJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
+	public function getSchemaPropertyElementsRelatedBySchemaPropertyIdJoinUsersRelatedByUpdatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseSchemaPropertyElementPeer.php';
@@ -3422,7 +4095,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, $this->getId());
 
-				$this->collSchemaPropertyElementsRelatedBySchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collSchemaPropertyElementsRelatedBySchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByUpdatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -3432,7 +4105,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$criteria->add(SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastSchemaPropertyElementRelatedBySchemaPropertyIdCriteria) || !$this->lastSchemaPropertyElementRelatedBySchemaPropertyIdCriteria->equals($criteria)) {
-				$this->collSchemaPropertyElementsRelatedBySchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collSchemaPropertyElementsRelatedBySchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByUpdatedUserId($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyElementRelatedBySchemaPropertyIdCriteria = $criteria;
@@ -3452,7 +4125,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in SchemaProperty.
 	 */
-	public function getSchemaPropertyElementsRelatedBySchemaPropertyIdJoinUserRelatedByDeletedUserId($criteria = null, $con = null)
+	public function getSchemaPropertyElementsRelatedBySchemaPropertyIdJoinUsersRelatedByDeletedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseSchemaPropertyElementPeer.php';
@@ -3471,7 +4144,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, $this->getId());
 
-				$this->collSchemaPropertyElementsRelatedBySchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
+				$this->collSchemaPropertyElementsRelatedBySchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByDeletedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -3481,7 +4154,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$criteria->add(SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastSchemaPropertyElementRelatedBySchemaPropertyIdCriteria) || !$this->lastSchemaPropertyElementRelatedBySchemaPropertyIdCriteria->equals($criteria)) {
-				$this->collSchemaPropertyElementsRelatedBySchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
+				$this->collSchemaPropertyElementsRelatedBySchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByDeletedUserId($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyElementRelatedBySchemaPropertyIdCriteria = $criteria;
@@ -3580,6 +4253,153 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastSchemaPropertyElementRelatedBySchemaPropertyIdCriteria) || !$this->lastSchemaPropertyElementRelatedBySchemaPropertyIdCriteria->equals($criteria)) {
 				$this->collSchemaPropertyElementsRelatedBySchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinStatus($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyElementRelatedBySchemaPropertyIdCriteria = $criteria;
+
+		return $this->collSchemaPropertyElementsRelatedBySchemaPropertyId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this SchemaProperty is new, it will return
+	 * an empty collection; or if this SchemaProperty has previously
+	 * been saved, it will retrieve related SchemaPropertyElementsRelatedBySchemaPropertyId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in SchemaProperty.
+	 */
+	public function getSchemaPropertyElementsRelatedBySchemaPropertyIdJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyElementPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertyElementsRelatedBySchemaPropertyId === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertyElementsRelatedBySchemaPropertyId = array();
+			} else {
+
+				$criteria->add(SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, $this->getId());
+
+				$this->collSchemaPropertyElementsRelatedBySchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyElementRelatedBySchemaPropertyIdCriteria) || !$this->lastSchemaPropertyElementRelatedBySchemaPropertyIdCriteria->equals($criteria)) {
+				$this->collSchemaPropertyElementsRelatedBySchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyElementRelatedBySchemaPropertyIdCriteria = $criteria;
+
+		return $this->collSchemaPropertyElementsRelatedBySchemaPropertyId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this SchemaProperty is new, it will return
+	 * an empty collection; or if this SchemaProperty has previously
+	 * been saved, it will retrieve related SchemaPropertyElementsRelatedBySchemaPropertyId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in SchemaProperty.
+	 */
+	public function getSchemaPropertyElementsRelatedBySchemaPropertyIdJoinUsersRelatedByUpdatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyElementPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertyElementsRelatedBySchemaPropertyId === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertyElementsRelatedBySchemaPropertyId = array();
+			} else {
+
+				$criteria->add(SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, $this->getId());
+
+				$this->collSchemaPropertyElementsRelatedBySchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyElementRelatedBySchemaPropertyIdCriteria) || !$this->lastSchemaPropertyElementRelatedBySchemaPropertyIdCriteria->equals($criteria)) {
+				$this->collSchemaPropertyElementsRelatedBySchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyElementRelatedBySchemaPropertyIdCriteria = $criteria;
+
+		return $this->collSchemaPropertyElementsRelatedBySchemaPropertyId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this SchemaProperty is new, it will return
+	 * an empty collection; or if this SchemaProperty has previously
+	 * been saved, it will retrieve related SchemaPropertyElementsRelatedBySchemaPropertyId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in SchemaProperty.
+	 */
+	public function getSchemaPropertyElementsRelatedBySchemaPropertyIdJoinUsersRelatedByDeletedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyElementPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertyElementsRelatedBySchemaPropertyId === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertyElementsRelatedBySchemaPropertyId = array();
+			} else {
+
+				$criteria->add(SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, $this->getId());
+
+				$this->collSchemaPropertyElementsRelatedBySchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyElementRelatedBySchemaPropertyIdCriteria) || !$this->lastSchemaPropertyElementRelatedBySchemaPropertyIdCriteria->equals($criteria)) {
+				$this->collSchemaPropertyElementsRelatedBySchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyElementRelatedBySchemaPropertyIdCriteria = $criteria;
@@ -3706,7 +4526,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in SchemaProperty.
 	 */
-	public function getSchemaPropertyElementsRelatedByRelatedSchemaPropertyIdJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
+	public function getSchemaPropertyElementsRelatedByRelatedSchemaPropertyIdJoinUsersRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseSchemaPropertyElementPeer.php';
@@ -3725,7 +4545,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID, $this->getId());
 
-				$this->collSchemaPropertyElementsRelatedByRelatedSchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collSchemaPropertyElementsRelatedByRelatedSchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -3735,7 +4555,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$criteria->add(SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastSchemaPropertyElementRelatedByRelatedSchemaPropertyIdCriteria) || !$this->lastSchemaPropertyElementRelatedByRelatedSchemaPropertyIdCriteria->equals($criteria)) {
-				$this->collSchemaPropertyElementsRelatedByRelatedSchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collSchemaPropertyElementsRelatedByRelatedSchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyElementRelatedByRelatedSchemaPropertyIdCriteria = $criteria;
@@ -3755,7 +4575,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in SchemaProperty.
 	 */
-	public function getSchemaPropertyElementsRelatedByRelatedSchemaPropertyIdJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
+	public function getSchemaPropertyElementsRelatedByRelatedSchemaPropertyIdJoinUsersRelatedByUpdatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseSchemaPropertyElementPeer.php';
@@ -3774,7 +4594,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID, $this->getId());
 
-				$this->collSchemaPropertyElementsRelatedByRelatedSchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collSchemaPropertyElementsRelatedByRelatedSchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByUpdatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -3784,7 +4604,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$criteria->add(SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastSchemaPropertyElementRelatedByRelatedSchemaPropertyIdCriteria) || !$this->lastSchemaPropertyElementRelatedByRelatedSchemaPropertyIdCriteria->equals($criteria)) {
-				$this->collSchemaPropertyElementsRelatedByRelatedSchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collSchemaPropertyElementsRelatedByRelatedSchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByUpdatedUserId($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyElementRelatedByRelatedSchemaPropertyIdCriteria = $criteria;
@@ -3804,7 +4624,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in SchemaProperty.
 	 */
-	public function getSchemaPropertyElementsRelatedByRelatedSchemaPropertyIdJoinUserRelatedByDeletedUserId($criteria = null, $con = null)
+	public function getSchemaPropertyElementsRelatedByRelatedSchemaPropertyIdJoinUsersRelatedByDeletedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseSchemaPropertyElementPeer.php';
@@ -3823,7 +4643,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID, $this->getId());
 
-				$this->collSchemaPropertyElementsRelatedByRelatedSchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
+				$this->collSchemaPropertyElementsRelatedByRelatedSchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByDeletedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -3833,7 +4653,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$criteria->add(SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastSchemaPropertyElementRelatedByRelatedSchemaPropertyIdCriteria) || !$this->lastSchemaPropertyElementRelatedByRelatedSchemaPropertyIdCriteria->equals($criteria)) {
-				$this->collSchemaPropertyElementsRelatedByRelatedSchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
+				$this->collSchemaPropertyElementsRelatedByRelatedSchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByDeletedUserId($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyElementRelatedByRelatedSchemaPropertyIdCriteria = $criteria;
@@ -3932,6 +4752,153 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastSchemaPropertyElementRelatedByRelatedSchemaPropertyIdCriteria) || !$this->lastSchemaPropertyElementRelatedByRelatedSchemaPropertyIdCriteria->equals($criteria)) {
 				$this->collSchemaPropertyElementsRelatedByRelatedSchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinStatus($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyElementRelatedByRelatedSchemaPropertyIdCriteria = $criteria;
+
+		return $this->collSchemaPropertyElementsRelatedByRelatedSchemaPropertyId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this SchemaProperty is new, it will return
+	 * an empty collection; or if this SchemaProperty has previously
+	 * been saved, it will retrieve related SchemaPropertyElementsRelatedByRelatedSchemaPropertyId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in SchemaProperty.
+	 */
+	public function getSchemaPropertyElementsRelatedByRelatedSchemaPropertyIdJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyElementPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertyElementsRelatedByRelatedSchemaPropertyId === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertyElementsRelatedByRelatedSchemaPropertyId = array();
+			} else {
+
+				$criteria->add(SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID, $this->getId());
+
+				$this->collSchemaPropertyElementsRelatedByRelatedSchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyElementRelatedByRelatedSchemaPropertyIdCriteria) || !$this->lastSchemaPropertyElementRelatedByRelatedSchemaPropertyIdCriteria->equals($criteria)) {
+				$this->collSchemaPropertyElementsRelatedByRelatedSchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyElementRelatedByRelatedSchemaPropertyIdCriteria = $criteria;
+
+		return $this->collSchemaPropertyElementsRelatedByRelatedSchemaPropertyId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this SchemaProperty is new, it will return
+	 * an empty collection; or if this SchemaProperty has previously
+	 * been saved, it will retrieve related SchemaPropertyElementsRelatedByRelatedSchemaPropertyId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in SchemaProperty.
+	 */
+	public function getSchemaPropertyElementsRelatedByRelatedSchemaPropertyIdJoinUsersRelatedByUpdatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyElementPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertyElementsRelatedByRelatedSchemaPropertyId === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertyElementsRelatedByRelatedSchemaPropertyId = array();
+			} else {
+
+				$criteria->add(SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID, $this->getId());
+
+				$this->collSchemaPropertyElementsRelatedByRelatedSchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyElementRelatedByRelatedSchemaPropertyIdCriteria) || !$this->lastSchemaPropertyElementRelatedByRelatedSchemaPropertyIdCriteria->equals($criteria)) {
+				$this->collSchemaPropertyElementsRelatedByRelatedSchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyElementRelatedByRelatedSchemaPropertyIdCriteria = $criteria;
+
+		return $this->collSchemaPropertyElementsRelatedByRelatedSchemaPropertyId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this SchemaProperty is new, it will return
+	 * an empty collection; or if this SchemaProperty has previously
+	 * been saved, it will retrieve related SchemaPropertyElementsRelatedByRelatedSchemaPropertyId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in SchemaProperty.
+	 */
+	public function getSchemaPropertyElementsRelatedByRelatedSchemaPropertyIdJoinUsersRelatedByDeletedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyElementPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertyElementsRelatedByRelatedSchemaPropertyId === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertyElementsRelatedByRelatedSchemaPropertyId = array();
+			} else {
+
+				$criteria->add(SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID, $this->getId());
+
+				$this->collSchemaPropertyElementsRelatedByRelatedSchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyElementPeer::RELATED_SCHEMA_PROPERTY_ID, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyElementRelatedByRelatedSchemaPropertyIdCriteria) || !$this->lastSchemaPropertyElementRelatedByRelatedSchemaPropertyIdCriteria->equals($criteria)) {
+				$this->collSchemaPropertyElementsRelatedByRelatedSchemaPropertyId = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyElementRelatedByRelatedSchemaPropertyIdCriteria = $criteria;
@@ -4058,7 +5025,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in SchemaProperty.
 	 */
-	public function getSchemaPropertyElementHistorysRelatedBySchemaPropertyIdJoinUser($criteria = null, $con = null)
+	public function getSchemaPropertyElementHistorysRelatedBySchemaPropertyIdJoinUsersRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseSchemaPropertyElementHistoryPeer.php';
@@ -4077,7 +5044,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ID, $this->getId());
 
-				$this->collSchemaPropertyElementHistorysRelatedBySchemaPropertyId = SchemaPropertyElementHistoryPeer::doSelectJoinUser($criteria, $con);
+				$this->collSchemaPropertyElementHistorysRelatedBySchemaPropertyId = SchemaPropertyElementHistoryPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -4087,7 +5054,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$criteria->add(SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastSchemaPropertyElementHistoryRelatedBySchemaPropertyIdCriteria) || !$this->lastSchemaPropertyElementHistoryRelatedBySchemaPropertyIdCriteria->equals($criteria)) {
-				$this->collSchemaPropertyElementHistorysRelatedBySchemaPropertyId = SchemaPropertyElementHistoryPeer::doSelectJoinUser($criteria, $con);
+				$this->collSchemaPropertyElementHistorysRelatedBySchemaPropertyId = SchemaPropertyElementHistoryPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyElementHistoryRelatedBySchemaPropertyIdCriteria = $criteria;
@@ -4340,6 +5307,55 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		return $this->collSchemaPropertyElementHistorysRelatedBySchemaPropertyId;
 	}
 
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this SchemaProperty is new, it will return
+	 * an empty collection; or if this SchemaProperty has previously
+	 * been saved, it will retrieve related SchemaPropertyElementHistorysRelatedBySchemaPropertyId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in SchemaProperty.
+	 */
+	public function getSchemaPropertyElementHistorysRelatedBySchemaPropertyIdJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyElementHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertyElementHistorysRelatedBySchemaPropertyId === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertyElementHistorysRelatedBySchemaPropertyId = array();
+			} else {
+
+				$criteria->add(SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ID, $this->getId());
+
+				$this->collSchemaPropertyElementHistorysRelatedBySchemaPropertyId = SchemaPropertyElementHistoryPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ID, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyElementHistoryRelatedBySchemaPropertyIdCriteria) || !$this->lastSchemaPropertyElementHistoryRelatedBySchemaPropertyIdCriteria->equals($criteria)) {
+				$this->collSchemaPropertyElementHistorysRelatedBySchemaPropertyId = SchemaPropertyElementHistoryPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyElementHistoryRelatedBySchemaPropertyIdCriteria = $criteria;
+
+		return $this->collSchemaPropertyElementHistorysRelatedBySchemaPropertyId;
+	}
+
 	/**
 	 * Temporary storage of collSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId to save a possible db hit in
 	 * the event objects are add to the collection, but the
@@ -4459,7 +5475,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in SchemaProperty.
 	 */
-	public function getSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyIdJoinUser($criteria = null, $con = null)
+	public function getSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyIdJoinUsersRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseSchemaPropertyElementHistoryPeer.php';
@@ -4478,7 +5494,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID, $this->getId());
 
-				$this->collSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId = SchemaPropertyElementHistoryPeer::doSelectJoinUser($criteria, $con);
+				$this->collSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId = SchemaPropertyElementHistoryPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -4488,7 +5504,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$criteria->add(SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastSchemaPropertyElementHistoryRelatedByRelatedSchemaPropertyIdCriteria) || !$this->lastSchemaPropertyElementHistoryRelatedByRelatedSchemaPropertyIdCriteria->equals($criteria)) {
-				$this->collSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId = SchemaPropertyElementHistoryPeer::doSelectJoinUser($criteria, $con);
+				$this->collSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId = SchemaPropertyElementHistoryPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyElementHistoryRelatedByRelatedSchemaPropertyIdCriteria = $criteria;
@@ -4734,6 +5750,55 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastSchemaPropertyElementHistoryRelatedByRelatedSchemaPropertyIdCriteria) || !$this->lastSchemaPropertyElementHistoryRelatedByRelatedSchemaPropertyIdCriteria->equals($criteria)) {
 				$this->collSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId = SchemaPropertyElementHistoryPeer::doSelectJoinFileImportHistory($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyElementHistoryRelatedByRelatedSchemaPropertyIdCriteria = $criteria;
+
+		return $this->collSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this SchemaProperty is new, it will return
+	 * an empty collection; or if this SchemaProperty has previously
+	 * been saved, it will retrieve related SchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in SchemaProperty.
+	 */
+	public function getSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyIdJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyElementHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId = array();
+			} else {
+
+				$criteria->add(SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID, $this->getId());
+
+				$this->collSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId = SchemaPropertyElementHistoryPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyElementHistoryRelatedByRelatedSchemaPropertyIdCriteria) || !$this->lastSchemaPropertyElementHistoryRelatedByRelatedSchemaPropertyIdCriteria->equals($criteria)) {
+				$this->collSchemaPropertyElementHistorysRelatedByRelatedSchemaPropertyId = SchemaPropertyElementHistoryPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyElementHistoryRelatedByRelatedSchemaPropertyIdCriteria = $criteria;

@@ -19,7 +19,7 @@ abstract class BaseRdfNamespacePeer {
 	const CLASS_DEFAULT = 'lib.model.RdfNamespace';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 10;
+	const NUM_COLUMNS = 14;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -28,14 +28,17 @@ abstract class BaseRdfNamespacePeer {
 	/** the column name for the ID field */
 	const ID = 'reg_rdf_namespace.ID';
 
-	/** the column name for the SCHEMA_ID field */
-	const SCHEMA_ID = 'reg_rdf_namespace.SCHEMA_ID';
-
 	/** the column name for the CREATED_AT field */
 	const CREATED_AT = 'reg_rdf_namespace.CREATED_AT';
 
+	/** the column name for the UPDATED_AT field */
+	const UPDATED_AT = 'reg_rdf_namespace.UPDATED_AT';
+
 	/** the column name for the DELETED_AT field */
 	const DELETED_AT = 'reg_rdf_namespace.DELETED_AT';
+
+	/** the column name for the SCHEMA_ID field */
+	const SCHEMA_ID = 'reg_rdf_namespace.SCHEMA_ID';
 
 	/** the column name for the CREATED_USER_ID field */
 	const CREATED_USER_ID = 'reg_rdf_namespace.CREATED_USER_ID';
@@ -55,6 +58,15 @@ abstract class BaseRdfNamespacePeer {
 	/** the column name for the SCHEMA_LOCATION field */
 	const SCHEMA_LOCATION = 'reg_rdf_namespace.SCHEMA_LOCATION';
 
+	/** the column name for the CREATED_BY field */
+	const CREATED_BY = 'reg_rdf_namespace.CREATED_BY';
+
+	/** the column name for the UPDATED_BY field */
+	const UPDATED_BY = 'reg_rdf_namespace.UPDATED_BY';
+
+	/** the column name for the DELETED_BY field */
+	const DELETED_BY = 'reg_rdf_namespace.DELETED_BY';
+
 	/** The PHP to DB Name Mapping */
 	private static $phpNameMap = null;
 
@@ -66,10 +78,10 @@ abstract class BaseRdfNamespacePeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'SchemaId', 'CreatedAt', 'DeletedAt', 'CreatedUserId', 'UpdatedUserId', 'Token', 'Note', 'Uri', 'SchemaLocation', ),
-		BasePeer::TYPE_COLNAME => array (RdfNamespacePeer::ID, RdfNamespacePeer::SCHEMA_ID, RdfNamespacePeer::CREATED_AT, RdfNamespacePeer::DELETED_AT, RdfNamespacePeer::CREATED_USER_ID, RdfNamespacePeer::UPDATED_USER_ID, RdfNamespacePeer::TOKEN, RdfNamespacePeer::NOTE, RdfNamespacePeer::URI, RdfNamespacePeer::SCHEMA_LOCATION, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'schema_id', 'created_at', 'deleted_at', 'created_user_id', 'updated_user_id', 'token', 'note', 'uri', 'schema_location', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'SchemaId', 'CreatedUserId', 'UpdatedUserId', 'Token', 'Note', 'Uri', 'SchemaLocation', 'CreatedBy', 'UpdatedBy', 'DeletedBy', ),
+		BasePeer::TYPE_COLNAME => array (RdfNamespacePeer::ID, RdfNamespacePeer::CREATED_AT, RdfNamespacePeer::UPDATED_AT, RdfNamespacePeer::DELETED_AT, RdfNamespacePeer::SCHEMA_ID, RdfNamespacePeer::CREATED_USER_ID, RdfNamespacePeer::UPDATED_USER_ID, RdfNamespacePeer::TOKEN, RdfNamespacePeer::NOTE, RdfNamespacePeer::URI, RdfNamespacePeer::SCHEMA_LOCATION, RdfNamespacePeer::CREATED_BY, RdfNamespacePeer::UPDATED_BY, RdfNamespacePeer::DELETED_BY, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'deleted_at', 'schema_id', 'created_user_id', 'updated_user_id', 'token', 'note', 'uri', 'schema_location', 'created_by', 'updated_by', 'deleted_by', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
 	);
 
 	/**
@@ -79,10 +91,10 @@ abstract class BaseRdfNamespacePeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'SchemaId' => 1, 'CreatedAt' => 2, 'DeletedAt' => 3, 'CreatedUserId' => 4, 'UpdatedUserId' => 5, 'Token' => 6, 'Note' => 7, 'Uri' => 8, 'SchemaLocation' => 9, ),
-		BasePeer::TYPE_COLNAME => array (RdfNamespacePeer::ID => 0, RdfNamespacePeer::SCHEMA_ID => 1, RdfNamespacePeer::CREATED_AT => 2, RdfNamespacePeer::DELETED_AT => 3, RdfNamespacePeer::CREATED_USER_ID => 4, RdfNamespacePeer::UPDATED_USER_ID => 5, RdfNamespacePeer::TOKEN => 6, RdfNamespacePeer::NOTE => 7, RdfNamespacePeer::URI => 8, RdfNamespacePeer::SCHEMA_LOCATION => 9, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'schema_id' => 1, 'created_at' => 2, 'deleted_at' => 3, 'created_user_id' => 4, 'updated_user_id' => 5, 'token' => 6, 'note' => 7, 'uri' => 8, 'schema_location' => 9, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'DeletedAt' => 3, 'SchemaId' => 4, 'CreatedUserId' => 5, 'UpdatedUserId' => 6, 'Token' => 7, 'Note' => 8, 'Uri' => 9, 'SchemaLocation' => 10, 'CreatedBy' => 11, 'UpdatedBy' => 12, 'DeletedBy' => 13, ),
+		BasePeer::TYPE_COLNAME => array (RdfNamespacePeer::ID => 0, RdfNamespacePeer::CREATED_AT => 1, RdfNamespacePeer::UPDATED_AT => 2, RdfNamespacePeer::DELETED_AT => 3, RdfNamespacePeer::SCHEMA_ID => 4, RdfNamespacePeer::CREATED_USER_ID => 5, RdfNamespacePeer::UPDATED_USER_ID => 6, RdfNamespacePeer::TOKEN => 7, RdfNamespacePeer::NOTE => 8, RdfNamespacePeer::URI => 9, RdfNamespacePeer::SCHEMA_LOCATION => 10, RdfNamespacePeer::CREATED_BY => 11, RdfNamespacePeer::UPDATED_BY => 12, RdfNamespacePeer::DELETED_BY => 13, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'deleted_at' => 3, 'schema_id' => 4, 'created_user_id' => 5, 'updated_user_id' => 6, 'token' => 7, 'note' => 8, 'uri' => 9, 'schema_location' => 10, 'created_by' => 11, 'updated_by' => 12, 'deleted_by' => 13, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
 	);
 
 	/**
@@ -185,11 +197,13 @@ abstract class BaseRdfNamespacePeer {
 
         $criteria->addSelectColumn(($tableAlias) ? RdfNamespacePeer::alias($tableAlias, RdfNamespacePeer::ID) : RdfNamespacePeer::ID);
 
-        $criteria->addSelectColumn(($tableAlias) ? RdfNamespacePeer::alias($tableAlias, RdfNamespacePeer::SCHEMA_ID) : RdfNamespacePeer::SCHEMA_ID);
-
         $criteria->addSelectColumn(($tableAlias) ? RdfNamespacePeer::alias($tableAlias, RdfNamespacePeer::CREATED_AT) : RdfNamespacePeer::CREATED_AT);
 
+        $criteria->addSelectColumn(($tableAlias) ? RdfNamespacePeer::alias($tableAlias, RdfNamespacePeer::UPDATED_AT) : RdfNamespacePeer::UPDATED_AT);
+
         $criteria->addSelectColumn(($tableAlias) ? RdfNamespacePeer::alias($tableAlias, RdfNamespacePeer::DELETED_AT) : RdfNamespacePeer::DELETED_AT);
+
+        $criteria->addSelectColumn(($tableAlias) ? RdfNamespacePeer::alias($tableAlias, RdfNamespacePeer::SCHEMA_ID) : RdfNamespacePeer::SCHEMA_ID);
 
         $criteria->addSelectColumn(($tableAlias) ? RdfNamespacePeer::alias($tableAlias, RdfNamespacePeer::CREATED_USER_ID) : RdfNamespacePeer::CREATED_USER_ID);
 
@@ -202,6 +216,12 @@ abstract class BaseRdfNamespacePeer {
         $criteria->addSelectColumn(($tableAlias) ? RdfNamespacePeer::alias($tableAlias, RdfNamespacePeer::URI) : RdfNamespacePeer::URI);
 
         $criteria->addSelectColumn(($tableAlias) ? RdfNamespacePeer::alias($tableAlias, RdfNamespacePeer::SCHEMA_LOCATION) : RdfNamespacePeer::SCHEMA_LOCATION);
+
+        $criteria->addSelectColumn(($tableAlias) ? RdfNamespacePeer::alias($tableAlias, RdfNamespacePeer::CREATED_BY) : RdfNamespacePeer::CREATED_BY);
+
+        $criteria->addSelectColumn(($tableAlias) ? RdfNamespacePeer::alias($tableAlias, RdfNamespacePeer::UPDATED_BY) : RdfNamespacePeer::UPDATED_BY);
+
+        $criteria->addSelectColumn(($tableAlias) ? RdfNamespacePeer::alias($tableAlias, RdfNamespacePeer::DELETED_BY) : RdfNamespacePeer::DELETED_BY);
 
 	}
 

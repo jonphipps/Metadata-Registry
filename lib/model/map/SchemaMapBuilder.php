@@ -63,8 +63,6 @@ class SchemaMapBuilder {
 
 		$tMap->addPrimaryKey('ID', 'Id', 'int', CreoleTypes::INTEGER, true, null);
 
-		$tMap->addForeignKey('AGENT_ID', 'AgentId', 'int', CreoleTypes::INTEGER, 'reg_agent', 'ID', true, null);
-
 		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
 		$tMap->addColumn('UPDATED_AT', 'UpdatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
@@ -81,15 +79,21 @@ class SchemaMapBuilder {
 
 		$tMap->addColumn('CHILD_UPDATED_USER_ID', 'ChildUpdatedUserId', 'int', CreoleTypes::INTEGER, false, null);
 
-		$tMap->addColumn('NAME', 'Name', 'string', CreoleTypes::VARCHAR, true, 191);
+		$tMap->addForeignKey('PROJECT_ID', 'ProjectId', 'int', CreoleTypes::INTEGER, 'projects', 'ID', false, null);
+
+		$tMap->addForeignKey('AGENT_ID', 'AgentId', 'int', CreoleTypes::INTEGER, 'projects', 'ID', false, null);
+
+		$tMap->addColumn('LABEL', 'Label', 'string', CreoleTypes::LONGVARCHAR, false, null);
+
+		$tMap->addColumn('NAME', 'Name', 'string', CreoleTypes::LONGVARCHAR, false, null);
 
 		$tMap->addColumn('NOTE', 'Note', 'string', CreoleTypes::LONGVARCHAR, false, null);
 
-		$tMap->addColumn('URI', 'Uri', 'string', CreoleTypes::VARCHAR, true, 255);
+		$tMap->addColumn('URI', 'Uri', 'string', CreoleTypes::VARCHAR, true, 191);
 
-		$tMap->addColumn('URL', 'Url', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('URL', 'Url', 'string', CreoleTypes::VARCHAR, false, 191);
 
-		$tMap->addColumn('BASE_DOMAIN', 'BaseDomain', 'string', CreoleTypes::VARCHAR, true, 255);
+		$tMap->addColumn('BASE_DOMAIN', 'BaseDomain', 'string', CreoleTypes::VARCHAR, true, 191);
 
 		$tMap->addColumn('TOKEN', 'Token', 'string', CreoleTypes::VARCHAR, true, 45);
 
@@ -109,9 +113,19 @@ class SchemaMapBuilder {
 
 		$tMap->addColumn('LANGUAGES', 'Languages', 'string', CreoleTypes::LONGVARCHAR, false, null);
 
-		$tMap->addColumn('REPO', 'Repo', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('REPO', 'Repo', 'string', CreoleTypes::VARCHAR, false, 191);
 
-		$tMap->addColumn('PREFIX', 'Prefix', 'string', CreoleTypes::VARCHAR, true, 255);
+		$tMap->addColumn('SPREADSHEET', 'Spreadsheet', 'string', CreoleTypes::VARCHAR, false, 191);
+
+		$tMap->addColumn('WORKSHEET', 'Worksheet', 'string', CreoleTypes::VARCHAR, false, 191);
+
+		$tMap->addColumn('PREFIX', 'Prefix', 'string', CreoleTypes::VARCHAR, true, 191);
+
+		$tMap->addForeignKey('CREATED_BY', 'CreatedBy', 'int', CreoleTypes::INTEGER, 'users', 'ID', false, null);
+
+		$tMap->addForeignKey('UPDATED_BY', 'UpdatedBy', 'int', CreoleTypes::INTEGER, 'users', 'ID', false, null);
+
+		$tMap->addForeignKey('DELETED_BY', 'DeletedBy', 'int', CreoleTypes::INTEGER, 'users', 'ID', false, null);
 
 	} // doBuild()
 

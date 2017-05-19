@@ -77,13 +77,19 @@ class CollectionMapBuilder {
 
 		$tMap->addForeignKey('VOCABULARY_ID', 'VocabularyId', 'int', CreoleTypes::INTEGER, 'reg_vocabulary', 'ID', false, null);
 
-		$tMap->addColumn('NAME', 'Name', 'string', CreoleTypes::VARCHAR, true, 255);
+		$tMap->addColumn('NAME', 'Name', 'string', CreoleTypes::VARCHAR, true, 191);
 
-		$tMap->addColumn('URI', 'Uri', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('URI', 'Uri', 'string', CreoleTypes::VARCHAR, false, 191);
 
-		$tMap->addColumn('PREF_LABEL', 'PrefLabel', 'string', CreoleTypes::VARCHAR, true, 255);
+		$tMap->addColumn('PREF_LABEL', 'PrefLabel', 'string', CreoleTypes::VARCHAR, true, 191);
 
 		$tMap->addForeignKey('STATUS_ID', 'StatusId', 'int', CreoleTypes::INTEGER, 'reg_status', 'ID', true, null);
+
+		$tMap->addForeignKey('CREATED_BY', 'CreatedBy', 'int', CreoleTypes::INTEGER, 'users', 'ID', false, null);
+
+		$tMap->addForeignKey('UPDATED_BY', 'UpdatedBy', 'int', CreoleTypes::INTEGER, 'users', 'ID', false, null);
+
+		$tMap->addForeignKey('DELETED_BY', 'DeletedBy', 'int', CreoleTypes::INTEGER, 'users', 'ID', false, null);
 
 	} // doBuild()
 

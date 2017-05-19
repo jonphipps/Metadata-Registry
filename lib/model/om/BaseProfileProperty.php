@@ -282,22 +282,22 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	 * The value for the namespce field.
 	 * @var        string
 	 */
-	protected $namespce;
+	protected $namespce = '';
 
 	/**
-	 * @var        User
+	 * @var        Users
 	 */
-	protected $aUserRelatedByCreatedBy;
+	protected $aUsersRelatedByCreatedBy;
 
 	/**
-	 * @var        User
+	 * @var        Users
 	 */
-	protected $aUserRelatedByUpdatedBy;
+	protected $aUsersRelatedByUpdatedBy;
 
 	/**
-	 * @var        User
+	 * @var        Users
 	 */
-	protected $aUserRelatedByDeletedBy;
+	protected $aUsersRelatedByDeletedBy;
 
 	/**
 	 * @var        Profile
@@ -1014,8 +1014,8 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			$this->modifiedColumns[] = ProfilePropertyPeer::CREATED_BY;
 		}
 
-		if ($this->aUserRelatedByCreatedBy !== null && $this->aUserRelatedByCreatedBy->getId() !== $v) {
-			$this->aUserRelatedByCreatedBy = null;
+		if ($this->aUsersRelatedByCreatedBy !== null && $this->aUsersRelatedByCreatedBy->getId() !== $v) {
+			$this->aUsersRelatedByCreatedBy = null;
 		}
 
 	} // setCreatedBy()
@@ -1040,8 +1040,8 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			$this->modifiedColumns[] = ProfilePropertyPeer::UPDATED_BY;
 		}
 
-		if ($this->aUserRelatedByUpdatedBy !== null && $this->aUserRelatedByUpdatedBy->getId() !== $v) {
-			$this->aUserRelatedByUpdatedBy = null;
+		if ($this->aUsersRelatedByUpdatedBy !== null && $this->aUsersRelatedByUpdatedBy->getId() !== $v) {
+			$this->aUsersRelatedByUpdatedBy = null;
 		}
 
 	} // setUpdatedBy()
@@ -1066,8 +1066,8 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			$this->modifiedColumns[] = ProfilePropertyPeer::DELETED_BY;
 		}
 
-		if ($this->aUserRelatedByDeletedBy !== null && $this->aUserRelatedByDeletedBy->getId() !== $v) {
-			$this->aUserRelatedByDeletedBy = null;
+		if ($this->aUsersRelatedByDeletedBy !== null && $this->aUsersRelatedByDeletedBy->getId() !== $v) {
+			$this->aUsersRelatedByDeletedBy = null;
 		}
 
 	} // setDeletedBy()
@@ -1659,7 +1659,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->namespce !== $v) {
+		if ($this->namespce !== $v || $v === '') {
 			$this->namespce = $v;
 			$this->modifiedColumns[] = ProfilePropertyPeer::NAMESPCE;
 		}
@@ -1898,25 +1898,25 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
-			if ($this->aUserRelatedByCreatedBy !== null) {
-				if ($this->aUserRelatedByCreatedBy->isModified()) {
-					$affectedRows += $this->aUserRelatedByCreatedBy->save($con);
+			if ($this->aUsersRelatedByCreatedBy !== null) {
+				if ($this->aUsersRelatedByCreatedBy->isModified()) {
+					$affectedRows += $this->aUsersRelatedByCreatedBy->save($con);
 				}
-				$this->setUserRelatedByCreatedBy($this->aUserRelatedByCreatedBy);
+				$this->setUsersRelatedByCreatedBy($this->aUsersRelatedByCreatedBy);
 			}
 
-			if ($this->aUserRelatedByUpdatedBy !== null) {
-				if ($this->aUserRelatedByUpdatedBy->isModified()) {
-					$affectedRows += $this->aUserRelatedByUpdatedBy->save($con);
+			if ($this->aUsersRelatedByUpdatedBy !== null) {
+				if ($this->aUsersRelatedByUpdatedBy->isModified()) {
+					$affectedRows += $this->aUsersRelatedByUpdatedBy->save($con);
 				}
-				$this->setUserRelatedByUpdatedBy($this->aUserRelatedByUpdatedBy);
+				$this->setUsersRelatedByUpdatedBy($this->aUsersRelatedByUpdatedBy);
 			}
 
-			if ($this->aUserRelatedByDeletedBy !== null) {
-				if ($this->aUserRelatedByDeletedBy->isModified()) {
-					$affectedRows += $this->aUserRelatedByDeletedBy->save($con);
+			if ($this->aUsersRelatedByDeletedBy !== null) {
+				if ($this->aUsersRelatedByDeletedBy->isModified()) {
+					$affectedRows += $this->aUsersRelatedByDeletedBy->save($con);
 				}
-				$this->setUserRelatedByDeletedBy($this->aUserRelatedByDeletedBy);
+				$this->setUsersRelatedByDeletedBy($this->aUsersRelatedByDeletedBy);
 			}
 
 			if ($this->aProfile !== null) {
@@ -2076,21 +2076,21 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
-			if ($this->aUserRelatedByCreatedBy !== null) {
-				if (!$this->aUserRelatedByCreatedBy->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aUserRelatedByCreatedBy->getValidationFailures());
+			if ($this->aUsersRelatedByCreatedBy !== null) {
+				if (!$this->aUsersRelatedByCreatedBy->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsersRelatedByCreatedBy->getValidationFailures());
 				}
 			}
 
-			if ($this->aUserRelatedByUpdatedBy !== null) {
-				if (!$this->aUserRelatedByUpdatedBy->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aUserRelatedByUpdatedBy->getValidationFailures());
+			if ($this->aUsersRelatedByUpdatedBy !== null) {
+				if (!$this->aUsersRelatedByUpdatedBy->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsersRelatedByUpdatedBy->getValidationFailures());
 				}
 			}
 
-			if ($this->aUserRelatedByDeletedBy !== null) {
-				if (!$this->aUserRelatedByDeletedBy->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aUserRelatedByDeletedBy->getValidationFailures());
+			if ($this->aUsersRelatedByDeletedBy !== null) {
+				if (!$this->aUsersRelatedByDeletedBy->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsersRelatedByDeletedBy->getValidationFailures());
 				}
 			}
 
@@ -2827,13 +2827,13 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Declares an association between this object and a User object.
+	 * Declares an association between this object and a Users object.
 	 *
-	 * @param      User $v
+	 * @param      Users $v
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function setUserRelatedByCreatedBy($v)
+	public function setUsersRelatedByCreatedBy($v)
 	{
 
 
@@ -2844,24 +2844,24 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		}
 
 
-		$this->aUserRelatedByCreatedBy = $v;
+		$this->aUsersRelatedByCreatedBy = $v;
 	}
 
 
 	/**
-	 * Get the associated User object
+	 * Get the associated Users object
 	 *
 	 * @param      Connection Optional Connection object.
-	 * @return     User The associated User object.
+	 * @return     Users The associated Users object.
 	 * @throws     PropelException
 	 */
-	public function getUserRelatedByCreatedBy($con = null)
+	public function getUsersRelatedByCreatedBy($con = null)
 	{
-		if ($this->aUserRelatedByCreatedBy === null && ($this->created_by !== null)) {
+		if ($this->aUsersRelatedByCreatedBy === null && ($this->created_by !== null)) {
 			// include the related Peer class
-			include_once 'lib/model/om/BaseUserPeer.php';
+			include_once 'lib/model/om/BaseUsersPeer.php';
 
-			$this->aUserRelatedByCreatedBy = UserPeer::retrieveByPK($this->created_by, $con);
+			$this->aUsersRelatedByCreatedBy = UsersPeer::retrieveByPK($this->created_by, $con);
 
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
@@ -2869,21 +2869,21 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			   may be undesirable in many circumstances.
 			   As it can lead to a db query with many results that may
 			   never be used.
-			   $obj = UserPeer::retrieveByPK($this->created_by, $con);
-			   $obj->addUsersRelatedByCreatedBy($this);
+			   $obj = UsersPeer::retrieveByPK($this->created_by, $con);
+			   $obj->addUserssRelatedByCreatedBy($this);
 			 */
 		}
-		return $this->aUserRelatedByCreatedBy;
+		return $this->aUsersRelatedByCreatedBy;
 	}
 
 	/**
-	 * Declares an association between this object and a User object.
+	 * Declares an association between this object and a Users object.
 	 *
-	 * @param      User $v
+	 * @param      Users $v
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function setUserRelatedByUpdatedBy($v)
+	public function setUsersRelatedByUpdatedBy($v)
 	{
 
 
@@ -2894,24 +2894,24 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		}
 
 
-		$this->aUserRelatedByUpdatedBy = $v;
+		$this->aUsersRelatedByUpdatedBy = $v;
 	}
 
 
 	/**
-	 * Get the associated User object
+	 * Get the associated Users object
 	 *
 	 * @param      Connection Optional Connection object.
-	 * @return     User The associated User object.
+	 * @return     Users The associated Users object.
 	 * @throws     PropelException
 	 */
-	public function getUserRelatedByUpdatedBy($con = null)
+	public function getUsersRelatedByUpdatedBy($con = null)
 	{
-		if ($this->aUserRelatedByUpdatedBy === null && ($this->updated_by !== null)) {
+		if ($this->aUsersRelatedByUpdatedBy === null && ($this->updated_by !== null)) {
 			// include the related Peer class
-			include_once 'lib/model/om/BaseUserPeer.php';
+			include_once 'lib/model/om/BaseUsersPeer.php';
 
-			$this->aUserRelatedByUpdatedBy = UserPeer::retrieveByPK($this->updated_by, $con);
+			$this->aUsersRelatedByUpdatedBy = UsersPeer::retrieveByPK($this->updated_by, $con);
 
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
@@ -2919,21 +2919,21 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			   may be undesirable in many circumstances.
 			   As it can lead to a db query with many results that may
 			   never be used.
-			   $obj = UserPeer::retrieveByPK($this->updated_by, $con);
-			   $obj->addUsersRelatedByUpdatedBy($this);
+			   $obj = UsersPeer::retrieveByPK($this->updated_by, $con);
+			   $obj->addUserssRelatedByUpdatedBy($this);
 			 */
 		}
-		return $this->aUserRelatedByUpdatedBy;
+		return $this->aUsersRelatedByUpdatedBy;
 	}
 
 	/**
-	 * Declares an association between this object and a User object.
+	 * Declares an association between this object and a Users object.
 	 *
-	 * @param      User $v
+	 * @param      Users $v
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function setUserRelatedByDeletedBy($v)
+	public function setUsersRelatedByDeletedBy($v)
 	{
 
 
@@ -2944,24 +2944,24 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		}
 
 
-		$this->aUserRelatedByDeletedBy = $v;
+		$this->aUsersRelatedByDeletedBy = $v;
 	}
 
 
 	/**
-	 * Get the associated User object
+	 * Get the associated Users object
 	 *
 	 * @param      Connection Optional Connection object.
-	 * @return     User The associated User object.
+	 * @return     Users The associated Users object.
 	 * @throws     PropelException
 	 */
-	public function getUserRelatedByDeletedBy($con = null)
+	public function getUsersRelatedByDeletedBy($con = null)
 	{
-		if ($this->aUserRelatedByDeletedBy === null && ($this->deleted_by !== null)) {
+		if ($this->aUsersRelatedByDeletedBy === null && ($this->deleted_by !== null)) {
 			// include the related Peer class
-			include_once 'lib/model/om/BaseUserPeer.php';
+			include_once 'lib/model/om/BaseUsersPeer.php';
 
-			$this->aUserRelatedByDeletedBy = UserPeer::retrieveByPK($this->deleted_by, $con);
+			$this->aUsersRelatedByDeletedBy = UsersPeer::retrieveByPK($this->deleted_by, $con);
 
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
@@ -2969,11 +2969,11 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			   may be undesirable in many circumstances.
 			   As it can lead to a db query with many results that may
 			   never be used.
-			   $obj = UserPeer::retrieveByPK($this->deleted_by, $con);
-			   $obj->addUsersRelatedByDeletedBy($this);
+			   $obj = UsersPeer::retrieveByPK($this->deleted_by, $con);
+			   $obj->addUserssRelatedByDeletedBy($this);
 			 */
 		}
-		return $this->aUserRelatedByDeletedBy;
+		return $this->aUsersRelatedByDeletedBy;
 	}
 
 	/**
@@ -3245,7 +3245,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in ProfileProperty.
 	 */
-	public function getProfilePropertysRelatedByInverseProfilePropertyIdJoinUserRelatedByCreatedBy($criteria = null, $con = null)
+	public function getProfilePropertysRelatedByInverseProfilePropertyIdJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseProfilePropertyPeer.php';
@@ -3264,7 +3264,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(ProfilePropertyPeer::INVERSE_PROFILE_PROPERTY_ID, $this->getId());
 
-				$this->collProfilePropertysRelatedByInverseProfilePropertyId = ProfilePropertyPeer::doSelectJoinUserRelatedByCreatedBy($criteria, $con);
+				$this->collProfilePropertysRelatedByInverseProfilePropertyId = ProfilePropertyPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -3274,7 +3274,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			$criteria->add(ProfilePropertyPeer::INVERSE_PROFILE_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastProfilePropertyRelatedByInverseProfilePropertyIdCriteria) || !$this->lastProfilePropertyRelatedByInverseProfilePropertyIdCriteria->equals($criteria)) {
-				$this->collProfilePropertysRelatedByInverseProfilePropertyId = ProfilePropertyPeer::doSelectJoinUserRelatedByCreatedBy($criteria, $con);
+				$this->collProfilePropertysRelatedByInverseProfilePropertyId = ProfilePropertyPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
 			}
 		}
 		$this->lastProfilePropertyRelatedByInverseProfilePropertyIdCriteria = $criteria;
@@ -3294,7 +3294,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in ProfileProperty.
 	 */
-	public function getProfilePropertysRelatedByInverseProfilePropertyIdJoinUserRelatedByUpdatedBy($criteria = null, $con = null)
+	public function getProfilePropertysRelatedByInverseProfilePropertyIdJoinUsersRelatedByUpdatedBy($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseProfilePropertyPeer.php';
@@ -3313,7 +3313,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(ProfilePropertyPeer::INVERSE_PROFILE_PROPERTY_ID, $this->getId());
 
-				$this->collProfilePropertysRelatedByInverseProfilePropertyId = ProfilePropertyPeer::doSelectJoinUserRelatedByUpdatedBy($criteria, $con);
+				$this->collProfilePropertysRelatedByInverseProfilePropertyId = ProfilePropertyPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -3323,7 +3323,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			$criteria->add(ProfilePropertyPeer::INVERSE_PROFILE_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastProfilePropertyRelatedByInverseProfilePropertyIdCriteria) || !$this->lastProfilePropertyRelatedByInverseProfilePropertyIdCriteria->equals($criteria)) {
-				$this->collProfilePropertysRelatedByInverseProfilePropertyId = ProfilePropertyPeer::doSelectJoinUserRelatedByUpdatedBy($criteria, $con);
+				$this->collProfilePropertysRelatedByInverseProfilePropertyId = ProfilePropertyPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
 			}
 		}
 		$this->lastProfilePropertyRelatedByInverseProfilePropertyIdCriteria = $criteria;
@@ -3343,7 +3343,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in ProfileProperty.
 	 */
-	public function getProfilePropertysRelatedByInverseProfilePropertyIdJoinUserRelatedByDeletedBy($criteria = null, $con = null)
+	public function getProfilePropertysRelatedByInverseProfilePropertyIdJoinUsersRelatedByDeletedBy($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseProfilePropertyPeer.php';
@@ -3362,7 +3362,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(ProfilePropertyPeer::INVERSE_PROFILE_PROPERTY_ID, $this->getId());
 
-				$this->collProfilePropertysRelatedByInverseProfilePropertyId = ProfilePropertyPeer::doSelectJoinUserRelatedByDeletedBy($criteria, $con);
+				$this->collProfilePropertysRelatedByInverseProfilePropertyId = ProfilePropertyPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -3372,7 +3372,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			$criteria->add(ProfilePropertyPeer::INVERSE_PROFILE_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastProfilePropertyRelatedByInverseProfilePropertyIdCriteria) || !$this->lastProfilePropertyRelatedByInverseProfilePropertyIdCriteria->equals($criteria)) {
-				$this->collProfilePropertysRelatedByInverseProfilePropertyId = ProfilePropertyPeer::doSelectJoinUserRelatedByDeletedBy($criteria, $con);
+				$this->collProfilePropertysRelatedByInverseProfilePropertyId = ProfilePropertyPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
 			}
 		}
 		$this->lastProfilePropertyRelatedByInverseProfilePropertyIdCriteria = $criteria;
@@ -3597,7 +3597,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in ProfileProperty.
 	 */
-	public function getConceptPropertysRelatedBySkosPropertyIdJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
+	public function getConceptPropertysRelatedBySkosPropertyIdJoinUsersRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
@@ -3616,7 +3616,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getSkosId());
 
-				$this->collConceptPropertysRelatedBySkosPropertyId = ConceptPropertyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collConceptPropertysRelatedBySkosPropertyId = ConceptPropertyPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -3626,7 +3626,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getSkosId());
 
 			if (!isset($this->lastConceptPropertyRelatedBySkosPropertyIdCriteria) || !$this->lastConceptPropertyRelatedBySkosPropertyIdCriteria->equals($criteria)) {
-				$this->collConceptPropertysRelatedBySkosPropertyId = ConceptPropertyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collConceptPropertysRelatedBySkosPropertyId = ConceptPropertyPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyRelatedBySkosPropertyIdCriteria = $criteria;
@@ -3646,7 +3646,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in ProfileProperty.
 	 */
-	public function getConceptPropertysRelatedBySkosPropertyIdJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
+	public function getConceptPropertysRelatedBySkosPropertyIdJoinUsersRelatedByUpdatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
@@ -3665,7 +3665,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getSkosId());
 
-				$this->collConceptPropertysRelatedBySkosPropertyId = ConceptPropertyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collConceptPropertysRelatedBySkosPropertyId = ConceptPropertyPeer::doSelectJoinUsersRelatedByUpdatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -3675,7 +3675,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getSkosId());
 
 			if (!isset($this->lastConceptPropertyRelatedBySkosPropertyIdCriteria) || !$this->lastConceptPropertyRelatedBySkosPropertyIdCriteria->equals($criteria)) {
-				$this->collConceptPropertysRelatedBySkosPropertyId = ConceptPropertyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collConceptPropertysRelatedBySkosPropertyId = ConceptPropertyPeer::doSelectJoinUsersRelatedByUpdatedUserId($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyRelatedBySkosPropertyIdCriteria = $criteria;
@@ -3879,6 +3879,153 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		return $this->collConceptPropertysRelatedBySkosPropertyId;
 	}
 
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this ProfileProperty is new, it will return
+	 * an empty collection; or if this ProfileProperty has previously
+	 * been saved, it will retrieve related ConceptPropertysRelatedBySkosPropertyId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in ProfileProperty.
+	 */
+	public function getConceptPropertysRelatedBySkosPropertyIdJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertysRelatedBySkosPropertyId === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertysRelatedBySkosPropertyId = array();
+			} else {
+
+				$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getSkosId());
+
+				$this->collConceptPropertysRelatedBySkosPropertyId = ConceptPropertyPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getSkosId());
+
+			if (!isset($this->lastConceptPropertyRelatedBySkosPropertyIdCriteria) || !$this->lastConceptPropertyRelatedBySkosPropertyIdCriteria->equals($criteria)) {
+				$this->collConceptPropertysRelatedBySkosPropertyId = ConceptPropertyPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyRelatedBySkosPropertyIdCriteria = $criteria;
+
+		return $this->collConceptPropertysRelatedBySkosPropertyId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this ProfileProperty is new, it will return
+	 * an empty collection; or if this ProfileProperty has previously
+	 * been saved, it will retrieve related ConceptPropertysRelatedBySkosPropertyId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in ProfileProperty.
+	 */
+	public function getConceptPropertysRelatedBySkosPropertyIdJoinUsersRelatedByUpdatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertysRelatedBySkosPropertyId === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertysRelatedBySkosPropertyId = array();
+			} else {
+
+				$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getSkosId());
+
+				$this->collConceptPropertysRelatedBySkosPropertyId = ConceptPropertyPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getSkosId());
+
+			if (!isset($this->lastConceptPropertyRelatedBySkosPropertyIdCriteria) || !$this->lastConceptPropertyRelatedBySkosPropertyIdCriteria->equals($criteria)) {
+				$this->collConceptPropertysRelatedBySkosPropertyId = ConceptPropertyPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyRelatedBySkosPropertyIdCriteria = $criteria;
+
+		return $this->collConceptPropertysRelatedBySkosPropertyId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this ProfileProperty is new, it will return
+	 * an empty collection; or if this ProfileProperty has previously
+	 * been saved, it will retrieve related ConceptPropertysRelatedBySkosPropertyId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in ProfileProperty.
+	 */
+	public function getConceptPropertysRelatedBySkosPropertyIdJoinUsersRelatedByDeletedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertysRelatedBySkosPropertyId === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertysRelatedBySkosPropertyId = array();
+			} else {
+
+				$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getSkosId());
+
+				$this->collConceptPropertysRelatedBySkosPropertyId = ConceptPropertyPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyPeer::SKOS_PROPERTY_ID, $this->getSkosId());
+
+			if (!isset($this->lastConceptPropertyRelatedBySkosPropertyIdCriteria) || !$this->lastConceptPropertyRelatedBySkosPropertyIdCriteria->equals($criteria)) {
+				$this->collConceptPropertysRelatedBySkosPropertyId = ConceptPropertyPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyRelatedBySkosPropertyIdCriteria = $criteria;
+
+		return $this->collConceptPropertysRelatedBySkosPropertyId;
+	}
+
 	/**
 	 * Temporary storage of collConceptPropertysRelatedByProfilePropertyId to save a possible db hit in
 	 * the event objects are add to the collection, but the
@@ -3998,7 +4145,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in ProfileProperty.
 	 */
-	public function getConceptPropertysRelatedByProfilePropertyIdJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
+	public function getConceptPropertysRelatedByProfilePropertyIdJoinUsersRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
@@ -4017,7 +4164,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPropertyPeer::PROFILE_PROPERTY_ID, $this->getId());
 
-				$this->collConceptPropertysRelatedByProfilePropertyId = ConceptPropertyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collConceptPropertysRelatedByProfilePropertyId = ConceptPropertyPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -4027,7 +4174,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			$criteria->add(ConceptPropertyPeer::PROFILE_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyRelatedByProfilePropertyIdCriteria) || !$this->lastConceptPropertyRelatedByProfilePropertyIdCriteria->equals($criteria)) {
-				$this->collConceptPropertysRelatedByProfilePropertyId = ConceptPropertyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collConceptPropertysRelatedByProfilePropertyId = ConceptPropertyPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyRelatedByProfilePropertyIdCriteria = $criteria;
@@ -4047,7 +4194,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in ProfileProperty.
 	 */
-	public function getConceptPropertysRelatedByProfilePropertyIdJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
+	public function getConceptPropertysRelatedByProfilePropertyIdJoinUsersRelatedByUpdatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
@@ -4066,7 +4213,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPropertyPeer::PROFILE_PROPERTY_ID, $this->getId());
 
-				$this->collConceptPropertysRelatedByProfilePropertyId = ConceptPropertyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collConceptPropertysRelatedByProfilePropertyId = ConceptPropertyPeer::doSelectJoinUsersRelatedByUpdatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -4076,7 +4223,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			$criteria->add(ConceptPropertyPeer::PROFILE_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyRelatedByProfilePropertyIdCriteria) || !$this->lastConceptPropertyRelatedByProfilePropertyIdCriteria->equals($criteria)) {
-				$this->collConceptPropertysRelatedByProfilePropertyId = ConceptPropertyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collConceptPropertysRelatedByProfilePropertyId = ConceptPropertyPeer::doSelectJoinUsersRelatedByUpdatedUserId($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyRelatedByProfilePropertyIdCriteria = $criteria;
@@ -4273,6 +4420,153 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastConceptPropertyRelatedByProfilePropertyIdCriteria) || !$this->lastConceptPropertyRelatedByProfilePropertyIdCriteria->equals($criteria)) {
 				$this->collConceptPropertysRelatedByProfilePropertyId = ConceptPropertyPeer::doSelectJoinStatus($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyRelatedByProfilePropertyIdCriteria = $criteria;
+
+		return $this->collConceptPropertysRelatedByProfilePropertyId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this ProfileProperty is new, it will return
+	 * an empty collection; or if this ProfileProperty has previously
+	 * been saved, it will retrieve related ConceptPropertysRelatedByProfilePropertyId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in ProfileProperty.
+	 */
+	public function getConceptPropertysRelatedByProfilePropertyIdJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertysRelatedByProfilePropertyId === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertysRelatedByProfilePropertyId = array();
+			} else {
+
+				$criteria->add(ConceptPropertyPeer::PROFILE_PROPERTY_ID, $this->getId());
+
+				$this->collConceptPropertysRelatedByProfilePropertyId = ConceptPropertyPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyPeer::PROFILE_PROPERTY_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyRelatedByProfilePropertyIdCriteria) || !$this->lastConceptPropertyRelatedByProfilePropertyIdCriteria->equals($criteria)) {
+				$this->collConceptPropertysRelatedByProfilePropertyId = ConceptPropertyPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyRelatedByProfilePropertyIdCriteria = $criteria;
+
+		return $this->collConceptPropertysRelatedByProfilePropertyId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this ProfileProperty is new, it will return
+	 * an empty collection; or if this ProfileProperty has previously
+	 * been saved, it will retrieve related ConceptPropertysRelatedByProfilePropertyId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in ProfileProperty.
+	 */
+	public function getConceptPropertysRelatedByProfilePropertyIdJoinUsersRelatedByUpdatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertysRelatedByProfilePropertyId === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertysRelatedByProfilePropertyId = array();
+			} else {
+
+				$criteria->add(ConceptPropertyPeer::PROFILE_PROPERTY_ID, $this->getId());
+
+				$this->collConceptPropertysRelatedByProfilePropertyId = ConceptPropertyPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyPeer::PROFILE_PROPERTY_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyRelatedByProfilePropertyIdCriteria) || !$this->lastConceptPropertyRelatedByProfilePropertyIdCriteria->equals($criteria)) {
+				$this->collConceptPropertysRelatedByProfilePropertyId = ConceptPropertyPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyRelatedByProfilePropertyIdCriteria = $criteria;
+
+		return $this->collConceptPropertysRelatedByProfilePropertyId;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this ProfileProperty is new, it will return
+	 * an empty collection; or if this ProfileProperty has previously
+	 * been saved, it will retrieve related ConceptPropertysRelatedByProfilePropertyId from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in ProfileProperty.
+	 */
+	public function getConceptPropertysRelatedByProfilePropertyIdJoinUsersRelatedByDeletedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertysRelatedByProfilePropertyId === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertysRelatedByProfilePropertyId = array();
+			} else {
+
+				$criteria->add(ConceptPropertyPeer::PROFILE_PROPERTY_ID, $this->getId());
+
+				$this->collConceptPropertysRelatedByProfilePropertyId = ConceptPropertyPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyPeer::PROFILE_PROPERTY_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyRelatedByProfilePropertyIdCriteria) || !$this->lastConceptPropertyRelatedByProfilePropertyIdCriteria->equals($criteria)) {
+				$this->collConceptPropertysRelatedByProfilePropertyId = ConceptPropertyPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyRelatedByProfilePropertyIdCriteria = $criteria;
@@ -4742,7 +5036,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in ProfileProperty.
 	 */
-	public function getConceptPropertyHistorysJoinUser($criteria = null, $con = null)
+	public function getConceptPropertyHistorysJoinUsersRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
@@ -4761,7 +5055,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPropertyHistoryPeer::PROFILE_PROPERTY_ID, $this->getId());
 
-				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUser($criteria, $con);
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -4771,7 +5065,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			$criteria->add(ConceptPropertyHistoryPeer::PROFILE_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyHistoryCriteria) || !$this->lastConceptPropertyHistoryCriteria->equals($criteria)) {
-				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUser($criteria, $con);
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyHistoryCriteria = $criteria;
@@ -4821,6 +5115,55 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastConceptPropertyHistoryCriteria) || !$this->lastConceptPropertyHistoryCriteria->equals($criteria)) {
 				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinFileImportHistory($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyHistoryCriteria = $criteria;
+
+		return $this->collConceptPropertyHistorys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this ProfileProperty is new, it will return
+	 * an empty collection; or if this ProfileProperty has previously
+	 * been saved, it will retrieve related ConceptPropertyHistorys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in ProfileProperty.
+	 */
+	public function getConceptPropertyHistorysJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertyHistorys === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertyHistorys = array();
+			} else {
+
+				$criteria->add(ConceptPropertyHistoryPeer::PROFILE_PROPERTY_ID, $this->getId());
+
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyHistoryPeer::PROFILE_PROPERTY_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyHistoryCriteria) || !$this->lastConceptPropertyHistoryCriteria->equals($criteria)) {
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyHistoryCriteria = $criteria;
@@ -4947,7 +5290,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in ProfileProperty.
 	 */
-	public function getSchemaPropertyElementsJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
+	public function getSchemaPropertyElementsJoinUsersRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseSchemaPropertyElementPeer.php';
@@ -4966,7 +5309,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, $this->getId());
 
-				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -4976,7 +5319,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			$criteria->add(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastSchemaPropertyElementCriteria) || !$this->lastSchemaPropertyElementCriteria->equals($criteria)) {
-				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyElementCriteria = $criteria;
@@ -4996,7 +5339,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in ProfileProperty.
 	 */
-	public function getSchemaPropertyElementsJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
+	public function getSchemaPropertyElementsJoinUsersRelatedByUpdatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseSchemaPropertyElementPeer.php';
@@ -5015,7 +5358,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, $this->getId());
 
-				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByUpdatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -5025,7 +5368,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			$criteria->add(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastSchemaPropertyElementCriteria) || !$this->lastSchemaPropertyElementCriteria->equals($criteria)) {
-				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByUpdatedUserId($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyElementCriteria = $criteria;
@@ -5045,7 +5388,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in ProfileProperty.
 	 */
-	public function getSchemaPropertyElementsJoinUserRelatedByDeletedUserId($criteria = null, $con = null)
+	public function getSchemaPropertyElementsJoinUsersRelatedByDeletedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseSchemaPropertyElementPeer.php';
@@ -5064,7 +5407,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, $this->getId());
 
-				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
+				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByDeletedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -5074,7 +5417,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			$criteria->add(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastSchemaPropertyElementCriteria) || !$this->lastSchemaPropertyElementCriteria->equals($criteria)) {
-				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
+				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByDeletedUserId($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyElementCriteria = $criteria;
@@ -5229,6 +5572,153 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 		return $this->collSchemaPropertyElements;
 	}
 
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this ProfileProperty is new, it will return
+	 * an empty collection; or if this ProfileProperty has previously
+	 * been saved, it will retrieve related SchemaPropertyElements from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in ProfileProperty.
+	 */
+	public function getSchemaPropertyElementsJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyElementPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertyElements === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertyElements = array();
+			} else {
+
+				$criteria->add(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, $this->getId());
+
+				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyElementCriteria) || !$this->lastSchemaPropertyElementCriteria->equals($criteria)) {
+				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyElementCriteria = $criteria;
+
+		return $this->collSchemaPropertyElements;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this ProfileProperty is new, it will return
+	 * an empty collection; or if this ProfileProperty has previously
+	 * been saved, it will retrieve related SchemaPropertyElements from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in ProfileProperty.
+	 */
+	public function getSchemaPropertyElementsJoinUsersRelatedByUpdatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyElementPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertyElements === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertyElements = array();
+			} else {
+
+				$criteria->add(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, $this->getId());
+
+				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyElementCriteria) || !$this->lastSchemaPropertyElementCriteria->equals($criteria)) {
+				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyElementCriteria = $criteria;
+
+		return $this->collSchemaPropertyElements;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this ProfileProperty is new, it will return
+	 * an empty collection; or if this ProfileProperty has previously
+	 * been saved, it will retrieve related SchemaPropertyElements from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in ProfileProperty.
+	 */
+	public function getSchemaPropertyElementsJoinUsersRelatedByDeletedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyElementPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertyElements === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertyElements = array();
+			} else {
+
+				$criteria->add(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, $this->getId());
+
+				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyElementPeer::PROFILE_PROPERTY_ID, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyElementCriteria) || !$this->lastSchemaPropertyElementCriteria->equals($criteria)) {
+				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyElementCriteria = $criteria;
+
+		return $this->collSchemaPropertyElements;
+	}
+
 	/**
 	 * Temporary storage of collSchemaPropertyElementHistorys to save a possible db hit in
 	 * the event objects are add to the collection, but the
@@ -5348,7 +5838,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in ProfileProperty.
 	 */
-	public function getSchemaPropertyElementHistorysJoinUser($criteria = null, $con = null)
+	public function getSchemaPropertyElementHistorysJoinUsersRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseSchemaPropertyElementHistoryPeer.php';
@@ -5367,7 +5857,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 
 				$criteria->add(SchemaPropertyElementHistoryPeer::PROFILE_PROPERTY_ID, $this->getId());
 
-				$this->collSchemaPropertyElementHistorys = SchemaPropertyElementHistoryPeer::doSelectJoinUser($criteria, $con);
+				$this->collSchemaPropertyElementHistorys = SchemaPropertyElementHistoryPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -5377,7 +5867,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			$criteria->add(SchemaPropertyElementHistoryPeer::PROFILE_PROPERTY_ID, $this->getId());
 
 			if (!isset($this->lastSchemaPropertyElementHistoryCriteria) || !$this->lastSchemaPropertyElementHistoryCriteria->equals($criteria)) {
-				$this->collSchemaPropertyElementHistorys = SchemaPropertyElementHistoryPeer::doSelectJoinUser($criteria, $con);
+				$this->collSchemaPropertyElementHistorys = SchemaPropertyElementHistoryPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyElementHistoryCriteria = $criteria;
@@ -5672,6 +6162,55 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastSchemaPropertyElementHistoryCriteria) || !$this->lastSchemaPropertyElementHistoryCriteria->equals($criteria)) {
 				$this->collSchemaPropertyElementHistorys = SchemaPropertyElementHistoryPeer::doSelectJoinFileImportHistory($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyElementHistoryCriteria = $criteria;
+
+		return $this->collSchemaPropertyElementHistorys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this ProfileProperty is new, it will return
+	 * an empty collection; or if this ProfileProperty has previously
+	 * been saved, it will retrieve related SchemaPropertyElementHistorys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in ProfileProperty.
+	 */
+	public function getSchemaPropertyElementHistorysJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyElementHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertyElementHistorys === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertyElementHistorys = array();
+			} else {
+
+				$criteria->add(SchemaPropertyElementHistoryPeer::PROFILE_PROPERTY_ID, $this->getId());
+
+				$this->collSchemaPropertyElementHistorys = SchemaPropertyElementHistoryPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyElementHistoryPeer::PROFILE_PROPERTY_ID, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyElementHistoryCriteria) || !$this->lastSchemaPropertyElementHistoryCriteria->equals($criteria)) {
+				$this->collSchemaPropertyElementHistorys = SchemaPropertyElementHistoryPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyElementHistoryCriteria = $criteria;

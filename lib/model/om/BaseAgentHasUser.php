@@ -75,9 +75,9 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	protected $is_admin_for = true;
 
 	/**
-	 * @var        User
+	 * @var        Users
 	 */
-	protected $aUser;
+	protected $aUsers;
 
 	/**
 	 * @var        Agent
@@ -360,8 +360,8 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 			$this->modifiedColumns[] = AgentHasUserPeer::USER_ID;
 		}
 
-		if ($this->aUser !== null && $this->aUser->getId() !== $v) {
-			$this->aUser = null;
+		if ($this->aUsers !== null && $this->aUsers->getId() !== $v) {
+			$this->aUsers = null;
 		}
 
 	} // setUserId()
@@ -596,11 +596,11 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
-			if ($this->aUser !== null) {
-				if ($this->aUser->isModified()) {
-					$affectedRows += $this->aUser->save($con);
+			if ($this->aUsers !== null) {
+				if ($this->aUsers->isModified()) {
+					$affectedRows += $this->aUsers->save($con);
 				}
-				$this->setUser($this->aUser);
+				$this->setUsers($this->aUsers);
 			}
 
 			if ($this->aAgent !== null) {
@@ -698,9 +698,9 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
-			if ($this->aUser !== null) {
-				if (!$this->aUser->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aUser->getValidationFailures());
+			if ($this->aUsers !== null) {
+				if (!$this->aUsers->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsers->getValidationFailures());
 				}
 			}
 
@@ -1019,13 +1019,13 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Declares an association between this object and a User object.
+	 * Declares an association between this object and a Users object.
 	 *
-	 * @param      User $v
+	 * @param      Users $v
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function setUser($v)
+	public function setUsers($v)
 	{
 
 
@@ -1036,24 +1036,24 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 		}
 
 
-		$this->aUser = $v;
+		$this->aUsers = $v;
 	}
 
 
 	/**
-	 * Get the associated User object
+	 * Get the associated Users object
 	 *
 	 * @param      Connection Optional Connection object.
-	 * @return     User The associated User object.
+	 * @return     Users The associated Users object.
 	 * @throws     PropelException
 	 */
-	public function getUser($con = null)
+	public function getUsers($con = null)
 	{
-		if ($this->aUser === null && ($this->user_id !== null)) {
+		if ($this->aUsers === null && ($this->user_id !== null)) {
 			// include the related Peer class
-			include_once 'lib/model/om/BaseUserPeer.php';
+			include_once 'lib/model/om/BaseUsersPeer.php';
 
-			$this->aUser = UserPeer::retrieveByPK($this->user_id, $con);
+			$this->aUsers = UsersPeer::retrieveByPK($this->user_id, $con);
 
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
@@ -1061,11 +1061,11 @@ abstract class BaseAgentHasUser extends BaseObject  implements Persistent {
 			   may be undesirable in many circumstances.
 			   As it can lead to a db query with many results that may
 			   never be used.
-			   $obj = UserPeer::retrieveByPK($this->user_id, $con);
-			   $obj->addUsers($this);
+			   $obj = UsersPeer::retrieveByPK($this->user_id, $con);
+			   $obj->addUserss($this);
 			 */
 		}
-		return $this->aUser;
+		return $this->aUsers;
 	}
 
 	/**

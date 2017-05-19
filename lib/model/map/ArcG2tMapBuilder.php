@@ -61,9 +61,9 @@ class ArcG2tMapBuilder {
 
 		$tMap->setUseIdGenerator(true);
 
-		$tMap->addColumn('G', 'G', 'int', CreoleTypes::SMALLINT, true, null);
+		$tMap->addColumn('G', 'G', 'int', CreoleTypes::INTEGER, true, null);
 
-		$tMap->addColumn('T', 'T', 'int', CreoleTypes::SMALLINT, true, null);
+		$tMap->addColumn('T', 'T', 'int', CreoleTypes::INTEGER, true, null);
 
 		$tMap->addPrimaryKey('ID', 'Id', 'int', CreoleTypes::INTEGER, true, null);
 

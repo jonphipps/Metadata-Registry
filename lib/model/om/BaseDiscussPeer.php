@@ -19,7 +19,7 @@ abstract class BaseDiscussPeer {
 	const CLASS_DEFAULT = 'lib.model.Discuss';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 17;
+	const NUM_COLUMNS = 20;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -76,6 +76,15 @@ abstract class BaseDiscussPeer {
 	/** the column name for the CONTENT field */
 	const CONTENT = 'reg_discuss.CONTENT';
 
+	/** the column name for the CREATED_BY field */
+	const CREATED_BY = 'reg_discuss.CREATED_BY';
+
+	/** the column name for the UPDATED_BY field */
+	const UPDATED_BY = 'reg_discuss.UPDATED_BY';
+
+	/** the column name for the DELETED_BY field */
+	const DELETED_BY = 'reg_discuss.DELETED_BY';
+
 	/** The PHP to DB Name Mapping */
 	private static $phpNameMap = null;
 
@@ -87,10 +96,10 @@ abstract class BaseDiscussPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'CreatedUserId', 'DeletedUserId', 'Uri', 'SchemaId', 'SchemaPropertyId', 'SchemaPropertyElementId', 'VocabularyId', 'ConceptId', 'ConceptPropertyId', 'RootId', 'ParentId', 'Subject', 'Content', ),
-		BasePeer::TYPE_COLNAME => array (DiscussPeer::ID, DiscussPeer::CREATED_AT, DiscussPeer::UPDATED_AT, DiscussPeer::DELETED_AT, DiscussPeer::CREATED_USER_ID, DiscussPeer::DELETED_USER_ID, DiscussPeer::URI, DiscussPeer::SCHEMA_ID, DiscussPeer::SCHEMA_PROPERTY_ID, DiscussPeer::SCHEMA_PROPERTY_ELEMENT_ID, DiscussPeer::VOCABULARY_ID, DiscussPeer::CONCEPT_ID, DiscussPeer::CONCEPT_PROPERTY_ID, DiscussPeer::ROOT_ID, DiscussPeer::PARENT_ID, DiscussPeer::SUBJECT, DiscussPeer::CONTENT, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'deleted_at', 'created_user_id', 'deleted_user_id', 'uri', 'schema_id', 'schema_property_id', 'schema_property_element_id', 'vocabulary_id', 'concept_id', 'concept_property_id', 'root_id', 'parent_id', 'subject', 'content', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'CreatedUserId', 'DeletedUserId', 'Uri', 'SchemaId', 'SchemaPropertyId', 'SchemaPropertyElementId', 'VocabularyId', 'ConceptId', 'ConceptPropertyId', 'RootId', 'ParentId', 'Subject', 'Content', 'CreatedBy', 'UpdatedBy', 'DeletedBy', ),
+		BasePeer::TYPE_COLNAME => array (DiscussPeer::ID, DiscussPeer::CREATED_AT, DiscussPeer::UPDATED_AT, DiscussPeer::DELETED_AT, DiscussPeer::CREATED_USER_ID, DiscussPeer::DELETED_USER_ID, DiscussPeer::URI, DiscussPeer::SCHEMA_ID, DiscussPeer::SCHEMA_PROPERTY_ID, DiscussPeer::SCHEMA_PROPERTY_ELEMENT_ID, DiscussPeer::VOCABULARY_ID, DiscussPeer::CONCEPT_ID, DiscussPeer::CONCEPT_PROPERTY_ID, DiscussPeer::ROOT_ID, DiscussPeer::PARENT_ID, DiscussPeer::SUBJECT, DiscussPeer::CONTENT, DiscussPeer::CREATED_BY, DiscussPeer::UPDATED_BY, DiscussPeer::DELETED_BY, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'deleted_at', 'created_user_id', 'deleted_user_id', 'uri', 'schema_id', 'schema_property_id', 'schema_property_element_id', 'vocabulary_id', 'concept_id', 'concept_property_id', 'root_id', 'parent_id', 'subject', 'content', 'created_by', 'updated_by', 'deleted_by', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, )
 	);
 
 	/**
@@ -100,10 +109,10 @@ abstract class BaseDiscussPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'DeletedAt' => 3, 'CreatedUserId' => 4, 'DeletedUserId' => 5, 'Uri' => 6, 'SchemaId' => 7, 'SchemaPropertyId' => 8, 'SchemaPropertyElementId' => 9, 'VocabularyId' => 10, 'ConceptId' => 11, 'ConceptPropertyId' => 12, 'RootId' => 13, 'ParentId' => 14, 'Subject' => 15, 'Content' => 16, ),
-		BasePeer::TYPE_COLNAME => array (DiscussPeer::ID => 0, DiscussPeer::CREATED_AT => 1, DiscussPeer::UPDATED_AT => 2, DiscussPeer::DELETED_AT => 3, DiscussPeer::CREATED_USER_ID => 4, DiscussPeer::DELETED_USER_ID => 5, DiscussPeer::URI => 6, DiscussPeer::SCHEMA_ID => 7, DiscussPeer::SCHEMA_PROPERTY_ID => 8, DiscussPeer::SCHEMA_PROPERTY_ELEMENT_ID => 9, DiscussPeer::VOCABULARY_ID => 10, DiscussPeer::CONCEPT_ID => 11, DiscussPeer::CONCEPT_PROPERTY_ID => 12, DiscussPeer::ROOT_ID => 13, DiscussPeer::PARENT_ID => 14, DiscussPeer::SUBJECT => 15, DiscussPeer::CONTENT => 16, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'deleted_at' => 3, 'created_user_id' => 4, 'deleted_user_id' => 5, 'uri' => 6, 'schema_id' => 7, 'schema_property_id' => 8, 'schema_property_element_id' => 9, 'vocabulary_id' => 10, 'concept_id' => 11, 'concept_property_id' => 12, 'root_id' => 13, 'parent_id' => 14, 'subject' => 15, 'content' => 16, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'DeletedAt' => 3, 'CreatedUserId' => 4, 'DeletedUserId' => 5, 'Uri' => 6, 'SchemaId' => 7, 'SchemaPropertyId' => 8, 'SchemaPropertyElementId' => 9, 'VocabularyId' => 10, 'ConceptId' => 11, 'ConceptPropertyId' => 12, 'RootId' => 13, 'ParentId' => 14, 'Subject' => 15, 'Content' => 16, 'CreatedBy' => 17, 'UpdatedBy' => 18, 'DeletedBy' => 19, ),
+		BasePeer::TYPE_COLNAME => array (DiscussPeer::ID => 0, DiscussPeer::CREATED_AT => 1, DiscussPeer::UPDATED_AT => 2, DiscussPeer::DELETED_AT => 3, DiscussPeer::CREATED_USER_ID => 4, DiscussPeer::DELETED_USER_ID => 5, DiscussPeer::URI => 6, DiscussPeer::SCHEMA_ID => 7, DiscussPeer::SCHEMA_PROPERTY_ID => 8, DiscussPeer::SCHEMA_PROPERTY_ELEMENT_ID => 9, DiscussPeer::VOCABULARY_ID => 10, DiscussPeer::CONCEPT_ID => 11, DiscussPeer::CONCEPT_PROPERTY_ID => 12, DiscussPeer::ROOT_ID => 13, DiscussPeer::PARENT_ID => 14, DiscussPeer::SUBJECT => 15, DiscussPeer::CONTENT => 16, DiscussPeer::CREATED_BY => 17, DiscussPeer::UPDATED_BY => 18, DiscussPeer::DELETED_BY => 19, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'deleted_at' => 3, 'created_user_id' => 4, 'deleted_user_id' => 5, 'uri' => 6, 'schema_id' => 7, 'schema_property_id' => 8, 'schema_property_element_id' => 9, 'vocabulary_id' => 10, 'concept_id' => 11, 'concept_property_id' => 12, 'root_id' => 13, 'parent_id' => 14, 'subject' => 15, 'content' => 16, 'created_by' => 17, 'updated_by' => 18, 'deleted_by' => 19, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, )
 	);
 
 	/**
@@ -237,6 +246,12 @@ abstract class BaseDiscussPeer {
         $criteria->addSelectColumn(($tableAlias) ? DiscussPeer::alias($tableAlias, DiscussPeer::SUBJECT) : DiscussPeer::SUBJECT);
 
         $criteria->addSelectColumn(($tableAlias) ? DiscussPeer::alias($tableAlias, DiscussPeer::CONTENT) : DiscussPeer::CONTENT);
+
+        $criteria->addSelectColumn(($tableAlias) ? DiscussPeer::alias($tableAlias, DiscussPeer::CREATED_BY) : DiscussPeer::CREATED_BY);
+
+        $criteria->addSelectColumn(($tableAlias) ? DiscussPeer::alias($tableAlias, DiscussPeer::UPDATED_BY) : DiscussPeer::UPDATED_BY);
+
+        $criteria->addSelectColumn(($tableAlias) ? DiscussPeer::alias($tableAlias, DiscussPeer::DELETED_BY) : DiscussPeer::DELETED_BY);
 
 	}
 
@@ -375,14 +390,14 @@ abstract class BaseDiscussPeer {
 	}
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related UserRelatedByCreatedUserId table
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByCreatedUserId table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinUserRelatedByCreatedUserId(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinUsersRelatedByCreatedUserId(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -401,7 +416,7 @@ abstract class BaseDiscussPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(DiscussPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(DiscussPeer::CREATED_USER_ID, UsersPeer::ID);
 
 		$rs = DiscussPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -414,14 +429,14 @@ abstract class BaseDiscussPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related UserRelatedByDeletedUserId table
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByDeletedUserId table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinUserRelatedByDeletedUserId(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinUsersRelatedByDeletedUserId(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -440,7 +455,7 @@ abstract class BaseDiscussPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(DiscussPeer::DELETED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(DiscussPeer::DELETED_USER_ID, UsersPeer::ID);
 
 		$rs = DiscussPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -687,13 +702,91 @@ abstract class BaseDiscussPeer {
 
 
 	/**
-	 * Selects a collection of Discuss objects pre-filled with their User objects.
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByCreatedBy table
+	 *
+	 * @param Criteria $c
+	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
+	 * @param Connection $con
+	 * @return int Number of matching rows.
+	 */
+	public static function doCountJoinUsersRelatedByCreatedBy(Criteria $criteria, $distinct = false, $con = null)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// clear out anything that might confuse the ORDER BY clause
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(DiscussPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(DiscussPeer::COUNT);
+		}
+
+		// just in case we're grouping: add those columns to the select statement
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(DiscussPeer::CREATED_BY, UsersPeer::ID);
+
+		$rs = DiscussPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			// no rows returned; we infer that means 0 matches.
+			return 0;
+		}
+	}
+
+
+	/**
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByDeletedBy table
+	 *
+	 * @param Criteria $c
+	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
+	 * @param Connection $con
+	 * @return int Number of matching rows.
+	 */
+	public static function doCountJoinUsersRelatedByDeletedBy(Criteria $criteria, $distinct = false, $con = null)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// clear out anything that might confuse the ORDER BY clause
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(DiscussPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(DiscussPeer::COUNT);
+		}
+
+		// just in case we're grouping: add those columns to the select statement
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(DiscussPeer::DELETED_BY, UsersPeer::ID);
+
+		$rs = DiscussPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			// no rows returned; we infer that means 0 matches.
+			return 0;
+		}
+	}
+
+
+	/**
+	 * Selects a collection of Discuss objects pre-filled with their Users objects.
 	 *
 	 * @return array Array of Discuss objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinUserRelatedByCreatedUserId(Criteria $c, $con = null)
+	public static function doSelectJoinUsersRelatedByCreatedUserId(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -704,9 +797,9 @@ abstract class BaseDiscussPeer {
 
 		DiscussPeer::addSelectColumns($c);
 		$startcol = (DiscussPeer::NUM_COLUMNS - DiscussPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-		UserPeer::addSelectColumns($c);
+		UsersPeer::addSelectColumns($c);
 
-		$c->addJoin(DiscussPeer::CREATED_USER_ID, UserPeer::ID);
+		$c->addJoin(DiscussPeer::CREATED_USER_ID, UsersPeer::ID);
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
@@ -718,7 +811,7 @@ abstract class BaseDiscussPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
@@ -726,7 +819,7 @@ abstract class BaseDiscussPeer {
 
 			$newObject = true;
 			foreach($results as $temp_obj1) {
-				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedUserId(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedUserId(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					// e.g. $author->addBookRelatedByBookId()
@@ -745,13 +838,13 @@ abstract class BaseDiscussPeer {
 
 
 	/**
-	 * Selects a collection of Discuss objects pre-filled with their User objects.
+	 * Selects a collection of Discuss objects pre-filled with their Users objects.
 	 *
 	 * @return array Array of Discuss objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinUserRelatedByDeletedUserId(Criteria $c, $con = null)
+	public static function doSelectJoinUsersRelatedByDeletedUserId(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -762,9 +855,9 @@ abstract class BaseDiscussPeer {
 
 		DiscussPeer::addSelectColumns($c);
 		$startcol = (DiscussPeer::NUM_COLUMNS - DiscussPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-		UserPeer::addSelectColumns($c);
+		UsersPeer::addSelectColumns($c);
 
-		$c->addJoin(DiscussPeer::DELETED_USER_ID, UserPeer::ID);
+		$c->addJoin(DiscussPeer::DELETED_USER_ID, UsersPeer::ID);
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
@@ -776,7 +869,7 @@ abstract class BaseDiscussPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
@@ -784,7 +877,7 @@ abstract class BaseDiscussPeer {
 
 			$newObject = true;
 			foreach($results as $temp_obj1) {
-				$temp_obj2 = $temp_obj1->getUserRelatedByDeletedUserId(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByDeletedUserId(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					// e.g. $author->addBookRelatedByBookId()
@@ -1151,6 +1244,122 @@ abstract class BaseDiscussPeer {
 
 
 	/**
+	 * Selects a collection of Discuss objects pre-filled with their Users objects.
+	 *
+	 * @return array Array of Discuss objects.
+	 * @throws PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinUsersRelatedByCreatedBy(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		// Set the correct dbName if it has not been overridden
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		DiscussPeer::addSelectColumns($c);
+		$startcol = (DiscussPeer::NUM_COLUMNS - DiscussPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		UsersPeer::addSelectColumns($c);
+
+		$c->addJoin(DiscussPeer::CREATED_BY, UsersPeer::ID);
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = DiscussPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = UsersPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol);
+
+			$newObject = true;
+			foreach($results as $temp_obj1) {
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedBy(); //CHECKME
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					// e.g. $author->addBookRelatedByBookId()
+					$temp_obj2->addDiscussRelatedByCreatedBy($obj1); //CHECKME
+					break;
+				}
+			}
+			if ($newObject) {
+				$obj2->initDiscusssRelatedByCreatedBy();
+				$obj2->addDiscussRelatedByCreatedBy($obj1); //CHECKME
+			}
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	/**
+	 * Selects a collection of Discuss objects pre-filled with their Users objects.
+	 *
+	 * @return array Array of Discuss objects.
+	 * @throws PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinUsersRelatedByDeletedBy(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		// Set the correct dbName if it has not been overridden
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		DiscussPeer::addSelectColumns($c);
+		$startcol = (DiscussPeer::NUM_COLUMNS - DiscussPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		UsersPeer::addSelectColumns($c);
+
+		$c->addJoin(DiscussPeer::DELETED_BY, UsersPeer::ID);
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = DiscussPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = UsersPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol);
+
+			$newObject = true;
+			foreach($results as $temp_obj1) {
+				$temp_obj2 = $temp_obj1->getUsersRelatedByDeletedBy(); //CHECKME
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					// e.g. $author->addBookRelatedByBookId()
+					$temp_obj2->addDiscussRelatedByDeletedBy($obj1); //CHECKME
+					break;
+				}
+			}
+			if ($newObject) {
+				$obj2->initDiscusssRelatedByDeletedBy();
+				$obj2->addDiscussRelatedByDeletedBy($obj1); //CHECKME
+			}
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	/**
 	 * Returns the number of rows matching criteria, joining all related tables
 	 *
 	 * @param Criteria $c
@@ -1176,9 +1385,9 @@ abstract class BaseDiscussPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(DiscussPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(DiscussPeer::CREATED_USER_ID, UsersPeer::ID);
 
-		$criteria->addJoin(DiscussPeer::DELETED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(DiscussPeer::DELETED_USER_ID, UsersPeer::ID);
 
 		$criteria->addJoin(DiscussPeer::SCHEMA_ID, SchemaPeer::ID);
 
@@ -1191,6 +1400,10 @@ abstract class BaseDiscussPeer {
 		$criteria->addJoin(DiscussPeer::CONCEPT_ID, ConceptPeer::ID);
 
 		$criteria->addJoin(DiscussPeer::CONCEPT_PROPERTY_ID, ConceptPropertyPeer::ID);
+
+		$criteria->addJoin(DiscussPeer::CREATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(DiscussPeer::DELETED_BY, UsersPeer::ID);
 
 		$rs = DiscussPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -1221,17 +1434,17 @@ abstract class BaseDiscussPeer {
 		DiscussPeer::addSelectColumns($c);
 		$startcol2 = (DiscussPeer::NUM_COLUMNS - DiscussPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c, 'a1');
-		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c, 'a1');
+		$startcol3 = $startcol2 + UsersPeer::NUM_COLUMNS;
 
-        $c->addJoin(DiscussPeer::CREATED_USER_ID, UserPeer::alias('a1', UserPeer::ID));
-        $c->addAlias('a1', UserPeer::TABLE_NAME);
+        $c->addJoin(DiscussPeer::CREATED_USER_ID, UsersPeer::alias('a1', UsersPeer::ID));
+        $c->addAlias('a1', UsersPeer::TABLE_NAME);
 
-		UserPeer::addSelectColumns($c, 'a2');
-		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c, 'a2');
+		$startcol4 = $startcol3 + UsersPeer::NUM_COLUMNS;
 
-        $c->addJoin(DiscussPeer::DELETED_USER_ID, UserPeer::alias('a2', UserPeer::ID));
-        $c->addAlias('a2', UserPeer::TABLE_NAME);
+        $c->addJoin(DiscussPeer::DELETED_USER_ID, UsersPeer::alias('a2', UsersPeer::ID));
+        $c->addAlias('a2', UsersPeer::TABLE_NAME);
 
 		SchemaPeer::addSelectColumns($c, 'a3');
 		$startcol5 = $startcol4 + SchemaPeer::NUM_COLUMNS;
@@ -1269,6 +1482,18 @@ abstract class BaseDiscussPeer {
         $c->addJoin(DiscussPeer::CONCEPT_PROPERTY_ID, ConceptPropertyPeer::alias('a8', ConceptPropertyPeer::ID));
         $c->addAlias('a8', ConceptPropertyPeer::TABLE_NAME);
 
+		UsersPeer::addSelectColumns($c, 'a11');
+		$startcol11 = $startcol10 + UsersPeer::NUM_COLUMNS;
+
+        $c->addJoin(DiscussPeer::CREATED_BY, UsersPeer::alias('a11', UsersPeer::ID));
+        $c->addAlias('a11', UsersPeer::TABLE_NAME);
+
+		UsersPeer::addSelectColumns($c, 'a12');
+		$startcol12 = $startcol11 + UsersPeer::NUM_COLUMNS;
+
+        $c->addJoin(DiscussPeer::DELETED_BY, UsersPeer::alias('a12', UsersPeer::ID));
+        $c->addAlias('a12', UsersPeer::TABLE_NAME);
+
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
@@ -1282,9 +1507,9 @@ abstract class BaseDiscussPeer {
 			$obj1->hydrate($rs);
 
 
-				// Add objects for joined User rows
+				// Add objects for joined Users rows
 	
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -1294,7 +1519,7 @@ abstract class BaseDiscussPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedUserId(); // CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedUserId(); // CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addDiscussRelatedByCreatedUserId($obj1); // CHECKME
@@ -1308,9 +1533,9 @@ abstract class BaseDiscussPeer {
 			}
 
 
-				// Add objects for joined User rows
+				// Add objects for joined Users rows
 	
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -1320,7 +1545,7 @@ abstract class BaseDiscussPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getUserRelatedByDeletedUserId(); // CHECKME
+				$temp_obj3 = $temp_obj1->getUsersRelatedByDeletedUserId(); // CHECKME
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj3->addDiscussRelatedByDeletedUserId($obj1); // CHECKME
@@ -1489,6 +1714,58 @@ abstract class BaseDiscussPeer {
 				$obj9->addDiscuss($obj1);
 			}
 
+
+				// Add objects for joined Users rows
+	
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj10 = new $cls();
+			$obj10->hydrate($rs, $startcol10);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj10 = $temp_obj1->getUsersRelatedByCreatedBy(); // CHECKME
+				if ($temp_obj10->getPrimaryKey() === $obj10->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj10->addDiscussRelatedByCreatedBy($obj1); // CHECKME
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj10->initDiscusssRelatedByCreatedBy();
+				$obj10->addDiscussRelatedByCreatedBy($obj1);
+			}
+
+
+				// Add objects for joined Users rows
+	
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj11 = new $cls();
+			$obj11->hydrate($rs, $startcol11);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj11 = $temp_obj1->getUsersRelatedByDeletedBy(); // CHECKME
+				if ($temp_obj11->getPrimaryKey() === $obj11->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj11->addDiscussRelatedByDeletedBy($obj1); // CHECKME
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj11->initDiscusssRelatedByDeletedBy();
+				$obj11->addDiscussRelatedByDeletedBy($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -1496,14 +1773,14 @@ abstract class BaseDiscussPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related UserRelatedByCreatedUserId table
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByCreatedUserId table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinAllExceptUserRelatedByCreatedUserId(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinAllExceptUsersRelatedByCreatedUserId(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -1545,14 +1822,14 @@ abstract class BaseDiscussPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related UserRelatedByDeletedUserId table
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByDeletedUserId table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinAllExceptUserRelatedByDeletedUserId(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinAllExceptUsersRelatedByDeletedUserId(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -1620,9 +1897,9 @@ abstract class BaseDiscussPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(DiscussPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(DiscussPeer::CREATED_USER_ID, UsersPeer::ID);
 
-		$criteria->addJoin(DiscussPeer::DELETED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(DiscussPeer::DELETED_USER_ID, UsersPeer::ID);
 
 		$criteria->addJoin(DiscussPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
 
@@ -1633,6 +1910,10 @@ abstract class BaseDiscussPeer {
 		$criteria->addJoin(DiscussPeer::CONCEPT_ID, ConceptPeer::ID);
 
 		$criteria->addJoin(DiscussPeer::CONCEPT_PROPERTY_ID, ConceptPropertyPeer::ID);
+
+		$criteria->addJoin(DiscussPeer::CREATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(DiscussPeer::DELETED_BY, UsersPeer::ID);
 
 		$rs = DiscussPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -1671,9 +1952,9 @@ abstract class BaseDiscussPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(DiscussPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(DiscussPeer::CREATED_USER_ID, UsersPeer::ID);
 
-		$criteria->addJoin(DiscussPeer::DELETED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(DiscussPeer::DELETED_USER_ID, UsersPeer::ID);
 
 		$criteria->addJoin(DiscussPeer::SCHEMA_ID, SchemaPeer::ID);
 
@@ -1684,6 +1965,10 @@ abstract class BaseDiscussPeer {
 		$criteria->addJoin(DiscussPeer::CONCEPT_ID, ConceptPeer::ID);
 
 		$criteria->addJoin(DiscussPeer::CONCEPT_PROPERTY_ID, ConceptPropertyPeer::ID);
+
+		$criteria->addJoin(DiscussPeer::CREATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(DiscussPeer::DELETED_BY, UsersPeer::ID);
 
 		$rs = DiscussPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -1722,9 +2007,9 @@ abstract class BaseDiscussPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(DiscussPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(DiscussPeer::CREATED_USER_ID, UsersPeer::ID);
 
-		$criteria->addJoin(DiscussPeer::DELETED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(DiscussPeer::DELETED_USER_ID, UsersPeer::ID);
 
 		$criteria->addJoin(DiscussPeer::SCHEMA_ID, SchemaPeer::ID);
 
@@ -1735,6 +2020,10 @@ abstract class BaseDiscussPeer {
 		$criteria->addJoin(DiscussPeer::CONCEPT_ID, ConceptPeer::ID);
 
 		$criteria->addJoin(DiscussPeer::CONCEPT_PROPERTY_ID, ConceptPropertyPeer::ID);
+
+		$criteria->addJoin(DiscussPeer::CREATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(DiscussPeer::DELETED_BY, UsersPeer::ID);
 
 		$rs = DiscussPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -1773,9 +2062,9 @@ abstract class BaseDiscussPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(DiscussPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(DiscussPeer::CREATED_USER_ID, UsersPeer::ID);
 
-		$criteria->addJoin(DiscussPeer::DELETED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(DiscussPeer::DELETED_USER_ID, UsersPeer::ID);
 
 		$criteria->addJoin(DiscussPeer::SCHEMA_ID, SchemaPeer::ID);
 
@@ -1786,6 +2075,10 @@ abstract class BaseDiscussPeer {
 		$criteria->addJoin(DiscussPeer::CONCEPT_ID, ConceptPeer::ID);
 
 		$criteria->addJoin(DiscussPeer::CONCEPT_PROPERTY_ID, ConceptPropertyPeer::ID);
+
+		$criteria->addJoin(DiscussPeer::CREATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(DiscussPeer::DELETED_BY, UsersPeer::ID);
 
 		$rs = DiscussPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -1824,9 +2117,9 @@ abstract class BaseDiscussPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(DiscussPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(DiscussPeer::CREATED_USER_ID, UsersPeer::ID);
 
-		$criteria->addJoin(DiscussPeer::DELETED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(DiscussPeer::DELETED_USER_ID, UsersPeer::ID);
 
 		$criteria->addJoin(DiscussPeer::SCHEMA_ID, SchemaPeer::ID);
 
@@ -1837,6 +2130,10 @@ abstract class BaseDiscussPeer {
 		$criteria->addJoin(DiscussPeer::VOCABULARY_ID, VocabularyPeer::ID);
 
 		$criteria->addJoin(DiscussPeer::CONCEPT_PROPERTY_ID, ConceptPropertyPeer::ID);
+
+		$criteria->addJoin(DiscussPeer::CREATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(DiscussPeer::DELETED_BY, UsersPeer::ID);
 
 		$rs = DiscussPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -1875,9 +2172,9 @@ abstract class BaseDiscussPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(DiscussPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(DiscussPeer::CREATED_USER_ID, UsersPeer::ID);
 
-		$criteria->addJoin(DiscussPeer::DELETED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(DiscussPeer::DELETED_USER_ID, UsersPeer::ID);
 
 		$criteria->addJoin(DiscussPeer::SCHEMA_ID, SchemaPeer::ID);
 
@@ -1888,6 +2185,10 @@ abstract class BaseDiscussPeer {
 		$criteria->addJoin(DiscussPeer::VOCABULARY_ID, VocabularyPeer::ID);
 
 		$criteria->addJoin(DiscussPeer::CONCEPT_ID, ConceptPeer::ID);
+
+		$criteria->addJoin(DiscussPeer::CREATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(DiscussPeer::DELETED_BY, UsersPeer::ID);
 
 		$rs = DiscussPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -1926,9 +2227,9 @@ abstract class BaseDiscussPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(DiscussPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(DiscussPeer::CREATED_USER_ID, UsersPeer::ID);
 
-		$criteria->addJoin(DiscussPeer::DELETED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(DiscussPeer::DELETED_USER_ID, UsersPeer::ID);
 
 		$criteria->addJoin(DiscussPeer::SCHEMA_ID, SchemaPeer::ID);
 
@@ -1941,6 +2242,10 @@ abstract class BaseDiscussPeer {
 		$criteria->addJoin(DiscussPeer::CONCEPT_ID, ConceptPeer::ID);
 
 		$criteria->addJoin(DiscussPeer::CONCEPT_PROPERTY_ID, ConceptPropertyPeer::ID);
+
+		$criteria->addJoin(DiscussPeer::CREATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(DiscussPeer::DELETED_BY, UsersPeer::ID);
 
 		$rs = DiscussPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -1979,9 +2284,62 @@ abstract class BaseDiscussPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(DiscussPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(DiscussPeer::CREATED_USER_ID, UsersPeer::ID);
 
-		$criteria->addJoin(DiscussPeer::DELETED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(DiscussPeer::DELETED_USER_ID, UsersPeer::ID);
+
+		$criteria->addJoin(DiscussPeer::SCHEMA_ID, SchemaPeer::ID);
+
+		$criteria->addJoin(DiscussPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
+
+		$criteria->addJoin(DiscussPeer::SCHEMA_PROPERTY_ELEMENT_ID, SchemaPropertyElementPeer::ID);
+
+		$criteria->addJoin(DiscussPeer::VOCABULARY_ID, VocabularyPeer::ID);
+
+		$criteria->addJoin(DiscussPeer::CONCEPT_ID, ConceptPeer::ID);
+
+		$criteria->addJoin(DiscussPeer::CONCEPT_PROPERTY_ID, ConceptPropertyPeer::ID);
+
+		$criteria->addJoin(DiscussPeer::CREATED_BY, UsersPeer::ID);
+
+		$criteria->addJoin(DiscussPeer::DELETED_BY, UsersPeer::ID);
+
+		$rs = DiscussPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			// no rows returned; we infer that means 0 matches.
+			return 0;
+		}
+	}
+
+
+	/**
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByCreatedBy table
+	 *
+	 * @param Criteria $c
+	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
+	 * @param Connection $con
+	 * @return int Number of matching rows.
+	 */
+	public static function doCountJoinAllExceptUsersRelatedByCreatedBy(Criteria $criteria, $distinct = false, $con = null)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// clear out anything that might confuse the ORDER BY clause
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(DiscussPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(DiscussPeer::COUNT);
+		}
+
+		// just in case we're grouping: add those columns to the select statement
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
 
 		$criteria->addJoin(DiscussPeer::SCHEMA_ID, SchemaPeer::ID);
 
@@ -2006,13 +2364,62 @@ abstract class BaseDiscussPeer {
 
 
 	/**
-	 * Selects a collection of Discuss objects pre-filled with all related objects except UserRelatedByCreatedUserId.
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByDeletedBy table
+	 *
+	 * @param Criteria $c
+	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
+	 * @param Connection $con
+	 * @return int Number of matching rows.
+	 */
+	public static function doCountJoinAllExceptUsersRelatedByDeletedBy(Criteria $criteria, $distinct = false, $con = null)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// clear out anything that might confuse the ORDER BY clause
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(DiscussPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(DiscussPeer::COUNT);
+		}
+
+		// just in case we're grouping: add those columns to the select statement
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(DiscussPeer::SCHEMA_ID, SchemaPeer::ID);
+
+		$criteria->addJoin(DiscussPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
+
+		$criteria->addJoin(DiscussPeer::SCHEMA_PROPERTY_ELEMENT_ID, SchemaPropertyElementPeer::ID);
+
+		$criteria->addJoin(DiscussPeer::VOCABULARY_ID, VocabularyPeer::ID);
+
+		$criteria->addJoin(DiscussPeer::CONCEPT_ID, ConceptPeer::ID);
+
+		$criteria->addJoin(DiscussPeer::CONCEPT_PROPERTY_ID, ConceptPropertyPeer::ID);
+
+		$rs = DiscussPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			// no rows returned; we infer that means 0 matches.
+			return 0;
+		}
+	}
+
+
+	/**
+	 * Selects a collection of Discuss objects pre-filled with all related objects except UsersRelatedByCreatedUserId.
 	 *
 	 * @return array Array of Discuss objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinAllExceptUserRelatedByCreatedUserId(Criteria $c, $con = null)
+	public static function doSelectJoinAllExceptUsersRelatedByCreatedUserId(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -2213,13 +2620,13 @@ abstract class BaseDiscussPeer {
 
 
 	/**
-	 * Selects a collection of Discuss objects pre-filled with all related objects except UserRelatedByDeletedUserId.
+	 * Selects a collection of Discuss objects pre-filled with all related objects except UsersRelatedByDeletedUserId.
 	 *
 	 * @return array Array of Discuss objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinAllExceptUserRelatedByDeletedUserId(Criteria $c, $con = null)
+	public static function doSelectJoinAllExceptUsersRelatedByDeletedUserId(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -2440,11 +2847,11 @@ abstract class BaseDiscussPeer {
 		DiscussPeer::addSelectColumns($c);
 		$startcol2 = (DiscussPeer::NUM_COLUMNS - DiscussPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + UsersPeer::NUM_COLUMNS;
 
-		UserPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + UsersPeer::NUM_COLUMNS;
 
 		SchemaPropertyPeer::addSelectColumns($c);
 		$startcol5 = $startcol4 + SchemaPropertyPeer::NUM_COLUMNS;
@@ -2461,9 +2868,15 @@ abstract class BaseDiscussPeer {
 		ConceptPropertyPeer::addSelectColumns($c);
 		$startcol9 = $startcol8 + ConceptPropertyPeer::NUM_COLUMNS;
 
-		$c->addJoin(DiscussPeer::CREATED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol10 = $startcol9 + UsersPeer::NUM_COLUMNS;
 
-		$c->addJoin(DiscussPeer::DELETED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol11 = $startcol10 + UsersPeer::NUM_COLUMNS;
+
+		$c->addJoin(DiscussPeer::CREATED_USER_ID, UsersPeer::ID);
+
+		$c->addJoin(DiscussPeer::DELETED_USER_ID, UsersPeer::ID);
 
 		$c->addJoin(DiscussPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
 
@@ -2474,6 +2887,10 @@ abstract class BaseDiscussPeer {
 		$c->addJoin(DiscussPeer::CONCEPT_ID, ConceptPeer::ID);
 
 		$c->addJoin(DiscussPeer::CONCEPT_PROPERTY_ID, ConceptPropertyPeer::ID);
+
+		$c->addJoin(DiscussPeer::CREATED_BY, UsersPeer::ID);
+
+		$c->addJoin(DiscussPeer::DELETED_BY, UsersPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -2487,7 +2904,7 @@ abstract class BaseDiscussPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -2497,7 +2914,7 @@ abstract class BaseDiscussPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedUserId(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedUserId(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addDiscussRelatedByCreatedUserId($obj1);
@@ -2510,7 +2927,7 @@ abstract class BaseDiscussPeer {
 				$obj2->addDiscussRelatedByCreatedUserId($obj1);
 			}
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -2520,7 +2937,7 @@ abstract class BaseDiscussPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getUserRelatedByDeletedUserId(); //CHECKME
+				$temp_obj3 = $temp_obj1->getUsersRelatedByDeletedUserId(); //CHECKME
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj3->addDiscussRelatedByDeletedUserId($obj1);
@@ -2648,6 +3065,52 @@ abstract class BaseDiscussPeer {
 				$obj8->addDiscuss($obj1);
 			}
 
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj9  = new $cls();
+			$obj9->hydrate($rs, $startcol9);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj9 = $temp_obj1->getUsersRelatedByCreatedBy(); //CHECKME
+				if ($temp_obj9->getPrimaryKey() === $obj9->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj9->addDiscussRelatedByCreatedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj9->initDiscusssRelatedByCreatedBy();
+				$obj9->addDiscussRelatedByCreatedBy($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj10  = new $cls();
+			$obj10->hydrate($rs, $startcol10);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj10 = $temp_obj1->getUsersRelatedByDeletedBy(); //CHECKME
+				if ($temp_obj10->getPrimaryKey() === $obj10->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj10->addDiscussRelatedByDeletedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj10->initDiscusssRelatedByDeletedBy();
+				$obj10->addDiscussRelatedByDeletedBy($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -2675,11 +3138,11 @@ abstract class BaseDiscussPeer {
 		DiscussPeer::addSelectColumns($c);
 		$startcol2 = (DiscussPeer::NUM_COLUMNS - DiscussPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + UsersPeer::NUM_COLUMNS;
 
-		UserPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + UsersPeer::NUM_COLUMNS;
 
 		SchemaPeer::addSelectColumns($c);
 		$startcol5 = $startcol4 + SchemaPeer::NUM_COLUMNS;
@@ -2696,9 +3159,15 @@ abstract class BaseDiscussPeer {
 		ConceptPropertyPeer::addSelectColumns($c);
 		$startcol9 = $startcol8 + ConceptPropertyPeer::NUM_COLUMNS;
 
-		$c->addJoin(DiscussPeer::CREATED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol10 = $startcol9 + UsersPeer::NUM_COLUMNS;
 
-		$c->addJoin(DiscussPeer::DELETED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol11 = $startcol10 + UsersPeer::NUM_COLUMNS;
+
+		$c->addJoin(DiscussPeer::CREATED_USER_ID, UsersPeer::ID);
+
+		$c->addJoin(DiscussPeer::DELETED_USER_ID, UsersPeer::ID);
 
 		$c->addJoin(DiscussPeer::SCHEMA_ID, SchemaPeer::ID);
 
@@ -2709,6 +3178,10 @@ abstract class BaseDiscussPeer {
 		$c->addJoin(DiscussPeer::CONCEPT_ID, ConceptPeer::ID);
 
 		$c->addJoin(DiscussPeer::CONCEPT_PROPERTY_ID, ConceptPropertyPeer::ID);
+
+		$c->addJoin(DiscussPeer::CREATED_BY, UsersPeer::ID);
+
+		$c->addJoin(DiscussPeer::DELETED_BY, UsersPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -2722,7 +3195,7 @@ abstract class BaseDiscussPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -2732,7 +3205,7 @@ abstract class BaseDiscussPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedUserId(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedUserId(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addDiscussRelatedByCreatedUserId($obj1);
@@ -2745,7 +3218,7 @@ abstract class BaseDiscussPeer {
 				$obj2->addDiscussRelatedByCreatedUserId($obj1);
 			}
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -2755,7 +3228,7 @@ abstract class BaseDiscussPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getUserRelatedByDeletedUserId(); //CHECKME
+				$temp_obj3 = $temp_obj1->getUsersRelatedByDeletedUserId(); //CHECKME
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj3->addDiscussRelatedByDeletedUserId($obj1);
@@ -2883,6 +3356,52 @@ abstract class BaseDiscussPeer {
 				$obj8->addDiscuss($obj1);
 			}
 
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj9  = new $cls();
+			$obj9->hydrate($rs, $startcol9);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj9 = $temp_obj1->getUsersRelatedByCreatedBy(); //CHECKME
+				if ($temp_obj9->getPrimaryKey() === $obj9->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj9->addDiscussRelatedByCreatedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj9->initDiscusssRelatedByCreatedBy();
+				$obj9->addDiscussRelatedByCreatedBy($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj10  = new $cls();
+			$obj10->hydrate($rs, $startcol10);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj10 = $temp_obj1->getUsersRelatedByDeletedBy(); //CHECKME
+				if ($temp_obj10->getPrimaryKey() === $obj10->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj10->addDiscussRelatedByDeletedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj10->initDiscusssRelatedByDeletedBy();
+				$obj10->addDiscussRelatedByDeletedBy($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -2910,11 +3429,11 @@ abstract class BaseDiscussPeer {
 		DiscussPeer::addSelectColumns($c);
 		$startcol2 = (DiscussPeer::NUM_COLUMNS - DiscussPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + UsersPeer::NUM_COLUMNS;
 
-		UserPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + UsersPeer::NUM_COLUMNS;
 
 		SchemaPeer::addSelectColumns($c);
 		$startcol5 = $startcol4 + SchemaPeer::NUM_COLUMNS;
@@ -2931,9 +3450,15 @@ abstract class BaseDiscussPeer {
 		ConceptPropertyPeer::addSelectColumns($c);
 		$startcol9 = $startcol8 + ConceptPropertyPeer::NUM_COLUMNS;
 
-		$c->addJoin(DiscussPeer::CREATED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol10 = $startcol9 + UsersPeer::NUM_COLUMNS;
 
-		$c->addJoin(DiscussPeer::DELETED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol11 = $startcol10 + UsersPeer::NUM_COLUMNS;
+
+		$c->addJoin(DiscussPeer::CREATED_USER_ID, UsersPeer::ID);
+
+		$c->addJoin(DiscussPeer::DELETED_USER_ID, UsersPeer::ID);
 
 		$c->addJoin(DiscussPeer::SCHEMA_ID, SchemaPeer::ID);
 
@@ -2944,6 +3469,10 @@ abstract class BaseDiscussPeer {
 		$c->addJoin(DiscussPeer::CONCEPT_ID, ConceptPeer::ID);
 
 		$c->addJoin(DiscussPeer::CONCEPT_PROPERTY_ID, ConceptPropertyPeer::ID);
+
+		$c->addJoin(DiscussPeer::CREATED_BY, UsersPeer::ID);
+
+		$c->addJoin(DiscussPeer::DELETED_BY, UsersPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -2957,7 +3486,7 @@ abstract class BaseDiscussPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -2967,7 +3496,7 @@ abstract class BaseDiscussPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedUserId(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedUserId(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addDiscussRelatedByCreatedUserId($obj1);
@@ -2980,7 +3509,7 @@ abstract class BaseDiscussPeer {
 				$obj2->addDiscussRelatedByCreatedUserId($obj1);
 			}
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -2990,7 +3519,7 @@ abstract class BaseDiscussPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getUserRelatedByDeletedUserId(); //CHECKME
+				$temp_obj3 = $temp_obj1->getUsersRelatedByDeletedUserId(); //CHECKME
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj3->addDiscussRelatedByDeletedUserId($obj1);
@@ -3118,6 +3647,52 @@ abstract class BaseDiscussPeer {
 				$obj8->addDiscuss($obj1);
 			}
 
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj9  = new $cls();
+			$obj9->hydrate($rs, $startcol9);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj9 = $temp_obj1->getUsersRelatedByCreatedBy(); //CHECKME
+				if ($temp_obj9->getPrimaryKey() === $obj9->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj9->addDiscussRelatedByCreatedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj9->initDiscusssRelatedByCreatedBy();
+				$obj9->addDiscussRelatedByCreatedBy($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj10  = new $cls();
+			$obj10->hydrate($rs, $startcol10);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj10 = $temp_obj1->getUsersRelatedByDeletedBy(); //CHECKME
+				if ($temp_obj10->getPrimaryKey() === $obj10->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj10->addDiscussRelatedByDeletedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj10->initDiscusssRelatedByDeletedBy();
+				$obj10->addDiscussRelatedByDeletedBy($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -3145,11 +3720,11 @@ abstract class BaseDiscussPeer {
 		DiscussPeer::addSelectColumns($c);
 		$startcol2 = (DiscussPeer::NUM_COLUMNS - DiscussPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + UsersPeer::NUM_COLUMNS;
 
-		UserPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + UsersPeer::NUM_COLUMNS;
 
 		SchemaPeer::addSelectColumns($c);
 		$startcol5 = $startcol4 + SchemaPeer::NUM_COLUMNS;
@@ -3166,9 +3741,15 @@ abstract class BaseDiscussPeer {
 		ConceptPropertyPeer::addSelectColumns($c);
 		$startcol9 = $startcol8 + ConceptPropertyPeer::NUM_COLUMNS;
 
-		$c->addJoin(DiscussPeer::CREATED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol10 = $startcol9 + UsersPeer::NUM_COLUMNS;
 
-		$c->addJoin(DiscussPeer::DELETED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol11 = $startcol10 + UsersPeer::NUM_COLUMNS;
+
+		$c->addJoin(DiscussPeer::CREATED_USER_ID, UsersPeer::ID);
+
+		$c->addJoin(DiscussPeer::DELETED_USER_ID, UsersPeer::ID);
 
 		$c->addJoin(DiscussPeer::SCHEMA_ID, SchemaPeer::ID);
 
@@ -3179,6 +3760,10 @@ abstract class BaseDiscussPeer {
 		$c->addJoin(DiscussPeer::CONCEPT_ID, ConceptPeer::ID);
 
 		$c->addJoin(DiscussPeer::CONCEPT_PROPERTY_ID, ConceptPropertyPeer::ID);
+
+		$c->addJoin(DiscussPeer::CREATED_BY, UsersPeer::ID);
+
+		$c->addJoin(DiscussPeer::DELETED_BY, UsersPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -3192,7 +3777,7 @@ abstract class BaseDiscussPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -3202,7 +3787,7 @@ abstract class BaseDiscussPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedUserId(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedUserId(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addDiscussRelatedByCreatedUserId($obj1);
@@ -3215,7 +3800,7 @@ abstract class BaseDiscussPeer {
 				$obj2->addDiscussRelatedByCreatedUserId($obj1);
 			}
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -3225,7 +3810,7 @@ abstract class BaseDiscussPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getUserRelatedByDeletedUserId(); //CHECKME
+				$temp_obj3 = $temp_obj1->getUsersRelatedByDeletedUserId(); //CHECKME
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj3->addDiscussRelatedByDeletedUserId($obj1);
@@ -3353,6 +3938,52 @@ abstract class BaseDiscussPeer {
 				$obj8->addDiscuss($obj1);
 			}
 
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj9  = new $cls();
+			$obj9->hydrate($rs, $startcol9);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj9 = $temp_obj1->getUsersRelatedByCreatedBy(); //CHECKME
+				if ($temp_obj9->getPrimaryKey() === $obj9->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj9->addDiscussRelatedByCreatedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj9->initDiscusssRelatedByCreatedBy();
+				$obj9->addDiscussRelatedByCreatedBy($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj10  = new $cls();
+			$obj10->hydrate($rs, $startcol10);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj10 = $temp_obj1->getUsersRelatedByDeletedBy(); //CHECKME
+				if ($temp_obj10->getPrimaryKey() === $obj10->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj10->addDiscussRelatedByDeletedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj10->initDiscusssRelatedByDeletedBy();
+				$obj10->addDiscussRelatedByDeletedBy($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -3380,11 +4011,11 @@ abstract class BaseDiscussPeer {
 		DiscussPeer::addSelectColumns($c);
 		$startcol2 = (DiscussPeer::NUM_COLUMNS - DiscussPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + UsersPeer::NUM_COLUMNS;
 
-		UserPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + UsersPeer::NUM_COLUMNS;
 
 		SchemaPeer::addSelectColumns($c);
 		$startcol5 = $startcol4 + SchemaPeer::NUM_COLUMNS;
@@ -3401,9 +4032,15 @@ abstract class BaseDiscussPeer {
 		ConceptPropertyPeer::addSelectColumns($c);
 		$startcol9 = $startcol8 + ConceptPropertyPeer::NUM_COLUMNS;
 
-		$c->addJoin(DiscussPeer::CREATED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol10 = $startcol9 + UsersPeer::NUM_COLUMNS;
 
-		$c->addJoin(DiscussPeer::DELETED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol11 = $startcol10 + UsersPeer::NUM_COLUMNS;
+
+		$c->addJoin(DiscussPeer::CREATED_USER_ID, UsersPeer::ID);
+
+		$c->addJoin(DiscussPeer::DELETED_USER_ID, UsersPeer::ID);
 
 		$c->addJoin(DiscussPeer::SCHEMA_ID, SchemaPeer::ID);
 
@@ -3414,6 +4051,10 @@ abstract class BaseDiscussPeer {
 		$c->addJoin(DiscussPeer::VOCABULARY_ID, VocabularyPeer::ID);
 
 		$c->addJoin(DiscussPeer::CONCEPT_PROPERTY_ID, ConceptPropertyPeer::ID);
+
+		$c->addJoin(DiscussPeer::CREATED_BY, UsersPeer::ID);
+
+		$c->addJoin(DiscussPeer::DELETED_BY, UsersPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -3427,7 +4068,7 @@ abstract class BaseDiscussPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -3437,7 +4078,7 @@ abstract class BaseDiscussPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedUserId(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedUserId(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addDiscussRelatedByCreatedUserId($obj1);
@@ -3450,7 +4091,7 @@ abstract class BaseDiscussPeer {
 				$obj2->addDiscussRelatedByCreatedUserId($obj1);
 			}
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -3460,7 +4101,7 @@ abstract class BaseDiscussPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getUserRelatedByDeletedUserId(); //CHECKME
+				$temp_obj3 = $temp_obj1->getUsersRelatedByDeletedUserId(); //CHECKME
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj3->addDiscussRelatedByDeletedUserId($obj1);
@@ -3588,6 +4229,52 @@ abstract class BaseDiscussPeer {
 				$obj8->addDiscuss($obj1);
 			}
 
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj9  = new $cls();
+			$obj9->hydrate($rs, $startcol9);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj9 = $temp_obj1->getUsersRelatedByCreatedBy(); //CHECKME
+				if ($temp_obj9->getPrimaryKey() === $obj9->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj9->addDiscussRelatedByCreatedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj9->initDiscusssRelatedByCreatedBy();
+				$obj9->addDiscussRelatedByCreatedBy($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj10  = new $cls();
+			$obj10->hydrate($rs, $startcol10);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj10 = $temp_obj1->getUsersRelatedByDeletedBy(); //CHECKME
+				if ($temp_obj10->getPrimaryKey() === $obj10->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj10->addDiscussRelatedByDeletedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj10->initDiscusssRelatedByDeletedBy();
+				$obj10->addDiscussRelatedByDeletedBy($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -3615,11 +4302,11 @@ abstract class BaseDiscussPeer {
 		DiscussPeer::addSelectColumns($c);
 		$startcol2 = (DiscussPeer::NUM_COLUMNS - DiscussPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + UsersPeer::NUM_COLUMNS;
 
-		UserPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + UsersPeer::NUM_COLUMNS;
 
 		SchemaPeer::addSelectColumns($c);
 		$startcol5 = $startcol4 + SchemaPeer::NUM_COLUMNS;
@@ -3636,9 +4323,15 @@ abstract class BaseDiscussPeer {
 		ConceptPeer::addSelectColumns($c);
 		$startcol9 = $startcol8 + ConceptPeer::NUM_COLUMNS;
 
-		$c->addJoin(DiscussPeer::CREATED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol10 = $startcol9 + UsersPeer::NUM_COLUMNS;
 
-		$c->addJoin(DiscussPeer::DELETED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol11 = $startcol10 + UsersPeer::NUM_COLUMNS;
+
+		$c->addJoin(DiscussPeer::CREATED_USER_ID, UsersPeer::ID);
+
+		$c->addJoin(DiscussPeer::DELETED_USER_ID, UsersPeer::ID);
 
 		$c->addJoin(DiscussPeer::SCHEMA_ID, SchemaPeer::ID);
 
@@ -3649,6 +4342,10 @@ abstract class BaseDiscussPeer {
 		$c->addJoin(DiscussPeer::VOCABULARY_ID, VocabularyPeer::ID);
 
 		$c->addJoin(DiscussPeer::CONCEPT_ID, ConceptPeer::ID);
+
+		$c->addJoin(DiscussPeer::CREATED_BY, UsersPeer::ID);
+
+		$c->addJoin(DiscussPeer::DELETED_BY, UsersPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -3662,7 +4359,7 @@ abstract class BaseDiscussPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -3672,7 +4369,7 @@ abstract class BaseDiscussPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedUserId(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedUserId(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addDiscussRelatedByCreatedUserId($obj1);
@@ -3685,7 +4382,7 @@ abstract class BaseDiscussPeer {
 				$obj2->addDiscussRelatedByCreatedUserId($obj1);
 			}
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -3695,7 +4392,7 @@ abstract class BaseDiscussPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getUserRelatedByDeletedUserId(); //CHECKME
+				$temp_obj3 = $temp_obj1->getUsersRelatedByDeletedUserId(); //CHECKME
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj3->addDiscussRelatedByDeletedUserId($obj1);
@@ -3821,6 +4518,52 @@ abstract class BaseDiscussPeer {
 			if ($newObject) {
 				$obj8->initDiscusss();
 				$obj8->addDiscuss($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj9  = new $cls();
+			$obj9->hydrate($rs, $startcol9);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj9 = $temp_obj1->getUsersRelatedByCreatedBy(); //CHECKME
+				if ($temp_obj9->getPrimaryKey() === $obj9->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj9->addDiscussRelatedByCreatedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj9->initDiscusssRelatedByCreatedBy();
+				$obj9->addDiscussRelatedByCreatedBy($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj10  = new $cls();
+			$obj10->hydrate($rs, $startcol10);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj10 = $temp_obj1->getUsersRelatedByDeletedBy(); //CHECKME
+				if ($temp_obj10->getPrimaryKey() === $obj10->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj10->addDiscussRelatedByDeletedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj10->initDiscusssRelatedByDeletedBy();
+				$obj10->addDiscussRelatedByDeletedBy($obj1);
 			}
 
 			$results[] = $obj1;
@@ -3850,11 +4593,11 @@ abstract class BaseDiscussPeer {
 		DiscussPeer::addSelectColumns($c);
 		$startcol2 = (DiscussPeer::NUM_COLUMNS - DiscussPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + UsersPeer::NUM_COLUMNS;
 
-		UserPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + UsersPeer::NUM_COLUMNS;
 
 		SchemaPeer::addSelectColumns($c);
 		$startcol5 = $startcol4 + SchemaPeer::NUM_COLUMNS;
@@ -3874,9 +4617,15 @@ abstract class BaseDiscussPeer {
 		ConceptPropertyPeer::addSelectColumns($c);
 		$startcol10 = $startcol9 + ConceptPropertyPeer::NUM_COLUMNS;
 
-		$c->addJoin(DiscussPeer::CREATED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol11 = $startcol10 + UsersPeer::NUM_COLUMNS;
 
-		$c->addJoin(DiscussPeer::DELETED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol12 = $startcol11 + UsersPeer::NUM_COLUMNS;
+
+		$c->addJoin(DiscussPeer::CREATED_USER_ID, UsersPeer::ID);
+
+		$c->addJoin(DiscussPeer::DELETED_USER_ID, UsersPeer::ID);
 
 		$c->addJoin(DiscussPeer::SCHEMA_ID, SchemaPeer::ID);
 
@@ -3890,6 +4639,10 @@ abstract class BaseDiscussPeer {
 
 		$c->addJoin(DiscussPeer::CONCEPT_PROPERTY_ID, ConceptPropertyPeer::ID);
 
+		$c->addJoin(DiscussPeer::CREATED_BY, UsersPeer::ID);
+
+		$c->addJoin(DiscussPeer::DELETED_BY, UsersPeer::ID);
+
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
@@ -3902,7 +4655,7 @@ abstract class BaseDiscussPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -3912,7 +4665,7 @@ abstract class BaseDiscussPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedUserId(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedUserId(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addDiscussRelatedByCreatedUserId($obj1);
@@ -3925,7 +4678,7 @@ abstract class BaseDiscussPeer {
 				$obj2->addDiscussRelatedByCreatedUserId($obj1);
 			}
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -3935,7 +4688,7 @@ abstract class BaseDiscussPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getUserRelatedByDeletedUserId(); //CHECKME
+				$temp_obj3 = $temp_obj1->getUsersRelatedByDeletedUserId(); //CHECKME
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj3->addDiscussRelatedByDeletedUserId($obj1);
@@ -4084,6 +4837,52 @@ abstract class BaseDiscussPeer {
 			if ($newObject) {
 				$obj9->initDiscusss();
 				$obj9->addDiscuss($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj10  = new $cls();
+			$obj10->hydrate($rs, $startcol10);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj10 = $temp_obj1->getUsersRelatedByCreatedBy(); //CHECKME
+				if ($temp_obj10->getPrimaryKey() === $obj10->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj10->addDiscussRelatedByCreatedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj10->initDiscusssRelatedByCreatedBy();
+				$obj10->addDiscussRelatedByCreatedBy($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj11  = new $cls();
+			$obj11->hydrate($rs, $startcol11);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj11 = $temp_obj1->getUsersRelatedByDeletedBy(); //CHECKME
+				if ($temp_obj11->getPrimaryKey() === $obj11->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj11->addDiscussRelatedByDeletedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj11->initDiscusssRelatedByDeletedBy();
+				$obj11->addDiscussRelatedByDeletedBy($obj1);
 			}
 
 			$results[] = $obj1;
@@ -4113,11 +4912,11 @@ abstract class BaseDiscussPeer {
 		DiscussPeer::addSelectColumns($c);
 		$startcol2 = (DiscussPeer::NUM_COLUMNS - DiscussPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + UsersPeer::NUM_COLUMNS;
 
-		UserPeer::addSelectColumns($c);
-		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + UsersPeer::NUM_COLUMNS;
 
 		SchemaPeer::addSelectColumns($c);
 		$startcol5 = $startcol4 + SchemaPeer::NUM_COLUMNS;
@@ -4137,9 +4936,15 @@ abstract class BaseDiscussPeer {
 		ConceptPropertyPeer::addSelectColumns($c);
 		$startcol10 = $startcol9 + ConceptPropertyPeer::NUM_COLUMNS;
 
-		$c->addJoin(DiscussPeer::CREATED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol11 = $startcol10 + UsersPeer::NUM_COLUMNS;
 
-		$c->addJoin(DiscussPeer::DELETED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol12 = $startcol11 + UsersPeer::NUM_COLUMNS;
+
+		$c->addJoin(DiscussPeer::CREATED_USER_ID, UsersPeer::ID);
+
+		$c->addJoin(DiscussPeer::DELETED_USER_ID, UsersPeer::ID);
 
 		$c->addJoin(DiscussPeer::SCHEMA_ID, SchemaPeer::ID);
 
@@ -4153,6 +4958,10 @@ abstract class BaseDiscussPeer {
 
 		$c->addJoin(DiscussPeer::CONCEPT_PROPERTY_ID, ConceptPropertyPeer::ID);
 
+		$c->addJoin(DiscussPeer::CREATED_BY, UsersPeer::ID);
+
+		$c->addJoin(DiscussPeer::DELETED_BY, UsersPeer::ID);
+
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
@@ -4165,7 +4974,7 @@ abstract class BaseDiscussPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -4175,7 +4984,7 @@ abstract class BaseDiscussPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUserRelatedByCreatedUserId(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedUserId(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addDiscussRelatedByCreatedUserId($obj1);
@@ -4188,7 +4997,7 @@ abstract class BaseDiscussPeer {
 				$obj2->addDiscussRelatedByCreatedUserId($obj1);
 			}
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -4198,7 +5007,7 @@ abstract class BaseDiscussPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getUserRelatedByDeletedUserId(); //CHECKME
+				$temp_obj3 = $temp_obj1->getUsersRelatedByDeletedUserId(); //CHECKME
 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj3->addDiscussRelatedByDeletedUserId($obj1);
@@ -4347,6 +5156,466 @@ abstract class BaseDiscussPeer {
 			if ($newObject) {
 				$obj9->initDiscusss();
 				$obj9->addDiscuss($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj10  = new $cls();
+			$obj10->hydrate($rs, $startcol10);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj10 = $temp_obj1->getUsersRelatedByCreatedBy(); //CHECKME
+				if ($temp_obj10->getPrimaryKey() === $obj10->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj10->addDiscussRelatedByCreatedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj10->initDiscusssRelatedByCreatedBy();
+				$obj10->addDiscussRelatedByCreatedBy($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj11  = new $cls();
+			$obj11->hydrate($rs, $startcol11);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj11 = $temp_obj1->getUsersRelatedByDeletedBy(); //CHECKME
+				if ($temp_obj11->getPrimaryKey() === $obj11->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj11->addDiscussRelatedByDeletedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj11->initDiscusssRelatedByDeletedBy();
+				$obj11->addDiscussRelatedByDeletedBy($obj1);
+			}
+
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	/**
+	 * Selects a collection of Discuss objects pre-filled with all related objects except UsersRelatedByCreatedBy.
+	 *
+	 * @return array Array of Discuss objects.
+	 * @throws PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinAllExceptUsersRelatedByCreatedBy(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		// Set the correct dbName if it has not been overridden
+		// $c->getDbName() will return the same object if not set to another value
+		// so == check is okay and faster
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		DiscussPeer::addSelectColumns($c);
+		$startcol2 = (DiscussPeer::NUM_COLUMNS - DiscussPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+		SchemaPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + SchemaPeer::NUM_COLUMNS;
+
+		SchemaPropertyPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + SchemaPropertyPeer::NUM_COLUMNS;
+
+		SchemaPropertyElementPeer::addSelectColumns($c);
+		$startcol5 = $startcol4 + SchemaPropertyElementPeer::NUM_COLUMNS;
+
+		VocabularyPeer::addSelectColumns($c);
+		$startcol6 = $startcol5 + VocabularyPeer::NUM_COLUMNS;
+
+		ConceptPeer::addSelectColumns($c);
+		$startcol7 = $startcol6 + ConceptPeer::NUM_COLUMNS;
+
+		ConceptPropertyPeer::addSelectColumns($c);
+		$startcol8 = $startcol7 + ConceptPropertyPeer::NUM_COLUMNS;
+
+		$c->addJoin(DiscussPeer::SCHEMA_ID, SchemaPeer::ID);
+
+		$c->addJoin(DiscussPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
+
+		$c->addJoin(DiscussPeer::SCHEMA_PROPERTY_ELEMENT_ID, SchemaPropertyElementPeer::ID);
+
+		$c->addJoin(DiscussPeer::VOCABULARY_ID, VocabularyPeer::ID);
+
+		$c->addJoin(DiscussPeer::CONCEPT_ID, ConceptPeer::ID);
+
+		$c->addJoin(DiscussPeer::CONCEPT_PROPERTY_ID, ConceptPropertyPeer::ID);
+
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = DiscussPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = SchemaPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj2  = new $cls();
+			$obj2->hydrate($rs, $startcol2);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj2 = $temp_obj1->getSchema(); //CHECKME
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj2->addDiscuss($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj2->initDiscusss();
+				$obj2->addDiscuss($obj1);
+			}
+
+			$omClass = SchemaPropertyPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj3  = new $cls();
+			$obj3->hydrate($rs, $startcol3);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj3 = $temp_obj1->getSchemaProperty(); //CHECKME
+				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj3->addDiscuss($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj3->initDiscusss();
+				$obj3->addDiscuss($obj1);
+			}
+
+			$omClass = SchemaPropertyElementPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj4  = new $cls();
+			$obj4->hydrate($rs, $startcol4);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj4 = $temp_obj1->getSchemaPropertyElement(); //CHECKME
+				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj4->addDiscuss($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj4->initDiscusss();
+				$obj4->addDiscuss($obj1);
+			}
+
+			$omClass = VocabularyPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj5  = new $cls();
+			$obj5->hydrate($rs, $startcol5);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj5 = $temp_obj1->getVocabulary(); //CHECKME
+				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj5->addDiscuss($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj5->initDiscusss();
+				$obj5->addDiscuss($obj1);
+			}
+
+			$omClass = ConceptPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj6  = new $cls();
+			$obj6->hydrate($rs, $startcol6);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj6 = $temp_obj1->getConcept(); //CHECKME
+				if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj6->addDiscuss($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj6->initDiscusss();
+				$obj6->addDiscuss($obj1);
+			}
+
+			$omClass = ConceptPropertyPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj7  = new $cls();
+			$obj7->hydrate($rs, $startcol7);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj7 = $temp_obj1->getConceptProperty(); //CHECKME
+				if ($temp_obj7->getPrimaryKey() === $obj7->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj7->addDiscuss($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj7->initDiscusss();
+				$obj7->addDiscuss($obj1);
+			}
+
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	/**
+	 * Selects a collection of Discuss objects pre-filled with all related objects except UsersRelatedByDeletedBy.
+	 *
+	 * @return array Array of Discuss objects.
+	 * @throws PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinAllExceptUsersRelatedByDeletedBy(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		// Set the correct dbName if it has not been overridden
+		// $c->getDbName() will return the same object if not set to another value
+		// so == check is okay and faster
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		DiscussPeer::addSelectColumns($c);
+		$startcol2 = (DiscussPeer::NUM_COLUMNS - DiscussPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+		SchemaPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + SchemaPeer::NUM_COLUMNS;
+
+		SchemaPropertyPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + SchemaPropertyPeer::NUM_COLUMNS;
+
+		SchemaPropertyElementPeer::addSelectColumns($c);
+		$startcol5 = $startcol4 + SchemaPropertyElementPeer::NUM_COLUMNS;
+
+		VocabularyPeer::addSelectColumns($c);
+		$startcol6 = $startcol5 + VocabularyPeer::NUM_COLUMNS;
+
+		ConceptPeer::addSelectColumns($c);
+		$startcol7 = $startcol6 + ConceptPeer::NUM_COLUMNS;
+
+		ConceptPropertyPeer::addSelectColumns($c);
+		$startcol8 = $startcol7 + ConceptPropertyPeer::NUM_COLUMNS;
+
+		$c->addJoin(DiscussPeer::SCHEMA_ID, SchemaPeer::ID);
+
+		$c->addJoin(DiscussPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID);
+
+		$c->addJoin(DiscussPeer::SCHEMA_PROPERTY_ELEMENT_ID, SchemaPropertyElementPeer::ID);
+
+		$c->addJoin(DiscussPeer::VOCABULARY_ID, VocabularyPeer::ID);
+
+		$c->addJoin(DiscussPeer::CONCEPT_ID, ConceptPeer::ID);
+
+		$c->addJoin(DiscussPeer::CONCEPT_PROPERTY_ID, ConceptPropertyPeer::ID);
+
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = DiscussPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = SchemaPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj2  = new $cls();
+			$obj2->hydrate($rs, $startcol2);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj2 = $temp_obj1->getSchema(); //CHECKME
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj2->addDiscuss($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj2->initDiscusss();
+				$obj2->addDiscuss($obj1);
+			}
+
+			$omClass = SchemaPropertyPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj3  = new $cls();
+			$obj3->hydrate($rs, $startcol3);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj3 = $temp_obj1->getSchemaProperty(); //CHECKME
+				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj3->addDiscuss($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj3->initDiscusss();
+				$obj3->addDiscuss($obj1);
+			}
+
+			$omClass = SchemaPropertyElementPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj4  = new $cls();
+			$obj4->hydrate($rs, $startcol4);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj4 = $temp_obj1->getSchemaPropertyElement(); //CHECKME
+				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj4->addDiscuss($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj4->initDiscusss();
+				$obj4->addDiscuss($obj1);
+			}
+
+			$omClass = VocabularyPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj5  = new $cls();
+			$obj5->hydrate($rs, $startcol5);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj5 = $temp_obj1->getVocabulary(); //CHECKME
+				if ($temp_obj5->getPrimaryKey() === $obj5->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj5->addDiscuss($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj5->initDiscusss();
+				$obj5->addDiscuss($obj1);
+			}
+
+			$omClass = ConceptPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj6  = new $cls();
+			$obj6->hydrate($rs, $startcol6);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj6 = $temp_obj1->getConcept(); //CHECKME
+				if ($temp_obj6->getPrimaryKey() === $obj6->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj6->addDiscuss($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj6->initDiscusss();
+				$obj6->addDiscuss($obj1);
+			}
+
+			$omClass = ConceptPropertyPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj7  = new $cls();
+			$obj7->hydrate($rs, $startcol7);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj7 = $temp_obj1->getConceptProperty(); //CHECKME
+				if ($temp_obj7->getPrimaryKey() === $obj7->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj7->addDiscuss($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj7->initDiscusss();
+				$obj7->addDiscuss($obj1);
 			}
 
 			$results[] = $obj1;

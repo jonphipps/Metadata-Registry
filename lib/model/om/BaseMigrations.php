@@ -20,6 +20,13 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
 
 
 	/**
+	 * The value for the id field.
+	 * @var        int
+	 */
+	protected $id;
+
+
+	/**
 	 * The value for the migration field.
 	 * @var        string
 	 */
@@ -47,6 +54,17 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
 	protected $alreadyInValidation = false;
 
 	/**
+	 * Get the [id] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getId()
+	{
+
+		return $this->id;
+	}
+
+	/**
 	 * Get the [migration] column value.
 	 * 
 	 * @return     string
@@ -67,6 +85,28 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
 
 		return $this->batch;
 	}
+
+	/**
+	 * Set the value of [id] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setId($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->id !== $v) {
+			$this->id = $v;
+			$this->modifiedColumns[] = MigrationsPeer::ID;
+		}
+
+	} // setId()
 
 	/**
 	 * Set the value of [migration] column.
@@ -129,16 +169,18 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
 	{
 		try {
 
-			$this->migration = $rs->getString($startcol + 0);
+			$this->id = $rs->getInt($startcol + 0);
 
-			$this->batch = $rs->getInt($startcol + 1);
+			$this->migration = $rs->getString($startcol + 1);
+
+			$this->batch = $rs->getInt($startcol + 2);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 2; // 2 = MigrationsPeer::NUM_COLUMNS - MigrationsPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 3; // 3 = MigrationsPeer::NUM_COLUMNS - MigrationsPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Migrations object", $e);
@@ -265,6 +307,8 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
 										 // should always be true here (even though technically
 										 // BasePeer::doInsert() can insert multiple rows).
 
+					$this->setId($pk);  //[IMV] update autoincrement primary key
+
 					$this->setNew(false);
 				} else {
 					$affectedRows += MigrationsPeer::doUpdate($this, $con);
@@ -375,9 +419,12 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
 	{
 		switch($pos) {
 			case 0:
-				return $this->getMigration();
+				return $this->getId();
 				break;
 			case 1:
+				return $this->getMigration();
+				break;
+			case 2:
 				return $this->getBatch();
 				break;
 			default:
@@ -400,8 +447,9 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
 	{
 		$keys = MigrationsPeer::getFieldNames($keyType);
 		$result = array(
-			$keys[0] => $this->getMigration(),
-			$keys[1] => $this->getBatch(),
+			$keys[0] => $this->getId(),
+			$keys[1] => $this->getMigration(),
+			$keys[2] => $this->getBatch(),
 		);
 		return $result;
 	}
@@ -434,9 +482,12 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
 	{
 		switch($pos) {
 			case 0:
-				$this->setMigration($value);
+				$this->setId($value);
 				break;
 			case 1:
+				$this->setMigration($value);
+				break;
+			case 2:
 				$this->setBatch($value);
 				break;
 		} // switch()
@@ -462,8 +513,9 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
 	{
 		$keys = MigrationsPeer::getFieldNames($keyType);
 
-		if (array_key_exists($keys[0], $arr)) $this->setMigration($arr[$keys[0]]);
-		if (array_key_exists($keys[1], $arr)) $this->setBatch($arr[$keys[1]]);
+		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
+		if (array_key_exists($keys[1], $arr)) $this->setMigration($arr[$keys[1]]);
+		if (array_key_exists($keys[2], $arr)) $this->setBatch($arr[$keys[2]]);
 	}
 
 	/**
@@ -475,6 +527,7 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
 	{
 		$criteria = new Criteria(MigrationsPeer::DATABASE_NAME);
 
+		if ($this->isColumnModified(MigrationsPeer::ID)) $criteria->add(MigrationsPeer::ID, $this->id);
 		if ($this->isColumnModified(MigrationsPeer::MIGRATION)) $criteria->add(MigrationsPeer::MIGRATION, $this->migration);
 		if ($this->isColumnModified(MigrationsPeer::BATCH)) $criteria->add(MigrationsPeer::BATCH, $this->batch);
 
@@ -493,41 +546,29 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
 	{
 		$criteria = new Criteria(MigrationsPeer::DATABASE_NAME);
 
-		$criteria->add(MigrationsPeer::MIGRATION, $this->migration);
-		$criteria->add(MigrationsPeer::BATCH, $this->batch);
+		$criteria->add(MigrationsPeer::ID, $this->id);
 
 		return $criteria;
 	}
 
 	/**
-	 * Returns the composite primary key for this object.
-	 * The array elements will be in same order as specified in XML.
-	 * @return     array
+	 * Returns the primary key for this object (row).
+	 * @return     int
 	 */
 	public function getPrimaryKey()
 	{
-		$pks = array();
-
-		$pks[0] = $this->getMigration();
-
-		$pks[1] = $this->getBatch();
-
-		return $pks;
+		return $this->getId();
 	}
 
 	/**
-	 * Set the [composite] primary key.
+	 * Generic method to set the primary key (id column).
 	 *
-	 * @param      array $keys The elements of the composite key (order must match the order in XML file).
+	 * @param      int $key Primary key.
 	 * @return     void
 	 */
-	public function setPrimaryKey($keys)
+	public function setPrimaryKey($key)
 	{
-
-		$this->setMigration($keys[0]);
-
-		$this->setBatch($keys[1]);
-
+		$this->setId($key);
 	}
 
 	/**
@@ -543,12 +584,14 @@ abstract class BaseMigrations extends BaseObject  implements Persistent {
 	public function copyInto($copyObj, $deepCopy = false)
 	{
 
+		$copyObj->setMigration($this->migration);
+
+		$copyObj->setBatch($this->batch);
+
 
 		$copyObj->setNew(true);
 
-		$copyObj->setMigration(NULL); // this is a pkey column, so set to default value
-
-		$copyObj->setBatch(NULL); // this is a pkey column, so set to default value
+		$copyObj->setId(NULL); // this is a pkey column, so set to default value
 
 	}
 

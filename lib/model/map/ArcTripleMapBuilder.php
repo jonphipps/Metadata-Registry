@@ -61,15 +61,15 @@ class ArcTripleMapBuilder {
 
 		$tMap->setUseIdGenerator(true);
 
-		$tMap->addColumn('T', 'T', 'int', CreoleTypes::SMALLINT, true, null);
+		$tMap->addColumn('T', 'T', 'int', CreoleTypes::INTEGER, true, null);
 
-		$tMap->addColumn('S', 'S', 'int', CreoleTypes::SMALLINT, true, null);
+		$tMap->addColumn('S', 'S', 'int', CreoleTypes::INTEGER, true, null);
 
-		$tMap->addColumn('P', 'P', 'int', CreoleTypes::SMALLINT, true, null);
+		$tMap->addColumn('P', 'P', 'int', CreoleTypes::INTEGER, true, null);
 
-		$tMap->addColumn('O', 'O', 'int', CreoleTypes::SMALLINT, true, null);
+		$tMap->addColumn('O', 'O', 'int', CreoleTypes::INTEGER, true, null);
 
-		$tMap->addColumn('O_LANG_DT', 'OLangDt', 'int', CreoleTypes::SMALLINT, true, null);
+		$tMap->addColumn('O_LANG_DT', 'OLangDt', 'int', CreoleTypes::INTEGER, true, null);
 
 		$tMap->addColumn('O_COMP', 'OComp', 'string', CreoleTypes::CHAR, true, 35);
 

@@ -77,7 +77,7 @@ class BatchMapBuilder {
 
 		$tMap->addColumn('EVENT_DESCRIPTION', 'EventDescription', 'string', CreoleTypes::LONGVARCHAR, false, null);
 
-		$tMap->addColumn('REGISTRY_URI', 'RegistryUri', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('REGISTRY_URI', 'RegistryUri', 'string', CreoleTypes::VARCHAR, false, 191);
 
 	} // doBuild()
 

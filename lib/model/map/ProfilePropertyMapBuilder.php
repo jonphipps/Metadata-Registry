@@ -67,7 +67,7 @@ class ProfilePropertyMapBuilder {
 
 		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
-		$tMap->addColumn('UPDATED_AT', 'UpdatedAt', 'int', CreoleTypes::TIMESTAMP, true, null);
+		$tMap->addColumn('UPDATED_AT', 'UpdatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
 		$tMap->addColumn('DELETED_AT', 'DeletedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
@@ -81,9 +81,9 @@ class ProfilePropertyMapBuilder {
 
 		$tMap->addColumn('SKOS_PARENT_ID', 'SkosParentId', 'int', CreoleTypes::INTEGER, false, null);
 
-		$tMap->addColumn('NAME', 'Name', 'string', CreoleTypes::VARCHAR, true, 255);
+		$tMap->addColumn('NAME', 'Name', 'string', CreoleTypes::VARCHAR, true, 191);
 
-		$tMap->addColumn('LABEL', 'Label', 'string', CreoleTypes::VARCHAR, true, 255);
+		$tMap->addColumn('LABEL', 'Label', 'string', CreoleTypes::VARCHAR, true, 191);
 
 		$tMap->addColumn('DEFINITION', 'Definition', 'string', CreoleTypes::LONGVARCHAR, false, null);
 
@@ -91,7 +91,7 @@ class ProfilePropertyMapBuilder {
 
 		$tMap->addColumn('TYPE', 'Type', 'string', CreoleTypes::CHAR, true, null);
 
-		$tMap->addColumn('URI', 'Uri', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('URI', 'Uri', 'string', CreoleTypes::VARCHAR, false, 191);
 
 		$tMap->addForeignKey('STATUS_ID', 'StatusId', 'int', CreoleTypes::INTEGER, 'reg_status', 'ID', true, null);
 
@@ -105,7 +105,7 @@ class ProfilePropertyMapBuilder {
 
 		$tMap->addColumn('PICKLIST_ORDER', 'PicklistOrder', 'int', CreoleTypes::INTEGER, false, null);
 
-		$tMap->addColumn('EXAMPLES', 'Examples', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('EXAMPLES', 'Examples', 'string', CreoleTypes::VARCHAR, false, 191);
 
 		$tMap->addColumn('IS_REQUIRED', 'IsRequired', 'boolean', CreoleTypes::BOOLEAN, true, null);
 
@@ -135,7 +135,7 @@ class ProfilePropertyMapBuilder {
 
 		$tMap->addColumn('IS_IN_FORM', 'IsInForm', 'boolean', CreoleTypes::BOOLEAN, true, null);
 
-		$tMap->addColumn('NAMESPCE', 'Namespce', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('NAMESPCE', 'Namespce', 'string', CreoleTypes::VARCHAR, true, 191);
 
 	} // doBuild()
 

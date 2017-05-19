@@ -65,28 +65,28 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 	 * The value for the exclude_deprecated field.
 	 * @var        boolean
 	 */
-	protected $exclude_deprecated = false;
+	protected $exclude_deprecated;
 
 
 	/**
 	 * The value for the include_generated field.
 	 * @var        boolean
 	 */
-	protected $include_generated = false;
+	protected $include_generated;
 
 
 	/**
 	 * The value for the include_deleted field.
 	 * @var        boolean
 	 */
-	protected $include_deleted = false;
+	protected $include_deleted;
 
 
 	/**
 	 * The value for the include_not_accepted field.
 	 * @var        boolean
 	 */
-	protected $include_not_accepted = false;
+	protected $include_not_accepted;
 
 
 	/**
@@ -144,10 +144,17 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 	 */
 	protected $map;
 
+
 	/**
-	 * @var        User
+	 * The value for the exported_by field.
+	 * @var        int
 	 */
-	protected $aUser;
+	protected $exported_by;
+
+	/**
+	 * @var        Users
+	 */
+	protected $aUsersRelatedByUserId;
 
 	/**
 	 * @var        Vocabulary
@@ -163,6 +170,11 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 	 * @var        Profile
 	 */
 	protected $aProfile;
+
+	/**
+	 * @var        Users
+	 */
+	protected $aUsersRelatedByExportedBy;
 
 	/**
 	 * Flag to prevent endless save loop, if this object is referenced
@@ -437,6 +449,17 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 	}
 
 	/**
+	 * Get the [exported_by] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getExportedBy()
+	{
+
+		return $this->exported_by;
+	}
+
+	/**
 	 * Set the value of [id] column.
 	 * 
 	 * @param      int $v new value
@@ -526,8 +549,8 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 			$this->modifiedColumns[] = ExportHistoryPeer::USER_ID;
 		}
 
-		if ($this->aUser !== null && $this->aUser->getId() !== $v) {
-			$this->aUser = null;
+		if ($this->aUsersRelatedByUserId !== null && $this->aUsersRelatedByUserId->getId() !== $v) {
+			$this->aUsersRelatedByUserId = null;
 		}
 
 	} // setUserId()
@@ -593,7 +616,7 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 	public function setExcludeDeprecated($v)
 	{
 
-		if ($this->exclude_deprecated !== $v || $v === false) {
+		if ($this->exclude_deprecated !== $v) {
 			$this->exclude_deprecated = $v;
 			$this->modifiedColumns[] = ExportHistoryPeer::EXCLUDE_DEPRECATED;
 		}
@@ -609,7 +632,7 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 	public function setIncludeGenerated($v)
 	{
 
-		if ($this->include_generated !== $v || $v === false) {
+		if ($this->include_generated !== $v) {
 			$this->include_generated = $v;
 			$this->modifiedColumns[] = ExportHistoryPeer::INCLUDE_GENERATED;
 		}
@@ -625,7 +648,7 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 	public function setIncludeDeleted($v)
 	{
 
-		if ($this->include_deleted !== $v || $v === false) {
+		if ($this->include_deleted !== $v) {
 			$this->include_deleted = $v;
 			$this->modifiedColumns[] = ExportHistoryPeer::INCLUDE_DELETED;
 		}
@@ -641,7 +664,7 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 	public function setIncludeNotAccepted($v)
 	{
 
-		if ($this->include_not_accepted !== $v || $v === false) {
+		if ($this->include_not_accepted !== $v) {
 			$this->include_not_accepted = $v;
 			$this->modifiedColumns[] = ExportHistoryPeer::INCLUDE_NOT_ACCEPTED;
 		}
@@ -831,6 +854,32 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 	} // setMap()
 
 	/**
+	 * Set the value of [exported_by] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setExportedBy($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->exported_by !== $v) {
+			$this->exported_by = $v;
+			$this->modifiedColumns[] = ExportHistoryPeer::EXPORTED_BY;
+		}
+
+		if ($this->aUsersRelatedByExportedBy !== null && $this->aUsersRelatedByExportedBy->getId() !== $v) {
+			$this->aUsersRelatedByExportedBy = null;
+		}
+
+	} // setExportedBy()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -883,12 +932,14 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 
 			$this->map = $rs->getString($startcol + 17);
 
+			$this->exported_by = $rs->getInt($startcol + 18);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 18; // 18 = ExportHistoryPeer::NUM_COLUMNS - ExportHistoryPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 19; // 19 = ExportHistoryPeer::NUM_COLUMNS - ExportHistoryPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating ExportHistory object", $e);
@@ -1022,11 +1073,11 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
-			if ($this->aUser !== null) {
-				if ($this->aUser->isModified()) {
-					$affectedRows += $this->aUser->save($con);
+			if ($this->aUsersRelatedByUserId !== null) {
+				if ($this->aUsersRelatedByUserId->isModified()) {
+					$affectedRows += $this->aUsersRelatedByUserId->save($con);
 				}
-				$this->setUser($this->aUser);
+				$this->setUsersRelatedByUserId($this->aUsersRelatedByUserId);
 			}
 
 			if ($this->aVocabulary !== null) {
@@ -1048,6 +1099,13 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 					$affectedRows += $this->aProfile->save($con);
 				}
 				$this->setProfile($this->aProfile);
+			}
+
+			if ($this->aUsersRelatedByExportedBy !== null) {
+				if ($this->aUsersRelatedByExportedBy->isModified()) {
+					$affectedRows += $this->aUsersRelatedByExportedBy->save($con);
+				}
+				$this->setUsersRelatedByExportedBy($this->aUsersRelatedByExportedBy);
 			}
 
 
@@ -1138,9 +1196,9 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
-			if ($this->aUser !== null) {
-				if (!$this->aUser->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aUser->getValidationFailures());
+			if ($this->aUsersRelatedByUserId !== null) {
+				if (!$this->aUsersRelatedByUserId->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsersRelatedByUserId->getValidationFailures());
 				}
 			}
 
@@ -1159,6 +1217,12 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 			if ($this->aProfile !== null) {
 				if (!$this->aProfile->validate($columns)) {
 					$failureMap = array_merge($failureMap, $this->aProfile->getValidationFailures());
+				}
+			}
+
+			if ($this->aUsersRelatedByExportedBy !== null) {
+				if (!$this->aUsersRelatedByExportedBy->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUsersRelatedByExportedBy->getValidationFailures());
 				}
 			}
 
@@ -1254,6 +1318,9 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 			case 17:
 				return $this->getMap();
 				break;
+			case 18:
+				return $this->getExportedBy();
+				break;
 			default:
 				return null;
 				break;
@@ -1292,6 +1359,7 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 			$keys[15] => $this->getProfileId(),
 			$keys[16] => $this->getFile(),
 			$keys[17] => $this->getMap(),
+			$keys[18] => $this->getExportedBy(),
 		);
 		return $result;
 	}
@@ -1377,6 +1445,9 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 			case 17:
 				$this->setMap($value);
 				break;
+			case 18:
+				$this->setExportedBy($value);
+				break;
 		} // switch()
 	}
 
@@ -1418,6 +1489,7 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[15], $arr)) $this->setProfileId($arr[$keys[15]]);
 		if (array_key_exists($keys[16], $arr)) $this->setFile($arr[$keys[16]]);
 		if (array_key_exists($keys[17], $arr)) $this->setMap($arr[$keys[17]]);
+		if (array_key_exists($keys[18], $arr)) $this->setExportedBy($arr[$keys[18]]);
 	}
 
 	/**
@@ -1447,6 +1519,7 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(ExportHistoryPeer::PROFILE_ID)) $criteria->add(ExportHistoryPeer::PROFILE_ID, $this->profile_id);
 		if ($this->isColumnModified(ExportHistoryPeer::FILE)) $criteria->add(ExportHistoryPeer::FILE, $this->file);
 		if ($this->isColumnModified(ExportHistoryPeer::MAP)) $criteria->add(ExportHistoryPeer::MAP, $this->map);
+		if ($this->isColumnModified(ExportHistoryPeer::EXPORTED_BY)) $criteria->add(ExportHistoryPeer::EXPORTED_BY, $this->exported_by);
 
 		return $criteria;
 	}
@@ -1535,6 +1608,8 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 
 		$copyObj->setMap($this->map);
 
+		$copyObj->setExportedBy($this->exported_by);
+
 
 		$copyObj->setNew(true);
 
@@ -1581,13 +1656,13 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Declares an association between this object and a User object.
+	 * Declares an association between this object and a Users object.
 	 *
-	 * @param      User $v
+	 * @param      Users $v
 	 * @return     void
 	 * @throws     PropelException
 	 */
-	public function setUser($v)
+	public function setUsersRelatedByUserId($v)
 	{
 
 
@@ -1598,24 +1673,24 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 		}
 
 
-		$this->aUser = $v;
+		$this->aUsersRelatedByUserId = $v;
 	}
 
 
 	/**
-	 * Get the associated User object
+	 * Get the associated Users object
 	 *
 	 * @param      Connection Optional Connection object.
-	 * @return     User The associated User object.
+	 * @return     Users The associated Users object.
 	 * @throws     PropelException
 	 */
-	public function getUser($con = null)
+	public function getUsersRelatedByUserId($con = null)
 	{
-		if ($this->aUser === null && ($this->user_id !== null)) {
+		if ($this->aUsersRelatedByUserId === null && ($this->user_id !== null)) {
 			// include the related Peer class
-			include_once 'lib/model/om/BaseUserPeer.php';
+			include_once 'lib/model/om/BaseUsersPeer.php';
 
-			$this->aUser = UserPeer::retrieveByPK($this->user_id, $con);
+			$this->aUsersRelatedByUserId = UsersPeer::retrieveByPK($this->user_id, $con);
 
 			/* The following can be used instead of the line above to
 			   guarantee the related object contains a reference
@@ -1623,11 +1698,11 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 			   may be undesirable in many circumstances.
 			   As it can lead to a db query with many results that may
 			   never be used.
-			   $obj = UserPeer::retrieveByPK($this->user_id, $con);
-			   $obj->addUsers($this);
+			   $obj = UsersPeer::retrieveByPK($this->user_id, $con);
+			   $obj->addUserssRelatedByUserId($this);
 			 */
 		}
-		return $this->aUser;
+		return $this->aUsersRelatedByUserId;
 	}
 
 	/**
@@ -1778,6 +1853,56 @@ abstract class BaseExportHistory extends BaseObject  implements Persistent {
 			 */
 		}
 		return $this->aProfile;
+	}
+
+	/**
+	 * Declares an association between this object and a Users object.
+	 *
+	 * @param      Users $v
+	 * @return     void
+	 * @throws     PropelException
+	 */
+	public function setUsersRelatedByExportedBy($v)
+	{
+
+
+		if ($v === null) {
+			$this->setExportedBy(NULL);
+		} else {
+			$this->setExportedBy($v->getId());
+		}
+
+
+		$this->aUsersRelatedByExportedBy = $v;
+	}
+
+
+	/**
+	 * Get the associated Users object
+	 *
+	 * @param      Connection Optional Connection object.
+	 * @return     Users The associated Users object.
+	 * @throws     PropelException
+	 */
+	public function getUsersRelatedByExportedBy($con = null)
+	{
+		if ($this->aUsersRelatedByExportedBy === null && ($this->exported_by !== null)) {
+			// include the related Peer class
+			include_once 'lib/model/om/BaseUsersPeer.php';
+
+			$this->aUsersRelatedByExportedBy = UsersPeer::retrieveByPK($this->exported_by, $con);
+
+			/* The following can be used instead of the line above to
+			   guarantee the related object contains a reference
+			   to this object, but this level of coupling
+			   may be undesirable in many circumstances.
+			   As it can lead to a db query with many results that may
+			   never be used.
+			   $obj = UsersPeer::retrieveByPK($this->exported_by, $con);
+			   $obj->addUserssRelatedByExportedBy($this);
+			 */
+		}
+		return $this->aUsersRelatedByExportedBy;
 	}
 
 

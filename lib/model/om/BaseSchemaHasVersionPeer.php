@@ -19,7 +19,7 @@ abstract class BaseSchemaHasVersionPeer {
 	const CLASS_DEFAULT = 'lib.model.SchemaHasVersion';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 8;
+	const NUM_COLUMNS = 9;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -34,11 +34,11 @@ abstract class BaseSchemaHasVersionPeer {
 	/** the column name for the CREATED_AT field */
 	const CREATED_AT = 'schema_has_version.CREATED_AT';
 
-	/** the column name for the DELETED_AT field */
-	const DELETED_AT = 'schema_has_version.DELETED_AT';
-
 	/** the column name for the UPDATED_AT field */
 	const UPDATED_AT = 'schema_has_version.UPDATED_AT';
+
+	/** the column name for the DELETED_AT field */
+	const DELETED_AT = 'schema_has_version.DELETED_AT';
 
 	/** the column name for the CREATED_USER_ID field */
 	const CREATED_USER_ID = 'schema_has_version.CREATED_USER_ID';
@@ -48,6 +48,9 @@ abstract class BaseSchemaHasVersionPeer {
 
 	/** the column name for the TIMESLICE field */
 	const TIMESLICE = 'schema_has_version.TIMESLICE';
+
+	/** the column name for the CREATED_BY field */
+	const CREATED_BY = 'schema_has_version.CREATED_BY';
 
 	/** The PHP to DB Name Mapping */
 	private static $phpNameMap = null;
@@ -60,10 +63,10 @@ abstract class BaseSchemaHasVersionPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Name', 'CreatedAt', 'DeletedAt', 'UpdatedAt', 'CreatedUserId', 'SchemaId', 'Timeslice', ),
-		BasePeer::TYPE_COLNAME => array (SchemaHasVersionPeer::ID, SchemaHasVersionPeer::NAME, SchemaHasVersionPeer::CREATED_AT, SchemaHasVersionPeer::DELETED_AT, SchemaHasVersionPeer::UPDATED_AT, SchemaHasVersionPeer::CREATED_USER_ID, SchemaHasVersionPeer::SCHEMA_ID, SchemaHasVersionPeer::TIMESLICE, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'name', 'created_at', 'deleted_at', 'updated_at', 'created_user_id', 'schema_id', 'timeslice', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Name', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'CreatedUserId', 'SchemaId', 'Timeslice', 'CreatedBy', ),
+		BasePeer::TYPE_COLNAME => array (SchemaHasVersionPeer::ID, SchemaHasVersionPeer::NAME, SchemaHasVersionPeer::CREATED_AT, SchemaHasVersionPeer::UPDATED_AT, SchemaHasVersionPeer::DELETED_AT, SchemaHasVersionPeer::CREATED_USER_ID, SchemaHasVersionPeer::SCHEMA_ID, SchemaHasVersionPeer::TIMESLICE, SchemaHasVersionPeer::CREATED_BY, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'name', 'created_at', 'updated_at', 'deleted_at', 'created_user_id', 'schema_id', 'timeslice', 'created_by', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
 	);
 
 	/**
@@ -73,10 +76,10 @@ abstract class BaseSchemaHasVersionPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Name' => 1, 'CreatedAt' => 2, 'DeletedAt' => 3, 'UpdatedAt' => 4, 'CreatedUserId' => 5, 'SchemaId' => 6, 'Timeslice' => 7, ),
-		BasePeer::TYPE_COLNAME => array (SchemaHasVersionPeer::ID => 0, SchemaHasVersionPeer::NAME => 1, SchemaHasVersionPeer::CREATED_AT => 2, SchemaHasVersionPeer::DELETED_AT => 3, SchemaHasVersionPeer::UPDATED_AT => 4, SchemaHasVersionPeer::CREATED_USER_ID => 5, SchemaHasVersionPeer::SCHEMA_ID => 6, SchemaHasVersionPeer::TIMESLICE => 7, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'name' => 1, 'created_at' => 2, 'deleted_at' => 3, 'updated_at' => 4, 'created_user_id' => 5, 'schema_id' => 6, 'timeslice' => 7, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Name' => 1, 'CreatedAt' => 2, 'UpdatedAt' => 3, 'DeletedAt' => 4, 'CreatedUserId' => 5, 'SchemaId' => 6, 'Timeslice' => 7, 'CreatedBy' => 8, ),
+		BasePeer::TYPE_COLNAME => array (SchemaHasVersionPeer::ID => 0, SchemaHasVersionPeer::NAME => 1, SchemaHasVersionPeer::CREATED_AT => 2, SchemaHasVersionPeer::UPDATED_AT => 3, SchemaHasVersionPeer::DELETED_AT => 4, SchemaHasVersionPeer::CREATED_USER_ID => 5, SchemaHasVersionPeer::SCHEMA_ID => 6, SchemaHasVersionPeer::TIMESLICE => 7, SchemaHasVersionPeer::CREATED_BY => 8, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'name' => 1, 'created_at' => 2, 'updated_at' => 3, 'deleted_at' => 4, 'created_user_id' => 5, 'schema_id' => 6, 'timeslice' => 7, 'created_by' => 8, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
 	);
 
 	/**
@@ -183,15 +186,17 @@ abstract class BaseSchemaHasVersionPeer {
 
         $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::CREATED_AT) : SchemaHasVersionPeer::CREATED_AT);
 
-        $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::DELETED_AT) : SchemaHasVersionPeer::DELETED_AT);
-
         $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::UPDATED_AT) : SchemaHasVersionPeer::UPDATED_AT);
+
+        $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::DELETED_AT) : SchemaHasVersionPeer::DELETED_AT);
 
         $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::CREATED_USER_ID) : SchemaHasVersionPeer::CREATED_USER_ID);
 
         $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::SCHEMA_ID) : SchemaHasVersionPeer::SCHEMA_ID);
 
         $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::TIMESLICE) : SchemaHasVersionPeer::TIMESLICE);
+
+        $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::CREATED_BY) : SchemaHasVersionPeer::CREATED_BY);
 
 	}
 
@@ -330,14 +335,14 @@ abstract class BaseSchemaHasVersionPeer {
 	}
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related User table
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByCreatedUserId table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinUser(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinUsersRelatedByCreatedUserId(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -356,7 +361,7 @@ abstract class BaseSchemaHasVersionPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(SchemaHasVersionPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(SchemaHasVersionPeer::CREATED_USER_ID, UsersPeer::ID);
 
 		$rs = SchemaHasVersionPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -408,13 +413,52 @@ abstract class BaseSchemaHasVersionPeer {
 
 
 	/**
-	 * Selects a collection of SchemaHasVersion objects pre-filled with their User objects.
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByCreatedBy table
+	 *
+	 * @param Criteria $c
+	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
+	 * @param Connection $con
+	 * @return int Number of matching rows.
+	 */
+	public static function doCountJoinUsersRelatedByCreatedBy(Criteria $criteria, $distinct = false, $con = null)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// clear out anything that might confuse the ORDER BY clause
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(SchemaHasVersionPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(SchemaHasVersionPeer::COUNT);
+		}
+
+		// just in case we're grouping: add those columns to the select statement
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(SchemaHasVersionPeer::CREATED_BY, UsersPeer::ID);
+
+		$rs = SchemaHasVersionPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			// no rows returned; we infer that means 0 matches.
+			return 0;
+		}
+	}
+
+
+	/**
+	 * Selects a collection of SchemaHasVersion objects pre-filled with their Users objects.
 	 *
 	 * @return array Array of SchemaHasVersion objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinUser(Criteria $c, $con = null)
+	public static function doSelectJoinUsersRelatedByCreatedUserId(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -425,9 +469,9 @@ abstract class BaseSchemaHasVersionPeer {
 
 		SchemaHasVersionPeer::addSelectColumns($c);
 		$startcol = (SchemaHasVersionPeer::NUM_COLUMNS - SchemaHasVersionPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-		UserPeer::addSelectColumns($c);
+		UsersPeer::addSelectColumns($c);
 
-		$c->addJoin(SchemaHasVersionPeer::CREATED_USER_ID, UserPeer::ID);
+		$c->addJoin(SchemaHasVersionPeer::CREATED_USER_ID, UsersPeer::ID);
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
@@ -439,7 +483,7 @@ abstract class BaseSchemaHasVersionPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj2 = new $cls();
@@ -447,17 +491,17 @@ abstract class BaseSchemaHasVersionPeer {
 
 			$newObject = true;
 			foreach($results as $temp_obj1) {
-				$temp_obj2 = $temp_obj1->getUser(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedUserId(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					// e.g. $author->addBookRelatedByBookId()
-					$temp_obj2->addSchemaHasVersion($obj1); //CHECKME
+					$temp_obj2->addSchemaHasVersionRelatedByCreatedUserId($obj1); //CHECKME
 					break;
 				}
 			}
 			if ($newObject) {
-				$obj2->initSchemaHasVersions();
-				$obj2->addSchemaHasVersion($obj1); //CHECKME
+				$obj2->initSchemaHasVersionsRelatedByCreatedUserId();
+				$obj2->addSchemaHasVersionRelatedByCreatedUserId($obj1); //CHECKME
 			}
 			$results[] = $obj1;
 		}
@@ -524,6 +568,64 @@ abstract class BaseSchemaHasVersionPeer {
 
 
 	/**
+	 * Selects a collection of SchemaHasVersion objects pre-filled with their Users objects.
+	 *
+	 * @return array Array of SchemaHasVersion objects.
+	 * @throws PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinUsersRelatedByCreatedBy(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		// Set the correct dbName if it has not been overridden
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		SchemaHasVersionPeer::addSelectColumns($c);
+		$startcol = (SchemaHasVersionPeer::NUM_COLUMNS - SchemaHasVersionPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		UsersPeer::addSelectColumns($c);
+
+		$c->addJoin(SchemaHasVersionPeer::CREATED_BY, UsersPeer::ID);
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = SchemaHasVersionPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = UsersPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol);
+
+			$newObject = true;
+			foreach($results as $temp_obj1) {
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedBy(); //CHECKME
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					// e.g. $author->addBookRelatedByBookId()
+					$temp_obj2->addSchemaHasVersionRelatedByCreatedBy($obj1); //CHECKME
+					break;
+				}
+			}
+			if ($newObject) {
+				$obj2->initSchemaHasVersionsRelatedByCreatedBy();
+				$obj2->addSchemaHasVersionRelatedByCreatedBy($obj1); //CHECKME
+			}
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	/**
 	 * Returns the number of rows matching criteria, joining all related tables
 	 *
 	 * @param Criteria $c
@@ -549,9 +651,11 @@ abstract class BaseSchemaHasVersionPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(SchemaHasVersionPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(SchemaHasVersionPeer::CREATED_USER_ID, UsersPeer::ID);
 
 		$criteria->addJoin(SchemaHasVersionPeer::SCHEMA_ID, SchemaPeer::ID);
+
+		$criteria->addJoin(SchemaHasVersionPeer::CREATED_BY, UsersPeer::ID);
 
 		$rs = SchemaHasVersionPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -582,17 +686,23 @@ abstract class BaseSchemaHasVersionPeer {
 		SchemaHasVersionPeer::addSelectColumns($c);
 		$startcol2 = (SchemaHasVersionPeer::NUM_COLUMNS - SchemaHasVersionPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c, 'a1');
-		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c, 'a1');
+		$startcol3 = $startcol2 + UsersPeer::NUM_COLUMNS;
 
-        $c->addJoin(SchemaHasVersionPeer::CREATED_USER_ID, UserPeer::alias('a1', UserPeer::ID));
-        $c->addAlias('a1', UserPeer::TABLE_NAME);
+        $c->addJoin(SchemaHasVersionPeer::CREATED_USER_ID, UsersPeer::alias('a1', UsersPeer::ID));
+        $c->addAlias('a1', UsersPeer::TABLE_NAME);
 
 		SchemaPeer::addSelectColumns($c, 'a2');
 		$startcol4 = $startcol3 + SchemaPeer::NUM_COLUMNS;
 
         $c->addJoin(SchemaHasVersionPeer::SCHEMA_ID, SchemaPeer::alias('a2', SchemaPeer::ID));
         $c->addAlias('a2', SchemaPeer::TABLE_NAME);
+
+		UsersPeer::addSelectColumns($c, 'a3');
+		$startcol5 = $startcol4 + UsersPeer::NUM_COLUMNS;
+
+        $c->addJoin(SchemaHasVersionPeer::CREATED_BY, UsersPeer::alias('a3', UsersPeer::ID));
+        $c->addAlias('a3', UsersPeer::TABLE_NAME);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
@@ -607,9 +717,9 @@ abstract class BaseSchemaHasVersionPeer {
 			$obj1->hydrate($rs);
 
 
-				// Add objects for joined User rows
+				// Add objects for joined Users rows
 	
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -619,17 +729,17 @@ abstract class BaseSchemaHasVersionPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUser(); // CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedUserId(); // CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj2->addSchemaHasVersion($obj1); // CHECKME
+					$temp_obj2->addSchemaHasVersionRelatedByCreatedUserId($obj1); // CHECKME
 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj2->initSchemaHasVersions();
-				$obj2->addSchemaHasVersion($obj1);
+				$obj2->initSchemaHasVersionsRelatedByCreatedUserId();
+				$obj2->addSchemaHasVersionRelatedByCreatedUserId($obj1);
 			}
 
 
@@ -658,6 +768,32 @@ abstract class BaseSchemaHasVersionPeer {
 				$obj3->addSchemaHasVersion($obj1);
 			}
 
+
+				// Add objects for joined Users rows
+	
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj4 = new $cls();
+			$obj4->hydrate($rs, $startcol4);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj4 = $temp_obj1->getUsersRelatedByCreatedBy(); // CHECKME
+				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj4->addSchemaHasVersionRelatedByCreatedBy($obj1); // CHECKME
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj4->initSchemaHasVersionsRelatedByCreatedBy();
+				$obj4->addSchemaHasVersionRelatedByCreatedBy($obj1);
+			}
+
 			$results[] = $obj1;
 		}
 		return $results;
@@ -665,14 +801,14 @@ abstract class BaseSchemaHasVersionPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related User table
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByCreatedUserId table
 	 *
 	 * @param Criteria $c
 	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
 	 * @param Connection $con
 	 * @return int Number of matching rows.
 	 */
-	public static function doCountJoinAllExceptUser(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinAllExceptUsersRelatedByCreatedUserId(Criteria $criteria, $distinct = false, $con = null)
 	{
 		// we're going to modify criteria, so copy it first
 		$criteria = clone $criteria;
@@ -730,7 +866,9 @@ abstract class BaseSchemaHasVersionPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(SchemaHasVersionPeer::CREATED_USER_ID, UserPeer::ID);
+		$criteria->addJoin(SchemaHasVersionPeer::CREATED_USER_ID, UsersPeer::ID);
+
+		$criteria->addJoin(SchemaHasVersionPeer::CREATED_BY, UsersPeer::ID);
 
 		$rs = SchemaHasVersionPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -743,13 +881,52 @@ abstract class BaseSchemaHasVersionPeer {
 
 
 	/**
-	 * Selects a collection of SchemaHasVersion objects pre-filled with all related objects except User.
+	 * Returns the number of rows matching criteria, joining the related UsersRelatedByCreatedBy table
+	 *
+	 * @param Criteria $c
+	 * @param boolean $distinct Whether to select only distinct columns (You can also set DISTINCT modifier in Criteria).
+	 * @param Connection $con
+	 * @return int Number of matching rows.
+	 */
+	public static function doCountJoinAllExceptUsersRelatedByCreatedBy(Criteria $criteria, $distinct = false, $con = null)
+	{
+		// we're going to modify criteria, so copy it first
+		$criteria = clone $criteria;
+
+		// clear out anything that might confuse the ORDER BY clause
+		$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(SchemaHasVersionPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(SchemaHasVersionPeer::COUNT);
+		}
+
+		// just in case we're grouping: add those columns to the select statement
+		foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(SchemaHasVersionPeer::SCHEMA_ID, SchemaPeer::ID);
+
+		$rs = SchemaHasVersionPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+			// no rows returned; we infer that means 0 matches.
+			return 0;
+		}
+	}
+
+
+	/**
+	 * Selects a collection of SchemaHasVersion objects pre-filled with all related objects except UsersRelatedByCreatedUserId.
 	 *
 	 * @return array Array of SchemaHasVersion objects.
 	 * @throws PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
-	public static function doSelectJoinAllExceptUser(Criteria $c, $con = null)
+	public static function doSelectJoinAllExceptUsersRelatedByCreatedUserId(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -830,10 +1007,15 @@ abstract class BaseSchemaHasVersionPeer {
 		SchemaHasVersionPeer::addSelectColumns($c);
 		$startcol2 = (SchemaHasVersionPeer::NUM_COLUMNS - SchemaHasVersionPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
-		UserPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
+		UsersPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + UsersPeer::NUM_COLUMNS;
 
-		$c->addJoin(SchemaHasVersionPeer::CREATED_USER_ID, UserPeer::ID);
+		UsersPeer::addSelectColumns($c);
+		$startcol4 = $startcol3 + UsersPeer::NUM_COLUMNS;
+
+		$c->addJoin(SchemaHasVersionPeer::CREATED_USER_ID, UsersPeer::ID);
+
+		$c->addJoin(SchemaHasVersionPeer::CREATED_BY, UsersPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -847,7 +1029,7 @@ abstract class BaseSchemaHasVersionPeer {
 			$obj1 = new $cls();
 			$obj1->hydrate($rs);
 
-			$omClass = UserPeer::getOMClass();
+			$omClass = UsersPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -857,7 +1039,97 @@ abstract class BaseSchemaHasVersionPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUser(); //CHECKME
+				$temp_obj2 = $temp_obj1->getUsersRelatedByCreatedUserId(); //CHECKME
+				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj2->addSchemaHasVersionRelatedByCreatedUserId($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj2->initSchemaHasVersionsRelatedByCreatedUserId();
+				$obj2->addSchemaHasVersionRelatedByCreatedUserId($obj1);
+			}
+
+			$omClass = UsersPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj3  = new $cls();
+			$obj3->hydrate($rs, $startcol3);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj3 = $temp_obj1->getUsersRelatedByCreatedBy(); //CHECKME
+				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj3->addSchemaHasVersionRelatedByCreatedBy($obj1);
+					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj3->initSchemaHasVersionsRelatedByCreatedBy();
+				$obj3->addSchemaHasVersionRelatedByCreatedBy($obj1);
+			}
+
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	/**
+	 * Selects a collection of SchemaHasVersion objects pre-filled with all related objects except UsersRelatedByCreatedBy.
+	 *
+	 * @return array Array of SchemaHasVersion objects.
+	 * @throws PropelException Any exceptions caught during processing will be
+	 *		 rethrown wrapped into a PropelException.
+	 */
+	public static function doSelectJoinAllExceptUsersRelatedByCreatedBy(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+		// Set the correct dbName if it has not been overridden
+		// $c->getDbName() will return the same object if not set to another value
+		// so == check is okay and faster
+		if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		SchemaHasVersionPeer::addSelectColumns($c);
+		$startcol2 = (SchemaHasVersionPeer::NUM_COLUMNS - SchemaHasVersionPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+		SchemaPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + SchemaPeer::NUM_COLUMNS;
+
+		$c->addJoin(SchemaHasVersionPeer::SCHEMA_ID, SchemaPeer::ID);
+
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = SchemaHasVersionPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = SchemaPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj2  = new $cls();
+			$obj2->hydrate($rs, $startcol2);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj2 = $temp_obj1->getSchema(); //CHECKME
 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
 					$temp_obj2->addSchemaHasVersion($obj1);

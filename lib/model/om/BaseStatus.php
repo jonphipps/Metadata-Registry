@@ -1165,7 +1165,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getProfilesJoinAgent($criteria = null, $con = null)
+	public function getProfilesJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseProfilePeer.php';
@@ -1184,7 +1184,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 				$criteria->add(ProfilePeer::STATUS_ID, $this->getId());
 
-				$this->collProfiles = ProfilePeer::doSelectJoinAgent($criteria, $con);
+				$this->collProfiles = ProfilePeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -1194,7 +1194,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria->add(ProfilePeer::STATUS_ID, $this->getId());
 
 			if (!isset($this->lastProfileCriteria) || !$this->lastProfileCriteria->equals($criteria)) {
-				$this->collProfiles = ProfilePeer::doSelectJoinAgent($criteria, $con);
+				$this->collProfiles = ProfilePeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
 			}
 		}
 		$this->lastProfileCriteria = $criteria;
@@ -1214,7 +1214,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getProfilesJoinUserRelatedByCreatedBy($criteria = null, $con = null)
+	public function getProfilesJoinUsersRelatedByUpdatedBy($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseProfilePeer.php';
@@ -1233,7 +1233,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 				$criteria->add(ProfilePeer::STATUS_ID, $this->getId());
 
-				$this->collProfiles = ProfilePeer::doSelectJoinUserRelatedByCreatedBy($criteria, $con);
+				$this->collProfiles = ProfilePeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -1243,7 +1243,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria->add(ProfilePeer::STATUS_ID, $this->getId());
 
 			if (!isset($this->lastProfileCriteria) || !$this->lastProfileCriteria->equals($criteria)) {
-				$this->collProfiles = ProfilePeer::doSelectJoinUserRelatedByCreatedBy($criteria, $con);
+				$this->collProfiles = ProfilePeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
 			}
 		}
 		$this->lastProfileCriteria = $criteria;
@@ -1263,7 +1263,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getProfilesJoinUserRelatedByUpdatedBy($criteria = null, $con = null)
+	public function getProfilesJoinUsersRelatedByDeletedBy($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseProfilePeer.php';
@@ -1282,7 +1282,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 				$criteria->add(ProfilePeer::STATUS_ID, $this->getId());
 
-				$this->collProfiles = ProfilePeer::doSelectJoinUserRelatedByUpdatedBy($criteria, $con);
+				$this->collProfiles = ProfilePeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -1292,7 +1292,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria->add(ProfilePeer::STATUS_ID, $this->getId());
 
 			if (!isset($this->lastProfileCriteria) || !$this->lastProfileCriteria->equals($criteria)) {
-				$this->collProfiles = ProfilePeer::doSelectJoinUserRelatedByUpdatedBy($criteria, $con);
+				$this->collProfiles = ProfilePeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
 			}
 		}
 		$this->lastProfileCriteria = $criteria;
@@ -1312,7 +1312,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getProfilesJoinUserRelatedByDeletedBy($criteria = null, $con = null)
+	public function getProfilesJoinUsersRelatedByChildUpdatedBy($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseProfilePeer.php';
@@ -1331,7 +1331,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 				$criteria->add(ProfilePeer::STATUS_ID, $this->getId());
 
-				$this->collProfiles = ProfilePeer::doSelectJoinUserRelatedByDeletedBy($criteria, $con);
+				$this->collProfiles = ProfilePeer::doSelectJoinUsersRelatedByChildUpdatedBy($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -1341,56 +1341,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria->add(ProfilePeer::STATUS_ID, $this->getId());
 
 			if (!isset($this->lastProfileCriteria) || !$this->lastProfileCriteria->equals($criteria)) {
-				$this->collProfiles = ProfilePeer::doSelectJoinUserRelatedByDeletedBy($criteria, $con);
-			}
-		}
-		$this->lastProfileCriteria = $criteria;
-
-		return $this->collProfiles;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Status is new, it will return
-	 * an empty collection; or if this Status has previously
-	 * been saved, it will retrieve related Profiles from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Status.
-	 */
-	public function getProfilesJoinUserRelatedByChildUpdatedBy($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseProfilePeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collProfiles === null) {
-			if ($this->isNew()) {
-				$this->collProfiles = array();
-			} else {
-
-				$criteria->add(ProfilePeer::STATUS_ID, $this->getId());
-
-				$this->collProfiles = ProfilePeer::doSelectJoinUserRelatedByChildUpdatedBy($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ProfilePeer::STATUS_ID, $this->getId());
-
-			if (!isset($this->lastProfileCriteria) || !$this->lastProfileCriteria->equals($criteria)) {
-				$this->collProfiles = ProfilePeer::doSelectJoinUserRelatedByChildUpdatedBy($criteria, $con);
+				$this->collProfiles = ProfilePeer::doSelectJoinUsersRelatedByChildUpdatedBy($criteria, $con);
 			}
 		}
 		$this->lastProfileCriteria = $criteria;
@@ -1517,7 +1468,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getProfilePropertysJoinUserRelatedByCreatedBy($criteria = null, $con = null)
+	public function getProfilePropertysJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseProfilePropertyPeer.php';
@@ -1536,7 +1487,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 				$criteria->add(ProfilePropertyPeer::STATUS_ID, $this->getId());
 
-				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinUserRelatedByCreatedBy($criteria, $con);
+				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -1546,7 +1497,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria->add(ProfilePropertyPeer::STATUS_ID, $this->getId());
 
 			if (!isset($this->lastProfilePropertyCriteria) || !$this->lastProfilePropertyCriteria->equals($criteria)) {
-				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinUserRelatedByCreatedBy($criteria, $con);
+				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
 			}
 		}
 		$this->lastProfilePropertyCriteria = $criteria;
@@ -1566,7 +1517,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getProfilePropertysJoinUserRelatedByUpdatedBy($criteria = null, $con = null)
+	public function getProfilePropertysJoinUsersRelatedByUpdatedBy($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseProfilePropertyPeer.php';
@@ -1585,7 +1536,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 				$criteria->add(ProfilePropertyPeer::STATUS_ID, $this->getId());
 
-				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinUserRelatedByUpdatedBy($criteria, $con);
+				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -1595,7 +1546,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria->add(ProfilePropertyPeer::STATUS_ID, $this->getId());
 
 			if (!isset($this->lastProfilePropertyCriteria) || !$this->lastProfilePropertyCriteria->equals($criteria)) {
-				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinUserRelatedByUpdatedBy($criteria, $con);
+				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
 			}
 		}
 		$this->lastProfilePropertyCriteria = $criteria;
@@ -1615,7 +1566,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getProfilePropertysJoinUserRelatedByDeletedBy($criteria = null, $con = null)
+	public function getProfilePropertysJoinUsersRelatedByDeletedBy($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseProfilePropertyPeer.php';
@@ -1634,7 +1585,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 				$criteria->add(ProfilePropertyPeer::STATUS_ID, $this->getId());
 
-				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinUserRelatedByDeletedBy($criteria, $con);
+				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -1644,7 +1595,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria->add(ProfilePropertyPeer::STATUS_ID, $this->getId());
 
 			if (!isset($this->lastProfilePropertyCriteria) || !$this->lastProfilePropertyCriteria->equals($criteria)) {
-				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinUserRelatedByDeletedBy($criteria, $con);
+				$this->collProfilePropertys = ProfilePropertyPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
 			}
 		}
 		$this->lastProfilePropertyCriteria = $criteria;
@@ -1869,7 +1820,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getCollectionsJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
+	public function getCollectionsJoinUsersRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseCollectionPeer.php';
@@ -1888,7 +1839,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 				$criteria->add(CollectionPeer::STATUS_ID, $this->getId());
 
-				$this->collCollections = CollectionPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collCollections = CollectionPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -1898,7 +1849,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria->add(CollectionPeer::STATUS_ID, $this->getId());
 
 			if (!isset($this->lastCollectionCriteria) || !$this->lastCollectionCriteria->equals($criteria)) {
-				$this->collCollections = CollectionPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collCollections = CollectionPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		}
 		$this->lastCollectionCriteria = $criteria;
@@ -1918,7 +1869,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getCollectionsJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
+	public function getCollectionsJoinUsersRelatedByUpdatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseCollectionPeer.php';
@@ -1937,7 +1888,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 				$criteria->add(CollectionPeer::STATUS_ID, $this->getId());
 
-				$this->collCollections = CollectionPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collCollections = CollectionPeer::doSelectJoinUsersRelatedByUpdatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -1947,7 +1898,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria->add(CollectionPeer::STATUS_ID, $this->getId());
 
 			if (!isset($this->lastCollectionCriteria) || !$this->lastCollectionCriteria->equals($criteria)) {
-				$this->collCollections = CollectionPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collCollections = CollectionPeer::doSelectJoinUsersRelatedByUpdatedUserId($criteria, $con);
 			}
 		}
 		$this->lastCollectionCriteria = $criteria;
@@ -1997,6 +1948,153 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastCollectionCriteria) || !$this->lastCollectionCriteria->equals($criteria)) {
 				$this->collCollections = CollectionPeer::doSelectJoinVocabulary($criteria, $con);
+			}
+		}
+		$this->lastCollectionCriteria = $criteria;
+
+		return $this->collCollections;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status is new, it will return
+	 * an empty collection; or if this Status has previously
+	 * been saved, it will retrieve related Collections from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Status.
+	 */
+	public function getCollectionsJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseCollectionPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collCollections === null) {
+			if ($this->isNew()) {
+				$this->collCollections = array();
+			} else {
+
+				$criteria->add(CollectionPeer::STATUS_ID, $this->getId());
+
+				$this->collCollections = CollectionPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(CollectionPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastCollectionCriteria) || !$this->lastCollectionCriteria->equals($criteria)) {
+				$this->collCollections = CollectionPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		}
+		$this->lastCollectionCriteria = $criteria;
+
+		return $this->collCollections;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status is new, it will return
+	 * an empty collection; or if this Status has previously
+	 * been saved, it will retrieve related Collections from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Status.
+	 */
+	public function getCollectionsJoinUsersRelatedByUpdatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseCollectionPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collCollections === null) {
+			if ($this->isNew()) {
+				$this->collCollections = array();
+			} else {
+
+				$criteria->add(CollectionPeer::STATUS_ID, $this->getId());
+
+				$this->collCollections = CollectionPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(CollectionPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastCollectionCriteria) || !$this->lastCollectionCriteria->equals($criteria)) {
+				$this->collCollections = CollectionPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
+			}
+		}
+		$this->lastCollectionCriteria = $criteria;
+
+		return $this->collCollections;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status is new, it will return
+	 * an empty collection; or if this Status has previously
+	 * been saved, it will retrieve related Collections from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Status.
+	 */
+	public function getCollectionsJoinUsersRelatedByDeletedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseCollectionPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collCollections === null) {
+			if ($this->isNew()) {
+				$this->collCollections = array();
+			} else {
+
+				$criteria->add(CollectionPeer::STATUS_ID, $this->getId());
+
+				$this->collCollections = CollectionPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(CollectionPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastCollectionCriteria) || !$this->lastCollectionCriteria->equals($criteria)) {
+				$this->collCollections = CollectionPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
 			}
 		}
 		$this->lastCollectionCriteria = $criteria;
@@ -2123,7 +2221,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getConceptsJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
+	public function getConceptsJoinUsersRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseConceptPeer.php';
@@ -2142,7 +2240,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPeer::STATUS_ID, $this->getId());
 
-				$this->collConcepts = ConceptPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collConcepts = ConceptPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -2152,7 +2250,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria->add(ConceptPeer::STATUS_ID, $this->getId());
 
 			if (!isset($this->lastConceptCriteria) || !$this->lastConceptCriteria->equals($criteria)) {
-				$this->collConcepts = ConceptPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collConcepts = ConceptPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		}
 		$this->lastConceptCriteria = $criteria;
@@ -2172,7 +2270,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getConceptsJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
+	public function getConceptsJoinUsersRelatedByUpdatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseConceptPeer.php';
@@ -2191,7 +2289,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPeer::STATUS_ID, $this->getId());
 
-				$this->collConcepts = ConceptPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collConcepts = ConceptPeer::doSelectJoinUsersRelatedByUpdatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -2201,7 +2299,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria->add(ConceptPeer::STATUS_ID, $this->getId());
 
 			if (!isset($this->lastConceptCriteria) || !$this->lastConceptCriteria->equals($criteria)) {
-				$this->collConcepts = ConceptPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collConcepts = ConceptPeer::doSelectJoinUsersRelatedByUpdatedUserId($criteria, $con);
 			}
 		}
 		$this->lastConceptCriteria = $criteria;
@@ -2300,6 +2398,153 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastConceptCriteria) || !$this->lastConceptCriteria->equals($criteria)) {
 				$this->collConcepts = ConceptPeer::doSelectJoinConceptProperty($criteria, $con);
+			}
+		}
+		$this->lastConceptCriteria = $criteria;
+
+		return $this->collConcepts;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status is new, it will return
+	 * an empty collection; or if this Status has previously
+	 * been saved, it will retrieve related Concepts from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Status.
+	 */
+	public function getConceptsJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConcepts === null) {
+			if ($this->isNew()) {
+				$this->collConcepts = array();
+			} else {
+
+				$criteria->add(ConceptPeer::STATUS_ID, $this->getId());
+
+				$this->collConcepts = ConceptPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastConceptCriteria) || !$this->lastConceptCriteria->equals($criteria)) {
+				$this->collConcepts = ConceptPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		}
+		$this->lastConceptCriteria = $criteria;
+
+		return $this->collConcepts;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status is new, it will return
+	 * an empty collection; or if this Status has previously
+	 * been saved, it will retrieve related Concepts from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Status.
+	 */
+	public function getConceptsJoinUsersRelatedByUpdatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConcepts === null) {
+			if ($this->isNew()) {
+				$this->collConcepts = array();
+			} else {
+
+				$criteria->add(ConceptPeer::STATUS_ID, $this->getId());
+
+				$this->collConcepts = ConceptPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastConceptCriteria) || !$this->lastConceptCriteria->equals($criteria)) {
+				$this->collConcepts = ConceptPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
+			}
+		}
+		$this->lastConceptCriteria = $criteria;
+
+		return $this->collConcepts;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status is new, it will return
+	 * an empty collection; or if this Status has previously
+	 * been saved, it will retrieve related Concepts from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Status.
+	 */
+	public function getConceptsJoinUsersRelatedByDeletedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConcepts === null) {
+			if ($this->isNew()) {
+				$this->collConcepts = array();
+			} else {
+
+				$criteria->add(ConceptPeer::STATUS_ID, $this->getId());
+
+				$this->collConcepts = ConceptPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastConceptCriteria) || !$this->lastConceptCriteria->equals($criteria)) {
+				$this->collConcepts = ConceptPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
 			}
 		}
 		$this->lastConceptCriteria = $criteria;
@@ -2426,7 +2671,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getConceptPropertysJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
+	public function getConceptPropertysJoinUsersRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
@@ -2445,7 +2690,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
 
-				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -2455,7 +2700,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
-				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyCriteria = $criteria;
@@ -2475,7 +2720,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getConceptPropertysJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
+	public function getConceptPropertysJoinUsersRelatedByUpdatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
@@ -2494,7 +2739,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
 
-				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinUsersRelatedByUpdatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -2504,7 +2749,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
-				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinUsersRelatedByUpdatedUserId($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyCriteria = $criteria;
@@ -2750,6 +2995,153 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
 				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinProfilePropertyRelatedByProfilePropertyId($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyCriteria = $criteria;
+
+		return $this->collConceptPropertys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status is new, it will return
+	 * an empty collection; or if this Status has previously
+	 * been saved, it will retrieve related ConceptPropertys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Status.
+	 */
+	public function getConceptPropertysJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertys === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertys = array();
+			} else {
+
+				$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
+
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyCriteria = $criteria;
+
+		return $this->collConceptPropertys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status is new, it will return
+	 * an empty collection; or if this Status has previously
+	 * been saved, it will retrieve related ConceptPropertys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Status.
+	 */
+	public function getConceptPropertysJoinUsersRelatedByUpdatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertys === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertys = array();
+			} else {
+
+				$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
+
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyCriteria = $criteria;
+
+		return $this->collConceptPropertys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status is new, it will return
+	 * an empty collection; or if this Status has previously
+	 * been saved, it will retrieve related ConceptPropertys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Status.
+	 */
+	public function getConceptPropertysJoinUsersRelatedByDeletedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertys === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertys = array();
+			} else {
+
+				$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
+
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyCriteria) || !$this->lastConceptPropertyCriteria->equals($criteria)) {
+				$this->collConceptPropertys = ConceptPropertyPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyCriteria = $criteria;
@@ -3170,7 +3562,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getConceptPropertyHistorysJoinUser($criteria = null, $con = null)
+	public function getConceptPropertyHistorysJoinUsersRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
@@ -3189,7 +3581,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 				$criteria->add(ConceptPropertyHistoryPeer::STATUS_ID, $this->getId());
 
-				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUser($criteria, $con);
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -3199,7 +3591,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria->add(ConceptPropertyHistoryPeer::STATUS_ID, $this->getId());
 
 			if (!isset($this->lastConceptPropertyHistoryCriteria) || !$this->lastConceptPropertyHistoryCriteria->equals($criteria)) {
-				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUser($criteria, $con);
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyHistoryCriteria = $criteria;
@@ -3298,6 +3690,55 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastConceptPropertyHistoryCriteria) || !$this->lastConceptPropertyHistoryCriteria->equals($criteria)) {
 				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinProfileProperty($criteria, $con);
+			}
+		}
+		$this->lastConceptPropertyHistoryCriteria = $criteria;
+
+		return $this->collConceptPropertyHistorys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status is new, it will return
+	 * an empty collection; or if this Status has previously
+	 * been saved, it will retrieve related ConceptPropertyHistorys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Status.
+	 */
+	public function getConceptPropertyHistorysJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseConceptPropertyHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConceptPropertyHistorys === null) {
+			if ($this->isNew()) {
+				$this->collConceptPropertyHistorys = array();
+			} else {
+
+				$criteria->add(ConceptPropertyHistoryPeer::STATUS_ID, $this->getId());
+
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(ConceptPropertyHistoryPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastConceptPropertyHistoryCriteria) || !$this->lastConceptPropertyHistoryCriteria->equals($criteria)) {
+				$this->collConceptPropertyHistorys = ConceptPropertyHistoryPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
 			}
 		}
 		$this->lastConceptPropertyHistoryCriteria = $criteria;
@@ -3424,7 +3865,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getSchemasJoinAgent($criteria = null, $con = null)
+	public function getSchemasJoinUsersRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseSchemaPeer.php';
@@ -3443,7 +3884,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 				$criteria->add(SchemaPeer::STATUS_ID, $this->getId());
 
-				$this->collSchemas = SchemaPeer::doSelectJoinAgent($criteria, $con);
+				$this->collSchemas = SchemaPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -3453,7 +3894,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria->add(SchemaPeer::STATUS_ID, $this->getId());
 
 			if (!isset($this->lastSchemaCriteria) || !$this->lastSchemaCriteria->equals($criteria)) {
-				$this->collSchemas = SchemaPeer::doSelectJoinAgent($criteria, $con);
+				$this->collSchemas = SchemaPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		}
 		$this->lastSchemaCriteria = $criteria;
@@ -3473,7 +3914,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getSchemasJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
+	public function getSchemasJoinUsersRelatedByUpdatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseSchemaPeer.php';
@@ -3492,7 +3933,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 				$criteria->add(SchemaPeer::STATUS_ID, $this->getId());
 
-				$this->collSchemas = SchemaPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collSchemas = SchemaPeer::doSelectJoinUsersRelatedByUpdatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -3502,7 +3943,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria->add(SchemaPeer::STATUS_ID, $this->getId());
 
 			if (!isset($this->lastSchemaCriteria) || !$this->lastSchemaCriteria->equals($criteria)) {
-				$this->collSchemas = SchemaPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collSchemas = SchemaPeer::doSelectJoinUsersRelatedByUpdatedUserId($criteria, $con);
 			}
 		}
 		$this->lastSchemaCriteria = $criteria;
@@ -3522,7 +3963,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getSchemasJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
+	public function getSchemasJoinUsersRelatedByDeletedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseSchemaPeer.php';
@@ -3541,7 +3982,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 				$criteria->add(SchemaPeer::STATUS_ID, $this->getId());
 
-				$this->collSchemas = SchemaPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collSchemas = SchemaPeer::doSelectJoinUsersRelatedByDeletedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -3551,7 +3992,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria->add(SchemaPeer::STATUS_ID, $this->getId());
 
 			if (!isset($this->lastSchemaCriteria) || !$this->lastSchemaCriteria->equals($criteria)) {
-				$this->collSchemas = SchemaPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collSchemas = SchemaPeer::doSelectJoinUsersRelatedByDeletedUserId($criteria, $con);
 			}
 		}
 		$this->lastSchemaCriteria = $criteria;
@@ -3571,7 +4012,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getSchemasJoinUserRelatedByDeletedUserId($criteria = null, $con = null)
+	public function getSchemasJoinProjectsRelatedByProjectId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseSchemaPeer.php';
@@ -3590,7 +4031,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 				$criteria->add(SchemaPeer::STATUS_ID, $this->getId());
 
-				$this->collSchemas = SchemaPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
+				$this->collSchemas = SchemaPeer::doSelectJoinProjectsRelatedByProjectId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -3600,7 +4041,56 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria->add(SchemaPeer::STATUS_ID, $this->getId());
 
 			if (!isset($this->lastSchemaCriteria) || !$this->lastSchemaCriteria->equals($criteria)) {
-				$this->collSchemas = SchemaPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
+				$this->collSchemas = SchemaPeer::doSelectJoinProjectsRelatedByProjectId($criteria, $con);
+			}
+		}
+		$this->lastSchemaCriteria = $criteria;
+
+		return $this->collSchemas;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status is new, it will return
+	 * an empty collection; or if this Status has previously
+	 * been saved, it will retrieve related Schemas from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Status.
+	 */
+	public function getSchemasJoinProjectsRelatedByAgentId($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemas === null) {
+			if ($this->isNew()) {
+				$this->collSchemas = array();
+			} else {
+
+				$criteria->add(SchemaPeer::STATUS_ID, $this->getId());
+
+				$this->collSchemas = SchemaPeer::doSelectJoinProjectsRelatedByAgentId($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastSchemaCriteria) || !$this->lastSchemaCriteria->equals($criteria)) {
+				$this->collSchemas = SchemaPeer::doSelectJoinProjectsRelatedByAgentId($criteria, $con);
 			}
 		}
 		$this->lastSchemaCriteria = $criteria;
@@ -3650,6 +4140,153 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastSchemaCriteria) || !$this->lastSchemaCriteria->equals($criteria)) {
 				$this->collSchemas = SchemaPeer::doSelectJoinProfile($criteria, $con);
+			}
+		}
+		$this->lastSchemaCriteria = $criteria;
+
+		return $this->collSchemas;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status is new, it will return
+	 * an empty collection; or if this Status has previously
+	 * been saved, it will retrieve related Schemas from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Status.
+	 */
+	public function getSchemasJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemas === null) {
+			if ($this->isNew()) {
+				$this->collSchemas = array();
+			} else {
+
+				$criteria->add(SchemaPeer::STATUS_ID, $this->getId());
+
+				$this->collSchemas = SchemaPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastSchemaCriteria) || !$this->lastSchemaCriteria->equals($criteria)) {
+				$this->collSchemas = SchemaPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		}
+		$this->lastSchemaCriteria = $criteria;
+
+		return $this->collSchemas;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status is new, it will return
+	 * an empty collection; or if this Status has previously
+	 * been saved, it will retrieve related Schemas from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Status.
+	 */
+	public function getSchemasJoinUsersRelatedByUpdatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemas === null) {
+			if ($this->isNew()) {
+				$this->collSchemas = array();
+			} else {
+
+				$criteria->add(SchemaPeer::STATUS_ID, $this->getId());
+
+				$this->collSchemas = SchemaPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastSchemaCriteria) || !$this->lastSchemaCriteria->equals($criteria)) {
+				$this->collSchemas = SchemaPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
+			}
+		}
+		$this->lastSchemaCriteria = $criteria;
+
+		return $this->collSchemas;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status is new, it will return
+	 * an empty collection; or if this Status has previously
+	 * been saved, it will retrieve related Schemas from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Status.
+	 */
+	public function getSchemasJoinUsersRelatedByDeletedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemas === null) {
+			if ($this->isNew()) {
+				$this->collSchemas = array();
+			} else {
+
+				$criteria->add(SchemaPeer::STATUS_ID, $this->getId());
+
+				$this->collSchemas = SchemaPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastSchemaCriteria) || !$this->lastSchemaCriteria->equals($criteria)) {
+				$this->collSchemas = SchemaPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
 			}
 		}
 		$this->lastSchemaCriteria = $criteria;
@@ -3776,7 +4413,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getSchemaPropertysJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
+	public function getSchemaPropertysJoinUsersRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseSchemaPropertyPeer.php';
@@ -3795,7 +4432,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 				$criteria->add(SchemaPropertyPeer::STATUS_ID, $this->getId());
 
-				$this->collSchemaPropertys = SchemaPropertyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collSchemaPropertys = SchemaPropertyPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -3805,7 +4442,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria->add(SchemaPropertyPeer::STATUS_ID, $this->getId());
 
 			if (!isset($this->lastSchemaPropertyCriteria) || !$this->lastSchemaPropertyCriteria->equals($criteria)) {
-				$this->collSchemaPropertys = SchemaPropertyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collSchemaPropertys = SchemaPropertyPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyCriteria = $criteria;
@@ -3825,7 +4462,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getSchemaPropertysJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
+	public function getSchemaPropertysJoinUsersRelatedByUpdatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseSchemaPropertyPeer.php';
@@ -3844,7 +4481,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 				$criteria->add(SchemaPropertyPeer::STATUS_ID, $this->getId());
 
-				$this->collSchemaPropertys = SchemaPropertyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collSchemaPropertys = SchemaPropertyPeer::doSelectJoinUsersRelatedByUpdatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -3854,7 +4491,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria->add(SchemaPropertyPeer::STATUS_ID, $this->getId());
 
 			if (!isset($this->lastSchemaPropertyCriteria) || !$this->lastSchemaPropertyCriteria->equals($criteria)) {
-				$this->collSchemaPropertys = SchemaPropertyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collSchemaPropertys = SchemaPropertyPeer::doSelectJoinUsersRelatedByUpdatedUserId($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyCriteria = $criteria;
@@ -3953,6 +4590,153 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastSchemaPropertyCriteria) || !$this->lastSchemaPropertyCriteria->equals($criteria)) {
 				$this->collSchemaPropertys = SchemaPropertyPeer::doSelectJoinSchemaPropertyRelatedByIsSubpropertyOf($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyCriteria = $criteria;
+
+		return $this->collSchemaPropertys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status is new, it will return
+	 * an empty collection; or if this Status has previously
+	 * been saved, it will retrieve related SchemaPropertys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Status.
+	 */
+	public function getSchemaPropertysJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertys === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertys = array();
+			} else {
+
+				$criteria->add(SchemaPropertyPeer::STATUS_ID, $this->getId());
+
+				$this->collSchemaPropertys = SchemaPropertyPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyCriteria) || !$this->lastSchemaPropertyCriteria->equals($criteria)) {
+				$this->collSchemaPropertys = SchemaPropertyPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyCriteria = $criteria;
+
+		return $this->collSchemaPropertys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status is new, it will return
+	 * an empty collection; or if this Status has previously
+	 * been saved, it will retrieve related SchemaPropertys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Status.
+	 */
+	public function getSchemaPropertysJoinUsersRelatedByUpdatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertys === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertys = array();
+			} else {
+
+				$criteria->add(SchemaPropertyPeer::STATUS_ID, $this->getId());
+
+				$this->collSchemaPropertys = SchemaPropertyPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyCriteria) || !$this->lastSchemaPropertyCriteria->equals($criteria)) {
+				$this->collSchemaPropertys = SchemaPropertyPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyCriteria = $criteria;
+
+		return $this->collSchemaPropertys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status is new, it will return
+	 * an empty collection; or if this Status has previously
+	 * been saved, it will retrieve related SchemaPropertys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Status.
+	 */
+	public function getSchemaPropertysJoinUsersRelatedByDeletedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertys === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertys = array();
+			} else {
+
+				$criteria->add(SchemaPropertyPeer::STATUS_ID, $this->getId());
+
+				$this->collSchemaPropertys = SchemaPropertyPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyCriteria) || !$this->lastSchemaPropertyCriteria->equals($criteria)) {
+				$this->collSchemaPropertys = SchemaPropertyPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyCriteria = $criteria;
@@ -4079,7 +4863,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getSchemaPropertyElementsJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
+	public function getSchemaPropertyElementsJoinUsersRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseSchemaPropertyElementPeer.php';
@@ -4098,7 +4882,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 				$criteria->add(SchemaPropertyElementPeer::STATUS_ID, $this->getId());
 
-				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -4108,7 +4892,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria->add(SchemaPropertyElementPeer::STATUS_ID, $this->getId());
 
 			if (!isset($this->lastSchemaPropertyElementCriteria) || !$this->lastSchemaPropertyElementCriteria->equals($criteria)) {
-				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyElementCriteria = $criteria;
@@ -4128,7 +4912,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getSchemaPropertyElementsJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
+	public function getSchemaPropertyElementsJoinUsersRelatedByUpdatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseSchemaPropertyElementPeer.php';
@@ -4147,7 +4931,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 				$criteria->add(SchemaPropertyElementPeer::STATUS_ID, $this->getId());
 
-				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByUpdatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -4157,7 +4941,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria->add(SchemaPropertyElementPeer::STATUS_ID, $this->getId());
 
 			if (!isset($this->lastSchemaPropertyElementCriteria) || !$this->lastSchemaPropertyElementCriteria->equals($criteria)) {
-				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByUpdatedUserId($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyElementCriteria = $criteria;
@@ -4177,7 +4961,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getSchemaPropertyElementsJoinUserRelatedByDeletedUserId($criteria = null, $con = null)
+	public function getSchemaPropertyElementsJoinUsersRelatedByDeletedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseSchemaPropertyElementPeer.php';
@@ -4196,7 +4980,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 				$criteria->add(SchemaPropertyElementPeer::STATUS_ID, $this->getId());
 
-				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
+				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByDeletedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -4206,7 +4990,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria->add(SchemaPropertyElementPeer::STATUS_ID, $this->getId());
 
 			if (!isset($this->lastSchemaPropertyElementCriteria) || !$this->lastSchemaPropertyElementCriteria->equals($criteria)) {
-				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
+				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByDeletedUserId($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyElementCriteria = $criteria;
@@ -4361,6 +5145,153 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 		return $this->collSchemaPropertyElements;
 	}
 
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status is new, it will return
+	 * an empty collection; or if this Status has previously
+	 * been saved, it will retrieve related SchemaPropertyElements from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Status.
+	 */
+	public function getSchemaPropertyElementsJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyElementPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertyElements === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertyElements = array();
+			} else {
+
+				$criteria->add(SchemaPropertyElementPeer::STATUS_ID, $this->getId());
+
+				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyElementPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyElementCriteria) || !$this->lastSchemaPropertyElementCriteria->equals($criteria)) {
+				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyElementCriteria = $criteria;
+
+		return $this->collSchemaPropertyElements;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status is new, it will return
+	 * an empty collection; or if this Status has previously
+	 * been saved, it will retrieve related SchemaPropertyElements from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Status.
+	 */
+	public function getSchemaPropertyElementsJoinUsersRelatedByUpdatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyElementPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertyElements === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertyElements = array();
+			} else {
+
+				$criteria->add(SchemaPropertyElementPeer::STATUS_ID, $this->getId());
+
+				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyElementPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyElementCriteria) || !$this->lastSchemaPropertyElementCriteria->equals($criteria)) {
+				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyElementCriteria = $criteria;
+
+		return $this->collSchemaPropertyElements;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status is new, it will return
+	 * an empty collection; or if this Status has previously
+	 * been saved, it will retrieve related SchemaPropertyElements from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Status.
+	 */
+	public function getSchemaPropertyElementsJoinUsersRelatedByDeletedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyElementPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertyElements === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertyElements = array();
+			} else {
+
+				$criteria->add(SchemaPropertyElementPeer::STATUS_ID, $this->getId());
+
+				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyElementPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyElementCriteria) || !$this->lastSchemaPropertyElementCriteria->equals($criteria)) {
+				$this->collSchemaPropertyElements = SchemaPropertyElementPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyElementCriteria = $criteria;
+
+		return $this->collSchemaPropertyElements;
+	}
+
 	/**
 	 * Temporary storage of collSchemaPropertyElementHistorys to save a possible db hit in
 	 * the event objects are add to the collection, but the
@@ -4480,7 +5411,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getSchemaPropertyElementHistorysJoinUser($criteria = null, $con = null)
+	public function getSchemaPropertyElementHistorysJoinUsersRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseSchemaPropertyElementHistoryPeer.php';
@@ -4499,7 +5430,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 				$criteria->add(SchemaPropertyElementHistoryPeer::STATUS_ID, $this->getId());
 
-				$this->collSchemaPropertyElementHistorys = SchemaPropertyElementHistoryPeer::doSelectJoinUser($criteria, $con);
+				$this->collSchemaPropertyElementHistorys = SchemaPropertyElementHistoryPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -4509,7 +5440,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria->add(SchemaPropertyElementHistoryPeer::STATUS_ID, $this->getId());
 
 			if (!isset($this->lastSchemaPropertyElementHistoryCriteria) || !$this->lastSchemaPropertyElementHistoryCriteria->equals($criteria)) {
-				$this->collSchemaPropertyElementHistorys = SchemaPropertyElementHistoryPeer::doSelectJoinUser($criteria, $con);
+				$this->collSchemaPropertyElementHistorys = SchemaPropertyElementHistoryPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		}
 		$this->lastSchemaPropertyElementHistoryCriteria = $criteria;
@@ -4811,6 +5742,55 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 		return $this->collSchemaPropertyElementHistorys;
 	}
 
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status is new, it will return
+	 * an empty collection; or if this Status has previously
+	 * been saved, it will retrieve related SchemaPropertyElementHistorys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Status.
+	 */
+	public function getSchemaPropertyElementHistorysJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseSchemaPropertyElementHistoryPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collSchemaPropertyElementHistorys === null) {
+			if ($this->isNew()) {
+				$this->collSchemaPropertyElementHistorys = array();
+			} else {
+
+				$criteria->add(SchemaPropertyElementHistoryPeer::STATUS_ID, $this->getId());
+
+				$this->collSchemaPropertyElementHistorys = SchemaPropertyElementHistoryPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(SchemaPropertyElementHistoryPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastSchemaPropertyElementHistoryCriteria) || !$this->lastSchemaPropertyElementHistoryCriteria->equals($criteria)) {
+				$this->collSchemaPropertyElementHistorys = SchemaPropertyElementHistoryPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		}
+		$this->lastSchemaPropertyElementHistoryCriteria = $criteria;
+
+		return $this->collSchemaPropertyElementHistorys;
+	}
+
 	/**
 	 * Temporary storage of collVocabularys to save a possible db hit in
 	 * the event objects are add to the collection, but the
@@ -4930,7 +5910,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getVocabularysJoinAgent($criteria = null, $con = null)
+	public function getVocabularysJoinProjectsRelatedByProjectId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseVocabularyPeer.php';
@@ -4949,7 +5929,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 				$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
 
-				$this->collVocabularys = VocabularyPeer::doSelectJoinAgent($criteria, $con);
+				$this->collVocabularys = VocabularyPeer::doSelectJoinProjectsRelatedByProjectId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -4959,7 +5939,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
 
 			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
-				$this->collVocabularys = VocabularyPeer::doSelectJoinAgent($criteria, $con);
+				$this->collVocabularys = VocabularyPeer::doSelectJoinProjectsRelatedByProjectId($criteria, $con);
 			}
 		}
 		$this->lastVocabularyCriteria = $criteria;
@@ -4979,7 +5959,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getVocabularysJoinUserRelatedByCreatedUserId($criteria = null, $con = null)
+	public function getVocabularysJoinProjectsRelatedByAgentId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseVocabularyPeer.php';
@@ -4998,7 +5978,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 				$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
 
-				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collVocabularys = VocabularyPeer::doSelectJoinProjectsRelatedByAgentId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -5008,7 +5988,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
 
 			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
-				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByCreatedUserId($criteria, $con);
+				$this->collVocabularys = VocabularyPeer::doSelectJoinProjectsRelatedByAgentId($criteria, $con);
 			}
 		}
 		$this->lastVocabularyCriteria = $criteria;
@@ -5028,7 +6008,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getVocabularysJoinUserRelatedByUpdatedUserId($criteria = null, $con = null)
+	public function getVocabularysJoinUsersRelatedByCreatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseVocabularyPeer.php';
@@ -5047,7 +6027,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 				$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
 
-				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -5057,7 +6037,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
 
 			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
-				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByUpdatedUserId($criteria, $con);
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUsersRelatedByCreatedUserId($criteria, $con);
 			}
 		}
 		$this->lastVocabularyCriteria = $criteria;
@@ -5077,7 +6057,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getVocabularysJoinUserRelatedByDeletedUserId($criteria = null, $con = null)
+	public function getVocabularysJoinUsersRelatedByUpdatedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseVocabularyPeer.php';
@@ -5096,7 +6076,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 				$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
 
-				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUsersRelatedByUpdatedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -5106,7 +6086,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
 
 			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
-				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByDeletedUserId($criteria, $con);
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUsersRelatedByUpdatedUserId($criteria, $con);
 			}
 		}
 		$this->lastVocabularyCriteria = $criteria;
@@ -5126,7 +6106,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getVocabularysJoinUserRelatedByChildUpdatedUserId($criteria = null, $con = null)
+	public function getVocabularysJoinUsersRelatedByDeletedUserId($criteria = null, $con = null)
 	{
 		// include the Peer class
 		include_once 'lib/model/om/BaseVocabularyPeer.php';
@@ -5145,7 +6125,7 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 				$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
 
-				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByChildUpdatedUserId($criteria, $con);
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUsersRelatedByDeletedUserId($criteria, $con);
 			}
 		} else {
 			// the following code is to determine if a new query is
@@ -5155,7 +6135,56 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 			$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
 
 			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
-				$this->collVocabularys = VocabularyPeer::doSelectJoinUserRelatedByChildUpdatedUserId($criteria, $con);
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUsersRelatedByDeletedUserId($criteria, $con);
+			}
+		}
+		$this->lastVocabularyCriteria = $criteria;
+
+		return $this->collVocabularys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status is new, it will return
+	 * an empty collection; or if this Status has previously
+	 * been saved, it will retrieve related Vocabularys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Status.
+	 */
+	public function getVocabularysJoinUsersRelatedByChildUpdatedUserId($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collVocabularys === null) {
+			if ($this->isNew()) {
+				$this->collVocabularys = array();
+			} else {
+
+				$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
+
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUsersRelatedByChildUpdatedUserId($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUsersRelatedByChildUpdatedUserId($criteria, $con);
 			}
 		}
 		$this->lastVocabularyCriteria = $criteria;
@@ -5205,6 +6234,202 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 
 			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
 				$this->collVocabularys = VocabularyPeer::doSelectJoinProfile($criteria, $con);
+			}
+		}
+		$this->lastVocabularyCriteria = $criteria;
+
+		return $this->collVocabularys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status is new, it will return
+	 * an empty collection; or if this Status has previously
+	 * been saved, it will retrieve related Vocabularys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Status.
+	 */
+	public function getVocabularysJoinUsersRelatedByCreatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collVocabularys === null) {
+			if ($this->isNew()) {
+				$this->collVocabularys = array();
+			} else {
+
+				$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
+
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUsersRelatedByCreatedBy($criteria, $con);
+			}
+		}
+		$this->lastVocabularyCriteria = $criteria;
+
+		return $this->collVocabularys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status is new, it will return
+	 * an empty collection; or if this Status has previously
+	 * been saved, it will retrieve related Vocabularys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Status.
+	 */
+	public function getVocabularysJoinUsersRelatedByUpdatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collVocabularys === null) {
+			if ($this->isNew()) {
+				$this->collVocabularys = array();
+			} else {
+
+				$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
+
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUsersRelatedByUpdatedBy($criteria, $con);
+			}
+		}
+		$this->lastVocabularyCriteria = $criteria;
+
+		return $this->collVocabularys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status is new, it will return
+	 * an empty collection; or if this Status has previously
+	 * been saved, it will retrieve related Vocabularys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Status.
+	 */
+	public function getVocabularysJoinUsersRelatedByDeletedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collVocabularys === null) {
+			if ($this->isNew()) {
+				$this->collVocabularys = array();
+			} else {
+
+				$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
+
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUsersRelatedByDeletedBy($criteria, $con);
+			}
+		}
+		$this->lastVocabularyCriteria = $criteria;
+
+		return $this->collVocabularys;
+	}
+
+
+	/**
+	 * If this collection has already been initialized with
+	 * an identical criteria, it returns the collection.
+	 * Otherwise if this Status is new, it will return
+	 * an empty collection; or if this Status has previously
+	 * been saved, it will retrieve related Vocabularys from storage.
+	 *
+	 * This method is protected by default in order to keep the public
+	 * api reasonable.  You can provide public methods for those you
+	 * actually need in Status.
+	 */
+	public function getVocabularysJoinUsersRelatedByChildUpdatedBy($criteria = null, $con = null)
+	{
+		// include the Peer class
+		include_once 'lib/model/om/BaseVocabularyPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collVocabularys === null) {
+			if ($this->isNew()) {
+				$this->collVocabularys = array();
+			} else {
+
+				$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
+
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUsersRelatedByChildUpdatedBy($criteria, $con);
+			}
+		} else {
+			// the following code is to determine if a new query is
+			// called for.  If the criteria is the same as the last
+			// one, just return the collection.
+
+			$criteria->add(VocabularyPeer::STATUS_ID, $this->getId());
+
+			if (!isset($this->lastVocabularyCriteria) || !$this->lastVocabularyCriteria->equals($criteria)) {
+				$this->collVocabularys = VocabularyPeer::doSelectJoinUsersRelatedByChildUpdatedBy($criteria, $con);
 			}
 		}
 		$this->lastVocabularyCriteria = $criteria;
