@@ -2,8 +2,6 @@
 
 namespace Tests\Feature\OMR;
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Auth;
 use Tests\BrowserKitTestCase;
@@ -18,7 +16,7 @@ class AuthTest extends BrowserKitTestCase
 
     public function setUp()
     {
-        $this->dontSetupDatabase();
+        //$this->dontSetupDatabase();
         parent::setUp();
     }
 
@@ -323,7 +321,36 @@ class AuthTest extends BrowserKitTestCase
     $this->assertTrue($this->executive->cannot('delete', [ \App\Models\ElementAttribute::class, $elementAttribute ]));
   }
 
-  /**
+    /**
+     * @test
+     */
+    public function a_guest_should_be_able_to_see_any_part_of_a_public_project()
+    {
+        //given a user is a guest
+        /** @var \App\Models\Project $project */
+        $project = factory( \App\Models\Project::class )->create();
+        /** @var \App\Models\ElementSet $elementSet */
+        $elementSet = factory( \App\Models\ElementSet::class )->create( [ 'project_id' => $project->id ] );
+        /** @var \App\Models\Element $element */
+        $element          = factory( \App\Models\Element::class )->create( [ 'schema_id' => $elementSet->id ] );
+        $elementAttribute = factory( \App\Models\ElementAttribute::class )->create( [ 'schema_property_id' => $element->id ] );
+        /** @var \App\Models\Vocabulary $vocabulary */
+        $vocabulary = factory( \App\Models\Vocabulary::class )->create( [ 'project_id' => $project->id ] );
+        /** @var \App\Models\Concept $concept */
+        $concept = factory( \App\Models\Concept::class )->create( [ 'vocabulary_id' => $vocabulary->id ] );
+        /** @var \App\Models\ConceptAttribute $conceptAttribute */
+        $conceptAttribute = factory( \App\Models\ConceptAttribute::class )->create( [ 'concept_id' => $concept->id ] );
+
+        $this->assertTrue( $this->executive->can( 'view', [ \App\Models\ElementSet::class, $elementSet ] ) );
+        $this->assertTrue( $this->executive->can( 'view', [ \App\Models\Element::class, $element ] ) );
+        $this->assertTrue( $this->executive->can( 'view', [ \App\Models\ElementAttribute::class, $elementAttribute ] ) );
+        $this->assertTrue( $this->executive->can( 'view', [ \App\Models\Vocabulary::class, $vocabulary ] ) );
+        $this->assertTrue( $this->executive->can( 'view', [ \App\Models\Concept::class, $concept ] ) );
+        $this->assertTrue( $this->executive->can( 'view', [ \App\Models\ConceptAttribute::class, $conceptAttribute ] ) );
+
+    }
+
+    /**
    * @test
    */
   public function a_guest_should_not_be_able_to_see_any_part_of_a_private_project()
@@ -351,32 +378,4 @@ class AuthTest extends BrowserKitTestCase
 
   }
 
-  /**
-   * @test
-   */
-  public function a_guest_should_be_able_to_see_any_part_of_a_public_project()
-  {
-    //given a user is a guest
-    /** @var \App\Models\Project $project */
-    $project = factory(\App\Models\Project::class)->create();
-    /** @var \App\Models\ElementSet $elementSet */
-    $elementSet = factory(\App\Models\ElementSet::class)->create([ 'project_id' => $project->id ]);
-    /** @var \App\Models\Element $element */
-    $element          = factory(\App\Models\Element::class)->create([ 'schema_id' => $elementSet->id ]);
-    $elementAttribute = factory(\App\Models\ElementAttribute::class)->create([ 'schema_property_id' => $element->id ]);
-    /** @var \App\Models\Vocabulary $vocabulary */
-    $vocabulary = factory(\App\Models\Vocabulary::class)->create([ 'project_id' => $project->id ]);
-    /** @var \App\Models\Concept $concept */
-    $concept = factory(\App\Models\Concept::class)->create([ 'vocabulary_id' => $vocabulary->id ]);
-    /** @var \App\Models\ConceptAttribute $conceptAttribute */
-    $conceptAttribute = factory(\App\Models\ConceptAttribute::class)->create([ 'concept_id' => $concept->id ]);
-
-    $this->assertTrue($this->executive->can('view', [ \App\Models\ElementSet::class, $elementSet ]));
-    $this->assertTrue($this->executive->can('view', [ \App\Models\Element::class, $element ]));
-    $this->assertTrue($this->executive->can('view', [ \App\Models\ElementAttribute::class, $elementAttribute ]));
-    $this->assertTrue($this->executive->can('view', [ \App\Models\Vocabulary::class, $vocabulary ]));
-    $this->assertTrue($this->executive->can('view', [ \App\Models\Concept::class, $concept ]));
-    $this->assertTrue($this->executive->can('view', [ \App\Models\ConceptAttribute::class, $conceptAttribute ]));
-
-  }
 }
