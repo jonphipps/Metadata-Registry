@@ -53,7 +53,7 @@ install:
 before_script:
   - mysql -u root -e 'create database swregistry_test;'
   - php artisan migrate -vvv --seed --force
-  - php artisan key:generate
+  - php artisan key:generate --force
 
 script:
   - vendor/bin/phpunit --configuration phpunit.xml
