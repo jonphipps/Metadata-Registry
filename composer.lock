@@ -339,7 +339,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/backpack_CRUD",
-                "reference": "b36ff2221ff32d8f7a6385411922aa460211b03f",
+                "reference": "54c469cdc7172caf3bcf23f6e049c9ab12babf1c",
                 "shasum": null
             },
             "require": {
