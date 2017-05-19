@@ -103,6 +103,7 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(CodersServiceProvider::class);
             $this->app->register(IseedServiceProvider::class);
             $this->app->register(DuskServiceProvider::class);
+            $this->app->register( \Backpack\Generators\GeneratorsServiceProvider::class);
         }
         $this->app->bind('path.public',
             function() {

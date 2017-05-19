@@ -183,7 +183,6 @@ return [
         Arcanedev\NoCaptcha\NoCaptchaServiceProvider::class,
         Backpack\Base\BaseServiceProvider::class,
         Backpack\CRUD\CrudServiceProvider::class,
-        Backpack\Generators\GeneratorsServiceProvider::class,
         Backpack\LangFileManager\LangFileManagerServiceProvider::class,
         Barryvdh\Elfinder\ElfinderServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
