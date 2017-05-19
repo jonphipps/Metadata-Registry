@@ -58,7 +58,6 @@ mix-manifest.json
 !/.env.circle
 symfony_routes.*
 /packages/
-!/packages/backpack_CRUD/
 /client_secret.json
 _ide_helper.php
 
