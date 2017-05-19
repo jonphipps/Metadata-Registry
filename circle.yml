@@ -21,7 +21,7 @@ dependencies:
     - npm update vue
     - npm update vue-template-compiler
     - yarn
-    - composer self-update && composer --version
+    - sudo composer self-update && composer --version
     - sudo chown ubuntu ~/.composer -R
     - composer install --prefer-dist --no-interaction
 
