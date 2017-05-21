@@ -33,6 +33,8 @@ trait SetsUpTests
   /** @var  Role $userRole */
   protected $userRole;
 
+  protected $oldExceptionHandler;
+
   /**
    * Set up tests.
    */
@@ -61,7 +63,7 @@ trait SetsUpTests
   public function setupDatabase()
   {
     // Set up the database
-    $this->artisan('migrate:refresh');
+    $this->artisan('migrate:fresh');
     $this->artisan('db:seed');
     //Artisan::call('migrate:refresh');
     //Artisan::call('db:seed', [ '--class' => 'AdminSeeder' ]);
