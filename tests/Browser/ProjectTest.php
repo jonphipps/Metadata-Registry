@@ -20,7 +20,7 @@ class ProjectTest extends DuskTestCase
         $project = factory( Project::class )->create();
 
         $this->browse( function( Browser $browser ) use ( $project ) {
-            $browser->visit( new ProjectList() )->assertSee( 'Projects' )->assertSee( $project->label )->assertSee( 'NSDL' );
+            $browser->visit( new ProjectList() )->assertSee( 'Projects' )->assertSee( $project->label )->assertSee( $project->org_name );
         } );
     }
 }
