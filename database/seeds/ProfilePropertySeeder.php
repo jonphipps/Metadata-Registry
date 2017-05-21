@@ -16,6 +16,7 @@ class ProfilePropertySeeder extends Seeder
     public function run()
     {
         $this->disableForeignKeys();
+        \App\Models\ProfileProperty::truncate();
 
         $updateStatement = file_get_contents(__DIR__ . '/ProfilePropertySeeder.sql');
         DB::statement($updateStatement);

@@ -13,9 +13,6 @@ class StatusSeeder extends Seeder
    */
     public function run()
     {
-
-        $this->disableForeignKeys();
-
         $updateStatement = "
 INSERT INTO `reg_status` (`id`, `display_order`, `display_name`, `uri`) VALUES
 	(1,7,'Published','http://metadataregistry.org/uri/RegStatus/1001'),
@@ -28,8 +25,9 @@ INSERT INTO `reg_status` (`id`, `display_order`, `display_name`, `uri`) VALUES
 	(8,8,'Deprecated','http://metadataregistry.org/uri/RegStatus/1008'),
 	(9,9,'Not Approved','http://metadataregistry.org/uri/RegStatus/1009');
 ";
-        DB::update(DB::raw($updateStatement));
-
+        $this->disableForeignKeys();
+        Status::truncate();
+        DB::statement( $updateStatement );
         $this->enableForeignKeys();
     }
 }

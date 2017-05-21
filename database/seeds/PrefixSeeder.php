@@ -24,6 +24,8 @@ class PrefixSeeder extends Seeder
         }
 
         $updateStatement = preg_replace("/,$/", ';', $updateStatement);
+
+        \App\Models\Prefix::truncate();
         DB::statement($updateStatement);
     }
 
