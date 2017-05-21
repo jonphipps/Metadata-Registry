@@ -5,7 +5,7 @@ namespace Tests\Browser\Pages;
 use Laravel\Dusk\Browser;
 use Laravel\Dusk\Page as BasePage;
 
-class projectList extends BasePage
+class ProjectList extends BasePage
 {
     /**
      * Get the URL for the page.
@@ -14,7 +14,7 @@ class projectList extends BasePage
      */
     public function url()
     {
-        return '/';
+        return '/projects';
     }
 
     /**

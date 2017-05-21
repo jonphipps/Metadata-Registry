@@ -3,14 +3,12 @@
 namespace Tests\Browser;
 
 use App\Models\Project;
-use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\Browser\Pages\ProjectList;
+use Tests\DuskTestCase;
 
 class ProjectTest extends DuskTestCase
 {
-  use DatabaseMigrations;
     /**
      * A Dusk test example.
      *
@@ -18,14 +16,11 @@ class ProjectTest extends DuskTestCase
      */
     public function testExample()
     {
-      /** @var Project $project */
-      $project = factory(Project::class)->create();
+        /** @var Project $project */
+        $project = factory( Project::class )->create();
 
-      $this->browse(function (Browser $browser) use ($project) {
-        $browser->visit('/projects')
-                    ->assertSee('Projects')
-            // ->assertSee($project->label);
-            ->assertSee('NSDL');
-        });
+        $this->browse( function( Browser $browser ) use ( $project ) {
+            $browser->visit( new ProjectList() )->assertSee( 'Projects' )->assertSee( $project->label )->assertSee( 'NSDL' );
+        } );
     }
 }
