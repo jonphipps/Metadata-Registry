@@ -23,7 +23,9 @@ class DatabaseSeeder extends Seeder
         $this->call(StatusSeeder::class);
         $this->call(ProfileSeeder::class);
         $this->call(ProfilePropertySeeder::class);
+        if (getenv('APP_ENV') !== 'testing') {
         $this->call(PrefixSeeder::class);
+        }
 
     }
 }
