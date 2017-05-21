@@ -48,6 +48,24 @@ class Project extends Model
         'license_uri',
         'default_language_id',
         'google_sheet_url',
+        'org_email',
+        'ind_affiliation',
+        'ind_role',
+        'address1',
+        'address2',
+        'city',
+        'state',
+        'postal_code',
+        'country',
+        'phone',
+        'web_address',
+        'type',
+        'name',
+        'base_domain',
+        'namespace_type',
+        'default_language',
+        'languages',
+        'prefixes'
     ];
 
     /**
