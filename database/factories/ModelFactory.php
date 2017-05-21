@@ -361,7 +361,6 @@ $factory->define(App\Models\ElementSet::class,
 
         return [
             // 'agent_id'              => $project->id,
-            // 'project_id'            => $project->id,
             // 'created_user_id'       => $creator,
             // 'updated_user_id'       => $updator,
             // 'deleted_user_id'       => $deletor,
@@ -627,7 +626,7 @@ $factory->define(App\Models\Project::class,
              'url'                 => $faker->url,
              'license'             => $faker->text,
             'uri_strategy'        => $faker->word,
-            'uri_type'            => $faker->word,
+            'namespace_type'      => $faker->randomElement(['Slash','Hash']),
             'uri_prepend'         => $faker->word,
             'uri_append'          => $faker->word,
             'created_by'          => $creator,
@@ -646,7 +645,6 @@ $factory->define(App\Models\ProjectUser::class,
 
         return [
             // 'agent_id'        => $project->id,
-            // 'project_id'      => $project->id,
             // 'is_registrar_for' => $faker->boolean,
             // 'is_admin_for'     => $faker->boolean,
         ];
@@ -726,7 +724,6 @@ $factory->define(App\Models\Vocabulary::class,
 
         return [
             // 'agent_id'        => $project->id,
-            // 'project_id'      => $project->id,
             // 'last_updated'    => $faker->dateTimeBetween(),
             // 'created_user_id' => $creator,
             // 'updated_user_id' => $updator,

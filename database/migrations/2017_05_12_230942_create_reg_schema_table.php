@@ -23,7 +23,6 @@ class CreateRegSchemaTable extends Migration {
 			$table->integer('deleted_user_id')->unsigned()->nullable()->index();
 			$table->dateTime('child_updated_at')->nullable();
 			$table->integer('child_updated_user_id')->unsigned()->nullable()->index();
-            $table->integer('project_id')->unsigned()->nullable()->index();
             $table->integer('agent_id')->unsigned()->nullable()->index();
             $table->text('label')->nullable();
             $table->text('name')->nullable();

@@ -69,7 +69,9 @@ class Export extends Eloquent
     |--------------------------------------------------------------------------
     */
 
-    //protected $table = 'exports';
+    const TABLE = 'reg_export_history';
+    public $table = self::TABLE;
+
     //protected $primaryKey = 'id';
     // public $timestamps = false;
     // protected $guarded = ['id'];

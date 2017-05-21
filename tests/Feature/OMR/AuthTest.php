@@ -66,7 +66,7 @@ class AuthTest extends BrowserKitTestCase
             [
                 'is_registrar_for' => true,
                 'is_admin_for'     => true,
-                'project_id'         => $project->id,
+                'agent_id'         => $project->id,
                 'user_id'          => $this->user->id,
             ]);
 
@@ -95,7 +95,7 @@ class AuthTest extends BrowserKitTestCase
     $this->seeInDatabase(\App\Models\ProjectUser::TABLE,
                          [ 'is_registrar_for' => true,
                            'is_admin_for'     => true,
-                           'project_id'         => $project->id,
+                           'agent_id'         => $project->id,
                            'user_id'          => $user->id, ]);
     $this->actingAs($this->user);
     // $this->visit("projects/$project->id")->seeStatusCode(200);
@@ -167,7 +167,7 @@ class AuthTest extends BrowserKitTestCase
     /** @var \App\Models\Project $project */
     $project    = factory(\App\Models\Project::class)->create();
     /** @var \App\Models\Vocabulary $vocabulary */
-    $vocabulary = factory(\App\Models\Vocabulary::class)->create(['project_id' => $project->id]);
+    $vocabulary = factory(\App\Models\Vocabulary::class)->create(['agent_id' => $project->id]);
     /** @var \App\Models\Concept $concept */
     $concept = factory(\App\Models\Concept::class)->create(['vocabulary_id' => $vocabulary->id]);
 
@@ -193,7 +193,7 @@ class AuthTest extends BrowserKitTestCase
     /** @var \App\Models\Project $project */
     $project = factory(\App\Models\Project::class)->create();
     /** @var \App\Models\Vocabulary $vocabulary */
-    $vocabulary = factory(\App\Models\Vocabulary::class)->create([ 'project_id' => $project->id ]);
+    $vocabulary = factory(\App\Models\Vocabulary::class)->create([ 'agent_id' => $project->id ]);
     /** @var \App\Models\Concept $concept */
     $concept = factory(\App\Models\Concept::class)->create([ 'vocabulary_id' => $vocabulary->id ]);
     /** @var \App\Models\ConceptAttribute $conceptAttribute */
@@ -277,7 +277,7 @@ class AuthTest extends BrowserKitTestCase
     /** @var \App\Models\Project $project */
     $project = factory(\App\Models\Project::class)->create();
     /** @var \App\Models\ElementSet $elementSet */
-    $elementSet = factory(\App\Models\ElementSet::class)->create([ 'project_id' => $project->id ]);
+    $elementSet = factory(\App\Models\ElementSet::class)->create([ 'agent_id' => $project->id ]);
     /** @var \App\Models\Element $element */
     $element = factory(\App\Models\Element::class)->create([ 'schema_id' => $elementSet->id ]);
     $this->user->elementSets()
@@ -302,7 +302,7 @@ class AuthTest extends BrowserKitTestCase
     /** @var \App\Models\Project $project */
     $project = factory(\App\Models\Project::class)->create();
     /** @var \App\Models\ElementSet $elementSet */
-    $elementSet = factory(\App\Models\ElementSet::class)->create([ 'project_id' => $project->id ]);
+    $elementSet = factory(\App\Models\ElementSet::class)->create([ 'agent_id' => $project->id ]);
     /** @var \App\Models\Element $element */
     $element          = factory(\App\Models\Element::class)->create([ 'schema_id' => $elementSet->id ]);
     $elementAttribute = factory(\App\Models\ElementAttribute::class)->create([ 'schema_property_id' => $element->id ]);
@@ -330,12 +330,12 @@ class AuthTest extends BrowserKitTestCase
         /** @var \App\Models\Project $project */
         $project = factory( \App\Models\Project::class )->create();
         /** @var \App\Models\ElementSet $elementSet */
-        $elementSet = factory( \App\Models\ElementSet::class )->create( [ 'project_id' => $project->id ] );
+        $elementSet = factory( \App\Models\ElementSet::class )->create( [ 'agent_id' => $project->id ] );
         /** @var \App\Models\Element $element */
         $element          = factory( \App\Models\Element::class )->create( [ 'schema_id' => $elementSet->id ] );
         $elementAttribute = factory( \App\Models\ElementAttribute::class )->create( [ 'schema_property_id' => $element->id ] );
         /** @var \App\Models\Vocabulary $vocabulary */
-        $vocabulary = factory( \App\Models\Vocabulary::class )->create( [ 'project_id' => $project->id ] );
+        $vocabulary = factory( \App\Models\Vocabulary::class )->create( [ 'agent_id' => $project->id ] );
         /** @var \App\Models\Concept $concept */
         $concept = factory( \App\Models\Concept::class )->create( [ 'vocabulary_id' => $vocabulary->id ] );
         /** @var \App\Models\ConceptAttribute $conceptAttribute */
@@ -359,11 +359,11 @@ class AuthTest extends BrowserKitTestCase
     /** @var \App\Models\Project $project */
     $project = factory(\App\Models\Project::class)->create([ 'is_private' => true ]);
     /** @var \App\Models\ElementSet $elementSet */
-    $elementSet = factory(\App\Models\ElementSet::class)->create([ 'project_id' => $project->id ]);
+    $elementSet = factory(\App\Models\ElementSet::class)->create([ 'agent_id' => $project->id ]);
     /** @var \App\Models\Element $element */
     $element          = factory(\App\Models\Element::class)->create([ 'schema_id' => $elementSet->id ]);
     $elementAttribute = factory(\App\Models\ElementAttribute::class)->create([ 'schema_property_id' => $element->id ]);
-    $vocabulary = factory(\App\Models\Vocabulary::class)->create([ 'project_id' => $project->id ]);
+    $vocabulary = factory(\App\Models\Vocabulary::class)->create([ 'agent_id' => $project->id ]);
     /** @var \App\Models\Concept $concept */
     $concept = factory(\App\Models\Concept::class)->create([ 'vocabulary_id' => $vocabulary->id ]);
     /** @var \App\Models\ConceptAttribute $conceptAttribute */

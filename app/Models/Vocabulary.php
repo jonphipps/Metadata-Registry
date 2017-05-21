@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * App\Models\Vocabulary
  *
  * @property int $id
- * @property int $project_id
+ * @property int $agent_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $deleted_at
@@ -149,7 +149,7 @@ class Vocabulary extends Model
      */
     public function project()
     {
-        return $this->belongsTo(Project::class, 'project_id', 'id');
+        return $this->belongsTo(Project::class, 'agent_id', 'id');
     }
 
     /**

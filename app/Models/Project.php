@@ -11,7 +11,7 @@ class Project extends Model
 {
     use CrudTrait, Cacheable, SoftDeletes;
 
-    const TABLE = 'projects';
+    const TABLE = 'reg_agent';
 
     public static $rules = [];
 
@@ -88,7 +88,7 @@ class Project extends Model
                     45,
                 ],
                 [
-                    Vocabulary::TABLE . '.project_id',
+                    Vocabulary::TABLE . '.agent_id',
                     $this->id,
                 ],
             ])
@@ -120,7 +120,7 @@ class Project extends Model
      */
     public function elementSets()
     {
-        return $this->hasMany(ElementSet::class);
+        return $this->hasMany(ElementSet::class, 'agent_id', 'id');
     }
 
     /**
@@ -131,7 +131,7 @@ class Project extends Model
         return ElementSet::select([
             'id',
             'name',
-        ])->where('project_id', $this->id)->orderBy('name')->get()->mapWithKeys(function($item) {
+        ])->where('agent_id', $this->id)->orderBy('name')->get()->mapWithKeys(function($item) {
             return [ $item['id'] => $item['name'] ];
         });
     }
@@ -154,7 +154,7 @@ class Project extends Model
                 2,
             ],
             [
-                ElementSet::TABLE . '.project_id',
+                ElementSet::TABLE . '.agent_id',
                 $this->id,
             ],
         ])->orderBy(ElementSet::TABLE . '.name')->orderBy(ElementAttribute::TABLE . '.language')->orderBy(ElementAttribute::TABLE . '.object')->get()->mapWithKeys(function($item) {
@@ -166,7 +166,7 @@ class Project extends Model
         // /** @var ElementSet[] $elementsets */
         // $elementsets =
         //     ElementSet::with('elements')
-        //         ->where('project_id', $this->id)
+        //         ->where('agent_id', $this->id)
         //         ->orderBy('name')
         //         ->get()
         //         ->groupBy('name');
@@ -201,7 +201,7 @@ class Project extends Model
      */
     public function vocabularies()
     {
-        return $this->hasMany(Vocabulary::class);
+        return $this->hasMany(Vocabulary::class, 'agent_id', 'id');
     }
 
     /**
@@ -212,7 +212,7 @@ class Project extends Model
         return Vocabulary::select([
             'id',
             'name',
-        ])->where('project_id', $this->id)->orderBy('name')->get()->mapWithKeys(function($item) {
+        ])->where('agent_id', $this->id)->orderBy('name')->get()->mapWithKeys(function($item) {
             return [ $item['id'] => $item['name'] ];
         });
     }

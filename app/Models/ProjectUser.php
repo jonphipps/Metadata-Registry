@@ -13,7 +13,7 @@ use App\Models\Access\User\User;
  * @property string $updated_at
  * @property \Carbon\Carbon|null $deleted_at
  * @property int $user_id
- * @property int $project_id
+ * @property int $agent_id
  * @property bool $is_registrar_for
  * @property bool $is_admin_for
  * @property-read \App\Models\Project $project
@@ -31,7 +31,7 @@ use App\Models\Access\User\User;
 class ProjectUser extends Model
 {
     protected $table = self::TABLE;
-    const TABLE = 'project_user';
+    const TABLE = 'reg_agent_has_user';
 
     use SoftDeletes;
 
@@ -52,7 +52,7 @@ class ProjectUser extends Model
     protected $casts = [
       'id'               => 'integer',
       'user_id'          => 'integer',
-      'project_id'         => 'integer',
+      'agent_id'         => 'integer',
       'is_registrar_for' => 'boolean',
       'is_admin_for'     => 'boolean',
     ];
@@ -60,7 +60,7 @@ class ProjectUser extends Model
     public static $rules = [
       'updated_at' => 'required|',
       'user_id'    => 'required|',
-      'project_id'   => 'required|',
+      'agent_id'   => 'required|',
     ];
 
 
@@ -72,6 +72,6 @@ class ProjectUser extends Model
 
     public function project()
     {
-        return $this->belongsTo(Project::class, 'project_id', 'id');
+        return $this->belongsTo(Project::class, 'agent_id', 'id');
     }
 }

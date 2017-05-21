@@ -16,7 +16,7 @@ class AddForeignKeysToProfileProjectTable extends Migration {
 		Schema::table('profile_project', function(Blueprint $table)
 		{
 			$table->foreign('profile_id', 'profile_project_ibfk_1')->references('id')->on('profile')->onUpdate('NO ACTION')->onDelete('RESTRICT');
-			$table->foreign('project_id', 'profile_project_ibfk_2')->references('id')->on('projects')->onUpdate('NO ACTION')->onDelete('RESTRICT');
+			$table->foreign('project_id', 'profile_project_ibfk_2')->references('id')->on('reg_agent')->onUpdate('NO ACTION')->onDelete('RESTRICT');
 		});
 	}
 
