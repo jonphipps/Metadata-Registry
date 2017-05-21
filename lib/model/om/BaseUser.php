@@ -139,10 +139,38 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 
 	/**
+	 * The value for the status field.
+	 * @var        boolean
+	 */
+	protected $status = true;
+
+
+	/**
 	 * The value for the culture field.
 	 * @var        string
 	 */
 	protected $culture = 'en_US';
+
+
+	/**
+	 * The value for the confirmation_code field.
+	 * @var        string
+	 */
+	protected $confirmation_code = '';
+
+
+	/**
+	 * The value for the name field.
+	 * @var        string
+	 */
+	protected $name = '';
+
+
+	/**
+	 * The value for the confirmed field.
+	 * @var        boolean
+	 */
+	protected $confirmed = false;
 
 
 	/**
@@ -901,6 +929,17 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	}
 
 	/**
+	 * Get the [status] column value.
+	 * 
+	 * @return     boolean
+	 */
+	public function getStatus()
+	{
+
+		return $this->status;
+	}
+
+	/**
 	 * Get the [culture] column value.
 	 * 
 	 * @return     string
@@ -909,6 +948,39 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	{
 
 		return $this->culture;
+	}
+
+	/**
+	 * Get the [confirmation_code] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getConfirmationCode()
+	{
+
+		return $this->confirmation_code;
+	}
+
+	/**
+	 * Get the [name] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getName()
+	{
+
+		return $this->name;
+	}
+
+	/**
+	 * Get the [confirmed] column value.
+	 * 
+	 * @return     boolean
+	 */
+	public function getConfirmed()
+	{
+
+		return $this->confirmed;
 	}
 
 	/**
@@ -1287,6 +1359,22 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	} // setPassword()
 
 	/**
+	 * Set the value of [status] column.
+	 * 
+	 * @param      boolean $v new value
+	 * @return     void
+	 */
+	public function setStatus($v)
+	{
+
+		if ($this->status !== $v || $v === true) {
+			$this->status = $v;
+			$this->modifiedColumns[] = UserPeer::STATUS;
+		}
+
+	} // setStatus()
+
+	/**
 	 * Set the value of [culture] column.
 	 * 
 	 * @param      string $v new value
@@ -1307,6 +1395,66 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		}
 
 	} // setCulture()
+
+	/**
+	 * Set the value of [confirmation_code] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setConfirmationCode($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->confirmation_code !== $v || $v === '') {
+			$this->confirmation_code = $v;
+			$this->modifiedColumns[] = UserPeer::CONFIRMATION_CODE;
+		}
+
+	} // setConfirmationCode()
+
+	/**
+	 * Set the value of [name] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setName($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->name !== $v || $v === '') {
+			$this->name = $v;
+			$this->modifiedColumns[] = UserPeer::NAME;
+		}
+
+	} // setName()
+
+	/**
+	 * Set the value of [confirmed] column.
+	 * 
+	 * @param      boolean $v new value
+	 * @return     void
+	 */
+	public function setConfirmed($v)
+	{
+
+		if ($this->confirmed !== $v || $v === false) {
+			$this->confirmed = $v;
+			$this->modifiedColumns[] = UserPeer::CONFIRMED;
+		}
+
+	} // setConfirmed()
 
 	/**
 	 * Set the value of [remember_token] column.
@@ -1381,16 +1529,24 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 			$this->password = $rs->getString($startcol + 16);
 
-			$this->culture = $rs->getString($startcol + 17);
+			$this->status = $rs->getBoolean($startcol + 17);
 
-			$this->remember_token = $rs->getString($startcol + 18);
+			$this->culture = $rs->getString($startcol + 18);
+
+			$this->confirmation_code = $rs->getString($startcol + 19);
+
+			$this->name = $rs->getString($startcol + 20);
+
+			$this->confirmed = $rs->getBoolean($startcol + 21);
+
+			$this->remember_token = $rs->getString($startcol + 22);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 19; // 19 = UserPeer::NUM_COLUMNS - UserPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 23; // 23 = UserPeer::NUM_COLUMNS - UserPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating User object", $e);
@@ -2314,9 +2470,21 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				return $this->getPassword();
 				break;
 			case 17:
-				return $this->getCulture();
+				return $this->getStatus();
 				break;
 			case 18:
+				return $this->getCulture();
+				break;
+			case 19:
+				return $this->getConfirmationCode();
+				break;
+			case 20:
+				return $this->getName();
+				break;
+			case 21:
+				return $this->getConfirmed();
+				break;
+			case 22:
 				return $this->getRememberToken();
 				break;
 			default:
@@ -2356,8 +2524,12 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$keys[14] => $this->getIsAdministrator(),
 			$keys[15] => $this->getDeletions(),
 			$keys[16] => $this->getPassword(),
-			$keys[17] => $this->getCulture(),
-			$keys[18] => $this->getRememberToken(),
+			$keys[17] => $this->getStatus(),
+			$keys[18] => $this->getCulture(),
+			$keys[19] => $this->getConfirmationCode(),
+			$keys[20] => $this->getName(),
+			$keys[21] => $this->getConfirmed(),
+			$keys[22] => $this->getRememberToken(),
 		);
 		return $result;
 	}
@@ -2441,9 +2613,21 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				$this->setPassword($value);
 				break;
 			case 17:
-				$this->setCulture($value);
+				$this->setStatus($value);
 				break;
 			case 18:
+				$this->setCulture($value);
+				break;
+			case 19:
+				$this->setConfirmationCode($value);
+				break;
+			case 20:
+				$this->setName($value);
+				break;
+			case 21:
+				$this->setConfirmed($value);
+				break;
+			case 22:
 				$this->setRememberToken($value);
 				break;
 		} // switch()
@@ -2486,8 +2670,12 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[14], $arr)) $this->setIsAdministrator($arr[$keys[14]]);
 		if (array_key_exists($keys[15], $arr)) $this->setDeletions($arr[$keys[15]]);
 		if (array_key_exists($keys[16], $arr)) $this->setPassword($arr[$keys[16]]);
-		if (array_key_exists($keys[17], $arr)) $this->setCulture($arr[$keys[17]]);
-		if (array_key_exists($keys[18], $arr)) $this->setRememberToken($arr[$keys[18]]);
+		if (array_key_exists($keys[17], $arr)) $this->setStatus($arr[$keys[17]]);
+		if (array_key_exists($keys[18], $arr)) $this->setCulture($arr[$keys[18]]);
+		if (array_key_exists($keys[19], $arr)) $this->setConfirmationCode($arr[$keys[19]]);
+		if (array_key_exists($keys[20], $arr)) $this->setName($arr[$keys[20]]);
+		if (array_key_exists($keys[21], $arr)) $this->setConfirmed($arr[$keys[21]]);
+		if (array_key_exists($keys[22], $arr)) $this->setRememberToken($arr[$keys[22]]);
 	}
 
 	/**
@@ -2516,7 +2704,11 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(UserPeer::IS_ADMINISTRATOR)) $criteria->add(UserPeer::IS_ADMINISTRATOR, $this->is_administrator);
 		if ($this->isColumnModified(UserPeer::DELETIONS)) $criteria->add(UserPeer::DELETIONS, $this->deletions);
 		if ($this->isColumnModified(UserPeer::PASSWORD)) $criteria->add(UserPeer::PASSWORD, $this->password);
+		if ($this->isColumnModified(UserPeer::STATUS)) $criteria->add(UserPeer::STATUS, $this->status);
 		if ($this->isColumnModified(UserPeer::CULTURE)) $criteria->add(UserPeer::CULTURE, $this->culture);
+		if ($this->isColumnModified(UserPeer::CONFIRMATION_CODE)) $criteria->add(UserPeer::CONFIRMATION_CODE, $this->confirmation_code);
+		if ($this->isColumnModified(UserPeer::NAME)) $criteria->add(UserPeer::NAME, $this->name);
+		if ($this->isColumnModified(UserPeer::CONFIRMED)) $criteria->add(UserPeer::CONFIRMED, $this->confirmed);
 		if ($this->isColumnModified(UserPeer::REMEMBER_TOKEN)) $criteria->add(UserPeer::REMEMBER_TOKEN, $this->remember_token);
 
 		return $criteria;
@@ -2604,7 +2796,15 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 		$copyObj->setPassword($this->password);
 
+		$copyObj->setStatus($this->status);
+
 		$copyObj->setCulture($this->culture);
+
+		$copyObj->setConfirmationCode($this->confirmation_code);
+
+		$copyObj->setName($this->name);
+
+		$copyObj->setConfirmed($this->confirmed);
 
 		$copyObj->setRememberToken($this->remember_token);
 
@@ -2936,55 +3136,6 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in User.
 	 */
-	public function getProfilesRelatedByCreatedByJoinAgent($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseProfilePeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collProfilesRelatedByCreatedBy === null) {
-			if ($this->isNew()) {
-				$this->collProfilesRelatedByCreatedBy = array();
-			} else {
-
-				$criteria->add(ProfilePeer::CREATED_BY, $this->getId());
-
-				$this->collProfilesRelatedByCreatedBy = ProfilePeer::doSelectJoinAgent($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ProfilePeer::CREATED_BY, $this->getId());
-
-			if (!isset($this->lastProfileRelatedByCreatedByCriteria) || !$this->lastProfileRelatedByCreatedByCriteria->equals($criteria)) {
-				$this->collProfilesRelatedByCreatedBy = ProfilePeer::doSelectJoinAgent($criteria, $con);
-			}
-		}
-		$this->lastProfileRelatedByCreatedByCriteria = $criteria;
-
-		return $this->collProfilesRelatedByCreatedBy;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this User is new, it will return
-	 * an empty collection; or if this User has previously
-	 * been saved, it will retrieve related ProfilesRelatedByCreatedBy from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in User.
-	 */
 	public function getProfilesRelatedByCreatedByJoinStatus($criteria = null, $con = null)
 	{
 		// include the Peer class
@@ -3127,55 +3278,6 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	{
 		$this->collProfilesRelatedByUpdatedBy[] = $l;
 		$l->setUserRelatedByUpdatedBy($this);
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this User is new, it will return
-	 * an empty collection; or if this User has previously
-	 * been saved, it will retrieve related ProfilesRelatedByUpdatedBy from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in User.
-	 */
-	public function getProfilesRelatedByUpdatedByJoinAgent($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseProfilePeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collProfilesRelatedByUpdatedBy === null) {
-			if ($this->isNew()) {
-				$this->collProfilesRelatedByUpdatedBy = array();
-			} else {
-
-				$criteria->add(ProfilePeer::UPDATED_BY, $this->getId());
-
-				$this->collProfilesRelatedByUpdatedBy = ProfilePeer::doSelectJoinAgent($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ProfilePeer::UPDATED_BY, $this->getId());
-
-			if (!isset($this->lastProfileRelatedByUpdatedByCriteria) || !$this->lastProfileRelatedByUpdatedByCriteria->equals($criteria)) {
-				$this->collProfilesRelatedByUpdatedBy = ProfilePeer::doSelectJoinAgent($criteria, $con);
-			}
-		}
-		$this->lastProfileRelatedByUpdatedByCriteria = $criteria;
-
-		return $this->collProfilesRelatedByUpdatedBy;
 	}
 
 
@@ -3346,55 +3448,6 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in User.
 	 */
-	public function getProfilesRelatedByDeletedByJoinAgent($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseProfilePeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collProfilesRelatedByDeletedBy === null) {
-			if ($this->isNew()) {
-				$this->collProfilesRelatedByDeletedBy = array();
-			} else {
-
-				$criteria->add(ProfilePeer::DELETED_BY, $this->getId());
-
-				$this->collProfilesRelatedByDeletedBy = ProfilePeer::doSelectJoinAgent($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ProfilePeer::DELETED_BY, $this->getId());
-
-			if (!isset($this->lastProfileRelatedByDeletedByCriteria) || !$this->lastProfileRelatedByDeletedByCriteria->equals($criteria)) {
-				$this->collProfilesRelatedByDeletedBy = ProfilePeer::doSelectJoinAgent($criteria, $con);
-			}
-		}
-		$this->lastProfileRelatedByDeletedByCriteria = $criteria;
-
-		return $this->collProfilesRelatedByDeletedBy;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this User is new, it will return
-	 * an empty collection; or if this User has previously
-	 * been saved, it will retrieve related ProfilesRelatedByDeletedBy from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in User.
-	 */
 	public function getProfilesRelatedByDeletedByJoinStatus($criteria = null, $con = null)
 	{
 		// include the Peer class
@@ -3537,55 +3590,6 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	{
 		$this->collProfilesRelatedByChildUpdatedBy[] = $l;
 		$l->setUserRelatedByChildUpdatedBy($this);
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this User is new, it will return
-	 * an empty collection; or if this User has previously
-	 * been saved, it will retrieve related ProfilesRelatedByChildUpdatedBy from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in User.
-	 */
-	public function getProfilesRelatedByChildUpdatedByJoinAgent($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseProfilePeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collProfilesRelatedByChildUpdatedBy === null) {
-			if ($this->isNew()) {
-				$this->collProfilesRelatedByChildUpdatedBy = array();
-			} else {
-
-				$criteria->add(ProfilePeer::CHILD_UPDATED_BY, $this->getId());
-
-				$this->collProfilesRelatedByChildUpdatedBy = ProfilePeer::doSelectJoinAgent($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ProfilePeer::CHILD_UPDATED_BY, $this->getId());
-
-			if (!isset($this->lastProfileRelatedByChildUpdatedByCriteria) || !$this->lastProfileRelatedByChildUpdatedByCriteria->equals($criteria)) {
-				$this->collProfilesRelatedByChildUpdatedBy = ProfilePeer::doSelectJoinAgent($criteria, $con);
-			}
-		}
-		$this->lastProfileRelatedByChildUpdatedByCriteria = $criteria;
-
-		return $this->collProfilesRelatedByChildUpdatedBy;
 	}
 
 

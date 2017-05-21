@@ -27,13 +27,6 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 
 
 	/**
-	 * The value for the agent_id field.
-	 * @var        int
-	 */
-	protected $agent_id;
-
-
-	/**
 	 * The value for the created_at field.
 	 * @var        int
 	 */
@@ -159,11 +152,6 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 	protected $language = 'en';
 
 	/**
-	 * @var        Agent
-	 */
-	protected $aAgent;
-
-	/**
 	 * @var        User
 	 */
 	protected $aUserRelatedByCreatedBy;
@@ -259,17 +247,6 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 	{
 
 		return $this->id;
-	}
-
-	/**
-	 * Get the [agent_id] column value.
-	 * 
-	 * @return     int
-	 */
-	public function getAgentId()
-	{
-
-		return $this->agent_id;
 	}
 
 	/**
@@ -571,32 +548,6 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 		}
 
 	} // setId()
-
-	/**
-	 * Set the value of [agent_id] column.
-	 * 
-	 * @param      int $v new value
-	 * @return     void
-	 */
-	public function setAgentId($v)
-	{
-
-		// Since the native PHP type for this column is integer,
-		// we will cast the input value to an int (if it is not).
-		if ($v !== null && !is_int($v) && is_numeric($v)) {
-			$v = (int) $v;
-		}
-
-		if ($this->agent_id !== $v) {
-			$this->agent_id = $v;
-			$this->modifiedColumns[] = ProfilePeer::AGENT_ID;
-		}
-
-		if ($this->aAgent !== null && $this->aAgent->getId() !== $v) {
-			$this->aAgent = null;
-		}
-
-	} // setAgentId()
 
 	/**
 	 * Set the value of [created_at] column.
@@ -1041,50 +992,48 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 
 			$this->id = $rs->getInt($startcol + 0);
 
-			$this->agent_id = $rs->getInt($startcol + 1);
+			$this->created_at = $rs->getTimestamp($startcol + 1, null);
 
-			$this->created_at = $rs->getTimestamp($startcol + 2, null);
+			$this->updated_at = $rs->getTimestamp($startcol + 2, null);
 
-			$this->updated_at = $rs->getTimestamp($startcol + 3, null);
+			$this->deleted_at = $rs->getTimestamp($startcol + 3, null);
 
-			$this->deleted_at = $rs->getTimestamp($startcol + 4, null);
+			$this->created_by = $rs->getInt($startcol + 4);
 
-			$this->created_by = $rs->getInt($startcol + 5);
+			$this->updated_by = $rs->getInt($startcol + 5);
 
-			$this->updated_by = $rs->getInt($startcol + 6);
+			$this->deleted_by = $rs->getInt($startcol + 6);
 
-			$this->deleted_by = $rs->getInt($startcol + 7);
+			$this->child_updated_at = $rs->getTimestamp($startcol + 7, null);
 
-			$this->child_updated_at = $rs->getTimestamp($startcol + 8, null);
+			$this->child_updated_by = $rs->getInt($startcol + 8);
 
-			$this->child_updated_by = $rs->getInt($startcol + 9);
+			$this->name = $rs->getString($startcol + 9);
 
-			$this->name = $rs->getString($startcol + 10);
+			$this->note = $rs->getString($startcol + 10);
 
-			$this->note = $rs->getString($startcol + 11);
+			$this->uri = $rs->getString($startcol + 11);
 
-			$this->uri = $rs->getString($startcol + 12);
+			$this->url = $rs->getString($startcol + 12);
 
-			$this->url = $rs->getString($startcol + 13);
+			$this->base_domain = $rs->getString($startcol + 13);
 
-			$this->base_domain = $rs->getString($startcol + 14);
+			$this->token = $rs->getString($startcol + 14);
 
-			$this->token = $rs->getString($startcol + 15);
+			$this->community = $rs->getString($startcol + 15);
 
-			$this->community = $rs->getString($startcol + 16);
+			$this->last_uri_id = $rs->getInt($startcol + 16);
 
-			$this->last_uri_id = $rs->getInt($startcol + 17);
+			$this->status_id = $rs->getInt($startcol + 17);
 
-			$this->status_id = $rs->getInt($startcol + 18);
-
-			$this->language = $rs->getString($startcol + 19);
+			$this->language = $rs->getString($startcol + 18);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 20; // 20 = ProfilePeer::NUM_COLUMNS - ProfilePeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 19; // 19 = ProfilePeer::NUM_COLUMNS - ProfilePeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Profile object", $e);
@@ -1217,13 +1166,6 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 			// were passed to this object by their coresponding set
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
-
-			if ($this->aAgent !== null) {
-				if ($this->aAgent->isModified()) {
-					$affectedRows += $this->aAgent->save($con);
-				}
-				$this->setAgent($this->aAgent);
-			}
 
 			if ($this->aUserRelatedByCreatedBy !== null) {
 				if ($this->aUserRelatedByCreatedBy->isModified()) {
@@ -1380,12 +1322,6 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 			// method.  This object relates to these object(s) by a
 			// foreign key reference.
 
-			if ($this->aAgent !== null) {
-				if (!$this->aAgent->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aAgent->getValidationFailures());
-				}
-			}
-
 			if ($this->aUserRelatedByCreatedBy !== null) {
 				if (!$this->aUserRelatedByCreatedBy->validate($columns)) {
 					$failureMap = array_merge($failureMap, $this->aUserRelatedByCreatedBy->getValidationFailures());
@@ -1490,60 +1426,57 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 				return $this->getId();
 				break;
 			case 1:
-				return $this->getAgentId();
-				break;
-			case 2:
 				return $this->getCreatedAt();
 				break;
-			case 3:
+			case 2:
 				return $this->getUpdatedAt();
 				break;
-			case 4:
+			case 3:
 				return $this->getDeletedAt();
 				break;
-			case 5:
+			case 4:
 				return $this->getCreatedBy();
 				break;
-			case 6:
+			case 5:
 				return $this->getUpdatedBy();
 				break;
-			case 7:
+			case 6:
 				return $this->getDeletedBy();
 				break;
-			case 8:
+			case 7:
 				return $this->getChildUpdatedAt();
 				break;
-			case 9:
+			case 8:
 				return $this->getChildUpdatedBy();
 				break;
-			case 10:
+			case 9:
 				return $this->getName();
 				break;
-			case 11:
+			case 10:
 				return $this->getNote();
 				break;
-			case 12:
+			case 11:
 				return $this->getUri();
 				break;
-			case 13:
+			case 12:
 				return $this->getUrl();
 				break;
-			case 14:
+			case 13:
 				return $this->getBaseDomain();
 				break;
-			case 15:
+			case 14:
 				return $this->getToken();
 				break;
-			case 16:
+			case 15:
 				return $this->getCommunity();
 				break;
-			case 17:
+			case 16:
 				return $this->getLastUriId();
 				break;
-			case 18:
+			case 17:
 				return $this->getStatusId();
 				break;
-			case 19:
+			case 18:
 				return $this->getLanguage();
 				break;
 			default:
@@ -1567,25 +1500,24 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 		$keys = ProfilePeer::getFieldNames($keyType);
 		$result = array(
 			$keys[0] => $this->getId(),
-			$keys[1] => $this->getAgentId(),
-			$keys[2] => $this->getCreatedAt(),
-			$keys[3] => $this->getUpdatedAt(),
-			$keys[4] => $this->getDeletedAt(),
-			$keys[5] => $this->getCreatedBy(),
-			$keys[6] => $this->getUpdatedBy(),
-			$keys[7] => $this->getDeletedBy(),
-			$keys[8] => $this->getChildUpdatedAt(),
-			$keys[9] => $this->getChildUpdatedBy(),
-			$keys[10] => $this->getName(),
-			$keys[11] => $this->getNote(),
-			$keys[12] => $this->getUri(),
-			$keys[13] => $this->getUrl(),
-			$keys[14] => $this->getBaseDomain(),
-			$keys[15] => $this->getToken(),
-			$keys[16] => $this->getCommunity(),
-			$keys[17] => $this->getLastUriId(),
-			$keys[18] => $this->getStatusId(),
-			$keys[19] => $this->getLanguage(),
+			$keys[1] => $this->getCreatedAt(),
+			$keys[2] => $this->getUpdatedAt(),
+			$keys[3] => $this->getDeletedAt(),
+			$keys[4] => $this->getCreatedBy(),
+			$keys[5] => $this->getUpdatedBy(),
+			$keys[6] => $this->getDeletedBy(),
+			$keys[7] => $this->getChildUpdatedAt(),
+			$keys[8] => $this->getChildUpdatedBy(),
+			$keys[9] => $this->getName(),
+			$keys[10] => $this->getNote(),
+			$keys[11] => $this->getUri(),
+			$keys[12] => $this->getUrl(),
+			$keys[13] => $this->getBaseDomain(),
+			$keys[14] => $this->getToken(),
+			$keys[15] => $this->getCommunity(),
+			$keys[16] => $this->getLastUriId(),
+			$keys[17] => $this->getStatusId(),
+			$keys[18] => $this->getLanguage(),
 		);
 		return $result;
 	}
@@ -1621,60 +1553,57 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 				$this->setId($value);
 				break;
 			case 1:
-				$this->setAgentId($value);
-				break;
-			case 2:
 				$this->setCreatedAt($value);
 				break;
-			case 3:
+			case 2:
 				$this->setUpdatedAt($value);
 				break;
-			case 4:
+			case 3:
 				$this->setDeletedAt($value);
 				break;
-			case 5:
+			case 4:
 				$this->setCreatedBy($value);
 				break;
-			case 6:
+			case 5:
 				$this->setUpdatedBy($value);
 				break;
-			case 7:
+			case 6:
 				$this->setDeletedBy($value);
 				break;
-			case 8:
+			case 7:
 				$this->setChildUpdatedAt($value);
 				break;
-			case 9:
+			case 8:
 				$this->setChildUpdatedBy($value);
 				break;
-			case 10:
+			case 9:
 				$this->setName($value);
 				break;
-			case 11:
+			case 10:
 				$this->setNote($value);
 				break;
-			case 12:
+			case 11:
 				$this->setUri($value);
 				break;
-			case 13:
+			case 12:
 				$this->setUrl($value);
 				break;
-			case 14:
+			case 13:
 				$this->setBaseDomain($value);
 				break;
-			case 15:
+			case 14:
 				$this->setToken($value);
 				break;
-			case 16:
+			case 15:
 				$this->setCommunity($value);
 				break;
-			case 17:
+			case 16:
 				$this->setLastUriId($value);
 				break;
-			case 18:
+			case 17:
 				$this->setStatusId($value);
 				break;
-			case 19:
+			case 18:
 				$this->setLanguage($value);
 				break;
 		} // switch()
@@ -1701,25 +1630,24 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 		$keys = ProfilePeer::getFieldNames($keyType);
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-		if (array_key_exists($keys[1], $arr)) $this->setAgentId($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setCreatedAt($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setUpdatedAt($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setDeletedAt($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setCreatedBy($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setUpdatedBy($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setDeletedBy($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setChildUpdatedAt($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setChildUpdatedBy($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setName($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setNote($arr[$keys[11]]);
-		if (array_key_exists($keys[12], $arr)) $this->setUri($arr[$keys[12]]);
-		if (array_key_exists($keys[13], $arr)) $this->setUrl($arr[$keys[13]]);
-		if (array_key_exists($keys[14], $arr)) $this->setBaseDomain($arr[$keys[14]]);
-		if (array_key_exists($keys[15], $arr)) $this->setToken($arr[$keys[15]]);
-		if (array_key_exists($keys[16], $arr)) $this->setCommunity($arr[$keys[16]]);
-		if (array_key_exists($keys[17], $arr)) $this->setLastUriId($arr[$keys[17]]);
-		if (array_key_exists($keys[18], $arr)) $this->setStatusId($arr[$keys[18]]);
-		if (array_key_exists($keys[19], $arr)) $this->setLanguage($arr[$keys[19]]);
+		if (array_key_exists($keys[1], $arr)) $this->setCreatedAt($arr[$keys[1]]);
+		if (array_key_exists($keys[2], $arr)) $this->setUpdatedAt($arr[$keys[2]]);
+		if (array_key_exists($keys[3], $arr)) $this->setDeletedAt($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setCreatedBy($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setUpdatedBy($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setDeletedBy($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setChildUpdatedAt($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setChildUpdatedBy($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setName($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setNote($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setUri($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setUrl($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setBaseDomain($arr[$keys[13]]);
+		if (array_key_exists($keys[14], $arr)) $this->setToken($arr[$keys[14]]);
+		if (array_key_exists($keys[15], $arr)) $this->setCommunity($arr[$keys[15]]);
+		if (array_key_exists($keys[16], $arr)) $this->setLastUriId($arr[$keys[16]]);
+		if (array_key_exists($keys[17], $arr)) $this->setStatusId($arr[$keys[17]]);
+		if (array_key_exists($keys[18], $arr)) $this->setLanguage($arr[$keys[18]]);
 	}
 
 	/**
@@ -1732,7 +1660,6 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 		$criteria = new Criteria(ProfilePeer::DATABASE_NAME);
 
 		if ($this->isColumnModified(ProfilePeer::ID)) $criteria->add(ProfilePeer::ID, $this->id);
-		if ($this->isColumnModified(ProfilePeer::AGENT_ID)) $criteria->add(ProfilePeer::AGENT_ID, $this->agent_id);
 		if ($this->isColumnModified(ProfilePeer::CREATED_AT)) $criteria->add(ProfilePeer::CREATED_AT, $this->created_at);
 		if ($this->isColumnModified(ProfilePeer::UPDATED_AT)) $criteria->add(ProfilePeer::UPDATED_AT, $this->updated_at);
 		if ($this->isColumnModified(ProfilePeer::DELETED_AT)) $criteria->add(ProfilePeer::DELETED_AT, $this->deleted_at);
@@ -1804,8 +1731,6 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 	 */
 	public function copyInto($copyObj, $deepCopy = false)
 	{
-
-		$copyObj->setAgentId($this->agent_id);
 
 		$copyObj->setCreatedAt($this->created_at);
 
@@ -1910,56 +1835,6 @@ abstract class BaseProfile extends BaseObject  implements Persistent {
 			self::$peer = new ProfilePeer();
 		}
 		return self::$peer;
-	}
-
-	/**
-	 * Declares an association between this object and a Agent object.
-	 *
-	 * @param      Agent $v
-	 * @return     void
-	 * @throws     PropelException
-	 */
-	public function setAgent($v)
-	{
-
-
-		if ($v === null) {
-			$this->setAgentId(NULL);
-		} else {
-			$this->setAgentId($v->getId());
-		}
-
-
-		$this->aAgent = $v;
-	}
-
-
-	/**
-	 * Get the associated Agent object
-	 *
-	 * @param      Connection Optional Connection object.
-	 * @return     Agent The associated Agent object.
-	 * @throws     PropelException
-	 */
-	public function getAgent($con = null)
-	{
-		if ($this->aAgent === null && ($this->agent_id !== null)) {
-			// include the related Peer class
-			include_once 'lib/model/om/BaseAgentPeer.php';
-
-			$this->aAgent = AgentPeer::retrieveByPK($this->agent_id, $con);
-
-			/* The following can be used instead of the line above to
-			   guarantee the related object contains a reference
-			   to this object, but this level of coupling
-			   may be undesirable in many circumstances.
-			   As it can lead to a db query with many results that may
-			   never be used.
-			   $obj = AgentPeer::retrieveByPK($this->agent_id, $con);
-			   $obj->addAgents($this);
-			 */
-		}
-		return $this->aAgent;
 	}
 
 	/**

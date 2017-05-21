@@ -19,7 +19,7 @@ abstract class BaseFileImportHistoryPeer {
 	const CLASS_DEFAULT = 'lib.model.FileImportHistory';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 15;
+	const NUM_COLUMNS = 17;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -30,6 +30,9 @@ abstract class BaseFileImportHistoryPeer {
 
 	/** the column name for the CREATED_AT field */
 	const CREATED_AT = 'reg_file_import_history.CREATED_AT';
+
+	/** the column name for the UPDATED_AT field */
+	const UPDATED_AT = 'reg_file_import_history.UPDATED_AT';
 
 	/** the column name for the MAP field */
 	const MAP = 'reg_file_import_history.MAP';
@@ -45,6 +48,9 @@ abstract class BaseFileImportHistoryPeer {
 
 	/** the column name for the FILE_NAME field */
 	const FILE_NAME = 'reg_file_import_history.FILE_NAME';
+
+	/** the column name for the SOURCE field */
+	const SOURCE = 'reg_file_import_history.SOURCE';
 
 	/** the column name for the SOURCE_FILE_NAME field */
 	const SOURCE_FILE_NAME = 'reg_file_import_history.SOURCE_FILE_NAME';
@@ -81,10 +87,10 @@ abstract class BaseFileImportHistoryPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'Map', 'UserId', 'VocabularyId', 'SchemaId', 'FileName', 'SourceFileName', 'FileType', 'BatchId', 'Results', 'TotalProcessedCount', 'ErrorCount', 'SuccessCount', 'Token', ),
-		BasePeer::TYPE_COLNAME => array (FileImportHistoryPeer::ID, FileImportHistoryPeer::CREATED_AT, FileImportHistoryPeer::MAP, FileImportHistoryPeer::USER_ID, FileImportHistoryPeer::VOCABULARY_ID, FileImportHistoryPeer::SCHEMA_ID, FileImportHistoryPeer::FILE_NAME, FileImportHistoryPeer::SOURCE_FILE_NAME, FileImportHistoryPeer::FILE_TYPE, FileImportHistoryPeer::BATCH_ID, FileImportHistoryPeer::RESULTS, FileImportHistoryPeer::TOTAL_PROCESSED_COUNT, FileImportHistoryPeer::ERROR_COUNT, FileImportHistoryPeer::SUCCESS_COUNT, FileImportHistoryPeer::TOKEN, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'map', 'user_id', 'vocabulary_id', 'schema_id', 'file_name', 'source_file_name', 'file_type', 'batch_id', 'results', 'total_processed_count', 'error_count', 'success_count', 'token', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'Map', 'UserId', 'VocabularyId', 'SchemaId', 'FileName', 'Source', 'SourceFileName', 'FileType', 'BatchId', 'Results', 'TotalProcessedCount', 'ErrorCount', 'SuccessCount', 'Token', ),
+		BasePeer::TYPE_COLNAME => array (FileImportHistoryPeer::ID, FileImportHistoryPeer::CREATED_AT, FileImportHistoryPeer::UPDATED_AT, FileImportHistoryPeer::MAP, FileImportHistoryPeer::USER_ID, FileImportHistoryPeer::VOCABULARY_ID, FileImportHistoryPeer::SCHEMA_ID, FileImportHistoryPeer::FILE_NAME, FileImportHistoryPeer::SOURCE, FileImportHistoryPeer::SOURCE_FILE_NAME, FileImportHistoryPeer::FILE_TYPE, FileImportHistoryPeer::BATCH_ID, FileImportHistoryPeer::RESULTS, FileImportHistoryPeer::TOTAL_PROCESSED_COUNT, FileImportHistoryPeer::ERROR_COUNT, FileImportHistoryPeer::SUCCESS_COUNT, FileImportHistoryPeer::TOKEN, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'map', 'user_id', 'vocabulary_id', 'schema_id', 'file_name', 'source', 'source_file_name', 'file_type', 'batch_id', 'results', 'total_processed_count', 'error_count', 'success_count', 'token', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, )
 	);
 
 	/**
@@ -94,10 +100,10 @@ abstract class BaseFileImportHistoryPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'Map' => 2, 'UserId' => 3, 'VocabularyId' => 4, 'SchemaId' => 5, 'FileName' => 6, 'SourceFileName' => 7, 'FileType' => 8, 'BatchId' => 9, 'Results' => 10, 'TotalProcessedCount' => 11, 'ErrorCount' => 12, 'SuccessCount' => 13, 'Token' => 14, ),
-		BasePeer::TYPE_COLNAME => array (FileImportHistoryPeer::ID => 0, FileImportHistoryPeer::CREATED_AT => 1, FileImportHistoryPeer::MAP => 2, FileImportHistoryPeer::USER_ID => 3, FileImportHistoryPeer::VOCABULARY_ID => 4, FileImportHistoryPeer::SCHEMA_ID => 5, FileImportHistoryPeer::FILE_NAME => 6, FileImportHistoryPeer::SOURCE_FILE_NAME => 7, FileImportHistoryPeer::FILE_TYPE => 8, FileImportHistoryPeer::BATCH_ID => 9, FileImportHistoryPeer::RESULTS => 10, FileImportHistoryPeer::TOTAL_PROCESSED_COUNT => 11, FileImportHistoryPeer::ERROR_COUNT => 12, FileImportHistoryPeer::SUCCESS_COUNT => 13, FileImportHistoryPeer::TOKEN => 14, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'map' => 2, 'user_id' => 3, 'vocabulary_id' => 4, 'schema_id' => 5, 'file_name' => 6, 'source_file_name' => 7, 'file_type' => 8, 'batch_id' => 9, 'results' => 10, 'total_processed_count' => 11, 'error_count' => 12, 'success_count' => 13, 'token' => 14, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'Map' => 3, 'UserId' => 4, 'VocabularyId' => 5, 'SchemaId' => 6, 'FileName' => 7, 'Source' => 8, 'SourceFileName' => 9, 'FileType' => 10, 'BatchId' => 11, 'Results' => 12, 'TotalProcessedCount' => 13, 'ErrorCount' => 14, 'SuccessCount' => 15, 'Token' => 16, ),
+		BasePeer::TYPE_COLNAME => array (FileImportHistoryPeer::ID => 0, FileImportHistoryPeer::CREATED_AT => 1, FileImportHistoryPeer::UPDATED_AT => 2, FileImportHistoryPeer::MAP => 3, FileImportHistoryPeer::USER_ID => 4, FileImportHistoryPeer::VOCABULARY_ID => 5, FileImportHistoryPeer::SCHEMA_ID => 6, FileImportHistoryPeer::FILE_NAME => 7, FileImportHistoryPeer::SOURCE => 8, FileImportHistoryPeer::SOURCE_FILE_NAME => 9, FileImportHistoryPeer::FILE_TYPE => 10, FileImportHistoryPeer::BATCH_ID => 11, FileImportHistoryPeer::RESULTS => 12, FileImportHistoryPeer::TOTAL_PROCESSED_COUNT => 13, FileImportHistoryPeer::ERROR_COUNT => 14, FileImportHistoryPeer::SUCCESS_COUNT => 15, FileImportHistoryPeer::TOKEN => 16, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'map' => 3, 'user_id' => 4, 'vocabulary_id' => 5, 'schema_id' => 6, 'file_name' => 7, 'source' => 8, 'source_file_name' => 9, 'file_type' => 10, 'batch_id' => 11, 'results' => 12, 'total_processed_count' => 13, 'error_count' => 14, 'success_count' => 15, 'token' => 16, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, )
 	);
 
 	/**
@@ -202,6 +208,8 @@ abstract class BaseFileImportHistoryPeer {
 
         $criteria->addSelectColumn(($tableAlias) ? FileImportHistoryPeer::alias($tableAlias, FileImportHistoryPeer::CREATED_AT) : FileImportHistoryPeer::CREATED_AT);
 
+        $criteria->addSelectColumn(($tableAlias) ? FileImportHistoryPeer::alias($tableAlias, FileImportHistoryPeer::UPDATED_AT) : FileImportHistoryPeer::UPDATED_AT);
+
         $criteria->addSelectColumn(($tableAlias) ? FileImportHistoryPeer::alias($tableAlias, FileImportHistoryPeer::MAP) : FileImportHistoryPeer::MAP);
 
         $criteria->addSelectColumn(($tableAlias) ? FileImportHistoryPeer::alias($tableAlias, FileImportHistoryPeer::USER_ID) : FileImportHistoryPeer::USER_ID);
@@ -211,6 +219,8 @@ abstract class BaseFileImportHistoryPeer {
         $criteria->addSelectColumn(($tableAlias) ? FileImportHistoryPeer::alias($tableAlias, FileImportHistoryPeer::SCHEMA_ID) : FileImportHistoryPeer::SCHEMA_ID);
 
         $criteria->addSelectColumn(($tableAlias) ? FileImportHistoryPeer::alias($tableAlias, FileImportHistoryPeer::FILE_NAME) : FileImportHistoryPeer::FILE_NAME);
+
+        $criteria->addSelectColumn(($tableAlias) ? FileImportHistoryPeer::alias($tableAlias, FileImportHistoryPeer::SOURCE) : FileImportHistoryPeer::SOURCE);
 
         $criteria->addSelectColumn(($tableAlias) ? FileImportHistoryPeer::alias($tableAlias, FileImportHistoryPeer::SOURCE_FILE_NAME) : FileImportHistoryPeer::SOURCE_FILE_NAME);
 

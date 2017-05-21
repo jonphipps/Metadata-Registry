@@ -19,7 +19,7 @@ abstract class BaseVocabularyPeer {
 	const CLASS_DEFAULT = 'lib.model.Vocabulary';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 26;
+	const NUM_COLUMNS = 27;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -33,6 +33,9 @@ abstract class BaseVocabularyPeer {
 
 	/** the column name for the CREATED_AT field */
 	const CREATED_AT = 'reg_vocabulary.CREATED_AT';
+
+	/** the column name for the UPDATED_AT field */
+	const UPDATED_AT = 'reg_vocabulary.UPDATED_AT';
 
 	/** the column name for the DELETED_AT field */
 	const DELETED_AT = 'reg_vocabulary.DELETED_AT';
@@ -114,10 +117,10 @@ abstract class BaseVocabularyPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'AgentId', 'CreatedAt', 'DeletedAt', 'LastUpdated', 'CreatedUserId', 'UpdatedUserId', 'DeletedUserId', 'ChildUpdatedAt', 'ChildUpdatedUserId', 'Name', 'Note', 'Uri', 'Url', 'BaseDomain', 'Token', 'Community', 'LastUriId', 'StatusId', 'Language', 'Languages', 'ProfileId', 'NsType', 'Prefixes', 'Repo', 'Prefix', ),
-		BasePeer::TYPE_COLNAME => array (VocabularyPeer::ID, VocabularyPeer::AGENT_ID, VocabularyPeer::CREATED_AT, VocabularyPeer::DELETED_AT, VocabularyPeer::LAST_UPDATED, VocabularyPeer::CREATED_USER_ID, VocabularyPeer::UPDATED_USER_ID, VocabularyPeer::DELETED_USER_ID, VocabularyPeer::CHILD_UPDATED_AT, VocabularyPeer::CHILD_UPDATED_USER_ID, VocabularyPeer::NAME, VocabularyPeer::NOTE, VocabularyPeer::URI, VocabularyPeer::URL, VocabularyPeer::BASE_DOMAIN, VocabularyPeer::TOKEN, VocabularyPeer::COMMUNITY, VocabularyPeer::LAST_URI_ID, VocabularyPeer::STATUS_ID, VocabularyPeer::LANGUAGE, VocabularyPeer::LANGUAGES, VocabularyPeer::PROFILE_ID, VocabularyPeer::NS_TYPE, VocabularyPeer::PREFIXES, VocabularyPeer::REPO, VocabularyPeer::PREFIX, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'agent_id', 'created_at', 'deleted_at', 'last_updated', 'created_user_id', 'updated_user_id', 'deleted_user_id', 'child_updated_at', 'child_updated_user_id', 'name', 'note', 'uri', 'url', 'base_domain', 'token', 'community', 'last_uri_id', 'status_id', 'language', 'languages', 'profile_id', 'ns_type', 'prefixes', 'repo', 'prefix', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'AgentId', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'LastUpdated', 'CreatedUserId', 'UpdatedUserId', 'DeletedUserId', 'ChildUpdatedAt', 'ChildUpdatedUserId', 'Name', 'Note', 'Uri', 'Url', 'BaseDomain', 'Token', 'Community', 'LastUriId', 'StatusId', 'Language', 'Languages', 'ProfileId', 'NsType', 'Prefixes', 'Repo', 'Prefix', ),
+		BasePeer::TYPE_COLNAME => array (VocabularyPeer::ID, VocabularyPeer::AGENT_ID, VocabularyPeer::CREATED_AT, VocabularyPeer::UPDATED_AT, VocabularyPeer::DELETED_AT, VocabularyPeer::LAST_UPDATED, VocabularyPeer::CREATED_USER_ID, VocabularyPeer::UPDATED_USER_ID, VocabularyPeer::DELETED_USER_ID, VocabularyPeer::CHILD_UPDATED_AT, VocabularyPeer::CHILD_UPDATED_USER_ID, VocabularyPeer::NAME, VocabularyPeer::NOTE, VocabularyPeer::URI, VocabularyPeer::URL, VocabularyPeer::BASE_DOMAIN, VocabularyPeer::TOKEN, VocabularyPeer::COMMUNITY, VocabularyPeer::LAST_URI_ID, VocabularyPeer::STATUS_ID, VocabularyPeer::LANGUAGE, VocabularyPeer::LANGUAGES, VocabularyPeer::PROFILE_ID, VocabularyPeer::NS_TYPE, VocabularyPeer::PREFIXES, VocabularyPeer::REPO, VocabularyPeer::PREFIX, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'agent_id', 'created_at', 'updated_at', 'deleted_at', 'last_updated', 'created_user_id', 'updated_user_id', 'deleted_user_id', 'child_updated_at', 'child_updated_user_id', 'name', 'note', 'uri', 'url', 'base_domain', 'token', 'community', 'last_uri_id', 'status_id', 'language', 'languages', 'profile_id', 'ns_type', 'prefixes', 'repo', 'prefix', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, )
 	);
 
 	/**
@@ -127,10 +130,10 @@ abstract class BaseVocabularyPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'AgentId' => 1, 'CreatedAt' => 2, 'DeletedAt' => 3, 'LastUpdated' => 4, 'CreatedUserId' => 5, 'UpdatedUserId' => 6, 'DeletedUserId' => 7, 'ChildUpdatedAt' => 8, 'ChildUpdatedUserId' => 9, 'Name' => 10, 'Note' => 11, 'Uri' => 12, 'Url' => 13, 'BaseDomain' => 14, 'Token' => 15, 'Community' => 16, 'LastUriId' => 17, 'StatusId' => 18, 'Language' => 19, 'Languages' => 20, 'ProfileId' => 21, 'NsType' => 22, 'Prefixes' => 23, 'Repo' => 24, 'Prefix' => 25, ),
-		BasePeer::TYPE_COLNAME => array (VocabularyPeer::ID => 0, VocabularyPeer::AGENT_ID => 1, VocabularyPeer::CREATED_AT => 2, VocabularyPeer::DELETED_AT => 3, VocabularyPeer::LAST_UPDATED => 4, VocabularyPeer::CREATED_USER_ID => 5, VocabularyPeer::UPDATED_USER_ID => 6, VocabularyPeer::DELETED_USER_ID => 7, VocabularyPeer::CHILD_UPDATED_AT => 8, VocabularyPeer::CHILD_UPDATED_USER_ID => 9, VocabularyPeer::NAME => 10, VocabularyPeer::NOTE => 11, VocabularyPeer::URI => 12, VocabularyPeer::URL => 13, VocabularyPeer::BASE_DOMAIN => 14, VocabularyPeer::TOKEN => 15, VocabularyPeer::COMMUNITY => 16, VocabularyPeer::LAST_URI_ID => 17, VocabularyPeer::STATUS_ID => 18, VocabularyPeer::LANGUAGE => 19, VocabularyPeer::LANGUAGES => 20, VocabularyPeer::PROFILE_ID => 21, VocabularyPeer::NS_TYPE => 22, VocabularyPeer::PREFIXES => 23, VocabularyPeer::REPO => 24, VocabularyPeer::PREFIX => 25, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'agent_id' => 1, 'created_at' => 2, 'deleted_at' => 3, 'last_updated' => 4, 'created_user_id' => 5, 'updated_user_id' => 6, 'deleted_user_id' => 7, 'child_updated_at' => 8, 'child_updated_user_id' => 9, 'name' => 10, 'note' => 11, 'uri' => 12, 'url' => 13, 'base_domain' => 14, 'token' => 15, 'community' => 16, 'last_uri_id' => 17, 'status_id' => 18, 'language' => 19, 'languages' => 20, 'profile_id' => 21, 'ns_type' => 22, 'prefixes' => 23, 'repo' => 24, 'prefix' => 25, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'AgentId' => 1, 'CreatedAt' => 2, 'UpdatedAt' => 3, 'DeletedAt' => 4, 'LastUpdated' => 5, 'CreatedUserId' => 6, 'UpdatedUserId' => 7, 'DeletedUserId' => 8, 'ChildUpdatedAt' => 9, 'ChildUpdatedUserId' => 10, 'Name' => 11, 'Note' => 12, 'Uri' => 13, 'Url' => 14, 'BaseDomain' => 15, 'Token' => 16, 'Community' => 17, 'LastUriId' => 18, 'StatusId' => 19, 'Language' => 20, 'Languages' => 21, 'ProfileId' => 22, 'NsType' => 23, 'Prefixes' => 24, 'Repo' => 25, 'Prefix' => 26, ),
+		BasePeer::TYPE_COLNAME => array (VocabularyPeer::ID => 0, VocabularyPeer::AGENT_ID => 1, VocabularyPeer::CREATED_AT => 2, VocabularyPeer::UPDATED_AT => 3, VocabularyPeer::DELETED_AT => 4, VocabularyPeer::LAST_UPDATED => 5, VocabularyPeer::CREATED_USER_ID => 6, VocabularyPeer::UPDATED_USER_ID => 7, VocabularyPeer::DELETED_USER_ID => 8, VocabularyPeer::CHILD_UPDATED_AT => 9, VocabularyPeer::CHILD_UPDATED_USER_ID => 10, VocabularyPeer::NAME => 11, VocabularyPeer::NOTE => 12, VocabularyPeer::URI => 13, VocabularyPeer::URL => 14, VocabularyPeer::BASE_DOMAIN => 15, VocabularyPeer::TOKEN => 16, VocabularyPeer::COMMUNITY => 17, VocabularyPeer::LAST_URI_ID => 18, VocabularyPeer::STATUS_ID => 19, VocabularyPeer::LANGUAGE => 20, VocabularyPeer::LANGUAGES => 21, VocabularyPeer::PROFILE_ID => 22, VocabularyPeer::NS_TYPE => 23, VocabularyPeer::PREFIXES => 24, VocabularyPeer::REPO => 25, VocabularyPeer::PREFIX => 26, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'agent_id' => 1, 'created_at' => 2, 'updated_at' => 3, 'deleted_at' => 4, 'last_updated' => 5, 'created_user_id' => 6, 'updated_user_id' => 7, 'deleted_user_id' => 8, 'child_updated_at' => 9, 'child_updated_user_id' => 10, 'name' => 11, 'note' => 12, 'uri' => 13, 'url' => 14, 'base_domain' => 15, 'token' => 16, 'community' => 17, 'last_uri_id' => 18, 'status_id' => 19, 'language' => 20, 'languages' => 21, 'profile_id' => 22, 'ns_type' => 23, 'prefixes' => 24, 'repo' => 25, 'prefix' => 26, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, )
 	);
 
 	/**
@@ -236,6 +239,8 @@ abstract class BaseVocabularyPeer {
         $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::AGENT_ID) : VocabularyPeer::AGENT_ID);
 
         $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::CREATED_AT) : VocabularyPeer::CREATED_AT);
+
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::UPDATED_AT) : VocabularyPeer::UPDATED_AT);
 
         $criteria->addSelectColumn(($tableAlias) ? VocabularyPeer::alias($tableAlias, VocabularyPeer::DELETED_AT) : VocabularyPeer::DELETED_AT);
 

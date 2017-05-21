@@ -73,15 +73,15 @@ class AgentMapBuilder {
 
 		$tMap->addColumn('ORG_EMAIL', 'OrgEmail', 'string', CreoleTypes::VARCHAR, true, 100);
 
-		$tMap->addColumn('ORG_NAME', 'OrgName', 'string', CreoleTypes::VARCHAR, true, 255);
+		$tMap->addColumn('ORG_NAME', 'OrgName', 'string', CreoleTypes::VARCHAR, true, 191);
 
-		$tMap->addColumn('IND_AFFILIATION', 'IndAffiliation', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('IND_AFFILIATION', 'IndAffiliation', 'string', CreoleTypes::VARCHAR, false, 191);
 
 		$tMap->addColumn('IND_ROLE', 'IndRole', 'string', CreoleTypes::VARCHAR, false, 45);
 
-		$tMap->addColumn('ADDRESS1', 'Address1', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('ADDRESS1', 'Address1', 'string', CreoleTypes::VARCHAR, false, 191);
 
-		$tMap->addColumn('ADDRESS2', 'Address2', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('ADDRESS2', 'Address2', 'string', CreoleTypes::VARCHAR, false, 191);
 
 		$tMap->addColumn('CITY', 'City', 'string', CreoleTypes::VARCHAR, false, 45);
 
@@ -93,15 +93,15 @@ class AgentMapBuilder {
 
 		$tMap->addColumn('PHONE', 'Phone', 'string', CreoleTypes::VARCHAR, false, 45);
 
-		$tMap->addColumn('WEB_ADDRESS', 'WebAddress', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('WEB_ADDRESS', 'WebAddress', 'string', CreoleTypes::VARCHAR, false, 191);
 
 		$tMap->addColumn('TYPE', 'Type', 'string', CreoleTypes::CHAR, false, 15);
 
-		$tMap->addColumn('REPO', 'Repo', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('REPO', 'Repo', 'string', CreoleTypes::VARCHAR, false, 191);
 
 		$tMap->addColumn('IS_PRIVATE', 'IsPrivate', 'boolean', CreoleTypes::BOOLEAN, true, null);
 
-		$tMap->addColumn('LICENSE', 'License', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('LICENSE', 'License', 'string', CreoleTypes::VARCHAR, false, 191);
 
 		$tMap->addColumn('DESCRIPTION', 'Description', 'string', CreoleTypes::LONGVARCHAR, false, null);
 
@@ -110,6 +110,34 @@ class AgentMapBuilder {
 		$tMap->addForeignKey('UPDATED_BY', 'UpdatedBy', 'int', CreoleTypes::INTEGER, 'users', 'ID', false, null);
 
 		$tMap->addForeignKey('DELETED_BY', 'DeletedBy', 'int', CreoleTypes::INTEGER, 'users', 'ID', false, null);
+
+		$tMap->addColumn('NAME', 'Name', 'string', CreoleTypes::VARCHAR, false, 191);
+
+		$tMap->addColumn('LABEL', 'Label', 'string', CreoleTypes::VARCHAR, false, 191);
+
+		$tMap->addColumn('URL', 'Url', 'string', CreoleTypes::VARCHAR, false, 191);
+
+		$tMap->addColumn('LICENSE_URI', 'LicenseUri', 'string', CreoleTypes::VARCHAR, false, 191);
+
+		$tMap->addColumn('BASE_DOMAIN', 'BaseDomain', 'string', CreoleTypes::VARCHAR, false, 191);
+
+		$tMap->addColumn('NAMESPACE_TYPE', 'NamespaceType', 'string', CreoleTypes::CHAR, false, null);
+
+		$tMap->addColumn('URI_STRATEGY', 'UriStrategy', 'string', CreoleTypes::CHAR, false, null);
+
+		$tMap->addColumn('URI_PREPEND', 'UriPrepend', 'string', CreoleTypes::VARCHAR, false, 191);
+
+		$tMap->addColumn('URI_APPEND', 'UriAppend', 'string', CreoleTypes::VARCHAR, false, 191);
+
+		$tMap->addColumn('STARTING_NUMBER', 'StartingNumber', 'int', CreoleTypes::INTEGER, false, null);
+
+		$tMap->addColumn('DEFAULT_LANGUAGE', 'DefaultLanguage', 'string', CreoleTypes::VARCHAR, false, 191);
+
+		$tMap->addColumn('LANGUAGES', 'Languages', 'string', CreoleTypes::LONGVARCHAR, false, null);
+
+		$tMap->addColumn('PREFIXES', 'Prefixes', 'string', CreoleTypes::LONGVARCHAR, false, null);
+
+		$tMap->addColumn('GOOGLE_SHEET_URL', 'GoogleSheetUrl', 'string', CreoleTypes::VARCHAR, false, 191);
 
 	} // doBuild()
 

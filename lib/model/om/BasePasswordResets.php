@@ -41,6 +41,13 @@ abstract class BasePasswordResets extends BaseObject  implements Persistent {
 
 
 	/**
+	 * The value for the name field.
+	 * @var        string
+	 */
+	protected $name = '';
+
+
+	/**
 	 * The value for the id field.
 	 * @var        int
 	 */
@@ -111,6 +118,17 @@ abstract class BasePasswordResets extends BaseObject  implements Persistent {
 		} else {
 			return date($format, $ts);
 		}
+	}
+
+	/**
+	 * Get the [name] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getName()
+	{
+
+		return $this->name;
 	}
 
 	/**
@@ -193,6 +211,28 @@ abstract class BasePasswordResets extends BaseObject  implements Persistent {
 	} // setCreatedAt()
 
 	/**
+	 * Set the value of [name] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setName($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->name !== $v || $v === '') {
+			$this->name = $v;
+			$this->modifiedColumns[] = PasswordResetsPeer::NAME;
+		}
+
+	} // setName()
+
+	/**
 	 * Set the value of [id] column.
 	 * 
 	 * @param      int $v new value
@@ -237,14 +277,16 @@ abstract class BasePasswordResets extends BaseObject  implements Persistent {
 
 			$this->created_at = $rs->getTimestamp($startcol + 2, null);
 
-			$this->id = $rs->getInt($startcol + 3);
+			$this->name = $rs->getString($startcol + 3);
+
+			$this->id = $rs->getInt($startcol + 4);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 4; // 4 = PasswordResetsPeer::NUM_COLUMNS - PasswordResetsPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 5; // 5 = PasswordResetsPeer::NUM_COLUMNS - PasswordResetsPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating PasswordResets object", $e);
@@ -497,6 +539,9 @@ abstract class BasePasswordResets extends BaseObject  implements Persistent {
 				return $this->getCreatedAt();
 				break;
 			case 3:
+				return $this->getName();
+				break;
+			case 4:
 				return $this->getId();
 				break;
 			default:
@@ -522,7 +567,8 @@ abstract class BasePasswordResets extends BaseObject  implements Persistent {
 			$keys[0] => $this->getEmail(),
 			$keys[1] => $this->getToken(),
 			$keys[2] => $this->getCreatedAt(),
-			$keys[3] => $this->getId(),
+			$keys[3] => $this->getName(),
+			$keys[4] => $this->getId(),
 		);
 		return $result;
 	}
@@ -564,6 +610,9 @@ abstract class BasePasswordResets extends BaseObject  implements Persistent {
 				$this->setCreatedAt($value);
 				break;
 			case 3:
+				$this->setName($value);
+				break;
+			case 4:
 				$this->setId($value);
 				break;
 		} // switch()
@@ -592,7 +641,8 @@ abstract class BasePasswordResets extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[0], $arr)) $this->setEmail($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setToken($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setCreatedAt($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setId($arr[$keys[3]]);
+		if (array_key_exists($keys[3], $arr)) $this->setName($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setId($arr[$keys[4]]);
 	}
 
 	/**
@@ -607,6 +657,7 @@ abstract class BasePasswordResets extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(PasswordResetsPeer::EMAIL)) $criteria->add(PasswordResetsPeer::EMAIL, $this->email);
 		if ($this->isColumnModified(PasswordResetsPeer::TOKEN)) $criteria->add(PasswordResetsPeer::TOKEN, $this->token);
 		if ($this->isColumnModified(PasswordResetsPeer::CREATED_AT)) $criteria->add(PasswordResetsPeer::CREATED_AT, $this->created_at);
+		if ($this->isColumnModified(PasswordResetsPeer::NAME)) $criteria->add(PasswordResetsPeer::NAME, $this->name);
 		if ($this->isColumnModified(PasswordResetsPeer::ID)) $criteria->add(PasswordResetsPeer::ID, $this->id);
 
 		return $criteria;
@@ -667,6 +718,8 @@ abstract class BasePasswordResets extends BaseObject  implements Persistent {
 		$copyObj->setToken($this->token);
 
 		$copyObj->setCreatedAt($this->created_at);
+
+		$copyObj->setName($this->name);
 
 
 		$copyObj->setNew(true);

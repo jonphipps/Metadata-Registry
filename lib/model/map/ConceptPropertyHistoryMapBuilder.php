@@ -65,6 +65,8 @@ class ConceptPropertyHistoryMapBuilder {
 
 		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, true, null);
 
+		$tMap->addColumn('UPDATED_AT', 'UpdatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
+
 		$tMap->addColumn('ACTION', 'Action', 'string', CreoleTypes::CHAR, false, null);
 
 		$tMap->addForeignKey('CONCEPT_PROPERTY_ID', 'ConceptPropertyId', 'int', CreoleTypes::INTEGER, 'reg_concept_property', 'ID', false, null);

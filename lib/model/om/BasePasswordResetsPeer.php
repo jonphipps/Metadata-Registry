@@ -19,7 +19,7 @@ abstract class BasePasswordResetsPeer {
 	const CLASS_DEFAULT = 'lib.model.PasswordResets';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 4;
+	const NUM_COLUMNS = 5;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -33,6 +33,9 @@ abstract class BasePasswordResetsPeer {
 
 	/** the column name for the CREATED_AT field */
 	const CREATED_AT = 'password_resets.CREATED_AT';
+
+	/** the column name for the NAME field */
+	const NAME = 'password_resets.NAME';
 
 	/** the column name for the ID field */
 	const ID = 'password_resets.ID';
@@ -48,10 +51,10 @@ abstract class BasePasswordResetsPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Email', 'Token', 'CreatedAt', 'Id', ),
-		BasePeer::TYPE_COLNAME => array (PasswordResetsPeer::EMAIL, PasswordResetsPeer::TOKEN, PasswordResetsPeer::CREATED_AT, PasswordResetsPeer::ID, ),
-		BasePeer::TYPE_FIELDNAME => array ('email', 'token', 'created_at', 'id', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
+		BasePeer::TYPE_PHPNAME => array ('Email', 'Token', 'CreatedAt', 'Name', 'Id', ),
+		BasePeer::TYPE_COLNAME => array (PasswordResetsPeer::EMAIL, PasswordResetsPeer::TOKEN, PasswordResetsPeer::CREATED_AT, PasswordResetsPeer::NAME, PasswordResetsPeer::ID, ),
+		BasePeer::TYPE_FIELDNAME => array ('email', 'token', 'created_at', 'name', 'id', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
 	);
 
 	/**
@@ -61,10 +64,10 @@ abstract class BasePasswordResetsPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Email' => 0, 'Token' => 1, 'CreatedAt' => 2, 'Id' => 3, ),
-		BasePeer::TYPE_COLNAME => array (PasswordResetsPeer::EMAIL => 0, PasswordResetsPeer::TOKEN => 1, PasswordResetsPeer::CREATED_AT => 2, PasswordResetsPeer::ID => 3, ),
-		BasePeer::TYPE_FIELDNAME => array ('email' => 0, 'token' => 1, 'created_at' => 2, 'id' => 3, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
+		BasePeer::TYPE_PHPNAME => array ('Email' => 0, 'Token' => 1, 'CreatedAt' => 2, 'Name' => 3, 'Id' => 4, ),
+		BasePeer::TYPE_COLNAME => array (PasswordResetsPeer::EMAIL => 0, PasswordResetsPeer::TOKEN => 1, PasswordResetsPeer::CREATED_AT => 2, PasswordResetsPeer::NAME => 3, PasswordResetsPeer::ID => 4, ),
+		BasePeer::TYPE_FIELDNAME => array ('email' => 0, 'token' => 1, 'created_at' => 2, 'name' => 3, 'id' => 4, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
 	);
 
 	/**
@@ -170,6 +173,8 @@ abstract class BasePasswordResetsPeer {
         $criteria->addSelectColumn(($tableAlias) ? PasswordResetsPeer::alias($tableAlias, PasswordResetsPeer::TOKEN) : PasswordResetsPeer::TOKEN);
 
         $criteria->addSelectColumn(($tableAlias) ? PasswordResetsPeer::alias($tableAlias, PasswordResetsPeer::CREATED_AT) : PasswordResetsPeer::CREATED_AT);
+
+        $criteria->addSelectColumn(($tableAlias) ? PasswordResetsPeer::alias($tableAlias, PasswordResetsPeer::NAME) : PasswordResetsPeer::NAME);
 
         $criteria->addSelectColumn(($tableAlias) ? PasswordResetsPeer::alias($tableAlias, PasswordResetsPeer::ID) : PasswordResetsPeer::ID);
 

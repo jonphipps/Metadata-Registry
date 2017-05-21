@@ -41,6 +41,13 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 
 	/**
+	 * The value for the updated_at field.
+	 * @var        int
+	 */
+	protected $updated_at;
+
+
+	/**
 	 * The value for the deleted_at field.
 	 * @var        int
 	 */
@@ -198,7 +205,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 	 * The value for the prefix field.
 	 * @var        string
 	 */
-	protected $prefix;
+	protected $prefix = '';
 
 	/**
 	 * @var        Agent
@@ -412,6 +419,37 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			}
 		} else {
 			$ts = $this->created_at;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
+	}
+
+	/**
+	 * Get the [optionally formatted] [updated_at] column value.
+	 * 
+	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
+	 *							If format is NULL, then the integer unix timestamp will be returned.
+	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
+	 * @throws     PropelException - if unable to convert the date/time to timestamp.
+	 */
+	public function getUpdatedAt($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->updated_at === null || $this->updated_at === '') {
+			return null;
+		} elseif (!is_int($this->updated_at)) {
+			// a non-timestamp value was set externally, so we convert it
+			$ts = strtotime($this->updated_at);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse value of [updated_at] as date/time value: " . var_export($this->updated_at, true));
+			}
+		} else {
+			$ts = $this->updated_at;
 		}
 		if ($format === null) {
 			return $ts;
@@ -806,6 +844,30 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		}
 
 	} // setCreatedAt()
+
+	/**
+	 * Set the value of [updated_at] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setUpdatedAt($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse date/time value for [updated_at] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->updated_at !== $ts) {
+			$this->updated_at = $ts;
+			$this->modifiedColumns[] = VocabularyPeer::UPDATED_AT;
+		}
+
+	} // setUpdatedAt()
 
 	/**
 	 * Set the value of [deleted_at] column.
@@ -1336,7 +1398,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->prefix !== $v) {
+		if ($this->prefix !== $v || $v === '') {
 			$this->prefix = $v;
 			$this->modifiedColumns[] = VocabularyPeer::PREFIX;
 		}
@@ -1366,58 +1428,60 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 
 			$this->created_at = $rs->getTimestamp($startcol + 2, null);
 
-			$this->deleted_at = $rs->getTimestamp($startcol + 3, null);
+			$this->updated_at = $rs->getTimestamp($startcol + 3, null);
 
-			$this->last_updated = $rs->getTimestamp($startcol + 4, null);
+			$this->deleted_at = $rs->getTimestamp($startcol + 4, null);
 
-			$this->created_user_id = $rs->getInt($startcol + 5);
+			$this->last_updated = $rs->getTimestamp($startcol + 5, null);
 
-			$this->updated_user_id = $rs->getInt($startcol + 6);
+			$this->created_user_id = $rs->getInt($startcol + 6);
 
-			$this->deleted_user_id = $rs->getInt($startcol + 7);
+			$this->updated_user_id = $rs->getInt($startcol + 7);
 
-			$this->child_updated_at = $rs->getTimestamp($startcol + 8, null);
+			$this->deleted_user_id = $rs->getInt($startcol + 8);
 
-			$this->child_updated_user_id = $rs->getInt($startcol + 9);
+			$this->child_updated_at = $rs->getTimestamp($startcol + 9, null);
 
-			$this->name = $rs->getString($startcol + 10);
+			$this->child_updated_user_id = $rs->getInt($startcol + 10);
 
-			$this->note = $rs->getString($startcol + 11);
+			$this->name = $rs->getString($startcol + 11);
 
-			$this->uri = $rs->getString($startcol + 12);
+			$this->note = $rs->getString($startcol + 12);
 
-			$this->url = $rs->getString($startcol + 13);
+			$this->uri = $rs->getString($startcol + 13);
 
-			$this->base_domain = $rs->getString($startcol + 14);
+			$this->url = $rs->getString($startcol + 14);
 
-			$this->token = $rs->getString($startcol + 15);
+			$this->base_domain = $rs->getString($startcol + 15);
 
-			$this->community = $rs->getString($startcol + 16);
+			$this->token = $rs->getString($startcol + 16);
 
-			$this->last_uri_id = $rs->getInt($startcol + 17);
+			$this->community = $rs->getString($startcol + 17);
 
-			$this->status_id = $rs->getInt($startcol + 18);
+			$this->last_uri_id = $rs->getInt($startcol + 18);
 
-			$this->language = $rs->getString($startcol + 19);
+			$this->status_id = $rs->getInt($startcol + 19);
 
-			$this->languages = $rs->getString($startcol + 20);
+			$this->language = $rs->getString($startcol + 20);
 
-			$this->profile_id = $rs->getInt($startcol + 21);
+			$this->languages = $rs->getString($startcol + 21);
 
-			$this->ns_type = $rs->getString($startcol + 22);
+			$this->profile_id = $rs->getInt($startcol + 22);
 
-			$this->prefixes = $rs->getString($startcol + 23);
+			$this->ns_type = $rs->getString($startcol + 23);
 
-			$this->repo = $rs->getString($startcol + 24);
+			$this->prefixes = $rs->getString($startcol + 24);
 
-			$this->prefix = $rs->getString($startcol + 25);
+			$this->repo = $rs->getString($startcol + 25);
+
+			$this->prefix = $rs->getString($startcol + 26);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 26; // 26 = VocabularyPeer::NUM_COLUMNS - VocabularyPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 27; // 27 = VocabularyPeer::NUM_COLUMNS - VocabularyPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Vocabulary object", $e);
@@ -1497,6 +1561,11 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
     if ($this->isNew() && !$this->isColumnModified(VocabularyPeer::CREATED_AT))
     {
       $this->setCreatedAt(time());
+    }
+
+    if ($this->isModified() && !$this->isColumnModified(VocabularyPeer::UPDATED_AT))
+    {
+      $this->setUpdatedAt(time());
     }
 
 		if ($this->isDeleted()) {
@@ -1933,72 +2002,75 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 				return $this->getCreatedAt();
 				break;
 			case 3:
-				return $this->getDeletedAt();
+				return $this->getUpdatedAt();
 				break;
 			case 4:
-				return $this->getLastUpdated();
+				return $this->getDeletedAt();
 				break;
 			case 5:
-				return $this->getCreatedUserId();
+				return $this->getLastUpdated();
 				break;
 			case 6:
-				return $this->getUpdatedUserId();
+				return $this->getCreatedUserId();
 				break;
 			case 7:
-				return $this->getDeletedUserId();
+				return $this->getUpdatedUserId();
 				break;
 			case 8:
-				return $this->getChildUpdatedAt();
+				return $this->getDeletedUserId();
 				break;
 			case 9:
-				return $this->getChildUpdatedUserId();
+				return $this->getChildUpdatedAt();
 				break;
 			case 10:
-				return $this->getName();
+				return $this->getChildUpdatedUserId();
 				break;
 			case 11:
-				return $this->getNote();
+				return $this->getName();
 				break;
 			case 12:
-				return $this->getUri();
+				return $this->getNote();
 				break;
 			case 13:
-				return $this->getUrl();
+				return $this->getUri();
 				break;
 			case 14:
-				return $this->getBaseDomain();
+				return $this->getUrl();
 				break;
 			case 15:
-				return $this->getToken();
+				return $this->getBaseDomain();
 				break;
 			case 16:
-				return $this->getCommunity();
+				return $this->getToken();
 				break;
 			case 17:
-				return $this->getLastUriId();
+				return $this->getCommunity();
 				break;
 			case 18:
-				return $this->getStatusId();
+				return $this->getLastUriId();
 				break;
 			case 19:
-				return $this->getLanguage();
+				return $this->getStatusId();
 				break;
 			case 20:
-				return $this->getLanguages();
+				return $this->getLanguage();
 				break;
 			case 21:
-				return $this->getProfileId();
+				return $this->getLanguages();
 				break;
 			case 22:
-				return $this->getNsType();
+				return $this->getProfileId();
 				break;
 			case 23:
-				return $this->getPrefixes();
+				return $this->getNsType();
 				break;
 			case 24:
-				return $this->getRepo();
+				return $this->getPrefixes();
 				break;
 			case 25:
+				return $this->getRepo();
+				break;
+			case 26:
 				return $this->getPrefix();
 				break;
 			default:
@@ -2024,29 +2096,30 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getAgentId(),
 			$keys[2] => $this->getCreatedAt(),
-			$keys[3] => $this->getDeletedAt(),
-			$keys[4] => $this->getLastUpdated(),
-			$keys[5] => $this->getCreatedUserId(),
-			$keys[6] => $this->getUpdatedUserId(),
-			$keys[7] => $this->getDeletedUserId(),
-			$keys[8] => $this->getChildUpdatedAt(),
-			$keys[9] => $this->getChildUpdatedUserId(),
-			$keys[10] => $this->getName(),
-			$keys[11] => $this->getNote(),
-			$keys[12] => $this->getUri(),
-			$keys[13] => $this->getUrl(),
-			$keys[14] => $this->getBaseDomain(),
-			$keys[15] => $this->getToken(),
-			$keys[16] => $this->getCommunity(),
-			$keys[17] => $this->getLastUriId(),
-			$keys[18] => $this->getStatusId(),
-			$keys[19] => $this->getLanguage(),
-			$keys[20] => $this->getLanguages(),
-			$keys[21] => $this->getProfileId(),
-			$keys[22] => $this->getNsType(),
-			$keys[23] => $this->getPrefixes(),
-			$keys[24] => $this->getRepo(),
-			$keys[25] => $this->getPrefix(),
+			$keys[3] => $this->getUpdatedAt(),
+			$keys[4] => $this->getDeletedAt(),
+			$keys[5] => $this->getLastUpdated(),
+			$keys[6] => $this->getCreatedUserId(),
+			$keys[7] => $this->getUpdatedUserId(),
+			$keys[8] => $this->getDeletedUserId(),
+			$keys[9] => $this->getChildUpdatedAt(),
+			$keys[10] => $this->getChildUpdatedUserId(),
+			$keys[11] => $this->getName(),
+			$keys[12] => $this->getNote(),
+			$keys[13] => $this->getUri(),
+			$keys[14] => $this->getUrl(),
+			$keys[15] => $this->getBaseDomain(),
+			$keys[16] => $this->getToken(),
+			$keys[17] => $this->getCommunity(),
+			$keys[18] => $this->getLastUriId(),
+			$keys[19] => $this->getStatusId(),
+			$keys[20] => $this->getLanguage(),
+			$keys[21] => $this->getLanguages(),
+			$keys[22] => $this->getProfileId(),
+			$keys[23] => $this->getNsType(),
+			$keys[24] => $this->getPrefixes(),
+			$keys[25] => $this->getRepo(),
+			$keys[26] => $this->getPrefix(),
 		);
 		return $result;
 	}
@@ -2088,72 +2161,75 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 				$this->setCreatedAt($value);
 				break;
 			case 3:
-				$this->setDeletedAt($value);
+				$this->setUpdatedAt($value);
 				break;
 			case 4:
-				$this->setLastUpdated($value);
+				$this->setDeletedAt($value);
 				break;
 			case 5:
-				$this->setCreatedUserId($value);
+				$this->setLastUpdated($value);
 				break;
 			case 6:
-				$this->setUpdatedUserId($value);
+				$this->setCreatedUserId($value);
 				break;
 			case 7:
-				$this->setDeletedUserId($value);
+				$this->setUpdatedUserId($value);
 				break;
 			case 8:
-				$this->setChildUpdatedAt($value);
+				$this->setDeletedUserId($value);
 				break;
 			case 9:
-				$this->setChildUpdatedUserId($value);
+				$this->setChildUpdatedAt($value);
 				break;
 			case 10:
-				$this->setName($value);
+				$this->setChildUpdatedUserId($value);
 				break;
 			case 11:
-				$this->setNote($value);
+				$this->setName($value);
 				break;
 			case 12:
-				$this->setUri($value);
+				$this->setNote($value);
 				break;
 			case 13:
-				$this->setUrl($value);
+				$this->setUri($value);
 				break;
 			case 14:
-				$this->setBaseDomain($value);
+				$this->setUrl($value);
 				break;
 			case 15:
-				$this->setToken($value);
+				$this->setBaseDomain($value);
 				break;
 			case 16:
-				$this->setCommunity($value);
+				$this->setToken($value);
 				break;
 			case 17:
-				$this->setLastUriId($value);
+				$this->setCommunity($value);
 				break;
 			case 18:
-				$this->setStatusId($value);
+				$this->setLastUriId($value);
 				break;
 			case 19:
-				$this->setLanguage($value);
+				$this->setStatusId($value);
 				break;
 			case 20:
-				$this->setLanguages($value);
+				$this->setLanguage($value);
 				break;
 			case 21:
-				$this->setProfileId($value);
+				$this->setLanguages($value);
 				break;
 			case 22:
-				$this->setNsType($value);
+				$this->setProfileId($value);
 				break;
 			case 23:
-				$this->setPrefixes($value);
+				$this->setNsType($value);
 				break;
 			case 24:
-				$this->setRepo($value);
+				$this->setPrefixes($value);
 				break;
 			case 25:
+				$this->setRepo($value);
+				break;
+			case 26:
 				$this->setPrefix($value);
 				break;
 		} // switch()
@@ -2182,29 +2258,30 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setAgentId($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setCreatedAt($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setDeletedAt($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setLastUpdated($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setCreatedUserId($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setUpdatedUserId($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setDeletedUserId($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setChildUpdatedAt($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setChildUpdatedUserId($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setName($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setNote($arr[$keys[11]]);
-		if (array_key_exists($keys[12], $arr)) $this->setUri($arr[$keys[12]]);
-		if (array_key_exists($keys[13], $arr)) $this->setUrl($arr[$keys[13]]);
-		if (array_key_exists($keys[14], $arr)) $this->setBaseDomain($arr[$keys[14]]);
-		if (array_key_exists($keys[15], $arr)) $this->setToken($arr[$keys[15]]);
-		if (array_key_exists($keys[16], $arr)) $this->setCommunity($arr[$keys[16]]);
-		if (array_key_exists($keys[17], $arr)) $this->setLastUriId($arr[$keys[17]]);
-		if (array_key_exists($keys[18], $arr)) $this->setStatusId($arr[$keys[18]]);
-		if (array_key_exists($keys[19], $arr)) $this->setLanguage($arr[$keys[19]]);
-		if (array_key_exists($keys[20], $arr)) $this->setLanguages($arr[$keys[20]]);
-		if (array_key_exists($keys[21], $arr)) $this->setProfileId($arr[$keys[21]]);
-		if (array_key_exists($keys[22], $arr)) $this->setNsType($arr[$keys[22]]);
-		if (array_key_exists($keys[23], $arr)) $this->setPrefixes($arr[$keys[23]]);
-		if (array_key_exists($keys[24], $arr)) $this->setRepo($arr[$keys[24]]);
-		if (array_key_exists($keys[25], $arr)) $this->setPrefix($arr[$keys[25]]);
+		if (array_key_exists($keys[3], $arr)) $this->setUpdatedAt($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setDeletedAt($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setLastUpdated($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setCreatedUserId($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setUpdatedUserId($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setDeletedUserId($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setChildUpdatedAt($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setChildUpdatedUserId($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setName($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setNote($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setUri($arr[$keys[13]]);
+		if (array_key_exists($keys[14], $arr)) $this->setUrl($arr[$keys[14]]);
+		if (array_key_exists($keys[15], $arr)) $this->setBaseDomain($arr[$keys[15]]);
+		if (array_key_exists($keys[16], $arr)) $this->setToken($arr[$keys[16]]);
+		if (array_key_exists($keys[17], $arr)) $this->setCommunity($arr[$keys[17]]);
+		if (array_key_exists($keys[18], $arr)) $this->setLastUriId($arr[$keys[18]]);
+		if (array_key_exists($keys[19], $arr)) $this->setStatusId($arr[$keys[19]]);
+		if (array_key_exists($keys[20], $arr)) $this->setLanguage($arr[$keys[20]]);
+		if (array_key_exists($keys[21], $arr)) $this->setLanguages($arr[$keys[21]]);
+		if (array_key_exists($keys[22], $arr)) $this->setProfileId($arr[$keys[22]]);
+		if (array_key_exists($keys[23], $arr)) $this->setNsType($arr[$keys[23]]);
+		if (array_key_exists($keys[24], $arr)) $this->setPrefixes($arr[$keys[24]]);
+		if (array_key_exists($keys[25], $arr)) $this->setRepo($arr[$keys[25]]);
+		if (array_key_exists($keys[26], $arr)) $this->setPrefix($arr[$keys[26]]);
 	}
 
 	/**
@@ -2219,6 +2296,7 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(VocabularyPeer::ID)) $criteria->add(VocabularyPeer::ID, $this->id);
 		if ($this->isColumnModified(VocabularyPeer::AGENT_ID)) $criteria->add(VocabularyPeer::AGENT_ID, $this->agent_id);
 		if ($this->isColumnModified(VocabularyPeer::CREATED_AT)) $criteria->add(VocabularyPeer::CREATED_AT, $this->created_at);
+		if ($this->isColumnModified(VocabularyPeer::UPDATED_AT)) $criteria->add(VocabularyPeer::UPDATED_AT, $this->updated_at);
 		if ($this->isColumnModified(VocabularyPeer::DELETED_AT)) $criteria->add(VocabularyPeer::DELETED_AT, $this->deleted_at);
 		if ($this->isColumnModified(VocabularyPeer::LAST_UPDATED)) $criteria->add(VocabularyPeer::LAST_UPDATED, $this->last_updated);
 		if ($this->isColumnModified(VocabularyPeer::CREATED_USER_ID)) $criteria->add(VocabularyPeer::CREATED_USER_ID, $this->created_user_id);
@@ -2299,6 +2377,8 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		$copyObj->setAgentId($this->agent_id);
 
 		$copyObj->setCreatedAt($this->created_at);
+
+		$copyObj->setUpdatedAt($this->updated_at);
 
 		$copyObj->setDeletedAt($this->deleted_at);
 

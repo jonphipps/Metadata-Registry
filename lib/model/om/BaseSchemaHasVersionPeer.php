@@ -34,11 +34,11 @@ abstract class BaseSchemaHasVersionPeer {
 	/** the column name for the CREATED_AT field */
 	const CREATED_AT = 'schema_has_version.CREATED_AT';
 
-	/** the column name for the DELETED_AT field */
-	const DELETED_AT = 'schema_has_version.DELETED_AT';
-
 	/** the column name for the UPDATED_AT field */
 	const UPDATED_AT = 'schema_has_version.UPDATED_AT';
+
+	/** the column name for the DELETED_AT field */
+	const DELETED_AT = 'schema_has_version.DELETED_AT';
 
 	/** the column name for the CREATED_USER_ID field */
 	const CREATED_USER_ID = 'schema_has_version.CREATED_USER_ID';
@@ -60,9 +60,9 @@ abstract class BaseSchemaHasVersionPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Name', 'CreatedAt', 'DeletedAt', 'UpdatedAt', 'CreatedUserId', 'SchemaId', 'Timeslice', ),
-		BasePeer::TYPE_COLNAME => array (SchemaHasVersionPeer::ID, SchemaHasVersionPeer::NAME, SchemaHasVersionPeer::CREATED_AT, SchemaHasVersionPeer::DELETED_AT, SchemaHasVersionPeer::UPDATED_AT, SchemaHasVersionPeer::CREATED_USER_ID, SchemaHasVersionPeer::SCHEMA_ID, SchemaHasVersionPeer::TIMESLICE, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'name', 'created_at', 'deleted_at', 'updated_at', 'created_user_id', 'schema_id', 'timeslice', ),
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Name', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'CreatedUserId', 'SchemaId', 'Timeslice', ),
+		BasePeer::TYPE_COLNAME => array (SchemaHasVersionPeer::ID, SchemaHasVersionPeer::NAME, SchemaHasVersionPeer::CREATED_AT, SchemaHasVersionPeer::UPDATED_AT, SchemaHasVersionPeer::DELETED_AT, SchemaHasVersionPeer::CREATED_USER_ID, SchemaHasVersionPeer::SCHEMA_ID, SchemaHasVersionPeer::TIMESLICE, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'name', 'created_at', 'updated_at', 'deleted_at', 'created_user_id', 'schema_id', 'timeslice', ),
 		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
 	);
 
@@ -73,9 +73,9 @@ abstract class BaseSchemaHasVersionPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Name' => 1, 'CreatedAt' => 2, 'DeletedAt' => 3, 'UpdatedAt' => 4, 'CreatedUserId' => 5, 'SchemaId' => 6, 'Timeslice' => 7, ),
-		BasePeer::TYPE_COLNAME => array (SchemaHasVersionPeer::ID => 0, SchemaHasVersionPeer::NAME => 1, SchemaHasVersionPeer::CREATED_AT => 2, SchemaHasVersionPeer::DELETED_AT => 3, SchemaHasVersionPeer::UPDATED_AT => 4, SchemaHasVersionPeer::CREATED_USER_ID => 5, SchemaHasVersionPeer::SCHEMA_ID => 6, SchemaHasVersionPeer::TIMESLICE => 7, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'name' => 1, 'created_at' => 2, 'deleted_at' => 3, 'updated_at' => 4, 'created_user_id' => 5, 'schema_id' => 6, 'timeslice' => 7, ),
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Name' => 1, 'CreatedAt' => 2, 'UpdatedAt' => 3, 'DeletedAt' => 4, 'CreatedUserId' => 5, 'SchemaId' => 6, 'Timeslice' => 7, ),
+		BasePeer::TYPE_COLNAME => array (SchemaHasVersionPeer::ID => 0, SchemaHasVersionPeer::NAME => 1, SchemaHasVersionPeer::CREATED_AT => 2, SchemaHasVersionPeer::UPDATED_AT => 3, SchemaHasVersionPeer::DELETED_AT => 4, SchemaHasVersionPeer::CREATED_USER_ID => 5, SchemaHasVersionPeer::SCHEMA_ID => 6, SchemaHasVersionPeer::TIMESLICE => 7, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'name' => 1, 'created_at' => 2, 'updated_at' => 3, 'deleted_at' => 4, 'created_user_id' => 5, 'schema_id' => 6, 'timeslice' => 7, ),
 		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
 	);
 
@@ -183,9 +183,9 @@ abstract class BaseSchemaHasVersionPeer {
 
         $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::CREATED_AT) : SchemaHasVersionPeer::CREATED_AT);
 
-        $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::DELETED_AT) : SchemaHasVersionPeer::DELETED_AT);
-
         $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::UPDATED_AT) : SchemaHasVersionPeer::UPDATED_AT);
+
+        $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::DELETED_AT) : SchemaHasVersionPeer::DELETED_AT);
 
         $criteria->addSelectColumn(($tableAlias) ? SchemaHasVersionPeer::alias($tableAlias, SchemaHasVersionPeer::CREATED_USER_ID) : SchemaHasVersionPeer::CREATED_USER_ID);
 

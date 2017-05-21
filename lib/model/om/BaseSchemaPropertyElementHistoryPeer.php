@@ -19,7 +19,7 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 	const CLASS_DEFAULT = 'lib.model.SchemaPropertyElementHistory';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 14;
+	const NUM_COLUMNS = 15;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -30,6 +30,9 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 
 	/** the column name for the CREATED_AT field */
 	const CREATED_AT = 'reg_schema_property_element_history.CREATED_AT';
+
+	/** the column name for the UPDATED_AT field */
+	const UPDATED_AT = 'reg_schema_property_element_history.UPDATED_AT';
 
 	/** the column name for the CREATED_USER_ID field */
 	const CREATED_USER_ID = 'reg_schema_property_element_history.CREATED_USER_ID';
@@ -78,10 +81,10 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'CreatedUserId', 'Action', 'SchemaPropertyElementId', 'SchemaPropertyId', 'SchemaId', 'ProfilePropertyId', 'Object', 'RelatedSchemaPropertyId', 'Language', 'StatusId', 'ChangeNote', 'ImportId', ),
-		BasePeer::TYPE_COLNAME => array (SchemaPropertyElementHistoryPeer::ID, SchemaPropertyElementHistoryPeer::CREATED_AT, SchemaPropertyElementHistoryPeer::CREATED_USER_ID, SchemaPropertyElementHistoryPeer::ACTION, SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ELEMENT_ID, SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ID, SchemaPropertyElementHistoryPeer::SCHEMA_ID, SchemaPropertyElementHistoryPeer::PROFILE_PROPERTY_ID, SchemaPropertyElementHistoryPeer::OBJECT, SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID, SchemaPropertyElementHistoryPeer::LANGUAGE, SchemaPropertyElementHistoryPeer::STATUS_ID, SchemaPropertyElementHistoryPeer::CHANGE_NOTE, SchemaPropertyElementHistoryPeer::IMPORT_ID, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'created_user_id', 'action', 'schema_property_element_id', 'schema_property_id', 'schema_id', 'profile_property_id', 'object', 'related_schema_property_id', 'language', 'status_id', 'change_note', 'import_id', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'CreatedUserId', 'Action', 'SchemaPropertyElementId', 'SchemaPropertyId', 'SchemaId', 'ProfilePropertyId', 'Object', 'RelatedSchemaPropertyId', 'Language', 'StatusId', 'ChangeNote', 'ImportId', ),
+		BasePeer::TYPE_COLNAME => array (SchemaPropertyElementHistoryPeer::ID, SchemaPropertyElementHistoryPeer::CREATED_AT, SchemaPropertyElementHistoryPeer::UPDATED_AT, SchemaPropertyElementHistoryPeer::CREATED_USER_ID, SchemaPropertyElementHistoryPeer::ACTION, SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ELEMENT_ID, SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ID, SchemaPropertyElementHistoryPeer::SCHEMA_ID, SchemaPropertyElementHistoryPeer::PROFILE_PROPERTY_ID, SchemaPropertyElementHistoryPeer::OBJECT, SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID, SchemaPropertyElementHistoryPeer::LANGUAGE, SchemaPropertyElementHistoryPeer::STATUS_ID, SchemaPropertyElementHistoryPeer::CHANGE_NOTE, SchemaPropertyElementHistoryPeer::IMPORT_ID, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'created_user_id', 'action', 'schema_property_element_id', 'schema_property_id', 'schema_id', 'profile_property_id', 'object', 'related_schema_property_id', 'language', 'status_id', 'change_note', 'import_id', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
 	);
 
 	/**
@@ -91,10 +94,10 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'CreatedUserId' => 2, 'Action' => 3, 'SchemaPropertyElementId' => 4, 'SchemaPropertyId' => 5, 'SchemaId' => 6, 'ProfilePropertyId' => 7, 'Object' => 8, 'RelatedSchemaPropertyId' => 9, 'Language' => 10, 'StatusId' => 11, 'ChangeNote' => 12, 'ImportId' => 13, ),
-		BasePeer::TYPE_COLNAME => array (SchemaPropertyElementHistoryPeer::ID => 0, SchemaPropertyElementHistoryPeer::CREATED_AT => 1, SchemaPropertyElementHistoryPeer::CREATED_USER_ID => 2, SchemaPropertyElementHistoryPeer::ACTION => 3, SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ELEMENT_ID => 4, SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ID => 5, SchemaPropertyElementHistoryPeer::SCHEMA_ID => 6, SchemaPropertyElementHistoryPeer::PROFILE_PROPERTY_ID => 7, SchemaPropertyElementHistoryPeer::OBJECT => 8, SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID => 9, SchemaPropertyElementHistoryPeer::LANGUAGE => 10, SchemaPropertyElementHistoryPeer::STATUS_ID => 11, SchemaPropertyElementHistoryPeer::CHANGE_NOTE => 12, SchemaPropertyElementHistoryPeer::IMPORT_ID => 13, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'created_user_id' => 2, 'action' => 3, 'schema_property_element_id' => 4, 'schema_property_id' => 5, 'schema_id' => 6, 'profile_property_id' => 7, 'object' => 8, 'related_schema_property_id' => 9, 'language' => 10, 'status_id' => 11, 'change_note' => 12, 'import_id' => 13, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'CreatedUserId' => 3, 'Action' => 4, 'SchemaPropertyElementId' => 5, 'SchemaPropertyId' => 6, 'SchemaId' => 7, 'ProfilePropertyId' => 8, 'Object' => 9, 'RelatedSchemaPropertyId' => 10, 'Language' => 11, 'StatusId' => 12, 'ChangeNote' => 13, 'ImportId' => 14, ),
+		BasePeer::TYPE_COLNAME => array (SchemaPropertyElementHistoryPeer::ID => 0, SchemaPropertyElementHistoryPeer::CREATED_AT => 1, SchemaPropertyElementHistoryPeer::UPDATED_AT => 2, SchemaPropertyElementHistoryPeer::CREATED_USER_ID => 3, SchemaPropertyElementHistoryPeer::ACTION => 4, SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ELEMENT_ID => 5, SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ID => 6, SchemaPropertyElementHistoryPeer::SCHEMA_ID => 7, SchemaPropertyElementHistoryPeer::PROFILE_PROPERTY_ID => 8, SchemaPropertyElementHistoryPeer::OBJECT => 9, SchemaPropertyElementHistoryPeer::RELATED_SCHEMA_PROPERTY_ID => 10, SchemaPropertyElementHistoryPeer::LANGUAGE => 11, SchemaPropertyElementHistoryPeer::STATUS_ID => 12, SchemaPropertyElementHistoryPeer::CHANGE_NOTE => 13, SchemaPropertyElementHistoryPeer::IMPORT_ID => 14, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'created_user_id' => 3, 'action' => 4, 'schema_property_element_id' => 5, 'schema_property_id' => 6, 'schema_id' => 7, 'profile_property_id' => 8, 'object' => 9, 'related_schema_property_id' => 10, 'language' => 11, 'status_id' => 12, 'change_note' => 13, 'import_id' => 14, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
 	);
 
 	/**
@@ -198,6 +201,8 @@ abstract class BaseSchemaPropertyElementHistoryPeer {
         $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::ID) : SchemaPropertyElementHistoryPeer::ID);
 
         $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::CREATED_AT) : SchemaPropertyElementHistoryPeer::CREATED_AT);
+
+        $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::UPDATED_AT) : SchemaPropertyElementHistoryPeer::UPDATED_AT);
 
         $criteria->addSelectColumn(($tableAlias) ? SchemaPropertyElementHistoryPeer::alias($tableAlias, SchemaPropertyElementHistoryPeer::CREATED_USER_ID) : SchemaPropertyElementHistoryPeer::CREATED_USER_ID);
 

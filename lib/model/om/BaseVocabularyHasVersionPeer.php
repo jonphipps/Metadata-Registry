@@ -34,11 +34,11 @@ abstract class BaseVocabularyHasVersionPeer {
 	/** the column name for the CREATED_AT field */
 	const CREATED_AT = 'reg_vocabulary_has_version.CREATED_AT';
 
-	/** the column name for the DELETED_AT field */
-	const DELETED_AT = 'reg_vocabulary_has_version.DELETED_AT';
-
 	/** the column name for the UPDATED_AT field */
 	const UPDATED_AT = 'reg_vocabulary_has_version.UPDATED_AT';
+
+	/** the column name for the DELETED_AT field */
+	const DELETED_AT = 'reg_vocabulary_has_version.DELETED_AT';
 
 	/** the column name for the CREATED_USER_ID field */
 	const CREATED_USER_ID = 'reg_vocabulary_has_version.CREATED_USER_ID';
@@ -60,9 +60,9 @@ abstract class BaseVocabularyHasVersionPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Name', 'CreatedAt', 'DeletedAt', 'UpdatedAt', 'CreatedUserId', 'VocabularyId', 'Timeslice', ),
-		BasePeer::TYPE_COLNAME => array (VocabularyHasVersionPeer::ID, VocabularyHasVersionPeer::NAME, VocabularyHasVersionPeer::CREATED_AT, VocabularyHasVersionPeer::DELETED_AT, VocabularyHasVersionPeer::UPDATED_AT, VocabularyHasVersionPeer::CREATED_USER_ID, VocabularyHasVersionPeer::VOCABULARY_ID, VocabularyHasVersionPeer::TIMESLICE, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'name', 'created_at', 'deleted_at', 'updated_at', 'created_user_id', 'vocabulary_id', 'timeslice', ),
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Name', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'CreatedUserId', 'VocabularyId', 'Timeslice', ),
+		BasePeer::TYPE_COLNAME => array (VocabularyHasVersionPeer::ID, VocabularyHasVersionPeer::NAME, VocabularyHasVersionPeer::CREATED_AT, VocabularyHasVersionPeer::UPDATED_AT, VocabularyHasVersionPeer::DELETED_AT, VocabularyHasVersionPeer::CREATED_USER_ID, VocabularyHasVersionPeer::VOCABULARY_ID, VocabularyHasVersionPeer::TIMESLICE, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'name', 'created_at', 'updated_at', 'deleted_at', 'created_user_id', 'vocabulary_id', 'timeslice', ),
 		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
 	);
 
@@ -73,9 +73,9 @@ abstract class BaseVocabularyHasVersionPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Name' => 1, 'CreatedAt' => 2, 'DeletedAt' => 3, 'UpdatedAt' => 4, 'CreatedUserId' => 5, 'VocabularyId' => 6, 'Timeslice' => 7, ),
-		BasePeer::TYPE_COLNAME => array (VocabularyHasVersionPeer::ID => 0, VocabularyHasVersionPeer::NAME => 1, VocabularyHasVersionPeer::CREATED_AT => 2, VocabularyHasVersionPeer::DELETED_AT => 3, VocabularyHasVersionPeer::UPDATED_AT => 4, VocabularyHasVersionPeer::CREATED_USER_ID => 5, VocabularyHasVersionPeer::VOCABULARY_ID => 6, VocabularyHasVersionPeer::TIMESLICE => 7, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'name' => 1, 'created_at' => 2, 'deleted_at' => 3, 'updated_at' => 4, 'created_user_id' => 5, 'vocabulary_id' => 6, 'timeslice' => 7, ),
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Name' => 1, 'CreatedAt' => 2, 'UpdatedAt' => 3, 'DeletedAt' => 4, 'CreatedUserId' => 5, 'VocabularyId' => 6, 'Timeslice' => 7, ),
+		BasePeer::TYPE_COLNAME => array (VocabularyHasVersionPeer::ID => 0, VocabularyHasVersionPeer::NAME => 1, VocabularyHasVersionPeer::CREATED_AT => 2, VocabularyHasVersionPeer::UPDATED_AT => 3, VocabularyHasVersionPeer::DELETED_AT => 4, VocabularyHasVersionPeer::CREATED_USER_ID => 5, VocabularyHasVersionPeer::VOCABULARY_ID => 6, VocabularyHasVersionPeer::TIMESLICE => 7, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'name' => 1, 'created_at' => 2, 'updated_at' => 3, 'deleted_at' => 4, 'created_user_id' => 5, 'vocabulary_id' => 6, 'timeslice' => 7, ),
 		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
 	);
 
@@ -183,9 +183,9 @@ abstract class BaseVocabularyHasVersionPeer {
 
         $criteria->addSelectColumn(($tableAlias) ? VocabularyHasVersionPeer::alias($tableAlias, VocabularyHasVersionPeer::CREATED_AT) : VocabularyHasVersionPeer::CREATED_AT);
 
-        $criteria->addSelectColumn(($tableAlias) ? VocabularyHasVersionPeer::alias($tableAlias, VocabularyHasVersionPeer::DELETED_AT) : VocabularyHasVersionPeer::DELETED_AT);
-
         $criteria->addSelectColumn(($tableAlias) ? VocabularyHasVersionPeer::alias($tableAlias, VocabularyHasVersionPeer::UPDATED_AT) : VocabularyHasVersionPeer::UPDATED_AT);
+
+        $criteria->addSelectColumn(($tableAlias) ? VocabularyHasVersionPeer::alias($tableAlias, VocabularyHasVersionPeer::DELETED_AT) : VocabularyHasVersionPeer::DELETED_AT);
 
         $criteria->addSelectColumn(($tableAlias) ? VocabularyHasVersionPeer::alias($tableAlias, VocabularyHasVersionPeer::CREATED_USER_ID) : VocabularyHasVersionPeer::CREATED_USER_ID);
 

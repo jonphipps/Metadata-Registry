@@ -90,6 +90,13 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 
 	/**
+	 * The value for the label field.
+	 * @var        string
+	 */
+	protected $label;
+
+
+	/**
 	 * The value for the name field.
 	 * @var        string
 	 */
@@ -195,10 +202,24 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 
 	/**
+	 * The value for the spreadsheet field.
+	 * @var        string
+	 */
+	protected $spreadsheet;
+
+
+	/**
+	 * The value for the worksheet field.
+	 * @var        string
+	 */
+	protected $worksheet;
+
+
+	/**
 	 * The value for the prefix field.
 	 * @var        string
 	 */
-	protected $prefix;
+	protected $prefix = '';
 
 	/**
 	 * @var        Agent
@@ -531,6 +552,17 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 	}
 
 	/**
+	 * Get the [label] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getLabel()
+	{
+
+		return $this->label;
+	}
+
+	/**
 	 * Get the [name] column value.
 	 * 
 	 * @return     string
@@ -693,6 +725,28 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 	{
 
 		return $this->repo;
+	}
+
+	/**
+	 * Get the [spreadsheet] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getSpreadsheet()
+	{
+
+		return $this->spreadsheet;
+	}
+
+	/**
+	 * Get the [worksheet] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getWorksheet()
+	{
+
+		return $this->worksheet;
 	}
 
 	/**
@@ -949,6 +1003,28 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		}
 
 	} // setChildUpdatedUserId()
+
+	/**
+	 * Set the value of [label] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setLabel($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->label !== $v) {
+			$this->label = $v;
+			$this->modifiedColumns[] = SchemaPeer::LABEL;
+		}
+
+	} // setLabel()
 
 	/**
 	 * Set the value of [name] column.
@@ -1289,6 +1365,50 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 	} // setRepo()
 
 	/**
+	 * Set the value of [spreadsheet] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setSpreadsheet($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->spreadsheet !== $v) {
+			$this->spreadsheet = $v;
+			$this->modifiedColumns[] = SchemaPeer::SPREADSHEET;
+		}
+
+	} // setSpreadsheet()
+
+	/**
+	 * Set the value of [worksheet] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setWorksheet($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->worksheet !== $v) {
+			$this->worksheet = $v;
+			$this->modifiedColumns[] = SchemaPeer::WORKSHEET;
+		}
+
+	} // setWorksheet()
+
+	/**
 	 * Set the value of [prefix] column.
 	 * 
 	 * @param      string $v new value
@@ -1303,7 +1423,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->prefix !== $v) {
+		if ($this->prefix !== $v || $v === '') {
 			$this->prefix = $v;
 			$this->modifiedColumns[] = SchemaPeer::PREFIX;
 		}
@@ -1347,44 +1467,50 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 			$this->child_updated_user_id = $rs->getInt($startcol + 9);
 
-			$this->name = $rs->getString($startcol + 10);
+			$this->label = $rs->getString($startcol + 10);
 
-			$this->note = $rs->getString($startcol + 11);
+			$this->name = $rs->getString($startcol + 11);
 
-			$this->uri = $rs->getString($startcol + 12);
+			$this->note = $rs->getString($startcol + 12);
 
-			$this->url = $rs->getString($startcol + 13);
+			$this->uri = $rs->getString($startcol + 13);
 
-			$this->base_domain = $rs->getString($startcol + 14);
+			$this->url = $rs->getString($startcol + 14);
 
-			$this->token = $rs->getString($startcol + 15);
+			$this->base_domain = $rs->getString($startcol + 15);
 
-			$this->community = $rs->getString($startcol + 16);
+			$this->token = $rs->getString($startcol + 16);
 
-			$this->last_uri_id = $rs->getInt($startcol + 17);
+			$this->community = $rs->getString($startcol + 17);
 
-			$this->status_id = $rs->getInt($startcol + 18);
+			$this->last_uri_id = $rs->getInt($startcol + 18);
 
-			$this->language = $rs->getString($startcol + 19);
+			$this->status_id = $rs->getInt($startcol + 19);
 
-			$this->profile_id = $rs->getInt($startcol + 20);
+			$this->language = $rs->getString($startcol + 20);
 
-			$this->ns_type = $rs->getString($startcol + 21);
+			$this->profile_id = $rs->getInt($startcol + 21);
 
-			$this->prefixes = $rs->getString($startcol + 22);
+			$this->ns_type = $rs->getString($startcol + 22);
 
-			$this->languages = $rs->getString($startcol + 23);
+			$this->prefixes = $rs->getString($startcol + 23);
 
-			$this->repo = $rs->getString($startcol + 24);
+			$this->languages = $rs->getString($startcol + 24);
 
-			$this->prefix = $rs->getString($startcol + 25);
+			$this->repo = $rs->getString($startcol + 25);
+
+			$this->spreadsheet = $rs->getString($startcol + 26);
+
+			$this->worksheet = $rs->getString($startcol + 27);
+
+			$this->prefix = $rs->getString($startcol + 28);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 26; // 26 = SchemaPeer::NUM_COLUMNS - SchemaPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 29; // 29 = SchemaPeer::NUM_COLUMNS - SchemaPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Schema object", $e);
@@ -1881,51 +2007,60 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 				return $this->getChildUpdatedUserId();
 				break;
 			case 10:
-				return $this->getName();
+				return $this->getLabel();
 				break;
 			case 11:
-				return $this->getNote();
+				return $this->getName();
 				break;
 			case 12:
-				return $this->getUri();
+				return $this->getNote();
 				break;
 			case 13:
-				return $this->getUrl();
+				return $this->getUri();
 				break;
 			case 14:
-				return $this->getBaseDomain();
+				return $this->getUrl();
 				break;
 			case 15:
-				return $this->getToken();
+				return $this->getBaseDomain();
 				break;
 			case 16:
-				return $this->getCommunity();
+				return $this->getToken();
 				break;
 			case 17:
-				return $this->getLastUriId();
+				return $this->getCommunity();
 				break;
 			case 18:
-				return $this->getStatusId();
+				return $this->getLastUriId();
 				break;
 			case 19:
-				return $this->getLanguage();
+				return $this->getStatusId();
 				break;
 			case 20:
-				return $this->getProfileId();
+				return $this->getLanguage();
 				break;
 			case 21:
-				return $this->getNsType();
+				return $this->getProfileId();
 				break;
 			case 22:
-				return $this->getPrefixes();
+				return $this->getNsType();
 				break;
 			case 23:
-				return $this->getLanguages();
+				return $this->getPrefixes();
 				break;
 			case 24:
-				return $this->getRepo();
+				return $this->getLanguages();
 				break;
 			case 25:
+				return $this->getRepo();
+				break;
+			case 26:
+				return $this->getSpreadsheet();
+				break;
+			case 27:
+				return $this->getWorksheet();
+				break;
+			case 28:
 				return $this->getPrefix();
 				break;
 			default:
@@ -1958,22 +2093,25 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 			$keys[7] => $this->getDeletedUserId(),
 			$keys[8] => $this->getChildUpdatedAt(),
 			$keys[9] => $this->getChildUpdatedUserId(),
-			$keys[10] => $this->getName(),
-			$keys[11] => $this->getNote(),
-			$keys[12] => $this->getUri(),
-			$keys[13] => $this->getUrl(),
-			$keys[14] => $this->getBaseDomain(),
-			$keys[15] => $this->getToken(),
-			$keys[16] => $this->getCommunity(),
-			$keys[17] => $this->getLastUriId(),
-			$keys[18] => $this->getStatusId(),
-			$keys[19] => $this->getLanguage(),
-			$keys[20] => $this->getProfileId(),
-			$keys[21] => $this->getNsType(),
-			$keys[22] => $this->getPrefixes(),
-			$keys[23] => $this->getLanguages(),
-			$keys[24] => $this->getRepo(),
-			$keys[25] => $this->getPrefix(),
+			$keys[10] => $this->getLabel(),
+			$keys[11] => $this->getName(),
+			$keys[12] => $this->getNote(),
+			$keys[13] => $this->getUri(),
+			$keys[14] => $this->getUrl(),
+			$keys[15] => $this->getBaseDomain(),
+			$keys[16] => $this->getToken(),
+			$keys[17] => $this->getCommunity(),
+			$keys[18] => $this->getLastUriId(),
+			$keys[19] => $this->getStatusId(),
+			$keys[20] => $this->getLanguage(),
+			$keys[21] => $this->getProfileId(),
+			$keys[22] => $this->getNsType(),
+			$keys[23] => $this->getPrefixes(),
+			$keys[24] => $this->getLanguages(),
+			$keys[25] => $this->getRepo(),
+			$keys[26] => $this->getSpreadsheet(),
+			$keys[27] => $this->getWorksheet(),
+			$keys[28] => $this->getPrefix(),
 		);
 		return $result;
 	}
@@ -2036,51 +2174,60 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 				$this->setChildUpdatedUserId($value);
 				break;
 			case 10:
-				$this->setName($value);
+				$this->setLabel($value);
 				break;
 			case 11:
-				$this->setNote($value);
+				$this->setName($value);
 				break;
 			case 12:
-				$this->setUri($value);
+				$this->setNote($value);
 				break;
 			case 13:
-				$this->setUrl($value);
+				$this->setUri($value);
 				break;
 			case 14:
-				$this->setBaseDomain($value);
+				$this->setUrl($value);
 				break;
 			case 15:
-				$this->setToken($value);
+				$this->setBaseDomain($value);
 				break;
 			case 16:
-				$this->setCommunity($value);
+				$this->setToken($value);
 				break;
 			case 17:
-				$this->setLastUriId($value);
+				$this->setCommunity($value);
 				break;
 			case 18:
-				$this->setStatusId($value);
+				$this->setLastUriId($value);
 				break;
 			case 19:
-				$this->setLanguage($value);
+				$this->setStatusId($value);
 				break;
 			case 20:
-				$this->setProfileId($value);
+				$this->setLanguage($value);
 				break;
 			case 21:
-				$this->setNsType($value);
+				$this->setProfileId($value);
 				break;
 			case 22:
-				$this->setPrefixes($value);
+				$this->setNsType($value);
 				break;
 			case 23:
-				$this->setLanguages($value);
+				$this->setPrefixes($value);
 				break;
 			case 24:
-				$this->setRepo($value);
+				$this->setLanguages($value);
 				break;
 			case 25:
+				$this->setRepo($value);
+				break;
+			case 26:
+				$this->setSpreadsheet($value);
+				break;
+			case 27:
+				$this->setWorksheet($value);
+				break;
+			case 28:
 				$this->setPrefix($value);
 				break;
 		} // switch()
@@ -2116,22 +2263,25 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[7], $arr)) $this->setDeletedUserId($arr[$keys[7]]);
 		if (array_key_exists($keys[8], $arr)) $this->setChildUpdatedAt($arr[$keys[8]]);
 		if (array_key_exists($keys[9], $arr)) $this->setChildUpdatedUserId($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setName($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setNote($arr[$keys[11]]);
-		if (array_key_exists($keys[12], $arr)) $this->setUri($arr[$keys[12]]);
-		if (array_key_exists($keys[13], $arr)) $this->setUrl($arr[$keys[13]]);
-		if (array_key_exists($keys[14], $arr)) $this->setBaseDomain($arr[$keys[14]]);
-		if (array_key_exists($keys[15], $arr)) $this->setToken($arr[$keys[15]]);
-		if (array_key_exists($keys[16], $arr)) $this->setCommunity($arr[$keys[16]]);
-		if (array_key_exists($keys[17], $arr)) $this->setLastUriId($arr[$keys[17]]);
-		if (array_key_exists($keys[18], $arr)) $this->setStatusId($arr[$keys[18]]);
-		if (array_key_exists($keys[19], $arr)) $this->setLanguage($arr[$keys[19]]);
-		if (array_key_exists($keys[20], $arr)) $this->setProfileId($arr[$keys[20]]);
-		if (array_key_exists($keys[21], $arr)) $this->setNsType($arr[$keys[21]]);
-		if (array_key_exists($keys[22], $arr)) $this->setPrefixes($arr[$keys[22]]);
-		if (array_key_exists($keys[23], $arr)) $this->setLanguages($arr[$keys[23]]);
-		if (array_key_exists($keys[24], $arr)) $this->setRepo($arr[$keys[24]]);
-		if (array_key_exists($keys[25], $arr)) $this->setPrefix($arr[$keys[25]]);
+		if (array_key_exists($keys[10], $arr)) $this->setLabel($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setName($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setNote($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setUri($arr[$keys[13]]);
+		if (array_key_exists($keys[14], $arr)) $this->setUrl($arr[$keys[14]]);
+		if (array_key_exists($keys[15], $arr)) $this->setBaseDomain($arr[$keys[15]]);
+		if (array_key_exists($keys[16], $arr)) $this->setToken($arr[$keys[16]]);
+		if (array_key_exists($keys[17], $arr)) $this->setCommunity($arr[$keys[17]]);
+		if (array_key_exists($keys[18], $arr)) $this->setLastUriId($arr[$keys[18]]);
+		if (array_key_exists($keys[19], $arr)) $this->setStatusId($arr[$keys[19]]);
+		if (array_key_exists($keys[20], $arr)) $this->setLanguage($arr[$keys[20]]);
+		if (array_key_exists($keys[21], $arr)) $this->setProfileId($arr[$keys[21]]);
+		if (array_key_exists($keys[22], $arr)) $this->setNsType($arr[$keys[22]]);
+		if (array_key_exists($keys[23], $arr)) $this->setPrefixes($arr[$keys[23]]);
+		if (array_key_exists($keys[24], $arr)) $this->setLanguages($arr[$keys[24]]);
+		if (array_key_exists($keys[25], $arr)) $this->setRepo($arr[$keys[25]]);
+		if (array_key_exists($keys[26], $arr)) $this->setSpreadsheet($arr[$keys[26]]);
+		if (array_key_exists($keys[27], $arr)) $this->setWorksheet($arr[$keys[27]]);
+		if (array_key_exists($keys[28], $arr)) $this->setPrefix($arr[$keys[28]]);
 	}
 
 	/**
@@ -2153,6 +2303,7 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(SchemaPeer::DELETED_USER_ID)) $criteria->add(SchemaPeer::DELETED_USER_ID, $this->deleted_user_id);
 		if ($this->isColumnModified(SchemaPeer::CHILD_UPDATED_AT)) $criteria->add(SchemaPeer::CHILD_UPDATED_AT, $this->child_updated_at);
 		if ($this->isColumnModified(SchemaPeer::CHILD_UPDATED_USER_ID)) $criteria->add(SchemaPeer::CHILD_UPDATED_USER_ID, $this->child_updated_user_id);
+		if ($this->isColumnModified(SchemaPeer::LABEL)) $criteria->add(SchemaPeer::LABEL, $this->label);
 		if ($this->isColumnModified(SchemaPeer::NAME)) $criteria->add(SchemaPeer::NAME, $this->name);
 		if ($this->isColumnModified(SchemaPeer::NOTE)) $criteria->add(SchemaPeer::NOTE, $this->note);
 		if ($this->isColumnModified(SchemaPeer::URI)) $criteria->add(SchemaPeer::URI, $this->uri);
@@ -2168,6 +2319,8 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(SchemaPeer::PREFIXES)) $criteria->add(SchemaPeer::PREFIXES, $this->prefixes);
 		if ($this->isColumnModified(SchemaPeer::LANGUAGES)) $criteria->add(SchemaPeer::LANGUAGES, $this->languages);
 		if ($this->isColumnModified(SchemaPeer::REPO)) $criteria->add(SchemaPeer::REPO, $this->repo);
+		if ($this->isColumnModified(SchemaPeer::SPREADSHEET)) $criteria->add(SchemaPeer::SPREADSHEET, $this->spreadsheet);
+		if ($this->isColumnModified(SchemaPeer::WORKSHEET)) $criteria->add(SchemaPeer::WORKSHEET, $this->worksheet);
 		if ($this->isColumnModified(SchemaPeer::PREFIX)) $criteria->add(SchemaPeer::PREFIX, $this->prefix);
 
 		return $criteria;
@@ -2241,6 +2394,8 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 
 		$copyObj->setChildUpdatedUserId($this->child_updated_user_id);
 
+		$copyObj->setLabel($this->label);
+
 		$copyObj->setName($this->name);
 
 		$copyObj->setNote($this->note);
@@ -2270,6 +2425,10 @@ abstract class BaseSchema extends BaseObject  implements Persistent {
 		$copyObj->setLanguages($this->languages);
 
 		$copyObj->setRepo($this->repo);
+
+		$copyObj->setSpreadsheet($this->spreadsheet);
+
+		$copyObj->setWorksheet($this->worksheet);
 
 		$copyObj->setPrefix($this->prefix);
 

@@ -19,7 +19,7 @@ abstract class BaseAgentPeer {
 	const CLASS_DEFAULT = 'lib.model.Agent';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 25;
+	const NUM_COLUMNS = 39;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -100,6 +100,48 @@ abstract class BaseAgentPeer {
 	/** the column name for the DELETED_BY field */
 	const DELETED_BY = 'reg_agent.DELETED_BY';
 
+	/** the column name for the NAME field */
+	const NAME = 'reg_agent.NAME';
+
+	/** the column name for the LABEL field */
+	const LABEL = 'reg_agent.LABEL';
+
+	/** the column name for the URL field */
+	const URL = 'reg_agent.URL';
+
+	/** the column name for the LICENSE_URI field */
+	const LICENSE_URI = 'reg_agent.LICENSE_URI';
+
+	/** the column name for the BASE_DOMAIN field */
+	const BASE_DOMAIN = 'reg_agent.BASE_DOMAIN';
+
+	/** the column name for the NAMESPACE_TYPE field */
+	const NAMESPACE_TYPE = 'reg_agent.NAMESPACE_TYPE';
+
+	/** the column name for the URI_STRATEGY field */
+	const URI_STRATEGY = 'reg_agent.URI_STRATEGY';
+
+	/** the column name for the URI_PREPEND field */
+	const URI_PREPEND = 'reg_agent.URI_PREPEND';
+
+	/** the column name for the URI_APPEND field */
+	const URI_APPEND = 'reg_agent.URI_APPEND';
+
+	/** the column name for the STARTING_NUMBER field */
+	const STARTING_NUMBER = 'reg_agent.STARTING_NUMBER';
+
+	/** the column name for the DEFAULT_LANGUAGE field */
+	const DEFAULT_LANGUAGE = 'reg_agent.DEFAULT_LANGUAGE';
+
+	/** the column name for the LANGUAGES field */
+	const LANGUAGES = 'reg_agent.LANGUAGES';
+
+	/** the column name for the PREFIXES field */
+	const PREFIXES = 'reg_agent.PREFIXES';
+
+	/** the column name for the GOOGLE_SHEET_URL field */
+	const GOOGLE_SHEET_URL = 'reg_agent.GOOGLE_SHEET_URL';
+
 	/** The PHP to DB Name Mapping */
 	private static $phpNameMap = null;
 
@@ -111,10 +153,10 @@ abstract class BaseAgentPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'LastUpdated', 'DeletedAt', 'OrgEmail', 'OrgName', 'IndAffiliation', 'IndRole', 'Address1', 'Address2', 'City', 'State', 'PostalCode', 'Country', 'Phone', 'WebAddress', 'Type', 'Repo', 'IsPrivate', 'License', 'Description', 'CreatedBy', 'UpdatedBy', 'DeletedBy', ),
-		BasePeer::TYPE_COLNAME => array (AgentPeer::ID, AgentPeer::CREATED_AT, AgentPeer::UPDATED_AT, AgentPeer::LAST_UPDATED, AgentPeer::DELETED_AT, AgentPeer::ORG_EMAIL, AgentPeer::ORG_NAME, AgentPeer::IND_AFFILIATION, AgentPeer::IND_ROLE, AgentPeer::ADDRESS1, AgentPeer::ADDRESS2, AgentPeer::CITY, AgentPeer::STATE, AgentPeer::POSTAL_CODE, AgentPeer::COUNTRY, AgentPeer::PHONE, AgentPeer::WEB_ADDRESS, AgentPeer::TYPE, AgentPeer::REPO, AgentPeer::IS_PRIVATE, AgentPeer::LICENSE, AgentPeer::DESCRIPTION, AgentPeer::CREATED_BY, AgentPeer::UPDATED_BY, AgentPeer::DELETED_BY, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'last_updated', 'deleted_at', 'org_email', 'org_name', 'ind_affiliation', 'ind_role', 'address1', 'address2', 'city', 'state', 'postal_code', 'country', 'phone', 'web_address', 'type', 'repo', 'is_private', 'license', 'description', 'created_by', 'updated_by', 'deleted_by', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'LastUpdated', 'DeletedAt', 'OrgEmail', 'OrgName', 'IndAffiliation', 'IndRole', 'Address1', 'Address2', 'City', 'State', 'PostalCode', 'Country', 'Phone', 'WebAddress', 'Type', 'Repo', 'IsPrivate', 'License', 'Description', 'CreatedBy', 'UpdatedBy', 'DeletedBy', 'Name', 'Label', 'Url', 'LicenseUri', 'BaseDomain', 'NamespaceType', 'UriStrategy', 'UriPrepend', 'UriAppend', 'StartingNumber', 'DefaultLanguage', 'Languages', 'Prefixes', 'GoogleSheetUrl', ),
+		BasePeer::TYPE_COLNAME => array (AgentPeer::ID, AgentPeer::CREATED_AT, AgentPeer::UPDATED_AT, AgentPeer::LAST_UPDATED, AgentPeer::DELETED_AT, AgentPeer::ORG_EMAIL, AgentPeer::ORG_NAME, AgentPeer::IND_AFFILIATION, AgentPeer::IND_ROLE, AgentPeer::ADDRESS1, AgentPeer::ADDRESS2, AgentPeer::CITY, AgentPeer::STATE, AgentPeer::POSTAL_CODE, AgentPeer::COUNTRY, AgentPeer::PHONE, AgentPeer::WEB_ADDRESS, AgentPeer::TYPE, AgentPeer::REPO, AgentPeer::IS_PRIVATE, AgentPeer::LICENSE, AgentPeer::DESCRIPTION, AgentPeer::CREATED_BY, AgentPeer::UPDATED_BY, AgentPeer::DELETED_BY, AgentPeer::NAME, AgentPeer::LABEL, AgentPeer::URL, AgentPeer::LICENSE_URI, AgentPeer::BASE_DOMAIN, AgentPeer::NAMESPACE_TYPE, AgentPeer::URI_STRATEGY, AgentPeer::URI_PREPEND, AgentPeer::URI_APPEND, AgentPeer::STARTING_NUMBER, AgentPeer::DEFAULT_LANGUAGE, AgentPeer::LANGUAGES, AgentPeer::PREFIXES, AgentPeer::GOOGLE_SHEET_URL, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'last_updated', 'deleted_at', 'org_email', 'org_name', 'ind_affiliation', 'ind_role', 'address1', 'address2', 'city', 'state', 'postal_code', 'country', 'phone', 'web_address', 'type', 'repo', 'is_private', 'license', 'description', 'created_by', 'updated_by', 'deleted_by', 'name', 'label', 'url', 'license_uri', 'base_domain', 'namespace_type', 'uri_strategy', 'uri_prepend', 'uri_append', 'starting_number', 'default_language', 'languages', 'prefixes', 'google_sheet_url', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, )
 	);
 
 	/**
@@ -124,10 +166,10 @@ abstract class BaseAgentPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'LastUpdated' => 3, 'DeletedAt' => 4, 'OrgEmail' => 5, 'OrgName' => 6, 'IndAffiliation' => 7, 'IndRole' => 8, 'Address1' => 9, 'Address2' => 10, 'City' => 11, 'State' => 12, 'PostalCode' => 13, 'Country' => 14, 'Phone' => 15, 'WebAddress' => 16, 'Type' => 17, 'Repo' => 18, 'IsPrivate' => 19, 'License' => 20, 'Description' => 21, 'CreatedBy' => 22, 'UpdatedBy' => 23, 'DeletedBy' => 24, ),
-		BasePeer::TYPE_COLNAME => array (AgentPeer::ID => 0, AgentPeer::CREATED_AT => 1, AgentPeer::UPDATED_AT => 2, AgentPeer::LAST_UPDATED => 3, AgentPeer::DELETED_AT => 4, AgentPeer::ORG_EMAIL => 5, AgentPeer::ORG_NAME => 6, AgentPeer::IND_AFFILIATION => 7, AgentPeer::IND_ROLE => 8, AgentPeer::ADDRESS1 => 9, AgentPeer::ADDRESS2 => 10, AgentPeer::CITY => 11, AgentPeer::STATE => 12, AgentPeer::POSTAL_CODE => 13, AgentPeer::COUNTRY => 14, AgentPeer::PHONE => 15, AgentPeer::WEB_ADDRESS => 16, AgentPeer::TYPE => 17, AgentPeer::REPO => 18, AgentPeer::IS_PRIVATE => 19, AgentPeer::LICENSE => 20, AgentPeer::DESCRIPTION => 21, AgentPeer::CREATED_BY => 22, AgentPeer::UPDATED_BY => 23, AgentPeer::DELETED_BY => 24, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'last_updated' => 3, 'deleted_at' => 4, 'org_email' => 5, 'org_name' => 6, 'ind_affiliation' => 7, 'ind_role' => 8, 'address1' => 9, 'address2' => 10, 'city' => 11, 'state' => 12, 'postal_code' => 13, 'country' => 14, 'phone' => 15, 'web_address' => 16, 'type' => 17, 'repo' => 18, 'is_private' => 19, 'license' => 20, 'description' => 21, 'created_by' => 22, 'updated_by' => 23, 'deleted_by' => 24, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'LastUpdated' => 3, 'DeletedAt' => 4, 'OrgEmail' => 5, 'OrgName' => 6, 'IndAffiliation' => 7, 'IndRole' => 8, 'Address1' => 9, 'Address2' => 10, 'City' => 11, 'State' => 12, 'PostalCode' => 13, 'Country' => 14, 'Phone' => 15, 'WebAddress' => 16, 'Type' => 17, 'Repo' => 18, 'IsPrivate' => 19, 'License' => 20, 'Description' => 21, 'CreatedBy' => 22, 'UpdatedBy' => 23, 'DeletedBy' => 24, 'Name' => 25, 'Label' => 26, 'Url' => 27, 'LicenseUri' => 28, 'BaseDomain' => 29, 'NamespaceType' => 30, 'UriStrategy' => 31, 'UriPrepend' => 32, 'UriAppend' => 33, 'StartingNumber' => 34, 'DefaultLanguage' => 35, 'Languages' => 36, 'Prefixes' => 37, 'GoogleSheetUrl' => 38, ),
+		BasePeer::TYPE_COLNAME => array (AgentPeer::ID => 0, AgentPeer::CREATED_AT => 1, AgentPeer::UPDATED_AT => 2, AgentPeer::LAST_UPDATED => 3, AgentPeer::DELETED_AT => 4, AgentPeer::ORG_EMAIL => 5, AgentPeer::ORG_NAME => 6, AgentPeer::IND_AFFILIATION => 7, AgentPeer::IND_ROLE => 8, AgentPeer::ADDRESS1 => 9, AgentPeer::ADDRESS2 => 10, AgentPeer::CITY => 11, AgentPeer::STATE => 12, AgentPeer::POSTAL_CODE => 13, AgentPeer::COUNTRY => 14, AgentPeer::PHONE => 15, AgentPeer::WEB_ADDRESS => 16, AgentPeer::TYPE => 17, AgentPeer::REPO => 18, AgentPeer::IS_PRIVATE => 19, AgentPeer::LICENSE => 20, AgentPeer::DESCRIPTION => 21, AgentPeer::CREATED_BY => 22, AgentPeer::UPDATED_BY => 23, AgentPeer::DELETED_BY => 24, AgentPeer::NAME => 25, AgentPeer::LABEL => 26, AgentPeer::URL => 27, AgentPeer::LICENSE_URI => 28, AgentPeer::BASE_DOMAIN => 29, AgentPeer::NAMESPACE_TYPE => 30, AgentPeer::URI_STRATEGY => 31, AgentPeer::URI_PREPEND => 32, AgentPeer::URI_APPEND => 33, AgentPeer::STARTING_NUMBER => 34, AgentPeer::DEFAULT_LANGUAGE => 35, AgentPeer::LANGUAGES => 36, AgentPeer::PREFIXES => 37, AgentPeer::GOOGLE_SHEET_URL => 38, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'last_updated' => 3, 'deleted_at' => 4, 'org_email' => 5, 'org_name' => 6, 'ind_affiliation' => 7, 'ind_role' => 8, 'address1' => 9, 'address2' => 10, 'city' => 11, 'state' => 12, 'postal_code' => 13, 'country' => 14, 'phone' => 15, 'web_address' => 16, 'type' => 17, 'repo' => 18, 'is_private' => 19, 'license' => 20, 'description' => 21, 'created_by' => 22, 'updated_by' => 23, 'deleted_by' => 24, 'name' => 25, 'label' => 26, 'url' => 27, 'license_uri' => 28, 'base_domain' => 29, 'namespace_type' => 30, 'uri_strategy' => 31, 'uri_prepend' => 32, 'uri_append' => 33, 'starting_number' => 34, 'default_language' => 35, 'languages' => 36, 'prefixes' => 37, 'google_sheet_url' => 38, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, )
 	);
 
 	/**
@@ -277,6 +319,34 @@ abstract class BaseAgentPeer {
         $criteria->addSelectColumn(($tableAlias) ? AgentPeer::alias($tableAlias, AgentPeer::UPDATED_BY) : AgentPeer::UPDATED_BY);
 
         $criteria->addSelectColumn(($tableAlias) ? AgentPeer::alias($tableAlias, AgentPeer::DELETED_BY) : AgentPeer::DELETED_BY);
+
+        $criteria->addSelectColumn(($tableAlias) ? AgentPeer::alias($tableAlias, AgentPeer::NAME) : AgentPeer::NAME);
+
+        $criteria->addSelectColumn(($tableAlias) ? AgentPeer::alias($tableAlias, AgentPeer::LABEL) : AgentPeer::LABEL);
+
+        $criteria->addSelectColumn(($tableAlias) ? AgentPeer::alias($tableAlias, AgentPeer::URL) : AgentPeer::URL);
+
+        $criteria->addSelectColumn(($tableAlias) ? AgentPeer::alias($tableAlias, AgentPeer::LICENSE_URI) : AgentPeer::LICENSE_URI);
+
+        $criteria->addSelectColumn(($tableAlias) ? AgentPeer::alias($tableAlias, AgentPeer::BASE_DOMAIN) : AgentPeer::BASE_DOMAIN);
+
+        $criteria->addSelectColumn(($tableAlias) ? AgentPeer::alias($tableAlias, AgentPeer::NAMESPACE_TYPE) : AgentPeer::NAMESPACE_TYPE);
+
+        $criteria->addSelectColumn(($tableAlias) ? AgentPeer::alias($tableAlias, AgentPeer::URI_STRATEGY) : AgentPeer::URI_STRATEGY);
+
+        $criteria->addSelectColumn(($tableAlias) ? AgentPeer::alias($tableAlias, AgentPeer::URI_PREPEND) : AgentPeer::URI_PREPEND);
+
+        $criteria->addSelectColumn(($tableAlias) ? AgentPeer::alias($tableAlias, AgentPeer::URI_APPEND) : AgentPeer::URI_APPEND);
+
+        $criteria->addSelectColumn(($tableAlias) ? AgentPeer::alias($tableAlias, AgentPeer::STARTING_NUMBER) : AgentPeer::STARTING_NUMBER);
+
+        $criteria->addSelectColumn(($tableAlias) ? AgentPeer::alias($tableAlias, AgentPeer::DEFAULT_LANGUAGE) : AgentPeer::DEFAULT_LANGUAGE);
+
+        $criteria->addSelectColumn(($tableAlias) ? AgentPeer::alias($tableAlias, AgentPeer::LANGUAGES) : AgentPeer::LANGUAGES);
+
+        $criteria->addSelectColumn(($tableAlias) ? AgentPeer::alias($tableAlias, AgentPeer::PREFIXES) : AgentPeer::PREFIXES);
+
+        $criteria->addSelectColumn(($tableAlias) ? AgentPeer::alias($tableAlias, AgentPeer::GOOGLE_SHEET_URL) : AgentPeer::GOOGLE_SHEET_URL);
 
 	}
 

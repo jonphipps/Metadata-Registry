@@ -282,7 +282,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 	 * The value for the namespce field.
 	 * @var        string
 	 */
-	protected $namespce;
+	protected $namespce = '';
 
 	/**
 	 * @var        User
@@ -1659,7 +1659,7 @@ abstract class BaseProfileProperty extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->namespce !== $v) {
+		if ($this->namespce !== $v || $v === '') {
 			$this->namespce = $v;
 			$this->modifiedColumns[] = ProfilePropertyPeer::NAMESPCE;
 		}

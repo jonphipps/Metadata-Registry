@@ -61,11 +61,13 @@ class PasswordResetsMapBuilder {
 
 		$tMap->setUseIdGenerator(true);
 
-		$tMap->addColumn('EMAIL', 'Email', 'string', CreoleTypes::VARCHAR, true, 255);
+		$tMap->addColumn('EMAIL', 'Email', 'string', CreoleTypes::VARCHAR, true, 191);
 
-		$tMap->addColumn('TOKEN', 'Token', 'string', CreoleTypes::VARCHAR, true, 255);
+		$tMap->addColumn('TOKEN', 'Token', 'string', CreoleTypes::VARCHAR, true, 191);
 
 		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
+
+		$tMap->addColumn('NAME', 'Name', 'string', CreoleTypes::VARCHAR, true, 60);
 
 		$tMap->addPrimaryKey('ID', 'Id', 'int', CreoleTypes::INTEGER, true, null);
 

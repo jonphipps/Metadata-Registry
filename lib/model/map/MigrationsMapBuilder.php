@@ -59,11 +59,13 @@ class MigrationsMapBuilder {
 		$tMap = $this->dbMap->addTable('migrations');
 		$tMap->setPhpName('Migrations');
 
-		$tMap->setUseIdGenerator(false);
+		$tMap->setUseIdGenerator(true);
 
-		$tMap->addPrimaryKey('MIGRATION', 'Migration', 'string', CreoleTypes::VARCHAR, true, 255);
+		$tMap->addPrimaryKey('ID', 'Id', 'int', CreoleTypes::INTEGER, true, null);
 
-		$tMap->addPrimaryKey('BATCH', 'Batch', 'int', CreoleTypes::INTEGER, true, null);
+		$tMap->addColumn('MIGRATION', 'Migration', 'string', CreoleTypes::VARCHAR, true, 191);
+
+		$tMap->addColumn('BATCH', 'Batch', 'int', CreoleTypes::INTEGER, true, null);
 
 	} // doBuild()
 

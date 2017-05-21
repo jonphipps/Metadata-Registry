@@ -73,11 +73,13 @@ class SchemaPropertyMapBuilder {
 
 		$tMap->addForeignKey('UPDATED_USER_ID', 'UpdatedUserId', 'int', CreoleTypes::INTEGER, 'users', 'ID', false, null);
 
+		$tMap->addColumn('DELETED_USER_ID', 'DeletedUserId', 'int', CreoleTypes::INTEGER, false, null);
+
 		$tMap->addForeignKey('SCHEMA_ID', 'SchemaId', 'int', CreoleTypes::INTEGER, 'reg_schema', 'ID', true, null);
 
-		$tMap->addColumn('NAME', 'Name', 'string', CreoleTypes::VARCHAR, true, 255);
+		$tMap->addColumn('NAME', 'Name', 'string', CreoleTypes::LONGVARCHAR, true, null);
 
-		$tMap->addColumn('LABEL', 'Label', 'string', CreoleTypes::VARCHAR, true, 255);
+		$tMap->addColumn('LABEL', 'Label', 'string', CreoleTypes::LONGVARCHAR, true, null);
 
 		$tMap->addColumn('DEFINITION', 'Definition', 'string', CreoleTypes::LONGVARCHAR, false, null);
 
@@ -87,27 +89,27 @@ class SchemaPropertyMapBuilder {
 
 		$tMap->addForeignKey('IS_SUBPROPERTY_OF', 'IsSubpropertyOf', 'int', CreoleTypes::INTEGER, 'reg_schema_property', 'ID', false, null);
 
-		$tMap->addColumn('PARENT_URI', 'ParentUri', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('PARENT_URI', 'ParentUri', 'string', CreoleTypes::VARCHAR, false, 191);
 
-		$tMap->addColumn('URI', 'Uri', 'string', CreoleTypes::VARCHAR, true, 255);
+		$tMap->addColumn('URI', 'Uri', 'string', CreoleTypes::VARCHAR, true, 191);
 
 		$tMap->addForeignKey('STATUS_ID', 'StatusId', 'int', CreoleTypes::INTEGER, 'reg_status', 'ID', true, null);
 
-		$tMap->addColumn('LANGUAGE', 'Language', 'string', CreoleTypes::VARCHAR, true, 6);
+		$tMap->addColumn('LANGUAGE', 'Language', 'string', CreoleTypes::CHAR, true, 10);
 
 		$tMap->addColumn('NOTE', 'Note', 'string', CreoleTypes::LONGVARCHAR, false, null);
 
-		$tMap->addColumn('DOMAIN', 'Domain', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('DOMAIN', 'Domain', 'string', CreoleTypes::VARCHAR, false, 191);
 
-		$tMap->addColumn('ORANGE', 'Orange', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('ORANGE', 'Orange', 'string', CreoleTypes::VARCHAR, false, 191);
 
 		$tMap->addColumn('IS_DEPRECATED', 'IsDeprecated', 'boolean', CreoleTypes::BOOLEAN, false, null);
 
-		$tMap->addColumn('URL', 'Url', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('URL', 'Url', 'string', CreoleTypes::VARCHAR, false, 191);
 
-		$tMap->addColumn('LEXICAL_ALIAS', 'LexicalAlias', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('LEXICAL_ALIAS', 'LexicalAlias', 'string', CreoleTypes::LONGVARCHAR, false, null);
 
-		$tMap->addColumn('HASH_ID', 'HashId', 'string', CreoleTypes::CHAR, true, 255);
+		$tMap->addColumn('HASH_ID', 'HashId', 'string', CreoleTypes::CHAR, true, 191);
 
 	} // doBuild()
 

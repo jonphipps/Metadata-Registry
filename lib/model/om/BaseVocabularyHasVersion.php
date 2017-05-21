@@ -41,17 +41,17 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 
 
 	/**
-	 * The value for the deleted_at field.
-	 * @var        int
-	 */
-	protected $deleted_at;
-
-
-	/**
 	 * The value for the updated_at field.
 	 * @var        int
 	 */
 	protected $updated_at;
+
+
+	/**
+	 * The value for the deleted_at field.
+	 * @var        int
+	 */
+	protected $deleted_at;
 
 
 	/**
@@ -152,37 +152,6 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 	}
 
 	/**
-	 * Get the [optionally formatted] [deleted_at] column value.
-	 * 
-	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
-	 *							If format is NULL, then the integer unix timestamp will be returned.
-	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
-	 * @throws     PropelException - if unable to convert the date/time to timestamp.
-	 */
-	public function getDeletedAt($format = 'Y-m-d H:i:s')
-	{
-
-		if ($this->deleted_at === null || $this->deleted_at === '') {
-			return null;
-		} elseif (!is_int($this->deleted_at)) {
-			// a non-timestamp value was set externally, so we convert it
-			$ts = strtotime($this->deleted_at);
-			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
-				throw new PropelException("Unable to parse value of [deleted_at] as date/time value: " . var_export($this->deleted_at, true));
-			}
-		} else {
-			$ts = $this->deleted_at;
-		}
-		if ($format === null) {
-			return $ts;
-		} elseif (strpos($format, '%') !== false) {
-			return strftime($format, $ts);
-		} else {
-			return date($format, $ts);
-		}
-	}
-
-	/**
 	 * Get the [optionally formatted] [updated_at] column value.
 	 * 
 	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
@@ -203,6 +172,37 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 			}
 		} else {
 			$ts = $this->updated_at;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
+	}
+
+	/**
+	 * Get the [optionally formatted] [deleted_at] column value.
+	 * 
+	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
+	 *							If format is NULL, then the integer unix timestamp will be returned.
+	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
+	 * @throws     PropelException - if unable to convert the date/time to timestamp.
+	 */
+	public function getDeletedAt($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->deleted_at === null || $this->deleted_at === '') {
+			return null;
+		} elseif (!is_int($this->deleted_at)) {
+			// a non-timestamp value was set externally, so we convert it
+			$ts = strtotime($this->deleted_at);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse value of [deleted_at] as date/time value: " . var_export($this->deleted_at, true));
+			}
+		} else {
+			$ts = $this->deleted_at;
 		}
 		if ($format === null) {
 			return $ts;
@@ -335,30 +335,6 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 	} // setCreatedAt()
 
 	/**
-	 * Set the value of [deleted_at] column.
-	 * 
-	 * @param      int $v new value
-	 * @return     void
-	 */
-	public function setDeletedAt($v)
-	{
-
-		if ($v !== null && !is_int($v)) {
-			$ts = strtotime($v);
-			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
-				throw new PropelException("Unable to parse date/time value for [deleted_at] from input: " . var_export($v, true));
-			}
-		} else {
-			$ts = $v;
-		}
-		if ($this->deleted_at !== $ts) {
-			$this->deleted_at = $ts;
-			$this->modifiedColumns[] = VocabularyHasVersionPeer::DELETED_AT;
-		}
-
-	} // setDeletedAt()
-
-	/**
 	 * Set the value of [updated_at] column.
 	 * 
 	 * @param      int $v new value
@@ -381,6 +357,30 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 		}
 
 	} // setUpdatedAt()
+
+	/**
+	 * Set the value of [deleted_at] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setDeletedAt($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse date/time value for [deleted_at] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->deleted_at !== $ts) {
+			$this->deleted_at = $ts;
+			$this->modifiedColumns[] = VocabularyHasVersionPeer::DELETED_AT;
+		}
+
+	} // setDeletedAt()
 
 	/**
 	 * Set the value of [created_user_id] column.
@@ -481,9 +481,9 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 
 			$this->created_at = $rs->getTimestamp($startcol + 2, null);
 
-			$this->deleted_at = $rs->getTimestamp($startcol + 3, null);
+			$this->updated_at = $rs->getTimestamp($startcol + 3, null);
 
-			$this->updated_at = $rs->getTimestamp($startcol + 4, null);
+			$this->deleted_at = $rs->getTimestamp($startcol + 4, null);
 
 			$this->created_user_id = $rs->getInt($startcol + 5);
 
@@ -792,10 +792,10 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 				return $this->getCreatedAt();
 				break;
 			case 3:
-				return $this->getDeletedAt();
+				return $this->getUpdatedAt();
 				break;
 			case 4:
-				return $this->getUpdatedAt();
+				return $this->getDeletedAt();
 				break;
 			case 5:
 				return $this->getCreatedUserId();
@@ -829,8 +829,8 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getName(),
 			$keys[2] => $this->getCreatedAt(),
-			$keys[3] => $this->getDeletedAt(),
-			$keys[4] => $this->getUpdatedAt(),
+			$keys[3] => $this->getUpdatedAt(),
+			$keys[4] => $this->getDeletedAt(),
 			$keys[5] => $this->getCreatedUserId(),
 			$keys[6] => $this->getVocabularyId(),
 			$keys[7] => $this->getTimeslice(),
@@ -875,10 +875,10 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 				$this->setCreatedAt($value);
 				break;
 			case 3:
-				$this->setDeletedAt($value);
+				$this->setUpdatedAt($value);
 				break;
 			case 4:
-				$this->setUpdatedAt($value);
+				$this->setDeletedAt($value);
 				break;
 			case 5:
 				$this->setCreatedUserId($value);
@@ -915,8 +915,8 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setName($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setCreatedAt($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setDeletedAt($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setUpdatedAt($arr[$keys[4]]);
+		if (array_key_exists($keys[3], $arr)) $this->setUpdatedAt($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setDeletedAt($arr[$keys[4]]);
 		if (array_key_exists($keys[5], $arr)) $this->setCreatedUserId($arr[$keys[5]]);
 		if (array_key_exists($keys[6], $arr)) $this->setVocabularyId($arr[$keys[6]]);
 		if (array_key_exists($keys[7], $arr)) $this->setTimeslice($arr[$keys[7]]);
@@ -934,8 +934,8 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 		if ($this->isColumnModified(VocabularyHasVersionPeer::ID)) $criteria->add(VocabularyHasVersionPeer::ID, $this->id);
 		if ($this->isColumnModified(VocabularyHasVersionPeer::NAME)) $criteria->add(VocabularyHasVersionPeer::NAME, $this->name);
 		if ($this->isColumnModified(VocabularyHasVersionPeer::CREATED_AT)) $criteria->add(VocabularyHasVersionPeer::CREATED_AT, $this->created_at);
-		if ($this->isColumnModified(VocabularyHasVersionPeer::DELETED_AT)) $criteria->add(VocabularyHasVersionPeer::DELETED_AT, $this->deleted_at);
 		if ($this->isColumnModified(VocabularyHasVersionPeer::UPDATED_AT)) $criteria->add(VocabularyHasVersionPeer::UPDATED_AT, $this->updated_at);
+		if ($this->isColumnModified(VocabularyHasVersionPeer::DELETED_AT)) $criteria->add(VocabularyHasVersionPeer::DELETED_AT, $this->deleted_at);
 		if ($this->isColumnModified(VocabularyHasVersionPeer::CREATED_USER_ID)) $criteria->add(VocabularyHasVersionPeer::CREATED_USER_ID, $this->created_user_id);
 		if ($this->isColumnModified(VocabularyHasVersionPeer::VOCABULARY_ID)) $criteria->add(VocabularyHasVersionPeer::VOCABULARY_ID, $this->vocabulary_id);
 		if ($this->isColumnModified(VocabularyHasVersionPeer::TIMESLICE)) $criteria->add(VocabularyHasVersionPeer::TIMESLICE, $this->timeslice);
@@ -997,9 +997,9 @@ abstract class BaseVocabularyHasVersion extends BaseObject  implements Persisten
 
 		$copyObj->setCreatedAt($this->created_at);
 
-		$copyObj->setDeletedAt($this->deleted_at);
-
 		$copyObj->setUpdatedAt($this->updated_at);
+
+		$copyObj->setDeletedAt($this->deleted_at);
 
 		$copyObj->setCreatedUserId($this->created_user_id);
 

@@ -93,9 +93,17 @@ class UserMapBuilder {
 
 		$tMap->addColumn('DELETIONS', 'Deletions', 'int', CreoleTypes::INTEGER, false, null);
 
-		$tMap->addColumn('PASSWORD', 'Password', 'string', CreoleTypes::VARCHAR, false, 40);
+		$tMap->addColumn('PASSWORD', 'Password', 'string', CreoleTypes::VARCHAR, false, 191);
+
+		$tMap->addColumn('STATUS', 'Status', 'boolean', CreoleTypes::BOOLEAN, true, null);
 
 		$tMap->addColumn('CULTURE', 'Culture', 'string', CreoleTypes::VARCHAR, false, 7);
+
+		$tMap->addColumn('CONFIRMATION_CODE', 'ConfirmationCode', 'string', CreoleTypes::VARCHAR, true, 191);
+
+		$tMap->addColumn('NAME', 'Name', 'string', CreoleTypes::VARCHAR, true, 191);
+
+		$tMap->addColumn('CONFIRMED', 'Confirmed', 'boolean', CreoleTypes::BOOLEAN, true, null);
 
 		$tMap->addColumn('REMEMBER_TOKEN', 'RememberToken', 'string', CreoleTypes::VARCHAR, false, 100);
 

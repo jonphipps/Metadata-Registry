@@ -81,15 +81,17 @@ class SchemaMapBuilder {
 
 		$tMap->addColumn('CHILD_UPDATED_USER_ID', 'ChildUpdatedUserId', 'int', CreoleTypes::INTEGER, false, null);
 
-		$tMap->addColumn('NAME', 'Name', 'string', CreoleTypes::VARCHAR, true, 191);
+		$tMap->addColumn('LABEL', 'Label', 'string', CreoleTypes::LONGVARCHAR, false, null);
+
+		$tMap->addColumn('NAME', 'Name', 'string', CreoleTypes::LONGVARCHAR, false, null);
 
 		$tMap->addColumn('NOTE', 'Note', 'string', CreoleTypes::LONGVARCHAR, false, null);
 
-		$tMap->addColumn('URI', 'Uri', 'string', CreoleTypes::VARCHAR, true, 255);
+		$tMap->addColumn('URI', 'Uri', 'string', CreoleTypes::VARCHAR, true, 191);
 
-		$tMap->addColumn('URL', 'Url', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('URL', 'Url', 'string', CreoleTypes::VARCHAR, false, 191);
 
-		$tMap->addColumn('BASE_DOMAIN', 'BaseDomain', 'string', CreoleTypes::VARCHAR, true, 255);
+		$tMap->addColumn('BASE_DOMAIN', 'BaseDomain', 'string', CreoleTypes::VARCHAR, true, 191);
 
 		$tMap->addColumn('TOKEN', 'Token', 'string', CreoleTypes::VARCHAR, true, 45);
 
@@ -109,9 +111,13 @@ class SchemaMapBuilder {
 
 		$tMap->addColumn('LANGUAGES', 'Languages', 'string', CreoleTypes::LONGVARCHAR, false, null);
 
-		$tMap->addColumn('REPO', 'Repo', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('REPO', 'Repo', 'string', CreoleTypes::VARCHAR, false, 191);
 
-		$tMap->addColumn('PREFIX', 'Prefix', 'string', CreoleTypes::VARCHAR, true, 255);
+		$tMap->addColumn('SPREADSHEET', 'Spreadsheet', 'string', CreoleTypes::VARCHAR, false, 191);
+
+		$tMap->addColumn('WORKSHEET', 'Worksheet', 'string', CreoleTypes::VARCHAR, false, 191);
+
+		$tMap->addColumn('PREFIX', 'Prefix', 'string', CreoleTypes::VARCHAR, true, 191);
 
 	} // doBuild()
 

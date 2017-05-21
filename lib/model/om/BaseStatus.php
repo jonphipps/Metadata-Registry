@@ -1165,55 +1165,6 @@ abstract class BaseStatus extends BaseObject  implements Persistent {
 	 * api reasonable.  You can provide public methods for those you
 	 * actually need in Status.
 	 */
-	public function getProfilesJoinAgent($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseProfilePeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collProfiles === null) {
-			if ($this->isNew()) {
-				$this->collProfiles = array();
-			} else {
-
-				$criteria->add(ProfilePeer::STATUS_ID, $this->getId());
-
-				$this->collProfiles = ProfilePeer::doSelectJoinAgent($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ProfilePeer::STATUS_ID, $this->getId());
-
-			if (!isset($this->lastProfileCriteria) || !$this->lastProfileCriteria->equals($criteria)) {
-				$this->collProfiles = ProfilePeer::doSelectJoinAgent($criteria, $con);
-			}
-		}
-		$this->lastProfileCriteria = $criteria;
-
-		return $this->collProfiles;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Status is new, it will return
-	 * an empty collection; or if this Status has previously
-	 * been saved, it will retrieve related Profiles from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Status.
-	 */
 	public function getProfilesJoinUserRelatedByCreatedBy($criteria = null, $con = null)
 	{
 		// include the Peer class

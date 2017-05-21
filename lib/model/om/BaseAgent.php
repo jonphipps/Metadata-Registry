@@ -65,7 +65,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	 * The value for the org_name field.
 	 * @var        string
 	 */
-	protected $org_name;
+	protected $org_name = '';
 
 
 	/**
@@ -193,6 +193,104 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	 */
 	protected $deleted_by;
 
+
+	/**
+	 * The value for the name field.
+	 * @var        string
+	 */
+	protected $name;
+
+
+	/**
+	 * The value for the label field.
+	 * @var        string
+	 */
+	protected $label;
+
+
+	/**
+	 * The value for the url field.
+	 * @var        string
+	 */
+	protected $url;
+
+
+	/**
+	 * The value for the license_uri field.
+	 * @var        string
+	 */
+	protected $license_uri;
+
+
+	/**
+	 * The value for the base_domain field.
+	 * @var        string
+	 */
+	protected $base_domain;
+
+
+	/**
+	 * The value for the namespace_type field.
+	 * @var        string
+	 */
+	protected $namespace_type;
+
+
+	/**
+	 * The value for the uri_strategy field.
+	 * @var        string
+	 */
+	protected $uri_strategy;
+
+
+	/**
+	 * The value for the uri_prepend field.
+	 * @var        string
+	 */
+	protected $uri_prepend;
+
+
+	/**
+	 * The value for the uri_append field.
+	 * @var        string
+	 */
+	protected $uri_append;
+
+
+	/**
+	 * The value for the starting_number field.
+	 * @var        int
+	 */
+	protected $starting_number;
+
+
+	/**
+	 * The value for the default_language field.
+	 * @var        string
+	 */
+	protected $default_language;
+
+
+	/**
+	 * The value for the languages field.
+	 * @var        string
+	 */
+	protected $languages;
+
+
+	/**
+	 * The value for the prefixes field.
+	 * @var        string
+	 */
+	protected $prefixes;
+
+
+	/**
+	 * The value for the google_sheet_url field.
+	 * @var        string
+	 */
+	protected $google_sheet_url;
+
 	/**
 	 * @var        User
 	 */
@@ -207,18 +305,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	 * @var        User
 	 */
 	protected $aUserRelatedByDeletedBy;
-
-	/**
-	 * Collection to store aggregation of collProfiles.
-	 * @var        array
-	 */
-	protected $collProfiles;
-
-	/**
-	 * The criteria used to select the current contents of collProfiles.
-	 * @var        Criteria
-	 */
-	protected $lastProfileCriteria = null;
 
 	/**
 	 * Collection to store aggregation of collAgentHasUsers.
@@ -626,6 +712,160 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	}
 
 	/**
+	 * Get the [name] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getName()
+	{
+
+		return $this->name;
+	}
+
+	/**
+	 * Get the [label] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getLabel()
+	{
+
+		return $this->label;
+	}
+
+	/**
+	 * Get the [url] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getUrl()
+	{
+
+		return $this->url;
+	}
+
+	/**
+	 * Get the [license_uri] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getLicenseUri()
+	{
+
+		return $this->license_uri;
+	}
+
+	/**
+	 * Get the [base_domain] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getBaseDomain()
+	{
+
+		return $this->base_domain;
+	}
+
+	/**
+	 * Get the [namespace_type] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getNamespaceType()
+	{
+
+		return $this->namespace_type;
+	}
+
+	/**
+	 * Get the [uri_strategy] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getUriStrategy()
+	{
+
+		return $this->uri_strategy;
+	}
+
+	/**
+	 * Get the [uri_prepend] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getUriPrepend()
+	{
+
+		return $this->uri_prepend;
+	}
+
+	/**
+	 * Get the [uri_append] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getUriAppend()
+	{
+
+		return $this->uri_append;
+	}
+
+	/**
+	 * Get the [starting_number] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getStartingNumber()
+	{
+
+		return $this->starting_number;
+	}
+
+	/**
+	 * Get the [default_language] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getDefaultLanguage()
+	{
+
+		return $this->default_language;
+	}
+
+	/**
+	 * Get the [languages] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getLanguages()
+	{
+
+		return $this->languages;
+	}
+
+	/**
+	 * Get the [prefixes] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getPrefixes()
+	{
+
+		return $this->prefixes;
+	}
+
+	/**
+	 * Get the [google_sheet_url] column value.
+	 * 
+	 * @return     string
+	 */
+	public function getGoogleSheetUrl()
+	{
+
+		return $this->google_sheet_url;
+	}
+
+	/**
 	 * Set the value of [id] column.
 	 * 
 	 * @param      int $v new value
@@ -780,7 +1020,7 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->org_name !== $v) {
+		if ($this->org_name !== $v || $v === '') {
 			$this->org_name = $v;
 			$this->modifiedColumns[] = AgentPeer::ORG_NAME;
 		}
@@ -1190,6 +1430,314 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 	} // setDeletedBy()
 
 	/**
+	 * Set the value of [name] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setName($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->name !== $v) {
+			$this->name = $v;
+			$this->modifiedColumns[] = AgentPeer::NAME;
+		}
+
+	} // setName()
+
+	/**
+	 * Set the value of [label] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setLabel($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->label !== $v) {
+			$this->label = $v;
+			$this->modifiedColumns[] = AgentPeer::LABEL;
+		}
+
+	} // setLabel()
+
+	/**
+	 * Set the value of [url] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setUrl($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->url !== $v) {
+			$this->url = $v;
+			$this->modifiedColumns[] = AgentPeer::URL;
+		}
+
+	} // setUrl()
+
+	/**
+	 * Set the value of [license_uri] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setLicenseUri($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->license_uri !== $v) {
+			$this->license_uri = $v;
+			$this->modifiedColumns[] = AgentPeer::LICENSE_URI;
+		}
+
+	} // setLicenseUri()
+
+	/**
+	 * Set the value of [base_domain] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setBaseDomain($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->base_domain !== $v) {
+			$this->base_domain = $v;
+			$this->modifiedColumns[] = AgentPeer::BASE_DOMAIN;
+		}
+
+	} // setBaseDomain()
+
+	/**
+	 * Set the value of [namespace_type] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setNamespaceType($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->namespace_type !== $v) {
+			$this->namespace_type = $v;
+			$this->modifiedColumns[] = AgentPeer::NAMESPACE_TYPE;
+		}
+
+	} // setNamespaceType()
+
+	/**
+	 * Set the value of [uri_strategy] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setUriStrategy($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->uri_strategy !== $v) {
+			$this->uri_strategy = $v;
+			$this->modifiedColumns[] = AgentPeer::URI_STRATEGY;
+		}
+
+	} // setUriStrategy()
+
+	/**
+	 * Set the value of [uri_prepend] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setUriPrepend($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->uri_prepend !== $v) {
+			$this->uri_prepend = $v;
+			$this->modifiedColumns[] = AgentPeer::URI_PREPEND;
+		}
+
+	} // setUriPrepend()
+
+	/**
+	 * Set the value of [uri_append] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setUriAppend($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->uri_append !== $v) {
+			$this->uri_append = $v;
+			$this->modifiedColumns[] = AgentPeer::URI_APPEND;
+		}
+
+	} // setUriAppend()
+
+	/**
+	 * Set the value of [starting_number] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setStartingNumber($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->starting_number !== $v) {
+			$this->starting_number = $v;
+			$this->modifiedColumns[] = AgentPeer::STARTING_NUMBER;
+		}
+
+	} // setStartingNumber()
+
+	/**
+	 * Set the value of [default_language] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setDefaultLanguage($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->default_language !== $v) {
+			$this->default_language = $v;
+			$this->modifiedColumns[] = AgentPeer::DEFAULT_LANGUAGE;
+		}
+
+	} // setDefaultLanguage()
+
+	/**
+	 * Set the value of [languages] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setLanguages($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->languages !== $v) {
+			$this->languages = $v;
+			$this->modifiedColumns[] = AgentPeer::LANGUAGES;
+		}
+
+	} // setLanguages()
+
+	/**
+	 * Set the value of [prefixes] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setPrefixes($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->prefixes !== $v) {
+			$this->prefixes = $v;
+			$this->modifiedColumns[] = AgentPeer::PREFIXES;
+		}
+
+	} // setPrefixes()
+
+	/**
+	 * Set the value of [google_sheet_url] column.
+	 * 
+	 * @param      string $v new value
+	 * @return     void
+	 */
+	public function setGoogleSheetUrl($v)
+	{
+
+		// Since the native PHP type for this column is string,
+		// we will cast the input to a string (if it is not).
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->google_sheet_url !== $v) {
+			$this->google_sheet_url = $v;
+			$this->modifiedColumns[] = AgentPeer::GOOGLE_SHEET_URL;
+		}
+
+	} // setGoogleSheetUrl()
+
+	/**
 	 * Hydrates (populates) the object variables with values from the database resultset.
 	 *
 	 * An offset (1-based "start column") is specified so that objects can be hydrated
@@ -1256,12 +1804,40 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 
 			$this->deleted_by = $rs->getInt($startcol + 24);
 
+			$this->name = $rs->getString($startcol + 25);
+
+			$this->label = $rs->getString($startcol + 26);
+
+			$this->url = $rs->getString($startcol + 27);
+
+			$this->license_uri = $rs->getString($startcol + 28);
+
+			$this->base_domain = $rs->getString($startcol + 29);
+
+			$this->namespace_type = $rs->getString($startcol + 30);
+
+			$this->uri_strategy = $rs->getString($startcol + 31);
+
+			$this->uri_prepend = $rs->getString($startcol + 32);
+
+			$this->uri_append = $rs->getString($startcol + 33);
+
+			$this->starting_number = $rs->getInt($startcol + 34);
+
+			$this->default_language = $rs->getString($startcol + 35);
+
+			$this->languages = $rs->getString($startcol + 36);
+
+			$this->prefixes = $rs->getString($startcol + 37);
+
+			$this->google_sheet_url = $rs->getString($startcol + 38);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 25; // 25 = AgentPeer::NUM_COLUMNS - AgentPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 39; // 39 = AgentPeer::NUM_COLUMNS - AgentPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Agent object", $e);
@@ -1434,14 +2010,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 				$this->resetModified(); // [HL] After being saved an object is no longer 'modified'
 			}
 
-			if ($this->collProfiles !== null) {
-				foreach($this->collProfiles as $referrerFK) {
-					if (!$referrerFK->isDeleted()) {
-						$affectedRows += $referrerFK->save($con);
-					}
-				}
-			}
-
 			if ($this->collAgentHasUsers !== null) {
 				foreach($this->collAgentHasUsers as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
@@ -1559,14 +2127,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 				$failureMap = array_merge($failureMap, $retval);
 			}
 
-
-				if ($this->collProfiles !== null) {
-					foreach($this->collProfiles as $referrerFK) {
-						if (!$referrerFK->validate($columns)) {
-							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
-						}
-					}
-				}
 
 				if ($this->collAgentHasUsers !== null) {
 					foreach($this->collAgentHasUsers as $referrerFK) {
@@ -1699,6 +2259,48 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			case 24:
 				return $this->getDeletedBy();
 				break;
+			case 25:
+				return $this->getName();
+				break;
+			case 26:
+				return $this->getLabel();
+				break;
+			case 27:
+				return $this->getUrl();
+				break;
+			case 28:
+				return $this->getLicenseUri();
+				break;
+			case 29:
+				return $this->getBaseDomain();
+				break;
+			case 30:
+				return $this->getNamespaceType();
+				break;
+			case 31:
+				return $this->getUriStrategy();
+				break;
+			case 32:
+				return $this->getUriPrepend();
+				break;
+			case 33:
+				return $this->getUriAppend();
+				break;
+			case 34:
+				return $this->getStartingNumber();
+				break;
+			case 35:
+				return $this->getDefaultLanguage();
+				break;
+			case 36:
+				return $this->getLanguages();
+				break;
+			case 37:
+				return $this->getPrefixes();
+				break;
+			case 38:
+				return $this->getGoogleSheetUrl();
+				break;
 			default:
 				return null;
 				break;
@@ -1744,6 +2346,20 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			$keys[22] => $this->getCreatedBy(),
 			$keys[23] => $this->getUpdatedBy(),
 			$keys[24] => $this->getDeletedBy(),
+			$keys[25] => $this->getName(),
+			$keys[26] => $this->getLabel(),
+			$keys[27] => $this->getUrl(),
+			$keys[28] => $this->getLicenseUri(),
+			$keys[29] => $this->getBaseDomain(),
+			$keys[30] => $this->getNamespaceType(),
+			$keys[31] => $this->getUriStrategy(),
+			$keys[32] => $this->getUriPrepend(),
+			$keys[33] => $this->getUriAppend(),
+			$keys[34] => $this->getStartingNumber(),
+			$keys[35] => $this->getDefaultLanguage(),
+			$keys[36] => $this->getLanguages(),
+			$keys[37] => $this->getPrefixes(),
+			$keys[38] => $this->getGoogleSheetUrl(),
 		);
 		return $result;
 	}
@@ -1850,6 +2466,48 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			case 24:
 				$this->setDeletedBy($value);
 				break;
+			case 25:
+				$this->setName($value);
+				break;
+			case 26:
+				$this->setLabel($value);
+				break;
+			case 27:
+				$this->setUrl($value);
+				break;
+			case 28:
+				$this->setLicenseUri($value);
+				break;
+			case 29:
+				$this->setBaseDomain($value);
+				break;
+			case 30:
+				$this->setNamespaceType($value);
+				break;
+			case 31:
+				$this->setUriStrategy($value);
+				break;
+			case 32:
+				$this->setUriPrepend($value);
+				break;
+			case 33:
+				$this->setUriAppend($value);
+				break;
+			case 34:
+				$this->setStartingNumber($value);
+				break;
+			case 35:
+				$this->setDefaultLanguage($value);
+				break;
+			case 36:
+				$this->setLanguages($value);
+				break;
+			case 37:
+				$this->setPrefixes($value);
+				break;
+			case 38:
+				$this->setGoogleSheetUrl($value);
+				break;
 		} // switch()
 	}
 
@@ -1898,6 +2556,20 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[22], $arr)) $this->setCreatedBy($arr[$keys[22]]);
 		if (array_key_exists($keys[23], $arr)) $this->setUpdatedBy($arr[$keys[23]]);
 		if (array_key_exists($keys[24], $arr)) $this->setDeletedBy($arr[$keys[24]]);
+		if (array_key_exists($keys[25], $arr)) $this->setName($arr[$keys[25]]);
+		if (array_key_exists($keys[26], $arr)) $this->setLabel($arr[$keys[26]]);
+		if (array_key_exists($keys[27], $arr)) $this->setUrl($arr[$keys[27]]);
+		if (array_key_exists($keys[28], $arr)) $this->setLicenseUri($arr[$keys[28]]);
+		if (array_key_exists($keys[29], $arr)) $this->setBaseDomain($arr[$keys[29]]);
+		if (array_key_exists($keys[30], $arr)) $this->setNamespaceType($arr[$keys[30]]);
+		if (array_key_exists($keys[31], $arr)) $this->setUriStrategy($arr[$keys[31]]);
+		if (array_key_exists($keys[32], $arr)) $this->setUriPrepend($arr[$keys[32]]);
+		if (array_key_exists($keys[33], $arr)) $this->setUriAppend($arr[$keys[33]]);
+		if (array_key_exists($keys[34], $arr)) $this->setStartingNumber($arr[$keys[34]]);
+		if (array_key_exists($keys[35], $arr)) $this->setDefaultLanguage($arr[$keys[35]]);
+		if (array_key_exists($keys[36], $arr)) $this->setLanguages($arr[$keys[36]]);
+		if (array_key_exists($keys[37], $arr)) $this->setPrefixes($arr[$keys[37]]);
+		if (array_key_exists($keys[38], $arr)) $this->setGoogleSheetUrl($arr[$keys[38]]);
 	}
 
 	/**
@@ -1934,6 +2606,20 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(AgentPeer::CREATED_BY)) $criteria->add(AgentPeer::CREATED_BY, $this->created_by);
 		if ($this->isColumnModified(AgentPeer::UPDATED_BY)) $criteria->add(AgentPeer::UPDATED_BY, $this->updated_by);
 		if ($this->isColumnModified(AgentPeer::DELETED_BY)) $criteria->add(AgentPeer::DELETED_BY, $this->deleted_by);
+		if ($this->isColumnModified(AgentPeer::NAME)) $criteria->add(AgentPeer::NAME, $this->name);
+		if ($this->isColumnModified(AgentPeer::LABEL)) $criteria->add(AgentPeer::LABEL, $this->label);
+		if ($this->isColumnModified(AgentPeer::URL)) $criteria->add(AgentPeer::URL, $this->url);
+		if ($this->isColumnModified(AgentPeer::LICENSE_URI)) $criteria->add(AgentPeer::LICENSE_URI, $this->license_uri);
+		if ($this->isColumnModified(AgentPeer::BASE_DOMAIN)) $criteria->add(AgentPeer::BASE_DOMAIN, $this->base_domain);
+		if ($this->isColumnModified(AgentPeer::NAMESPACE_TYPE)) $criteria->add(AgentPeer::NAMESPACE_TYPE, $this->namespace_type);
+		if ($this->isColumnModified(AgentPeer::URI_STRATEGY)) $criteria->add(AgentPeer::URI_STRATEGY, $this->uri_strategy);
+		if ($this->isColumnModified(AgentPeer::URI_PREPEND)) $criteria->add(AgentPeer::URI_PREPEND, $this->uri_prepend);
+		if ($this->isColumnModified(AgentPeer::URI_APPEND)) $criteria->add(AgentPeer::URI_APPEND, $this->uri_append);
+		if ($this->isColumnModified(AgentPeer::STARTING_NUMBER)) $criteria->add(AgentPeer::STARTING_NUMBER, $this->starting_number);
+		if ($this->isColumnModified(AgentPeer::DEFAULT_LANGUAGE)) $criteria->add(AgentPeer::DEFAULT_LANGUAGE, $this->default_language);
+		if ($this->isColumnModified(AgentPeer::LANGUAGES)) $criteria->add(AgentPeer::LANGUAGES, $this->languages);
+		if ($this->isColumnModified(AgentPeer::PREFIXES)) $criteria->add(AgentPeer::PREFIXES, $this->prefixes);
+		if ($this->isColumnModified(AgentPeer::GOOGLE_SHEET_URL)) $criteria->add(AgentPeer::GOOGLE_SHEET_URL, $this->google_sheet_url);
 
 		return $criteria;
 	}
@@ -2036,15 +2722,39 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 
 		$copyObj->setDeletedBy($this->deleted_by);
 
+		$copyObj->setName($this->name);
+
+		$copyObj->setLabel($this->label);
+
+		$copyObj->setUrl($this->url);
+
+		$copyObj->setLicenseUri($this->license_uri);
+
+		$copyObj->setBaseDomain($this->base_domain);
+
+		$copyObj->setNamespaceType($this->namespace_type);
+
+		$copyObj->setUriStrategy($this->uri_strategy);
+
+		$copyObj->setUriPrepend($this->uri_prepend);
+
+		$copyObj->setUriAppend($this->uri_append);
+
+		$copyObj->setStartingNumber($this->starting_number);
+
+		$copyObj->setDefaultLanguage($this->default_language);
+
+		$copyObj->setLanguages($this->languages);
+
+		$copyObj->setPrefixes($this->prefixes);
+
+		$copyObj->setGoogleSheetUrl($this->google_sheet_url);
+
 
 		if ($deepCopy) {
 			// important: temporarily setNew(false) because this affects the behavior of
 			// the getter/setter methods for fkey referrer objects.
 			$copyObj->setNew(false);
-
-			foreach($this->getProfiles() as $relObj) {
-				$copyObj->addProfile($relObj->copy($deepCopy));
-			}
 
 			foreach($this->getAgentHasUsers() as $relObj) {
 				$copyObj->addAgentHasUser($relObj->copy($deepCopy));
@@ -2253,358 +2963,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			 */
 		}
 		return $this->aUserRelatedByDeletedBy;
-	}
-
-	/**
-	 * Temporary storage of collProfiles to save a possible db hit in
-	 * the event objects are add to the collection, but the
-	 * complete collection is never requested.
-	 * @return     void
-	 */
-	public function initProfiles()
-	{
-		if ($this->collProfiles === null) {
-			$this->collProfiles = array();
-		}
-	}
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Agent has previously
-	 * been saved, it will retrieve related Profiles from storage.
-	 * If this Agent is new, it will return
-	 * an empty collection or the current collection, the criteria
-	 * is ignored on a new object.
-	 *
-	 * @param      Connection $con
-	 * @param      Criteria $criteria
-	 * @throws     PropelException
-	 */
-	public function getProfiles($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseProfilePeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collProfiles === null) {
-			if ($this->isNew()) {
-			   $this->collProfiles = array();
-			} else {
-
-				$criteria->add(ProfilePeer::AGENT_ID, $this->getId());
-
-				ProfilePeer::addSelectColumns($criteria);
-				$this->collProfiles = ProfilePeer::doSelect($criteria, $con);
-			}
-		} else {
-			// criteria has no effect for a new object
-			if (!$this->isNew()) {
-				// the following code is to determine if a new query is
-				// called for.  If the criteria is the same as the last
-				// one, just return the collection.
-
-
-				$criteria->add(ProfilePeer::AGENT_ID, $this->getId());
-
-				ProfilePeer::addSelectColumns($criteria);
-				if (!isset($this->lastProfileCriteria) || !$this->lastProfileCriteria->equals($criteria)) {
-					$this->collProfiles = ProfilePeer::doSelect($criteria, $con);
-				}
-			}
-		}
-		$this->lastProfileCriteria = $criteria;
-		return $this->collProfiles;
-	}
-
-	/**
-	 * Returns the number of related Profiles.
-	 *
-	 * @param      Criteria $criteria
-	 * @param      boolean $distinct
-	 * @param      Connection $con
-	 * @throws     PropelException
-	 */
-	public function countProfiles($criteria = null, $distinct = false, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseProfilePeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		$criteria->add(ProfilePeer::AGENT_ID, $this->getId());
-
-		return ProfilePeer::doCount($criteria, $distinct, $con);
-	}
-
-	/**
-	 * Method called to associate a Profile object to this object
-	 * through the Profile foreign key attribute
-	 *
-	 * @param      Profile $l Profile
-	 * @return     void
-	 * @throws     PropelException
-	 */
-	public function addProfile(Profile $l)
-	{
-		$this->collProfiles[] = $l;
-		$l->setAgent($this);
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Agent is new, it will return
-	 * an empty collection; or if this Agent has previously
-	 * been saved, it will retrieve related Profiles from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Agent.
-	 */
-	public function getProfilesJoinUserRelatedByCreatedBy($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseProfilePeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collProfiles === null) {
-			if ($this->isNew()) {
-				$this->collProfiles = array();
-			} else {
-
-				$criteria->add(ProfilePeer::AGENT_ID, $this->getId());
-
-				$this->collProfiles = ProfilePeer::doSelectJoinUserRelatedByCreatedBy($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ProfilePeer::AGENT_ID, $this->getId());
-
-			if (!isset($this->lastProfileCriteria) || !$this->lastProfileCriteria->equals($criteria)) {
-				$this->collProfiles = ProfilePeer::doSelectJoinUserRelatedByCreatedBy($criteria, $con);
-			}
-		}
-		$this->lastProfileCriteria = $criteria;
-
-		return $this->collProfiles;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Agent is new, it will return
-	 * an empty collection; or if this Agent has previously
-	 * been saved, it will retrieve related Profiles from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Agent.
-	 */
-	public function getProfilesJoinUserRelatedByUpdatedBy($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseProfilePeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collProfiles === null) {
-			if ($this->isNew()) {
-				$this->collProfiles = array();
-			} else {
-
-				$criteria->add(ProfilePeer::AGENT_ID, $this->getId());
-
-				$this->collProfiles = ProfilePeer::doSelectJoinUserRelatedByUpdatedBy($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ProfilePeer::AGENT_ID, $this->getId());
-
-			if (!isset($this->lastProfileCriteria) || !$this->lastProfileCriteria->equals($criteria)) {
-				$this->collProfiles = ProfilePeer::doSelectJoinUserRelatedByUpdatedBy($criteria, $con);
-			}
-		}
-		$this->lastProfileCriteria = $criteria;
-
-		return $this->collProfiles;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Agent is new, it will return
-	 * an empty collection; or if this Agent has previously
-	 * been saved, it will retrieve related Profiles from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Agent.
-	 */
-	public function getProfilesJoinUserRelatedByDeletedBy($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseProfilePeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collProfiles === null) {
-			if ($this->isNew()) {
-				$this->collProfiles = array();
-			} else {
-
-				$criteria->add(ProfilePeer::AGENT_ID, $this->getId());
-
-				$this->collProfiles = ProfilePeer::doSelectJoinUserRelatedByDeletedBy($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ProfilePeer::AGENT_ID, $this->getId());
-
-			if (!isset($this->lastProfileCriteria) || !$this->lastProfileCriteria->equals($criteria)) {
-				$this->collProfiles = ProfilePeer::doSelectJoinUserRelatedByDeletedBy($criteria, $con);
-			}
-		}
-		$this->lastProfileCriteria = $criteria;
-
-		return $this->collProfiles;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Agent is new, it will return
-	 * an empty collection; or if this Agent has previously
-	 * been saved, it will retrieve related Profiles from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Agent.
-	 */
-	public function getProfilesJoinUserRelatedByChildUpdatedBy($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseProfilePeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collProfiles === null) {
-			if ($this->isNew()) {
-				$this->collProfiles = array();
-			} else {
-
-				$criteria->add(ProfilePeer::AGENT_ID, $this->getId());
-
-				$this->collProfiles = ProfilePeer::doSelectJoinUserRelatedByChildUpdatedBy($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ProfilePeer::AGENT_ID, $this->getId());
-
-			if (!isset($this->lastProfileCriteria) || !$this->lastProfileCriteria->equals($criteria)) {
-				$this->collProfiles = ProfilePeer::doSelectJoinUserRelatedByChildUpdatedBy($criteria, $con);
-			}
-		}
-		$this->lastProfileCriteria = $criteria;
-
-		return $this->collProfiles;
-	}
-
-
-	/**
-	 * If this collection has already been initialized with
-	 * an identical criteria, it returns the collection.
-	 * Otherwise if this Agent is new, it will return
-	 * an empty collection; or if this Agent has previously
-	 * been saved, it will retrieve related Profiles from storage.
-	 *
-	 * This method is protected by default in order to keep the public
-	 * api reasonable.  You can provide public methods for those you
-	 * actually need in Agent.
-	 */
-	public function getProfilesJoinStatus($criteria = null, $con = null)
-	{
-		// include the Peer class
-		include_once 'lib/model/om/BaseProfilePeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collProfiles === null) {
-			if ($this->isNew()) {
-				$this->collProfiles = array();
-			} else {
-
-				$criteria->add(ProfilePeer::AGENT_ID, $this->getId());
-
-				$this->collProfiles = ProfilePeer::doSelectJoinStatus($criteria, $con);
-			}
-		} else {
-			// the following code is to determine if a new query is
-			// called for.  If the criteria is the same as the last
-			// one, just return the collection.
-
-			$criteria->add(ProfilePeer::AGENT_ID, $this->getId());
-
-			if (!isset($this->lastProfileCriteria) || !$this->lastProfileCriteria->equals($criteria)) {
-				$this->collProfiles = ProfilePeer::doSelectJoinStatus($criteria, $con);
-			}
-		}
-		$this->lastProfileCriteria = $criteria;
-
-		return $this->collProfiles;
 	}
 
 	/**

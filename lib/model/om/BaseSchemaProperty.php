@@ -62,6 +62,13 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 
 	/**
+	 * The value for the deleted_user_id field.
+	 * @var        int
+	 */
+	protected $deleted_user_id;
+
+
+	/**
 	 * The value for the schema_id field.
 	 * @var        int
 	 */
@@ -184,7 +191,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	 * The value for the hash_id field.
 	 * @var        string
 	 */
-	protected $hash_id;
+	protected $hash_id = '';
 
 	/**
 	 * @var        User
@@ -421,6 +428,17 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 	{
 
 		return $this->updated_user_id;
+	}
+
+	/**
+	 * Get the [deleted_user_id] column value.
+	 * 
+	 * @return     int
+	 */
+	public function getDeletedUserId()
+	{
+
+		return $this->deleted_user_id;
 	}
 
 	/**
@@ -766,6 +784,28 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		}
 
 	} // setUpdatedUserId()
+
+	/**
+	 * Set the value of [deleted_user_id] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setDeletedUserId($v)
+	{
+
+		// Since the native PHP type for this column is integer,
+		// we will cast the input value to an int (if it is not).
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->deleted_user_id !== $v) {
+			$this->deleted_user_id = $v;
+			$this->modifiedColumns[] = SchemaPropertyPeer::DELETED_USER_ID;
+		}
+
+	} // setDeletedUserId()
 
 	/**
 	 * Set the value of [schema_id] column.
@@ -1162,7 +1202,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$v = (string) $v; 
 		}
 
-		if ($this->hash_id !== $v) {
+		if ($this->hash_id !== $v || $v === '') {
 			$this->hash_id = $v;
 			$this->modifiedColumns[] = SchemaPropertyPeer::HASH_ID;
 		}
@@ -1198,48 +1238,50 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 
 			$this->updated_user_id = $rs->getInt($startcol + 5);
 
-			$this->schema_id = $rs->getInt($startcol + 6);
+			$this->deleted_user_id = $rs->getInt($startcol + 6);
 
-			$this->name = $rs->getString($startcol + 7);
+			$this->schema_id = $rs->getInt($startcol + 7);
 
-			$this->label = $rs->getString($startcol + 8);
+			$this->name = $rs->getString($startcol + 8);
 
-			$this->definition = $rs->getString($startcol + 9);
+			$this->label = $rs->getString($startcol + 9);
 
-			$this->comment = $rs->getString($startcol + 10);
+			$this->definition = $rs->getString($startcol + 10);
 
-			$this->type = $rs->getString($startcol + 11);
+			$this->comment = $rs->getString($startcol + 11);
 
-			$this->is_subproperty_of = $rs->getInt($startcol + 12);
+			$this->type = $rs->getString($startcol + 12);
 
-			$this->parent_uri = $rs->getString($startcol + 13);
+			$this->is_subproperty_of = $rs->getInt($startcol + 13);
 
-			$this->uri = $rs->getString($startcol + 14);
+			$this->parent_uri = $rs->getString($startcol + 14);
 
-			$this->status_id = $rs->getInt($startcol + 15);
+			$this->uri = $rs->getString($startcol + 15);
 
-			$this->language = $rs->getString($startcol + 16);
+			$this->status_id = $rs->getInt($startcol + 16);
 
-			$this->note = $rs->getString($startcol + 17);
+			$this->language = $rs->getString($startcol + 17);
 
-			$this->domain = $rs->getString($startcol + 18);
+			$this->note = $rs->getString($startcol + 18);
 
-			$this->orange = $rs->getString($startcol + 19);
+			$this->domain = $rs->getString($startcol + 19);
 
-			$this->is_deprecated = $rs->getBoolean($startcol + 20);
+			$this->orange = $rs->getString($startcol + 20);
 
-			$this->url = $rs->getString($startcol + 21);
+			$this->is_deprecated = $rs->getBoolean($startcol + 21);
 
-			$this->lexical_alias = $rs->getString($startcol + 22);
+			$this->url = $rs->getString($startcol + 22);
 
-			$this->hash_id = $rs->getString($startcol + 23);
+			$this->lexical_alias = $rs->getString($startcol + 23);
+
+			$this->hash_id = $rs->getString($startcol + 24);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 24; // 24 = SchemaPropertyPeer::NUM_COLUMNS - SchemaPropertyPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 25; // 25 = SchemaPropertyPeer::NUM_COLUMNS - SchemaPropertyPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating SchemaProperty object", $e);
@@ -1671,57 +1713,60 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 				return $this->getUpdatedUserId();
 				break;
 			case 6:
-				return $this->getSchemaId();
+				return $this->getDeletedUserId();
 				break;
 			case 7:
-				return $this->getName();
+				return $this->getSchemaId();
 				break;
 			case 8:
-				return $this->getLabel();
+				return $this->getName();
 				break;
 			case 9:
-				return $this->getDefinition();
+				return $this->getLabel();
 				break;
 			case 10:
-				return $this->getComment();
+				return $this->getDefinition();
 				break;
 			case 11:
-				return $this->getType();
+				return $this->getComment();
 				break;
 			case 12:
-				return $this->getIsSubpropertyOf();
+				return $this->getType();
 				break;
 			case 13:
-				return $this->getParentUri();
+				return $this->getIsSubpropertyOf();
 				break;
 			case 14:
-				return $this->getUri();
+				return $this->getParentUri();
 				break;
 			case 15:
-				return $this->getStatusId();
+				return $this->getUri();
 				break;
 			case 16:
-				return $this->getLanguage();
+				return $this->getStatusId();
 				break;
 			case 17:
-				return $this->getNote();
+				return $this->getLanguage();
 				break;
 			case 18:
-				return $this->getDomain();
+				return $this->getNote();
 				break;
 			case 19:
-				return $this->getOrange();
+				return $this->getDomain();
 				break;
 			case 20:
-				return $this->getIsDeprecated();
+				return $this->getOrange();
 				break;
 			case 21:
-				return $this->getUrl();
+				return $this->getIsDeprecated();
 				break;
 			case 22:
-				return $this->getLexicalAlias();
+				return $this->getUrl();
 				break;
 			case 23:
+				return $this->getLexicalAlias();
+				break;
+			case 24:
 				return $this->getHashId();
 				break;
 			default:
@@ -1750,24 +1795,25 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 			$keys[3] => $this->getDeletedAt(),
 			$keys[4] => $this->getCreatedUserId(),
 			$keys[5] => $this->getUpdatedUserId(),
-			$keys[6] => $this->getSchemaId(),
-			$keys[7] => $this->getName(),
-			$keys[8] => $this->getLabel(),
-			$keys[9] => $this->getDefinition(),
-			$keys[10] => $this->getComment(),
-			$keys[11] => $this->getType(),
-			$keys[12] => $this->getIsSubpropertyOf(),
-			$keys[13] => $this->getParentUri(),
-			$keys[14] => $this->getUri(),
-			$keys[15] => $this->getStatusId(),
-			$keys[16] => $this->getLanguage(),
-			$keys[17] => $this->getNote(),
-			$keys[18] => $this->getDomain(),
-			$keys[19] => $this->getOrange(),
-			$keys[20] => $this->getIsDeprecated(),
-			$keys[21] => $this->getUrl(),
-			$keys[22] => $this->getLexicalAlias(),
-			$keys[23] => $this->getHashId(),
+			$keys[6] => $this->getDeletedUserId(),
+			$keys[7] => $this->getSchemaId(),
+			$keys[8] => $this->getName(),
+			$keys[9] => $this->getLabel(),
+			$keys[10] => $this->getDefinition(),
+			$keys[11] => $this->getComment(),
+			$keys[12] => $this->getType(),
+			$keys[13] => $this->getIsSubpropertyOf(),
+			$keys[14] => $this->getParentUri(),
+			$keys[15] => $this->getUri(),
+			$keys[16] => $this->getStatusId(),
+			$keys[17] => $this->getLanguage(),
+			$keys[18] => $this->getNote(),
+			$keys[19] => $this->getDomain(),
+			$keys[20] => $this->getOrange(),
+			$keys[21] => $this->getIsDeprecated(),
+			$keys[22] => $this->getUrl(),
+			$keys[23] => $this->getLexicalAlias(),
+			$keys[24] => $this->getHashId(),
 		);
 		return $result;
 	}
@@ -1818,57 +1864,60 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 				$this->setUpdatedUserId($value);
 				break;
 			case 6:
-				$this->setSchemaId($value);
+				$this->setDeletedUserId($value);
 				break;
 			case 7:
-				$this->setName($value);
+				$this->setSchemaId($value);
 				break;
 			case 8:
-				$this->setLabel($value);
+				$this->setName($value);
 				break;
 			case 9:
-				$this->setDefinition($value);
+				$this->setLabel($value);
 				break;
 			case 10:
-				$this->setComment($value);
+				$this->setDefinition($value);
 				break;
 			case 11:
-				$this->setType($value);
+				$this->setComment($value);
 				break;
 			case 12:
-				$this->setIsSubpropertyOf($value);
+				$this->setType($value);
 				break;
 			case 13:
-				$this->setParentUri($value);
+				$this->setIsSubpropertyOf($value);
 				break;
 			case 14:
-				$this->setUri($value);
+				$this->setParentUri($value);
 				break;
 			case 15:
-				$this->setStatusId($value);
+				$this->setUri($value);
 				break;
 			case 16:
-				$this->setLanguage($value);
+				$this->setStatusId($value);
 				break;
 			case 17:
-				$this->setNote($value);
+				$this->setLanguage($value);
 				break;
 			case 18:
-				$this->setDomain($value);
+				$this->setNote($value);
 				break;
 			case 19:
-				$this->setOrange($value);
+				$this->setDomain($value);
 				break;
 			case 20:
-				$this->setIsDeprecated($value);
+				$this->setOrange($value);
 				break;
 			case 21:
-				$this->setUrl($value);
+				$this->setIsDeprecated($value);
 				break;
 			case 22:
-				$this->setLexicalAlias($value);
+				$this->setUrl($value);
 				break;
 			case 23:
+				$this->setLexicalAlias($value);
+				break;
+			case 24:
 				$this->setHashId($value);
 				break;
 		} // switch()
@@ -1900,24 +1949,25 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[3], $arr)) $this->setDeletedAt($arr[$keys[3]]);
 		if (array_key_exists($keys[4], $arr)) $this->setCreatedUserId($arr[$keys[4]]);
 		if (array_key_exists($keys[5], $arr)) $this->setUpdatedUserId($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setSchemaId($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setName($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setLabel($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setDefinition($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setComment($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setType($arr[$keys[11]]);
-		if (array_key_exists($keys[12], $arr)) $this->setIsSubpropertyOf($arr[$keys[12]]);
-		if (array_key_exists($keys[13], $arr)) $this->setParentUri($arr[$keys[13]]);
-		if (array_key_exists($keys[14], $arr)) $this->setUri($arr[$keys[14]]);
-		if (array_key_exists($keys[15], $arr)) $this->setStatusId($arr[$keys[15]]);
-		if (array_key_exists($keys[16], $arr)) $this->setLanguage($arr[$keys[16]]);
-		if (array_key_exists($keys[17], $arr)) $this->setNote($arr[$keys[17]]);
-		if (array_key_exists($keys[18], $arr)) $this->setDomain($arr[$keys[18]]);
-		if (array_key_exists($keys[19], $arr)) $this->setOrange($arr[$keys[19]]);
-		if (array_key_exists($keys[20], $arr)) $this->setIsDeprecated($arr[$keys[20]]);
-		if (array_key_exists($keys[21], $arr)) $this->setUrl($arr[$keys[21]]);
-		if (array_key_exists($keys[22], $arr)) $this->setLexicalAlias($arr[$keys[22]]);
-		if (array_key_exists($keys[23], $arr)) $this->setHashId($arr[$keys[23]]);
+		if (array_key_exists($keys[6], $arr)) $this->setDeletedUserId($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setSchemaId($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setName($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setLabel($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setDefinition($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setComment($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setType($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setIsSubpropertyOf($arr[$keys[13]]);
+		if (array_key_exists($keys[14], $arr)) $this->setParentUri($arr[$keys[14]]);
+		if (array_key_exists($keys[15], $arr)) $this->setUri($arr[$keys[15]]);
+		if (array_key_exists($keys[16], $arr)) $this->setStatusId($arr[$keys[16]]);
+		if (array_key_exists($keys[17], $arr)) $this->setLanguage($arr[$keys[17]]);
+		if (array_key_exists($keys[18], $arr)) $this->setNote($arr[$keys[18]]);
+		if (array_key_exists($keys[19], $arr)) $this->setDomain($arr[$keys[19]]);
+		if (array_key_exists($keys[20], $arr)) $this->setOrange($arr[$keys[20]]);
+		if (array_key_exists($keys[21], $arr)) $this->setIsDeprecated($arr[$keys[21]]);
+		if (array_key_exists($keys[22], $arr)) $this->setUrl($arr[$keys[22]]);
+		if (array_key_exists($keys[23], $arr)) $this->setLexicalAlias($arr[$keys[23]]);
+		if (array_key_exists($keys[24], $arr)) $this->setHashId($arr[$keys[24]]);
 	}
 
 	/**
@@ -1935,6 +1985,7 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(SchemaPropertyPeer::DELETED_AT)) $criteria->add(SchemaPropertyPeer::DELETED_AT, $this->deleted_at);
 		if ($this->isColumnModified(SchemaPropertyPeer::CREATED_USER_ID)) $criteria->add(SchemaPropertyPeer::CREATED_USER_ID, $this->created_user_id);
 		if ($this->isColumnModified(SchemaPropertyPeer::UPDATED_USER_ID)) $criteria->add(SchemaPropertyPeer::UPDATED_USER_ID, $this->updated_user_id);
+		if ($this->isColumnModified(SchemaPropertyPeer::DELETED_USER_ID)) $criteria->add(SchemaPropertyPeer::DELETED_USER_ID, $this->deleted_user_id);
 		if ($this->isColumnModified(SchemaPropertyPeer::SCHEMA_ID)) $criteria->add(SchemaPropertyPeer::SCHEMA_ID, $this->schema_id);
 		if ($this->isColumnModified(SchemaPropertyPeer::NAME)) $criteria->add(SchemaPropertyPeer::NAME, $this->name);
 		if ($this->isColumnModified(SchemaPropertyPeer::LABEL)) $criteria->add(SchemaPropertyPeer::LABEL, $this->label);
@@ -2016,6 +2067,8 @@ abstract class BaseSchemaProperty extends BaseObject  implements Persistent {
 		$copyObj->setCreatedUserId($this->created_user_id);
 
 		$copyObj->setUpdatedUserId($this->updated_user_id);
+
+		$copyObj->setDeletedUserId($this->deleted_user_id);
 
 		$copyObj->setSchemaId($this->schema_id);
 

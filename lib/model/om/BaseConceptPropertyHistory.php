@@ -34,6 +34,13 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 
 
 	/**
+	 * The value for the updated_at field.
+	 * @var        int
+	 */
+	protected $updated_at;
+
+
+	/**
 	 * The value for the action field.
 	 * @var        string
 	 */
@@ -226,6 +233,37 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 			}
 		} else {
 			$ts = $this->created_at;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
+	}
+
+	/**
+	 * Get the [optionally formatted] [updated_at] column value.
+	 * 
+	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
+	 *							If format is NULL, then the integer unix timestamp will be returned.
+	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
+	 * @throws     PropelException - if unable to convert the date/time to timestamp.
+	 */
+	public function getUpdatedAt($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->updated_at === null || $this->updated_at === '') {
+			return null;
+		} elseif (!is_int($this->updated_at)) {
+			// a non-timestamp value was set externally, so we convert it
+			$ts = strtotime($this->updated_at);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse value of [updated_at] as date/time value: " . var_export($this->updated_at, true));
+			}
+		} else {
+			$ts = $this->updated_at;
 		}
 		if ($format === null) {
 			return $ts;
@@ -435,6 +473,30 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 		}
 
 	} // setCreatedAt()
+
+	/**
+	 * Set the value of [updated_at] column.
+	 * 
+	 * @param      int $v new value
+	 * @return     void
+	 */
+	public function setUpdatedAt($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
+				throw new PropelException("Unable to parse date/time value for [updated_at] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->updated_at !== $ts) {
+			$this->updated_at = $ts;
+			$this->modifiedColumns[] = ConceptPropertyHistoryPeer::UPDATED_AT;
+		}
+
+	} // setUpdatedAt()
 
 	/**
 	 * Set the value of [action] column.
@@ -805,40 +867,42 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 
 			$this->created_at = $rs->getTimestamp($startcol + 1, null);
 
-			$this->action = $rs->getString($startcol + 2);
+			$this->updated_at = $rs->getTimestamp($startcol + 2, null);
 
-			$this->concept_property_id = $rs->getInt($startcol + 3);
+			$this->action = $rs->getString($startcol + 3);
 
-			$this->concept_id = $rs->getInt($startcol + 4);
+			$this->concept_property_id = $rs->getInt($startcol + 4);
 
-			$this->vocabulary_id = $rs->getInt($startcol + 5);
+			$this->concept_id = $rs->getInt($startcol + 5);
 
-			$this->skos_property_id = $rs->getInt($startcol + 6);
+			$this->vocabulary_id = $rs->getInt($startcol + 6);
 
-			$this->object = $rs->getString($startcol + 7);
+			$this->skos_property_id = $rs->getInt($startcol + 7);
 
-			$this->scheme_id = $rs->getInt($startcol + 8);
+			$this->object = $rs->getString($startcol + 8);
 
-			$this->related_concept_id = $rs->getInt($startcol + 9);
+			$this->scheme_id = $rs->getInt($startcol + 9);
 
-			$this->language = $rs->getString($startcol + 10);
+			$this->related_concept_id = $rs->getInt($startcol + 10);
 
-			$this->status_id = $rs->getInt($startcol + 11);
+			$this->language = $rs->getString($startcol + 11);
 
-			$this->created_user_id = $rs->getInt($startcol + 12);
+			$this->status_id = $rs->getInt($startcol + 12);
 
-			$this->change_note = $rs->getString($startcol + 13);
+			$this->created_user_id = $rs->getInt($startcol + 13);
 
-			$this->import_id = $rs->getInt($startcol + 14);
+			$this->change_note = $rs->getString($startcol + 14);
 
-			$this->profile_property_id = $rs->getInt($startcol + 15);
+			$this->import_id = $rs->getInt($startcol + 15);
+
+			$this->profile_property_id = $rs->getInt($startcol + 16);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 16; // 16 = ConceptPropertyHistoryPeer::NUM_COLUMNS - ConceptPropertyHistoryPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 17; // 17 = ConceptPropertyHistoryPeer::NUM_COLUMNS - ConceptPropertyHistoryPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating ConceptPropertyHistory object", $e);
@@ -918,6 +982,11 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
     if ($this->isNew() && !$this->isColumnModified(ConceptPropertyHistoryPeer::CREATED_AT))
     {
       $this->setCreatedAt(time());
+    }
+
+    if ($this->isModified() && !$this->isColumnModified(ConceptPropertyHistoryPeer::UPDATED_AT))
+    {
+      $this->setUpdatedAt(time());
     }
 
 		if ($this->isDeleted()) {
@@ -1230,45 +1299,48 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 				return $this->getCreatedAt();
 				break;
 			case 2:
-				return $this->getAction();
+				return $this->getUpdatedAt();
 				break;
 			case 3:
-				return $this->getConceptPropertyId();
+				return $this->getAction();
 				break;
 			case 4:
-				return $this->getConceptId();
+				return $this->getConceptPropertyId();
 				break;
 			case 5:
-				return $this->getVocabularyId();
+				return $this->getConceptId();
 				break;
 			case 6:
-				return $this->getSkosPropertyId();
+				return $this->getVocabularyId();
 				break;
 			case 7:
-				return $this->getObject();
+				return $this->getSkosPropertyId();
 				break;
 			case 8:
-				return $this->getSchemeId();
+				return $this->getObject();
 				break;
 			case 9:
-				return $this->getRelatedConceptId();
+				return $this->getSchemeId();
 				break;
 			case 10:
-				return $this->getLanguage();
+				return $this->getRelatedConceptId();
 				break;
 			case 11:
-				return $this->getStatusId();
+				return $this->getLanguage();
 				break;
 			case 12:
-				return $this->getCreatedUserId();
+				return $this->getStatusId();
 				break;
 			case 13:
-				return $this->getChangeNote();
+				return $this->getCreatedUserId();
 				break;
 			case 14:
-				return $this->getImportId();
+				return $this->getChangeNote();
 				break;
 			case 15:
+				return $this->getImportId();
+				break;
+			case 16:
 				return $this->getProfilePropertyId();
 				break;
 			default:
@@ -1293,20 +1365,21 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 		$result = array(
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getCreatedAt(),
-			$keys[2] => $this->getAction(),
-			$keys[3] => $this->getConceptPropertyId(),
-			$keys[4] => $this->getConceptId(),
-			$keys[5] => $this->getVocabularyId(),
-			$keys[6] => $this->getSkosPropertyId(),
-			$keys[7] => $this->getObject(),
-			$keys[8] => $this->getSchemeId(),
-			$keys[9] => $this->getRelatedConceptId(),
-			$keys[10] => $this->getLanguage(),
-			$keys[11] => $this->getStatusId(),
-			$keys[12] => $this->getCreatedUserId(),
-			$keys[13] => $this->getChangeNote(),
-			$keys[14] => $this->getImportId(),
-			$keys[15] => $this->getProfilePropertyId(),
+			$keys[2] => $this->getUpdatedAt(),
+			$keys[3] => $this->getAction(),
+			$keys[4] => $this->getConceptPropertyId(),
+			$keys[5] => $this->getConceptId(),
+			$keys[6] => $this->getVocabularyId(),
+			$keys[7] => $this->getSkosPropertyId(),
+			$keys[8] => $this->getObject(),
+			$keys[9] => $this->getSchemeId(),
+			$keys[10] => $this->getRelatedConceptId(),
+			$keys[11] => $this->getLanguage(),
+			$keys[12] => $this->getStatusId(),
+			$keys[13] => $this->getCreatedUserId(),
+			$keys[14] => $this->getChangeNote(),
+			$keys[15] => $this->getImportId(),
+			$keys[16] => $this->getProfilePropertyId(),
 		);
 		return $result;
 	}
@@ -1345,45 +1418,48 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 				$this->setCreatedAt($value);
 				break;
 			case 2:
-				$this->setAction($value);
+				$this->setUpdatedAt($value);
 				break;
 			case 3:
-				$this->setConceptPropertyId($value);
+				$this->setAction($value);
 				break;
 			case 4:
-				$this->setConceptId($value);
+				$this->setConceptPropertyId($value);
 				break;
 			case 5:
-				$this->setVocabularyId($value);
+				$this->setConceptId($value);
 				break;
 			case 6:
-				$this->setSkosPropertyId($value);
+				$this->setVocabularyId($value);
 				break;
 			case 7:
-				$this->setObject($value);
+				$this->setSkosPropertyId($value);
 				break;
 			case 8:
-				$this->setSchemeId($value);
+				$this->setObject($value);
 				break;
 			case 9:
-				$this->setRelatedConceptId($value);
+				$this->setSchemeId($value);
 				break;
 			case 10:
-				$this->setLanguage($value);
+				$this->setRelatedConceptId($value);
 				break;
 			case 11:
-				$this->setStatusId($value);
+				$this->setLanguage($value);
 				break;
 			case 12:
-				$this->setCreatedUserId($value);
+				$this->setStatusId($value);
 				break;
 			case 13:
-				$this->setChangeNote($value);
+				$this->setCreatedUserId($value);
 				break;
 			case 14:
-				$this->setImportId($value);
+				$this->setChangeNote($value);
 				break;
 			case 15:
+				$this->setImportId($value);
+				break;
+			case 16:
 				$this->setProfilePropertyId($value);
 				break;
 		} // switch()
@@ -1411,20 +1487,21 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setCreatedAt($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setAction($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setConceptPropertyId($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setConceptId($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setVocabularyId($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setSkosPropertyId($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setObject($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setSchemeId($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setRelatedConceptId($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setLanguage($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setStatusId($arr[$keys[11]]);
-		if (array_key_exists($keys[12], $arr)) $this->setCreatedUserId($arr[$keys[12]]);
-		if (array_key_exists($keys[13], $arr)) $this->setChangeNote($arr[$keys[13]]);
-		if (array_key_exists($keys[14], $arr)) $this->setImportId($arr[$keys[14]]);
-		if (array_key_exists($keys[15], $arr)) $this->setProfilePropertyId($arr[$keys[15]]);
+		if (array_key_exists($keys[2], $arr)) $this->setUpdatedAt($arr[$keys[2]]);
+		if (array_key_exists($keys[3], $arr)) $this->setAction($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setConceptPropertyId($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setConceptId($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setVocabularyId($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setSkosPropertyId($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setObject($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setSchemeId($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setRelatedConceptId($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setLanguage($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setStatusId($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setCreatedUserId($arr[$keys[13]]);
+		if (array_key_exists($keys[14], $arr)) $this->setChangeNote($arr[$keys[14]]);
+		if (array_key_exists($keys[15], $arr)) $this->setImportId($arr[$keys[15]]);
+		if (array_key_exists($keys[16], $arr)) $this->setProfilePropertyId($arr[$keys[16]]);
 	}
 
 	/**
@@ -1438,6 +1515,7 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 
 		if ($this->isColumnModified(ConceptPropertyHistoryPeer::ID)) $criteria->add(ConceptPropertyHistoryPeer::ID, $this->id);
 		if ($this->isColumnModified(ConceptPropertyHistoryPeer::CREATED_AT)) $criteria->add(ConceptPropertyHistoryPeer::CREATED_AT, $this->created_at);
+		if ($this->isColumnModified(ConceptPropertyHistoryPeer::UPDATED_AT)) $criteria->add(ConceptPropertyHistoryPeer::UPDATED_AT, $this->updated_at);
 		if ($this->isColumnModified(ConceptPropertyHistoryPeer::ACTION)) $criteria->add(ConceptPropertyHistoryPeer::ACTION, $this->action);
 		if ($this->isColumnModified(ConceptPropertyHistoryPeer::CONCEPT_PROPERTY_ID)) $criteria->add(ConceptPropertyHistoryPeer::CONCEPT_PROPERTY_ID, $this->concept_property_id);
 		if ($this->isColumnModified(ConceptPropertyHistoryPeer::CONCEPT_ID)) $criteria->add(ConceptPropertyHistoryPeer::CONCEPT_ID, $this->concept_id);
@@ -1507,6 +1585,8 @@ abstract class BaseConceptPropertyHistory extends BaseObject  implements Persist
 	{
 
 		$copyObj->setCreatedAt($this->created_at);
+
+		$copyObj->setUpdatedAt($this->updated_at);
 
 		$copyObj->setAction($this->action);
 

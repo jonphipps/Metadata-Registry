@@ -19,7 +19,7 @@ abstract class BaseSkosPropertyPeer {
 	const CLASS_DEFAULT = 'lib.model.SkosProperty';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 17;
+	const NUM_COLUMNS = 19;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -27,6 +27,12 @@ abstract class BaseSkosPropertyPeer {
 
 	/** the column name for the ID field */
 	const ID = 'reg_skos_property.ID';
+
+	/** the column name for the CREATED_AT field */
+	const CREATED_AT = 'reg_skos_property.CREATED_AT';
+
+	/** the column name for the UPDATED_AT field */
+	const UPDATED_AT = 'reg_skos_property.UPDATED_AT';
 
 	/** the column name for the PARENT_ID field */
 	const PARENT_ID = 'reg_skos_property.PARENT_ID';
@@ -87,10 +93,10 @@ abstract class BaseSkosPropertyPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'ParentId', 'InverseId', 'Name', 'Uri', 'ObjectType', 'DisplayOrder', 'PicklistOrder', 'Label', 'Definition', 'Comment', 'Examples', 'IsRequired', 'IsReciprocal', 'IsSingleton', 'IsScheme', 'IsInPicklist', ),
-		BasePeer::TYPE_COLNAME => array (SkosPropertyPeer::ID, SkosPropertyPeer::PARENT_ID, SkosPropertyPeer::INVERSE_ID, SkosPropertyPeer::NAME, SkosPropertyPeer::URI, SkosPropertyPeer::OBJECT_TYPE, SkosPropertyPeer::DISPLAY_ORDER, SkosPropertyPeer::PICKLIST_ORDER, SkosPropertyPeer::LABEL, SkosPropertyPeer::DEFINITION, SkosPropertyPeer::COMMENT, SkosPropertyPeer::EXAMPLES, SkosPropertyPeer::IS_REQUIRED, SkosPropertyPeer::IS_RECIPROCAL, SkosPropertyPeer::IS_SINGLETON, SkosPropertyPeer::IS_SCHEME, SkosPropertyPeer::IS_IN_PICKLIST, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'parent_id', 'inverse_id', 'name', 'uri', 'object_type', 'display_order', 'picklist_order', 'label', 'definition', 'comment', 'examples', 'is_required', 'is_reciprocal', 'is_singleton', 'is_scheme', 'is_in_picklist', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'ParentId', 'InverseId', 'Name', 'Uri', 'ObjectType', 'DisplayOrder', 'PicklistOrder', 'Label', 'Definition', 'Comment', 'Examples', 'IsRequired', 'IsReciprocal', 'IsSingleton', 'IsScheme', 'IsInPicklist', ),
+		BasePeer::TYPE_COLNAME => array (SkosPropertyPeer::ID, SkosPropertyPeer::CREATED_AT, SkosPropertyPeer::UPDATED_AT, SkosPropertyPeer::PARENT_ID, SkosPropertyPeer::INVERSE_ID, SkosPropertyPeer::NAME, SkosPropertyPeer::URI, SkosPropertyPeer::OBJECT_TYPE, SkosPropertyPeer::DISPLAY_ORDER, SkosPropertyPeer::PICKLIST_ORDER, SkosPropertyPeer::LABEL, SkosPropertyPeer::DEFINITION, SkosPropertyPeer::COMMENT, SkosPropertyPeer::EXAMPLES, SkosPropertyPeer::IS_REQUIRED, SkosPropertyPeer::IS_RECIPROCAL, SkosPropertyPeer::IS_SINGLETON, SkosPropertyPeer::IS_SCHEME, SkosPropertyPeer::IS_IN_PICKLIST, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'parent_id', 'inverse_id', 'name', 'uri', 'object_type', 'display_order', 'picklist_order', 'label', 'definition', 'comment', 'examples', 'is_required', 'is_reciprocal', 'is_singleton', 'is_scheme', 'is_in_picklist', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, )
 	);
 
 	/**
@@ -100,10 +106,10 @@ abstract class BaseSkosPropertyPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'ParentId' => 1, 'InverseId' => 2, 'Name' => 3, 'Uri' => 4, 'ObjectType' => 5, 'DisplayOrder' => 6, 'PicklistOrder' => 7, 'Label' => 8, 'Definition' => 9, 'Comment' => 10, 'Examples' => 11, 'IsRequired' => 12, 'IsReciprocal' => 13, 'IsSingleton' => 14, 'IsScheme' => 15, 'IsInPicklist' => 16, ),
-		BasePeer::TYPE_COLNAME => array (SkosPropertyPeer::ID => 0, SkosPropertyPeer::PARENT_ID => 1, SkosPropertyPeer::INVERSE_ID => 2, SkosPropertyPeer::NAME => 3, SkosPropertyPeer::URI => 4, SkosPropertyPeer::OBJECT_TYPE => 5, SkosPropertyPeer::DISPLAY_ORDER => 6, SkosPropertyPeer::PICKLIST_ORDER => 7, SkosPropertyPeer::LABEL => 8, SkosPropertyPeer::DEFINITION => 9, SkosPropertyPeer::COMMENT => 10, SkosPropertyPeer::EXAMPLES => 11, SkosPropertyPeer::IS_REQUIRED => 12, SkosPropertyPeer::IS_RECIPROCAL => 13, SkosPropertyPeer::IS_SINGLETON => 14, SkosPropertyPeer::IS_SCHEME => 15, SkosPropertyPeer::IS_IN_PICKLIST => 16, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'parent_id' => 1, 'inverse_id' => 2, 'name' => 3, 'uri' => 4, 'object_type' => 5, 'display_order' => 6, 'picklist_order' => 7, 'label' => 8, 'definition' => 9, 'comment' => 10, 'examples' => 11, 'is_required' => 12, 'is_reciprocal' => 13, 'is_singleton' => 14, 'is_scheme' => 15, 'is_in_picklist' => 16, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'ParentId' => 3, 'InverseId' => 4, 'Name' => 5, 'Uri' => 6, 'ObjectType' => 7, 'DisplayOrder' => 8, 'PicklistOrder' => 9, 'Label' => 10, 'Definition' => 11, 'Comment' => 12, 'Examples' => 13, 'IsRequired' => 14, 'IsReciprocal' => 15, 'IsSingleton' => 16, 'IsScheme' => 17, 'IsInPicklist' => 18, ),
+		BasePeer::TYPE_COLNAME => array (SkosPropertyPeer::ID => 0, SkosPropertyPeer::CREATED_AT => 1, SkosPropertyPeer::UPDATED_AT => 2, SkosPropertyPeer::PARENT_ID => 3, SkosPropertyPeer::INVERSE_ID => 4, SkosPropertyPeer::NAME => 5, SkosPropertyPeer::URI => 6, SkosPropertyPeer::OBJECT_TYPE => 7, SkosPropertyPeer::DISPLAY_ORDER => 8, SkosPropertyPeer::PICKLIST_ORDER => 9, SkosPropertyPeer::LABEL => 10, SkosPropertyPeer::DEFINITION => 11, SkosPropertyPeer::COMMENT => 12, SkosPropertyPeer::EXAMPLES => 13, SkosPropertyPeer::IS_REQUIRED => 14, SkosPropertyPeer::IS_RECIPROCAL => 15, SkosPropertyPeer::IS_SINGLETON => 16, SkosPropertyPeer::IS_SCHEME => 17, SkosPropertyPeer::IS_IN_PICKLIST => 18, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'parent_id' => 3, 'inverse_id' => 4, 'name' => 5, 'uri' => 6, 'object_type' => 7, 'display_order' => 8, 'picklist_order' => 9, 'label' => 10, 'definition' => 11, 'comment' => 12, 'examples' => 13, 'is_required' => 14, 'is_reciprocal' => 15, 'is_singleton' => 16, 'is_scheme' => 17, 'is_in_picklist' => 18, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, )
 	);
 
 	/**
@@ -205,6 +211,10 @@ abstract class BaseSkosPropertyPeer {
 	{
 
         $criteria->addSelectColumn(($tableAlias) ? SkosPropertyPeer::alias($tableAlias, SkosPropertyPeer::ID) : SkosPropertyPeer::ID);
+
+        $criteria->addSelectColumn(($tableAlias) ? SkosPropertyPeer::alias($tableAlias, SkosPropertyPeer::CREATED_AT) : SkosPropertyPeer::CREATED_AT);
+
+        $criteria->addSelectColumn(($tableAlias) ? SkosPropertyPeer::alias($tableAlias, SkosPropertyPeer::UPDATED_AT) : SkosPropertyPeer::UPDATED_AT);
 
         $criteria->addSelectColumn(($tableAlias) ? SkosPropertyPeer::alias($tableAlias, SkosPropertyPeer::PARENT_ID) : SkosPropertyPeer::PARENT_ID);
 
