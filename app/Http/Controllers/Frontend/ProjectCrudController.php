@@ -82,6 +82,8 @@ class ProjectCrudController extends CrudController
               'label'   => 'Private?',
               'options' => [ 0 => '',
                              1 => 'Yes' ] ] ); // adjusts the properties of the passed in column (by name)
+        $this->crud->setColumnDetails( 'org_name',
+            [ 'label' => 'Title', ] ); // adjusts the properties of the passed in column (by name)
         $this->crud->addColumn( [ 'label'         => "Vocabularies",
                                   'type'          => "model_function",
                                   'function_name' => 'getVocabColumn', ] );
