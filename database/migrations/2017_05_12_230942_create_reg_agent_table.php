@@ -22,7 +22,6 @@ class CreateRegAgentTable extends Migration
                 $table->string( 'repo' )->nullable();
                 $table->text( 'license' )->nullable();
 //legacy
-                $table->timestamp( 'last_updated' )->default( DB::raw( 'CURRENT_TIMESTAMP' ) );
                 $table->string( 'org_email', 100 )->default( '' );
                 $table->string( 'org_name' )->default( '' );
                 $table->string( 'ind_affiliation' )->nullable();

@@ -7,7 +7,7 @@ generator:
     fields:
       id:             { name: ID }
       created_at:     { name: Date Created }
-      last_updated:   { name: Last Updated }
+      updated_at:   { name: Last Updated }
       org_name:       { name: Project Name}
       repo:           { name: GitHub Repository}
       is_private:     { name: Private}
@@ -40,9 +40,9 @@ generator:
       fields:
         id:           { type: plain, credentials: [administrator] }
         created_at:   { type: plain }
-        last_updated: { type: plain }
+        updated_at: { type: plain }
       display:
-        "-Metadata":   { fields: [id, created_at, last_updated], credentials: [[administrator, agentadmin]] }
+        "-Metadata":   { fields: [id, created_at, updated_at], credentials: [[administrator, agentadmin]] }
         "Detail":     [org_name, description, license, repo]
       actions:
 #        _list:        -

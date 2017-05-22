@@ -19,7 +19,7 @@ abstract class BaseCollectionPeer {
 	const CLASS_DEFAULT = 'lib.model.Collection';
 
 	/** The total number of columns. */
-	const NUM_COLUMNS = 12;
+	const NUM_COLUMNS = 11;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -36,9 +36,6 @@ abstract class BaseCollectionPeer {
 
 	/** the column name for the DELETED_AT field */
 	const DELETED_AT = 'reg_collection.DELETED_AT';
-
-	/** the column name for the LAST_UPDATED field */
-	const LAST_UPDATED = 'reg_collection.LAST_UPDATED';
 
 	/** the column name for the CREATED_USER_ID field */
 	const CREATED_USER_ID = 'reg_collection.CREATED_USER_ID';
@@ -72,10 +69,10 @@ abstract class BaseCollectionPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'LastUpdated', 'CreatedUserId', 'UpdatedUserId', 'VocabularyId', 'Name', 'Uri', 'PrefLabel', 'StatusId', ),
-		BasePeer::TYPE_COLNAME => array (CollectionPeer::ID, CollectionPeer::CREATED_AT, CollectionPeer::UPDATED_AT, CollectionPeer::DELETED_AT, CollectionPeer::LAST_UPDATED, CollectionPeer::CREATED_USER_ID, CollectionPeer::UPDATED_USER_ID, CollectionPeer::VOCABULARY_ID, CollectionPeer::NAME, CollectionPeer::URI, CollectionPeer::PREF_LABEL, CollectionPeer::STATUS_ID, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'deleted_at', 'last_updated', 'created_user_id', 'updated_user_id', 'vocabulary_id', 'name', 'uri', 'pref_label', 'status_id', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'CreatedAt', 'UpdatedAt', 'DeletedAt', 'CreatedUserId', 'UpdatedUserId', 'VocabularyId', 'Name', 'Uri', 'PrefLabel', 'StatusId', ),
+		BasePeer::TYPE_COLNAME => array (CollectionPeer::ID, CollectionPeer::CREATED_AT, CollectionPeer::UPDATED_AT, CollectionPeer::DELETED_AT, CollectionPeer::CREATED_USER_ID, CollectionPeer::UPDATED_USER_ID, CollectionPeer::VOCABULARY_ID, CollectionPeer::NAME, CollectionPeer::URI, CollectionPeer::PREF_LABEL, CollectionPeer::STATUS_ID, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'created_at', 'updated_at', 'deleted_at', 'created_user_id', 'updated_user_id', 'vocabulary_id', 'name', 'uri', 'pref_label', 'status_id', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
 	);
 
 	/**
@@ -85,10 +82,10 @@ abstract class BaseCollectionPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'DeletedAt' => 3, 'LastUpdated' => 4, 'CreatedUserId' => 5, 'UpdatedUserId' => 6, 'VocabularyId' => 7, 'Name' => 8, 'Uri' => 9, 'PrefLabel' => 10, 'StatusId' => 11, ),
-		BasePeer::TYPE_COLNAME => array (CollectionPeer::ID => 0, CollectionPeer::CREATED_AT => 1, CollectionPeer::UPDATED_AT => 2, CollectionPeer::DELETED_AT => 3, CollectionPeer::LAST_UPDATED => 4, CollectionPeer::CREATED_USER_ID => 5, CollectionPeer::UPDATED_USER_ID => 6, CollectionPeer::VOCABULARY_ID => 7, CollectionPeer::NAME => 8, CollectionPeer::URI => 9, CollectionPeer::PREF_LABEL => 10, CollectionPeer::STATUS_ID => 11, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'deleted_at' => 3, 'last_updated' => 4, 'created_user_id' => 5, 'updated_user_id' => 6, 'vocabulary_id' => 7, 'name' => 8, 'uri' => 9, 'pref_label' => 10, 'status_id' => 11, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'CreatedAt' => 1, 'UpdatedAt' => 2, 'DeletedAt' => 3, 'CreatedUserId' => 4, 'UpdatedUserId' => 5, 'VocabularyId' => 6, 'Name' => 7, 'Uri' => 8, 'PrefLabel' => 9, 'StatusId' => 10, ),
+		BasePeer::TYPE_COLNAME => array (CollectionPeer::ID => 0, CollectionPeer::CREATED_AT => 1, CollectionPeer::UPDATED_AT => 2, CollectionPeer::DELETED_AT => 3, CollectionPeer::CREATED_USER_ID => 4, CollectionPeer::UPDATED_USER_ID => 5, CollectionPeer::VOCABULARY_ID => 6, CollectionPeer::NAME => 7, CollectionPeer::URI => 8, CollectionPeer::PREF_LABEL => 9, CollectionPeer::STATUS_ID => 10, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'created_at' => 1, 'updated_at' => 2, 'deleted_at' => 3, 'created_user_id' => 4, 'updated_user_id' => 5, 'vocabulary_id' => 6, 'name' => 7, 'uri' => 8, 'pref_label' => 9, 'status_id' => 10, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
 	);
 
 	/**
@@ -196,8 +193,6 @@ abstract class BaseCollectionPeer {
         $criteria->addSelectColumn(($tableAlias) ? CollectionPeer::alias($tableAlias, CollectionPeer::UPDATED_AT) : CollectionPeer::UPDATED_AT);
 
         $criteria->addSelectColumn(($tableAlias) ? CollectionPeer::alias($tableAlias, CollectionPeer::DELETED_AT) : CollectionPeer::DELETED_AT);
-
-        $criteria->addSelectColumn(($tableAlias) ? CollectionPeer::alias($tableAlias, CollectionPeer::LAST_UPDATED) : CollectionPeer::LAST_UPDATED);
 
         $criteria->addSelectColumn(($tableAlias) ? CollectionPeer::alias($tableAlias, CollectionPeer::CREATED_USER_ID) : CollectionPeer::CREATED_USER_ID);
 

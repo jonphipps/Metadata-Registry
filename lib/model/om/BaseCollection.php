@@ -48,13 +48,6 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 
 
 	/**
-	 * The value for the last_updated field.
-	 * @var        int
-	 */
-	protected $last_updated;
-
-
-	/**
 	 * The value for the created_user_id field.
 	 * @var        int
 	 */
@@ -241,37 +234,6 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Get the [optionally formatted] [last_updated] column value.
-	 * 
-	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
-	 *							If format is NULL, then the integer unix timestamp will be returned.
-	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
-	 * @throws     PropelException - if unable to convert the date/time to timestamp.
-	 */
-	public function getLastUpdated($format = 'Y-m-d H:i:s')
-	{
-
-		if ($this->last_updated === null || $this->last_updated === '') {
-			return null;
-		} elseif (!is_int($this->last_updated)) {
-			// a non-timestamp value was set externally, so we convert it
-			$ts = strtotime($this->last_updated);
-			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
-				throw new PropelException("Unable to parse value of [last_updated] as date/time value: " . var_export($this->last_updated, true));
-			}
-		} else {
-			$ts = $this->last_updated;
-		}
-		if ($format === null) {
-			return $ts;
-		} elseif (strpos($format, '%') !== false) {
-			return strftime($format, $ts);
-		} else {
-			return date($format, $ts);
-		}
-	}
-
-	/**
 	 * Get the [created_user_id] column value.
 	 * 
 	 * @return     int
@@ -441,30 +403,6 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 		}
 
 	} // setDeletedAt()
-
-	/**
-	 * Set the value of [last_updated] column.
-	 * 
-	 * @param      int $v new value
-	 * @return     void
-	 */
-	public function setLastUpdated($v)
-	{
-
-		if ($v !== null && !is_int($v)) {
-			$ts = strtotime($v);
-			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
-				throw new PropelException("Unable to parse date/time value for [last_updated] from input: " . var_export($v, true));
-			}
-		} else {
-			$ts = $v;
-		}
-		if ($this->last_updated !== $ts) {
-			$this->last_updated = $ts;
-			$this->modifiedColumns[] = CollectionPeer::LAST_UPDATED;
-		}
-
-	} // setLastUpdated()
 
 	/**
 	 * Set the value of [created_user_id] column.
@@ -661,28 +599,26 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 
 			$this->deleted_at = $rs->getTimestamp($startcol + 3, null);
 
-			$this->last_updated = $rs->getTimestamp($startcol + 4, null);
+			$this->created_user_id = $rs->getInt($startcol + 4);
 
-			$this->created_user_id = $rs->getInt($startcol + 5);
+			$this->updated_user_id = $rs->getInt($startcol + 5);
 
-			$this->updated_user_id = $rs->getInt($startcol + 6);
+			$this->vocabulary_id = $rs->getInt($startcol + 6);
 
-			$this->vocabulary_id = $rs->getInt($startcol + 7);
+			$this->name = $rs->getString($startcol + 7);
 
-			$this->name = $rs->getString($startcol + 8);
+			$this->uri = $rs->getString($startcol + 8);
 
-			$this->uri = $rs->getString($startcol + 9);
+			$this->pref_label = $rs->getString($startcol + 9);
 
-			$this->pref_label = $rs->getString($startcol + 10);
-
-			$this->status_id = $rs->getInt($startcol + 11);
+			$this->status_id = $rs->getInt($startcol + 10);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 12; // 12 = CollectionPeer::NUM_COLUMNS - CollectionPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 11; // 11 = CollectionPeer::NUM_COLUMNS - CollectionPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Collection object", $e);
@@ -1007,27 +943,24 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 				return $this->getDeletedAt();
 				break;
 			case 4:
-				return $this->getLastUpdated();
-				break;
-			case 5:
 				return $this->getCreatedUserId();
 				break;
-			case 6:
+			case 5:
 				return $this->getUpdatedUserId();
 				break;
-			case 7:
+			case 6:
 				return $this->getVocabularyId();
 				break;
-			case 8:
+			case 7:
 				return $this->getName();
 				break;
-			case 9:
+			case 8:
 				return $this->getUri();
 				break;
-			case 10:
+			case 9:
 				return $this->getPrefLabel();
 				break;
-			case 11:
+			case 10:
 				return $this->getStatusId();
 				break;
 			default:
@@ -1054,14 +987,13 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 			$keys[1] => $this->getCreatedAt(),
 			$keys[2] => $this->getUpdatedAt(),
 			$keys[3] => $this->getDeletedAt(),
-			$keys[4] => $this->getLastUpdated(),
-			$keys[5] => $this->getCreatedUserId(),
-			$keys[6] => $this->getUpdatedUserId(),
-			$keys[7] => $this->getVocabularyId(),
-			$keys[8] => $this->getName(),
-			$keys[9] => $this->getUri(),
-			$keys[10] => $this->getPrefLabel(),
-			$keys[11] => $this->getStatusId(),
+			$keys[4] => $this->getCreatedUserId(),
+			$keys[5] => $this->getUpdatedUserId(),
+			$keys[6] => $this->getVocabularyId(),
+			$keys[7] => $this->getName(),
+			$keys[8] => $this->getUri(),
+			$keys[9] => $this->getPrefLabel(),
+			$keys[10] => $this->getStatusId(),
 		);
 		return $result;
 	}
@@ -1106,27 +1038,24 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 				$this->setDeletedAt($value);
 				break;
 			case 4:
-				$this->setLastUpdated($value);
-				break;
-			case 5:
 				$this->setCreatedUserId($value);
 				break;
-			case 6:
+			case 5:
 				$this->setUpdatedUserId($value);
 				break;
-			case 7:
+			case 6:
 				$this->setVocabularyId($value);
 				break;
-			case 8:
+			case 7:
 				$this->setName($value);
 				break;
-			case 9:
+			case 8:
 				$this->setUri($value);
 				break;
-			case 10:
+			case 9:
 				$this->setPrefLabel($value);
 				break;
-			case 11:
+			case 10:
 				$this->setStatusId($value);
 				break;
 		} // switch()
@@ -1156,14 +1085,13 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[1], $arr)) $this->setCreatedAt($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setUpdatedAt($arr[$keys[2]]);
 		if (array_key_exists($keys[3], $arr)) $this->setDeletedAt($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setLastUpdated($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setCreatedUserId($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setUpdatedUserId($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setVocabularyId($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setName($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setUri($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setPrefLabel($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setStatusId($arr[$keys[11]]);
+		if (array_key_exists($keys[4], $arr)) $this->setCreatedUserId($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setUpdatedUserId($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setVocabularyId($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setName($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setUri($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setPrefLabel($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setStatusId($arr[$keys[10]]);
 	}
 
 	/**
@@ -1179,7 +1107,6 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(CollectionPeer::CREATED_AT)) $criteria->add(CollectionPeer::CREATED_AT, $this->created_at);
 		if ($this->isColumnModified(CollectionPeer::UPDATED_AT)) $criteria->add(CollectionPeer::UPDATED_AT, $this->updated_at);
 		if ($this->isColumnModified(CollectionPeer::DELETED_AT)) $criteria->add(CollectionPeer::DELETED_AT, $this->deleted_at);
-		if ($this->isColumnModified(CollectionPeer::LAST_UPDATED)) $criteria->add(CollectionPeer::LAST_UPDATED, $this->last_updated);
 		if ($this->isColumnModified(CollectionPeer::CREATED_USER_ID)) $criteria->add(CollectionPeer::CREATED_USER_ID, $this->created_user_id);
 		if ($this->isColumnModified(CollectionPeer::UPDATED_USER_ID)) $criteria->add(CollectionPeer::UPDATED_USER_ID, $this->updated_user_id);
 		if ($this->isColumnModified(CollectionPeer::VOCABULARY_ID)) $criteria->add(CollectionPeer::VOCABULARY_ID, $this->vocabulary_id);
@@ -1246,8 +1173,6 @@ abstract class BaseCollection extends BaseObject  implements Persistent {
 		$copyObj->setUpdatedAt($this->updated_at);
 
 		$copyObj->setDeletedAt($this->deleted_at);
-
-		$copyObj->setLastUpdated($this->last_updated);
 
 		$copyObj->setCreatedUserId($this->created_user_id);
 

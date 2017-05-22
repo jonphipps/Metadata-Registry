@@ -41,13 +41,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 
 
 	/**
-	 * The value for the last_updated field.
-	 * @var        int
-	 */
-	protected $last_updated;
-
-
-	/**
 	 * The value for the deleted_at field.
 	 * @var        int
 	 */
@@ -419,37 +412,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			}
 		} else {
 			$ts = $this->updated_at;
-		}
-		if ($format === null) {
-			return $ts;
-		} elseif (strpos($format, '%') !== false) {
-			return strftime($format, $ts);
-		} else {
-			return date($format, $ts);
-		}
-	}
-
-	/**
-	 * Get the [optionally formatted] [last_updated] column value.
-	 * 
-	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
-	 *							If format is NULL, then the integer unix timestamp will be returned.
-	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
-	 * @throws     PropelException - if unable to convert the date/time to timestamp.
-	 */
-	public function getLastUpdated($format = 'Y-m-d H:i:s')
-	{
-
-		if ($this->last_updated === null || $this->last_updated === '') {
-			return null;
-		} elseif (!is_int($this->last_updated)) {
-			// a non-timestamp value was set externally, so we convert it
-			$ts = strtotime($this->last_updated);
-			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
-				throw new PropelException("Unable to parse value of [last_updated] as date/time value: " . var_export($this->last_updated, true));
-			}
-		} else {
-			$ts = $this->last_updated;
 		}
 		if ($format === null) {
 			return $ts;
@@ -934,30 +896,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		}
 
 	} // setUpdatedAt()
-
-	/**
-	 * Set the value of [last_updated] column.
-	 * 
-	 * @param      int $v new value
-	 * @return     void
-	 */
-	public function setLastUpdated($v)
-	{
-
-		if ($v !== null && !is_int($v)) {
-			$ts = strtotime($v);
-			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
-				throw new PropelException("Unable to parse date/time value for [last_updated] from input: " . var_export($v, true));
-			}
-		} else {
-			$ts = $v;
-		}
-		if ($this->last_updated !== $ts) {
-			$this->last_updated = $ts;
-			$this->modifiedColumns[] = AgentPeer::LAST_UPDATED;
-		}
-
-	} // setLastUpdated()
 
 	/**
 	 * Set the value of [deleted_at] column.
@@ -1760,84 +1698,82 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 
 			$this->updated_at = $rs->getTimestamp($startcol + 2, null);
 
-			$this->last_updated = $rs->getTimestamp($startcol + 3, null);
+			$this->deleted_at = $rs->getTimestamp($startcol + 3, null);
 
-			$this->deleted_at = $rs->getTimestamp($startcol + 4, null);
+			$this->org_email = $rs->getString($startcol + 4);
 
-			$this->org_email = $rs->getString($startcol + 5);
+			$this->org_name = $rs->getString($startcol + 5);
 
-			$this->org_name = $rs->getString($startcol + 6);
+			$this->ind_affiliation = $rs->getString($startcol + 6);
 
-			$this->ind_affiliation = $rs->getString($startcol + 7);
+			$this->ind_role = $rs->getString($startcol + 7);
 
-			$this->ind_role = $rs->getString($startcol + 8);
+			$this->address1 = $rs->getString($startcol + 8);
 
-			$this->address1 = $rs->getString($startcol + 9);
+			$this->address2 = $rs->getString($startcol + 9);
 
-			$this->address2 = $rs->getString($startcol + 10);
+			$this->city = $rs->getString($startcol + 10);
 
-			$this->city = $rs->getString($startcol + 11);
+			$this->state = $rs->getString($startcol + 11);
 
-			$this->state = $rs->getString($startcol + 12);
+			$this->postal_code = $rs->getString($startcol + 12);
 
-			$this->postal_code = $rs->getString($startcol + 13);
+			$this->country = $rs->getString($startcol + 13);
 
-			$this->country = $rs->getString($startcol + 14);
+			$this->phone = $rs->getString($startcol + 14);
 
-			$this->phone = $rs->getString($startcol + 15);
+			$this->web_address = $rs->getString($startcol + 15);
 
-			$this->web_address = $rs->getString($startcol + 16);
+			$this->type = $rs->getString($startcol + 16);
 
-			$this->type = $rs->getString($startcol + 17);
+			$this->repo = $rs->getString($startcol + 17);
 
-			$this->repo = $rs->getString($startcol + 18);
+			$this->is_private = $rs->getBoolean($startcol + 18);
 
-			$this->is_private = $rs->getBoolean($startcol + 19);
+			$this->license = $rs->getString($startcol + 19);
 
-			$this->license = $rs->getString($startcol + 20);
+			$this->description = $rs->getString($startcol + 20);
 
-			$this->description = $rs->getString($startcol + 21);
+			$this->created_by = $rs->getInt($startcol + 21);
 
-			$this->created_by = $rs->getInt($startcol + 22);
+			$this->updated_by = $rs->getInt($startcol + 22);
 
-			$this->updated_by = $rs->getInt($startcol + 23);
+			$this->deleted_by = $rs->getInt($startcol + 23);
 
-			$this->deleted_by = $rs->getInt($startcol + 24);
+			$this->name = $rs->getString($startcol + 24);
 
-			$this->name = $rs->getString($startcol + 25);
+			$this->label = $rs->getString($startcol + 25);
 
-			$this->label = $rs->getString($startcol + 26);
+			$this->url = $rs->getString($startcol + 26);
 
-			$this->url = $rs->getString($startcol + 27);
+			$this->license_uri = $rs->getString($startcol + 27);
 
-			$this->license_uri = $rs->getString($startcol + 28);
+			$this->base_domain = $rs->getString($startcol + 28);
 
-			$this->base_domain = $rs->getString($startcol + 29);
+			$this->namespace_type = $rs->getString($startcol + 29);
 
-			$this->namespace_type = $rs->getString($startcol + 30);
+			$this->uri_strategy = $rs->getString($startcol + 30);
 
-			$this->uri_strategy = $rs->getString($startcol + 31);
+			$this->uri_prepend = $rs->getString($startcol + 31);
 
-			$this->uri_prepend = $rs->getString($startcol + 32);
+			$this->uri_append = $rs->getString($startcol + 32);
 
-			$this->uri_append = $rs->getString($startcol + 33);
+			$this->starting_number = $rs->getInt($startcol + 33);
 
-			$this->starting_number = $rs->getInt($startcol + 34);
+			$this->default_language = $rs->getString($startcol + 34);
 
-			$this->default_language = $rs->getString($startcol + 35);
+			$this->languages = $rs->getString($startcol + 35);
 
-			$this->languages = $rs->getString($startcol + 36);
+			$this->prefixes = $rs->getString($startcol + 36);
 
-			$this->prefixes = $rs->getString($startcol + 37);
-
-			$this->google_sheet_url = $rs->getString($startcol + 38);
+			$this->google_sheet_url = $rs->getString($startcol + 37);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 39; // 39 = AgentPeer::NUM_COLUMNS - AgentPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 38; // 38 = AgentPeer::NUM_COLUMNS - AgentPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Agent object", $e);
@@ -2194,111 +2130,108 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 				return $this->getUpdatedAt();
 				break;
 			case 3:
-				return $this->getLastUpdated();
-				break;
-			case 4:
 				return $this->getDeletedAt();
 				break;
-			case 5:
+			case 4:
 				return $this->getOrgEmail();
 				break;
-			case 6:
+			case 5:
 				return $this->getOrgName();
 				break;
-			case 7:
+			case 6:
 				return $this->getIndAffiliation();
 				break;
-			case 8:
+			case 7:
 				return $this->getIndRole();
 				break;
-			case 9:
+			case 8:
 				return $this->getAddress1();
 				break;
-			case 10:
+			case 9:
 				return $this->getAddress2();
 				break;
-			case 11:
+			case 10:
 				return $this->getCity();
 				break;
-			case 12:
+			case 11:
 				return $this->getState();
 				break;
-			case 13:
+			case 12:
 				return $this->getPostalCode();
 				break;
-			case 14:
+			case 13:
 				return $this->getCountry();
 				break;
-			case 15:
+			case 14:
 				return $this->getPhone();
 				break;
-			case 16:
+			case 15:
 				return $this->getWebAddress();
 				break;
-			case 17:
+			case 16:
 				return $this->getType();
 				break;
-			case 18:
+			case 17:
 				return $this->getRepo();
 				break;
-			case 19:
+			case 18:
 				return $this->getIsPrivate();
 				break;
-			case 20:
+			case 19:
 				return $this->getLicense();
 				break;
-			case 21:
+			case 20:
 				return $this->getDescription();
 				break;
-			case 22:
+			case 21:
 				return $this->getCreatedBy();
 				break;
-			case 23:
+			case 22:
 				return $this->getUpdatedBy();
 				break;
-			case 24:
+			case 23:
 				return $this->getDeletedBy();
 				break;
-			case 25:
+			case 24:
 				return $this->getName();
 				break;
-			case 26:
+			case 25:
 				return $this->getLabel();
 				break;
-			case 27:
+			case 26:
 				return $this->getUrl();
 				break;
-			case 28:
+			case 27:
 				return $this->getLicenseUri();
 				break;
-			case 29:
+			case 28:
 				return $this->getBaseDomain();
 				break;
-			case 30:
+			case 29:
 				return $this->getNamespaceType();
 				break;
-			case 31:
+			case 30:
 				return $this->getUriStrategy();
 				break;
-			case 32:
+			case 31:
 				return $this->getUriPrepend();
 				break;
-			case 33:
+			case 32:
 				return $this->getUriAppend();
 				break;
-			case 34:
+			case 33:
 				return $this->getStartingNumber();
 				break;
-			case 35:
+			case 34:
 				return $this->getDefaultLanguage();
 				break;
-			case 36:
+			case 35:
 				return $this->getLanguages();
 				break;
-			case 37:
+			case 36:
 				return $this->getPrefixes();
 				break;
-			case 38:
+			case 37:
 				return $this->getGoogleSheetUrl();
 				break;
 			default:
@@ -2324,42 +2257,41 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getCreatedAt(),
 			$keys[2] => $this->getUpdatedAt(),
-			$keys[3] => $this->getLastUpdated(),
-			$keys[4] => $this->getDeletedAt(),
-			$keys[5] => $this->getOrgEmail(),
-			$keys[6] => $this->getOrgName(),
-			$keys[7] => $this->getIndAffiliation(),
-			$keys[8] => $this->getIndRole(),
-			$keys[9] => $this->getAddress1(),
-			$keys[10] => $this->getAddress2(),
-			$keys[11] => $this->getCity(),
-			$keys[12] => $this->getState(),
-			$keys[13] => $this->getPostalCode(),
-			$keys[14] => $this->getCountry(),
-			$keys[15] => $this->getPhone(),
-			$keys[16] => $this->getWebAddress(),
-			$keys[17] => $this->getType(),
-			$keys[18] => $this->getRepo(),
-			$keys[19] => $this->getIsPrivate(),
-			$keys[20] => $this->getLicense(),
-			$keys[21] => $this->getDescription(),
-			$keys[22] => $this->getCreatedBy(),
-			$keys[23] => $this->getUpdatedBy(),
-			$keys[24] => $this->getDeletedBy(),
-			$keys[25] => $this->getName(),
-			$keys[26] => $this->getLabel(),
-			$keys[27] => $this->getUrl(),
-			$keys[28] => $this->getLicenseUri(),
-			$keys[29] => $this->getBaseDomain(),
-			$keys[30] => $this->getNamespaceType(),
-			$keys[31] => $this->getUriStrategy(),
-			$keys[32] => $this->getUriPrepend(),
-			$keys[33] => $this->getUriAppend(),
-			$keys[34] => $this->getStartingNumber(),
-			$keys[35] => $this->getDefaultLanguage(),
-			$keys[36] => $this->getLanguages(),
-			$keys[37] => $this->getPrefixes(),
-			$keys[38] => $this->getGoogleSheetUrl(),
+			$keys[3] => $this->getDeletedAt(),
+			$keys[4] => $this->getOrgEmail(),
+			$keys[5] => $this->getOrgName(),
+			$keys[6] => $this->getIndAffiliation(),
+			$keys[7] => $this->getIndRole(),
+			$keys[8] => $this->getAddress1(),
+			$keys[9] => $this->getAddress2(),
+			$keys[10] => $this->getCity(),
+			$keys[11] => $this->getState(),
+			$keys[12] => $this->getPostalCode(),
+			$keys[13] => $this->getCountry(),
+			$keys[14] => $this->getPhone(),
+			$keys[15] => $this->getWebAddress(),
+			$keys[16] => $this->getType(),
+			$keys[17] => $this->getRepo(),
+			$keys[18] => $this->getIsPrivate(),
+			$keys[19] => $this->getLicense(),
+			$keys[20] => $this->getDescription(),
+			$keys[21] => $this->getCreatedBy(),
+			$keys[22] => $this->getUpdatedBy(),
+			$keys[23] => $this->getDeletedBy(),
+			$keys[24] => $this->getName(),
+			$keys[25] => $this->getLabel(),
+			$keys[26] => $this->getUrl(),
+			$keys[27] => $this->getLicenseUri(),
+			$keys[28] => $this->getBaseDomain(),
+			$keys[29] => $this->getNamespaceType(),
+			$keys[30] => $this->getUriStrategy(),
+			$keys[31] => $this->getUriPrepend(),
+			$keys[32] => $this->getUriAppend(),
+			$keys[33] => $this->getStartingNumber(),
+			$keys[34] => $this->getDefaultLanguage(),
+			$keys[35] => $this->getLanguages(),
+			$keys[36] => $this->getPrefixes(),
+			$keys[37] => $this->getGoogleSheetUrl(),
 		);
 		return $result;
 	}
@@ -2401,111 +2333,108 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 				$this->setUpdatedAt($value);
 				break;
 			case 3:
-				$this->setLastUpdated($value);
-				break;
-			case 4:
 				$this->setDeletedAt($value);
 				break;
-			case 5:
+			case 4:
 				$this->setOrgEmail($value);
 				break;
-			case 6:
+			case 5:
 				$this->setOrgName($value);
 				break;
-			case 7:
+			case 6:
 				$this->setIndAffiliation($value);
 				break;
-			case 8:
+			case 7:
 				$this->setIndRole($value);
 				break;
-			case 9:
+			case 8:
 				$this->setAddress1($value);
 				break;
-			case 10:
+			case 9:
 				$this->setAddress2($value);
 				break;
-			case 11:
+			case 10:
 				$this->setCity($value);
 				break;
-			case 12:
+			case 11:
 				$this->setState($value);
 				break;
-			case 13:
+			case 12:
 				$this->setPostalCode($value);
 				break;
-			case 14:
+			case 13:
 				$this->setCountry($value);
 				break;
-			case 15:
+			case 14:
 				$this->setPhone($value);
 				break;
-			case 16:
+			case 15:
 				$this->setWebAddress($value);
 				break;
-			case 17:
+			case 16:
 				$this->setType($value);
 				break;
-			case 18:
+			case 17:
 				$this->setRepo($value);
 				break;
-			case 19:
+			case 18:
 				$this->setIsPrivate($value);
 				break;
-			case 20:
+			case 19:
 				$this->setLicense($value);
 				break;
-			case 21:
+			case 20:
 				$this->setDescription($value);
 				break;
-			case 22:
+			case 21:
 				$this->setCreatedBy($value);
 				break;
-			case 23:
+			case 22:
 				$this->setUpdatedBy($value);
 				break;
-			case 24:
+			case 23:
 				$this->setDeletedBy($value);
 				break;
-			case 25:
+			case 24:
 				$this->setName($value);
 				break;
-			case 26:
+			case 25:
 				$this->setLabel($value);
 				break;
-			case 27:
+			case 26:
 				$this->setUrl($value);
 				break;
-			case 28:
+			case 27:
 				$this->setLicenseUri($value);
 				break;
-			case 29:
+			case 28:
 				$this->setBaseDomain($value);
 				break;
-			case 30:
+			case 29:
 				$this->setNamespaceType($value);
 				break;
-			case 31:
+			case 30:
 				$this->setUriStrategy($value);
 				break;
-			case 32:
+			case 31:
 				$this->setUriPrepend($value);
 				break;
-			case 33:
+			case 32:
 				$this->setUriAppend($value);
 				break;
-			case 34:
+			case 33:
 				$this->setStartingNumber($value);
 				break;
-			case 35:
+			case 34:
 				$this->setDefaultLanguage($value);
 				break;
-			case 36:
+			case 35:
 				$this->setLanguages($value);
 				break;
-			case 37:
+			case 36:
 				$this->setPrefixes($value);
 				break;
-			case 38:
+			case 37:
 				$this->setGoogleSheetUrl($value);
 				break;
 		} // switch()
@@ -2534,42 +2463,41 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setCreatedAt($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setUpdatedAt($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setLastUpdated($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setDeletedAt($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setOrgEmail($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setOrgName($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setIndAffiliation($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setIndRole($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setAddress1($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setAddress2($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setCity($arr[$keys[11]]);
-		if (array_key_exists($keys[12], $arr)) $this->setState($arr[$keys[12]]);
-		if (array_key_exists($keys[13], $arr)) $this->setPostalCode($arr[$keys[13]]);
-		if (array_key_exists($keys[14], $arr)) $this->setCountry($arr[$keys[14]]);
-		if (array_key_exists($keys[15], $arr)) $this->setPhone($arr[$keys[15]]);
-		if (array_key_exists($keys[16], $arr)) $this->setWebAddress($arr[$keys[16]]);
-		if (array_key_exists($keys[17], $arr)) $this->setType($arr[$keys[17]]);
-		if (array_key_exists($keys[18], $arr)) $this->setRepo($arr[$keys[18]]);
-		if (array_key_exists($keys[19], $arr)) $this->setIsPrivate($arr[$keys[19]]);
-		if (array_key_exists($keys[20], $arr)) $this->setLicense($arr[$keys[20]]);
-		if (array_key_exists($keys[21], $arr)) $this->setDescription($arr[$keys[21]]);
-		if (array_key_exists($keys[22], $arr)) $this->setCreatedBy($arr[$keys[22]]);
-		if (array_key_exists($keys[23], $arr)) $this->setUpdatedBy($arr[$keys[23]]);
-		if (array_key_exists($keys[24], $arr)) $this->setDeletedBy($arr[$keys[24]]);
-		if (array_key_exists($keys[25], $arr)) $this->setName($arr[$keys[25]]);
-		if (array_key_exists($keys[26], $arr)) $this->setLabel($arr[$keys[26]]);
-		if (array_key_exists($keys[27], $arr)) $this->setUrl($arr[$keys[27]]);
-		if (array_key_exists($keys[28], $arr)) $this->setLicenseUri($arr[$keys[28]]);
-		if (array_key_exists($keys[29], $arr)) $this->setBaseDomain($arr[$keys[29]]);
-		if (array_key_exists($keys[30], $arr)) $this->setNamespaceType($arr[$keys[30]]);
-		if (array_key_exists($keys[31], $arr)) $this->setUriStrategy($arr[$keys[31]]);
-		if (array_key_exists($keys[32], $arr)) $this->setUriPrepend($arr[$keys[32]]);
-		if (array_key_exists($keys[33], $arr)) $this->setUriAppend($arr[$keys[33]]);
-		if (array_key_exists($keys[34], $arr)) $this->setStartingNumber($arr[$keys[34]]);
-		if (array_key_exists($keys[35], $arr)) $this->setDefaultLanguage($arr[$keys[35]]);
-		if (array_key_exists($keys[36], $arr)) $this->setLanguages($arr[$keys[36]]);
-		if (array_key_exists($keys[37], $arr)) $this->setPrefixes($arr[$keys[37]]);
-		if (array_key_exists($keys[38], $arr)) $this->setGoogleSheetUrl($arr[$keys[38]]);
+		if (array_key_exists($keys[3], $arr)) $this->setDeletedAt($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setOrgEmail($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setOrgName($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setIndAffiliation($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setIndRole($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setAddress1($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setAddress2($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setCity($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setState($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setPostalCode($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setCountry($arr[$keys[13]]);
+		if (array_key_exists($keys[14], $arr)) $this->setPhone($arr[$keys[14]]);
+		if (array_key_exists($keys[15], $arr)) $this->setWebAddress($arr[$keys[15]]);
+		if (array_key_exists($keys[16], $arr)) $this->setType($arr[$keys[16]]);
+		if (array_key_exists($keys[17], $arr)) $this->setRepo($arr[$keys[17]]);
+		if (array_key_exists($keys[18], $arr)) $this->setIsPrivate($arr[$keys[18]]);
+		if (array_key_exists($keys[19], $arr)) $this->setLicense($arr[$keys[19]]);
+		if (array_key_exists($keys[20], $arr)) $this->setDescription($arr[$keys[20]]);
+		if (array_key_exists($keys[21], $arr)) $this->setCreatedBy($arr[$keys[21]]);
+		if (array_key_exists($keys[22], $arr)) $this->setUpdatedBy($arr[$keys[22]]);
+		if (array_key_exists($keys[23], $arr)) $this->setDeletedBy($arr[$keys[23]]);
+		if (array_key_exists($keys[24], $arr)) $this->setName($arr[$keys[24]]);
+		if (array_key_exists($keys[25], $arr)) $this->setLabel($arr[$keys[25]]);
+		if (array_key_exists($keys[26], $arr)) $this->setUrl($arr[$keys[26]]);
+		if (array_key_exists($keys[27], $arr)) $this->setLicenseUri($arr[$keys[27]]);
+		if (array_key_exists($keys[28], $arr)) $this->setBaseDomain($arr[$keys[28]]);
+		if (array_key_exists($keys[29], $arr)) $this->setNamespaceType($arr[$keys[29]]);
+		if (array_key_exists($keys[30], $arr)) $this->setUriStrategy($arr[$keys[30]]);
+		if (array_key_exists($keys[31], $arr)) $this->setUriPrepend($arr[$keys[31]]);
+		if (array_key_exists($keys[32], $arr)) $this->setUriAppend($arr[$keys[32]]);
+		if (array_key_exists($keys[33], $arr)) $this->setStartingNumber($arr[$keys[33]]);
+		if (array_key_exists($keys[34], $arr)) $this->setDefaultLanguage($arr[$keys[34]]);
+		if (array_key_exists($keys[35], $arr)) $this->setLanguages($arr[$keys[35]]);
+		if (array_key_exists($keys[36], $arr)) $this->setPrefixes($arr[$keys[36]]);
+		if (array_key_exists($keys[37], $arr)) $this->setGoogleSheetUrl($arr[$keys[37]]);
 	}
 
 	/**
@@ -2584,7 +2512,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(AgentPeer::ID)) $criteria->add(AgentPeer::ID, $this->id);
 		if ($this->isColumnModified(AgentPeer::CREATED_AT)) $criteria->add(AgentPeer::CREATED_AT, $this->created_at);
 		if ($this->isColumnModified(AgentPeer::UPDATED_AT)) $criteria->add(AgentPeer::UPDATED_AT, $this->updated_at);
-		if ($this->isColumnModified(AgentPeer::LAST_UPDATED)) $criteria->add(AgentPeer::LAST_UPDATED, $this->last_updated);
 		if ($this->isColumnModified(AgentPeer::DELETED_AT)) $criteria->add(AgentPeer::DELETED_AT, $this->deleted_at);
 		if ($this->isColumnModified(AgentPeer::ORG_EMAIL)) $criteria->add(AgentPeer::ORG_EMAIL, $this->org_email);
 		if ($this->isColumnModified(AgentPeer::ORG_NAME)) $criteria->add(AgentPeer::ORG_NAME, $this->org_name);
@@ -2677,8 +2604,6 @@ abstract class BaseAgent extends BaseObject  implements Persistent {
 		$copyObj->setCreatedAt($this->created_at);
 
 		$copyObj->setUpdatedAt($this->updated_at);
-
-		$copyObj->setLastUpdated($this->last_updated);
 
 		$copyObj->setDeletedAt($this->deleted_at);
 

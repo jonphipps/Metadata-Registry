@@ -48,13 +48,6 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 
 	/**
-	 * The value for the last_updated field.
-	 * @var        int
-	 */
-	protected $last_updated;
-
-
-	/**
 	 * The value for the nickname field.
 	 * @var        string
 	 */
@@ -90,45 +83,10 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 
 	/**
-	 * The value for the sha1_password field.
-	 * @var        string
-	 */
-	protected $sha1_password;
-
-
-	/**
-	 * The value for the salt field.
-	 * @var        string
-	 */
-	protected $salt;
-
-
-	/**
-	 * The value for the want_to_be_moderator field.
-	 * @var        boolean
-	 */
-	protected $want_to_be_moderator = false;
-
-
-	/**
-	 * The value for the is_moderator field.
-	 * @var        boolean
-	 */
-	protected $is_moderator = false;
-
-
-	/**
 	 * The value for the is_administrator field.
 	 * @var        boolean
 	 */
 	protected $is_administrator = false;
-
-
-	/**
-	 * The value for the deletions field.
-	 * @var        int
-	 */
-	protected $deletions = 0;
 
 
 	/**
@@ -766,37 +724,6 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Get the [optionally formatted] [last_updated] column value.
-	 * 
-	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
-	 *							If format is NULL, then the integer unix timestamp will be returned.
-	 * @return     mixed Formatted date/time value as string or integer unix timestamp (if format is NULL).
-	 * @throws     PropelException - if unable to convert the date/time to timestamp.
-	 */
-	public function getLastUpdated($format = 'Y-m-d H:i:s')
-	{
-
-		if ($this->last_updated === null || $this->last_updated === '') {
-			return null;
-		} elseif (!is_int($this->last_updated)) {
-			// a non-timestamp value was set externally, so we convert it
-			$ts = strtotime($this->last_updated);
-			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
-				throw new PropelException("Unable to parse value of [last_updated] as date/time value: " . var_export($this->last_updated, true));
-			}
-		} else {
-			$ts = $this->last_updated;
-		}
-		if ($format === null) {
-			return $ts;
-		} elseif (strpos($format, '%') !== false) {
-			return strftime($format, $ts);
-		} else {
-			return date($format, $ts);
-		}
-	}
-
-	/**
 	 * Get the [nickname] column value.
 	 * 
 	 * @return     string
@@ -852,50 +779,6 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Get the [sha1_password] column value.
-	 * 
-	 * @return     string
-	 */
-	public function getSha1Password()
-	{
-
-		return $this->sha1_password;
-	}
-
-	/**
-	 * Get the [salt] column value.
-	 * 
-	 * @return     string
-	 */
-	public function getSalt()
-	{
-
-		return $this->salt;
-	}
-
-	/**
-	 * Get the [want_to_be_moderator] column value.
-	 * 
-	 * @return     boolean
-	 */
-	public function getWantToBeModerator()
-	{
-
-		return $this->want_to_be_moderator;
-	}
-
-	/**
-	 * Get the [is_moderator] column value.
-	 * 
-	 * @return     boolean
-	 */
-	public function getIsModerator()
-	{
-
-		return $this->is_moderator;
-	}
-
-	/**
 	 * Get the [is_administrator] column value.
 	 * 
 	 * @return     boolean
@@ -904,17 +787,6 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	{
 
 		return $this->is_administrator;
-	}
-
-	/**
-	 * Get the [deletions] column value.
-	 * 
-	 * @return     int
-	 */
-	public function getDeletions()
-	{
-
-		return $this->deletions;
 	}
 
 	/**
@@ -1089,30 +961,6 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	} // setDeletedAt()
 
 	/**
-	 * Set the value of [last_updated] column.
-	 * 
-	 * @param      int $v new value
-	 * @return     void
-	 */
-	public function setLastUpdated($v)
-	{
-
-		if ($v !== null && !is_int($v)) {
-			$ts = strtotime($v);
-			if ($ts === -1 || $ts === false) { // in PHP 5.1 return value changes to FALSE
-				throw new PropelException("Unable to parse date/time value for [last_updated] from input: " . var_export($v, true));
-			}
-		} else {
-			$ts = $v;
-		}
-		if ($this->last_updated !== $ts) {
-			$this->last_updated = $ts;
-			$this->modifiedColumns[] = UserPeer::LAST_UPDATED;
-		}
-
-	} // setLastUpdated()
-
-	/**
 	 * Set the value of [nickname] column.
 	 * 
 	 * @param      string $v new value
@@ -1223,82 +1071,6 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	} // setEmail()
 
 	/**
-	 * Set the value of [sha1_password] column.
-	 * 
-	 * @param      string $v new value
-	 * @return     void
-	 */
-	public function setSha1Password($v)
-	{
-
-		// Since the native PHP type for this column is string,
-		// we will cast the input to a string (if it is not).
-		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
-		}
-
-		if ($this->sha1_password !== $v) {
-			$this->sha1_password = $v;
-			$this->modifiedColumns[] = UserPeer::SHA1_PASSWORD;
-		}
-
-	} // setSha1Password()
-
-	/**
-	 * Set the value of [salt] column.
-	 * 
-	 * @param      string $v new value
-	 * @return     void
-	 */
-	public function setSalt($v)
-	{
-
-		// Since the native PHP type for this column is string,
-		// we will cast the input to a string (if it is not).
-		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
-		}
-
-		if ($this->salt !== $v) {
-			$this->salt = $v;
-			$this->modifiedColumns[] = UserPeer::SALT;
-		}
-
-	} // setSalt()
-
-	/**
-	 * Set the value of [want_to_be_moderator] column.
-	 * 
-	 * @param      boolean $v new value
-	 * @return     void
-	 */
-	public function setWantToBeModerator($v)
-	{
-
-		if ($this->want_to_be_moderator !== $v || $v === false) {
-			$this->want_to_be_moderator = $v;
-			$this->modifiedColumns[] = UserPeer::WANT_TO_BE_MODERATOR;
-		}
-
-	} // setWantToBeModerator()
-
-	/**
-	 * Set the value of [is_moderator] column.
-	 * 
-	 * @param      boolean $v new value
-	 * @return     void
-	 */
-	public function setIsModerator($v)
-	{
-
-		if ($this->is_moderator !== $v || $v === false) {
-			$this->is_moderator = $v;
-			$this->modifiedColumns[] = UserPeer::IS_MODERATOR;
-		}
-
-	} // setIsModerator()
-
-	/**
 	 * Set the value of [is_administrator] column.
 	 * 
 	 * @param      boolean $v new value
@@ -1313,28 +1085,6 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		}
 
 	} // setIsAdministrator()
-
-	/**
-	 * Set the value of [deletions] column.
-	 * 
-	 * @param      int $v new value
-	 * @return     void
-	 */
-	public function setDeletions($v)
-	{
-
-		// Since the native PHP type for this column is integer,
-		// we will cast the input value to an int (if it is not).
-		if ($v !== null && !is_int($v) && is_numeric($v)) {
-			$v = (int) $v;
-		}
-
-		if ($this->deletions !== $v || $v === 0) {
-			$this->deletions = $v;
-			$this->modifiedColumns[] = UserPeer::DELETIONS;
-		}
-
-	} // setDeletions()
 
 	/**
 	 * Set the value of [password] column.
@@ -1503,50 +1253,38 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 			$this->deleted_at = $rs->getTimestamp($startcol + 3, null);
 
-			$this->last_updated = $rs->getTimestamp($startcol + 4, null);
+			$this->nickname = $rs->getString($startcol + 4);
 
-			$this->nickname = $rs->getString($startcol + 5);
+			$this->salutation = $rs->getString($startcol + 5);
 
-			$this->salutation = $rs->getString($startcol + 6);
+			$this->first_name = $rs->getString($startcol + 6);
 
-			$this->first_name = $rs->getString($startcol + 7);
+			$this->last_name = $rs->getString($startcol + 7);
 
-			$this->last_name = $rs->getString($startcol + 8);
+			$this->email = $rs->getString($startcol + 8);
 
-			$this->email = $rs->getString($startcol + 9);
+			$this->is_administrator = $rs->getBoolean($startcol + 9);
 
-			$this->sha1_password = $rs->getString($startcol + 10);
+			$this->password = $rs->getString($startcol + 10);
 
-			$this->salt = $rs->getString($startcol + 11);
+			$this->status = $rs->getBoolean($startcol + 11);
 
-			$this->want_to_be_moderator = $rs->getBoolean($startcol + 12);
+			$this->culture = $rs->getString($startcol + 12);
 
-			$this->is_moderator = $rs->getBoolean($startcol + 13);
+			$this->confirmation_code = $rs->getString($startcol + 13);
 
-			$this->is_administrator = $rs->getBoolean($startcol + 14);
+			$this->name = $rs->getString($startcol + 14);
 
-			$this->deletions = $rs->getInt($startcol + 15);
+			$this->confirmed = $rs->getBoolean($startcol + 15);
 
-			$this->password = $rs->getString($startcol + 16);
-
-			$this->status = $rs->getBoolean($startcol + 17);
-
-			$this->culture = $rs->getString($startcol + 18);
-
-			$this->confirmation_code = $rs->getString($startcol + 19);
-
-			$this->name = $rs->getString($startcol + 20);
-
-			$this->confirmed = $rs->getBoolean($startcol + 21);
-
-			$this->remember_token = $rs->getString($startcol + 22);
+			$this->remember_token = $rs->getString($startcol + 16);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 23; // 23 = UserPeer::NUM_COLUMNS - UserPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 17; // 17 = UserPeer::NUM_COLUMNS - UserPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating User object", $e);
@@ -2431,60 +2169,42 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				return $this->getDeletedAt();
 				break;
 			case 4:
-				return $this->getLastUpdated();
-				break;
-			case 5:
 				return $this->getNickname();
 				break;
-			case 6:
+			case 5:
 				return $this->getSalutation();
 				break;
-			case 7:
+			case 6:
 				return $this->getFirstName();
 				break;
-			case 8:
+			case 7:
 				return $this->getLastName();
 				break;
-			case 9:
+			case 8:
 				return $this->getEmail();
 				break;
-			case 10:
-				return $this->getSha1Password();
-				break;
-			case 11:
-				return $this->getSalt();
-				break;
-			case 12:
-				return $this->getWantToBeModerator();
-				break;
-			case 13:
-				return $this->getIsModerator();
-				break;
-			case 14:
+			case 9:
 				return $this->getIsAdministrator();
 				break;
-			case 15:
-				return $this->getDeletions();
-				break;
-			case 16:
+			case 10:
 				return $this->getPassword();
 				break;
-			case 17:
+			case 11:
 				return $this->getStatus();
 				break;
-			case 18:
+			case 12:
 				return $this->getCulture();
 				break;
-			case 19:
+			case 13:
 				return $this->getConfirmationCode();
 				break;
-			case 20:
+			case 14:
 				return $this->getName();
 				break;
-			case 21:
+			case 15:
 				return $this->getConfirmed();
 				break;
-			case 22:
+			case 16:
 				return $this->getRememberToken();
 				break;
 			default:
@@ -2511,25 +2231,19 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$keys[1] => $this->getCreatedAt(),
 			$keys[2] => $this->getUpdatedAt(),
 			$keys[3] => $this->getDeletedAt(),
-			$keys[4] => $this->getLastUpdated(),
-			$keys[5] => $this->getNickname(),
-			$keys[6] => $this->getSalutation(),
-			$keys[7] => $this->getFirstName(),
-			$keys[8] => $this->getLastName(),
-			$keys[9] => $this->getEmail(),
-			$keys[10] => $this->getSha1Password(),
-			$keys[11] => $this->getSalt(),
-			$keys[12] => $this->getWantToBeModerator(),
-			$keys[13] => $this->getIsModerator(),
-			$keys[14] => $this->getIsAdministrator(),
-			$keys[15] => $this->getDeletions(),
-			$keys[16] => $this->getPassword(),
-			$keys[17] => $this->getStatus(),
-			$keys[18] => $this->getCulture(),
-			$keys[19] => $this->getConfirmationCode(),
-			$keys[20] => $this->getName(),
-			$keys[21] => $this->getConfirmed(),
-			$keys[22] => $this->getRememberToken(),
+			$keys[4] => $this->getNickname(),
+			$keys[5] => $this->getSalutation(),
+			$keys[6] => $this->getFirstName(),
+			$keys[7] => $this->getLastName(),
+			$keys[8] => $this->getEmail(),
+			$keys[9] => $this->getIsAdministrator(),
+			$keys[10] => $this->getPassword(),
+			$keys[11] => $this->getStatus(),
+			$keys[12] => $this->getCulture(),
+			$keys[13] => $this->getConfirmationCode(),
+			$keys[14] => $this->getName(),
+			$keys[15] => $this->getConfirmed(),
+			$keys[16] => $this->getRememberToken(),
 		);
 		return $result;
 	}
@@ -2574,60 +2288,42 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				$this->setDeletedAt($value);
 				break;
 			case 4:
-				$this->setLastUpdated($value);
-				break;
-			case 5:
 				$this->setNickname($value);
 				break;
-			case 6:
+			case 5:
 				$this->setSalutation($value);
 				break;
-			case 7:
+			case 6:
 				$this->setFirstName($value);
 				break;
-			case 8:
+			case 7:
 				$this->setLastName($value);
 				break;
-			case 9:
+			case 8:
 				$this->setEmail($value);
 				break;
-			case 10:
-				$this->setSha1Password($value);
-				break;
-			case 11:
-				$this->setSalt($value);
-				break;
-			case 12:
-				$this->setWantToBeModerator($value);
-				break;
-			case 13:
-				$this->setIsModerator($value);
-				break;
-			case 14:
+			case 9:
 				$this->setIsAdministrator($value);
 				break;
-			case 15:
-				$this->setDeletions($value);
-				break;
-			case 16:
+			case 10:
 				$this->setPassword($value);
 				break;
-			case 17:
+			case 11:
 				$this->setStatus($value);
 				break;
-			case 18:
+			case 12:
 				$this->setCulture($value);
 				break;
-			case 19:
+			case 13:
 				$this->setConfirmationCode($value);
 				break;
-			case 20:
+			case 14:
 				$this->setName($value);
 				break;
-			case 21:
+			case 15:
 				$this->setConfirmed($value);
 				break;
-			case 22:
+			case 16:
 				$this->setRememberToken($value);
 				break;
 		} // switch()
@@ -2657,25 +2353,19 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[1], $arr)) $this->setCreatedAt($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setUpdatedAt($arr[$keys[2]]);
 		if (array_key_exists($keys[3], $arr)) $this->setDeletedAt($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setLastUpdated($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setNickname($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setSalutation($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setFirstName($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setLastName($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setEmail($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setSha1Password($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setSalt($arr[$keys[11]]);
-		if (array_key_exists($keys[12], $arr)) $this->setWantToBeModerator($arr[$keys[12]]);
-		if (array_key_exists($keys[13], $arr)) $this->setIsModerator($arr[$keys[13]]);
-		if (array_key_exists($keys[14], $arr)) $this->setIsAdministrator($arr[$keys[14]]);
-		if (array_key_exists($keys[15], $arr)) $this->setDeletions($arr[$keys[15]]);
-		if (array_key_exists($keys[16], $arr)) $this->setPassword($arr[$keys[16]]);
-		if (array_key_exists($keys[17], $arr)) $this->setStatus($arr[$keys[17]]);
-		if (array_key_exists($keys[18], $arr)) $this->setCulture($arr[$keys[18]]);
-		if (array_key_exists($keys[19], $arr)) $this->setConfirmationCode($arr[$keys[19]]);
-		if (array_key_exists($keys[20], $arr)) $this->setName($arr[$keys[20]]);
-		if (array_key_exists($keys[21], $arr)) $this->setConfirmed($arr[$keys[21]]);
-		if (array_key_exists($keys[22], $arr)) $this->setRememberToken($arr[$keys[22]]);
+		if (array_key_exists($keys[4], $arr)) $this->setNickname($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setSalutation($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setFirstName($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setLastName($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setEmail($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setIsAdministrator($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setPassword($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setStatus($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setCulture($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setConfirmationCode($arr[$keys[13]]);
+		if (array_key_exists($keys[14], $arr)) $this->setName($arr[$keys[14]]);
+		if (array_key_exists($keys[15], $arr)) $this->setConfirmed($arr[$keys[15]]);
+		if (array_key_exists($keys[16], $arr)) $this->setRememberToken($arr[$keys[16]]);
 	}
 
 	/**
@@ -2691,18 +2381,12 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(UserPeer::CREATED_AT)) $criteria->add(UserPeer::CREATED_AT, $this->created_at);
 		if ($this->isColumnModified(UserPeer::UPDATED_AT)) $criteria->add(UserPeer::UPDATED_AT, $this->updated_at);
 		if ($this->isColumnModified(UserPeer::DELETED_AT)) $criteria->add(UserPeer::DELETED_AT, $this->deleted_at);
-		if ($this->isColumnModified(UserPeer::LAST_UPDATED)) $criteria->add(UserPeer::LAST_UPDATED, $this->last_updated);
 		if ($this->isColumnModified(UserPeer::NICKNAME)) $criteria->add(UserPeer::NICKNAME, $this->nickname);
 		if ($this->isColumnModified(UserPeer::SALUTATION)) $criteria->add(UserPeer::SALUTATION, $this->salutation);
 		if ($this->isColumnModified(UserPeer::FIRST_NAME)) $criteria->add(UserPeer::FIRST_NAME, $this->first_name);
 		if ($this->isColumnModified(UserPeer::LAST_NAME)) $criteria->add(UserPeer::LAST_NAME, $this->last_name);
 		if ($this->isColumnModified(UserPeer::EMAIL)) $criteria->add(UserPeer::EMAIL, $this->email);
-		if ($this->isColumnModified(UserPeer::SHA1_PASSWORD)) $criteria->add(UserPeer::SHA1_PASSWORD, $this->sha1_password);
-		if ($this->isColumnModified(UserPeer::SALT)) $criteria->add(UserPeer::SALT, $this->salt);
-		if ($this->isColumnModified(UserPeer::WANT_TO_BE_MODERATOR)) $criteria->add(UserPeer::WANT_TO_BE_MODERATOR, $this->want_to_be_moderator);
-		if ($this->isColumnModified(UserPeer::IS_MODERATOR)) $criteria->add(UserPeer::IS_MODERATOR, $this->is_moderator);
 		if ($this->isColumnModified(UserPeer::IS_ADMINISTRATOR)) $criteria->add(UserPeer::IS_ADMINISTRATOR, $this->is_administrator);
-		if ($this->isColumnModified(UserPeer::DELETIONS)) $criteria->add(UserPeer::DELETIONS, $this->deletions);
 		if ($this->isColumnModified(UserPeer::PASSWORD)) $criteria->add(UserPeer::PASSWORD, $this->password);
 		if ($this->isColumnModified(UserPeer::STATUS)) $criteria->add(UserPeer::STATUS, $this->status);
 		if ($this->isColumnModified(UserPeer::CULTURE)) $criteria->add(UserPeer::CULTURE, $this->culture);
@@ -2770,8 +2454,6 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 		$copyObj->setDeletedAt($this->deleted_at);
 
-		$copyObj->setLastUpdated($this->last_updated);
-
 		$copyObj->setNickname($this->nickname);
 
 		$copyObj->setSalutation($this->salutation);
@@ -2782,17 +2464,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 		$copyObj->setEmail($this->email);
 
-		$copyObj->setSha1Password($this->sha1_password);
-
-		$copyObj->setSalt($this->salt);
-
-		$copyObj->setWantToBeModerator($this->want_to_be_moderator);
-
-		$copyObj->setIsModerator($this->is_moderator);
-
 		$copyObj->setIsAdministrator($this->is_administrator);
-
-		$copyObj->setDeletions($this->deletions);
 
 		$copyObj->setPassword($this->password);
 

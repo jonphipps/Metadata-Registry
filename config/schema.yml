@@ -511,10 +511,7 @@ propel:
     updated_at: 
       type: TIMESTAMP
       required: true
-    last_updated: 
-      type: TIMESTAMP
-      required: true
-    deleted_at: 
+    deleted_at:
       type: TIMESTAMP
     org_email: 
       type: VARCHAR
@@ -721,9 +718,7 @@ propel:
       type: TIMESTAMP
     deleted_at: 
       type: TIMESTAMP
-    last_updated: 
-      type: TIMESTAMP
-    created_user_id: 
+    created_user_id:
       type: INTEGER
       foreignTable: users
       foreignReference: id
@@ -785,9 +780,7 @@ propel:
       type: TIMESTAMP
     deleted_at: 
       type: TIMESTAMP
-    last_updated: 
-      type: TIMESTAMP
-    created_user_id: 
+    created_user_id:
       type: INTEGER
       foreignTable: users
       foreignReference: id
@@ -874,9 +867,7 @@ propel:
       required: true
     deleted_at: 
       type: TIMESTAMP
-    last_updated: 
-      type: TIMESTAMP
-    created_user_id: 
+    created_user_id:
       type: INTEGER
       foreignTable: users
       foreignReference: id
@@ -1946,10 +1937,7 @@ propel:
       required: true
     deleted_at: 
       type: TIMESTAMP
-    last_updated: 
-      type: TIMESTAMP
-      required: true
-    nickname: 
+    nickname:
       type: VARCHAR
       size: 60
     salutation: 
@@ -1964,25 +1952,10 @@ propel:
     email: 
       type: VARCHAR
       size: 100
-    sha1_password: 
-      type: VARCHAR
-      size: 40
-    salt: 
-      type: VARCHAR
-      size: 32
-    want_to_be_moderator: 
+    is_administrator:
       type: BOOLEAN
       default: 0
-    is_moderator: 
-      type: BOOLEAN
-      default: 0
-    is_administrator: 
-      type: BOOLEAN
-      default: 0
-    deletions: 
-      type: INTEGER
-      default: 0
-    password: 
+    password:
       type: VARCHAR
       size: 191
     status: 
@@ -2032,10 +2005,7 @@ propel:
       type: TIMESTAMP
     deleted_at: 
       type: TIMESTAMP
-    last_updated: 
-      type: TIMESTAMP
-      required: true
-    created_user_id: 
+    created_user_id:
       type: INTEGER
       foreignTable: users
       foreignReference: id

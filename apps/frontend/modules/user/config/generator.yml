@@ -7,7 +7,7 @@ generator:
     fields:
       id:             { name: ID, type: plain, credentials: [administrator] }
       created_at:     { name: Date Created, type: plain, credentials: [administrator] }
-      last_updated:   { name: Last Updated, type: plain, credentials: [administrator] }
+      updated_at:   { name: Last Updated, type: plain, credentials: [administrator] }
       nickname:       { name: Login Name }
       salutation:     { name: Salutation }
       first_name:     { name: First Name }
@@ -32,7 +32,7 @@ generator:
       title:           Detail for %%user%%
       display:
         "-Metadata":
-          fields:      [id, created_at, last_updated]
+          fields:      [id, created_at, updated_at]
           mode:        edit
           credentials: [administrator]
         "Detail":      [nickname, salutation, first_name, last_name, email]
@@ -49,7 +49,7 @@ generator:
         agent_list:      { name: " " }
         email:           { credentials: [administrator]}
       display:
-        "-Metadata":    [id, created_at, last_updated]
+        "-Metadata":    [id, created_at, updated_at]
         "Detail":       [nickname, salutation, first_name, last_name, email]
       actions:
         _edit:         { credentials: [administrator, useradmin] }

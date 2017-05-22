@@ -18,7 +18,6 @@ class CreateRegConceptPropertyTable extends Migration {
 			$table->increments('id');
 			$table->timestamps();
 			$table->softDeletes();
-			$table->dateTime('last_updated')->nullable();
 			$table->integer('created_user_id')->unsigned()->nullable()->index();
 			$table->integer('updated_user_id')->unsigned()->nullable()->index();
 			$table->integer('concept_id')->unsigned()->index();

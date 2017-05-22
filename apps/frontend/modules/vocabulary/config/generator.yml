@@ -15,7 +15,7 @@ generator:
     fields:
       id:             { name: ID, type: plain}
       created_at:     { name: Date Created, type: plain, params: date_format='s', help: This is the date the Vocabulary was created }
-      last_updated:   { name: Last Updated, type: plain, params: date_format='s', help: This is the date the Vocabulary was last updated }
+      updated_at:   { name: Last Updated, type: plain, params: date_format='s', help: This is the date the Vocabulary was last updated }
       agent:          { name: Project, help: The project to which this vocabulary belongs }
       agent_id:       { name: Project, help: The project to which this vocabulary belongs }
       name:           { name: Label, help: A human-readable descriptive label for the vocabulary. This will be displayed in lists of vocabularies. }
@@ -42,9 +42,9 @@ generator:
     list:
       title:          Vocabularies
       fields:
-        last_updated: { params: date_format='yyyy-MM-dd' }
+        updated_at: { params: date_format='yyyy-MM-dd' }
         agent:        { helper: link_to_object, condition: "!$sf_request->getParameter('agent_id')" }
-      display:        [=name, agent, status, last_updated]
+      display:        [=name, agent, status, updated_at]
       sort:           name
       object_actions:
         _edit:        { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
@@ -75,7 +75,7 @@ generator:
         name:         { params: autofocus=autofocus }
       hide:           [agent_id]
       display:
-        "-Metadata":  { fields: [id, created_at, last_updated], mode: edit, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
+        "-Metadata":  { fields: [id, created_at, updated_at], mode: edit, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
         "Detail":     [agent_id, name, languages, language]
         "Namespace":  [ base_domain, token, uri, ns_type, namespace, prefix]
         "Publishing": [ repo, status_id]
@@ -97,11 +97,11 @@ generator:
         uri:           { helper: auto_link_uri }
         url:           { helper: auto_link_uri }
         created_at:    { params: date_format='F' }
-        last_updated:  { params: date_format='F' }
+        updated_at:  { params: date_format='F' }
         list_users:    { name: - }
         namespace:    { name: Namespace }
       display:
-        "-Metadata":   { fields: [id, created_at, created_user, last_updated, updated_user], credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
+        "-Metadata":   { fields: [id, created_at, created_user, updated_at, updated_user], credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
         "Detail":      [_agent, name, _languages, _language]
         "Namespace":   [uri, namespace, prefix]
         "Publishing":  [ repo, status]

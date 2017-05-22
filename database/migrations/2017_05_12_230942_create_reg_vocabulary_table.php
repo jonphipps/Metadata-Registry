@@ -19,7 +19,6 @@ class CreateRegVocabularyTable extends Migration {
 			$table->timestamps();
 			$table->softDeletes();
 			$table->integer('agent_id')->unsigned()->nullable()->index();
-			$table->timestamp('last_updated')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->integer('created_user_id')->unsigned()->nullable()->index();
 			$table->integer('updated_user_id')->unsigned()->nullable()->index();
 			$table->integer('deleted_user_id')->unsigned()->nullable()->index();

@@ -67,8 +67,6 @@ class AgentMapBuilder {
 
 		$tMap->addColumn('UPDATED_AT', 'UpdatedAt', 'int', CreoleTypes::TIMESTAMP, true, null);
 
-		$tMap->addColumn('LAST_UPDATED', 'LastUpdated', 'int', CreoleTypes::TIMESTAMP, true, null);
-
 		$tMap->addColumn('DELETED_AT', 'DeletedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
 		$tMap->addColumn('ORG_EMAIL', 'OrgEmail', 'string', CreoleTypes::VARCHAR, true, 100);
