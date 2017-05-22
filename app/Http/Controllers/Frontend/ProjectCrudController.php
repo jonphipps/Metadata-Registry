@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Http\Controllers\CustomCrudController as CrudController;
 use App\Http\Requests\ProjectRequest as StoreRequest;
 use App\Http\Requests\ProjectRequest as UpdateRequest;
 use Auth;
-use App\Http\Controllers\CustomCrudController as CrudController;
-use Backpack\CRUD\app\Http\Requests\CrudRequest;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
 class ProjectCrudController extends CrudController
@@ -20,9 +19,9 @@ class ProjectCrudController extends CrudController
         | BASIC CRUD INFORMATION
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel('App\Models\Project');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/projects');
-        $this->crud->setEntityNameStrings('project', 'projects');
+        $this->crud->setModel( 'App\Models\Project' );
+        $this->crud->setRoute( config( 'backpack.base.route_prefix' ) . '/projects' );
+        $this->crud->setEntityNameStrings( 'project', 'projects' );
 
         /*
         |--------------------------------------------------------------------------
@@ -41,19 +40,54 @@ class ProjectCrudController extends CrudController
         // $this->crud->addColumn(); // add a single column, at the end of the stack
         // $this->crud->addColumns(); // add multiple columns, at the end of the stack
         // $this->crud->removeColumn('column_name'); // remove a column from the stack
-        // $this->crud->removeColumns(['column_name_1', 'column_name_2']); // remove an array of columns from the stack
-        $this->crud->setColumnDetails('is_private', ['type' => 'boolean', 'label'=>'Private?',
-                                                     'options' => [ 0 => '', 1 => 'Yes' ]]); // adjusts the properties of the passed in column (by name)
-        $this->crud->addColumn([
-            'label'         => "Vocabularies",
-            'type'          => "model_function",
-            'function_name' => 'getVocabColumn',
-        ]);
-        $this->crud->addColumn([
-            'label'         => "Element Sets",
-            'type'          => "model_function",
-            'function_name' => 'getElementColumn',
-        ]);
+        $this->crud->removeColumns( [ 'address1',
+                                      'address2',
+                                      'base_domain',
+                                      'city',
+                                      'country',
+                                      'created_at',
+                                      'created_by',
+                                      'default_language_id',
+                                      'default_language',
+                                      'deleted_at',
+                                      'deleted_by',
+                                      'description',
+                                      'google_sheet_url',
+                                      'ind_affiliation',
+                                      'ind_role',
+                                      'label',
+                                      'languages',
+                                      'license_uri',
+                                      'license',
+                                      'name',
+                                      'namespace_type',
+                                      'org_email',
+                                      'phone',
+                                      'postal_code',
+                                      'prefixes',
+                                      'repo',
+                                      'starting_number',
+                                      'state',
+                                      'type',
+                                      'updated_at',
+                                      'updated_by',
+                                      'uri_append',
+                                      'uri_prepend',
+                                      'uri_strategy',
+                                      'uri_type',
+                                      'url',
+                                      'web_address', ] ); // remove an array of columns from the stack
+        $this->crud->setColumnDetails( 'is_private',
+            [ 'type'    => 'boolean',
+              'label'   => 'Private?',
+              'options' => [ 0 => '',
+                             1 => 'Yes' ] ] ); // adjusts the properties of the passed in column (by name)
+        $this->crud->addColumn( [ 'label'         => "Vocabularies",
+                                  'type'          => "model_function",
+                                  'function_name' => 'getVocabColumn', ] );
+        $this->crud->addColumn( [ 'label'         => "Element Sets",
+                                  'type'          => "model_function",
+                                  'function_name' => 'getElementColumn', ] );
         // $this->crud->setColumnsDetails(['column_1', 'column_2'], ['attribute' => 'value']);
 
         // ------ CRUD BUTTONS
@@ -63,16 +97,16 @@ class ProjectCrudController extends CrudController
         // $this->crud->addButtonFromView($stack, $name, $view, $position); // add a button whose HTML is in a view placed at resources\views\vendor\backpack\crud\buttons
         // $this->crud->removeButton($name);
         // $this->crud->removeButtonFromStack($name, $stack);
-      if (Auth::guest()) {
-        $this->crud->removeAllButtonsFromStack('line');
-      }
+        if ( Auth::guest() ) {
+            $this->crud->removeAllButtonsFromStack( 'line' );
+        }
 
         // ------ CRUD ACCESS
-      $this->crud->allowAccess([ 'list', 'show']);
-      $this->crud->denyAccess([ 'create', 'update', 'delete' ]);
-      if (Auth::check()) {
-        $this->crud->allowAccess('create');
-      }
+        $this->crud->allowAccess( [ 'list', 'show' ] );
+        $this->crud->denyAccess( [ 'create', 'update', 'delete' ] );
+        if ( Auth::check() ) {
+            $this->crud->allowAccess( 'create' );
+        }
 
         // ------ CRUD REORDER
         // $this->crud->enableReorder('label_name', MAX_TREE_LEVEL);
@@ -115,43 +149,44 @@ class ProjectCrudController extends CrudController
         // $this->crud->limit();
     }
 
-  public function edit($id)
-  {
-    if (Auth::check() && Auth::user()->isAdminForProjectId($id)) {
-      $this->crud->allowAccess([ 'update']);
-    }
-    return parent::edit($id);
-  }
-
-  public function destroy($id)
-  {
-    if (Auth::check() && Auth::user()->isAdminForProjectId($id)) {
-      $this->crud->allowAccess([ 'delete' ]);
-    }
-    return parent::destroy($id);
-  }
-
-
-  public function store(StoreRequest $request)
+    public function edit( $id )
     {
-      if (Auth::check()) {
-        $this->crud->allowAccess('store');
-      }
+        if ( Auth::check() && Auth::user()->isAdminForProjectId( $id ) ) {
+            $this->crud->allowAccess( [ 'update' ] );
+        }
+
+        return parent::edit( $id );
+    }
+
+    public function destroy( $id )
+    {
+        if ( Auth::check() && Auth::user()->isAdminForProjectId( $id ) ) {
+            $this->crud->allowAccess( [ 'delete' ] );
+        }
+
+        return parent::destroy( $id );
+    }
+
+    public function store( StoreRequest $request )
+    {
+        if ( Auth::check() ) {
+            $this->crud->allowAccess( 'store' );
+        }
         // your additional operations before save here
         $redirect_location = parent::storeCrud();
-      Auth::user()->projects()->attach($this->crud->entry,
-                                      [ 'is_registrar_for' => true, 'is_admin_for' => true, ]);
-      // your additional operations after save here
+        Auth::user()->projects()->attach( $this->crud->entry,
+            [ 'is_registrar_for' => true, 'is_admin_for' => true, ] );
+        // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
         return $redirect_location;
     }
 
-    public function update(UpdateRequest $request)
+    public function update( UpdateRequest $request )
     {
-      if (Auth::check() && Auth::user()->isAdminForProjectId($request->id)) {
-        $this->crud->allowAccess([ 'update' ]);
-      }
-      // your additional operations before save here
+        if ( Auth::check() && Auth::user()->isAdminForProjectId( $request->id ) ) {
+            $this->crud->allowAccess( [ 'update' ] );
+        }
+        // your additional operations before save here
         $redirect_location = parent::updateCrud();
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
