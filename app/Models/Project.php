@@ -1,6 +1,9 @@
 <?php namespace App\Models;
 
 use App\Models\Access\User\User;
+use App\Models\Traits\ElementSets;
+use App\Models\Traits\Profiles;
+use App\Models\Traits\Vocabularies;
 use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -9,7 +12,7 @@ use Laracasts\Matryoshka\Cacheable;
 
 class Project extends Model
 {
-    use CrudTrait, Cacheable, SoftDeletes;
+    use CrudTrait, Cacheable, SoftDeletes, Profiles, Vocabularies, ElementSets;
 
     const TABLE = 'reg_agent';
 
@@ -28,215 +31,80 @@ class Project extends Model
      */
     protected $casts = [];
 
-    protected $hidden = [
-        'id',
-        'description',
-        'created_at',
-        'updated_at',
-        'deleted_at',
-        'repo',
-        'url',
-        'license',
-        'uri_strategy',
-        'uri_type',
-        'uri_prepend',
-        'uri_append',
-        'created_by',
-        'updated_by',
-        'deleted_by',
-        'starting_number',
-        'license_uri',
-        'default_language_id',
-        'google_sheet_url',
-        'org_email',
-        'ind_affiliation',
-        'ind_role',
-        'address1',
-        'address2',
-        'city',
-        'state',
-        'postal_code',
-        'country',
-        'phone',
-        'web_address',
-        'type',
-        'name',
-        'base_domain',
-        'namespace_type',
-        'default_language',
-        'languages',
-        'prefixes'
-    ];
+    protected $hidden = [];
 
-    /**
-     * @param Builder $query
-     *
-     * @return mixed
-     */
-    public function ScopePrivate($query)
+
+    /*
+    |--------------------------------------------------------------------------
+    | FUNCTIONS
+    |--------------------------------------------------------------------------
+    */
+    public static function badge( $count )
     {
-        return $query->where('is_private', true);
+        return '<span class="badge">' . $count . '</span>';
     }
 
-    /**
-     * @param Builder $query
-     *
-     * @return mixed
-     */
-    public function ScopePublic($query)
-    {
-        return $query->where('is_private', '<>', 1);
-    }
-
-    /**
-     * @return array
-     */
-    public function conceptsForSelect()
-    {
-        return \DB::table(ConceptAttribute::TABLE)
-            ->join(Concept::TABLE, Concept::TABLE . '.id', '=', ConceptAttribute::TABLE . '.concept_id')
-            ->join(Vocabulary::TABLE, Vocabulary::TABLE . '.id', '=', Concept::TABLE . '.vocabulary_id')
-            ->select(ConceptAttribute::TABLE . '.concept_id as id',
-                Vocabulary::TABLE . '.name as vocabulary',
-                ConceptAttribute::TABLE . '.language',
-                ConceptAttribute::TABLE . '.object as label')
-            ->where([
-                [
-                    ConceptAttribute::TABLE . '.profile_property_id',
-                    45,
-                ],
-                [
-                    Vocabulary::TABLE . '.agent_id',
-                    $this->id,
-                ],
-            ])
-            ->orderBy(Vocabulary::TABLE . '.name')
-            ->orderBy(ConceptAttribute::TABLE . '.language')
-            ->orderBy(ConceptAttribute::TABLE . '.object')
-            ->get()
-            ->mapWithKeys(function($item) {
-                return [
-                    $item->id . '_' . $item->language => $item->vocabulary . ' - (' . $item->language . ') ' . $item->label,
-                ];
-            })
-            ->toArray();
-    }
-
-    public function getVocabColumn()
-    {
-            $count = $this->vocabularies()->count();
-            return $count ? '<a href="' . url('projects/' . $this->id . '/vocabularies') . '">' . self::badge($count) : '&nbsp;';
-    }
-     public function getElementColumn()
-    {
-            $count = $this->elementSets()->count();
-            return $count ? '<a href="' . url('projects/' . $this->id . '/elementsets') . '">' . self::badge($count) : '&nbsp;';
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function elementSets()
-    {
-        return $this->hasMany(ElementSet::class, 'agent_id', 'id');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
-     */
-    public function elementSetsForSelect()
-    {
-        return ElementSet::select([
-            'id',
-            'name',
-        ])->where('agent_id', $this->id)->orderBy('name')->get()->mapWithKeys(function($item) {
-            return [ $item['id'] => $item['name'] ];
-        });
-    }
-
-    /**
-     * @return array
-     */
-    public function elementsForSelect()
-    {
-        return \DB::table(ElementAttribute::TABLE)->join(Element::TABLE,
-            Element::TABLE . '.id',
-            '=',
-            ElementAttribute::TABLE . '.schema_property_id')->join(ElementSet::TABLE, ElementSet::TABLE . '.id', '=', Element::TABLE . '.schema_id')->select(ElementAttribute::TABLE .
-            '.schema_property_id as id',
-            ElementSet::TABLE . '.name as ElementSet',
-            ElementAttribute::TABLE . '.language',
-            ElementAttribute::TABLE . '.object as label')->where([
-            [
-                ElementAttribute::TABLE . '.profile_property_id',
-                2,
-            ],
-            [
-                ElementSet::TABLE . '.agent_id',
-                $this->id,
-            ],
-        ])->orderBy(ElementSet::TABLE . '.name')->orderBy(ElementAttribute::TABLE . '.language')->orderBy(ElementAttribute::TABLE . '.object')->get()->mapWithKeys(function($item) {
-            return [
-                $item->id . '_' . $item->language => $item->ElementSet . ' - (' . $item->language . ') ' . $item->label,
-            ];
-        })->toArray();
-        // $elements = [];
-        // /** @var ElementSet[] $elementsets */
-        // $elementsets =
-        //     ElementSet::with('elements')
-        //         ->where('agent_id', $this->id)
-        //         ->orderBy('name')
-        //         ->get()
-        //         ->groupBy('name');
-        // foreach ($elementsets as $key => $elementset) {
-        //   $elements[$key] =  $elementset->first()->elements->mapWithKeys(function ($item) use($key) {
-        //     if (!empty($item['label'])) {
-        //       return [ $item['id'] => "{$key} - " . $item['label'] ];
-        //     }
-        //   })->toArray();
-        //   }
-        // return $elements;
-    }
+    /*
+    |--------------------------------------------------------------------------
+    | RELATIONS
+    |--------------------------------------------------------------------------
+    */
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function members()
     {
-        return $this->belongsToMany(User::class)->withPivot('is_registrar_for', 'is_admin_for')->withTimestamps();
+        return $this->belongsToMany( User::class )->withPivot( 'is_registrar_for', 'is_admin_for' )->withTimestamps();
+    }
+
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | SCOPES
+    |--------------------------------------------------------------------------
+    */
+
+    /**
+     * @param Builder $query
+     *
+     * @return mixed
+     */
+    public function ScopePrivate( $query )
+    {
+        return $query->where( 'is_private', true );
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @param Builder $query
+     *
+     * @return mixed
      */
-    public function profiles()
+    public function ScopePublic( $query )
     {
-        return $this->hasMany(Profile::class);
+        return $query->where( 'is_private', '<>', 1 );
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function vocabularies()
+    /*
+    |--------------------------------------------------------------------------
+    | ACCESORS
+    |--------------------------------------------------------------------------
+    */
+    public function getTitleAttribute()
     {
-        return $this->hasMany(Vocabulary::class, 'agent_id', 'id');
+        return $this->attributes['org_name'];
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
-     */
-    public function vocabulariesForSelect()
+    /*
+    |--------------------------------------------------------------------------
+    | MUTATORS
+    |--------------------------------------------------------------------------
+    */
+    public function setTitleAttribute(string $value)
     {
-        return Vocabulary::select([
-            'id',
-            'name',
-        ])->where('agent_id', $this->id)->orderBy('name')->get()->mapWithKeys(function($item) {
-            return [ $item['id'] => $item['name'] ];
-        });
+        $this->attributes['org_name'] = $value;
     }
 
-    public static function badge($count)
-    {
-        return '<span class="badge">' . $count . '</span>';
-    }
 }
