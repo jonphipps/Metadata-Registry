@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\ProfileProperty;
 use Illuminate\Database\Seeder;
 
 class ProfilePropertySeeder extends Seeder
@@ -16,7 +17,7 @@ class ProfilePropertySeeder extends Seeder
     public function run()
     {
         $this->disableForeignKeys();
-        \App\Models\ProfileProperty::truncate();
+        ProfileProperty::truncate();
 
         $updateStatement = file_get_contents(__DIR__ . '/ProfilePropertySeeder.sql');
         DB::statement($updateStatement);
