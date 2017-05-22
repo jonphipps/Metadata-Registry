@@ -4,7 +4,7 @@
         <div class="col-xs-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h1>{{ $project->label }}</h1>
+                    <h1>{{ $project->title }}</h1>
                 </div>
                 <div class="panel-body">
                     <div class="row">
