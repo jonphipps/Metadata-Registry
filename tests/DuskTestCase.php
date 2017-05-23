@@ -8,8 +8,13 @@ use Facebook\WebDriver\Remote\DesiredCapabilities;
 
 abstract class DuskTestCase extends BaseTestCase
 {
-    use CreatesApplication;
+    use CreatesApplication, SetsUpTests;
 
+    public function setUp()
+    {
+        parent::setUp();
+        $this->setUpTests();
+    }
     /**
      * Prepare for Dusk test execution.
      *
