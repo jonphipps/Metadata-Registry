@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\OMR;
 
+use const false;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Auth;
 use Tests\BrowserKitTestCase;
@@ -328,7 +329,7 @@ class AuthTest extends BrowserKitTestCase
     {
         //given a user is a guest
         /** @var \App\Models\Project $project */
-        $project = factory( \App\Models\Project::class )->create();
+        $project = factory( \App\Models\Project::class )->create(['is_private' => false]);
         /** @var \App\Models\ElementSet $elementSet */
         $elementSet = factory( \App\Models\ElementSet::class )->create( [ 'agent_id' => $project->id ] );
         /** @var \App\Models\Element $element */
