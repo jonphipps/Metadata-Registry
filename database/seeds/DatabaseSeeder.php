@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
         $this->call( StatusSeeder::class );
         $this->call( ProfileSeeder::class );
         $this->call( ProfilePropertySeeder::class );
-        if ( in_array( app()->environment(), [ 'local', 'testing' ], true ) ) {
+        if ( 'testing' === app()->environment() ) {
             //$this->call(PrefixSeeder::class);
             $this->call( ProjectSeeder::class );
             $this->call( RDAClassesSeeder::class );
