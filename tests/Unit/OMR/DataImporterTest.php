@@ -70,7 +70,7 @@ class DataImporterTest extends TestCase
         $importer = new DataImporter($data, $export);
         //when i pass them to the importer
         $changeSet = $importer->getChangeset();
-        //then i get back a list of fields that will change, none in this case
+        //then i get back a list of fields that will change, one in this case
         $this->assertEquals(1, $changeSet->count());
         $this->assertMatchesSnapshot($changeSet->toArray());
     }
