@@ -5,44 +5,48 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Access\User\User;
 
 /**
- * App\Models\FileImportHistory
+ * App\Models\Import
  *
  * @property int $id
- * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property string $source_file_name
+ * @property string $source
  * @property string $map stores the serialized column map array
  * @property int $user_id
- * @property int $vocabulary_id
- * @property int $schema_id
  * @property string $file_name
- * @property string $source_file_name
  * @property string $file_type
- * @property int $batch_id
  * @property string $results stores the serialized results of the import
  * @property int $total_processed_count
  * @property int $error_count
  * @property int $success_count
- * @property int|null $token
- * @property-read \App\Models\Batch|null $Batch
+ * @property int $batch_id
+ * @property int $vocabulary_id
+ * @property int $schema_id
+ * @property int $token
+ * @property-read \App\Models\Batch $Batch
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConceptAttributeHistory[] $ConceptAttributeHistory
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementAttributeHistory[] $ElementAttributeHistory
- * @property-read \App\Models\ElementSet|null $ElementSet
- * @property-read \App\Models\Access\User\User|null $User
- * @property-read \App\Models\Vocabulary|null $Vocabulary
- * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereBatchId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereErrorCount($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereFileName($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereFileType($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereMap($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereResults($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereSchemaId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereSourceFileName($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereSuccessCount($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereToken($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereTotalProcessedCount($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereUserId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\FileImportHistory whereVocabularyId($value)
+ * @property-read \App\Models\ElementSet $ElementSet
+ * @property-read \App\Models\Access\User\User $User
+ * @property-read \App\Models\Vocabulary $Vocabulary
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Import whereBatchId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Import whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Import whereErrorCount($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Import whereFileName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Import whereFileType($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Import whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Import whereMap($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Import whereResults($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Import whereSchemaId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Import whereSource($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Import whereSourceFileName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Import whereSuccessCount($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Import whereToken($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Import whereTotalProcessedCount($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Import whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Import whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Import whereVocabularyId($value)
  * @mixin \Eloquent
  */
 class Import extends Model

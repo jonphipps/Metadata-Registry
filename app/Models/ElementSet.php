@@ -11,15 +11,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * App\Models\ElementSet
  *
  * @property int $id
- * @property int $agent_id
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
- * @property \Carbon\Carbon|null $deleted_at
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property \Carbon\Carbon $deleted_at
  * @property int $created_user_id
  * @property int $updated_user_id
- * @property int|null $deleted_user_id
- * @property string|null $child_updated_at
+ * @property int $deleted_user_id
+ * @property string $child_updated_at
  * @property int $child_updated_user_id
+ * @property int $agent_id
+ * @property string $label
  * @property string $name
  * @property string $note
  * @property string $uri
@@ -35,18 +36,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $prefixes
  * @property string $languages
  * @property string $repo
+ * @property string $spreadsheet
+ * @property string $worksheet
  * @property string $prefix
  * @property int $created_by
  * @property int $updated_by
  * @property int $deleted_by
  * @property-read \App\Models\Access\User\User $creator
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Element[] $elements
- * @property-read \App\Models\Access\User\User|null $eraser
+ * @property-read \App\Models\Access\User\User $eraser
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\User\User[] $members
- * @property-read \App\Models\Profile|null $profile
+ * @property-read \App\Models\Profile $profile
  * @property-read \App\Models\Project $project
  * @property-read \App\Models\Status $status
- * @property-read \App\Models\Access\User\User|null $updater
+ * @property-read \App\Models\Access\User\User $updater
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereAgentId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereBaseDomain($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereChildUpdatedAt($value)
@@ -59,6 +62,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereDeletedBy($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereDeletedUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereLabel($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereLanguage($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereLanguages($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereLastUriId($value)
@@ -69,6 +73,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet wherePrefixes($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereProfileId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereRepo($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereSpreadsheet($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereStatusId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereToken($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereUpdatedAt($value)
@@ -76,6 +81,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereUpdatedUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereUri($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereUrl($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementSet whereWorksheet($value)
  * @mixin \Eloquent
  */
 class ElementSet extends Model

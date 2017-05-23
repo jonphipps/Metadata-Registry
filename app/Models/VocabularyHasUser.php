@@ -9,9 +9,9 @@ use App\Models\Access\User\User;
  * App\Models\VocabularyHasUser
  *
  * @property int $id
- * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @property \Carbon\Carbon|null $deleted_at
+ * @property \Carbon\Carbon $deleted_at
  * @property int $vocabulary_id
  * @property int $user_id
  * @property bool $is_maintainer_for

@@ -21,28 +21,22 @@ use App\Models\Access\User\Traits\Relationship\UserRelationship;
  * App\Models\Access\User\User
  *
  * @property int $id
- * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @property string $last_updated
- * @property \Carbon\Carbon|null $deleted_at
- * @property string|null $nickname
- * @property string|null $salutation
- * @property string|null $first_name
- * @property string|null $last_name
- * @property string|null $email
- * @property string|null $sha1_password
- * @property string|null $salt
- * @property int|null $want_to_be_moderator
- * @property int|null $is_moderator
- * @property int|null $is_administrator
- * @property int|null $deletions
- * @property string|null $password
- * @property int $status
- * @property string|null $culture
+ * @property \Carbon\Carbon $deleted_at
+ * @property string $nickname
+ * @property string $salutation
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $email
+ * @property bool $is_administrator
+ * @property string $password
+ * @property bool $status
+ * @property string $culture
  * @property string $confirmation_code
  * @property string $name
- * @property int $confirmed
- * @property string|null $remember_token
+ * @property bool $confirmed
+ * @property string $remember_token
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementSet[] $elementsets
  * @property-read string $action_buttons
  * @property-read string $change_password_button
@@ -71,24 +65,18 @@ use App\Models\Access\User\Traits\Relationship\UserRelationship;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereCulture($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereDeletions($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereEmail($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereFirstName($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereIsAdministrator($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereIsModerator($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereLastName($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereLastUpdated($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereName($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereNickname($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User wherePassword($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereRememberToken($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereSalt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereSalutation($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereSha1Password($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereStatus($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereWantToBeModerator($value)
  * @mixin \Eloquent
  */
 class User extends Authenticatable

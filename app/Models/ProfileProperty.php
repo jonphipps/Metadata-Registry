@@ -8,38 +8,38 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @property int $id
  * @property int $skos_id
- * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @property string|null $deleted_at
- * @property int|null $created_by
- * @property int|null $updated_by
- * @property int|null $deleted_by
+ * @property string $deleted_at
+ * @property int $created_by
+ * @property int $updated_by
+ * @property int $deleted_by
  * @property int $profile_id
- * @property int|null $skos_parent_id
+ * @property int $skos_parent_id
  * @property string $name
  * @property string $label
- * @property string|null $definition
- * @property string|null $comment
+ * @property string $definition
+ * @property string $comment
  * @property string $type
- * @property string|null $uri
+ * @property string $uri
  * @property int $status_id
  * @property string $language
- * @property string|null $note
- * @property int|null $display_order Display order of properties
- * @property int|null $export_order Display order of properties
- * @property int|null $picklist_order
- * @property string|null $examples Link to example usage
+ * @property string $note
+ * @property int $display_order Display order of properties
+ * @property int $export_order Display order of properties
+ * @property int $picklist_order
+ * @property string $examples Link to example usage
  * @property bool $is_required boolean -- id this value required
  * @property bool $is_reciprocal boolean - subject and object must both have this property
  * @property bool $is_singleton boolean -- is this property allowed to repeat for a concept
  * @property bool $is_in_picklist boolean - is in the property picklist
  * @property bool $is_in_export
- * @property bool|null $inverse_profile_property_id id of the inverse property
+ * @property int $inverse_profile_property_id
  * @property bool $is_in_class_picklist boolean - is in the property picklist
  * @property bool $is_in_property_picklist boolean - is in the property picklist
  * @property bool $is_in_rdf boolean - should this display in the RDF
  * @property bool $is_in_xsd boolean - should this display in the XSD
- * @property bool $is_attribute boolean - is this an attribute? attribute's aren't editable outside the main form
+ * @property bool $is_attribute boolean - is this an attribute? attributes are not editable outside the main form
  * @property bool $has_language Boolean that determines whether language attribute is displayed for this property
  * @property bool $is_object_prop
  * @property bool $is_in_form

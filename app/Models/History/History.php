@@ -11,13 +11,13 @@ use App\Models\History\Traits\Relationship\HistoryRelationship;
  * @property int $id
  * @property int $type_id
  * @property int $user_id
- * @property int|null $entity_id
- * @property string|null $icon
- * @property string|null $class
+ * @property int $entity_id
+ * @property string $icon
+ * @property string $class
  * @property string $text
- * @property string|null $assets
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
+ * @property string $assets
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
  * @property-read \App\Models\History\HistoryType $type
  * @property-read \App\Models\Access\User\User $user
  * @method static \Illuminate\Database\Query\Builder|\App\Models\History\History whereAssets($value)

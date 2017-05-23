@@ -9,6 +9,7 @@ use App\Models\Access\User\User;
  *
  * @property int $id
  * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
  * @property int $created_user_id
  * @property string $action
  * @property int $schema_property_element_id
@@ -22,14 +23,14 @@ use App\Models\Access\User\User;
  * @property string $change_note
  * @property int $import_id
  * @property int $created_by
- * @property-read \App\Models\Element|null $Element
- * @property-read \App\Models\ElementAttribute|null $ElementAttribute
- * @property-read \App\Models\ElementSet|null $ElementSet
- * @property-read \App\Models\FileImportHistory|null $FileImportHistory
- * @property-read \App\Models\ProfileProperty|null $ProfileProperty
- * @property-read \App\Models\Element|null $RelatedElement
- * @property-read \App\Models\Status|null $Status
- * @property-read \App\Models\Access\User\User|null $UserCreator
+ * @property-read \App\Models\Element $Element
+ * @property-read \App\Models\ElementAttribute $ElementAttribute
+ * @property-read \App\Models\ElementSet $ElementSet
+ * @property-read \App\Models\ProfileProperty $ProfileProperty
+ * @property-read \App\Models\Element $RelatedElement
+ * @property-read \App\Models\Status $Status
+ * @property-read \App\Models\Access\User\User $UserCreator
+ * @property-read \App\Models\Import $imports
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereAction($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereChangeNote($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereCreatedAt($value)
@@ -45,6 +46,7 @@ use App\Models\Access\User\User;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereSchemaPropertyElementId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereSchemaPropertyId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereStatusId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class ElementAttributeHistory extends Model

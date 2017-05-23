@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Access\User\User;
 
 /**
- * App\Models\ProjectHasUser
+ * App\Models\ProjectUser
  *
  * @property int $id
- * @property string|null $created_at
+ * @property string $created_at
  * @property string $updated_at
- * @property \Carbon\Carbon|null $deleted_at
+ * @property \Carbon\Carbon $deleted_at
  * @property int $user_id
  * @property int $agent_id
  * @property bool $is_registrar_for

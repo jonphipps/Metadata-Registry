@@ -16,24 +16,24 @@ use App\Models\Access\User\User;
  * @property int $vocabulary_id
  * @property int $skos_property_id
  * @property string $object
- * @property int $scheme_id id of the related vocabulary when required
- * @property int $related_concept_id id of the related concept when required
+ * @property int $scheme_id
+ * @property int $related_concept_id
  * @property string $language This will be an RFC3066 language code, which means it can be en, eng, en-us, or eng-us -- iso639-1 (2-char codes), iso639-2 (3-char codes), and combined with iso3166 (2-char country codes)
  * @property int $status_id
- * @property int $created_user_id The ID of the user that created the property
+ * @property int $created_user_id
  * @property string $change_note
  * @property int $import_id
- * @property int|null $profile_property_id
+ * @property int $profile_property_id
  * @property int $created_by
- * @property-read \App\Models\Concept|null $Concept
- * @property-read \App\Models\ConceptAttribute|null $ConceptAttribute
- * @property-read \App\Models\FileImportHistory|null $FileImportHistory
- * @property-read \App\Models\Concept|null $ObjectConcept
- * @property-read \App\Models\Vocabulary|null $ObjectScheme
- * @property-read \App\Models\SkosProperty|null $SkosProperty
- * @property-read \App\Models\Status|null $Status
- * @property-read \App\Models\Access\User\User|null $UserCreator
- * @property-read \App\Models\Vocabulary|null $Vocabulary
+ * @property-read \App\Models\Concept $Concept
+ * @property-read \App\Models\ConceptAttribute $ConceptAttribute
+ * @property-read \App\Models\Concept $ObjectConcept
+ * @property-read \App\Models\Vocabulary $ObjectScheme
+ * @property-read \App\Models\SkosProperty $SkosProperty
+ * @property-read \App\Models\Status $Status
+ * @property-read \App\Models\Access\User\User $UserCreator
+ * @property-read \App\Models\Vocabulary $Vocabulary
+ * @property-read \App\Models\Import $imports
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereAction($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereChangeNote($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttributeHistory whereConceptId($value)

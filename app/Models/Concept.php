@@ -12,17 +12,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * App\Models\Concept
  *
  * @property int $id
- * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @property string|null $deleted_at
- * @property string|null $last_updated
- * @property int|null $created_user_id
- * @property int|null $updated_user_id
+ * @property string $deleted_at
+ * @property int $created_user_id
+ * @property int $updated_user_id
  * @property string $uri
- * @property string|null $pref_label
- * @property int|null $vocabulary_id
- * @property int|null $is_top_concept
- * @property int|null $pref_label_id
+ * @property string $lexical_alias
+ * @property string $pref_label
+ * @property int $vocabulary_id
+ * @property bool $is_top_concept
+ * @property int $pref_label_id
  * @property int $status_id
  * @property string $language
  * @property int $created_by
@@ -30,7 +30,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int $deleted_by
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConceptAttribute[] $properties
  * @property-read \App\Models\Status $status
- * @property-read \App\Models\Vocabulary|null $vocabulary
+ * @property-read \App\Models\Vocabulary $vocabulary
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereCreatedBy($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereCreatedUserId($value)
@@ -39,7 +39,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereIsTopConcept($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereLanguage($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereLastUpdated($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereLexicalAlias($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept wherePrefLabel($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept wherePrefLabelId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereStatusId($value)

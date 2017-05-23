@@ -1,18 +1,19 @@
 <?php namespace App\Models;
 
+
 /**
  * App\Models\Batch
  *
  * @property int $id
- * @property \Carbon\Carbon|null $run_time
+ * @property \Carbon\Carbon $run_time
  * @property string $run_description
  * @property string $object_type
  * @property int $object_id
- * @property \Carbon\Carbon|null $event_time
+ * @property \Carbon\Carbon $event_time
  * @property string $event_type
  * @property string $event_description
  * @property string $registry_uri
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\FileImportHistory[] $FileImportHistory
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Import[] $imports
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereEventDescription($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereEventTime($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereEventType($value)

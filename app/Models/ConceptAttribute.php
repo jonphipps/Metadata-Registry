@@ -9,28 +9,27 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * App\Models\ConceptAttribute
  *
  * @property int $id
- * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
- * @property string|null $deleted_at
- * @property string|null $last_updated
- * @property int|null $created_user_id
- * @property int|null $updated_user_id
+ * @property string $deleted_at
+ * @property int $created_user_id
+ * @property int $updated_user_id
  * @property int $concept_id
- * @property int|null $primary_pref_label
- * @property int|null $skos_property_id
- * @property string|null $object
- * @property int|null $scheme_id
- * @property int|null $related_concept_id
- * @property string|null $language
- * @property int|null $status_id
+ * @property bool $primary_pref_label
+ * @property int $skos_property_id
+ * @property string $object
+ * @property int $scheme_id
+ * @property int $related_concept_id
+ * @property string $language
+ * @property int $status_id
  * @property bool $is_concept_property
- * @property bool $is_generated
  * @property int $profile_property_id
+ * @property bool $is_generated
  * @property int $created_by
  * @property int $updated_by
  * @property int $deleted_by
  * @property-read \App\Models\Concept $concept
- * @property-read \App\Models\ProfileProperty|null $profileProperty
+ * @property-read \App\Models\ProfileProperty $profileProperty
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereConceptId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereCreatedBy($value)

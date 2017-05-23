@@ -11,10 +11,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $user_id
  * @property string $provider
  * @property string $provider_id
- * @property string|null $token
- * @property string|null $avatar
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
+ * @property string $token
+ * @property string $avatar
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\SocialLogin whereAvatar($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\SocialLogin whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\SocialLogin whereId($value)
