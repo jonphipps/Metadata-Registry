@@ -127,8 +127,8 @@ class ElementAttributeHistory extends Model
     }
 
 
-    public function FileImportHistory()
+    public function imports()
     {
-        return $this->belongsTo(\App\Models\FileImportHistory::class, 'import_id', 'id');
+        return $this->belongsTo(\App\Models\Import::class, 'import_id', 'id');
     }
 }
