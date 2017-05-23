@@ -95,9 +95,9 @@ $factory->define(App\Models\Batch::class,
 
 $factory->define(App\Models\Collection::class,
     function(Faker\Generator $faker) {
-        // $creator = getRandomUser();
-        // $updator = getRandomUser();
-        // $deletor = getRandomUser();
+        // $creator = getRandomUser($faker);
+        // $updator = getRandomUser($faker);
+        // $deletor = getRandomUser($faker);
 
         return [
             // 'last_updated'    => $faker->dateTimeBetween(),
@@ -118,9 +118,9 @@ $factory->define(App\Models\Collection::class,
 
 $factory->define(App\Models\Concept::class,
     function(Faker\Generator $faker) {
-        // $creator = getRandomUser();
-        // $updator = getRandomUser();
-        // $deletor = getRandomUser();
+        // $creator = getRandomUser($faker);
+        // $updator = getRandomUser($faker);
+        // $deletor = getRandomUser($faker);
         //
         return [
         //     'last_updated'    => $faker->dateTimeBetween(),
@@ -146,9 +146,9 @@ $factory->define(App\Models\Concept::class,
 
 $factory->define(App\Models\ConceptAttribute::class,
     function(Faker\Generator $faker) {
-        // $creator = getRandomUser();
-        // $updator = getRandomUser();
-        // $deletor = getRandomUser();
+        // $creator = getRandomUser($faker);
+        // $updator = getRandomUser($faker);
+        // $deletor = getRandomUser($faker);
 
         return [
             // 'last_updated'        => $faker->dateTimeBetween(),
@@ -175,7 +175,7 @@ $factory->define(App\Models\ConceptAttribute::class,
 
 $factory->define(App\Models\ConceptAttributeHistory::class,
     function(Faker\Generator $faker) {
-        // $creator = getRandomUser();
+        // $creator = getRandomUser($faker);
 
         return [
             // 'action'              => $faker->word,
@@ -212,9 +212,9 @@ $factory->define(App\Models\ConceptAttributeHistory::class,
 
 $factory->define(App\Models\Discuss::class,
     function(Faker\Generator $faker) {
-        // $creator = getRandomUser();
-        // $updator = getRandomUser();
-        // $deletor = getRandomUser();
+        // $creator = getRandomUser($faker);
+        // $updator = getRandomUser($faker);
+        // $deletor = getRandomUser($faker);
 
         return [
             // 'created_user_id'            => $creator,
@@ -254,9 +254,9 @@ $factory->define(App\Models\Discuss::class,
 
 $factory->define(App\Models\Element::class,
     function(Faker\Generator $faker) {
-        // $creator = getRandomUser();
-        // $updator = getRandomUser();
-        // $deletor = getRandomUser();
+        // $creator = getRandomUser($faker);
+        // $updator = getRandomUser($faker);
+        // $deletor = getRandomUser($faker);
 
         return [
             // 'created_user_id'   => $creator,
@@ -290,9 +290,9 @@ $factory->define(App\Models\Element::class,
 
 $factory->define(App\Models\ElementAttribute::class,
     function(Faker\Generator $faker) {
-        // $creator = getRandomUser();
-        // $updator = getRandomUser();
-        // $deletor = getRandomUser();
+        // $creator = getRandomUser($faker);
+        // $updator = getRandomUser($faker);
+        // $deletor = getRandomUser($faker);
 
         return [
             // 'created_user_id'            => $creator,
@@ -318,7 +318,7 @@ $factory->define(App\Models\ElementAttribute::class,
 
 $factory->define(App\Models\ElementAttributeHistory::class,
     function(Faker\Generator $faker) {
-        // $creator = getRandomUser();
+        // $creator = getRandomUser($faker);
 
         return [
             // 'created_user_id'            => $creator,
@@ -355,9 +355,9 @@ $factory->define(App\Models\ElementSet::class,
         // $project = function() {
         //     return factory(App\Models\Project::class)->create();
         // };
-        // $creator = getRandomUser();
-        // $updator = getRandomUser();
-        // $deletor = getRandomUser();
+        // $creator = getRandomUser($faker);
+        // $updator = getRandomUser($faker);
+        // $deletor = getRandomUser($faker);
 
         return [
             // 'agent_id'              => $project->id,
@@ -397,7 +397,7 @@ $factory->define(App\Models\ElementSetHasUser::class,
             // 'schema_id'         => function() {
             //     return factory(App\Models\ElementSet::class)->create()->id;
             // },
-            // 'user_id'           => getRandomUser(),
+            // 'user_id'           => getRandomUser($faker),
             // 'is_maintainer_for' => $faker->boolean,
             // 'is_registrar_for'  => $faker->boolean,
             // 'is_admin_for'      => $faker->boolean,
@@ -411,7 +411,7 @@ $factory->define(App\Models\ElementSetHasVersion::class,
     function(Faker\Generator $faker) {
         return [
             // 'name'            => $faker->name,
-            // 'created_user_id' => getRandomUser(),
+            // 'created_user_id' => getRandomUser($faker),
             // 'schema_id'       => function() {
             //     return factory(App\Models\ElementSet::class)->create()->id;
             // },
@@ -423,7 +423,7 @@ $factory->define(App\Models\ElementSetHasVersion::class,
 
 $factory->define(App\Models\Export::class,
     function(Faker\Generator $faker) {
-        $creator = getRandomUser();
+        $creator = getRandomUser($faker);
 
         return [
             'user_id'                    => $creator,
@@ -458,7 +458,7 @@ $factory->define(App\Models\Export::class,
 $factory->define(App\Models\ExportHistory::class,
     function(Faker\Generator $faker) {
         return [
-            // 'user_id'                    => getRandomUser(),
+            // 'user_id'                    => getRandomUser($faker),
             // 'vocabulary_id'              => function() {
             //     return factory(App\Models\Vocabulary::class)->create()->id;
             // },
@@ -485,7 +485,7 @@ $factory->define(App\Models\FileImportHistory::class,
         return [
             // 'source'                => $faker->word,
             // 'map'                   => $faker->text,
-            // 'user_id'               => getRandomUser(),
+            // 'user_id'               => getRandomUser($faker),
             // 'vocabulary_id'         => function() {
             //     return factory(App\Models\Vocabulary::class)->create()->id;
             // },
@@ -510,7 +510,7 @@ $factory->define(App\Models\History\History::class,
     function(Faker\Generator $faker) {
         return [
             'type_id'   => $faker->randomNumber(),
-            'user_id'   => getRandomUser(),
+            'user_id'   => getRandomUser($faker),
             'entity_id' => $faker->randomNumber(),
             'icon'      => $faker->word,
             'class'     => $faker->word,
@@ -550,11 +550,11 @@ $factory->define(App\Models\Profile::class,
     function(Faker\Generator $faker) {
 
         return [
-            // 'created_by'  => getRandomUser(),
-            // 'updated_by'  => getRandomUser(),
-            // 'deleted_by'  => getRandomUser(),
+            // 'created_by'  => getRandomUser($faker),
+            // 'updated_by'  => getRandomUser($faker),
+            // 'deleted_by'  => getRandomUser($faker),
             // 'child_updated_at' => $faker->dateTimeBetween(),
-            // 'child_updated_by' => getRandomUser(),
+            // 'child_updated_by' => getRandomUser($faker),
             // 'name'        => $faker->name,
             // 'note'        => $faker->text,
             // 'uri'         => $faker->word,
@@ -572,9 +572,9 @@ $factory->define(App\Models\ProfileProperty::class,
     function(Faker\Generator $faker) {
         return [
             // 'skos_id'                     => $faker->randomNumber(),
-            // 'created_by'                  => getRandomUser(),
-            // 'updated_by'                  => getRandomUser(),
-            // 'deleted_by'                  => getRandomUser(),
+            // 'created_by'                  => getRandomUser($faker),
+            // 'updated_by'                  => getRandomUser($faker),
+            // 'deleted_by'                  => getRandomUser($faker),
             'profile_id'                  => $faker->randomNumber([
                 1,
                 2
@@ -618,10 +618,10 @@ $factory->define(App\Models\Project::class,
         $deletor = getRandomUser($faker);
 
         return [
-             'description'         => $faker->text,
+            'description'      => $faker->text,
             'is_private'       => false,
             'repo'             => 'https://github.com/'.$faker->userName.'/'.$faker->domainWord,
-             'license'             => $faker->text,
+            'license'          => $faker->text,
             'org_email'        => $faker->email,
             'org_name'         => $faker->sentence( 3 ),
             'ind_affiliation'  => $faker->word,
@@ -634,13 +634,13 @@ $factory->define(App\Models\Project::class,
             'country'          => $faker->country,
             'phone'            => $faker->phoneNumber,
             'web_address'      => $faker->url,
-            'created_by'          => $creator,
-            'updated_by'          => $updator,
-            'deleted_by'          => $deletor,
+            'created_by'       => $creator,
+            'updated_by'       => $updator,
+            'deleted_by'       => $deletor,
             'name'             => $faker->word,
             'label'            => $faker->word,
             'url'              => $faker->url,
-            'license_uri'         => $faker->word,
+            'license_uri'      => $faker->word,
             'base_domain'      => $faker->word,
             'namespace_type'   => $faker->randomElement( [ 'Slash', 'Hash' ] ),
             'uri_strategy'     => $faker->word,
@@ -650,7 +650,7 @@ $factory->define(App\Models\Project::class,
             'default_language' => $faker->languageCode,
             'languages'        => $faker->text,
             'prefixes'         => serialize( $faker->words( 3 ) ),
-             'google_sheet_url'    => $faker->url,
+            'google_sheet_url' => $faker->url,
         ];
     });
 
@@ -667,9 +667,9 @@ $factory->define(App\Models\ProjectUser::class,
 
 $factory->define(App\Models\RdfNamespace::class,
     function(Faker\Generator $faker) {
-        // $creator = getRandomUser();
-        // $updator = getRandomUser();
-        // $deletor = getRandomUser();
+        // $creator = getRandomUser($faker);
+        // $updator = getRandomUser($faker);
+        // $deletor = getRandomUser($faker);
         //
         return [
         //     'schema_id'       => function() {
@@ -722,7 +722,7 @@ $factory->define(App\Models\Status::class,
 $factory->define(App\Models\System\Session::class,
     function(Faker\Generator $faker) {
         return [
-            // 'user_id'       => getRandomUser(),
+            // 'user_id'       => getRandomUser($faker),
             // 'ip_address'    => $faker->word,
             // 'user_agent'    => $faker->text,
             // 'payload'       => $faker->text,
@@ -733,9 +733,9 @@ $factory->define(App\Models\System\Session::class,
 $factory->define(App\Models\Vocabulary::class,
     function(Faker\Generator $faker) {
         // $project = factory(App\Models\Project::class)->create();
-        // $creator = getRandomUser();
-        // $updator = getRandomUser();
-        // $deletor = getRandomUser();
+        // $creator = getRandomUser($faker);
+        // $updator = getRandomUser($faker);
+        // $deletor = getRandomUser($faker);
 
         return [
             // 'agent_id'        => $project->id,
@@ -762,7 +762,7 @@ $factory->define(App\Models\Vocabulary::class,
             // // 'created_by' => $creator,
             // // 'updated_by' => $updator,
             // // 'deleted_by' => $deletor,
-            // 'child_updated_by'      => getRandomUser(),
+            // 'child_updated_by'      => getRandomUser($faker),
         ];
     });
 
@@ -772,7 +772,7 @@ $factory->define(App\Models\VocabularyHasUser::class,
             // 'vocabulary_id'     => function() {
             //     return factory(App\Models\Vocabulary::class)->create()->id;
             // },
-            // 'user_id'           => getRandomUser(),
+            // 'user_id'           => getRandomUser($faker),
             // 'is_maintainer_for' => $faker->boolean,
             // 'is_registrar_for'  => $faker->boolean,
             // 'is_admin_for'      => $faker->boolean,
@@ -939,7 +939,7 @@ $factory->define(App\Models\Access\Role\Role::class,
 $factory->define(App\Models\Access\User\SocialLogin::class,
     function(Faker\Generator $faker) {
         return [
-            'user_id'     => getRandomUser(),
+            'user_id'     => getRandomUser($faker),
             'provider'    => $faker->word,
             'provider_id' => $faker->word,
             'token'       => $faker->word,
@@ -1046,9 +1046,14 @@ if ( ! function_exists('getRandomStatus')) {
     }
 }
 if ( ! function_exists('getRandomUser')) {
-    function getRandomUser()
+    function getRandomUser( Faker\Generator $faker)
     {
-        return factory(App\Models\Access\User\User::class)->create()->id;
+        $userIds = User::get()->pluck( 'id' )->toArray();
+        if ($userIds){
+            return $faker->randomElement($userIds);
+        }
+
+        return factory(User::class)->create()->id;
     }
 }
 
