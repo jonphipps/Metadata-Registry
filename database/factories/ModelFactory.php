@@ -613,28 +613,43 @@ $factory->define(App\Models\ProfileProperty::class,
 
 $factory->define(App\Models\Project::class,
     function(Faker\Generator $faker) {
-        $creator = getRandomUser();
-        $updator = getRandomUser();
-        $deletor = getRandomUser();
+        $creator = getRandomUser($faker);
+        $updator = getRandomUser($faker);
+        $deletor = getRandomUser($faker);
 
         return [
-             'name'                => $faker->sentence(3),
-             'label'               => $faker->sentence(3),
              'description'         => $faker->text,
-             'is_private'          => $faker->boolean,
-             'repo'                => $faker->word,
-             'url'                 => $faker->url,
+            'is_private'       => false,
+            'repo'             => 'https://github.com/'.$faker->userName.'/'.$faker->domainWord,
              'license'             => $faker->text,
-            'uri_strategy'        => $faker->word,
-            'namespace_type'      => $faker->randomElement(['Slash','Hash']),
-            'uri_prepend'         => $faker->word,
-            'uri_append'          => $faker->word,
+            'org_email'        => $faker->email,
+            'org_name'         => $faker->sentence( 3 ),
+            'ind_affiliation'  => $faker->word,
+            'ind_role'         => $faker->word,
+            'address1'         => $faker->streetAddress,
+            'address2'         => $faker->streetAddress,
+            'city'             => $faker->city,
+            'state'            => $faker->word,
+            'postal_code'      => $faker->postcode,
+            'country'          => $faker->country,
+            'phone'            => $faker->phoneNumber,
+            'web_address'      => $faker->url,
             'created_by'          => $creator,
             'updated_by'          => $updator,
             'deleted_by'          => $deletor,
-            'starting_number'     => $faker->randomNumber(),
+            'name'             => $faker->word,
+            'label'            => $faker->word,
+            'url'              => $faker->url,
             'license_uri'         => $faker->word,
-             'default_language' => $faker->languageCode(),
+            'base_domain'      => $faker->word,
+            'namespace_type'   => $faker->randomElement( [ 'Slash', 'Hash' ] ),
+            'uri_strategy'     => $faker->word,
+            'uri_prepend'      => $faker->word,
+            'uri_append'       => $faker->word,
+            'starting_number'  => $faker->randomNumber(),
+            'default_language' => $faker->languageCode,
+            'languages'        => $faker->text,
+            'prefixes'         => serialize( $faker->words( 3 ) ),
              'google_sheet_url'    => $faker->url,
         ];
     });
