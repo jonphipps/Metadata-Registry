@@ -65,7 +65,7 @@ foreach ($rs as $vocabulary)
     $conceptCounter++;
 
     //updated_at <== last_updated
-    $concept->setUpdatedAt($concept->getLastUpdated());
+    $concept->setUpdatedAt($concept->getUpdatedAt());
     //created_user_id <== "use id of vocabulary registrar"
     $concept->setCreatedUserId($userId);
     //updated_user_id <== "use id of vocabulary registrar"
@@ -82,7 +82,7 @@ foreach ($rs as $vocabulary)
       $propertyCounter++;
 
       //updated_at <== last_updated
-      $property->setUpdatedAt($property->getLastUpdated());
+      $property->setUpdatedAt($property->getUpdatedAt());
       //created_user_id <== "use id of vocabulary registrar"
       $property->setCreatedUserId($userId);
       //updated_user_id <== "use id of vocabulary registrar"

@@ -14,7 +14,7 @@ $ts = ($timestamp) ? '/ts/' . date('YmdHis',$timestamp) : ''; ?>
             <?php echo htmlspecialchars(html_entity_decode($vocabulary->getName(), ENT_QUOTES | ENT_HTML5, 'UTF-8')); ?> XML Schema
             XML Schema for <?php echo $vocabulary->getUri() . $ts; ?> namespace
             Date created: <?php echo $vocabulary->getCreatedAt() . "\n" ?>
-            Date of last update: <?php echo $vocabulary->getLastUpdated() . "\n" ?>
+            Date of last update: <?php echo $vocabulary->getUpdatedAt() . "\n" ?>
 <?php if ($vocabulary->getNote()): ?>
             <?php echo htmlspecialchars(html_entity_decode($vocabulary->getNote(), ENT_QUOTES | ENT_HTML5, 'UTF-8'))  . "\n" ?>
 <?php endif; ?>

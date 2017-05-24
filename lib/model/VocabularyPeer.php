@@ -125,7 +125,7 @@ class VocabularyPeer extends BaseVocabularyPeer
     $vocab = self::retrieveByPK($id);
     if ($vocab)
     {
-      $lastVocabUpdate = $vocab->getLastUpdated(null);
+      $lastVocabUpdate = $vocab->getUpdatedAt(null);
     }
     $lastHistoryUpdate = ConceptPropertyHistoryPeer::getLastUpdateForVocab($id, null);
     $result = max(array($lastHistoryUpdate, $lastVocabUpdate));
