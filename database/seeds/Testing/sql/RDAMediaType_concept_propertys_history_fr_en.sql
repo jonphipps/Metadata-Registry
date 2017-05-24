@@ -1,4 +1,10 @@
-INSERT INTO `reg_concept_property_history` (`id`, `created_at`, `updated_at`, `action`, `concept_property_id`, `concept_id`, `vocabulary_id`, `skos_property_id`, `object`, `scheme_id`, `related_concept_id`, `language`, `status_id`, `created_user_id`, `change_note`, `import_id`, `profile_property_id`, `created_by`) VALUES 
+# select reg_concept_property_history.* from reg_concept_property_history, reg_concept_property, reg_concept
+# where reg_concept.vocabulary_id=37
+# and reg_concept.id = reg_concept_property.concept_id
+# and reg_concept_property.id=reg_concept_property_history.concept_property_id
+# and (reg_concept_property_history.language in ("fr","en") or reg_concept_property_history.language is null)
+
+INSERT INTO `reg_concept_property_history` (`id`, `created_at`, `updated_at`, `action`, `concept_property_id`, `concept_id`, `vocabulary_id`, `skos_property_id`, `object`, `scheme_id`, `related_concept_id`, `language`, `status_id`, `created_user_id`, `change_note`, `import_id`, `profile_property_id`, `created_by`) VALUES
 	(1226,'2008-05-25 09:36:40',NULL,'added',1281,475,37,19,'Audio',NULL,NULL,'en',2,73,NULL,NULL,45,NULL),
 	(7442,'2011-07-31 16:40:30',NULL,'updated',1281,475,37,19,'Audio',NULL,NULL,'en',2,73,NULL,NULL,45,NULL),
 	(11445,'2011-10-20 12:05:50',NULL,'updated',1281,475,37,19,'audio',NULL,NULL,'en',2,224,NULL,NULL,45,NULL),
