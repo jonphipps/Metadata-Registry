@@ -78,18 +78,30 @@ class ProjectCrudController extends CrudController
                                       'url',
                                       'web_address', ] ); // remove an array of columns from the stack
         $this->crud->setColumnDetails( 'is_private',
-            [ 'type'    => 'boolean',
-              'label'   => 'Private?',
-              'options' => [ 0 => '',
-                             1 => 'Yes' ] ] ); // adjusts the properties of the passed in column (by name)
+            [
+                'type'    => 'boolean',
+                'label'   => 'Private?',
+                'options' => [
+                    0 => '',
+                    1 => 'Yes',
+                ],
+            ] ); // adjusts the properties of the passed in column (by name)
         $this->crud->setColumnDetails( 'org_name',
-            [ 'label' => 'Title', ] ); // adjusts the properties of the passed in column (by name)
-        $this->crud->addColumn( [ 'label'         => "Vocabularies",
-                                  'type'          => "model_function",
-                                  'function_name' => 'getVocabColumn', ] );
-        $this->crud->addColumn( [ 'label'         => "Element Sets",
-                                  'type'          => "model_function",
-                                  'function_name' => 'getElementColumn', ] );
+            [
+                'label'         => 'Title',
+                'type'          => 'model_function',
+                'function_name' => 'getTitleLink',
+            ] ); // adjusts the properties of the passed in column (by name)
+        $this->crud->addColumn( [
+            'label'         => "Vocabularies",
+            'type'          => "model_function",
+            'function_name' => 'getVocabColumn',
+        ] );
+        $this->crud->addColumn( [
+            'label'         => "Element Sets",
+            'type'          => "model_function",
+            'function_name' => 'getElementColumn',
+        ] );
         // $this->crud->setColumnsDetails(['column_1', 'column_2'], ['attribute' => 'value']);
 
         // ------ CRUD BUTTONS
