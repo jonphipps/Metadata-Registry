@@ -10,11 +10,19 @@ abstract class DuskTestCase extends BaseTestCase
 {
     use CreatesApplication, SetsUpTests;
 
-    public function setUp()
-    {
-        parent::setUp();
-        $this->setUpTests();
-    }
+    //dusk tests run on a fully-populated test database
+    //change the database connection and the app url
+    //in .env.dusk.local to use a different combination
+    //uncomment this to setup and run on an 'empty' database
+    // public function setUp()
+    // {
+    //     parent::setUp();
+    //     $this->setUpTests();
+    //
+    //     //only run this if we're testing an 'empty' database
+    //     //exec( 'php symfony cc' );
+    // }
+
     /**
      * Prepare for Dusk test execution.
      *
