@@ -130,6 +130,11 @@ class Project extends Model
         return '<span class="badge">' . $count . '</span>';
     }
 
+    public function getTitleLink(  )
+    {
+        return '<a href="'.route('frontend.project.show',['id'=>$this->id]).'">' . $this->title . '</a>';
+    }
+
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
