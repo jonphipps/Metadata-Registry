@@ -216,19 +216,36 @@ class ElementSet extends Model
         return $this->hasMany(\App\Models\Element::class, 'schema_id', 'id');
     }
 
-  /**
-   * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-   */
-  public function members()
-  {
-    return $this->belongsToMany(Access\User\User::class,
-                                'schema_has_user',
-                                'schema_id',
-                                'user_id')->withTimestamps()->withPivot('is_maintainer_for',
-                                                                        'is_registrar_for',
-                                                                        'is_admin_for',
-                                                                        'languages',
-                                                                        'default_language',
-                                                                        'current_language');
-  }
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function members()
+    {
+        return $this->belongsToMany( Access\User\User::class,
+            'schema_has_user',
+            'schema_id',
+            'user_id' )->withTimestamps()->withPivot( 'is_maintainer_for',
+            'is_registrar_for',
+            'is_admin_for',
+            'languages',
+            'default_language',
+            'current_language' );
+    }
+
+    /**
+     * @param int $projectId
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public static function selectElementSetsByProject( $projectId )
+    {
+        return ElementSet::select( [ 'id', 'name', ] )
+            ->where( 'agent_id', $projectId )
+            ->orderBy( 'name' )
+            ->get()
+            ->mapWithKeys( function( $item ) {
+                return [ $item['id'] => $item['name'] ];
+            } );
+    }
+
 }

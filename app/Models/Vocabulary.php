@@ -179,4 +179,21 @@ class Vocabulary extends Model
                     'current_language'
                 );
     }
+
+    /**
+     * @param int $projectId
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public static function selectVocabulariesByProject( $projectId )
+    {
+        return Vocabulary::select( [ 'id', 'name', ] )
+            ->where( 'agent_id', $projectId )
+            ->orderBy( 'name' )
+            ->get()
+            ->mapWithKeys( function( $item ) {
+                return [ $item['id'] => $item['name'] ];
+            } );
+    }
+
 }
