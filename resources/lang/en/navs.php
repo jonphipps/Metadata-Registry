@@ -22,7 +22,7 @@ return [
         'dashboard' => 'Dashboard',
         'login'     => 'Login',
         'macros'    => 'Macros',
-        'projects'  => 'Projects',
+        'projects'  => 'My Projects',
         'register'  => 'Register',
 
         'user' => [
