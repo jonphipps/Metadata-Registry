@@ -24,12 +24,12 @@ use App\Models\Access\User\User;
  * @property int $vocabulary_id
  * @property int $schema_id
  * @property int $token
- * @property-read \App\Models\Batch $Batch
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConceptAttributeHistory[] $ConceptAttributeHistory
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementAttributeHistory[] $ElementAttributeHistory
- * @property-read \App\Models\ElementSet $ElementSet
- * @property-read \App\Models\Access\User\User $User
- * @property-read \App\Models\Vocabulary $Vocabulary
+ * @property-read \App\Models\Batch $batch
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConceptAttributeHistory[] $conceptAttributeHistory
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementAttributeHistory[] $elementAttributeHistory
+ * @property-read \App\Models\ElementSet $elementSet
+ * @property-read \App\Models\Access\User\User $user
+ * @property-read \App\Models\Vocabulary $vocabulary
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Import whereBatchId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Import whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Import whereErrorCount($value)
@@ -95,37 +95,37 @@ class Import extends Model
     ];
 
 
-    public function User()
+    public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
 
-    public function Vocabulary()
+    public function vocabulary()
     {
         return $this->belongsTo(\App\Models\Vocabulary::class, 'vocabulary_id', 'id');
     }
 
 
-    public function ElementSet()
+    public function elementSet()
     {
         return $this->belongsTo(\App\Models\ElementSet::class, 'schema_id', 'id');
     }
 
 
-    public function Batch()
+    public function batch()
     {
         return $this->belongsTo(\App\Models\Batch::class, 'batch_id', 'id');
     }
 
 
-    public function ConceptAttributeHistory()
+    public function conceptAttributeHistory()
     {
         return $this->hasMany(\App\Models\ConceptAttributeHistory::class, 'import_id', 'id');
     }
 
 
-    public function ElementAttributeHistory()
+    public function elementAttributeHistory()
     {
         return $this->hasMany(\App\Models\ElementAttributeHistory::class, 'import_id', 'id');
     }
