@@ -7,7 +7,7 @@ use App\Models\ElementSetHasUser;
 use App\Models\Project;
 use App\Models\ProjectUser;
 use App\Models\Vocabulary;
-use App\Models\VocabularyHasUser;
+use App\Models\VocabularyUser;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Access\User\Traits\UserAccess;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -148,7 +148,7 @@ class User extends Authenticatable
      */
     public function isAdminForVocabulary( Vocabulary $vocabulary )
     {
-        return (bool) VocabularyHasUser::where( [
+        return (bool) VocabularyUser::where( [
                 [ 'user_id', '=', $this->id ],
                 [ 'is_admin_for', '=', true ],
             ] )->count() or $this->isAdminForProjectId( $vocabulary->agent_id );
@@ -161,7 +161,7 @@ class User extends Authenticatable
      */
     public function isMaintainerForVocabulary( Vocabulary $vocabulary )
     {
-        return (bool) VocabularyHasUser::where( [
+        return (bool) VocabularyUser::where( [
                 [ 'user_id', '=', $this->id ],
                 [ 'is_maintainer_for', '=', true ],
             ] )->count() or $this->isAdminForVocabulary( $vocabulary );
@@ -216,7 +216,7 @@ class User extends Authenticatable
     public function vocabularies()
     {
         return $this->belongsToMany( Vocabulary::class,
-            VocabularyHasUser::TABLE,
+            VocabularyUser::TABLE,
             'user_id',
             'vocabulary_id' )->withPivot( 'is_maintainer_for',
                 'is_registrar_for',
