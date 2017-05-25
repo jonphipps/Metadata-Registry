@@ -100,7 +100,7 @@ $factory->define(App\Models\Collection::class,
         // $deletor = getRandomUser($faker);
 
         return [
-            // 'last_updated'    => $faker->dateTimeBetween(),
+            // 'updated_at'    => $faker->dateTimeBetween(),
             // 'created_user_id' => $creator,
             // 'updated_user_id' => $updator,
             // 'vocabulary_id'   => function() {
@@ -123,7 +123,7 @@ $factory->define(App\Models\Concept::class,
         // $deletor = getRandomUser($faker);
         //
         return [
-        //     'last_updated'    => $faker->dateTimeBetween(),
+        //     'updated_at'    => $faker->dateTimeBetween(),
         //     'created_user_id' => $creator,
         //     'updated_user_id' => $updator,
         //     'uri'             => $faker->url,
@@ -151,7 +151,7 @@ $factory->define(App\Models\ConceptAttribute::class,
         // $deletor = getRandomUser($faker);
 
         return [
-            // 'last_updated'        => $faker->dateTimeBetween(),
+            // 'updated_at'        => $faker->dateTimeBetween(),
             // 'created_user_id'     => $creator,
             // 'updated_user_id'     => $updator,
             // 'concept_id'          => function() {
@@ -739,7 +739,7 @@ $factory->define(App\Models\Vocabulary::class,
 
         return [
             // 'agent_id'        => $project->id,
-            // 'last_updated'    => $faker->dateTimeBetween(),
+            // 'updated_at'    => $faker->dateTimeBetween(),
             // 'created_user_id' => $creator,
             // 'updated_user_id' => $updator,
             // 'deleted_user_id' => $deletor,

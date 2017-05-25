@@ -96,7 +96,7 @@ class Vocabulary extends Model
       'deleted' => 'deleted_user_id',
     ];
 
-    protected $dates = [ 'deleted_at', 'last_updated' ];
+    protected $dates = [ 'deleted_at' ];
 
     protected $primaryKey = 'id';
 
