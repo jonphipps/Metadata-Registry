@@ -65,8 +65,8 @@ return [
     */
 
     'default_fields' => [
-        'created' => 'created_by',
-        'updated' => 'updated_by',
-        'deleted' => 'deleted_by',
+        'created' => 'created_user_id',
+        'updated' => 'updated_user_id',
+        'deleted' => 'deleted_user_id',
     ],
 ];
