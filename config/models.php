@@ -25,7 +25,7 @@ return [
         |
         */
 
-        'path' => app_path('Models'),
+        'path' => app_path('Models2'),
 
         /*
         |--------------------------------------------------------------------------
@@ -70,6 +70,12 @@ return [
         'use' => [
             // Reliese\Database\Eloquent\BitBooleans::class,
             // Reliese\Database\Eloquent\BlamableBehavior::class,
+             Backpack\CRUD\CrudTrait::class,
+             Laracasts\Matryoshka\Cacheable::class,
+             Culpa\Traits\Blameable::class,
+             Culpa\Traits\CreatedBy::class,
+             Culpa\Traits\DeletedBy::class,
+             Culpa\Traits\UpdatedBy::class,
         ],
 
         /*
@@ -154,7 +160,7 @@ return [
         |
         */
 
-        'per_page' => 15,
+        'per_page' => 25,
 
         /*
         |--------------------------------------------------------------------------
@@ -170,7 +176,7 @@ return [
         |
         */
 
-        'base_files' => false,
+        'base_files' => true,
 
         /*
         |--------------------------------------------------------------------------
