@@ -172,7 +172,7 @@ class ProjectCrudController extends CrudController
         // $this->crud->addColumn(); // add a single column, at the end of the stack
         // $this->crud->addColumns(); // add multiple columns, at the end of the stack
 
-        if ( ! Auth::check() && Auth::user()->is_administrator ) {
+        if ( ! ( Auth::check() && Auth::user()->is_administrator ) ) {
             $this->crud->removeColumn( 'is_private' ); // remove a column from the stack
         } else{
             $this->crud->setColumnDetails( 'is_private',
