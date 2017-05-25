@@ -1,9 +1,9 @@
 <?php namespace App\Models;
 
 use App\Models\Access\User\User;
-use App\Models\Traits\ElementSets;
-use App\Models\Traits\Profiles;
-use App\Models\Traits\Vocabularies;
+use App\Models\Traits\HasElementSets;
+use App\Models\Traits\HasProfiles;
+use App\Models\Traits\HasVocabularies;
 use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -98,7 +98,7 @@ use Laracasts\Matryoshka\Cacheable;
  */
 class Project extends Model
 {
-    use CrudTrait, Cacheable, SoftDeletes, Profiles, Vocabularies, ElementSets;
+    use CrudTrait, Cacheable, SoftDeletes, HasProfiles, HasVocabularies, HasElementSets;
 
     const TABLE = 'reg_agent';
 
@@ -170,9 +170,6 @@ class Project extends Model
     {
         return $this->belongsToMany( User::class )->withPivot( 'is_registrar_for', 'is_admin_for' )->withTimestamps();
     }
-
-
-
 
     /*
     |--------------------------------------------------------------------------

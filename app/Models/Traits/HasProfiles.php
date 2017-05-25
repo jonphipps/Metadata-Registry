@@ -6,7 +6,7 @@ namespace App\Models\Traits;
 
 use App\Models\Profile;
 
-trait Profiles
+trait HasProfiles
 {
 
     /**

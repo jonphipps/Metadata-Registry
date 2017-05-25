@@ -9,9 +9,12 @@ use App\Models\ConceptAttribute;
 use App\Models\Project;
 use App\Models\Vocabulary;
 
-trait Vocabularies
+trait HasVocabularies
 {
 
+    /**
+     * @return string
+     */
     public function getVocabColumn()
     {
         $count = $this->vocabularies()->count();
@@ -27,13 +30,4 @@ trait Vocabularies
         return $this->hasMany( Vocabulary::class, 'agent_id', 'id' );
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
-     */
-    public function vocabulariesForSelect()
-    {
-        return Vocabulary::select( [ 'id', 'name', ] )->where( 'agent_id', $this->id )->orderBy( 'name' )->get()->mapWithKeys( function( $item ) {
-            return [ $item['id'] => $item['name'] ];
-        } );
-    }
 }

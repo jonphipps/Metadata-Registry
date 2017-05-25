@@ -4,7 +4,7 @@
 
 namespace App\Models\Traits;
 
-trait Members
+trait HasMembers
 {
 
 }

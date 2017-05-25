@@ -9,7 +9,7 @@ use App\Models\ElementAttribute;
 use App\Models\ElementSet;
 use App\Models\Project;
 
-trait ElementSets
+trait HasElementSets
 {
 
     /**
@@ -21,16 +21,9 @@ trait ElementSets
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     * @return string
      */
-    public function elementSetsForSelect()
-    {
-        return ElementSet::select( [ 'id', 'name', ] )->where( 'agent_id', $this->id )->orderBy( 'name' )->get()->mapWithKeys( function( $item ) {
-            return [ $item['id'] => $item['name'] ];
-        } );
-    }
-
-     public function getElementColumn()
+    public function getElementColumn()
     {
         $count = $this->elementSets()->count();
 
