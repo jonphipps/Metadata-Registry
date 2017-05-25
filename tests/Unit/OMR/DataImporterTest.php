@@ -227,7 +227,7 @@ class DataImporterTest extends TestCase
     /** @test */
     public function it_retrieves_an_export_history_record_by_name()
     {
-        $this->markTestIncomplete();
+        //$this->markTestIncomplete();
         //given we have a valid export history record
         //factory(ExportHistory::class);
         //when we ask for it from the database
