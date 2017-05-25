@@ -178,8 +178,6 @@ class userActions extends autoUserActions
     $user['last_name'] = $this->getRequestParameter('last_name');
     $user['email'] = $this->getRequestParameter('email');
     $user['password'] = $this->getRequestParameter('password');
-    $user['want_to_be_moderator'] = $this->getRequestParameter('want_to_be_moderator');
-    $user['is_moderator'] = $this->getRequestParameter('is_moderator');
     $user['is_administrator'] = $this->getRequestParameter('is_administrator');
 
     if ($user['nickname'])
@@ -206,8 +204,6 @@ class userActions extends autoUserActions
     {
       $this->subscriber->setPassword($user['password']);
     }
-    $this->subscriber->setWantToBeModerator(isset($user['want_to_be_moderator']) ? $user['want_to_be_moderator'] : 0);
-    $this->subscriber->setIsModerator(isset($user['is_moderator']) ? $user['is_moderator'] : 0);
     $this->subscriber->setIsAdministrator(isset($user['is_administrator']) ? $user['is_administrator'] : 0);
   }
 

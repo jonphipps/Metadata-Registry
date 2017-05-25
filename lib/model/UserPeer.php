@@ -35,31 +35,7 @@ class UserPeer extends BaseUserPeer
     return null;
   }
 
-  public static function getModeratorCandidatesCount()
-  {
-    $c = new Criteria();
-    $c->add(self::WANT_TO_BE_MODERATOR, true);
 
-    return self::doCount($c);
-  }
-
-  public static function getModeratorCandidates()
-  {
-    $c = new Criteria();
-    $c->add(self::WANT_TO_BE_MODERATOR, true);
-    $c->addAscendingOrderByColumn(self::CREATED_AT);
-
-    return self::doSelect($c);
-  }
-
-  public static function getModerators()
-  {
-    $c = new Criteria();
-    $c->add(self::IS_MODERATOR, true);
-    $c->addAscendingOrderByColumn(self::CREATED_AT);
-
-    return self::doSelect($c);
-  }
 
   public static function getAdministrators()
   {
@@ -70,22 +46,6 @@ class UserPeer extends BaseUserPeer
     return self::doSelect($c);
   }
 
-  public static function getProblematicUsersCount()
-  {
-    $c = new Criteria();
-    $c->add(self::DELETIONS, 0, Criteria::GREATER_THAN);
-
-    return self::doCount($c);
-  }
-
-  public static function getProblematicUsers()
-  {
-    $c = new Criteria();
-    $c->add(self::DELETIONS, 0, Criteria::GREATER_THAN);
-    $c->addDescendingOrderByColumn(self::DELETIONS);
-
-    return self::doSelect($c);
-  }
 
   public static function getUsersCount()
   {

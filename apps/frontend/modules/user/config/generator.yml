@@ -14,8 +14,6 @@ generator:
       last_name:      { name: Last Name }
       email:          { name: Email }
       password:       { name: Password }
-      want_to_be_moderator: { name: Maintainer Request }
-      is_moderator:         { name: Maintainer }
       is_administrator:     { name: Administrator }
 
     list:
