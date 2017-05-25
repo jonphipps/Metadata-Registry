@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\BelongsToProject;
 use Culpa\Traits\Blameable;
 use Culpa\Traits\CreatedBy;
 use Culpa\Traits\DeletedBy;
@@ -88,7 +89,7 @@ class Vocabulary extends Model
     const TABLE = 'reg_vocabulary';
     protected $table = self::TABLE;
 
-    use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy;
+    use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy, BelongsToProject;
 
     protected $blameable = [
       'created' => 'created_user_id',
@@ -142,13 +143,6 @@ class Vocabulary extends Model
         return $this->belongsTo(\App\Models\Profile::class, 'profile_id', 'id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function project()
-    {
-        return $this->belongsTo(Project::class, 'agent_id', 'id');
-    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

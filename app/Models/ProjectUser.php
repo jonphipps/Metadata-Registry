@@ -1,5 +1,6 @@
 <?php namespace App\Models;
 
+use App\Models\Traits\BelongsToProject;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -33,7 +34,7 @@ class ProjectUser extends Model
     protected $table = self::TABLE;
     const TABLE = 'reg_agent_has_user';
 
-    use SoftDeletes;
+    use SoftDeletes, BelongsToProject;
 
 
     public function getDates()
@@ -70,8 +71,4 @@ class ProjectUser extends Model
     }
 
 
-    public function project()
-    {
-        return $this->belongsTo(Project::class, 'agent_id', 'id');
-    }
 }

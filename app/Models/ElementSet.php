@@ -1,5 +1,6 @@
 <?php namespace App\Models;
 
+use App\Models\Traits\BelongsToProject;
 use Culpa\Traits\Blameable;
 use Culpa\Traits\CreatedBy;
 use Culpa\Traits\DeletedBy;
@@ -91,7 +92,7 @@ class ElementSet extends Model
 
     public $table = self::TABLE;
 
-    use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy;
+    use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy, BelongsToProject;
 
     protected $blameable = [
       'created' => 'created_user_id',
@@ -203,13 +204,6 @@ class ElementSet extends Model
     {
         return $this->belongsTo(\App\Models\Status::class, 'status_id', 'id');
     }
-
-
-    public function project()
-    {
-        return $this->belongsTo(Project::class, 'agent_id', 'id');
-    }
-
 
     public function elements()
     {
