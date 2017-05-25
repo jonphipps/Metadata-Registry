@@ -117,7 +117,29 @@ class Project extends Model
      */
     protected $casts = [];
 
-    protected $hidden = [];
+    protected $hidden = [
+        'id',
+        'description',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+        'created_by',
+        'updated_by',
+        'deleted_by',
+        'org_email',
+        'ind_affiliation',
+        'ind_role',
+        'address1',
+        'address2',
+        'city',
+        'state',
+        'postal_code',
+        'country',
+        'phone',
+        'web_address',
+        'type',
+        'name',
+    ];
 
 
     /*
