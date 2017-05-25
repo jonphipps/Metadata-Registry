@@ -205,6 +205,9 @@ class Project extends Model
     | ACCESORS
     |--------------------------------------------------------------------------
     */
+    /**
+     * @return string
+     */
     public function getTitleAttribute()
     {
         return $this->attributes['org_name'];
@@ -215,6 +218,9 @@ class Project extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
+    /**
+     * @param string $value
+     */
     public function setTitleAttribute(string $value)
     {
         $this->attributes['org_name'] = $value;
