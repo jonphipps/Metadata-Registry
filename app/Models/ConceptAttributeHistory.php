@@ -112,37 +112,37 @@ class ConceptAttributeHistory extends Model
         return $this->belongsTo( \App\Models\Import::class, 'import_id', 'id' );
     }
 
-    public function ObjectScheme()
+    public function object_scheme()
     {
         return $this->belongsTo( \App\Models\Vocabulary::class, 'scheme_id', 'id' );
     }
 
-    public function Status()
+    public function status()
     {
         return $this->belongsTo( \App\Models\Status::class, 'status_id', 'id' );
     }
 
-    public function ObjectConcept()
+    public function object_concept()
     {
         return $this->belongsTo( \App\Models\Concept::class, 'related_concept_id', 'id' );
     }
 
-    public function UserCreator()
+    public function creator()
     {
         return $this->belongsTo( User::class, 'created_user_id', 'id' );
     }
 
-    public function ConceptAttribute()
+    public function concept_attribute()
     {
         return $this->belongsTo( \App\Models\ConceptAttribute::class, 'concept_property_id', 'id' );
     }
 
-    public function Vocabulary()
+    public function vocabulary()
     {
         return $this->belongsTo( \App\Models\Vocabulary::class, 'vocabulary_id', 'id' );
     }
 
-    public function Concept()
+    public function concept()
     {
         return $this->belongsTo( \App\Models\Concept::class, 'concept_id', 'id' );
     }
