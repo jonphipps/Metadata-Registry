@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\BelongsToProfile;
 use App\Models\Traits\BelongsToProject;
 use Culpa\Traits\Blameable;
 use Culpa\Traits\CreatedBy;
@@ -9,6 +10,7 @@ use Culpa\Traits\DeletedBy;
 use Culpa\Traits\UpdatedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Reliese\Database\Eloquent\BlamableBehavior;
 
 /**
  * App\Models\Vocabulary
@@ -89,7 +91,7 @@ class Vocabulary extends Model
     const TABLE = 'reg_vocabulary';
     protected $table = self::TABLE;
 
-    use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy, BelongsToProject;
+    use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy, BelongsToProject, BelongsToProfile, BlamableBehavior;
 
     protected $blameable = [
       'created' => 'created_user_id',
@@ -134,15 +136,6 @@ class Vocabulary extends Model
     {
         $this->attributes['prefixes'] = serialize($value);
     }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function profile()
-    {
-        return $this->belongsTo(\App\Models\Profile::class, 'profile_id', 'id');
-    }
-
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

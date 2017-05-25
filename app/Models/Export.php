@@ -8,6 +8,7 @@
 namespace App\Models;
 
 use App\Models\Access\User\User;
+use App\Models\Traits\BelongsToProfile;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Reliese\Database\Eloquent\Model as Eloquent;
 use const true;
@@ -61,7 +62,7 @@ use Backpack\CRUD\CrudTrait;
  */
 class Export extends Eloquent
 {
-    use CrudTrait;
+    use CrudTrait, BelongsToProfile;
 
      /*
     |--------------------------------------------------------------------------
@@ -159,14 +160,6 @@ class Export extends Eloquent
     public function elementSet(): BelongsTo
     {
         return $this->belongsTo(ElementSet::class, 'schema_id');
-    }
-
-    /**
-     * @return BelongsTo
-     **/
-    public function profile(): BelongsTo
-    {
-        return $this->belongsTo(Profile::class);
     }
 
     /**

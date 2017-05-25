@@ -1,5 +1,6 @@
 <?php namespace App\Models;
 
+use App\Models\Traits\BelongsToProfile;
 use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -90,7 +91,7 @@ class ProfileProperty extends Model
     protected $table = self::TABLE;
     const TABLE = 'profile_property';
 
-    use SoftDeletes;
+    use SoftDeletes, BelongsToProfile;
 
     public function getNameAttribute($value)
     {
@@ -102,9 +103,4 @@ class ProfileProperty extends Model
         }
     }
 
-
-    public function Profile()
-    {
-        return $this->belongsTo(\App\Models\Profile::class, 'profile_id', 'id');
-    }
 }

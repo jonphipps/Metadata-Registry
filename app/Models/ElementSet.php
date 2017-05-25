@@ -1,5 +1,6 @@
 <?php namespace App\Models;
 
+use App\Models\Traits\BelongsToProfile;
 use App\Models\Traits\BelongsToProject;
 use Culpa\Traits\Blameable;
 use Culpa\Traits\CreatedBy;
@@ -92,7 +93,7 @@ class ElementSet extends Model
 
     public $table = self::TABLE;
 
-    use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy, BelongsToProject;
+    use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy, BelongsToProject, BelongsToProfile;
 
     protected $blameable = [
       'created' => 'created_user_id',
@@ -194,13 +195,7 @@ class ElementSet extends Model
         $this->attributes['prefixes'] = serialize($value);
     }
 
-    public function profile()
-    {
-        return $this->belongsTo(\App\Models\Profile::class, 'profile_id', 'id');
-    }
-
-
-    public function status()
+     public function status()
     {
         return $this->belongsTo(\App\Models\Status::class, 'status_id', 'id');
     }
