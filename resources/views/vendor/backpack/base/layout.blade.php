@@ -9,7 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
     <title>
-        {{ isset($title) ? $title.' :: .The Registry!': 'The Registry!'}}
+        {{ isset($title) ? ' The Registry! :: ' . $title: 'The Registry!'}}
     </title>
 
     @yield('before_styles')
