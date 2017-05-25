@@ -153,6 +153,7 @@
         "orangehill/iseed": "^2.3",
         "phpunit/phpunit": "5.7.x",
         "reliese/laravel": "^0.0.13",
+        "spatie/laravel-artisan-dd": "^1.1",
         "spatie/laravel-db-snapshots": "^1.0",
         "spatie/phpunit-snapshot-assertions": "^0.4.1",
         "sstalle/php7cc": "^1.1",
