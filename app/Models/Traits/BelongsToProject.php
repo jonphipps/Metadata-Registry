@@ -5,10 +5,14 @@
 namespace App\Models\Traits;
 
 use App\Models\Project;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 trait BelongsToProject
 {
 
+    /**
+     * @return BelongsTo
+     */
     public function project()
     {
         return $this->belongsTo( Project::class, 'agent_id', 'id' );
