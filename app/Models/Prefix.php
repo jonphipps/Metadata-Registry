@@ -8,15 +8,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @property string $prefix
  * @property string $uri
- * @property int $rank
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Prefix wherePrefix($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Prefix whereRank($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Prefix whereUri($value)
+ * @property int    $rank
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Prefix wherePrefix( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Prefix whereRank( $value )
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Prefix whereUri( $value )
  * @mixin \Eloquent
  */
 class Prefix extends Model
 {
     protected $table = self::TABLE;
+
     const TABLE = 'reg_prefix';
 
     public $primaryKey = 'prefix';
@@ -26,24 +27,24 @@ class Prefix extends Model
     public $incrementing = false;
 
     public $fillable = [
-      "prefix",
-      "uri",
-      "rank",
+        "prefix",
+        "uri",
+        "rank",
     ];
 
-  /**
-   * The attributes that should be casted to native types.
-   *
-   * @var array
-   */
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
     protected $casts = [
-      "prefix" => "string",
-      "uri"    => "string",
-      "rank"   => "integer",
+        "prefix" => "string",
+        "uri"    => "string",
+        "rank"   => "integer",
     ];
 
     public static $rules = [
-      "prefix" => "required|max:40",
-      "uri"    => "max:256",
+        "prefix" => "required|max:40",
+        "uri"    => "max:256",
     ];
 }

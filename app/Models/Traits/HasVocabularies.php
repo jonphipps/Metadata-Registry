@@ -19,7 +19,11 @@ trait HasVocabularies
     {
         $count = $this->vocabularies()->count();
 
-        return $count ? '<a href="' . url( 'projects/' . $this->id . '/vocabularies' ) . '">' . Project::badge( $count ) : '&nbsp;';
+        return $count ?
+            '<a href="' .
+            url( 'projects/' . $this->id . '/vocabularies' ) .
+            '">' .
+            Project::badge( $count ) : '&nbsp;';
     }
 
     /**

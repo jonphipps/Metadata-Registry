@@ -15,7 +15,7 @@ trait HistoryRelationship
      */
     public function user()
     {
-        return $this->hasOne(User::class, 'id', 'user_id');
+        return $this->hasOne( User::class, 'id', 'user_id' );
     }
 
     /**
@@ -23,6 +23,6 @@ trait HistoryRelationship
      */
     public function type()
     {
-        return $this->hasOne(HistoryType::class, 'id', 'type_id');
+        return $this->hasOne( HistoryType::class, 'id', 'type_id' );
     }
 }

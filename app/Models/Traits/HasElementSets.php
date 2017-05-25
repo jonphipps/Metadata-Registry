@@ -27,6 +27,10 @@ trait HasElementSets
     {
         $count = $this->elementSets()->count();
 
-        return $count ? '<a href="' . url( 'projects/' . $this->id . '/elementsets' ) . '">' . Project::badge( $count ) : '&nbsp;';
+        return $count ?
+            '<a href="' .
+            url( 'projects/' . $this->id . '/elementsets' ) .
+            '">' .
+            Project::badge( $count ) : '&nbsp;';
     }
 }

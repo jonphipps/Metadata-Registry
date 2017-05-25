@@ -17,7 +17,10 @@ trait UserRelationship
      */
     public function roles()
     {
-        return $this->belongsToMany(config('access.role'), config('access.role_user_table'), 'user_id', 'role_id');
+        return $this->belongsToMany( config( 'access.role' ),
+            config( 'access.role_user_table' ),
+            'user_id',
+            'role_id' );
     }
 
     /**
@@ -25,7 +28,7 @@ trait UserRelationship
      */
     public function providers()
     {
-        return $this->hasMany(SocialLogin::class);
+        return $this->hasMany( SocialLogin::class );
     }
 
     /**
@@ -33,6 +36,6 @@ trait UserRelationship
      */
     public function sessions()
     {
-        return $this->hasMany(Session::class);
+        return $this->hasMany( Session::class );
     }
 }

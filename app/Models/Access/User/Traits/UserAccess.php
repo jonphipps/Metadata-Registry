@@ -14,23 +14,23 @@ trait UserAccess
      *
      * @return bool
      */
-    public function hasRole($nameOrId)
+    public function hasRole( $nameOrId )
     {
-        foreach ($this->roles as $role) {
+        foreach ( $this->roles as $role ) {
             //See if role has all permissions
-            if ($role->all) {
+            if ( $role->all ) {
                 return true;
             }
 
             //First check to see if it's an ID
-            if (is_numeric($nameOrId)) {
-                if ($role->id == $nameOrId) {
+            if ( is_numeric( $nameOrId ) ) {
+                if ( $role->id == $nameOrId ) {
                     return true;
                 }
             }
 
             //Otherwise check by name
-            if ($role->name == $nameOrId) {
+            if ( $role->name == $nameOrId ) {
                 return true;
             }
         }
@@ -40,7 +40,6 @@ trait UserAccess
 
     /**
      * Checks to see if user has array of roles.
-     *
      * All must return true
      *
      * @param  $roles
@@ -48,20 +47,20 @@ trait UserAccess
      *
      * @return bool
      */
-    public function hasRoles($roles, $needsAll = false)
+    public function hasRoles( $roles, $needsAll = false )
     {
         //If not an array, make a one item array
-        if (! is_array($roles)) {
+        if ( ! is_array( $roles ) ) {
             $roles = [ $roles ];
         }
 
         //User has to possess all of the roles specified
-        if ($needsAll) {
+        if ( $needsAll ) {
             $hasRoles = 0;
-            $numRoles = count($roles);
+            $numRoles = count( $roles );
 
-            foreach ($roles as $role) {
-                if ($this->hasRole($role)) {
+            foreach ( $roles as $role ) {
+                if ( $this->hasRole( $role ) ) {
                     $hasRoles++;
                 }
             }
@@ -70,8 +69,8 @@ trait UserAccess
         }
 
         //User has to possess one of the roles specified
-        foreach ($roles as $role) {
-            if ($this->hasRole($role)) {
+        foreach ( $roles as $role ) {
+            if ( $this->hasRole( $role ) ) {
                 return true;
             }
         }
@@ -86,26 +85,26 @@ trait UserAccess
      *
      * @return bool
      */
-    public function allow($nameOrId)
+    public function allow( $nameOrId )
     {
-        foreach ($this->roles as $role) {
+        foreach ( $this->roles as $role ) {
             // See if role has all permissions
-            if ($role->all) {
+            if ( $role->all ) {
                 return true;
             }
 
             // Validate against the Permission table
-            foreach ($role->permissions as $perm) {
+            foreach ( $role->permissions as $perm ) {
 
                 // First check to see if it's an ID
-                if (is_numeric($nameOrId)) {
-                    if ($perm->id == $nameOrId) {
+                if ( is_numeric( $nameOrId ) ) {
+                    if ( $perm->id == $nameOrId ) {
                         return true;
                     }
                 }
 
                 // Otherwise check by name
-                if ($perm->name == $nameOrId) {
+                if ( $perm->name == $nameOrId ) {
                     return true;
                 }
             }
@@ -122,20 +121,20 @@ trait UserAccess
      *
      * @return bool
      */
-    public function allowMultiple($permissions, $needsAll = false)
+    public function allowMultiple( $permissions, $needsAll = false )
     {
         //If not an array, make a one item array
-        if (! is_array($permissions)) {
-            $permissions = [$permissions];
+        if ( ! is_array( $permissions ) ) {
+            $permissions = [ $permissions ];
         }
 
         //User has to possess all of the permissions specified
-        if ($needsAll) {
+        if ( $needsAll ) {
             $hasPermissions = 0;
-            $numPermissions = count($permissions);
+            $numPermissions = count( $permissions );
 
-            foreach ($permissions as $perm) {
-                if ($this->allow($perm)) {
+            foreach ( $permissions as $perm ) {
+                if ( $this->allow( $perm ) ) {
                     $hasPermissions++;
                 }
             }
@@ -144,8 +143,8 @@ trait UserAccess
         }
 
         //User has to possess one of the permissions specified
-        foreach ($permissions as $perm) {
-            if ($this->allow($perm)) {
+        foreach ( $permissions as $perm ) {
+            if ( $this->allow( $perm ) ) {
                 return true;
             }
         }
@@ -158,20 +157,20 @@ trait UserAccess
      *
      * @return bool
      */
-    public function hasPermission($nameOrId)
+    public function hasPermission( $nameOrId )
     {
-        return $this->allow($nameOrId);
+        return $this->allow( $nameOrId );
     }
 
     /**
-     * @param  $permissions
+     * @param      $permissions
      * @param bool $needsAll
      *
      * @return bool
      */
-    public function hasPermissions($permissions, $needsAll = false)
+    public function hasPermissions( $permissions, $needsAll = false )
     {
-        return $this->allowMultiple($permissions, $needsAll);
+        return $this->allowMultiple( $permissions, $needsAll );
     }
 
     /**
@@ -181,17 +180,17 @@ trait UserAccess
      *
      * @return void
      */
-    public function attachRole($role)
+    public function attachRole( $role )
     {
-        if (is_object($role)) {
+        if ( is_object( $role ) ) {
             $role = $role->getKey();
         }
 
-        if (is_array($role)) {
+        if ( is_array( $role ) ) {
             $role = $role['id'];
         }
 
-        $this->roles()->attach($role);
+        $this->roles()->attach( $role );
     }
 
     /**
@@ -201,17 +200,17 @@ trait UserAccess
      *
      * @return void
      */
-    public function detachRole($role)
+    public function detachRole( $role )
     {
-        if (is_object($role)) {
+        if ( is_object( $role ) ) {
             $role = $role->getKey();
         }
 
-        if (is_array($role)) {
+        if ( is_array( $role ) ) {
             $role = $role['id'];
         }
 
-        $this->roles()->detach($role);
+        $this->roles()->detach( $role );
     }
 
     /**
@@ -221,10 +220,10 @@ trait UserAccess
      *
      * @return void
      */
-    public function attachRoles($roles)
+    public function attachRoles( $roles )
     {
-        foreach ($roles as $role) {
-            $this->attachRole($role);
+        foreach ( $roles as $role ) {
+            $this->attachRole( $role );
         }
     }
 
@@ -235,27 +234,27 @@ trait UserAccess
      *
      * @return void
      */
-    public function detachRoles($roles)
+    public function detachRoles( $roles )
     {
-        foreach ($roles as $role) {
-            $this->detachRole($role);
+        foreach ( $roles as $role ) {
+            $this->detachRole( $role );
         }
     }
 
-
-  /**
-   * This is an alias for hasRoles
-   *
-   * @param $credentials
-   * @param bool $needsAll
-   *
-   * @return bool
-   */
-    public function hasCredential($credentials, $needsAll = false)
+    /**
+     * This is an alias for hasRoles
+     *
+     * @param      $credentials
+     * @param bool $needsAll
+     *
+     * @return bool
+     */
+    public function hasCredential( $credentials, $needsAll = false )
     {
-        if (is_array($credentials) && is_array($credentials[0])) {
+        if ( is_array( $credentials ) && is_array( $credentials[0] ) ) {
             $credentials = $credentials[0];
         }
-        return $this->hasRoles($credentials, $needsAll);
+
+        return $this->hasRoles( $credentials, $needsAll );
     }
 }
