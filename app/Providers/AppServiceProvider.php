@@ -13,7 +13,6 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Dusk\DuskServiceProvider;
 use Mpociot\LaravelTestFactoryHelper\TestFactoryHelperServiceProvider;
 use Orangehill\Iseed\IseedServiceProvider;
-use Reliese\Coders\CodersServiceProvider;
 use Spatie\DbSnapshots\DbSnapshotsServiceProvider;
 use Way\Generators\GeneratorsServiceProvider;
 use Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider;
@@ -101,7 +100,6 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(DbDumpServiceProvider::class);
             $this->app->register(GeneratorsServiceProvider::class);
             $this->app->register(MigrationsGeneratorServiceProvider::class);
-            $this->app->register(CodersServiceProvider::class);
             $this->app->register(IseedServiceProvider::class);
             $this->app->register(DuskServiceProvider::class);
             $this->app->register( DbSnapshotsServiceProvider::class);

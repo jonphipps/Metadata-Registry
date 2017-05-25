@@ -10,7 +10,6 @@ use Culpa\Traits\DeletedBy;
 use Culpa\Traits\UpdatedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Reliese\Database\Eloquent\BlamableBehavior;
 
 /**
  * App\Models\Vocabulary
@@ -92,7 +91,7 @@ class Vocabulary extends Model
 
     protected $table = self::TABLE;
 
-    use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy, BelongsToProject, BelongsToProfile, BlamableBehavior;
+    use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy, BelongsToProject, BelongsToProfile;
 
     protected $blameable = [
         'created' => 'created_user_id',

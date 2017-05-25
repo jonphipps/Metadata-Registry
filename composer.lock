@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "ea07766d666a0d2ac2ae00dbcc03e9bc",
+    "content-hash": "03a7e981704ed0b77adfc9dab1b1db8f",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -3673,16 +3673,16 @@
         },
         {
             "name": "laravelcollective/html",
-            "version": "v5.4.6",
+            "version": "v5.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/LaravelCollective/html.git",
-                "reference": "115141fe55550eaeb9629ba16b48fcb1117846c7"
+                "reference": "9b8f51e7a2368911c896f5d42757886bae0717b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/LaravelCollective/html/zipball/115141fe55550eaeb9629ba16b48fcb1117846c7",
-                "reference": "115141fe55550eaeb9629ba16b48fcb1117846c7",
+                "url": "https://api.github.com/repos/LaravelCollective/html/zipball/9b8f51e7a2368911c896f5d42757886bae0717b5",
+                "reference": "9b8f51e7a2368911c896f5d42757886bae0717b5",
                 "shasum": ""
             },
             "require": {
@@ -3723,7 +3723,7 @@
             ],
             "description": "HTML and Form Builders for the Laravel Framework",
             "homepage": "http://laravelcollective.com",
-            "time": "2017-05-19T17:45:41+00:00"
+            "time": "2017-05-22T06:35:07+00:00"
         },
         {
             "name": "league/flysystem",
@@ -4366,16 +4366,16 @@
         },
         {
             "name": "neitanod/forceutf8",
-            "version": "v2.0",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/neitanod/forceutf8.git",
-                "reference": "2c1b21e00ed16b2b083ae4e27901cb5f2856db90"
+                "reference": "47c883ab2739e7938a8bb0bfd1c29d48c88858de"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/neitanod/forceutf8/zipball/2c1b21e00ed16b2b083ae4e27901cb5f2856db90",
-                "reference": "2c1b21e00ed16b2b083ae4e27901cb5f2856db90",
+                "url": "https://api.github.com/repos/neitanod/forceutf8/zipball/47c883ab2739e7938a8bb0bfd1c29d48c88858de",
+                "reference": "47c883ab2739e7938a8bb0bfd1c29d48c88858de",
                 "shasum": ""
             },
             "require": {
@@ -4396,7 +4396,7 @@
             ],
             "description": "PHP Class Encoding featuring popular Encoding::toUTF8() function --formerly known as forceUTF8()-- that fixes mixed encoded strings.",
             "homepage": "https://github.com/neitanod/forceutf8",
-            "time": "2015-05-07T16:37:23+00:00"
+            "time": "2017-05-22T18:50:57+00:00"
         },
         {
             "name": "nesbot/carbon",
@@ -6274,6 +6274,59 @@
             "time": "2017-01-19T20:51:03+00:00"
         },
         {
+            "name": "spatie/laravel-artisan-dd",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-artisan-dd.git",
+                "reference": "83384a1568d29953d18c96e3dab6bb8e664aec96"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-artisan-dd/zipball/83384a1568d29953d18c96e3dab6bb8e664aec96",
+                "reference": "83384a1568d29953d18c96e3dab6bb8e664aec96",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "~5.3|~5.4",
+                "illuminate/support": "~5.3|~5.4",
+                "php": "^7.0",
+                "spatie/laravel-tinker-tools": "^1.0.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "~3.3|~3.4",
+                "phpunit/phpunit": "^5.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\ArtisanDd\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Run dd from your commandline",
+            "homepage": "https://github.com/spatie/laravel-artisan-dd",
+            "keywords": [
+                "artisan",
+                "debug",
+                "develop",
+                "laravel-artisan-dd",
+                "spatie"
+            ],
+            "time": "2017-05-22T11:37:22+00:00"
+        },
+        {
             "name": "spatie/laravel-fractal",
             "version": "3.5.0",
             "source": {
@@ -8015,16 +8068,16 @@
         },
         {
             "name": "yajra/laravel-datatables-oracle",
-            "version": "v7.4.0",
+            "version": "v7.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yajra/laravel-datatables.git",
-                "reference": "0ce81393cbc6c6c47aa00e4d7d53eebc101266ef"
+                "reference": "b0e4171a442d33a0d52f6a2b860bc2842f0a0096"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/0ce81393cbc6c6c47aa00e4d7d53eebc101266ef",
-                "reference": "0ce81393cbc6c6c47aa00e4d7d53eebc101266ef",
+                "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/b0e4171a442d33a0d52f6a2b860bc2842f0a0096",
+                "reference": "b0e4171a442d33a0d52f6a2b860bc2842f0a0096",
                 "shasum": ""
             },
             "require": {
@@ -8072,7 +8125,7 @@
                 "jquery",
                 "laravel"
             ],
-            "time": "2017-05-01T04:09:32+00:00"
+            "time": "2017-05-22T03:51:49+00:00"
         }
     ],
     "packages-dev": [
@@ -8877,16 +8930,16 @@
         },
         {
             "name": "codeception/codeception",
-            "version": "2.2.11",
+            "version": "2.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/Codeception.git",
-                "reference": "a8681b416921ae282ccca2c485d75a3ed6756080"
+                "reference": "d4d76d18ea0ec8d504995995ae68fccac24523db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/a8681b416921ae282ccca2c485d75a3ed6756080",
-                "reference": "a8681b416921ae282ccca2c485d75a3ed6756080",
+                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/d4d76d18ea0ec8d504995995ae68fccac24523db",
+                "reference": "d4d76d18ea0ec8d504995995ae68fccac24523db",
                 "shasum": ""
             },
             "require": {
@@ -8898,7 +8951,7 @@
                 "guzzlehttp/psr7": "~1.0",
                 "php": ">=5.4.0 <8.0",
                 "phpunit/php-code-coverage": ">=2.2.4 <6.0",
-                "phpunit/phpunit": ">4.8.20 <6.0",
+                "phpunit/phpunit": ">4.8.20 <7.0",
                 "phpunit/phpunit-mock-objects": ">2.3 <5.0",
                 "sebastian/comparator": ">1.1 <3.0",
                 "sebastian/diff": "^1.4",
@@ -8967,7 +9020,7 @@
                 "functional testing",
                 "unit testing"
             ],
-            "time": "2017-05-11T21:07:05+00:00"
+            "time": "2017-05-24T00:54:13+00:00"
         },
         {
             "name": "codeception/specify",
@@ -10285,16 +10338,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "5.7.19",
+            "version": "5.7.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "69c4f49ff376af2692bad9cebd883d17ebaa98a1"
+                "reference": "3cb94a5f8c07a03c8b7527ed7468a2926203f58b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/69c4f49ff376af2692bad9cebd883d17ebaa98a1",
-                "reference": "69c4f49ff376af2692bad9cebd883d17ebaa98a1",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/3cb94a5f8c07a03c8b7527ed7468a2926203f58b",
+                "reference": "3cb94a5f8c07a03c8b7527ed7468a2926203f58b",
                 "shasum": ""
             },
             "require": {
@@ -10312,7 +10365,7 @@
                 "phpunit/php-timer": "^1.0.6",
                 "phpunit/phpunit-mock-objects": "^3.2",
                 "sebastian/comparator": "^1.2.4",
-                "sebastian/diff": "~1.2",
+                "sebastian/diff": "^1.4.3",
                 "sebastian/environment": "^1.3.4 || ^2.0",
                 "sebastian/exporter": "~2.0",
                 "sebastian/global-state": "^1.1",
@@ -10363,7 +10416,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2017-04-03T02:22:27+00:00"
+            "time": "2017-05-22T07:42:55+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -10520,58 +10573,6 @@
             "time": "2017-02-14T16:28:37+00:00"
         },
         {
-            "name": "reliese/laravel",
-            "version": "v0.0.13",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/reliese/laravel.git",
-                "reference": "10075c5f5e67efba18d781216ff5a0ffa3fc2d7f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/reliese/laravel/zipball/10075c5f5e67efba18d781216ff5a0ffa3fc2d7f",
-                "reference": "10075c5f5e67efba18d781216ff5a0ffa3fc2d7f",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/dbal": "~2.5",
-                "illuminate/console": "~5.1",
-                "illuminate/contracts": "~5.1",
-                "illuminate/database": "~5.1",
-                "illuminate/filesystem": "~5.1",
-                "illuminate/support": "~5.1",
-                "php": ">=5.6.4"
-            },
-            "require-dev": {
-                "fzaninotto/faker": "~1.4",
-                "mockery/mockery": "0.9.*",
-                "phpunit/phpunit": "~5.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Reliese\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Cristian Llanos",
-                    "email": "cristianllanos@outlook.com"
-                }
-            ],
-            "description": "Reliese Components for Laravel Framework code generation.",
-            "homepage": "http://cristianllanos.com",
-            "keywords": [
-                "laravel",
-                "reliese"
-            ],
-            "time": "2017-02-04T15:50:39+00:00"
-        },
-        {
             "name": "sebastian/code-unit-reverse-lookup",
             "version": "1.0.1",
             "source": {
@@ -10682,16 +10683,16 @@
         },
         {
             "name": "sebastian/diff",
-            "version": "1.4.2",
+            "version": "1.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/diff.git",
-                "reference": "3c7d21999e815cdfac70c6c7d79d3a9cb1bc7bc2"
+                "reference": "7f066a26a962dbe58ddea9f72a4e82874a3975a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/3c7d21999e815cdfac70c6c7d79d3a9cb1bc7bc2",
-                "reference": "3c7d21999e815cdfac70c6c7d79d3a9cb1bc7bc2",
+                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/7f066a26a962dbe58ddea9f72a4e82874a3975a4",
+                "reference": "7f066a26a962dbe58ddea9f72a4e82874a3975a4",
                 "shasum": ""
             },
             "require": {
@@ -10730,7 +10731,7 @@
             "keywords": [
                 "diff"
             ],
-            "time": "2017-05-18T13:44:30+00:00"
+            "time": "2017-05-22T07:24:03+00:00"
         },
         {
             "name": "sebastian/environment",
@@ -11086,16 +11087,16 @@
         },
         {
             "name": "spatie/db-dumper",
-            "version": "2.6.1",
+            "version": "2.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/db-dumper.git",
-                "reference": "3495a15545643a4fc19e914cd5e55d35f2734a88"
+                "reference": "cbfb3679d0a91ec56caa63ed8de3052c6792376a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/db-dumper/zipball/3495a15545643a4fc19e914cd5e55d35f2734a88",
-                "reference": "3495a15545643a4fc19e914cd5e55d35f2734a88",
+                "url": "https://api.github.com/repos/spatie/db-dumper/zipball/cbfb3679d0a91ec56caa63ed8de3052c6792376a",
+                "reference": "cbfb3679d0a91ec56caa63ed8de3052c6792376a",
                 "shasum": ""
             },
             "require": {
@@ -11132,60 +11133,7 @@
                 "mysqldump",
                 "spatie"
             ],
-            "time": "2017-05-15T14:52:41+00:00"
-        },
-        {
-            "name": "spatie/laravel-artisan-dd",
-            "version": "1.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/spatie/laravel-artisan-dd.git",
-                "reference": "83384a1568d29953d18c96e3dab6bb8e664aec96"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-artisan-dd/zipball/83384a1568d29953d18c96e3dab6bb8e664aec96",
-                "reference": "83384a1568d29953d18c96e3dab6bb8e664aec96",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/console": "~5.3|~5.4",
-                "illuminate/support": "~5.3|~5.4",
-                "php": "^7.0",
-                "spatie/laravel-tinker-tools": "^1.0.0"
-            },
-            "require-dev": {
-                "orchestra/testbench": "~3.3|~3.4",
-                "phpunit/phpunit": "^5.7"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Spatie\\ArtisanDd\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Freek Van der Herten",
-                    "email": "freek@spatie.be",
-                    "homepage": "https://spatie.be",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Run dd from your commandline",
-            "homepage": "https://github.com/spatie/laravel-artisan-dd",
-            "keywords": [
-                "artisan",
-                "debug",
-                "develop",
-                "laravel-artisan-dd",
-                "spatie"
-            ],
-            "time": "2017-05-22T11:37:22+00:00"
+            "time": "2017-05-25T20:43:25+00:00"
         },
         {
             "name": "spatie/laravel-db-snapshots",
