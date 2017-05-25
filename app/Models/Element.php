@@ -104,4 +104,46 @@ class Element extends Model
         });
   }
 
+    /**
+     * @param int $projectId
+     *
+     * @return array
+     */
+    public static function SelectElementsByProject( $projectId )
+    {
+        return \DB::table( ElementAttribute::TABLE )
+            ->join( Element::TABLE,
+                Element::TABLE . '.id',
+                '=',
+                ElementAttribute::TABLE . '.schema_property_id' )
+            ->join( ElementSet::TABLE,
+                ElementSet::TABLE . '.id',
+                '=',
+                Element::TABLE . '.schema_id' )
+            ->select( ElementAttribute::TABLE .
+                '.schema_property_id as id',
+                ElementSet::TABLE . '.name as ElementSet',
+                ElementAttribute::TABLE . '.language',
+                ElementAttribute::TABLE . '.object as label' )
+            ->where( [
+                [ ElementAttribute::TABLE . '.profile_property_id', 2, ],
+                [ ElementSet::TABLE . '.agent_id', $projectId, ],
+            ] )
+            ->orderBy( ElementSet::TABLE . '.name' )
+            ->orderBy( ElementAttribute::TABLE .
+                '.language' )
+            ->orderBy( ElementAttribute::TABLE . '.object' )
+            ->get()
+            ->mapWithKeys( function( $item ) {
+                return [
+                    $item->id . '_' . $item->language => $item->ElementSet .
+                        ' - (' .
+                        $item->language .
+                        ') ' .
+                        $item->label,
+                ];
+            } )
+            ->toArray();
+    }
+
 }
