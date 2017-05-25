@@ -46,10 +46,6 @@ class myUser extends sfBasicSecurityUser
     $this->setAttribute('nickname', $user->getNickname(), self::SUBSCRIBER_NAMESPACE);
     $this->addCredential('subscriber');
 
-    if ($user->getIsModerator())
-    {
-      $this->addCredential('moderator');
-    }
 
     if ($user->getIsAdministrator())
     {

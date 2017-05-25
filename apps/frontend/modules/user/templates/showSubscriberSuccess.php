@@ -3,7 +3,6 @@
 <?php echo javascript_tag("formUtil.focusOnFirst('sf_admin_edit_form');") ?>
 <div id="sf_admin_container">
     <h1><?php echo __s('%1%\'s profile', [ '%1%' => $subscriber->__toString() ]) ?>
-        <?php if ($subscriber->getIsModerator()): ?> [<?php echo __s('moderator') ?>]<?php endif ?>
         <?php if ($subscriber->getIsAdministrator()): ?> [<?php echo __s('administrator') ?>]<?php endif ?>
     </h1>
     <?php echo include_partial('administrator/user_options', [ 'subscriber' => $subscriber ]) ?>

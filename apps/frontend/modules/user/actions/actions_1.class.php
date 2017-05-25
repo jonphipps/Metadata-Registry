@@ -173,7 +173,6 @@ class userActions extends sfActions
     $this->subscriber->setFirstName($this->getRequestParameter('first_name'));
     $this->subscriber->setLastName($this->getRequestParameter('last_name'));
     $this->subscriber->setEmail($this->getRequestParameter('email'));
-    $this->subscriber->setWantToBeModerator($this->getRequestParameter('want_to_be_moderator'));
   }
 
   private function setShowVars()
