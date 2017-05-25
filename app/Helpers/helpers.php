@@ -67,4 +67,11 @@ if (! function_exists('laravel_link_to_action')) {
     {
         return app('html')->linkAction($action, $title, $parameters, $attributes);
     }
+
+    if ( ! function_exists( 'tinker' ) ) {
+        function tinker()
+        {
+            eval( \Psy\sh() );
+        }
+    }
 }
