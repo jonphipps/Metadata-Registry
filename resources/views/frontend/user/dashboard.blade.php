@@ -16,13 +16,13 @@
                                         </div><!--panel-heading-->
                                         <div class="panel-body">
                                             <ul class="list-unstyled">
-                                                @forelse ($logged_in_user->projects->sortBy('label') as $project)
-                                                    <li>{{ laravel_link_to('projects/'.$project->id, $project->label) }}</li>
+                                                @forelse ($logged_in_user->projects->sortBy('title') as $project)
+                                                    <li>{{ laravel_link_to('projects/'.$project->id, $project->title) }}</li>
                                                 @empty
                                                     Start by Adding a Project...
                                                 @endforelse
                                             </ul>
-                                            <a class="btn btn-default btn-sm pull-right" href="{{ route('frontend.crud.projects.create') }}" role="button">Add New Project</a>
+                                            <a class="btn btn-primary btn-sm pull-right" href="{{ route('frontend.crud.projects.create') }}" role="button">Add New Project</a>
                                         </div><!--panel-body-->
                                     </div><!--panel-->
                                 </div><!--col-xs-12-->
