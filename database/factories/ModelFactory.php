@@ -221,7 +221,7 @@ $factory->define(App\Models\Discuss::class,
             // 'deleted_user_id'            => $deletor,
             // 'uri'                        => $faker->word,
             // 'schema_id'                  => function() {
-            //     return factory(App\Models\ElementSet::class)->create()->id;
+            //     return factory(App\Models\Elementset::class)->create()->id;
             // },
             // 'schema_property_id'         => function() {
             //     return factory(App\Models\Element::class)->create()->id;
@@ -263,7 +263,7 @@ $factory->define(App\Models\Element::class,
             // 'updated_user_id'   => $updator,
             // 'deleted_user_id'   => $deletor,
             // 'schema_id'         => function() {
-            //     return factory(App\Models\ElementSet::class)->create()->id;
+            //     return factory(App\Models\Elementset::class)->create()->id;
             // },
             // 'name'              => $faker->name,
             // 'label'             => $faker->word,
@@ -330,7 +330,7 @@ $factory->define(App\Models\ElementAttributeHistory::class,
             //     return factory(App\Models\Element::class)->create()->id;
             // },
             // 'schema_id'                  => function() {
-            //     return factory(App\Models\ElementSet::class)->create()->id;
+            //     return factory(App\Models\Elementset::class)->create()->id;
             // },
             // 'profile_property_id'        => function() {
             //     return factory(App\Models\ProfileProperty::class)->create()->id;
@@ -349,7 +349,7 @@ $factory->define(App\Models\ElementAttributeHistory::class,
         ];
     });
 
-$factory->define(App\Models\ElementSet::class,
+$factory->define(App\Models\Elementset::class,
     function(Faker\Generator $faker) {
         /** @var \App\Models\Project $project */
         // $project = function() {
@@ -395,7 +395,7 @@ $factory->define(App\Models\ElementSetHasUser::class,
     function(Faker\Generator $faker) {
         return [
             // 'schema_id'         => function() {
-            //     return factory(App\Models\ElementSet::class)->create()->id;
+            //     return factory(App\Models\Elementset::class)->create()->id;
             // },
             // 'user_id'           => getRandomUser($faker),
             // 'is_maintainer_for' => $faker->boolean,
@@ -413,7 +413,7 @@ $factory->define(App\Models\ElementSetHasVersion::class,
             // 'name'            => $faker->name,
             // 'created_user_id' => getRandomUser($faker),
             // 'schema_id'       => function() {
-            //     return factory(App\Models\ElementSet::class)->create()->id;
+            //     return factory(App\Models\Elementset::class)->create()->id;
             // },
             // 'timeslice'       => $faker->dateTimeBetween(),
             // 'created_by'      => $faker->randomNumber(),
@@ -431,7 +431,7 @@ $factory->define(App\Models\Export::class,
                 return factory(App\Models\Vocabulary::class)->create()->id;
             },
             'schema_id'                  => function() {
-                return factory(App\Models\ElementSet::class)->create()->id;
+                return factory(App\Models\Elementset::class)->create()->id;
             },
             'exclude_deprecated'         => $faker->boolean,
             'include_generated'          => $faker->boolean,
@@ -463,7 +463,7 @@ $factory->define(App\Models\ExportHistory::class,
             //     return factory(App\Models\Vocabulary::class)->create()->id;
             // },
             // 'schema_id'                  => function() {
-            //     return factory(App\Models\ElementSet::class)->create()->id;
+            //     return factory(App\Models\Elementset::class)->create()->id;
             // },
             // 'exclude_deprecated'         => $faker->boolean,
             // 'include_generated'          => $faker->boolean,
@@ -490,7 +490,7 @@ $factory->define(App\Models\FileImportHistory::class,
             //     return factory(App\Models\Vocabulary::class)->create()->id;
             // },
             // 'schema_id'             => function() {
-            //     return factory(App\Models\ElementSet::class)->create()->id;
+            //     return factory(App\Models\Elementset::class)->create()->id;
             // },
             // 'file_name'             => $faker->word,
             // 'source_file_name'      => $faker->word,
@@ -673,7 +673,7 @@ $factory->define(App\Models\RdfNamespace::class,
         //
         return [
         //     'schema_id'       => function() {
-        //         return factory(App\Models\ElementSet::class)->create()->id;
+        //         return factory(App\Models\Elementset::class)->create()->id;
         //     },
         //     'created_user_id' => $creator,
         //     'updated_user_id' => $updator,
@@ -877,7 +877,7 @@ $factory->defineAs(User::class,
 $factory->define(App\Models\Element::class,
     function(Faker\Generator $faker) {
         $userIds   = User::all('id')->pluck('id')->toArray();
-        $schemaIds = \App\Models\ElementSet::all('id')->pluck('id')->toArray();
+        $schemaIds = \App\Models\Elementset::all('id')->pluck('id')->toArray();
         $statusIds = \App\Models\Status::all('id')->pluck('id')->toArray();
         $user_id   = $faker->randomElement($userIds);
 

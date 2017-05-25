@@ -3,7 +3,7 @@
 use App\Models\Element;
 use App\Models\ElementAttribute;
 use App\Models\ElementAttributeHistory;
-use App\Models\ElementSet;
+use App\Models\Elementset;
 use App\Models\ElementSetHasUser;
 use Database\DisablesForeignKeys;
 use Database\TruncateTable;
@@ -29,7 +29,7 @@ class RDAClassesSeeder extends Seeder
         $updateStatement = file_get_contents( __DIR__ . '/sql/RDAClassesUsers.sql' );
         DB::statement( $updateStatement );
 
-        ElementSet::truncate();
+        Elementset::truncate();
         $updateStatement = file_get_contents( __DIR__ . '/sql/RDAClassesElementSet.sql' );
         DB::statement( $updateStatement );
 

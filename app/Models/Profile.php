@@ -25,7 +25,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int                                                                         $last_uri_id
  * @property int                                                                         $status_id
  * @property string                                                                      $language
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementSet[]      $elementSets
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Elementset[]      $elementSets
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProfileProperty[] $profileProperties
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Project[]         $projects
  * @property-read \App\Models\Status                                                     $status
@@ -75,7 +75,7 @@ class Profile extends Model
 
     public function elementSets()
     {
-        return $this->hasMany( \App\Models\ElementSet::class, 'profile_id', 'id' );
+        return $this->hasMany( \App\Models\Elementset::class, 'profile_id', 'id' );
     }
 
     public function vocabularies()

@@ -51,7 +51,7 @@ use Laracasts\Matryoshka\Cacheable;
  * @property string                                                                       $languages
  * @property string                                                                       $prefixes
  * @property string                                                                       $google_sheet_url
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementSet[]       $elementSets
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Elementset[]       $elementSets
  * @property mixed                                                                        $title
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\User\User[] $members
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Profile[]          $profiles

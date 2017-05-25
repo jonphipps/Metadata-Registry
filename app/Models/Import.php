@@ -27,7 +27,7 @@ use App\Models\Access\User\User;
  * @property-read \App\Models\Batch                                                              $batch
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConceptAttributeHistory[] $conceptAttributeHistory
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementAttributeHistory[] $elementAttributeHistory
- * @property-read \App\Models\ElementSet                                                         $elementSet
+ * @property-read \App\Models\Elementset                                                         $elementSet
  * @property-read \App\Models\Access\User\User                                                   $user
  * @property-read \App\Models\Vocabulary                                                         $vocabulary
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Import whereBatchId( $value )
@@ -107,7 +107,7 @@ class Import extends Model
 
     public function elementset()
     {
-        return $this->belongsTo( \App\Models\ElementSet::class, 'schema_id', 'id' );
+        return $this->belongsTo( \App\Models\Elementset::class, 'schema_id', 'id' );
     }
 
     public function batch()

@@ -38,7 +38,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int                                                                          $created_by
  * @property int                                                                          $updated_by
  * @property int                                                                          $deleted_by
- * @property-read \App\Models\ElementSet                                                  $elementSet
+ * @property-read \App\Models\Elementset                                                  $elementSet
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementAttribute[] $properties
  * @property-read \App\Models\Status                                                      $status
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Element whereComment( $value )
@@ -83,7 +83,7 @@ class Element extends Model
 
     public function elementset()
     {
-        return $this->belongsTo( \App\Models\ElementSet::class, 'schema_id', 'id' );
+        return $this->belongsTo( \App\Models\Elementset::class, 'schema_id', 'id' );
     }
 
     public function properties()
@@ -116,27 +116,27 @@ class Element extends Model
                 Element::TABLE . '.id',
                 '=',
                 ElementAttribute::TABLE . '.schema_property_id' )
-            ->join( ElementSet::TABLE,
-                ElementSet::TABLE . '.id',
+            ->join( Elementset::TABLE,
+                Elementset::TABLE . '.id',
                 '=',
                 Element::TABLE . '.schema_id' )
             ->select( ElementAttribute::TABLE .
                 '.schema_property_id as id',
-                ElementSet::TABLE . '.name as ElementSet',
+                Elementset::TABLE . '.name as Elementset',
                 ElementAttribute::TABLE . '.language',
                 ElementAttribute::TABLE . '.object as label' )
             ->where( [
                 [ ElementAttribute::TABLE . '.profile_property_id', 2, ],
-                [ ElementSet::TABLE . '.agent_id', $projectId, ],
+                [ Elementset::TABLE . '.agent_id', $projectId, ],
             ] )
-            ->orderBy( ElementSet::TABLE . '.name' )
+            ->orderBy( Elementset::TABLE . '.name' )
             ->orderBy( ElementAttribute::TABLE .
                 '.language' )
             ->orderBy( ElementAttribute::TABLE . '.object' )
             ->get()
             ->mapWithKeys( function( $item ) {
                 return [
-                    $item->id . '_' . $item->language => $item->ElementSet .
+                    $item->id . '_' . $item->language => $item->Elementset .
                         ' - (' .
                         $item->language .
                         ') ' .

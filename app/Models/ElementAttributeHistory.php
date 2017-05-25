@@ -25,7 +25,7 @@ use App\Models\Access\User\User;
  * @property int                               $created_by
  * @property-read \App\Models\Element          $Element
  * @property-read \App\Models\ElementAttribute $ElementAttribute
- * @property-read \App\Models\ElementSet       $ElementSet
+ * @property-read \App\Models\Elementset       $ElementSet
  * @property-read \App\Models\ProfileProperty  $ProfileProperty
  * @property-read \App\Models\Element          $RelatedElement
  * @property-read \App\Models\Status           $Status
@@ -85,39 +85,39 @@ class ElementAttributeHistory extends Model
         "change_note" => "max:65535",
     ];
 
-    public function UserCreator()
+    public function creator()
     {
         return $this->belongsTo( User::class, 'created_user_id', 'id' );
     }
 
-    public function ElementAttribute()
+    public function element_attribute()
     {
         return $this->belongsTo( \App\Models\ElementAttribute::class,
             'schema_property_element_id',
             'id' );
     }
 
-    public function Element()
+    public function element()
     {
         return $this->belongsTo( \App\Models\Element::class, 'schema_property_id', 'id' );
     }
 
     public function elementset()
     {
-        return $this->belongsTo( \App\Models\ElementSet::class, 'schema_id', 'id' );
+        return $this->belongsTo( \App\Models\Elementset::class, 'schema_id', 'id' );
     }
 
-    public function RelatedElement()
+    public function related_element()
     {
         return $this->belongsTo( \App\Models\Element::class, 'related_schema_property_id', 'id' );
     }
 
-    public function Status()
+    public function status()
     {
         return $this->belongsTo( \App\Models\Status::class, 'status_id', 'id' );
     }
 
-    public function ProfileProperty()
+    public function profile_property()
     {
         return $this->belongsTo( \App\Models\ProfileProperty::class, 'profile_property_id', 'id' );
     }

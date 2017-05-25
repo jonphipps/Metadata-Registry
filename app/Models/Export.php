@@ -36,7 +36,7 @@ use Backpack\CRUD\CrudTrait;
  * @property int                                 $profile_id
  * @property string                              $file
  * @property \Illuminate\Support\Collection|null $map
- * @property-read \App\Models\ElementSet         $elementSet
+ * @property-read \App\Models\Elementset         $elementSet
  * @property-read \App\Models\Profile            $profile
  * @property-read \App\Models\Access\User\User   $user
  * @property-read \App\Models\Vocabulary         $vocabulary
@@ -160,7 +160,7 @@ class Export extends Eloquent
      **/
     public function elementset(): BelongsTo
     {
-        return $this->belongsTo( ElementSet::class, 'schema_id' );
+        return $this->belongsTo( Elementset::class, 'schema_id' );
     }
 
     /**

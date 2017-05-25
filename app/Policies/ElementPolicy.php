@@ -4,7 +4,7 @@ namespace App\Policies;
 
 use App\Models\Access\User\User;
 use App\Models\Element;
-use App\Models\ElementSet;
+use App\Models\Elementset;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ElementPolicy
@@ -44,7 +44,7 @@ class ElementPolicy
    *
    * @return mixed
    */
-  public function create(User $user, ElementSet $elementSet)
+  public function create(User $user, Elementset $elementSet)
   {
     //User must be one of: admin, projectadmin, elementSetadmin
     if ($user->isMaintainerForElementSet($elementSet)) {

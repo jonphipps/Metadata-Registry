@@ -6,7 +6,7 @@ namespace App\Models\Traits;
 
 use App\Models\Element;
 use App\Models\ElementAttribute;
-use App\Models\ElementSet;
+use App\Models\Elementset;
 use App\Models\Project;
 
 trait HasElementSets
@@ -17,7 +17,7 @@ trait HasElementSets
      */
     public function elementSets()
     {
-        return $this->hasMany( ElementSet::class, 'agent_id', 'id' );
+        return $this->hasMany( Elementset::class, 'agent_id', 'id' );
     }
 
     /**

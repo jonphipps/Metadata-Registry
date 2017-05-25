@@ -6,7 +6,7 @@ use App\Models\Concept;
 use App\Models\ConceptAttribute;
 use App\Models\Element;
 use App\Models\ElementAttribute;
-use App\Models\ElementSet;
+use App\Models\Elementset;
 use App\Policies\ConceptAttributePolicy;
 use App\Policies\ConceptPolicy;
 use App\Models\Project;
@@ -34,7 +34,7 @@ class AuthServiceProvider extends ServiceProvider
       Vocabulary::class => VocabularyPolicy::class,
       Concept::class          => ConceptPolicy::class,
       ConceptAttribute::class => ConceptAttributePolicy::class,
-      ElementSet::class => ElementSetPolicy::class,
+      Elementset::class => ElementSetPolicy::class,
       Element::class          => ElementPolicy::class,
       ElementAttribute::class => ElementAttributePolicy::class,
       /** Module policy mapper */

@@ -2,8 +2,8 @@
 
 namespace App\Models\Access\User;
 
-use App\Models\ElementSet;
-use App\Models\ElementSetHasUser;
+use App\Models\Elementset;
+use App\Models\ElementsetUser;
 use App\Models\Project;
 use App\Models\ProjectUser;
 use App\Models\Vocabulary;
@@ -37,7 +37,7 @@ use App\Models\Access\User\Traits\Relationship\UserRelationship;
  * @property string                                                                                                         $name
  * @property bool                                                                                                           $confirmed
  * @property string                                                                                                         $remember_token
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementSet[]                                         $elementsets
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Elementset[]                                         $elementsets
  * @property-read string                                                                                                    $action_buttons
  * @property-read string                                                                                                    $change_password_button
  * @property-read string                                                                                                    $clear_session_button
@@ -168,28 +168,28 @@ class User extends Authenticatable
     }
 
     /**
-     * @param ElementSet $elementSet
+     * @param Elementset $elementSet
      *
      * @return bool
      * @internal param Vocabulary $vocabulary
      */
-    public function isAdminForElementSet( ElementSet $elementSet )
+    public function isAdminForElementSet( Elementset $elementSet )
     {
-        return (bool) ElementSetHasUser::where( [
+        return (bool) ElementsetUser::where( [
                 [ 'user_id', '=', $this->id ],
                 [ 'is_admin_for', '=', true ],
             ] )->count() or $this->isAdminForProjectId( $elementSet->agent_id );
     }
 
     /**
-     * @param ElementSet $elementSet
+     * @param Elementset $elementSet
      *
      * @return bool
      * @internal param Vocabulary $vocabulary
      */
-    public function isMaintainerForElementSet( ElementSet $elementSet )
+    public function isMaintainerForElementSet( Elementset $elementSet )
     {
-        return (bool) ElementSetHasUser::where( [
+        return (bool) ElementsetUser::where( [
                 [ 'user_id', '=', $this->id ],
                 [ 'is_maintainer_for', '=', true ],
             ] )->count() or $this->isAdminForElementSet( $elementSet );
@@ -231,8 +231,8 @@ class User extends Authenticatable
      */
     public function elementsets()
     {
-        return $this->belongsToMany( ElementSet::class,
-            ElementSetHasUser::TABLE,
+        return $this->belongsToMany( Elementset::class,
+            ElementsetUser::TABLE,
             'user_id',
             'schema_id' )
             ->withPivot( 'is_registrar_for', 'is_admin_for', 'is_maintainer_for' )

@@ -31,7 +31,7 @@ class schemahistoryActions extends autoSchemahistoryActions
 
     switch ($IdType)
     {
-      //ElementSet :: (Schema)Element  :: (Schema)ElementProperty
+      //Elementset :: (Schema)Element  :: (Schema)ElementProperty
       //Schema     :: SchemaProperty :: SchemaPropertyElement
       case "schema_property_element_id":
         /** @var SchemaPropertyElement **/
