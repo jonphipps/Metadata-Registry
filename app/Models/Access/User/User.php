@@ -168,31 +168,31 @@ class User extends Authenticatable
     }
 
     /**
-     * @param Elementset $elementSet
+     * @param Elementset $elementset
      *
      * @return bool
      * @internal param Vocabulary $vocabulary
      */
-    public function isAdminForElementSet( Elementset $elementSet )
+    public function isAdminForElementSet( Elementset $elementset )
     {
         return (bool) ElementsetUser::where( [
                 [ 'user_id', '=', $this->id ],
                 [ 'is_admin_for', '=', true ],
-            ] )->count() or $this->isAdminForProjectId( $elementSet->agent_id );
+            ] )->count() or $this->isAdminForProjectId( $elementset->agent_id );
     }
 
     /**
-     * @param Elementset $elementSet
+     * @param Elementset $elementset
      *
      * @return bool
      * @internal param Vocabulary $vocabulary
      */
-    public function isMaintainerForElementSet( Elementset $elementSet )
+    public function isMaintainerForElementSet( Elementset $elementset )
     {
         return (bool) ElementsetUser::where( [
                 [ 'user_id', '=', $this->id ],
                 [ 'is_maintainer_for', '=', true ],
-            ] )->count() or $this->isAdminForElementSet( $elementSet );
+            ] )->count() or $this->isAdminForElementSet( $elementset );
     }
 
     public function isMemberOfProject( Project $project )

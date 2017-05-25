@@ -22,13 +22,13 @@ class ElementSetPolicy
    * Determine whether the user can view the elementSet.
    *
    * @param  User $user
-   * @param  Elementset $elementSet
+   * @param  Elementset $elementset
    *
    * @return mixed
    */
-    public function view(User $user, Elementset $elementSet)
+    public function view(User $user, Elementset $elementset)
     {
-        $project = $elementSet->project;
+        $project = $elementset->project;
         if ($project->is_private && $user->isMemberOfProject($project)) {
             return true;
         };
@@ -54,13 +54,13 @@ class ElementSetPolicy
    * Determine whether the user can update the elementSet.
    *
    * @param  User $user
-   * @param  Elementset $elementSet
+   * @param  Elementset $elementset
    *
    * @return mixed
    */
-    public function update(User $user, Elementset $elementSet)
+    public function update(User $user, Elementset $elementset)
     {
-        if ($user->isAdminForElementSet($elementSet)) {
+        if ($user->isAdminForElementSet($elementset)) {
             return true;
         }
     }
@@ -70,13 +70,13 @@ class ElementSetPolicy
    * Determine whether the user can delete the elementSet.
    *
    * @param  User $user
-   * @param  Elementset $elementSet
+   * @param  Elementset $elementset
    *
    * @return mixed
    */
-    public function delete(User $user, Elementset $elementSet)
+    public function delete(User $user, Elementset $elementset)
     {
-      if ($user->isAdminForElementSet($elementSet)) {
+      if ($user->isAdminForElementSet($elementset)) {
         return true;
       }
     }

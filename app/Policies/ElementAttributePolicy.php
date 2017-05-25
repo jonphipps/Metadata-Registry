@@ -42,10 +42,10 @@ class ElementAttributePolicy
      * @param  \App\Models\Access\User\User  $user
      * @return mixed
      */
-  public function create(User $user, Elementset $elementSet)
+  public function create(User $user, Elementset $elementset)
     {
     //User must be one of: admin, projectadmin, vocabularyadmin
-    if ($user->isMaintainerForElementSet($elementSet)) {
+    if ($user->isMaintainerForElementSet($elementset)) {
       return true;
     }
     }

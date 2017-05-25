@@ -44,10 +44,10 @@ class ElementPolicy
    *
    * @return mixed
    */
-  public function create(User $user, Elementset $elementSet)
+  public function create(User $user, Elementset $elementset)
   {
     //User must be one of: admin, projectadmin, elementSetadmin
-    if ($user->isMaintainerForElementSet($elementSet)) {
+    if ($user->isMaintainerForElementSet($elementset)) {
       return true;
     }
   }

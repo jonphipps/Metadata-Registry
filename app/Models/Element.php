@@ -38,7 +38,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int                                                                          $created_by
  * @property int                                                                          $updated_by
  * @property int                                                                          $deleted_by
- * @property-read \App\Models\Elementset                                                  $elementSet
+ * @property-read \App\Models\Elementset                                                  $elementset
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementAttribute[] $properties
  * @property-read \App\Models\Status                                                      $status
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Element whereComment( $value )

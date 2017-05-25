@@ -253,19 +253,19 @@ class AuthTest extends BrowserKitTestCase
   {
     //given a user is a vocab admin
     $project    = factory(\App\Models\Project::class)->create();
-    $elementSet = factory(\App\Models\Elementset::class)->make();
+    $elementset = factory(\App\Models\Elementset::class)->make();
     $project->elementSets()
-            ->save($elementSet);
+            ->save($elementset);
     $this->user->elementSets()
-               ->attach($elementSet->id,
+               ->attach($elementset->id,
                    [
                        'is_registrar_for' => true,
                        'is_admin_for'     => true,
                    ]);
     //then she has permission to edit/create/delete an elementSet
     $this->assertTrue($this->user->cannot('create', [ \App\Models\Elementset::class, $project ]));
-    $this->assertTrue($this->user->can('update', [ \App\Models\Elementset::class, $elementSet ]));
-    $this->assertTrue($this->user->can('delete', [ \App\Models\Elementset::class, $elementSet ]));
+    $this->assertTrue($this->user->can('update', [ \App\Models\Elementset::class, $elementset ]));
+    $this->assertTrue($this->user->can('delete', [ \App\Models\Elementset::class, $elementset ]));
 
   }
 
@@ -277,18 +277,18 @@ class AuthTest extends BrowserKitTestCase
     //given a user is a vocab maintainer
     /** @var \App\Models\Project $project */
     $project = factory(\App\Models\Project::class)->create();
-    /** @var \App\Models\Elementset $elementSet */
-    $elementSet = factory(\App\Models\Elementset::class)->create([ 'agent_id' => $project->id ]);
+    /** @var \App\Models\Elementset $elementset */
+    $elementset = factory(\App\Models\Elementset::class)->create([ 'agent_id' => $project->id ]);
     /** @var \App\Models\Element $element */
-    $element = factory(\App\Models\Element::class)->create([ 'schema_id' => $elementSet->id ]);
+    $element = factory(\App\Models\Element::class)->create([ 'schema_id' => $elementset->id ]);
     $this->user->elementSets()
-               ->attach($elementSet->id,
+               ->attach($elementset->id,
                    [
                        'is_registrar_for'  => true,
                        'is_maintainer_for' => true,
                    ]);
     //then she has permission to edit/create/delete an elementSet
-    $this->assertTrue($this->user->can('create', [ \App\Models\Element::class, $elementSet ]));
+    $this->assertTrue($this->user->can('create', [ \App\Models\Element::class, $elementset ]));
     $this->assertTrue($this->user->can('update', [ \App\Models\Element::class, $element ]));
     $this->assertTrue($this->user->can('delete', [ \App\Models\Element::class, $element ]));
 
@@ -302,22 +302,22 @@ class AuthTest extends BrowserKitTestCase
     //given a user is a vocab maintainer
     /** @var \App\Models\Project $project */
     $project = factory(\App\Models\Project::class)->create();
-    /** @var \App\Models\Elementset $elementSet */
-    $elementSet = factory(\App\Models\Elementset::class)->create([ 'agent_id' => $project->id ]);
+    /** @var \App\Models\Elementset $elementset */
+    $elementset = factory(\App\Models\Elementset::class)->create([ 'agent_id' => $project->id ]);
     /** @var \App\Models\Element $element */
-    $element          = factory(\App\Models\Element::class)->create([ 'schema_id' => $elementSet->id ]);
+    $element          = factory(\App\Models\Element::class)->create([ 'schema_id' => $elementset->id ]);
     $elementAttribute = factory(\App\Models\ElementAttribute::class)->create([ 'schema_property_id' => $element->id ]);
     $this->user->elementSets()
-               ->attach($elementSet->id,
+               ->attach($elementset->id,
                    [
                        'is_registrar_for'  => true,
                        'is_maintainer_for' => true,
                    ]);
     //then she has permission to edit/create/delete an elementSet
-    $this->assertTrue($this->user->can('create', [ \App\Models\ElementAttribute::class, $elementSet ]));
+    $this->assertTrue($this->user->can('create', [ \App\Models\ElementAttribute::class, $elementset ]));
     $this->assertTrue($this->user->can('update', [ \App\Models\ElementAttribute::class, $elementAttribute ]));
     $this->assertTrue($this->user->can('delete', [ \App\Models\ElementAttribute::class, $elementAttribute ]));
-    $this->assertTrue($this->executive->cannot('create', [ \App\Models\ElementAttribute::class, $elementSet ]));
+    $this->assertTrue($this->executive->cannot('create', [ \App\Models\ElementAttribute::class, $elementset ]));
     $this->assertTrue($this->executive->cannot('update', [ \App\Models\ElementAttribute::class, $elementAttribute ]));
     $this->assertTrue($this->executive->cannot('delete', [ \App\Models\ElementAttribute::class, $elementAttribute ]));
   }
@@ -330,10 +330,10 @@ class AuthTest extends BrowserKitTestCase
         //given a user is a guest
         /** @var \App\Models\Project $project */
         $project = factory( \App\Models\Project::class )->create(['is_private' => false]);
-        /** @var \App\Models\Elementset $elementSet */
-        $elementSet = factory( \App\Models\Elementset::class )->create( [ 'agent_id' => $project->id ] );
+        /** @var \App\Models\Elementset $elementset */
+        $elementset = factory( \App\Models\Elementset::class )->create( [ 'agent_id' => $project->id ] );
         /** @var \App\Models\Element $element */
-        $element          = factory( \App\Models\Element::class )->create( [ 'schema_id' => $elementSet->id ] );
+        $element          = factory( \App\Models\Element::class )->create( [ 'schema_id' => $elementset->id ] );
         $elementAttribute = factory( \App\Models\ElementAttribute::class )->create( [ 'schema_property_id' => $element->id ] );
         /** @var \App\Models\Vocabulary $vocabulary */
         $vocabulary = factory( \App\Models\Vocabulary::class )->create( [ 'agent_id' => $project->id ] );
@@ -347,7 +347,7 @@ class AuthTest extends BrowserKitTestCase
         $this->assertTrue( $this->executive->can( 'view', [ \App\Models\Vocabulary::class, $vocabulary ] ) );
         $this->assertTrue( $this->executive->can( 'view', [ \App\Models\Concept::class, $concept ] ) );
         $this->assertTrue( $this->executive->can( 'view', [ \App\Models\ConceptAttribute::class, $conceptAttribute ] ) );
-        $this->assertTrue( $this->executive->can( 'view', [ \App\Models\Elementset::class, $elementSet ] ) );
+        $this->assertTrue( $this->executive->can( 'view', [ \App\Models\Elementset::class, $elementset ] ) );
 
     }
 
@@ -359,10 +359,10 @@ class AuthTest extends BrowserKitTestCase
     //given a user is a guest
     /** @var \App\Models\Project $project */
     $project = factory(\App\Models\Project::class)->create([ 'is_private' => true ]);
-    /** @var \App\Models\Elementset $elementSet */
-    $elementSet = factory(\App\Models\Elementset::class)->create([ 'agent_id' => $project->id ]);
+    /** @var \App\Models\Elementset $elementset */
+    $elementset = factory(\App\Models\Elementset::class)->create([ 'agent_id' => $project->id ]);
     /** @var \App\Models\Element $element */
-    $element          = factory(\App\Models\Element::class)->create([ 'schema_id' => $elementSet->id ]);
+    $element          = factory(\App\Models\Element::class)->create([ 'schema_id' => $elementset->id ]);
     $elementAttribute = factory(\App\Models\ElementAttribute::class)->create([ 'schema_property_id' => $element->id ]);
     $vocabulary = factory(\App\Models\Vocabulary::class)->create([ 'agent_id' => $project->id ]);
     /** @var \App\Models\Concept $concept */
@@ -370,7 +370,7 @@ class AuthTest extends BrowserKitTestCase
     /** @var \App\Models\ConceptAttribute $conceptAttribute */
     $conceptAttribute = factory(\App\Models\ConceptAttribute::class)->create([ 'concept_id' => $concept->id ]);
 
-    $this->assertTrue($this->executive->cannot('view', [ \App\Models\Elementset::class, $elementSet ]));
+    $this->assertTrue($this->executive->cannot('view', [ \App\Models\Elementset::class, $elementset ]));
     $this->assertTrue($this->executive->cannot('view', [ \App\Models\Element::class, $element ]));
     $this->assertTrue($this->executive->cannot('view', [ \App\Models\ElementAttribute::class, $elementAttribute ]));
     $this->assertTrue($this->executive->cannot('view', [ \App\Models\Vocabulary::class, $vocabulary ]));
