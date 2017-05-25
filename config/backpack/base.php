@@ -15,17 +15,17 @@ return [
     'project_name' => 'Backpack',
 
     // Menu logos
-    'logo_lg'   => '<b>Open</b>&nbsp;Metadata&nbsp;Registry',
+    'logo_lg'   => '<b>Open</b>&nbsp;Metadata&nbsp;Registry&nbsp;',
     'logo_mini' => '<b>OMR</b>p',
 
     // Developer or company name. Shown in footer.
-    'developer_name' => 'Jon Phipps',
+    'developer_name' => 'Metadata Management Associates',
 
     // Developer website. Link in footer.
     'developer_link' => 'http://managemetadata.com',
 
     // Show powered by Laravel Backpack in the footer?
-    'show_powered_by' => true,
+    'show_powered_by' => false,
 
     // The AdminLTE skin. Affects menu color and primary/secondary colors used throughout the application.
     'skin' => 'skin-blue',
