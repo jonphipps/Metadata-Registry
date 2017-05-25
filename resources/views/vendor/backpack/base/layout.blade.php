@@ -9,7 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
     <title>
-      {{ isset($title) ? $title.' :: '.config('backpack.base.project_name').' Admin' : config('backpack.base.project_name').' Admin' }}
+        {{ isset($title) ? $title.' :: .The Registry!': 'The Registry!'}}
     </title>
 
     @yield('before_styles')
