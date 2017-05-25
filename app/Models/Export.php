@@ -158,7 +158,7 @@ class Export extends Eloquent
     /**
      * @return BelongsTo
      **/
-    public function elementSet(): BelongsTo
+    public function elementset(): BelongsTo
     {
         return $this->belongsTo( ElementSet::class, 'schema_id' );
     }

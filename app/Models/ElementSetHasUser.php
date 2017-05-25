@@ -81,7 +81,7 @@ class ElementSetHasUser extends Model
         "current_language" => "max:6",
     ];
 
-    public function ElementSet()
+    public function elementset()
     {
         return $this->belongsTo( \App\Models\ElementSet::class, 'schema_id', 'id' );
     }

@@ -102,7 +102,7 @@ class ElementAttributeHistory extends Model
         return $this->belongsTo( \App\Models\Element::class, 'schema_property_id', 'id' );
     }
 
-    public function ElementSet()
+    public function elementset()
     {
         return $this->belongsTo( \App\Models\ElementSet::class, 'schema_id', 'id' );
     }

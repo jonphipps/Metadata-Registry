@@ -105,7 +105,7 @@ class Import extends Model
         return $this->belongsTo( \App\Models\Vocabulary::class, 'vocabulary_id', 'id' );
     }
 
-    public function elementSet()
+    public function elementset()
     {
         return $this->belongsTo( \App\Models\ElementSet::class, 'schema_id', 'id' );
     }

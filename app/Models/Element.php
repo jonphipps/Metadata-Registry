@@ -81,7 +81,7 @@ class Element extends Model
 
     use SoftDeletes, Languages;
 
-    public function elementSet()
+    public function elementset()
     {
         return $this->belongsTo( \App\Models\ElementSet::class, 'schema_id', 'id' );
     }
