@@ -94,4 +94,18 @@ class ProjectPolicy
     {
         return $this->update($user, $project);
     }
+
+    /**
+     * Determine whether the user can import the project.
+     *
+     * @param  User    $user
+     * @param  Project $project
+     *
+     * @return mixed
+     */
+    public function import( User $user, Project $project )
+    {
+        return (bool) $user->isAdminForProjectId( $project->id );
+    }
+
 }

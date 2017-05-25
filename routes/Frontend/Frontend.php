@@ -6,7 +6,11 @@
  */
 Route::get('/', 'FrontendController@index')->name('index');
 Route::get('macros', 'FrontendController@macros')->name('macros');
-CRUD::resource('projects', 'ProjectCrudController',['except'=> ['show']]);
+CRUD::resource('projects', 'ProjectCrudController',['except'=> ['show']])->with( function() {
+    // add extra routes to this resource
+    Route::get( 'projects/{project}/import', 'ProjectController@import' );
+    Route::post( 'projects/{project}/import', 'ProjectController@import' );
+} );
 Route::get('projects/{project}', 'ProjectController@show')->name('project.show');
 /*
  * These frontend controllers require the user to be logged in

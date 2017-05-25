@@ -10,13 +10,13 @@ use Illuminate\View\View;
 class ProjectController extends Controller
 {
 
-  public function __construct()
-  {
-    //show has to be handled with a query scope in order to exclude private projects
-    $this->authorizeResource(Project::class,
-                             'project',
-                             [ 'except' => [ 'view', 'index', 'show' ] ]);
-  }
+    public function __construct()
+    {
+        //show has to be handled with a query scope in order to exclude private projects
+        $this->authorizeResource( Project::class,
+            'project',
+            [ 'except' => [ 'view', 'index', 'show' ] ] );
+    }
 
     /**
      * Display a listing of the resource.
@@ -25,7 +25,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
@@ -33,10 +33,10 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function import(Project $project)
     {
-        //
-    }
+            return view( 'frontend.project.import', \compact( 'project' ) );
+}
 
     /**
      * Store a newly created resource in storage.

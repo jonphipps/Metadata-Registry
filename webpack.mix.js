@@ -30,6 +30,8 @@ mix.sass('resources/assets/sass/frontend/app.scss', 'web/css/frontend.css')
             new WebpackRTLPlugin('/css/[name].rtl.css')
         ]
     })
+mix.copy('node_modules/smartwizard/dist/js/jquery.smartWizard.min.js', 'web/js/frontend/jquery.smartWizard.min.js');
+mix.copy('node_modules/smartwizard/dist/css/smart_wizard.min.css', 'web/css/frontend/smart_wizard.css');
 
 if(mix.config.inProduction){
     mix.version();
