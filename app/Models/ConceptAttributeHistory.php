@@ -1,5 +1,6 @@
 <?php namespace App\Models;
 
+use App\Models\Traits\BelongsToVocabulary;
 use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Access\User\User;
@@ -57,9 +58,9 @@ use App\Models\Access\User\User;
 class ConceptAttributeHistory extends Model
 {
     protected $table = self::TABLE;
-
     const TABLE = 'reg_concept_property_history';
 
+    use BelongsToVocabulary;
     protected $fillable = [ 'action', 'object', 'language', 'change_note' ];
 
     /**
@@ -137,12 +138,7 @@ class ConceptAttributeHistory extends Model
         return $this->belongsTo( \App\Models\ConceptAttribute::class, 'concept_property_id', 'id' );
     }
 
-    public function vocabulary()
-    {
-        return $this->belongsTo( \App\Models\Vocabulary::class, 'vocabulary_id', 'id' );
-    }
-
-    public function concept()
+      public function concept()
     {
         return $this->belongsTo( \App\Models\Concept::class, 'concept_id', 'id' );
     }

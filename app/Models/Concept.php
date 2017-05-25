@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Helpers\Macros\Traits\Languages;
+use App\Models\Traits\BelongsToVocabulary;
 use Cache;
 use DB;
 use Illuminate\Database\Eloquent\Model;
@@ -58,12 +59,7 @@ class Concept extends Model
 
     protected $primaryKey = 'id';
 
-    use SoftDeletes;
-
-    public function vocabulary()
-    {
-        return $this->belongsTo( \App\Models\Vocabulary::class, 'vocabulary_id', 'id' );
-    }
+    use SoftDeletes, BelongsToVocabulary;
 
     public function properties()
     {

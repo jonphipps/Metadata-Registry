@@ -1,5 +1,6 @@
 <?php namespace App\Models;
 
+use App\Models\Traits\BelongsToVocabulary;
 use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Access\User\User;
@@ -54,6 +55,8 @@ class Import extends Model
     protected $table = self::TABLE;
     const TABLE = 'reg_file_import_history';
 
+    use BelongsToVocabulary;
+
     protected $fillable = [
       'map',
       'file_name',
@@ -98,12 +101,6 @@ class Import extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
-    }
-
-
-    public function vocabulary()
-    {
-        return $this->belongsTo(\App\Models\Vocabulary::class, 'vocabulary_id', 'id');
     }
 
 

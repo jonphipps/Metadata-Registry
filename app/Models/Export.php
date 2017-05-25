@@ -9,11 +9,12 @@ namespace App\Models;
 
 use App\Models\Access\User\User;
 use App\Models\Traits\BelongsToProfile;
+use App\Models\Traits\BelongsToVocabulary;
+use Backpack\CRUD\CrudTrait;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Reliese\Database\Eloquent\Model as Eloquent;
 use const true;
 use function unserialize;
-use Backpack\CRUD\CrudTrait;
 
 /**
  * App\Models\Export
@@ -60,9 +61,9 @@ use Backpack\CRUD\CrudTrait;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Export whereVocabularyId( $value )
  * @mixin \Eloquent
  */
-class Export extends Eloquent
+class Export extends Model
 {
-    use CrudTrait, BelongsToProfile;
+    use CrudTrait, BelongsToProfile, BelongsToVocabulary;
 
     /*
    |--------------------------------------------------------------------------
@@ -71,24 +72,22 @@ class Export extends Eloquent
    */
 
     const TABLE = 'reg_export_history';
-
     public $table = self::TABLE;
-
-    //protected $primaryKey = 'id';
-    // public $timestamps = false;
-    // protected $guarded = ['id'];
-    // protected $fillable = [];
-    // protected $hidden = [];
-    // protected $dates = [];
 
     /**
      * Validation rules
      *
      * @var array
      */
-    public static $rules = [
+    public static $rules = [];
 
-    ];
+    //protected $primaryKey = 'id';
+    // public $timestamps = false;
+    // protected $fillable = [];
+    // protected $hidden = [];
+    // protected $dates = [];
+
+    protected $guarded = [ 'id' ];
 
     protected $casts = [
         'user_id'              => 'int',
@@ -105,23 +104,18 @@ class Export extends Eloquent
         'last_vocab_update',
     ];
 
-    protected $fillable = [
-        'user_id',
-        'vocabulary_id',
-        'schema_id',
-        'exclude_deprecated',
-        'include_generated',
-        'include_deleted',
-        'include_not_accepted',
-        'selected_columns',
-        'selected_language',
-        'published_english_version',
-        'published_language_version',
-        'last_vocab_update',
-        'profile_id',
-        'file',
-        'map',
-    ];
+    /**
+     * @return BelongsTo
+     **/
+    public function elementset(): BelongsTo
+    {
+        return $this->belongsTo( Elementset::class, 'schema_id' );
+    }
+
+    public static function findByExportFileName( $name )
+    {
+        return self::whereFile( $name )->firstOrFail();
+    }
 
     /**
      * @return \Illuminate\Support\Collection|null
@@ -129,14 +123,6 @@ class Export extends Eloquent
     public function getMapAttribute( $value )
     {
         return $value ? collect( unserialize( $value, [ true ] ) ) : null;
-    }
-
-    /**
-     * @param $value
-     */
-    public function setMapAttribute( $value ): void
-    {
-        $value ? $this->attributes['map'] = serialize( $value ) : null;
     }
 
     /**
@@ -150,6 +136,14 @@ class Export extends Eloquent
     /**
      * @param $value
      */
+    public function setMapAttribute( $value ): void
+    {
+        $value ? $this->attributes['map'] = serialize( $value ) : null;
+    }
+
+    /**
+     * @param $value
+     */
     public function setSelectedColumnsAttribute( $value ): void
     {
         $value ? $this->attributes['selected_columns'] = serialize( $value ) : null;
@@ -158,30 +152,9 @@ class Export extends Eloquent
     /**
      * @return BelongsTo
      **/
-    public function elementset(): BelongsTo
-    {
-        return $this->belongsTo( Elementset::class, 'schema_id' );
-    }
-
-    /**
-     * @return BelongsTo
-     **/
     public function user(): BelongsTo
     {
         return $this->belongsTo( User::class, 'user_id' );
-    }
-
-    /**
-     * @return BelongsTo
-     **/
-    public function vocabulary(): BelongsTo
-    {
-        return $this->belongsTo( Vocabulary::class, 'vocabulary_id' );
-    }
-
-    public static function findByExportFileName( $name )
-    {
-        return self::whereFile( $name )->firstOrFail();
     }
 
     /*

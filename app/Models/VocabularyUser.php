@@ -1,5 +1,6 @@
 <?php namespace App\Models;
 
+use App\Models\Traits\BelongsToVocabulary;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -39,10 +40,9 @@ use App\Models\Access\User\User;
 class VocabularyUser extends Model
 {
     protected $table = self::TABLE;
-
     const TABLE = 'reg_vocabulary_has_user';
 
-    use SoftDeletes;
+    use SoftDeletes,BelongsToVocabulary;
 
     protected $dates = [ 'deleted_at' ];
 
