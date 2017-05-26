@@ -1,93 +1,73 @@
 <?php namespace App\Models;
 
+use App\Helpers\Macros\Traits\Languages;
+use App\Models\Traits\BelongsToElementset;
+use App\Models\Traits\HasLanguagesList;
+use Culpa\Traits\Blameable;
+use Culpa\Traits\CreatedBy;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\Access\User\User;
 
 /**
  * App\Models\ElementsetUser
  *
- * @property int                               $id
- * @property \Carbon\Carbon                    $created_at
- * @property \Carbon\Carbon                    $updated_at
- * @property \Carbon\Carbon                    $deleted_at
- * @property int                               $schema_id
- * @property int                               $user_id
- * @property bool                              $is_maintainer_for
- * @property bool                              $is_registrar_for
- * @property bool                              $is_admin_for
- * @property string                            $languages
- * @property string                            $default_language
- * @property string                            $current_language
- * @property-read \App\Models\Elementset       $ElementSet
- * @property-read \App\Models\Access\User\User $User
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereCreatedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereCurrentLanguage( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereDefaultLanguage( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereDeletedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereIsAdminFor( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereIsMaintainerFor( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereIsRegistrarFor( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereLanguages( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereSchemaId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereUpdatedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereUserId( $value )
+ * @property int $id
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property \Carbon\Carbon $deleted_at
+ * @property int $schema_id
+ * @property int $user_id
+ * @property bool $is_maintainer_for
+ * @property bool $is_registrar_for
+ * @property bool $is_admin_for
+ * @property string $languages
+ * @property string $default_language
+ * @property string $current_language
+ * @property-read \App\Models\Access\User\User $creator
+ * @property-read \App\Models\Elementset $elementset
+ * @property-read mixed $language
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereCurrentLanguage($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereDefaultLanguage($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereIsAdminFor($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereIsMaintainerFor($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereIsRegistrarFor($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereLanguages($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereSchemaId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereUserId($value)
  * @mixin \Eloquent
  */
 class ElementsetUser extends Model
 {
-    protected $table = self::TABLE;
-
     const TABLE = 'schema_has_user';
-
-    use SoftDeletes;
-
-    protected $dates = [ 'deleted_at' ];
-
-    protected $fillable = [
-        'deleted_at',
-        'is_maintainer_for',
-        'is_registrar_for',
-        'is_admin_for',
-        'languages',
-        'default_language',
-        'current_language',
-    ];
-
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        "id"                => "integer",
-        "schema_id"         => "integer",
-        "user_id"           => "integer",
-        "is_maintainer_for" => "boolean",
-        "is_registrar_for"  => "boolean",
-        "is_admin_for"      => "boolean",
-        "languages"         => "string",
-        "default_language"  => "string",
-        "current_language"  => "string",
-    ];
-
     public static $rules = [
-        "schema_id"        => "required|",
-        "user_id"          => "required|",
-        "languages"        => "max:65535",
-        "default_language" => "required|max:6",
-        "current_language" => "max:6",
+        'schema_id'        => 'required|',
+        'user_id'          => 'required|',
+        'languages'        => 'max:65535',
+        'default_language' => 'required|max:6',
+        'current_language' => 'max:6',
     ];
-
-    public function elementset()
-    {
-        return $this->belongsTo( \App\Models\Elementset::class, 'schema_id', 'id' );
-    }
-
-    public function User()
-    {
-        return $this->belongsTo( User::class, 'user_id', 'id' );
-    }
+    use SoftDeletes, Blameable, CreatedBy;
+    use Languages, HasLanguagesList;
+    use BelongsToElementset;
+    protected $table = self::TABLE;
+    protected $blameable = [
+        'created' => 'user_id',
+    ];
+    protected $dates = [ 'deleted_at' ];
+    protected $guarded = [ 'id' ];
+    protected $casts = [
+        'id'                => 'integer',
+        'schema_id'         => 'integer',
+        'user_id'           => 'integer',
+        'is_maintainer_for' => 'boolean',
+        'is_registrar_for'  => 'boolean',
+        'is_admin_for'      => 'boolean',
+        'languages'         => 'string',
+        'default_language'  => 'string',
+        'current_language'  => 'string',
+    ];
 }

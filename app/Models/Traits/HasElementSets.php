@@ -4,18 +4,15 @@
 
 namespace App\Models\Traits;
 
-use App\Models\Element;
-use App\Models\ElementAttribute;
 use App\Models\Elementset;
 use App\Models\Project;
 
-trait HasElementSets
+trait HasElementsets
 {
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function elementSets()
+    public function elementsets()
     {
         return $this->hasMany( Elementset::class, 'agent_id', 'id' );
     }
@@ -25,7 +22,7 @@ trait HasElementSets
      */
     public function getElementColumn()
     {
-        $count = $this->elementSets()->count();
+        $count = $this->elementsets()->count();
 
         return $count ?
             '<a href="' .
