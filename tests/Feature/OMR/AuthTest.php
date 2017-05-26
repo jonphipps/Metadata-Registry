@@ -254,9 +254,9 @@ class AuthTest extends BrowserKitTestCase
     //given a user is a vocab admin
     $project    = factory(\App\Models\Project::class)->create();
     $elementset = factory(\App\Models\Elementset::class)->make();
-    $project->elementSets()
+    $project->elementsets()
             ->save($elementset);
-    $this->user->elementSets()
+    $this->user->elementsets()
                ->attach($elementset->id,
                    [
                        'is_registrar_for' => true,
@@ -281,7 +281,7 @@ class AuthTest extends BrowserKitTestCase
     $elementset = factory(\App\Models\Elementset::class)->create([ 'agent_id' => $project->id ]);
     /** @var \App\Models\Element $element */
     $element = factory(\App\Models\Element::class)->create([ 'schema_id' => $elementset->id ]);
-    $this->user->elementSets()
+    $this->user->elementsets()
                ->attach($elementset->id,
                    [
                        'is_registrar_for'  => true,
@@ -307,7 +307,7 @@ class AuthTest extends BrowserKitTestCase
     /** @var \App\Models\Element $element */
     $element          = factory(\App\Models\Element::class)->create([ 'schema_id' => $elementset->id ]);
     $elementAttribute = factory(\App\Models\ElementAttribute::class)->create([ 'schema_property_id' => $element->id ]);
-    $this->user->elementSets()
+    $this->user->elementsets()
                ->attach($elementset->id,
                    [
                        'is_registrar_for'  => true,

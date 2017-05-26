@@ -4,7 +4,7 @@ use App\Models\Element;
 use App\Models\ElementAttribute;
 use App\Models\ElementAttributeHistory;
 use App\Models\Elementset;
-use App\Models\ElementSetHasUser;
+use App\Models\ElementsetUser;
 use Database\DisablesForeignKeys;
 use Database\TruncateTable;
 use Illuminate\Database\Seeder;
@@ -25,7 +25,7 @@ class RDAClassesSeeder extends Seeder
 
         $this->disableForeignKeys();
 
-        ElementSetHasUser::truncate();
+        ElementsetUser::truncate();
         $updateStatement = file_get_contents( __DIR__ . '/sql/RDAClassesUsers.sql' );
         DB::statement( $updateStatement );
 

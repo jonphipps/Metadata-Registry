@@ -193,7 +193,7 @@ class DataImporter
      */
     public function getVocabularyStatements()
     {
-        return Concept::whereVocabularyId($this->export->vocabulary_id)->with('properties.profileProperty', 'status')->get()->keyBy('id')->map(function ($concept, $key) {
+        return Concept::whereVocabularyId($this->export->vocabulary_id)->with('properties.profile_property', 'status')->get()->keyBy('id')->map(function ($concept, $key) {
             return $concept->properties->keyBy('id')->map(function ($property) {
                 return [
                     'old value'  => $property->object,
@@ -216,14 +216,14 @@ class DataImporter
      */
     public function getElementSetStatements()
     {
-        return Element::whereSchemaId($this->export->schema_id)->with('properties.profileProperty', 'status')->get()->keyBy('id')->map(function ($element, $key) {
+        return Element::whereSchemaId($this->export->schema_id)->with('properties.profile_property', 'status')->get()->keyBy('id')->map(function ($element, $key) {
             $status = $element->status->display_name;
             $thingy = $element->properties->keyBy('id')->map(function ($property) {
                 return [
                     'old value'  => $property->object,
                     'updated_at' => $property->updated_at,
-                    'profile_uri' => $property->profileProperty->uri,
-                    'is_resource' => (bool) $property->profileProperty->is_object_prop,
+                    'profile_uri' => $property->profile_property->uri,
+                    'is_resource' => (bool) $property->profile_property->is_object_prop,
                 ];
             })->map(function($item) use ($status){
                 if ($item['profile_uri'] === 'reg:status'){

@@ -391,7 +391,7 @@ $factory->define(App\Models\Elementset::class,
         ];
     });
 
-$factory->define(App\Models\ElementSetHasUser::class,
+$factory->define(App\Models\ElementsetUser::class,
     function(Faker\Generator $faker) {
         return [
             // 'schema_id'         => function() {
@@ -766,7 +766,7 @@ $factory->define(App\Models\Vocabulary::class,
         ];
     });
 
-$factory->define(App\Models\VocabularyHasUser::class,
+$factory->define(App\Models\VocabularyUser::class,
     function(Faker\Generator $faker) {
         return [
             // 'vocabulary_id'     => function() {

@@ -39,7 +39,7 @@ class ElementSetPolicy
 
 
   /**
-   * Determine whether the user can create elementSets.
+   * Determine whether the user can create Elementsets.
    * @param  User   $user
    * @param Project $project
    *

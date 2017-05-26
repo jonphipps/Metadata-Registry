@@ -4,7 +4,7 @@ use App\Models\Concept;
 use App\Models\ConceptAttribute;
 use App\Models\ConceptAttributeHistory;
 use App\Models\Vocabulary;
-use App\Models\VocabularyHasUser;
+use App\Models\VocabularyUser;
 use Database\DisablesForeignKeys;
 use Database\TruncateTable;
 use Illuminate\Database\Seeder;
@@ -31,7 +31,7 @@ class RDAMediaTypeSeeder extends Seeder
         $updateStatement = file_get_contents( __DIR__ . '/sql/RDAUsers.sql' );
         DB::statement( $updateStatement );
 
-        VocabularyHasUser::truncate();
+        VocabularyUser::truncate();
         $updateStatement = file_get_contents( __DIR__ . '/sql/RDAMediaTypeUsers.sql' );
         DB::statement( $updateStatement );
 
