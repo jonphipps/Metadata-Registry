@@ -4,14 +4,11 @@
 
 namespace App\Models\Traits;
 
-use App\Models\Concept;
-use App\Models\ConceptAttribute;
 use App\Models\Project;
 use App\Models\Vocabulary;
 
 trait HasVocabularies
 {
-
     /**
      * @return string
      */
@@ -33,5 +30,4 @@ trait HasVocabularies
     {
         return $this->hasMany( Vocabulary::class, 'agent_id', 'id' );
     }
-
 }

@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 trait BelongsToProfile
 {
-
     /**
      * @return BelongsTo
      */
@@ -17,5 +16,4 @@ trait BelongsToProfile
     {
         return $this->belongsTo( Profile::class );
     }
-
 }

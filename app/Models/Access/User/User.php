@@ -2,96 +2,93 @@
 
 namespace App\Models\Access\User;
 
+use App\Models\Access\User\Traits\Attribute\UserAttribute;
+use App\Models\Access\User\Traits\Relationship\UserRelationship;
+use App\Models\Access\User\Traits\Scope\UserScope;
+use App\Models\Access\User\Traits\UserAccess;
+use App\Models\Access\User\Traits\UserSendPasswordReset;
 use App\Models\Elementset;
 use App\Models\ElementsetUser;
 use App\Models\Project;
 use App\Models\ProjectUser;
 use App\Models\Vocabulary;
 use App\Models\VocabularyUser;
-use Illuminate\Notifications\Notifiable;
-use App\Models\Access\User\Traits\UserAccess;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\Access\User\Traits\Scope\UserScope;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\Models\Access\User\Traits\UserSendPasswordReset;
-use App\Models\Access\User\Traits\Attribute\UserAttribute;
-use App\Models\Access\User\Traits\Relationship\UserRelationship;
+use Illuminate\Notifications\Notifiable;
 
 /**
  * App\Models\Access\User\User
  *
- * @property int                                                                                                            $id
- * @property \Carbon\Carbon                                                                                                 $created_at
- * @property \Carbon\Carbon                                                                                                 $updated_at
- * @property \Carbon\Carbon                                                                                                 $deleted_at
- * @property string                                                                                                         $nickname
- * @property string                                                                                                         $salutation
- * @property string                                                                                                         $first_name
- * @property string                                                                                                         $last_name
- * @property string                                                                                                         $email
- * @property bool                                                                                                           $is_administrator
- * @property string                                                                                                         $password
- * @property bool                                                                                                           $status
- * @property string                                                                                                         $culture
- * @property string                                                                                                         $confirmation_code
- * @property string                                                                                                         $name
- * @property bool                                                                                                           $confirmed
- * @property string                                                                                                         $remember_token
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Elementset[]                                         $elementsets
- * @property-read string                                                                                                    $action_buttons
- * @property-read string                                                                                                    $change_password_button
- * @property-read string                                                                                                    $clear_session_button
- * @property-read string                                                                                                    $confirmed_button
- * @property-read string                                                                                                    $confirmed_label
- * @property-read string                                                                                                    $delete_button
- * @property-read string                                                                                                    $delete_permanently_button
- * @property-read string                                                                                                    $edit_button
- * @property-read string                                                                                                    $login_as_button
- * @property-read mixed                                                                                                     $picture
- * @property-read string                                                                                                    $restore_button
- * @property-read string                                                                                                    $show_button
- * @property-read string                                                                                                    $status_button
- * @property-read string                                                                                                    $status_label
+ * @property int $id
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property \Carbon\Carbon $deleted_at
+ * @property string $nickname
+ * @property string $salutation
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $email
+ * @property bool $is_administrator
+ * @property string $password
+ * @property bool $status
+ * @property string $culture
+ * @property string $confirmation_code
+ * @property string $name
+ * @property bool $confirmed
+ * @property string $remember_token
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Elementset[] $elementsets
+ * @property-read string $action_buttons
+ * @property-read string $change_password_button
+ * @property-read string $clear_session_button
+ * @property-read string $confirmed_button
+ * @property-read string $confirmed_label
+ * @property-read string $delete_button
+ * @property-read string $delete_permanently_button
+ * @property-read string $edit_button
+ * @property-read string $login_as_button
+ * @property-read mixed $picture
+ * @property-read string $restore_button
+ * @property-read string $show_button
+ * @property-read string $status_button
+ * @property-read string $status_label
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Project[]                                            $projects
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\User\SocialLogin[]                            $providers
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\Role\Role[]                                   $roles
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\System\Session[]                                     $sessions
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vocabulary[]                                         $vocabularies
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User active( $status = true )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User confirmed( $confirmed = true )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereConfirmationCode( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereConfirmed( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereCreatedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereCulture( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereDeletedAt( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereEmail( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereFirstName( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereId( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereIsAdministrator( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereLastName( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereName( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereNickname( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User wherePassword( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereRememberToken( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereSalutation( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereStatus( $value )
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereUpdatedAt( $value )
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Project[] $projects
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\User\SocialLogin[] $providers
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\Role\Role[] $roles
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\System\Session[] $sessions
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vocabulary[] $vocabularies
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User active($status = true)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User confirmed($confirmed = true)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereConfirmationCode($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereConfirmed($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereCulture($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereEmail($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereFirstName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereIsAdministrator($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereLastName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereName($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereNickname($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User wherePassword($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereRememberToken($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereSalutation($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereStatus($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class User extends Authenticatable
 {
     use UserScope, UserAccess, Notifiable, SoftDeletes, UserAttribute, UserRelationship, UserSendPasswordReset;
-
     /**
      * The database table used by the model.
      *
      * @var string
      */
     protected $table = self::TABLE;
-
     public const TABLE = 'users';
-
     /**
      * The attributes that are mass assignable.
      *
@@ -105,14 +102,12 @@ class User extends Authenticatable
         'confirmation_code',
         'confirmed',
     ];
-
     /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
      */
     protected $hidden = [ 'password', 'remember_token' ];
-
     /**
      * @var array
      */
@@ -219,11 +214,11 @@ class User extends Authenticatable
             VocabularyUser::TABLE,
             'user_id',
             'vocabulary_id' )->withPivot( 'is_maintainer_for',
-                'is_registrar_for',
-                'is_admin_for',
-                'languages',
-                'default_language',
-                'current_language' )->withTimestamps();
+            'is_registrar_for',
+            'is_admin_for',
+            'languages',
+            'default_language',
+            'current_language' )->withTimestamps();
     }
 
     /**

@@ -8,7 +8,6 @@ use App\Models\Profile;
 
 trait HasProfiles
 {
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

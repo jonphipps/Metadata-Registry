@@ -7,7 +7,6 @@ namespace App\Models\Access\User\Traits\Scope;
  */
 trait UserScope
 {
-
     /**
      * @param      $query
      * @param bool $confirmed

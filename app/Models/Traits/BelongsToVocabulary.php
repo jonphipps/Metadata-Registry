@@ -16,5 +16,4 @@ trait BelongsToVocabulary
     {
         return $this->belongsTo( Vocabulary::class, 'vocabulary_id', 'id' );
     }
-
 }

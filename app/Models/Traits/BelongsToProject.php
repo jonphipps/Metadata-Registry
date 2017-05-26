@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 trait BelongsToProject
 {
-
     /**
      * @return BelongsTo
      */
