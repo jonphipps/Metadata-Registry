@@ -111,6 +111,11 @@ class Import extends Model
         return $this->hasMany( ElementAttributeHistory::class, 'import_id', 'id' );
     }
 
+    public function exports()
+    {
+        return $this->belongsToMany( Export::class);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | SCOPES

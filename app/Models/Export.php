@@ -103,6 +103,11 @@ class Export extends Model
     |--------------------------------------------------------------------------
     */
 
+    public function imports()
+    {
+        return $this->belongsToMany( Import::class );
+    }
+
     /*
     |--------------------------------------------------------------------------
     | SCOPES
