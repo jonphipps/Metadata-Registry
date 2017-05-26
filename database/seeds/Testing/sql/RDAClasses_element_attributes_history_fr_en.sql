@@ -1,9 +1,3 @@
-# select reg_schema_property_element_history.* from reg_schema_property_element_history, reg_schema_property_element, reg_schema_property
-# where reg_schema_property.schema_id=83
-# and reg_schema_property.id = reg_schema_property_element.schema_property_id
-# and reg_schema_property_element.id=reg_schema_property_element_history.schema_property_element_id
-# and (reg_schema_property_element_history.language in ("fr","en") or reg_schema_property_element_history.language is null)
-
 INSERT INTO `reg_schema_property_element_history` (`id`, `created_at`, `updated_at`, `created_user_id`, `action`, `schema_property_element_id`, `schema_property_id`, `schema_id`, `profile_property_id`, `object`, `related_schema_property_id`, `language`, `status_id`, `change_note`, `import_id`, `created_by`) VALUES
 	(120869,'2014-01-18 22:43:38',NULL,422,'added',107697,14328,83,1,'Work',NULL,'en',1,NULL,NULL,NULL),
 	(258584,'2016-12-16 11:12:17',NULL,422,'deleted',107697,14328,83,1,'Work',NULL,'en',1,NULL,NULL,NULL),

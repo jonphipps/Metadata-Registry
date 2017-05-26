@@ -1,8 +1,3 @@
-# select reg_concept_property.* from reg_concept_property, reg_concept
-# where reg_concept.vocabulary_id=37
-# and reg_concept.id = reg_concept_property.concept_id
-# and (reg_concept_property.language in ("fr","en") or reg_concept_property.language is null)
-
 INSERT INTO `reg_concept_property` (`id`, `created_at`, `updated_at`, `deleted_at`, `created_user_id`, `updated_user_id`, `concept_id`, `primary_pref_label`, `skos_property_id`, `object`, `scheme_id`, `related_concept_id`, `language`, `status_id`, `is_concept_property`, `profile_property_id`, `is_generated`, `created_by`, `updated_by`, `deleted_by`) VALUES
 	(1281,'2008-05-25 06:36:41',NULL,NULL,73,224,475,1,19,'audio',NULL,NULL,'en',1,0,45,0,NULL,NULL,NULL),
 	(1289,'2008-05-25 06:39:57',NULL,NULL,NULL,422,475,NULL,5,'A media type used to store recorded sound, designed for use with a playback device such as a turntable, audiocassette player, CD player, or MP3 player.',37,NULL,'en',1,0,37,0,NULL,NULL,NULL),
