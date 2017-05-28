@@ -24,11 +24,7 @@ class DatabaseSeeder extends Seeder
         $this->call( ProfileSeeder::class );
         $this->call( ProfilePropertySeeder::class );
         if ( 'testing' === app()->environment() ) {
-            //$this->call(PrefixSeeder::class);
-            $this->call( ProjectSeeder::class );
-            $this->call( RDAClassesSeeder::class );
-            $this->call( RDAMediaTypeSeeder::class );
-            $this->call( RDAImportExportSeeder::class );
+            $this->call( DatabaseTestSeeder::class );
         }
     }
 }
