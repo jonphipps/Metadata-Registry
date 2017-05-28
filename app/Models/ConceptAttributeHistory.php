@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 use App\Helpers\Macros\Traits\Languages;
+use App\Models\Traits\BelongsToConcept;
 use App\Models\Traits\BelongsToImport;
 use App\Models\Traits\BelongsToProfileProperty;
 use App\Models\Traits\BelongsToRelatedConcept;
@@ -63,11 +64,12 @@ use Laracasts\Matryoshka\Cacheable;
  */
 class ConceptAttributeHistory extends Model
 {
+    //TODO: Only store the things that change and get the rest from the related attribute
     const TABLE = 'reg_concept_property_history';
     protected $table = self::TABLE;
     use Blameable, CreatedBy;
     use Cacheable;
-    use Languages, BelongsToVocabulary, HasStatus, BelongsToProfileProperty, BelongsToImport, BelongsToRelatedConcept;
+    use Languages, BelongsToVocabulary, HasStatus, BelongsToConcept, BelongsToProfileProperty, BelongsToImport, BelongsToRelatedConcept;
     protected $blameable = [
         'created' => 'created_user_id',
     ];
@@ -75,18 +77,19 @@ class ConceptAttributeHistory extends Model
     protected $casts = [
         'id'                  => 'integer',
         'action'              => 'string',
-        'concept_property_id' => 'integer',
-        'concept_id'          => 'integer',
-        'vocabulary_id'       => 'integer',
-        'skos_property_id'    => 'integer',
+        'concept_property_id' => 'integer', //concept_attribute
+        'concept_id'          => 'integer', //BelongsToConcept
+        'vocabulary_id'       => 'integer', //BelongsToVocabulary
+        'skos_property_id'    => 'integer', //obsolete
         'object'              => 'string',
-        'scheme_id'           => 'integer',
-        'related_concept_id'  => 'integer',
-        'language'            => 'string',
-        'status_id'           => 'integer',
-        'created_user_id'     => 'integer',
+        'scheme_id'           => 'integer', //obsolete
+        'related_concept_id'  => 'integer', //BelongsToRelatedConcept
+        'language'            => 'string',  //language
+        'status_id'           => 'integer', //HasStatus
+        'created_user_id'     => 'integer', //CreatedBy
         'change_note'         => 'string',
-        'import_id'           => 'integer',
+        'import_id'           => 'integer', //BelongsToImport
+        'profile_property_id' => 'integer', //BelongsToProfileProperty
     ];
     public static $rules = [
         'created_at'  => 'required|',

@@ -5,6 +5,7 @@ use App\Models\Access\User\User;
 use App\Models\Traits\HasElementsets;
 use App\Models\Traits\HasLanguagesList;
 use App\Models\Traits\HasMembers;
+use App\Models\Traits\HasPrefixesList;
 use App\Models\Traits\HasProfiles;
 use App\Models\Traits\HasVocabularies;
 use Backpack\CRUD\CrudTrait;
@@ -115,7 +116,7 @@ class Project extends Model
     use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy;
     use CrudTrait, Cacheable;
     use Languages, HasLanguagesList;
-    use HasProfiles, HasVocabularies, HasElementsets, HasMembers;
+    use HasProfiles, HasVocabularies, HasElementsets, HasMembers, HasPrefixesList;
     protected $blameable = [
         'created' => 'created_by',
         'updated' => 'updated_by',

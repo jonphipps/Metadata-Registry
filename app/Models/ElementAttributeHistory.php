@@ -59,34 +59,35 @@ use Laracasts\Matryoshka\Cacheable;
  */
 class ElementAttributeHistory extends Model
 {
+    //TODO: Only store the things that change and get the rest from the related attribute.
     const TABLE = 'reg_schema_property_element_history';
     protected $table = self::TABLE;
     use HasStatus, Blameable, CreatedBy;
     use Cacheable;
-    use Languages, BelongsToProfileProperty, BelongsToElementset, BelongsToElement, BelongsToImport, BelongsToRelatedElement;
+    use Languages, HasStatus, BelongsToProfileProperty, BelongsToElementset, BelongsToElement, BelongsToImport, BelongsToRelatedElement;
     protected $blameable = [
         'created' => 'created_user_id',
     ];
     protected $guarded = [ 'id' ];
     protected $casts = [
         'id'                         => 'integer',
-        'created_user_id'            => 'integer',
+        'created_user_id'            => 'integer',  //CreatedBy
         'action'                     => 'string',
-        'schema_property_element_id' => 'integer',
-        'schema_property_id'         => 'integer',
-        'schema_id'                  => 'integer',
-        'profile_property_id'        => 'integer',
+        'schema_property_element_id' => 'integer', //element_attribute
+        'schema_property_id'         => 'integer', //BelongsToElement
+        'schema_id'                  => 'integer', //BelongsToElementset
+        'profile_property_id'        => 'integer', //BelongsToProfileProperty
         'object'                     => 'string',
-        'related_schema_property_id' => 'integer',
-        'language'                   => 'string',
-        'status_id'                  => 'integer',
+        'related_schema_property_id' => 'integer', //BelongsToRelatedElement
+        'language'                   => 'string',  //languages
+        'status_id'                  => 'integer', //hasStatus
         'change_note'                => 'string',
-        'import_id'                  => 'integer',
+        'import_id'                  => 'integer', //BelongsToImport
     ];
     public static $rules = [
         'created_at'  => 'required|',
         'object'      => 'max:65535',
-        'language'    => 'required|max:6',
+        'language'    => 'required|max:10',
         'change_note' => 'max:65535',
     ];
 
