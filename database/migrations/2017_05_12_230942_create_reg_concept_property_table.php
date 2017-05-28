@@ -27,7 +27,7 @@ class CreateRegConceptPropertyTable extends Migration
                 $table->mediumText('object')->nullable();
                 $table->unsignedInteger('scheme_id')->nullable()->index();
                 $table->unsignedInteger('related_concept_id')->nullable()->index();
-                $table->char('language', 12)->nullable()->default('en');
+                $table->char('language', 12)->default('en');
                 $table->unsignedInteger('status_id')->nullable()->default(1)->index();
                 $table->boolean('is_concept_property')->default(0);
                 $table->unsignedInteger('profile_property_id')->nullable()->index();

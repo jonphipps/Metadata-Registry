@@ -32,7 +32,7 @@ class CreateRegSchemaPropertyTable extends Migration
                 $table->string('parent_uri')->nullable();
                 $table->string('uri')->default('')->index();
                 $table->unsignedInteger('status_id')->default(1)->index();
-                $table->char('language', 12)->default('');
+                $table->char('language', 12)->default('en');
                 $table->text('note')->nullable();
                 $table->string('domain')->nullable();
                 $table->string('orange')->nullable();
