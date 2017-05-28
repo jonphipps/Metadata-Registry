@@ -20,18 +20,12 @@ class CreateRegSchemaPropertyElementHistoryTable extends Migration
                 $table->timestamps();
                 $table->unsignedInteger('created_user_id')->nullable()->index();
                 $table->enum('action', [ 'updated', 'added', 'deleted', 'force_deleted', 'generated' ])->nullable();
-                $table->integer('schema_property_element_id')
-                    ->unsigned()
-                    ->nullable()
-                    ->index('reg_schema_propel_hist_schema_propel_id_index');
+                $table->unsignedInteger('schema_property_element_id')->nullable()->index('reg_schema_propel_hist_schema_propel_id_index');
                 $table->unsignedInteger('schema_property_id')->nullable()->index();
                 $table->unsignedInteger('schema_id')->nullable()->index();
                 $table->unsignedInteger('profile_property_id')->nullable()->index();
                 $table->mediumText('object')->nullable();
-                $table->integer('related_schema_property_id')
-                    ->unsigned()
-                    ->nullable()
-                    ->index('reg_schema_propel_hist_rel_schema_propel_id_index');
+                $table->unsignedInteger('related_schema_property_id')->nullable()->index('reg_schema_propel_hist_rel_schema_propel_id_index');
                 $table->char('language', 12)->default('en');
                 $table->unsignedInteger('status_id')->nullable()->default(1)->index();
                 $table->text('change_note')->nullable();

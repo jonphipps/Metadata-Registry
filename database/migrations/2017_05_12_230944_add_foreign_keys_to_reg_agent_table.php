@@ -16,21 +16,9 @@ class AddForeignKeysToRegAgentTable extends Migration
     {
         Schema::table('reg_agent',
             function(Blueprint $table) {
-                $table->foreign('created_by', 'reg_agent_ibfk_1')
-                    ->references('id')
-                    ->on('users')
-                    ->onUpdate('NO ACTION')
-                    ->onDelete('SET NULL');
-                $table->foreign('updated_by', 'reg_agent_ibfk_2')
-                    ->references('id')
-                    ->on('users')
-                    ->onUpdate('NO ACTION')
-                    ->onDelete('SET NULL');
-                $table->foreign('deleted_by', 'reg_agent_ibfk_3')
-                    ->references('id')
-                    ->on('users')
-                    ->onUpdate('NO ACTION')
-                    ->onDelete('SET NULL');
+                $table->foreign('created_by', 'reg_agent_ibfk_1')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('SET NULL');
+                $table->foreign('updated_by', 'reg_agent_ibfk_2')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('SET NULL');
+                $table->foreign('deleted_by', 'reg_agent_ibfk_3')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('SET NULL');
             });
     }
 

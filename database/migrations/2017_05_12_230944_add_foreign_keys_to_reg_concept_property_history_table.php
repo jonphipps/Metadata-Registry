@@ -16,66 +16,18 @@ class AddForeignKeysToRegConceptPropertyHistoryTable extends Migration
     {
         Schema::table('reg_concept_property_history',
             function(Blueprint $table) {
-                $table->foreign('skos_property_id', 'reg_concept_property_history_ibfk_1')
-                    ->references('id')
-                    ->on('reg_skos_property')
-                    ->onUpdate('NO ACTION')
-                    ->onDelete('NO ACTION');
-                $table->foreign('import_id', 'reg_concept_property_history_ibfk_10')
-                    ->references('id')
-                    ->on('reg_file_import_history')
-                    ->onUpdate('RESTRICT')
-                    ->onDelete('RESTRICT');
-                $table->foreign('profile_property_id', 'reg_concept_property_history_ibfk_11')
-                    ->references('id')
-                    ->on('profile_property')
-                    ->onUpdate('NO ACTION')
-                    ->onDelete('NO ACTION');
-                $table->foreign('created_by', 'reg_concept_property_history_ibfk_12')
-                    ->references('id')
-                    ->on('users')
-                    ->onUpdate('NO ACTION')
-                    ->onDelete('SET NULL');
-                $table->foreign('scheme_id', 'reg_concept_property_history_ibfk_2')
-                    ->references('id')
-                    ->on('reg_vocabulary')
-                    ->onUpdate('NO ACTION')
-                    ->onDelete('SET NULL');
-                $table->foreign('status_id', 'reg_concept_property_history_ibfk_3')
-                    ->references('id')
-                    ->on('reg_status')
-                    ->onUpdate('NO ACTION')
-                    ->onDelete('NO ACTION');
-                $table->foreign('related_concept_id', 'reg_concept_property_history_ibfk_4')
-                    ->references('id')
-                    ->on('reg_concept')
-                    ->onUpdate('NO ACTION')
-                    ->onDelete('SET NULL');
-                $table->foreign('created_user_id', 'reg_concept_property_history_ibfk_5')
-                    ->references('id')
-                    ->on('users')
-                    ->onUpdate('NO ACTION')
-                    ->onDelete('SET NULL');
-                $table->foreign('concept_property_id', 'reg_concept_property_history_ibfk_6')
-                    ->references('id')
-                    ->on('reg_concept_property')
-                    ->onUpdate('NO ACTION')
-                    ->onDelete('CASCADE');
-                $table->foreign('vocabulary_id', 'reg_concept_property_history_ibfk_7')
-                    ->references('id')
-                    ->on('reg_vocabulary')
-                    ->onUpdate('NO ACTION')
-                    ->onDelete('SET NULL');
-                $table->foreign('concept_id', 'reg_concept_property_history_ibfk_8')
-                    ->references('id')
-                    ->on('reg_concept')
-                    ->onUpdate('NO ACTION')
-                    ->onDelete('NO ACTION');
-                $table->foreign('import_id', 'reg_concept_property_history_ibfk_9')
-                    ->references('id')
-                    ->on('reg_file_import_history')
-                    ->onUpdate('RESTRICT')
-                    ->onDelete('RESTRICT');
+                $table->foreign('skos_property_id', 'reg_concept_property_history_ibfk_1')->references('id')->on('reg_skos_property')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+                $table->foreign('import_id', 'reg_concept_property_history_ibfk_10')->references('id')->on('reg_file_import_history')->onUpdate('RESTRICT')->onDelete('RESTRICT');
+                $table->foreign('profile_property_id', 'reg_concept_property_history_ibfk_11')->references('id')->on('profile_property')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+                $table->foreign('created_by', 'reg_concept_property_history_ibfk_12')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('SET NULL');
+                $table->foreign('scheme_id', 'reg_concept_property_history_ibfk_2')->references('id')->on('reg_vocabulary')->onUpdate('NO ACTION')->onDelete('SET NULL');
+                $table->foreign('status_id', 'reg_concept_property_history_ibfk_3')->references('id')->on('reg_status')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+                $table->foreign('related_concept_id', 'reg_concept_property_history_ibfk_4')->references('id')->on('reg_concept')->onUpdate('NO ACTION')->onDelete('SET NULL');
+                $table->foreign('created_user_id', 'reg_concept_property_history_ibfk_5')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('SET NULL');
+                $table->foreign('concept_property_id', 'reg_concept_property_history_ibfk_6')->references('id')->on('reg_concept_property')->onUpdate('NO ACTION')->onDelete('CASCADE');
+                $table->foreign('vocabulary_id', 'reg_concept_property_history_ibfk_7')->references('id')->on('reg_vocabulary')->onUpdate('NO ACTION')->onDelete('SET NULL');
+                $table->foreign('concept_id', 'reg_concept_property_history_ibfk_8')->references('id')->on('reg_concept')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+                $table->foreign('import_id', 'reg_concept_property_history_ibfk_9')->references('id')->on('reg_file_import_history')->onUpdate('RESTRICT')->onDelete('RESTRICT');
             });
     }
 

@@ -16,31 +16,11 @@ class AddForeignKeysToProfileTable extends Migration
     {
         Schema::table('profile',
             function(Blueprint $table) {
-                $table->foreign('status_id', 'profile_ibfk_2')
-                    ->references('id')
-                    ->on('reg_status')
-                    ->onUpdate('RESTRICT')
-                    ->onDelete('RESTRICT');
-                $table->foreign('updated_by', 'profile_ibfk_3')
-                    ->references('id')
-                    ->on('users')
-                    ->onUpdate('NO ACTION')
-                    ->onDelete('SET NULL');
-                $table->foreign('created_by', 'profile_ibfk_4')
-                    ->references('id')
-                    ->on('users')
-                    ->onUpdate('NO ACTION')
-                    ->onDelete('SET NULL');
-                $table->foreign('deleted_by', 'profile_ibfk_5')
-                    ->references('id')
-                    ->on('users')
-                    ->onUpdate('NO ACTION')
-                    ->onDelete('SET NULL');
-                $table->foreign('child_updated_by', 'profile_ibfk_6')
-                    ->references('id')
-                    ->on('users')
-                    ->onUpdate('NO ACTION')
-                    ->onDelete('SET NULL');
+                $table->foreign('status_id', 'profile_ibfk_2')->references('id')->on('reg_status')->onUpdate('RESTRICT')->onDelete('RESTRICT');
+                $table->foreign('updated_by', 'profile_ibfk_3')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('SET NULL');
+                $table->foreign('created_by', 'profile_ibfk_4')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('SET NULL');
+                $table->foreign('deleted_by', 'profile_ibfk_5')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('SET NULL');
+                $table->foreign('child_updated_by', 'profile_ibfk_6')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('SET NULL');
             });
     }
 

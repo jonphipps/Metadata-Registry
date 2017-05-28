@@ -36,9 +36,7 @@ class CreateRegSchemaPropertyTable extends Migration
                 $table->text('note')->nullable();
                 $table->string('domain')->nullable();
                 $table->string('orange')->nullable();
-                $table->boolean('is_deprecated')
-                    ->nullable()
-                    ->comment('Boolean. Has this class/property been deprecated');
+                $table->boolean('is_deprecated')->nullable()->comment('Boolean. Has this class/property been deprecated');
                 $table->string('url')->nullable();
                 $table->text('lexical_alias')->nullable();
                 $table->char('hash_id')->default('')->index();

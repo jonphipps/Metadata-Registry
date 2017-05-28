@@ -34,9 +34,7 @@ class CreateRegVocabularyTable extends Migration
                 $table->string('community', 45)->nullable();
                 $table->unsignedInteger('last_uri_id')->nullable()->default(1000);
                 $table->unsignedInteger('status_id')->default(1)->index();
-                $table->char('language', 12)
-                    ->default('en')
-                    ->comment('This is the default language for all concept properties');
+                $table->char('language', 12)->default('en')->comment('This is the default language for all concept properties');
                 $table->text('languages')->nullable();
                 $table->unsignedInteger('profile_id')->nullable()->index();
                 $table->enum('ns_type', [ 'hash', 'slash' ])->default('slash');

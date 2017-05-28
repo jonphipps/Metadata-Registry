@@ -39,27 +39,17 @@ class CreateProfilePropertyTable extends Migration
                 $table->integer('picklist_order')->nullable();
                 $table->string('examples')->nullable()->comment('Link to example usage');
                 $table->boolean('is_required')->default(0)->comment('boolean -- id this value required');
-                $table->boolean('is_reciprocal')
-                    ->default(0)
-                    ->comment('boolean - subject and object must both have this property');
-                $table->boolean('is_singleton')
-                    ->default(0)
-                    ->comment('boolean -- is this property allowed to repeat for a concept');
+                $table->boolean('is_reciprocal')->default(0)->comment('boolean - subject and object must both have this property');
+                $table->boolean('is_singleton')->default(0)->comment('boolean -- is this property allowed to repeat for a concept');
                 $table->boolean('is_in_picklist')->default(1)->comment('boolean - is in the property picklist');
                 $table->boolean('is_in_export')->default(1);
                 $table->unsignedInteger('inverse_profile_property_id')->nullable()->index();
                 $table->boolean('is_in_class_picklist')->default(1)->comment('boolean - is in the property picklist');
-                $table->boolean('is_in_property_picklist')
-                    ->default(1)
-                    ->comment('boolean - is in the property picklist');
+                $table->boolean('is_in_property_picklist')->default(1)->comment('boolean - is in the property picklist');
                 $table->boolean('is_in_rdf')->default(1)->comment('boolean - should this display in the RDF');
                 $table->boolean('is_in_xsd')->default(1)->comment('boolean - should this display in the XSD');
-                $table->boolean('is_attribute')
-                    ->default(0)
-                    ->comment('boolean - is this an attribute? attributes are not editable outside the main form');
-                $table->boolean('has_language')
-                    ->default(0)
-                    ->comment('Boolean that determines whether language attribute is displayed for this property');
+                $table->boolean('is_attribute')->default(0)->comment('boolean - is this an attribute? attributes are not editable outside the main form');
+                $table->boolean('has_language')->default(0)->comment('Boolean that determines whether language attribute is displayed for this property');
                 $table->boolean('is_object_prop')->default(1);
                 $table->boolean('is_in_form')->default(0);
                 $table->string('namespce')->default('');

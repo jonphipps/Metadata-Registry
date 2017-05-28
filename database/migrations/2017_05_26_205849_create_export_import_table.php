@@ -19,17 +19,9 @@ class CreateExportImportTable extends Migration
                 $table->increments('id');
                 $table->timestamps();
                 $table->unsignedInteger('import_id')->index();
-                $table->foreign('import_id')
-                    ->references('id')
-                    ->on('reg_file_import_history')
-                    ->onUpdate('NO ACTION')
-                    ->onDelete('CASCADE');
+                $table->foreign('import_id')->references('id')->on('reg_file_import_history')->onUpdate('NO ACTION')->onDelete('CASCADE');
                 $table->unsignedInteger('export_id')->index();
-                $table->foreign('export_id')
-                    ->references('id')
-                    ->on('reg_export_history')
-                    ->onUpdate('NO ACTION')
-                    ->onDelete('CASCADE');
+                $table->foreign('export_id')->references('id')->on('reg_export_history')->onUpdate('NO ACTION')->onDelete('CASCADE');
             });
     }
 

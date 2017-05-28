@@ -16,16 +16,8 @@ class AddForeignKeysToRegVocabularyHasUserTable extends Migration
     {
         Schema::table('reg_vocabulary_has_user',
             function(Blueprint $table) {
-                $table->foreign('user_id', 'reg_vocabulary_has_user_ibfk_1')
-                    ->references('id')
-                    ->on('users')
-                    ->onUpdate('NO ACTION')
-                    ->onDelete('CASCADE');
-                $table->foreign('vocabulary_id', 'reg_vocabulary_has_user_ibfk_2')
-                    ->references('id')
-                    ->on('reg_vocabulary')
-                    ->onUpdate('NO ACTION')
-                    ->onDelete('CASCADE');
+                $table->foreign('user_id', 'reg_vocabulary_has_user_ibfk_1')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('CASCADE');
+                $table->foreign('vocabulary_id', 'reg_vocabulary_has_user_ibfk_2')->references('id')->on('reg_vocabulary')->onUpdate('NO ACTION')->onDelete('CASCADE');
             });
     }
 

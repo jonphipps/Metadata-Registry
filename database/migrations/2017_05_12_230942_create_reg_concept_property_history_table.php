@@ -26,9 +26,7 @@ class CreateRegConceptPropertyHistoryTable extends Migration
                 $table->mediumText('object')->nullable();
                 $table->unsignedInteger('scheme_id')->nullable()->index();
                 $table->unsignedInteger('related_concept_id')->nullable()->index();
-                $table->char('language', 12)
-                    ->default('en')
-                    ->comment('This will be an RFC3066 language code, which means it can be en, eng, en-us, or eng-us -- iso639-1 (2-char codes), iso639-2 (3-char codes), and combined with iso3166 (2-char country codes)');
+                $table->char('language', 12)->default('en')->comment('This will be an RFC3066 language code, which means it can be en, eng, en-us, or eng-us -- iso639-1 (2-char codes), iso639-2 (3-char codes), and combined with iso3166 (2-char country codes)');
                 $table->unsignedInteger('status_id')->nullable()->default(1)->index();
                 $table->unsignedInteger('created_user_id')->nullable()->index();
                 $table->text('change_note')->nullable();
