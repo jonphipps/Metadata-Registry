@@ -33,7 +33,7 @@ class CreateProfileTable extends Migration
                 $table->string('community', 45)->nullable();
                 $table->unsignedInteger('last_uri_id')->nullable()->default(100000);
                 $table->unsignedInteger('status_id')->default(1)->index();
-                $table->char('language', 6)->default('en');
+                $table->char('language', 12)->default('en');
             });
     }
 

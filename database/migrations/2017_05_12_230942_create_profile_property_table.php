@@ -32,7 +32,7 @@ class CreateProfilePropertyTable extends Migration
                 $table->enum('type', [ 'property', 'subproperty', 'class', 'subclass' ])->default('property');
                 $table->string('uri')->nullable();
                 $table->unsignedInteger('status_id')->default(1)->index();
-                $table->string('language', 6)->default('en');
+                $table->char('language', 12)->default('en');
                 $table->text('note')->nullable();
                 $table->integer('display_order')->nullable()->comment('Display order of properties');
                 $table->integer('export_order')->nullable()->comment('Display order of properties');

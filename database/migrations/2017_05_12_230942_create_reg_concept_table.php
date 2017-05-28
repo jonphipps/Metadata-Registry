@@ -28,7 +28,7 @@ class CreateRegConceptTable extends Migration
                 $table->boolean('is_top_concept')->nullable();
                 $table->unsignedInteger('pref_label_id')->nullable()->index();
                 $table->unsignedInteger('status_id')->default(1)->index();
-                $table->char('language', 10)->default('en');
+                $table->char('language', 12)->default('en');
                 $table->unsignedInteger('created_by')->nullable()->index();
                 $table->unsignedInteger('updated_by')->nullable()->index();
                 $table->unsignedInteger('deleted_by')->nullable()->index();
