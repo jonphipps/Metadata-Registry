@@ -34,7 +34,7 @@ class AddProjectFieldsRegAgentTable extends Migration
                     ])->nullable();
                 $table->string('uri_prepend')->nullable();
                 $table->string('uri_append')->nullable();
-                $table->integer('starting_number')->unsigned()->nullable();
+                $table->unsignedInteger('starting_number')->nullable();
                 $table->string('default_language')->nullable();
                 $table->text('languages')->nullable();
                 $table->text('prefixes')->nullable();

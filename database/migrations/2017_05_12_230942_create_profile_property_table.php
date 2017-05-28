@@ -17,21 +17,21 @@ class CreateProfilePropertyTable extends Migration
         Schema::create('profile_property',
             function(Blueprint $table) {
                 $table->increments('id');
-                $table->integer('skos_id')->unsigned()->default(0)->index();
+                $table->unsignedInteger('skos_id')->default(0)->index();
                 $table->timestamps();
                 $table->softDeletes();
-                $table->integer('created_by')->unsigned()->nullable()->index();
-                $table->integer('updated_by')->unsigned()->nullable()->index();
-                $table->integer('deleted_by')->unsigned()->nullable()->index();
-                $table->integer('profile_id')->unsigned()->index();
-                $table->integer('skos_parent_id')->unsigned()->nullable();
+                $table->unsignedInteger('created_by')->nullable()->index();
+                $table->unsignedInteger('updated_by')->nullable()->index();
+                $table->unsignedInteger('deleted_by')->nullable()->index();
+                $table->unsignedInteger('profile_id')->index();
+                $table->unsignedInteger('skos_parent_id')->nullable();
                 $table->string('name')->default('');
                 $table->string('label')->default('');
                 $table->text('definition')->nullable();
                 $table->text('comment')->nullable();
                 $table->enum('type', [ 'property', 'subproperty', 'class', 'subclass' ])->default('property');
                 $table->string('uri')->nullable();
-                $table->integer('status_id')->unsigned()->default(1)->index();
+                $table->unsignedInteger('status_id')->default(1)->index();
                 $table->string('language', 6)->default('en');
                 $table->text('note')->nullable();
                 $table->integer('display_order')->nullable()->comment('Display order of properties');
@@ -47,7 +47,7 @@ class CreateProfilePropertyTable extends Migration
                     ->comment('boolean -- is this property allowed to repeat for a concept');
                 $table->boolean('is_in_picklist')->default(1)->comment('boolean - is in the property picklist');
                 $table->boolean('is_in_export')->default(1);
-                $table->integer('inverse_profile_property_id')->unsigned()->nullable()->index();
+                $table->unsignedInteger('inverse_profile_property_id')->nullable()->index();
                 $table->boolean('is_in_class_picklist')->default(1)->comment('boolean - is in the property picklist');
                 $table->boolean('is_in_property_picklist')
                     ->default(1)

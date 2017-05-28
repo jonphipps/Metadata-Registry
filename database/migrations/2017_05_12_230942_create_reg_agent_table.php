@@ -36,9 +36,9 @@ class CreateRegAgentTable extends Migration
                 $table->string('web_address')->nullable();
                 $table->char('type', 15)->nullable();
 //users
-                $table->integer('created_by')->unsigned()->nullable()->index();
-                $table->integer('updated_by')->unsigned()->nullable()->index();
-                $table->integer('deleted_by')->unsigned()->nullable()->index();
+                $table->unsignedInteger('created_by')->nullable()->index();
+                $table->unsignedInteger('updated_by')->nullable()->index();
+                $table->unsignedInteger('deleted_by')->nullable()->index();
                 $table->timestamps();
                 $table->softDeletes();
             });

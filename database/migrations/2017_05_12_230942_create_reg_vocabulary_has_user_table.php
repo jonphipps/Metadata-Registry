@@ -19,8 +19,8 @@ class CreateRegVocabularyHasUserTable extends Migration
                 $table->increments('id');
                 $table->timestamps();
                 $table->softDeletes();
-                $table->integer('vocabulary_id')->unsigned()->default(0);
-                $table->integer('user_id')->unsigned()->default(0);
+                $table->unsignedInteger('vocabulary_id')->default(0);
+                $table->unsignedInteger('user_id')->default(0);
                 $table->boolean('is_maintainer_for')->nullable()->default(1);
                 $table->boolean('is_registrar_for')->nullable()->default(1);
                 $table->boolean('is_admin_for')->nullable()->default(1);

@@ -18,9 +18,9 @@ class CreateRegExportHistoryTable extends Migration
             function(Blueprint $table) {
                 $table->increments('id');
                 $table->timestamps();
-                $table->integer('user_id')->unsigned()->nullable()->index();
-                $table->integer('vocabulary_id')->unsigned()->nullable()->index();
-                $table->integer('schema_id')->unsigned()->nullable()->index();
+                $table->unsignedInteger('user_id')->nullable()->index();
+                $table->unsignedInteger('vocabulary_id')->nullable()->index();
+                $table->unsignedInteger('schema_id')->nullable()->index();
                 $table->boolean('exclude_deprecated')->nullable();
                 $table->boolean('include_generated')->nullable();
                 $table->boolean('include_deleted')->nullable();
@@ -30,7 +30,7 @@ class CreateRegExportHistoryTable extends Migration
                 $table->string('published_english_version', 100)->nullable();
                 $table->string('published_language_version', 100)->nullable();
                 $table->dateTime('last_vocab_update')->nullable();
-                $table->integer('profile_id')->unsigned()->nullable()->index();
+                $table->unsignedInteger('profile_id')->nullable()->index();
                 $table->string('file')->nullable();
                 $table->mediumText('map')->nullable();
             });

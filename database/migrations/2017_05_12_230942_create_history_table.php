@@ -17,9 +17,9 @@ class CreateHistoryTable extends Migration
         Schema::create('history',
             function(Blueprint $table) {
                 $table->increments('id');
-                $table->integer('type_id')->unsigned()->index();
-                $table->integer('user_id')->unsigned()->default(0)->index();
-                $table->integer('entity_id')->unsigned()->nullable();
+                $table->unsignedInteger('type_id')->index();
+                $table->unsignedInteger('user_id')->default(0)->index();
+                $table->unsignedInteger('entity_id')->nullable();
                 $table->string('icon')->nullable();
                 $table->string('class')->nullable();
                 $table->string('text')->nullable();

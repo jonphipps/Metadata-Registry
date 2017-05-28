@@ -19,8 +19,8 @@ class CreateRegAgentHasUserTable extends Migration
                 $table->increments('id');
                 $table->timestamps();
                 $table->softDeletes();
-                $table->integer('user_id')->unsigned()->default(0);
-                $table->integer('agent_id')->unsigned()->default(0);
+                $table->unsignedInteger('user_id')->default(0);
+                $table->unsignedInteger('agent_id')->default(0);
                 $table->boolean('is_registrar_for')->nullable()->default(1);
                 $table->boolean('is_admin_for')->nullable()->default(1);
                 $table->unique([ 'user_id', 'agent_id' ]);

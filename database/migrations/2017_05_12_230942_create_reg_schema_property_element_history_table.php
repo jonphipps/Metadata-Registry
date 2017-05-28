@@ -18,25 +18,25 @@ class CreateRegSchemaPropertyElementHistoryTable extends Migration
             function(Blueprint $table) {
                 $table->increments('id');
                 $table->timestamps();
-                $table->integer('created_user_id')->unsigned()->nullable()->index();
+                $table->unsignedInteger('created_user_id')->nullable()->index();
                 $table->enum('action', [ 'updated', 'added', 'deleted', 'force_deleted', 'generated' ])->nullable();
                 $table->integer('schema_property_element_id')
                     ->unsigned()
                     ->nullable()
                     ->index('reg_schema_propel_hist_schema_propel_id_index');
-                $table->integer('schema_property_id')->unsigned()->nullable()->index();
-                $table->integer('schema_id')->unsigned()->nullable()->index();
-                $table->integer('profile_property_id')->unsigned()->nullable()->index();
+                $table->unsignedInteger('schema_property_id')->nullable()->index();
+                $table->unsignedInteger('schema_id')->nullable()->index();
+                $table->unsignedInteger('profile_property_id')->nullable()->index();
                 $table->mediumText('object')->nullable();
                 $table->integer('related_schema_property_id')
                     ->unsigned()
                     ->nullable()
                     ->index('reg_schema_propel_hist_rel_schema_propel_id_index');
                 $table->char('language', 6);
-                $table->integer('status_id')->unsigned()->nullable()->default(1)->index();
+                $table->unsignedInteger('status_id')->nullable()->default(1)->index();
                 $table->text('change_note')->nullable();
-                $table->integer('import_id')->unsigned()->nullable()->index();
-                $table->integer('created_by')->unsigned()->nullable()->index();
+                $table->unsignedInteger('import_id')->nullable()->index();
+                $table->unsignedInteger('created_by')->nullable()->index();
             });
     }
 

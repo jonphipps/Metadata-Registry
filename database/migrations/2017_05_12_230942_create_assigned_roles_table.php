@@ -17,8 +17,8 @@ class CreateAssignedRolesTable extends Migration
         Schema::create('assigned_roles',
             function(Blueprint $table) {
                 $table->increments('id');
-                $table->integer('user_id')->unsigned()->nullable()->index();
-                $table->integer('role_id')->unsigned()->index();
+                $table->unsignedInteger('user_id')->nullable()->index();
+                $table->unsignedInteger('role_id')->index();
             });
     }
 

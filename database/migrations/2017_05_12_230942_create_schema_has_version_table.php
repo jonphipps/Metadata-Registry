@@ -20,10 +20,10 @@ class CreateSchemaHasVersionTable extends Migration
                 $table->string('name')->default('');
                 $table->timestamps();
                 $table->softDeletes();
-                $table->integer('created_user_id')->unsigned()->nullable()->index();
-                $table->integer('schema_id')->unsigned()->nullable()->index();
+                $table->unsignedInteger('created_user_id')->nullable()->index();
+                $table->unsignedInteger('schema_id')->nullable()->index();
                 $table->dateTime('timeslice')->nullable();
-                $table->integer('created_by')->unsigned()->nullable()->index();
+                $table->unsignedInteger('created_by')->nullable()->index();
             });
     }
 

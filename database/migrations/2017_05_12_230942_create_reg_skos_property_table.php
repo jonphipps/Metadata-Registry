@@ -18,8 +18,8 @@ class CreateRegSkosPropertyTable extends Migration
             function(Blueprint $table) {
                 $table->increments('id');
                 $table->timestamps();
-                $table->integer('parent_id')->unsigned()->nullable();
-                $table->integer('inverse_id')->unsigned()->nullable()->comment('id of the inverse property');
+                $table->unsignedInteger('parent_id')->nullable();
+                $table->unsignedInteger('inverse_id')->nullable()->comment('id of the inverse property');
                 $table->string('name')->default('')->unique('name_2');
                 $table->string('uri')->default('')->unique('uri_2');
                 $table->enum('object_type', [ 'resource', 'literal' ])

@@ -19,19 +19,19 @@ class CreateRegSchemaPropertyTable extends Migration
                 $table->increments('id');
                 $table->timestamps();
                 $table->softDeletes();
-                $table->integer('created_user_id')->unsigned()->nullable()->index();
-                $table->integer('updated_user_id')->unsigned()->nullable()->index();
-                $table->integer('deleted_user_id')->unsigned()->nullable()->index();
-                $table->integer('schema_id')->unsigned()->index();
+                $table->unsignedInteger('created_user_id')->nullable()->index();
+                $table->unsignedInteger('updated_user_id')->nullable()->index();
+                $table->unsignedInteger('deleted_user_id')->nullable()->index();
+                $table->unsignedInteger('schema_id')->index();
                 $table->text('name')->nullable();
                 $table->text('label')->nullable();
                 $table->text('definition')->nullable();
                 $table->text('comment')->nullable();
                 $table->string('type', 15)->default('property');
-                $table->integer('is_subproperty_of')->unsigned()->nullable()->index();
+                $table->unsignedInteger('is_subproperty_of')->nullable()->index();
                 $table->string('parent_uri')->nullable();
                 $table->string('uri')->default('')->index();
-                $table->integer('status_id')->unsigned()->default(1)->index();
+                $table->unsignedInteger('status_id')->default(1)->index();
                 $table->char('language', 10)->default('');
                 $table->text('note')->nullable();
                 $table->string('domain')->nullable();
@@ -42,9 +42,9 @@ class CreateRegSchemaPropertyTable extends Migration
                 $table->string('url')->nullable();
                 $table->text('lexical_alias')->nullable();
                 $table->char('hash_id')->default('')->index();
-                $table->integer('created_by')->unsigned()->nullable()->index();
-                $table->integer('updated_by')->unsigned()->nullable()->index();
-                $table->integer('deleted_by')->unsigned()->nullable()->index();
+                $table->unsignedInteger('created_by')->nullable()->index();
+                $table->unsignedInteger('updated_by')->nullable()->index();
+                $table->unsignedInteger('deleted_by')->nullable()->index();
             });
         if (DB::getDriverName() === 'mysql') {
             DB::statement('ALTER TABLE reg_schema_property ADD FULLTEXT full( `label`)');

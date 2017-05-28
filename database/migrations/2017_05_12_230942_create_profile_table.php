@@ -19,11 +19,11 @@ class CreateProfileTable extends Migration
                 $table->increments('id');
                 $table->timestamps();
                 $table->softDeletes();
-                $table->integer('created_by')->unsigned()->nullable()->index();
-                $table->integer('updated_by')->unsigned()->nullable()->index();
-                $table->integer('deleted_by')->unsigned()->nullable()->index();
+                $table->unsignedInteger('created_by')->nullable()->index();
+                $table->unsignedInteger('updated_by')->nullable()->index();
+                $table->unsignedInteger('deleted_by')->nullable()->index();
                 $table->dateTime('child_updated_at')->nullable();
-                $table->integer('child_updated_by')->unsigned()->nullable()->index();
+                $table->unsignedInteger('child_updated_by')->nullable()->index();
                 $table->string('name')->default('');
                 $table->text('note')->nullable();
                 $table->string('uri')->default('');
@@ -31,8 +31,8 @@ class CreateProfileTable extends Migration
                 $table->string('base_domain')->default('');
                 $table->string('token', 45)->default('');
                 $table->string('community', 45)->nullable();
-                $table->integer('last_uri_id')->unsigned()->nullable()->default(100000);
-                $table->integer('status_id')->unsigned()->default(1)->index();
+                $table->unsignedInteger('last_uri_id')->nullable()->default(100000);
+                $table->unsignedInteger('status_id')->default(1)->index();
                 $table->char('language', 6)->default('en');
             });
     }
