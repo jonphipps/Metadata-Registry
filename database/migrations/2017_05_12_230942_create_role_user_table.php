@@ -5,32 +5,30 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /** @noinspection AutoloadingIssuesInspection */
-class CreateRoleUserTable extends Migration {
+class CreateRoleUserTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('role_user',
+            function(Blueprint $table) {
+                $table->increments('id');
+                $table->integer('user_id')->unsigned()->default(0)->index();
+                $table->integer('role_id')->unsigned()->index();
+            });
+    }
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
-		Schema::create('role_user', function(Blueprint $table)
-		{
-			$table->increments('id');
-			$table->integer('user_id')->unsigned()->default(0)->index();
-			$table->integer('role_id')->unsigned()->index();
-		});
-	}
-
-
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
-		Schema::drop('role_user');
-	}
-
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::drop('role_user');
+    }
 }

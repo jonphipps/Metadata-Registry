@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 /** @noinspection AutoloadingIssuesInspection */
 class AddProjectUserFieldsToRegAgentHasUserTable extends Migration
@@ -14,13 +14,13 @@ class AddProjectUserFieldsToRegAgentHasUserTable extends Migration
      */
     public function up()
     {
-        Schema::table( 'reg_agent_has_user',
-            function( Blueprint $table ) {
-                $table->boolean( 'is_maintainer_for' )->nullable()->default( 1 );
-                $table->text( 'languages' )->nullable();
-                $table->char( 'default_language', 6 )->default( 'en' );
-                $table->char( 'current_language', 6 )->nullable();
-            } );
+        Schema::table('reg_agent_has_user',
+            function(Blueprint $table) {
+                $table->boolean('is_maintainer_for')->nullable()->default(1);
+                $table->text('languages')->nullable();
+                $table->char('default_language', 6)->default('en');
+                $table->char('current_language', 6)->nullable();
+            });
     }
 
     /**
