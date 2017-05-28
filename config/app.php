@@ -202,6 +202,7 @@ return [
         Prologue\Alerts\AlertsServiceProvider::class,
         Spatie\Fractal\FractalServiceProvider::class,
         Spatie\Translatable\TranslatableServiceProvider::class,
+        Thedevsaddam\LaravelSchema\LaravelSchemaServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
 
        /*

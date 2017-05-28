@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "03a7e981704ed0b77adfc9dab1b1db8f",
+    "content-hash": "3b75324331d8f9a1f9033d22edba8943",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -7823,6 +7823,49 @@
                 "wizard plugin"
             ],
             "time": "2017-04-21T05:53:06+00:00"
+        },
+        {
+            "name": "thedevsaddam/laravel-schema",
+            "version": "2.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thedevsaddam/laravel-schema.git",
+                "reference": "ce787b3b5d6f558cd5fb615f373beabb1939e724"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thedevsaddam/laravel-schema/zipball/ce787b3b5d6f558cd5fb615f373beabb1939e724",
+                "reference": "ce787b3b5d6f558cd5fb615f373beabb1939e724",
+                "shasum": ""
+            },
+            "type": "package",
+            "autoload": {
+                "psr-4": {
+                    "Thedevsaddam\\LaravelSchema\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Saddam Hossain",
+                    "email": "thedevsaddam@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Display the connected database information in console.",
+            "homepage": "https://github.com/thedevsaddam/laravel-schema",
+            "keywords": [
+                "database",
+                "laravel",
+                "laravel-database viewer",
+                "laravel-schema",
+                "schema",
+                "thedevsaddam"
+            ],
+            "time": "2016-10-28T06:25:46+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
