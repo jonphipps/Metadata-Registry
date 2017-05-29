@@ -1,13 +1,13 @@
-@extends('bootstrap.layouts.master')
+@extends('frontend.layouts.app')
 
 
 @section('page-title')
-    {{ Translate::recursive('flows.gsimport.worksheetsStep.title') }}
+    {{ Translate::recursive('flows.gsimport.worksheets.title') }}
 @endsection
 
 
 @section('content-title')
-    {{ Translate::recursive('flows.gsimport.worksheetsStep.title') }}
+    {{ Translate::recursive('flows.gsimport.worksheets.title') }}
 @endsection
 
 

@@ -17,8 +17,8 @@ class FlowHandler extends BaseFlowHandler {
                 'title'                         => 'flows.gsimport.spreadsheet.breadcrumb',
                 'params'                        => array()
             ),
-            'second-step'                   => array(
-                'title'                         => 'flows.gsimport.secondStep.breadcrumb',
+            'worksheet'                   => array(
+                'title'                         => 'flows.gsimport.worksheet.breadcrumb',
                 'params'                        => array()
             ),
         );

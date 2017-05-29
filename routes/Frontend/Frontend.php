@@ -8,8 +8,8 @@ Route::get('/', 'FrontendController@index')->name('index');
 Route::get('macros', 'FrontendController@macros')->name('macros');
 CRUD::resource('projects', 'ProjectCrudController', [ 'except' => [ 'show' ] ])->with(function() {
     // add extra routes to this resource
-    Route::get('projects/{project}/import/{id}{step?}', 'ProjectController@import');
-    Route::post('projects/{project}/import', 'ProjectController@import');
+    Route::get('projects/{project}/{type}/{step?}', 'ProjectImportController@importStep')->name('project.import');
+    Route::post('projects/{project}/{id}/{step?}', 'ProjectImportController@processImportStep')->name('project.import.process');
 });
 Route::group([],
     function() {
