@@ -105,7 +105,7 @@ class Export extends Model
 
     public function imports()
     {
-        return $this->belongsToMany( Import::class );
+        return $this->belongsToMany( Import::class )->withTimestamps();
     }
 
     /*
