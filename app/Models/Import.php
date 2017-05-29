@@ -53,7 +53,7 @@ use Illuminate\Database\Eloquent\Model as Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Import whereVocabularyId($value)
  * @mixin \Eloquent
  */
-class Import extends Model
+class Importable extends Model
 {
     const TABLE = 'reg_file_import_history';
     protected $table = self::TABLE;
@@ -111,9 +111,19 @@ class Import extends Model
         return $this->hasMany( ElementAttributeHistory::class, 'import_id', 'id' );
     }
 
-    public function exports()
+    public function projects()
     {
-        return $this->belongsToMany( Export::class);
+        return $this->morphedByMany(Project::class, 'importable')->withTimestamps();
+    }
+
+    public function vocabularies()
+    {
+        return $this->morphedByMany(Vocabulary::class, 'importable')->withTimestamps();
+    }
+
+    public function elementsets()
+    {
+        return $this->morphedByMany(Elementset::class, 'importable')->withTimestamps();
     }
 
     /*
