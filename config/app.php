@@ -193,6 +193,11 @@ return [
         DaveJamesMiller\Breadcrumbs\ServiceProvider::class,
         GrahamCampbell\GitHub\GitHubServiceProvider::class,
         HieuLe\Active\ActiveServiceProvider::class,
+        Ixudra\Curl\CurlServiceProvider::class,
+        Ixudra\Generators\GeneratorsServiceProvider::class,
+        Ixudra\Render\RenderServiceProvider::class,
+        Ixudra\Translation\TranslationServiceProvider::class,
+        Ixudra\Wizard\WizardServiceProvider::class,
         JeroenG\Packager\PackagerServiceProvider::class,
         Laracasts\Matryoshka\MatryoshkaServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
@@ -291,8 +296,10 @@ return [
         'Gravatar'     => Creativeorange\Gravatar\Facades\Gravatar::class,
         'Html'         => Collective\Html\HtmlFacade::class,
         'PDF'          => Barryvdh\Snappy\Facades\SnappyPdf::class,
+        'Render'       => Ixudra\Render\Facades\Render::class,
         'SnappyImage'  => Barryvdh\Snappy\Facades\SnappyImage::class,
         'Socialite'    => Laravel\Socialite\Facades\Socialite::class,
+        'Translate'    => Ixudra\Translation\Facades\Translation::class,
 
     ],
 

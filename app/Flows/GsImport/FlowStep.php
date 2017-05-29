@@ -1,0 +1,44 @@
+<?php namespace App\Flows\GsImport;
+
+
+use Ixudra\Wizard\Flows\BaseFlowStep;
+use Ixudra\Wizard\Flows\FlowStepInterface;
+use Ixudra\Wizard\Models\Flow;
+use Ixudra\Wizard\Services\Html\FlowViewFactory;
+
+use Translate;
+
+abstract class FlowStep extends BaseFlowStep implements FlowStepInterface {
+
+    public function __construct(FlowViewFactory $flowViewFactory)
+    {
+        parent::__construct($flowViewFactory);
+    }
+
+
+    /**
+     * @param Flow $flow
+     * @param array $input
+     * @return array
+     */
+    protected function getViewParameters(Flow $flow, array $input = array())
+    {
+        return array();
+    }
+
+    /**
+     * @param Flow $flow
+     * @param array $input
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function render(Flow $flow, $input = [])
+    {
+        $parameters = $this->getViewParameters( $flow, $input );
+        $parameters[ 'pageTitle' ] = Translate::recursive( $this->getTranslationPrefix() . '.title' );
+        $parameters[ 'information' ] = Translate::recursive( $this->getTranslationPrefix() . '.information' );
+        $parameters[ 'breadcrumbs' ] = $flow->getFlowHandler()->getBreadcrumbs( $this->getBreadcrumbKey(), $input );
+
+        return $this->renderView( $flow, $parameters );
+    }
+
+}
