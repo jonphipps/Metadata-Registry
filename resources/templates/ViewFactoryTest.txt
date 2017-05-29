@@ -1,0 +1,167 @@
+<?php
+
+
+use ##NAMESPACE##\Models\##CLASS_SINGULAR##;
+use ##NAMESPACE##\Repositories\Eloquent\Eloquent##CLASS_SINGULAR##Repository;
+use ##NAMESPACE##\Services\Html##ADMIN_NAMESPACE_PATH##\##CLASS_SINGULAR##ViewFactory;
+use ##NAMESPACE##\Services\Input\##CLASS_SINGULAR##InputHelper;
+use ##NAMESPACE##\Services\Validation\##CLASS_SINGULAR##ValidationHelper;
+
+class ##CLASS_SINGULAR##ViewFactoryTest extends BaseViewFactoryTestCase {
+
+    protected $##VARIABLE_SINGULAR##ViewFactory;
+
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->##VARIABLE_SINGULAR##ViewFactory = App::make( ##CLASS_SINGULAR##ViewFactory::class );
+    }
+
+
+    /**
+     * @covers \##NAMESPACE##\Services\Html##ADMIN_NAMESPACE_PATH##\##CLASS_SINGULAR##ViewFactory::index()
+     * @covers \##NAMESPACE##\Services\Html##ADMIN_NAMESPACE_PATH##\##CLASS_SINGULAR##ViewFactory::prepareFilter()
+     */
+    public function testIndex()
+    {
+        $input = array(
+            'query'         => '',
+        );
+
+        $this->createFilterMocks( $input );
+
+        $this->setViewExpectations( '##TEST_THEME##.##ADMIN_RESOURCE_DOT_PATH####VARIABLE_PLURAL##.index',
+            array(
+                'input'             => $input,
+                '##VARIABLE_PLURAL##'     => '##CLASS_SINGULAR##List',
+            )
+        );
+
+        $view = $this->##VARIABLE_SINGULAR##ViewFactory->index();
+    }
+
+    /**
+     * @covers \##NAMESPACE##\Services\Html##ADMIN_NAMESPACE_PATH##\##CLASS_SINGULAR##ViewFactory::create()
+     * @covers \##NAMESPACE##\Services\Html##ADMIN_NAMESPACE_PATH##\##CLASS_SINGULAR##ViewFactory::prepareForm()
+     */
+    public function testCreate_usesInputIfInputIsNotNull()
+    {
+        $this->createFormMocks('create');
+
+        $this->setViewExpectations( '##TEST_THEME##.##ADMIN_RESOURCE_DOT_PATH####VARIABLE_PLURAL##.create',
+            array(
+                'input'             => 'Foo',
+                'requiredFields'    => 'Foo_required_fields',
+            )
+        );
+
+        $view = $this->##VARIABLE_SINGULAR##ViewFactory->create('Foo');
+    }
+
+    /**
+     * @covers \##NAMESPACE##\Services\Html##ADMIN_NAMESPACE_PATH##\##CLASS_SINGULAR##ViewFactory::create()
+     * @covers \##NAMESPACE##\Services\Html##ADMIN_NAMESPACE_PATH##\##CLASS_SINGULAR##ViewFactory::prepareForm()
+     */
+    public function testCreate_usesDefaultValuesIfInputIsNull()
+    {
+        $##VARIABLE_SINGULAR##InputHelperMock = Mockery::mock( ##CLASS_SINGULAR##InputHelper::class );
+        $##VARIABLE_SINGULAR##InputHelperMock->shouldReceive('getDefaultInput')->once()->andReturn('Foo');
+        App::instance( ##CLASS_SINGULAR##InputHelper::class, $##VARIABLE_SINGULAR##InputHelperMock );
+
+        $this->createFormMocks('create');
+
+        $this->setViewExpectations( '##TEST_THEME##.##ADMIN_RESOURCE_DOT_PATH####VARIABLE_PLURAL##.create',
+            array(
+                'input'             => 'Foo',
+                'requiredFields'    => 'Foo_required_fields',
+            )
+        );
+
+        $view = $this->##VARIABLE_SINGULAR##ViewFactory->create( null );
+    }
+
+    /**
+     * @covers \##NAMESPACE##\Services\Html##ADMIN_NAMESPACE_PATH##\##CLASS_SINGULAR##ViewFactory::show()
+     */
+    public function testShow()
+    {
+        $##VARIABLE_SINGULAR## = new ##CLASS_SINGULAR##( array( 'name' => 'Foo' ) );
+
+        $this->setViewExpectations( '##TEST_THEME##.##ADMIN_RESOURCE_DOT_PATH####VARIABLE_PLURAL##.show',
+            array(
+                '##VARIABLE_SINGULAR##'          => $##VARIABLE_SINGULAR##,
+            )
+        );
+
+        $view = $this->##VARIABLE_SINGULAR##ViewFactory->show($##VARIABLE_SINGULAR##);
+    }
+
+    /**
+     * @covers \##NAMESPACE##\Services\Html##ADMIN_NAMESPACE_PATH##\##CLASS_SINGULAR##ViewFactory::edit()
+     * @covers \##NAMESPACE##\Services\Html##ADMIN_NAMESPACE_PATH##\##CLASS_SINGULAR##ViewFactory::prepareForm()
+     */
+    public function testEdit_usesInputValuesIfInputIsNotNull()
+    {
+        $##VARIABLE_SINGULAR## = new ##CLASS_SINGULAR##( array( 'name' => 'Foo' ) );
+
+        $this->createFormMocks('update');
+
+        $this->setViewExpectations( '##TEST_THEME##.##ADMIN_RESOURCE_DOT_PATH####VARIABLE_PLURAL##.edit',
+            array(
+                'input'             => 'Bar',
+                '##VARIABLE_SINGULAR##'          => $##VARIABLE_SINGULAR##,
+                'requiredFields'    => 'Foo_required_fields',
+            )
+        );
+
+        $view = $this->##VARIABLE_SINGULAR##ViewFactory->edit($##VARIABLE_SINGULAR##, 'Bar');
+    }
+
+    /**
+     * @covers \##NAMESPACE##\Services\Html##ADMIN_NAMESPACE_PATH##\##CLASS_SINGULAR##ViewFactory::edit()
+     * @covers \##NAMESPACE##\Services\Html##ADMIN_NAMESPACE_PATH##\##CLASS_SINGULAR##ViewFactory::prepareForm()
+     */
+    public function testEdit_uses##CLASS_SINGULAR##ValuesIfInputIsNull()
+    {
+        $##VARIABLE_SINGULAR##InputHelperMock = Mockery::mock( ##CLASS_SINGULAR##InputHelper::class );
+        $##VARIABLE_SINGULAR##InputHelperMock->shouldReceive('getInputForModel')->once()->andReturn('Bar');
+        App::instance( ##CLASS_SINGULAR##InputHelper::class, $##VARIABLE_SINGULAR##InputHelperMock );
+
+        $##VARIABLE_SINGULAR## = new ##CLASS_SINGULAR##( array( 'name' => 'Bar' ) );
+
+        $this->setViewExpectations( '##TEST_THEME##.##ADMIN_RESOURCE_DOT_PATH####VARIABLE_PLURAL##.edit',
+            array(
+                'input'             => 'Bar',
+                '##VARIABLE_SINGULAR##'          => $##VARIABLE_SINGULAR##,
+                'requiredFields'    => 'Foo_required_fields',
+            )
+        );
+
+        $this->createFormMocks('update');
+
+        $view = $this->##VARIABLE_SINGULAR##ViewFactory->edit($##VARIABLE_SINGULAR##, null);
+    }
+
+    protected function createFilterMocks($input)
+    {
+        $searchInput = array( 'Fow' => 'Baw' );
+
+        $##VARIABLE_SINGULAR##InputHelperMock = Mockery::mock( ##CLASS_SINGULAR##InputHelper::class );
+        $##VARIABLE_SINGULAR##InputHelperMock->shouldReceive('getInputForSearch')->once()->with($input)->andReturn($searchInput);
+        App::instance( ##CLASS_SINGULAR##InputHelper::class, $##VARIABLE_SINGULAR##InputHelperMock );
+
+        $##VARIABLE_SINGULAR##RepositoryMock = Mockery::mock( Eloquent##CLASS_SINGULAR##Repository::class );
+        $##VARIABLE_SINGULAR##RepositoryMock->shouldReceive('search')->once()->with($searchInput)->andReturn('##CLASS_SINGULAR##List');
+        App::instance( Eloquent##CLASS_SINGULAR##Repository::class, $##VARIABLE_SINGULAR##RepositoryMock );
+    }
+
+    protected function createFormMocks($formName)
+    {
+        $##VARIABLE_SINGULAR##ValidationServiceMock = Mockery::mock( ##CLASS_SINGULAR##ValidationHelper::class );
+        $##VARIABLE_SINGULAR##ValidationServiceMock->shouldReceive('getRequiredFormFields')->once()->with($formName)->andReturn( 'Foo_required_fields' );
+        App::instance( ##CLASS_SINGULAR##ValidationHelper::class, $##VARIABLE_SINGULAR##ValidationServiceMock );
+    }
+
+}

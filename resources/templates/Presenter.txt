@@ -1,0 +1,10 @@
+<?php namespace ##NAMESPACE##\Presenters;
+
+
+use Ixudra\Core\Presenters\BasePresenter;
+
+class ##CLASS_SINGULAR##Presenter extends BasePresenter {
+
+    // ...
+
+}

@@ -1,0 +1,42 @@
+<?php namespace ##NAMESPACE##\Models;
+
+
+use Illuminate\Database\Eloquent\Model;
+use Laracasts\Presenter\PresentableTrait;
+use ##NAMESPACE##\Presenters\##CLASS_SINGULAR##Presenter;
+
+class ##CLASS_SINGULAR## extends Model {
+
+    use PresentableTrait;
+
+
+    protected $table = '##TABLE_NAME##';
+
+    protected $fillable = array(
+        'name',
+    );
+
+    protected $guarded = array();
+
+    protected $hidden = array();
+
+    protected $translationKey = '##VARIABLE_SINGULAR##';
+
+    protected $presenter = ##CLASS_SINGULAR##Presenter::class;
+
+
+    public static function getRules()
+    {
+        return array(
+            'name'                  => 'required|max:64',
+        );
+    }
+
+    public static function getDefaults()
+    {
+        return array(
+            'name'                  => '',
+        );
+    }
+
+}

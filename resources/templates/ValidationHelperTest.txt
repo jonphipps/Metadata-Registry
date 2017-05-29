@@ -1,0 +1,61 @@
+<?php
+
+
+use ##NAMESPACE##\Services\Validation\##CLASS_SINGULAR##ValidationHelper;
+
+class ##CLASS_SINGULAR##ValidationHelperTest extends BaseUnitTestCase {
+
+    protected $##VARIABLE_SINGULAR##ValidationHelper;
+
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->##VARIABLE_SINGULAR##ValidationHelper = App::make( ##CLASS_SINGULAR##ValidationHelper::class );
+    }
+
+
+    /**
+     * @covers \##NAMESPACE##\Services\Validation\##CLASS_SINGULAR##ValidationHelper::getFilterValidationRules()
+     */
+    public function testGetFilterValidationRules()
+    {
+        $expected = array(
+            'query'                 => '',
+        );
+
+        $result = $this->##VARIABLE_SINGULAR##ValidationHelper->getFilterValidationRules();
+
+        $this->assertEquals( $expected, $result );
+    }
+
+    /**
+     * @covers \##NAMESPACE##\Services\Validation\##CLASS_SINGULAR##ValidationHelper::getFormValidationRules()
+     */
+    public function testGetFormValidationRules_forCreateForm()
+    {
+        $expected = array(
+            'name'                  => 'required|max:128',
+        );
+
+        $result = $this->##VARIABLE_SINGULAR##ValidationHelper->getFormValidationRules( 'create' );
+
+        $this->assertEquals( $expected, $result );
+    }
+
+    /**
+     * @covers \##NAMESPACE##\Services\Validation\##CLASS_SINGULAR##ValidationHelper::getFormValidationRules()
+     */
+    public function testGetFormValidationRules_forUpdateForm()
+    {
+        $expected = array(
+            'name'                  => 'required|max:128',
+        );
+
+        $result = $this->##VARIABLE_SINGULAR##ValidationHelper->getFormValidationRules( 'update' );
+
+        $this->assertEquals( $expected, $result );
+    }
+
+}

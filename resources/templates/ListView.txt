@@ -1,0 +1,6 @@
+
+    <ul>
+    @foreach( $##VARIABLE_PLURAL## as $##VARIABLE_SINGULAR## )
+        <li>{!! HTML::linkRoute('##ADMIN_RESOURCE_DOT_PATH####VARIABLE_PLURAL##.show', $##VARIABLE_SINGULAR##->name, array($##VARIABLE_SINGULAR##->id)) !!}</li>
+    @endforeach
+    </ul>

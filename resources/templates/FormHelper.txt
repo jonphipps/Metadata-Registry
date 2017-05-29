@@ -1,0 +1,19 @@
+<?php namespace ##NAMESPACE##\Services\Form;
+
+
+use Ixudra\Core\Services\Form\BaseFormHelper;
+use ##NAMESPACE##\Repositories\Eloquent\Eloquent##CLASS_SINGULAR##Repository;
+
+use App;
+
+class ##CLASS_SINGULAR##FormHelper extends BaseFormHelper {
+
+    protected $repository;
+
+
+    public function __construct(Eloquent##CLASS_SINGULAR##Repository $##VARIABLE_SINGULAR##Repository)
+    {
+        $this->repository = $##VARIABLE_SINGULAR##Repository;
+    }
+
+}

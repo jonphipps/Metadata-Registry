@@ -1,0 +1,74 @@
+<?php namespace ##NAMESPACE##\Services\Html##ADMIN_NAMESPACE_PATH##;
+
+
+use Ixudra\Core\Services\Html\BaseViewFactory;
+use ##NAMESPACE##\Models\##CLASS_SINGULAR##;
+use ##NAMESPACE##\Repositories\Eloquent\Eloquent##CLASS_SINGULAR##Repository;
+use ##NAMESPACE##\Services\Input\##CLASS_SINGULAR##InputHelper;
+use ##NAMESPACE##\Services\Validation\##CLASS_SINGULAR##ValidationHelper;
+
+use App;
+
+class ##CLASS_SINGULAR##ViewFactory extends BaseViewFactory {
+
+    public function index($input = array())
+    {
+        if( empty($input) ) {
+            $input = array(
+                'query'         => '',
+            );
+        }
+
+        return $this->prepareFilter( 'bootstrap.##ADMIN_RESOURCE_DOT_PATH####VARIABLE_PLURAL##.index', $input );
+    }
+
+    public function create($input = null)
+    {
+        if( $input == null ) {
+            $input = App::make( ##CLASS_SINGULAR##InputHelper::class )->getDefaultInput();
+        }
+
+        return $this->prepareForm( 'bootstrap.##ADMIN_RESOURCE_DOT_PATH####VARIABLE_PLURAL##.create', 'create', $input );
+    }
+
+    public function show(##CLASS_SINGULAR## $##VARIABLE_SINGULAR##)
+    {
+        $this->addParameter( '##VARIABLE_SINGULAR##', $##VARIABLE_SINGULAR## );
+
+        return $this->makeView( 'bootstrap.##ADMIN_RESOURCE_DOT_PATH####VARIABLE_PLURAL##.show' );
+    }
+
+    public function edit(##CLASS_SINGULAR## $##VARIABLE_SINGULAR##, $input = null)
+    {
+        if( $input == null ) {
+            $input = App::make( ##CLASS_SINGULAR##InputHelper::class )->getInputForModel( $##VARIABLE_SINGULAR## );
+        }
+
+        $this->addParameter( '##VARIABLE_SINGULAR##', $##VARIABLE_SINGULAR## );
+
+        return $this->prepareForm( 'bootstrap.##ADMIN_RESOURCE_DOT_PATH####VARIABLE_PLURAL##.edit', 'update', $input );
+    }
+
+
+    protected function prepareFilter($template, $input)
+    {
+        $searchInput = App::make( ##CLASS_SINGULAR##InputHelper::class )->getInputForSearch( $input );
+        $##VARIABLE_PLURAL## = App::make( Eloquent##CLASS_SINGULAR##Repository::class )->search( $searchInput );
+
+        $this->addParameter( '##VARIABLE_PLURAL##', $##VARIABLE_PLURAL## );
+        $this->addParameter( 'input', $input );
+
+        return $this->makeView( $template );
+    }
+
+    protected function prepareForm($template, $formName, $input)
+    {
+        $requiredFields = App::make( ##CLASS_SINGULAR##ValidationHelper::class )->getRequiredFormFields( $formName );
+
+        $this->addParameter( 'input', $input );
+        $this->addParameter( 'requiredFields', $requiredFields );
+
+        return $this->makeView( $template );
+    }
+
+}

@@ -1,0 +1,71 @@
+<?php
+
+
+use Illuminate\Support\Collection;
+use ##NAMESPACE##\Models\##CLASS_SINGULAR##;
+use ##NAMESPACE##\Repositories\Eloquent\Eloquent##CLASS_SINGULAR##Repository;
+use ##NAMESPACE##\Services\Form\##CLASS_SINGULAR##FormHelper;
+
+class ##CLASS_SINGULAR##FormHelperTest extends BaseUnitTestCase {
+
+    const ##CONSTANT_SINGULAR##_ID_1 = 15;
+
+    const ##CONSTANT_SINGULAR##_ID_2 = 17;
+
+
+    /**
+     * @covers \##NAMESPACE##\Services\Form\##CLASS_SINGULAR##FormHelper::getAllAsSelectList()
+     * @covers \##NAMESPACE##\Services\Form\##CLASS_SINGULAR##FormHelper::getName()
+     */
+    public function testGetAllAsSelectList()
+    {
+        $this->setUpMocks();
+
+        $result = App::make( ##CLASS_SINGULAR##FormHelper::class )->getAllAsSelectList();
+
+        $this->assertEquals(
+            array(
+                self::##CONSTANT_SINGULAR##_ID_1     => 'Foo',
+                self::##CONSTANT_SINGULAR##_ID_2     => 'Bar'
+            ), $result
+        );
+    }
+
+    /**
+     * @covers \##NAMESPACE##\Services\Form\##CLASS_SINGULAR##FormHelper::getAllAsSelectList()
+     * @covers \##NAMESPACE##\Services\Form\##CLASS_SINGULAR##FormHelper::getName()
+     */
+    public function testGetAllAsSelectList_includesNullValueIfRequired()
+    {
+        $this->setUpMocks();
+
+        $result = App::make( ##CLASS_SINGULAR##FormHelper::class )->getAllAsSelectList(true);
+
+        $this->assertEquals(
+            array(
+                0                                    => '',
+                self::##CONSTANT_SINGULAR##_ID_1     => 'Foo',
+                self::##CONSTANT_SINGULAR##_ID_2     => 'Bar'
+            ), $result
+        );
+    }
+
+
+    protected function setUpMocks()
+    {
+        $##VARIABLE_SINGULAR##1 = new ##CLASS_SINGULAR##();
+        $##VARIABLE_SINGULAR##1->id = self::##CONSTANT_SINGULAR##_ID_1;
+        $##VARIABLE_SINGULAR##1->name = 'Foo';
+
+        $##VARIABLE_SINGULAR##2 = new ##CLASS_SINGULAR##();
+        $##VARIABLE_SINGULAR##2->id = self::##CONSTANT_SINGULAR##_ID_2;
+        $##VARIABLE_SINGULAR##2->name = 'Bar';
+
+        $##VARIABLE_PLURAL## = new Collection( array( $##VARIABLE_SINGULAR##1, $##VARIABLE_SINGULAR##2 ) );
+
+        $##VARIABLE_SINGULAR##Repository = Mockery::mock( Eloquent##CLASS_SINGULAR##Repository::class );
+        $##VARIABLE_SINGULAR##Repository->shouldReceive('all')->once()->andReturn($##VARIABLE_PLURAL##);
+        App::instance( Eloquent##CLASS_SINGULAR##Repository::class, $##VARIABLE_SINGULAR##Repository );
+    }
+
+}

@@ -1,0 +1,99 @@
+<?php namespace ##NAMESPACE##\Http\Controllers##ADMIN_NAMESPACE_PATH##;
+
+
+use Ixudra\Core\Http\Controllers\BaseController;
+use ##NAMESPACE##\Http\Requests##ADMIN_NAMESPACE_PATH##\##CLASS_PLURAL##\Filter##CLASS_SINGULAR##FormRequest;
+use ##NAMESPACE##\Http\Requests##ADMIN_NAMESPACE_PATH##\##CLASS_PLURAL##\Create##CLASS_SINGULAR##FormRequest;
+use ##NAMESPACE##\Http\Requests##ADMIN_NAMESPACE_PATH##\##CLASS_PLURAL##\Update##CLASS_SINGULAR##FormRequest;
+use ##NAMESPACE##\Repositories\Eloquent\Eloquent##CLASS_SINGULAR##Repository;
+use ##NAMESPACE##\Services\Html##ADMIN_NAMESPACE_PATH##\##CLASS_SINGULAR##ViewFactory;
+use ##NAMESPACE##\Services\Factories\##CLASS_SINGULAR##Factory;
+
+use Translate;
+
+class ##CLASS_SINGULAR##Controller extends BaseController {
+
+    protected $##VARIABLE_SINGULAR##Repository;
+
+    protected $##VARIABLE_SINGULAR##ViewFactory;
+
+
+    public function __construct(Eloquent##CLASS_SINGULAR##Repository $##VARIABLE_SINGULAR##Repository, ##CLASS_SINGULAR##ViewFactory $##VARIABLE_SINGULAR##ViewFactory)
+    {
+        $this->##VARIABLE_SINGULAR##Repository = $##VARIABLE_SINGULAR##Repository;
+        $this->##VARIABLE_SINGULAR##ViewFactory = $##VARIABLE_SINGULAR##ViewFactory;
+    }
+
+
+    public function index()
+    {
+        return $this->##VARIABLE_SINGULAR##ViewFactory->index();
+    }
+
+    public function filter(Filter##CLASS_SINGULAR##FormRequest $request)
+    {
+        return $this->##VARIABLE_SINGULAR##ViewFactory->index( $request->getInput() );
+    }
+
+    public function create()
+    {
+        return $this->##VARIABLE_SINGULAR##ViewFactory->create();
+    }
+
+    public function store(Create##CLASS_SINGULAR##FormRequest $request, ##CLASS_SINGULAR##Factory $##VARIABLE_SINGULAR##Factory)
+    {
+        $##VARIABLE_SINGULAR## = $##VARIABLE_SINGULAR##Factory->make( $request->getInput() );
+
+        return $this->redirect( '##ADMIN_RESOURCE_DOT_PATH####VARIABLE_PLURAL##.show', array('id' => $##VARIABLE_SINGULAR##->id), 'success', array( Translate::model( '##VARIABLE_SINGULAR##.create.success' ) ) );
+    }
+
+    public function show($id)
+    {
+        $##VARIABLE_SINGULAR## = $this->##VARIABLE_SINGULAR##Repository->find( $id );
+        if( is_null($##VARIABLE_SINGULAR##) ) {
+            return $this->modelNotFound();
+        }
+
+        return $this->##VARIABLE_SINGULAR##ViewFactory->show( $##VARIABLE_SINGULAR## );
+    }
+
+    public function edit($id)
+    {
+        $##VARIABLE_SINGULAR## = $this->##VARIABLE_SINGULAR##Repository->find( $id );
+        if( is_null($##VARIABLE_SINGULAR##) ) {
+            return $this->modelNotFound();
+        }
+
+        return $this->##VARIABLE_SINGULAR##ViewFactory->edit( $##VARIABLE_SINGULAR## );
+    }
+
+    public function update($id, Update##CLASS_SINGULAR##FormRequest $request, ##CLASS_SINGULAR##Factory $##VARIABLE_SINGULAR##Factory)
+    {
+        $##VARIABLE_SINGULAR## = $this->##VARIABLE_SINGULAR##Repository->find( $id );
+        if( is_null($##VARIABLE_SINGULAR##) ) {
+            return $this->modelNotFound();
+        }
+
+        $##VARIABLE_SINGULAR##Factory->modify( $##VARIABLE_SINGULAR##, $request->getInput() );
+
+        return $this->redirect( '##ADMIN_RESOURCE_DOT_PATH####VARIABLE_PLURAL##.show', array('id' => $id), 'success', array( Translate::model( '##VARIABLE_SINGULAR##.edit.success' ) ) );
+    }
+
+    public function destroy($id)
+    {
+        $##VARIABLE_SINGULAR## = $this->##VARIABLE_SINGULAR##Repository->find( $id );
+        if( is_null($##VARIABLE_SINGULAR##) ) {
+            return $this->modelNotFound();
+        }
+
+        $##VARIABLE_SINGULAR##->delete();
+
+        return $this->redirect( '##ADMIN_RESOURCE_DOT_PATH####VARIABLE_PLURAL##.index', array(), 'success', array( Translate::model( '##VARIABLE_SINGULAR##.delete.success' ) ) );
+    }
+
+    protected function modelNotFound()
+    {
+        return $this->redirect( '##ADMIN_RESOURCE_DOT_PATH####VARIABLE_PLURAL##.index', array(), 'error', array( Translate::model( '##VARIABLE_SINGULAR##.error.notFound' ) ) );
+    }
+
+}

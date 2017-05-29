@@ -1,0 +1,44 @@
+<?php namespace ##NAMESPACE##\Flows\##FLOW_CLASS##\Steps;
+
+
+use Ixudra\Wizard\Models\Flow;
+use Ixudra\Wizard\Services\Html\FlowViewFactory;
+use ##NAMESPACE##\Flows\##FLOW_CLASS##\FlowStep;
+
+class ##FLOW_STEP_CLASS##Step extends FlowStep {
+
+    public function __construct(FlowViewFactory $flowViewFactory)
+    {
+        parent::__construct( $flowViewFactory );
+    }
+
+
+    protected function getViewParameters(Flow $flow, array $input = array())
+    {
+        return array(
+            'input'         => $input,
+        );
+    }
+
+    public function handle(Flow $flow, $input = array())
+    {
+        return $this->next( $flow, 'next-step' );
+    }
+
+
+    protected function getView()
+    {
+        return 'bootstrap.flows.##FLOW_VARIABLE##.##FLOW_STEP_VARIABLE##.step';
+    }
+
+    protected function getTranslationPrefix()
+    {
+        return 'flows.##FLOW_VARIABLE##.##FLOW_STEP_VARIABLE##';
+    }
+
+    protected function getBreadcrumbKey()
+    {
+        return '##FLOW_STEP_BREADCRUMB##';
+    }
+
+}

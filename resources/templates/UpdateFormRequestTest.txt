@@ -1,0 +1,27 @@
+<?php
+
+
+use ##NAMESPACE##\Http\Requests##ADMIN_NAMESPACE_PATH##\##CLASS_PLURAL##\Update##CLASS_SINGULAR##FormRequest;
+use ##NAMESPACE##\Services\Validation\##CLASS_SINGULAR##ValidationHelper;
+
+class Update##CLASS_SINGULAR##FormRequestTest extends BaseUnitTestCase {
+
+    /**
+     * @covers \##NAMESPACE##\Http\Requests##ADMIN_NAMESPACE_PATH##\##CLASS_PLURAL##\Update##CLASS_SINGULAR##FormRequest::rules()
+     */
+    public function testRules()
+    {
+        $rules = array(
+            'Foo'       => 'Bar',
+        );
+
+        $##VARIABLE_SINGULAR##ValidationHelper = Mockery::mock( ##CLASS_SINGULAR##ValidationHelper::class );
+        $##VARIABLE_SINGULAR##ValidationHelper->shouldReceive('getFormValidationRules')->once()->andReturn($rules);
+        App::instance( ##CLASS_SINGULAR##ValidationHelper::class , $##VARIABLE_SINGULAR##ValidationHelper );
+
+        $result = App::make( Update##CLASS_SINGULAR##FormRequest::class )->rules();
+
+        $this->assertEquals( $rules, $result );
+    }
+
+}

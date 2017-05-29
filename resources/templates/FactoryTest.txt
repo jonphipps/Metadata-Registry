@@ -1,0 +1,62 @@
+<?php
+
+
+use ##NAMESPACE##\Repositories\Eloquent\Eloquent##CLASS_SINGULAR##Repository;
+use ##NAMESPACE##\Services\Factories\##CLASS_SINGULAR##Factory;
+use ##NAMESPACE##\Models\##CLASS_SINGULAR##;
+
+class ##CLASS_SINGULAR##FactoryTest extends BaseFunctionalTestCase {
+
+    protected $##VARIABLE_SINGULAR##Factory;
+
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->truncateTables('##TABLE_NAME##');
+
+        $this->##VARIABLE_SINGULAR##Factory = new ##CLASS_SINGULAR##Factory();
+    }
+
+
+    /**
+     * @covers \##NAMESPACE##\Services\Factories\##CLASS_SINGULAR##Factory::make()
+     */
+    public function testMake()
+    {
+        $input = array(
+            'name'                  => 'Foo_name',
+        );
+
+        $##VARIABLE_SINGULAR## = $this->##VARIABLE_SINGULAR##Factory->make( $input );
+
+        $##VARIABLE_SINGULAR##Repository = App::make( Eloquent##CLASS_SINGULAR##Repository::class );
+        $this->assertEquals( 1, $##VARIABLE_SINGULAR##Repository->all()->count() );
+        $this->assertInstanceOf( ##CLASS_SINGULAR##::class, $##VARIABLE_SINGULAR## );
+    }
+
+    /**
+     * @covers \##NAMESPACE##\Services\Factories\##CLASS_SINGULAR##Factory::modify()
+     */
+    public function testModify()
+    {
+        $##VARIABLE_SINGULAR## = new ##CLASS_SINGULAR##(
+            array(
+                'name'                  => 'Foo_name',
+            )
+        );
+        $##VARIABLE_SINGULAR##->save();
+
+        $input = array(
+            'name'                  => 'Bar_name',
+        );
+
+        $this->##VARIABLE_SINGULAR##Factory->modify( $##VARIABLE_SINGULAR##, $input );
+
+        $##VARIABLE_SINGULAR##Repository = App::make( Eloquent##CLASS_SINGULAR##Repository::class );
+        $this->assertEquals( 1, $##VARIABLE_SINGULAR##Repository->all()->count() );
+        $this->assertEquals( 'Bar_name', $##VARIABLE_SINGULAR##Repository->all()->first()->name );
+    }
+
+}

@@ -1,0 +1,53 @@
+<?php
+
+
+use ##NAMESPACE##\Services\Input\##CLASS_SINGULAR##InputHelper;
+
+class ##CLASS_SINGULAR##InputHelperTest extends BaseUnitTestCase {
+
+    protected $##VARIABLE_SINGULAR##InputHelper;
+
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->##VARIABLE_SINGULAR##InputHelper = App::make( ##CLASS_SINGULAR##InputHelper::class );
+    }
+
+
+    /**
+     * @covers \##NAMESPACE##\Services\Input\##CLASS_SINGULAR##InputHelper::getDefaultInput()
+     * @covers \##NAMESPACE##\Services\Input\##CLASS_SINGULAR##InputHelper::getPrefixedInput()
+     */
+    public function testGetDefaultInput()
+    {
+        $expected = array(
+            '##VARIABLE_SINGULAR##_name'        => '',
+        );
+
+        $result = $this->##VARIABLE_SINGULAR##InputHelper->getDefaultInput( '##VARIABLE_SINGULAR##' );
+
+        $this->assertEquals( $expected, $result );
+    }
+
+    /**
+     * @covers \##NAMESPACE##\Services\Input\##CLASS_SINGULAR##InputHelper::getInputForSearch()
+     */
+    public function testGetInputForSearch()
+    {
+        $input = array(
+            '_token'        => 'Foo_token',
+            'name'          => '',
+        );
+
+        $result = $this->##VARIABLE_SINGULAR##InputHelper->getInputForSearch( $input );
+
+        $this->assertEquals(
+            array(
+                'name'          => '',
+            ), $result
+        );
+    }
+
+}

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "85590b4e1cc922149b7a4750fb67157f",
+    "content-hash": "7783ac6e9b3e8545efc0b58283408b23",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -2998,6 +2998,140 @@
             "time": "2017-02-10T09:42:08+00:00"
         },
         {
+            "name": "ixudra/curl",
+            "version": "6.10.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ixudra/curl.git",
+                "reference": "0b801533e9ac5acdb2f0d69984c8b495deada210"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ixudra/curl/zipball/0b801533e9ac5acdb2f0d69984c8b495deada210",
+                "reference": "0b801533e9ac5acdb2f0d69984c8b495deada210",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": ">=4.0",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ixudra\\Curl\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Oris",
+                    "email": "jan.oris@ixudra.be"
+                }
+            ],
+            "description": "Custom PHP Curl library for the Laravel 5 framework - developed by Ixudra",
+            "homepage": "http://ixudra.be",
+            "keywords": [
+                "Ixudra",
+                "curl",
+                "laravel"
+            ],
+            "time": "2017-03-29T08:23:59+00:00"
+        },
+        {
+            "name": "ixudra/generators",
+            "version": "5.6.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ixudra/generators.git",
+                "reference": "2a9f755f9aa749b13800da6419b4d1e7e652017a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ixudra/generators/zipball/2a9f755f9aa749b13800da6419b4d1e7e652017a",
+                "reference": "2a9f755f9aa749b13800da6419b4d1e7e652017a",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "phpunit/phpunit": "~4.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ixudra\\Generators\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Oris",
+                    "email": "jan.oris@ixudra.be"
+                }
+            ],
+            "description": "Custom PHP resource generation library for the Laravel 5 framework - developed by Ixudra",
+            "homepage": "http://ixudra.be",
+            "keywords": [
+                "Ixudra",
+                "generator",
+                "laravel"
+            ],
+            "time": "2017-02-09T14:57:35+00:00"
+        },
+        {
+            "name": "ixudra/render",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ixudra/render.git",
+                "reference": "e9daf8f7517a9d0a9bf77a5d89fa3dae37c39a5f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ixudra/render/zipball/e9daf8f7517a9d0a9bf77a5d89fa3dae37c39a5f",
+                "reference": "e9daf8f7517a9d0a9bf77a5d89fa3dae37c39a5f",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.0",
+                "ixudra/translation": "~5.1",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ixudra\\Render\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Oris",
+                    "email": "jan.oris@gmail.com"
+                }
+            ],
+            "description": "Custom PHP rendering library for the Laravel 5 framework - developed by Ixudra",
+            "homepage": "http://ixudra.be",
+            "keywords": [
+                "Ixudra",
+                "Rendering",
+                "laravel"
+            ],
+            "time": "2017-02-10T23:04:51+00:00"
+        },
+        {
             "name": "ixudra/translation",
             "version": "5.2.1",
             "source": {
@@ -3044,6 +3178,53 @@
                 "translation"
             ],
             "time": "2017-02-09T14:52:31+00:00"
+        },
+        {
+            "name": "ixudra/validation",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ixudra/validation.git",
+                "reference": "0b66d8335e380244ba9fa247248ec5bbf4651048"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ixudra/validation/zipball/0b66d8335e380244ba9fa247248ec5bbf4651048",
+                "reference": "0b66d8335e380244ba9fa247248ec5bbf4651048",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": ">=4.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "phpunit/phpunit": "~4.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ixudra\\Validation\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Oris",
+                    "email": "jan.oris@ixudra.be"
+                }
+            ],
+            "description": "Custom Laravel validation library - developer by Ixudra",
+            "homepage": "http://ixudra.be",
+            "keywords": [
+                "Ixudra",
+                "laravel",
+                "validation"
+            ],
+            "time": "2017-02-10T09:05:55+00:00"
         },
         {
             "name": "ixudra/wizard",

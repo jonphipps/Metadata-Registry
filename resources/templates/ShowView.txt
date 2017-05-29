@@ -1,0 +1,32 @@
+@extends('bootstrap.layouts.master')
+
+
+@section('page-title')
+    {{ $##VARIABLE_SINGULAR##->name }}
+@endsection
+
+
+@section('content-title')
+    {{ $##VARIABLE_SINGULAR##->name }}
+@endsection
+
+
+@section('content')
+
+    <div class="row">
+        {!! Form::open(array('route' => array('##ADMIN_RESOURCE_DOT_PATH####VARIABLE_PLURAL##.show', $##VARIABLE_SINGULAR##->id), 'method' => 'delete')) !!}
+            {!! HTML::linkRoute('##ADMIN_RESOURCE_DOT_PATH####VARIABLE_PLURAL##.edit', Translate::recursive('common.edit'), array($##VARIABLE_SINGULAR##->id), array('class' => 'btn btn-default')) !!}
+            {!! Form::submit(Translate::recursive('common.delete'), array('class' => 'btn btn-danger')) !!}
+        {!! Form:: close() !!}
+    </div>
+
+    <div class="row">
+        <div class="well well-large col-md-12">
+            <div class="col-md-12">
+                <div class="col-md-4">{{ Translate::recursive('members.name') }}:</div>
+                <div class="col-md-8">{{ $##VARIABLE_SINGULAR##->name }}</div>
+            </div>
+        </div>
+    </div>
+
+@endsection

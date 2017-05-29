@@ -1,0 +1,31 @@
+<?php namespace ##NAMESPACE##\Repositories\Eloquent;
+
+
+use Ixudra\Core\Repositories\Eloquent\BaseEloquentRepository;
+use ##NAMESPACE##\Models\##CLASS_SINGULAR##;
+
+class Eloquent##CLASS_SINGULAR##Repository extends BaseEloquentRepository {
+
+    protected function getModel()
+    {
+        return new ##CLASS_SINGULAR##;
+    }
+
+    protected function getTable()
+    {
+        return '##TABLE_NAME##';
+    }
+
+    public function search($filters, $size = 25)
+    {
+        $results = $this->getModel();
+
+        if( array_key_exists('query', $filters) && $filters[ 'query' ] != '' ) {
+            $results = $results
+                ->where('name', 'like', $filters[ 'query' ]);
+        }
+
+        return $this->paginated( $results, $filters, $size );
+    }
+
+}

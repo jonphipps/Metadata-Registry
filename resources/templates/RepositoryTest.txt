@@ -1,0 +1,167 @@
+<?php
+
+
+use ##NAMESPACE##\Repositories\Eloquent\Eloquent##CLASS_SINGULAR##Repository;
+use ##NAMESPACE##\Models\##CLASS_SINGULAR##;
+
+class Eloquent##CLASS_SINGULAR##RepositoryTest extends BaseRepositoryTestCase {
+
+    protected $##VARIABLE_SINGULAR##Repository;
+
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->truncateTables('##TABLE_NAME##');
+
+        $this->##VARIABLE_SINGULAR##Repository = new Eloquent##CLASS_SINGULAR##Repository();
+    }
+
+
+    /**
+     * @covers \##NAMESPACE##\Repositories\Eloquent\Eloquent##CLASS_SINGULAR##Repository::all()
+     * @covers \##NAMESPACE##\Repositories\Eloquent\Eloquent##CLASS_SINGULAR##Repository::getModel()
+     */
+    public function testAll()
+    {
+        $##VARIABLE_SINGULAR##1 = ##CLASS_SINGULAR##::create( array( 'name' => '##CLASS_SINGULAR## 1' ) );
+        $##VARIABLE_SINGULAR##2 = ##CLASS_SINGULAR##::create( array( 'name' => '##CLASS_SINGULAR## 2' ) );
+        $##VARIABLE_SINGULAR##3 = ##CLASS_SINGULAR##::create( array( 'name' => '##CLASS_SINGULAR## 3' ) );
+        $##VARIABLE_SINGULAR##4 = ##CLASS_SINGULAR##::create( array( 'name' => '##CLASS_SINGULAR## 4' ) );
+        $##VARIABLE_SINGULAR##5 = ##CLASS_SINGULAR##::create( array( 'name' => '##CLASS_SINGULAR## 5' ) );
+
+        $##VARIABLE_PLURAL## = $this->##VARIABLE_SINGULAR##Repository->all();
+
+        $this->assertCount(5, $##VARIABLE_PLURAL##);
+        $this->assertContainsOnlyInstancesOf(##CLASS_SINGULAR##::class, $##VARIABLE_PLURAL##);
+    }
+
+    /**
+     * @covers \##NAMESPACE##\Repositories\Eloquent\Eloquent##CLASS_SINGULAR##Repository::find()
+     */
+    public function testFind()
+    {
+        $##VARIABLE_SINGULAR## = ##CLASS_SINGULAR##::create( array( 'name' => '##CLASS_SINGULAR## 1' ) );
+
+        $result = $this->##VARIABLE_SINGULAR##Repository->find($##VARIABLE_SINGULAR##->id);
+
+        $this->assertInstanceOf(##CLASS_SINGULAR##::class, $result);
+        $this->assertEquals('##CLASS_SINGULAR## 1', $result->name);
+    }
+
+    /**
+     * @covers \##NAMESPACE##\Repositories\Eloquent\Eloquent##CLASS_SINGULAR##Repository::find()
+     */
+    public function testFind_returnsNullIf##CLASS_SINGULAR##DoesNotExist()
+    {
+        $result = $this->##VARIABLE_SINGULAR##Repository->find(100);
+
+        $this->assertNull($result);
+    }
+
+    /**
+     * @covers \##NAMESPACE##\Repositories\Eloquent\Eloquent##CLASS_SINGULAR##Repository::findByFilter()
+     */
+    public function testFindByFilter()
+    {
+        $##VARIABLE_SINGULAR##1 = ##CLASS_SINGULAR##::create( array( 'name' => '##CLASS_SINGULAR## 1' ) );
+        $##VARIABLE_SINGULAR##2 = ##CLASS_SINGULAR##::create( array( 'name' => '##CLASS_SINGULAR## 2' ) );
+        $##VARIABLE_SINGULAR##3 = ##CLASS_SINGULAR##::create( array( 'name' => '##CLASS_SINGULAR## 3' ) );
+        $##VARIABLE_SINGULAR##4 = ##CLASS_SINGULAR##::create( array( 'name' => '##CLASS_SINGULAR## 4' ) );
+        $##VARIABLE_SINGULAR##5 = ##CLASS_SINGULAR##::create( array( 'name' => '##CLASS_SINGULAR## 5' ) );
+
+        $filter = array( 'name' => '##CLASS_SINGULAR## 2' );
+
+        $##VARIABLE_PLURAL## = $this->##VARIABLE_SINGULAR##Repository->findByFilter($filter);
+
+        $this->assertCount(1, $##VARIABLE_PLURAL##);
+        $this->assertCollectionWithOnlyInstancesOf(##CLASS_SINGULAR##::class, $##VARIABLE_PLURAL##);
+        $this->assertCollectionContains( array($##VARIABLE_SINGULAR##2), $##VARIABLE_PLURAL## );
+    }
+
+    /**
+     * @covers \##NAMESPACE##\Repositories\Eloquent\Eloquent##CLASS_SINGULAR##Repository::findByFilter()
+     */
+    public function testFindByFilter_returnsEmptyArrayIfNo##CLASS_PLURAL##MatchFilter()
+    {
+        $##VARIABLE_SINGULAR##1 = ##CLASS_SINGULAR##::create( array( 'name' => '##CLASS_SINGULAR## 1' ) );
+        $##VARIABLE_SINGULAR##2 = ##CLASS_SINGULAR##::create( array( 'name' => '##CLASS_SINGULAR## 2' ) );
+
+        $filter = array( 'name' => '##CLASS_SINGULAR## 3' );
+
+        $##VARIABLE_PLURAL## = $this->##VARIABLE_SINGULAR##Repository->findByFilter($filter);
+
+        $this->assertCount(0, $##VARIABLE_PLURAL##);
+    }
+
+    /**
+     * @covers \##NAMESPACE##\Repositories\Eloquent\Eloquent##CLASS_SINGULAR##Repository::search()
+     * @covers \##NAMESPACE##\Repositories\Eloquent\Eloquent##CLASS_SINGULAR##Repository::getTable()
+     * @covers \##NAMESPACE##\Repositories\Eloquent\Eloquent##CLASS_SINGULAR##Repository::paginated()
+     */
+    public function testSearch()
+    {
+        $##VARIABLE_SINGULAR##1 = ##CLASS_SINGULAR##::create( array( 'name' => 'Foo_##CLASS_SINGULAR## 1' ) );
+        $##VARIABLE_SINGULAR##2 = ##CLASS_SINGULAR##::create( array( 'name' => 'Bar_##CLASS_SINGULAR## 2' ) );
+        $##VARIABLE_SINGULAR##3 = ##CLASS_SINGULAR##::create( array( 'name' => 'Bar_##CLASS_SINGULAR## 3' ) );
+        $##VARIABLE_SINGULAR##4 = ##CLASS_SINGULAR##::create( array( 'name' => 'Foo_##CLASS_SINGULAR## 4' ) );
+        $##VARIABLE_SINGULAR##5 = ##CLASS_SINGULAR##::create( array( 'name' => 'Foz_##CLASS_SINGULAR## 5' ) );
+
+        $filters = array(
+            'query'             => '%Foo%'
+        );
+
+        $paginator = $this->##VARIABLE_SINGULAR##Repository->search($filters, 50, true);
+        $##VARIABLE_PLURAL## = $paginator->getCollection();
+
+        $this->assertCount(2, $##VARIABLE_PLURAL##);
+        $this->assertCollectionWithOnlyInstancesOf(##CLASS_SINGULAR##::class, $##VARIABLE_PLURAL##);
+        $this->assertCollectionContains( array($##VARIABLE_SINGULAR##1, $##VARIABLE_SINGULAR##4), $##VARIABLE_PLURAL## );
+    }
+
+    /**
+     * @covers \##NAMESPACE##\Repositories\Eloquent\Eloquent##CLASS_SINGULAR##Repository::search()
+     * @covers \##NAMESPACE##\Repositories\Eloquent\Eloquent##CLASS_SINGULAR##Repository::getTable()
+     * @covers \##NAMESPACE##\Repositories\Eloquent\Eloquent##CLASS_SINGULAR##Repository::paginated()
+     */
+    public function testSearch_returnsAllResultsIfNoFiltersProvided()
+    {
+        $##VARIABLE_SINGULAR##1 = ##CLASS_SINGULAR##::create( array( 'name' => 'Foo_##CLASS_SINGULAR## 1' ) );
+        $##VARIABLE_SINGULAR##2 = ##CLASS_SINGULAR##::create( array( 'name' => 'Bar_##CLASS_SINGULAR## 2' ) );
+        $##VARIABLE_SINGULAR##3 = ##CLASS_SINGULAR##::create( array( 'name' => 'Bar_##CLASS_SINGULAR## 3' ) );
+        $##VARIABLE_SINGULAR##4 = ##CLASS_SINGULAR##::create( array( 'name' => 'Foo_##CLASS_SINGULAR## 4' ) );
+        $##VARIABLE_SINGULAR##5 = ##CLASS_SINGULAR##::create( array( 'name' => 'Foz_##CLASS_SINGULAR## 5' ) );
+
+        $filters = array();
+
+        $paginator = $this->##VARIABLE_SINGULAR##Repository->search($filters, 50, true);
+        $##VARIABLE_PLURAL## = $paginator->getCollection();
+
+        $this->assertCount(5, $##VARIABLE_PLURAL##);
+        $this->assertCollectionWithOnlyInstancesOf(##CLASS_SINGULAR##::class, $##VARIABLE_PLURAL##);
+    }
+
+    /**
+     * @covers \##NAMESPACE##\Repositories\Eloquent\Eloquent##CLASS_SINGULAR##Repository::search()
+     * @covers \##NAMESPACE##\Repositories\Eloquent\Eloquent##CLASS_SINGULAR##Repository::getTable()
+     * @covers \##NAMESPACE##\Repositories\Eloquent\Eloquent##CLASS_SINGULAR##Repository::paginated()
+     */
+    public function testSearch_usesPagination()
+    {
+        $##VARIABLE_SINGULAR##1 = ##CLASS_SINGULAR##::create( array( 'name' => 'Foo_##CLASS_SINGULAR## 1' ) );
+        $##VARIABLE_SINGULAR##2 = ##CLASS_SINGULAR##::create( array( 'name' => 'Bar_##CLASS_SINGULAR## 2' ) );
+        $##VARIABLE_SINGULAR##3 = ##CLASS_SINGULAR##::create( array( 'name' => 'Bar_##CLASS_SINGULAR## 3' ) );
+        $##VARIABLE_SINGULAR##4 = ##CLASS_SINGULAR##::create( array( 'name' => 'Foo_##CLASS_SINGULAR## 4' ) );
+        $##VARIABLE_SINGULAR##5 = ##CLASS_SINGULAR##::create( array( 'name' => 'Foz_##CLASS_SINGULAR## 5' ) );
+
+        $filters = array();
+
+        $paginator = $this->##VARIABLE_SINGULAR##Repository->search($filters, 2, true);
+        $##VARIABLE_PLURAL## = $paginator->getCollection();
+
+        $this->assertCount(2, $##VARIABLE_PLURAL##);
+        $this->assertCollectionWithOnlyInstancesOf(##CLASS_SINGULAR##::class, $##VARIABLE_PLURAL##);
+    }
+
+}

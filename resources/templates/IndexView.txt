@@ -1,0 +1,26 @@
+@extends('bootstrap.layouts.master')
+
+
+@section('page-title')
+    {{ Translate::recursive('admin.menu.title.index', array('model' => '##VARIABLE_SINGULAR##')) }}
+@endsection
+
+
+@section('content-title')
+    {{ Translate::recursive('admin.menu.title.index', array('model' => '##VARIABLE_SINGULAR##')) }}
+@endsection
+
+
+@section('content')
+
+    <div class="row">
+        <p>
+            {!! HTML::linkRoute('##ADMIN_RESOURCE_DOT_PATH####VARIABLE_PLURAL##.create', Translate::recursive('common.new'), array(), array('class' => 'btn btn-default')) !!}
+        </p>
+    </div>
+
+    @include('bootstrap.##ADMIN_RESOURCE_DOT_PATH####VARIABLE_PLURAL##.filter')
+
+    @include('bootstrap.##ADMIN_RESOURCE_DOT_PATH####VARIABLE_PLURAL##.table')
+
+@endsection

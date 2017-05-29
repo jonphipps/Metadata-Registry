@@ -1,0 +1,22 @@
+<?php namespace ##NAMESPACE##\Http\Requests##ADMIN_NAMESPACE_PATH##\##CLASS_PLURAL##;
+
+
+use Ixudra\Core\Http\Requests\BaseRequest;
+use ##NAMESPACE##\Services\Validation\##CLASS_SINGULAR##ValidationHelper;
+
+use App;
+
+class Update##CLASS_SINGULAR##FormRequest extends BaseRequest {
+
+    public function authorize()
+    {
+        return true;
+    }
+
+    public function rules()
+    {
+        return App::make( ##CLASS_SINGULAR##ValidationHelper::class )
+            ->getFormValidationRules( 'update' );
+    }
+
+}
