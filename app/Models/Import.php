@@ -53,7 +53,7 @@ use Illuminate\Database\Eloquent\Model as Model;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Import whereVocabularyId($value)
  * @mixin \Eloquent
  */
-class Importable extends Model
+class Import extends Model
 {
     const TABLE = 'reg_file_import_history';
     protected $table = self::TABLE;
