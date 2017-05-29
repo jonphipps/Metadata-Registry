@@ -1,8 +1,8 @@
 <?php namespace App\Models;
 
 use App\Helpers\Macros\Traits\Languages;
-use App\Models\Access\User\User;
 use App\Models\Traits\HasElementsets;
+use App\Models\Traits\HasImports;
 use App\Models\Traits\HasLanguagesList;
 use App\Models\Traits\HasMembers;
 use App\Models\Traits\HasPrefixesList;
@@ -21,54 +21,54 @@ use Laracasts\Matryoshka\Cacheable;
 /**
  * App\Models\Project
  *
- * @property int $id
- * @property string $description
- * @property bool $is_private
- * @property string $repo
- * @property string $license
- * @property string $org_email
- * @property string $org_name
- * @property string $ind_affiliation
- * @property string $ind_role
- * @property string $address1
- * @property string $address2
- * @property string $city
- * @property string $state
- * @property string $postal_code
- * @property string $country
- * @property string $phone
- * @property string $web_address
- * @property string $type
- * @property int $created_by
- * @property int $updated_by
- * @property int $deleted_by
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property \Carbon\Carbon $deleted_at
- * @property string $name
- * @property string $label
- * @property string $url
- * @property string $license_uri
- * @property string $base_domain
- * @property string $namespace_type
- * @property string $uri_strategy
- * @property string $uri_prepend
- * @property string $uri_append
- * @property int $starting_number
- * @property string $default_language
- * @property string $languages
- * @property string $prefixes
- * @property string $google_sheet_url
- * @property-read \App\Models\Access\User\User $creator
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Elementset[] $elementsets
- * @property-read \App\Models\Access\User\User $eraser
- * @property-read mixed $current_language
- * @property-read mixed $language
- * @property string $title
+ * @property int                                                                          $id
+ * @property string                                                                       $description
+ * @property bool                                                                         $is_private
+ * @property string                                                                       $repo
+ * @property string                                                                       $license
+ * @property string                                                                       $org_email
+ * @property string                                                                       $org_name
+ * @property string                                                                       $ind_affiliation
+ * @property string                                                                       $ind_role
+ * @property string                                                                       $address1
+ * @property string                                                                       $address2
+ * @property string                                                                       $city
+ * @property string                                                                       $state
+ * @property string                                                                       $postal_code
+ * @property string                                                                       $country
+ * @property string                                                                       $phone
+ * @property string                                                                       $web_address
+ * @property string                                                                       $type
+ * @property int                                                                          $created_by
+ * @property int                                                                          $updated_by
+ * @property int                                                                          $deleted_by
+ * @property \Carbon\Carbon                                                               $created_at
+ * @property \Carbon\Carbon                                                               $updated_at
+ * @property \Carbon\Carbon                                                               $deleted_at
+ * @property string                                                                       $name
+ * @property string                                                                       $label
+ * @property string                                                                       $url
+ * @property string                                                                       $license_uri
+ * @property string                                                                       $base_domain
+ * @property string                                                                       $namespace_type
+ * @property string                                                                       $uri_strategy
+ * @property string                                                                       $uri_prepend
+ * @property string                                                                       $uri_append
+ * @property int                                                                          $starting_number
+ * @property string                                                                       $default_language
+ * @property string                                                                       $languages
+ * @property string                                                                       $prefixes
+ * @property string                                                                       $google_sheet_url
+ * @property-read \App\Models\Access\User\User                                            $creator
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Elementset[]       $elementsets
+ * @property-read \App\Models\Access\User\User                                            $eraser
+ * @property-read mixed                                                                   $current_language
+ * @property-read mixed                                                                   $language
+ * @property string                                                                       $title
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\User\User[] $members
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Profile[] $profiles
- * @property-read \App\Models\Access\User\User $updater
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vocabulary[] $vocabularies
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Profile[]          $profiles
+ * @property-read \App\Models\Access\User\User                                            $updater
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vocabulary[]       $vocabularies
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereAddress1($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereAddress2($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereBaseDomain($value)
@@ -112,11 +112,12 @@ use Laracasts\Matryoshka\Cacheable;
 class Project extends Model
 {
     const TABLE = 'reg_agent';
-    protected $table = self::TABLE;
+    public static $rules = [];
     use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy;
     use CrudTrait, Cacheable;
     use Languages, HasLanguagesList;
-    use HasProfiles, HasVocabularies, HasElementsets, HasMembers, HasPrefixesList;
+    use HasProfiles, HasVocabularies, HasElementsets, HasMembers, HasPrefixesList, HasImports;
+    protected $table = self::TABLE;
     protected $blameable = [
         'created' => 'created_by',
         'updated' => 'updated_by',
@@ -148,25 +149,31 @@ class Project extends Model
         'type',
         'name',
     ];
-    public static $rules = [];
 
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
-    public static function badge( $count )
+
+    /**
+     * @param Builder $query
+     *
+     * @return mixed
+     */
+    public function ScopePrivate($query)
     {
-        return '<span class="badge">' . $count . '</span>';
+        return $query->where('is_private', true);
     }
 
-    public function getTitleLink()
+    /**
+     * @param Builder $query
+     *
+     * @return mixed
+     */
+    public function ScopePublic($query)
     {
-        return '<a href="' .
-            route( 'frontend.project.show', [ 'id' => $this->id ] ) .
-            '">' .
-            $this->title .
-            '</a>';
+        return $query->where('is_private', '<>', 1);
     }
 
     /*
@@ -181,31 +188,11 @@ class Project extends Model
     |--------------------------------------------------------------------------
     */
 
-    /**
-     * @param Builder $query
-     *
-     * @return mixed
-     */
-    public function ScopePrivate( $query )
+    public static function badge($count)
     {
-        return $query->where( 'is_private', true );
+        return '<span class="badge">' . $count . '</span>';
     }
 
-    /**
-     * @param Builder $query
-     *
-     * @return mixed
-     */
-    public function ScopePublic( $query )
-    {
-        return $query->where( 'is_private', '<>', 1 );
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | ACCESORS
-    |--------------------------------------------------------------------------
-    */
     /**
      * @return string
      */
@@ -216,13 +203,25 @@ class Project extends Model
 
     /*
     |--------------------------------------------------------------------------
+    | ACCESORS
+    |--------------------------------------------------------------------------
+    */
+
+    public function getTitleLink()
+    {
+        return '<a href="' . route('frontend.project.show', [ 'id' => $this->id ]) . '">' . $this->title . '</a>';
+    }
+
+    /*
+    |--------------------------------------------------------------------------
     | MUTATORS
     |--------------------------------------------------------------------------
     */
+
     /**
      * @param string $value
      */
-    public function setTitleAttribute( string $value )
+    public function setTitleAttribute(string $value)
     {
         $this->attributes['org_name'] = $value;
     }

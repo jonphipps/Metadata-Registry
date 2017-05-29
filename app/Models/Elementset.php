@@ -4,6 +4,7 @@ use App\Helpers\Macros\Traits\Languages;
 use App\Models\Element;
 use App\Models\Traits\BelongsToProfile;
 use App\Models\Traits\BelongsToProject;
+use App\Models\Traits\HasImports;
 use App\Models\Traits\HasLanguagesList;
 use App\Models\Traits\HasMembers;
 use App\Models\Traits\HasPrefixesList;
@@ -101,7 +102,7 @@ class Elementset extends Model
     public $table = self::TABLE;
     use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy;
     use Cacheable;
-    use Languages, HasLanguagesList, HasPrefixesList, HasMembers;
+    use Languages, HasLanguagesList, HasPrefixesList, HasMembers, HasImports;
     use BelongsToProject, BelongsToProfile, HasStatus;
     protected $blameable = [
         'created' => 'created_user_id',
