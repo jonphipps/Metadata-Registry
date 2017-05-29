@@ -193,6 +193,7 @@ return [
         DaveJamesMiller\Breadcrumbs\ServiceProvider::class,
         GrahamCampbell\GitHub\GitHubServiceProvider::class,
         HieuLe\Active\ActiveServiceProvider::class,
+        Ixudra\Wizard\WizardServiceProvider::class,
         JeroenG\Packager\PackagerServiceProvider::class,
         Laracasts\Matryoshka\MatryoshkaServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,

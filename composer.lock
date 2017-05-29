@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "3b75324331d8f9a1f9033d22edba8943",
+    "content-hash": "85590b4e1cc922149b7a4750fb67157f",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -2946,6 +2946,159 @@
             "time": "2017-04-23T18:45:36+00:00"
         },
         {
+            "name": "ixudra/core",
+            "version": "5.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ixudra/core.git",
+                "reference": "4967e97ec0a6e4df748bf41cc6cea58fccd3fa3c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ixudra/core/zipball/4967e97ec0a6e4df748bf41cc6cea58fccd3fa3c",
+                "reference": "4967e97ec0a6e4df748bf41cc6cea58fccd3fa3c",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.0",
+                "laracasts/presenter": "0.2.*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "phpunit/phpunit": "~4.6"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/migrations"
+                ],
+                "psr-4": {
+                    "Ixudra\\Core\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Oris",
+                    "email": "jan.oris@gmail.com"
+                }
+            ],
+            "description": "Custom PHP Core library for the Laravel 5 framework - developed by Ixudra",
+            "homepage": "http://ixudra.be",
+            "keywords": [
+                "Ixudra",
+                "core",
+                "laravel",
+                "project"
+            ],
+            "time": "2017-02-10T09:42:08+00:00"
+        },
+        {
+            "name": "ixudra/translation",
+            "version": "5.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ixudra/translation.git",
+                "reference": "a64e666f250787614a7ca7c9f46ba92dc9b94ba7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ixudra/translation/zipball/a64e666f250787614a7ca7c9f46ba92dc9b94ba7",
+                "reference": "a64e666f250787614a7ca7c9f46ba92dc9b94ba7",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.0",
+                "illuminate/translation": "~5.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "phpunit/phpunit": "4.1.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ixudra\\Translation\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Oris",
+                    "email": "jan.oris@ixudra.be"
+                }
+            ],
+            "description": "Custom PHP translation library for the Laravel 5 framework - developed by Ixudra",
+            "homepage": "http://ixudra.be",
+            "keywords": [
+                "Ixudra",
+                "laravel",
+                "translation"
+            ],
+            "time": "2017-02-09T14:52:31+00:00"
+        },
+        {
+            "name": "ixudra/wizard",
+            "version": "1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ixudra/wizard.git",
+                "reference": "bdadaf9c4f5d97292afe269b56a2c4ad8f604a3d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ixudra/wizard/zipball/bdadaf9c4f5d97292afe269b56a2c4ad8f604a3d",
+                "reference": "bdadaf9c4f5d97292afe269b56a2c4ad8f604a3d",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.0",
+                "ixudra/core": "~5.0",
+                "ixudra/translation": "~5.1",
+                "laravelcollective/html": "~5.2",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "ixudra/generators": "~5.5"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/database/migrations"
+                ],
+                "psr-4": {
+                    "Ixudra\\Wizard\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Oris",
+                    "email": "jan.oris@ixudra.be"
+                }
+            ],
+            "description": "Custom PHP wizard library for the Laravel 5 framework - developed by Ixudra",
+            "homepage": "http://ixudra.be",
+            "keywords": [
+                "Ixudra",
+                "flow",
+                "laravel",
+                "wizard"
+            ],
+            "time": "2017-02-10T09:06:40+00:00"
+        },
+        {
             "name": "jakub-onderka/php-console-color",
             "version": "0.1",
             "source": {
@@ -3373,6 +3526,52 @@
                 "laravel"
             ],
             "time": "2017-03-08T18:23:35+00:00"
+        },
+        {
+            "name": "laracasts/presenter",
+            "version": "0.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laracasts/Presenter.git",
+                "reference": "b284f3137f990efd6e95df49d254f1ccc4541e92"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laracasts/Presenter/zipball/b284f3137f990efd6e95df49d254f1ccc4541e92",
+                "reference": "b284f3137f990efd6e95df49d254f1ccc4541e92",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "phpspec/phpspec": "~2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Laracasts\\Presenter": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jeffrey Way",
+                    "email": "jeffrey@laracasts.com"
+                }
+            ],
+            "description": "Simple view presenters",
+            "keywords": [
+                "laravel",
+                "presenter",
+                "view"
+            ],
+            "time": "2014-09-13T13:18:07+00:00"
         },
         {
             "name": "laravel/dusk",

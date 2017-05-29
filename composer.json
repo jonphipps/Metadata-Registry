@@ -73,6 +73,7 @@
         "h4cc/wkhtmltopdf-amd64": "0.12.x",
         "hashids/hashids": "^2.0",
         "hieu-le/active": "~3.0",
+        "ixudra/wizard": "^1.3",
         "jeroen-g/laravel-packager": "^1.5",
         "laracasts/matryoshka": "dev-master",
         "laravel/dusk": "^1.1",
