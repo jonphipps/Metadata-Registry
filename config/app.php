@@ -196,6 +196,7 @@ return [
         Ixudra\Curl\CurlServiceProvider::class,
         Ixudra\Generators\GeneratorsServiceProvider::class,
         Ixudra\Render\RenderServiceProvider::class,
+        Ixudra\Translation\TranslationServiceProvider::class,
         Ixudra\Wizard\WizardServiceProvider::class,
         JeroenG\Packager\PackagerServiceProvider::class,
         Laracasts\Matryoshka\MatryoshkaServiceProvider::class,
@@ -298,6 +299,7 @@ return [
         'Render'       => Ixudra\Render\Facades\Render::class,
         'SnappyImage'  => Barryvdh\Snappy\Facades\SnappyImage::class,
         'Socialite'    => Laravel\Socialite\Facades\Socialite::class,
+        'Translate'    => Ixudra\Translation\Facades\Translation::class,
 
     ],
 
