@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Http\Requests\ImportRequest;
+use App\Http\Traits\UsesEnums;
+use App\Http\Traits\UsesPolicies;
 use App\Models\Project;
 use Illuminate\Http\Request;
-use Ixudra\Wizard\Http\Controllers\FlowController;
-use Ixudra\Wizard\Http\Requests\ProcessFlowStepFormRequest;
+use Illuminate\Support\Facades\Auth;
 
 /** @noinspection LongInheritanceChainInspection */
-class ProjectImportController extends FlowController
+class ProjectImportController extends ImportCrudController
 {
-
+    use UsesPolicies;
     public function importStep(Request $request, Project $project, $type, $step = null)
     {
         $id = 1;
