@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\CustomCrudController as CrudController;
 use App\Http\Requests\ProjectRequest as StoreRequest;
 use App\Http\Requests\ProjectRequest as UpdateRequest;
+use App\Http\Traits\UsesEnums;
+use App\Http\Traits\UsesPolicies;
 use Auth;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
 class ProjectCrudController extends CrudController
 {
+    use UsesEnums, UsesPolicies;
 
     public function setUp()
     {
@@ -29,6 +32,7 @@ class ProjectCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
 
+        $this->addCustomDoctrineColumnTypes();
         $this->crud->setFromDb();
 
         // ------ CRUD FIELDS
@@ -307,7 +311,7 @@ class ProjectCrudController extends CrudController
     public function update( UpdateRequest $request )
     {
         if ( $request && $request->id ) {
-            $this->policyAuthorize( 'update', $request->id );
+            $this->policyAuthorize('update', $this->crud->getModel(), $request->id);
         }
 
         // your additional operations before save here

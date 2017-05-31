@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Frontend;
 
-use Backpack\CRUD\app\Http\Controllers\CrudController;
+use App\Http\Controllers\CustomCrudController as CrudController;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\ExportRequest as StoreRequest;
