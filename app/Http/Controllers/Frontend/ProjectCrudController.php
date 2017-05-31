@@ -117,16 +117,17 @@ class ProjectCrudController extends CrudController
                     'placeholder' => 'Enter a language code. This will eventually be a drop-down list',
                 ],
             ],
-            [
-                'name'  => 'languages',
-                'label' => 'Languages in use',
-                'type'  => 'text',
-                'hint'  => 'All of the languages in which you wish to make your resources available.<br />This can be set for each individual resource as well.',
-                'tab' => 'Project Defaults',
-                'attributes' => [
-                    'placeholder' => 'Enter language codes, separated by a comma. This will eventually be a multi-select drop-down list',
-                ],
-            ],
+            // TODO: Create a view for selecting multiple languages from an array, like tags
+            // [
+            //     'name'  => 'languages',
+            //     'label' => 'Languages in use',
+            //     'type'  => 'select2_from_array_multiple',
+            //     'hint'  => 'All of the languages in which you wish to make your resources available.<br />This can be set for each individual resource as well.',
+            //     'tab' => 'Project Defaults',
+            //     'attributes' => [
+            //         'placeholder' => 'Enter language codes, separated by a comma. This will eventually be a multi-select drop-down list',
+            //     ],
+            // ],
             [   // URL
                 'name'  => 'base_domain',
                 'label' => 'Base Domain',
