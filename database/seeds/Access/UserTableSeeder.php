@@ -36,6 +36,7 @@ class UserTableSeeder extends Seeder
                 'confirmation_code' => md5( uniqid( mt_rand(), true ) ),
                 'confirmed'         => true,
                 'culture'           => 'en_US',
+                'is_administrator'  => true,
                 'created_at'        => Carbon::now(),
                 'updated_at'        => Carbon::now(),
             ],

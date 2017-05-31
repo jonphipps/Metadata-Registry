@@ -3,6 +3,7 @@
 use App\Models\Traits\BelongsToElementset;
 use App\Models\Traits\BelongsToUser;
 use App\Models\Traits\BelongsToVocabulary;
+use Backpack\CRUD\CrudTrait;
 use Culpa\Traits\Blameable;
 use Culpa\Traits\CreatedBy;
 use Illuminate\Database\Eloquent\Model as Model;
@@ -57,7 +58,9 @@ class Import extends Model
 {
     const TABLE = 'reg_file_import_history';
     protected $table = self::TABLE;
-    use Blameable, CreatedBy, BelongsToVocabulary, BelongsToElementset, BelongsToUser;
+    use Blameable, CreatedBy;
+    use CrudTrait;
+    use BelongsToVocabulary, BelongsToElementset, BelongsToUser;
     protected $blameable = [
         'created' => 'user_id',
     ];

@@ -2,37 +2,63 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\CustomCrudController as CrudController;
-
 // VALIDATION: change the requests to match your own file names if you need form validation
-use App\Http\Requests\ExportRequest as StoreRequest;
-use App\Http\Requests\ExportRequest as UpdateRequest;
+use App\Http\Requests\ImportRequest;
+use App\Http\Requests\ImportRequest as StoreRequest;
+use App\Http\Requests\ImportRequest as UpdateRequest;
+use App\Http\Traits\UsesEnums;
+use App\Http\Traits\UsesPolicies;
+use App\Models\Import;
+use App\Models\Project;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Illuminate\Http\Request;
+use const null;
 
-class ExportCrudController extends CrudController
+class ImportCrudController extends CrudController
 {
+    use UsesPolicies, UsesEnums;
 
-    public function setUp()
+    public function setup()
     {
+        /*
+        |--------------------------------------------------------------------------
+        | BASIC CRUD INFORMATION
+        |--------------------------------------------------------------------------
+        */
+        $this->crud->setModel(Import::class);
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/import');
+        $this->crud->setEntityNameStrings('import', 'imports');
 
         /*
         |--------------------------------------------------------------------------
         | BASIC CRUD INFORMATION
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel('App\Models\Export');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/export');
-        $this->crud->setEntityNameStrings('export', 'exports');
-
-        /*
-        |--------------------------------------------------------------------------
-        | BASIC CRUD INFORMATION
-        |--------------------------------------------------------------------------
-        */
-
-        $this->crud->setFromDb();
+        $this->addCustomDoctrineColumnTypes();
+        //$this->crud->setFromDb();
 
         // ------ CRUD FIELDS
-        // $this->crud->addField($options, 'update/create/both');
+
+        $this->crud->addFields([
+            [
+                'name'  => 'source_file_name',
+                'label' => 'Link to Google Spreadsheet',
+                'type'  => 'url',
+                'step'  => 1,
+            ],
+            [
+                'name'    => 'import_type',
+                'label'   => 'Type of Import',
+                'type'    => 'radio',
+                'options' => [ // the key will be stored in the db, the value will be shown as label;
+                               0 => "Sparse -- Non-destructive. Empty rows and cells will be ignored.",
+                               1 => "Partial -- Empty Cells will be deleted. Missing rows will be ignored.",
+                               2 => 'Full -- Destructive. Empty cells will be deleted. Empty rows will be deleted, or deprecated if published.',
+                ],
+                'step'    => 1,
+            ],
+        ],
+            'both');
         // $this->crud->addFields($array_of_arrays, 'update/create/both');
         // $this->crud->removeField('name', 'update/create/both');
         // $this->crud->removeFields($array_of_names, 'update/create/both');
@@ -52,6 +78,8 @@ class ExportCrudController extends CrudController
         // $this->crud->addButtonFromView($stack, $name, $view, $position); // add a button whose HTML is in a view placed at resources\views\vendor\backpack\crud\buttons
         // $this->crud->removeButton($name);
         // $this->crud->removeButtonFromStack($name, $stack);
+        // $this->crud->removeAllButtons();
+        // $this->crud->removeAllButtonsFromStack('line');
 
         // ------ CRUD ACCESS
         // $this->crud->allowAccess(['list', 'create', 'update', 'reorder', 'delete']);
@@ -98,6 +126,27 @@ class ExportCrudController extends CrudController
         // $this->crud->limit();
     }
 
+    public function importProject(Request $request, Project $project, $type, $step = null)
+    {
+        $wizard         = self::getWizardStep($step);
+        $wizard['last'] = $wizard['next'] === false;
+        $wizard['next'] = $wizard['next'] ?? config('backpack.base.route_prefix') . 'projects/' . $project->id;
+        $this->policyAuthorize('importProject', $project, $project->id);
+        $this->crud->setCreateView('frontend.Import.project.wizard');
+        $this->crud->setRoute(config('backpack.base.route_prefix') . 'projects/' . $project->id );
+        $this->data['wizard']  = $wizard;
+        $this->data['project'] = $project;
+
+        return parent::create();
+    }
+
+    public function processImportProject(ImportRequest $request, Project $project, $type, $step = null)
+    {
+        //here we validate the input from the step
+        //create the record if it's new (store), update it if it's not (update)
+        //and redirect to the next step if valid
+    }
+
     public function store(StoreRequest $request)
     {
         // your additional operations before save here
@@ -114,5 +163,47 @@ class ExportCrudController extends CrudController
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
         return $redirect_location;
+    }
+
+    /**
+     * @param $step
+     *
+     * @return array
+     */
+    private static function getWizardStep($step): array
+    {
+        $steps = [
+            [
+                'name'         => 'spreadsheet',
+                'step'         => 1,
+                'title'        => 'Start with a Spreadsheet URL...',
+                'instructions' => 'Some instructions',
+            ],
+            [
+                'name'         => 'worksheets',
+                'step'         => 2,
+                'title'        => 'Choose the Worksheets...',
+                'instructions' => 'Some instructions',
+            ],
+            [
+                'name'         => 'approve',
+                'step'         => 3,
+                'title'        => 'Approve the changes..',
+                'instructions' => 'Some instructions',
+            ],
+            [
+                'name'         => 'import',
+                'step'         => 4,
+                'title'        => 'Start with a Spreadsheet URL',
+                'instructions' => 'Some instructions',
+            ],
+        ];
+        $key   = $step !== null ? array_search($step, array_column($steps, 'name')) : 0;
+        if ($key === false) {
+            abort(404, 'Invalid Step');
+        }
+        $steps[ $key ]['next'] = ($key < count($steps)) ? $steps[ $key + 1 ]['name'] : false;
+
+        return $steps[ $key ];
     }
 }
