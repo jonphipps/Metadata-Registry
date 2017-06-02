@@ -50,8 +50,10 @@ trait UsesPolicies
      * @param string   $ability The ability to validate
      * @param Model    $class   The instance of a Model class to check against
      * @param int|null $id      The id of the individual to check against
+     *
+     * @return void
      */
-    protected function policyAuthorize($ability, $class, $id = null): void
+    protected function policyAuthorize($ability, $class, $id = null)
     {
         $model = $id !== null ? $class::findOrFail($id) : $class;
 
