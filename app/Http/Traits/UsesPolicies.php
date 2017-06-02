@@ -5,10 +5,12 @@
 namespace App\Http\Traits;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 trait UsesPolicies
 {
+    use AuthorizesRequests;
+
     public function create()
     {
         $this->policyAuthorize('create', $this->crud->getModel());
@@ -57,8 +59,8 @@ trait UsesPolicies
     {
         $model = $id !== null ? $class::findOrFail($id) : $class;
 
-        if (Auth::check() && Auth::user()->can($ability, $model)) {
-            $this->crud->allowAccess([ $ability ]);
-        }
+        $this->crud->denyAccess([ $ability ]);
+        $this->authorize($ability, $model);
+        $this->crud->allowAccess([ $ability ]);
     }
 }
