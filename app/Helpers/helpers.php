@@ -74,4 +74,24 @@ if (! function_exists('laravel_link_to_action')) {
             eval( \Psy\sh() );
         }
     }
+
+    if ( ! function_exists('getLanguageListFromSymfony')) {
+        /**
+         * @param string $culture
+         *
+         * @return array
+         */
+        function getLanguageListFromSymfony($culture = 'en')
+        {
+            //we should get the culture to get the correct file, but default to English
+            $c       = unserialize(file_get_contents(base_path("/data/symfony/i18n/{$culture}.dat"), 'r'), [ true ]);
+            $options = [];
+
+            foreach ($c['Languages'] as $key => $value) {
+                $options[ $key ] = $value[0];
+            }
+
+            return $options;
+        }
+    }
 }
