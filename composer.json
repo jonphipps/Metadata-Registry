@@ -1,53 +1,27 @@
 {
-    "name": "jonphipps/metadata-registry",
-    "description": "A metadata registry",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@github.com:jonphipps/phpspecgen.git"
-        },
-        {
-            "type": "vcs",
-            "url": "git@github.com:jonphipps/laxative.git"
-        },
-        {
-            "type": "vcs",
-            "url": "git@github.com:jonphipps/html.git"
-        },
-        {
-            "type": "vcs",
-            "url": "git@github.com:jonphipps/laravel-codeception-dbdump.git"
-        },
-        {
-            "type": "path",
-            "url": "packages/backpack_CRUD",
-            "options": {
-                "symlink": true
-            }
-        },
-        {
-            "type": "path",
-            "url": "packages/venturecraft_revisionable",
-            "options": {
-                "symlink": true
-            }
-        }
+    "name"            : "jonphipps/metadata-registry", "description": "A metadata registry",
+    "repositories":
+    [
+    { "type": "vcs", "url": "git@github.com:jonphipps/phpspecgen.git" },
+    { "type": "vcs", "url": "git@github.com:jonphipps/laxative.git" },
+    { "type": "vcs", "url": "git@github.com:jonphipps/html.git" },
+    { "type": "vcs", "url": "git@github.com:jonphipps/laravel-codeception-dbdump.git" },
+    { "type": "vcs", "url": "git@github.com:jonphipps/laravel-wizard.git" },
+    { "type": "path", "url": "packages/backpack_CRUD",
+        "options": { "symlink": true } },
+    { "type": "path", "url": "packages/venturecraft_revisionable",
+        "options": { "symlink": true } }
     ],
-    "config": {
-        "process-timeout": 900,
-        "cache-dir:": "../",
-        "preferred-install": "dist",
-        "sort-packages": true
-    },
-    "license": "Apache-2.0",
-    "authors": [
-        {
-            "name": "Jon Phipps",
-            "email": "jphipps@madcreek.com"
-        }
+    "config"           :
+        { "process-timeout": 900, "cache-dir:": "../", "preferred-install": "dist", "sort-packages": true },
+    "license"          : "Apache-2.0", "authors":
+    [
+        { "name": "Jon Phipps", "email": "jphipps@madcreek.com" }
     ],
-    "minimum-stability": "stable",
-    "require": {
+    "minimum-stability": "beta",
+    "prefer-stable": true,
+    "require":
+    {
         "php": ">=7.0.0",
         "arcanedev/log-viewer": "~4.0",
         "arcanedev/no-captcha": "~3.0",
