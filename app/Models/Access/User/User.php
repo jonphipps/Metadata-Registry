@@ -89,19 +89,9 @@ class User extends Authenticatable
      */
     protected $table = self::TABLE;
     public const TABLE = 'users';
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'status',
-        'confirmation_code',
-        'confirmed',
-    ];
+
+    protected $guarded = [ 'id' ];
+
     /**
      * The attributes that should be hidden for arrays.
      *
