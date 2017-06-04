@@ -22,6 +22,7 @@
     "webpack-rtl-plugin": "^1.5.0"
   },
   "dependencies": {
+    "jqwidgets-framework": "^4.6.2",
     "smartwizard": "^4.2.2"
   }
 }
