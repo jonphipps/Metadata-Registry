@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Helpers\Macros\Traits\Languages;
 use App\Models\Traits\BelongsToVocabulary;
 use App\Models\Traits\HasStatus;
-use Cache;
 use Culpa\Traits\Blameable;
 use Culpa\Traits\CreatedBy;
 use Culpa\Traits\DeletedBy;
@@ -17,31 +16,31 @@ use Laracasts\Matryoshka\Cacheable;
 /**
  * App\Models\Concept
  *
- * @property int $id
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property \Carbon\Carbon $deleted_at
- * @property int $created_user_id
- * @property int $updated_user_id
- * @property string $uri
- * @property string $lexical_alias
- * @property string $pref_label
- * @property int $vocabulary_id
- * @property bool $is_top_concept
- * @property int $pref_label_id
- * @property int $status_id
- * @property string $language
- * @property int $created_by
- * @property int $updated_by
- * @property int $deleted_by
- * @property-read \App\Models\Access\User\User $creator
- * @property-read \App\Models\Access\User\User $eraser
- * @property-read mixed $current_language
- * @property-read mixed $default_language
+ * @property int                                                                          $id
+ * @property \Carbon\Carbon                                                               $created_at
+ * @property \Carbon\Carbon                                                               $updated_at
+ * @property \Carbon\Carbon                                                               $deleted_at
+ * @property int                                                                          $created_user_id
+ * @property int                                                                          $updated_user_id
+ * @property string                                                                       $uri
+ * @property string                                                                       $lexical_alias
+ * @property string                                                                       $pref_label
+ * @property int                                                                          $vocabulary_id
+ * @property bool                                                                         $is_top_concept
+ * @property int                                                                          $pref_label_id
+ * @property int                                                                          $status_id
+ * @property string                                                                       $language
+ * @property int                                                                          $created_by
+ * @property int                                                                          $updated_by
+ * @property int                                                                          $deleted_by
+ * @property-read \App\Models\Access\User\User                                            $creator
+ * @property-read \App\Models\Access\User\User                                            $eraser
+ * @property-read mixed                                                                   $current_language
+ * @property-read mixed                                                                   $default_language
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConceptAttribute[] $properties
- * @property-read \App\Models\Status $status
- * @property-read \App\Models\Access\User\User $updater
- * @property-read \App\Models\Vocabulary $vocabulary
+ * @property-read \App\Models\Status                                                      $status
+ * @property-read \App\Models\Access\User\User                                            $updater
+ * @property-read \App\Models\Vocabulary                                                  $vocabulary
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereCreatedBy($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereCreatedUserId($value)
@@ -76,55 +75,41 @@ class Concept extends Model
     protected $dates = [ 'deleted_at' ];
     protected $guarded = [ 'id' ];
 
-    public function getLanguageAttribute( $value )
-    {
-        return Cache::get( 'language_' . $value,
-            function() use ( $value ) {
-                return Languages::list( $value );
-            } );
-    }
-
-    public function name()
-    {
-        return $this->pref_label;
-    }
-
-    public function properties()
-    {
-        return $this->hasMany( ConceptAttribute::class, 'concept_id' );
-    }
+    /*
+    |--------------------------------------------------------------------------
+    | FUNCTIONS
+    |--------------------------------------------------------------------------
+    */
 
     /**
      * @param int $projectId
      *
      * @return array
      */
-    public static function selectConceptsByProject( $projectId )
+    public static function selectConceptsByProject($projectId)
     {
-        return \DB::table( ConceptAttribute::TABLE )
-            ->join( Concept::TABLE,
+        return \DB::table(ConceptAttribute::TABLE)
+            ->join(Concept::TABLE,
                 Concept::TABLE . '.id',
                 '=',
-                ConceptAttribute::TABLE . '.concept_id' )
-            ->join( Vocabulary::TABLE,
+                ConceptAttribute::TABLE . '.concept_id')
+            ->join(Vocabulary::TABLE,
                 Vocabulary::TABLE . '.id',
                 '=',
-                Concept::TABLE . '.vocabulary_id' )
-            ->select( ConceptAttribute::TABLE .
-                '.concept_id as id',
+                Concept::TABLE . '.vocabulary_id')
+            ->select(ConceptAttribute::TABLE . '.concept_id as id',
                 Vocabulary::TABLE . '.name as vocabulary',
                 ConceptAttribute::TABLE . '.language',
-                ConceptAttribute::TABLE . '.object as label' )
-            ->where( [
+                ConceptAttribute::TABLE . '.object as label')
+            ->where([
                 [ ConceptAttribute::TABLE . '.profile_property_id', 45, ],
                 [ Vocabulary::TABLE . '.agent_id', $projectId, ],
-            ] )
-            ->orderBy( Vocabulary::TABLE . '.name' )
-            ->orderBy( ConceptAttribute::TABLE .
-                '.language' )
-            ->orderBy( ConceptAttribute::TABLE . '.object' )
+            ])
+            ->orderBy(Vocabulary::TABLE . '.name')
+            ->orderBy(ConceptAttribute::TABLE . '.language')
+            ->orderBy(ConceptAttribute::TABLE . '.object')
             ->get()
-            ->mapWithKeys( function( $item ) {
+            ->mapWithKeys(function($item) {
                 return [
                     $item->id . '_' . $item->language => $item->vocabulary .
                         ' - (' .
@@ -132,7 +117,40 @@ class Concept extends Model
                         ') ' .
                         $item->label,
                 ];
-            } )
+            })
             ->toArray();
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | RELATIONS
+    |--------------------------------------------------------------------------
+    */
+
+    public function statements()
+    {
+        return $this->hasMany(ConceptAttribute::class, 'concept_id');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | SCOPES
+    |--------------------------------------------------------------------------
+    */
+
+    /*
+    |--------------------------------------------------------------------------
+    | ACCESSORS
+    |--------------------------------------------------------------------------
+    */
+
+    public function getNameAttribute()
+    {
+        return $this->pref_label;
+    }
+    /*
+    |--------------------------------------------------------------------------
+    | MUTATORS
+    |--------------------------------------------------------------------------
+    */
 }
