@@ -81,4 +81,5 @@ class ConceptAttribute extends Model
     ];
     protected $dates = [ 'deleted_at' ];
     protected $guarded = [ 'id' ];
+    protected $touches = [ 'concept' ];
 }

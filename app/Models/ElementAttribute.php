@@ -78,6 +78,7 @@ class ElementAttribute extends Model
         'deleted' => 'deleted_user_id',
     ];
     protected $dates = [ 'deleted_at' ];
+    protected $touches = [ 'element' ];
 
     public function element_attribute_history()
     {
