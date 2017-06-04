@@ -82,4 +82,10 @@ class ConceptAttribute extends Model
     protected $dates = [ 'deleted_at' ];
     protected $guarded = [ 'id' ];
     protected $touches = [ 'concept' ];
+
+    public function history()
+    {
+        return $this->hasMany(ConceptAttributeHistory::class, 'concept_property_id', 'id');
+    }
+
 }

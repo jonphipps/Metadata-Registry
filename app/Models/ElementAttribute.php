@@ -1,7 +1,6 @@
 <?php namespace App\Models;
 
 use App\Helpers\Macros\Traits\Languages;
-use App\Models\ElementAttributeHistory;
 use App\Models\Traits\BelongsToElement;
 use App\Models\Traits\BelongsToProfileProperty;
 use App\Models\Traits\BelongsToRelatedElement;
@@ -80,10 +79,10 @@ class ElementAttribute extends Model
     protected $dates = [ 'deleted_at' ];
     protected $touches = [ 'element' ];
 
-    public function element_attribute_history()
+    public function history()
     {
-        return $this->hasMany( ElementAttributeHistory::class,
-            '$schema_property_element_id',
-            'id' );
+        return $this->hasMany(ElementAttributeHistory::class, 'schema_property_element_id', 'id');
+    }
+
     }
 }
