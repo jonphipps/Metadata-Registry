@@ -16,34 +16,34 @@ use Laracasts\Matryoshka\Cacheable;
 /**
  * App\Models\ElementAttribute
  *
- * @property int $id
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property \Carbon\Carbon $deleted_at
- * @property int $created_user_id
- * @property int $updated_user_id
- * @property int $deleted_user_id
- * @property int $schema_property_id
- * @property int $profile_property_id
- * @property bool $is_schema_property
- * @property string $object
- * @property int $related_schema_property_id
- * @property string $language
- * @property int $status_id
- * @property bool $is_generated
- * @property int $created_by
- * @property int $updated_by
- * @property int $deleted_by
- * @property-read \App\Models\Access\User\User $creator
- * @property-read \App\Models\Element $element
+ * @property int                                                                                 $id
+ * @property \Carbon\Carbon                                                                      $created_at
+ * @property \Carbon\Carbon                                                                      $updated_at
+ * @property \Carbon\Carbon                                                                      $deleted_at
+ * @property int                                                                                 $created_user_id
+ * @property int                                                                                 $updated_user_id
+ * @property int                                                                                 $deleted_user_id
+ * @property int                                                                                 $schema_property_id
+ * @property int                                                                                 $profile_property_id
+ * @property bool                                                                                $is_schema_property
+ * @property string                                                                              $object
+ * @property int                                                                                 $related_schema_property_id
+ * @property string                                                                              $language
+ * @property int                                                                                 $status_id
+ * @property bool                                                                                $is_generated
+ * @property int                                                                                 $created_by
+ * @property int                                                                                 $updated_by
+ * @property int                                                                                 $deleted_by
+ * @property-read \App\Models\Access\User\User                                                   $creator
+ * @property-read \App\Models\Element                                                            $element
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementAttributeHistory[] $element_attribute_history
- * @property-read \App\Models\Access\User\User $eraser
- * @property-read mixed $current_language
- * @property-read mixed $default_language
- * @property-read \App\Models\ProfileProperty $profile_property
- * @property-read \App\Models\Element $related_element
- * @property-read \App\Models\Status $status
- * @property-read \App\Models\Access\User\User $updater
+ * @property-read \App\Models\Access\User\User                                                   $eraser
+ * @property-read mixed                                                                          $current_language
+ * @property-read mixed                                                                          $default_language
+ * @property-read \App\Models\ProfileProperty                                                    $profile_property
+ * @property-read \App\Models\Element                                                            $related_element
+ * @property-read \App\Models\Status                                                             $status
+ * @property-read \App\Models\Access\User\User                                                   $updater
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereCreatedBy($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereCreatedUserId($value)
@@ -84,5 +84,27 @@ class ElementAttribute extends Model
         return $this->hasMany(ElementAttributeHistory::class, 'schema_property_element_id', 'id');
     }
 
+    public static function getLatestDateForElementSet($elementset_id)
+    {
+        $created_at = self::getLatest($elementset_id, 'created_at');
+        $updated_at = self::getLatest($elementset_id, 'updated_at');
+        $deleted_at = self::getLatest($elementset_id, 'deleted_at');
+
+        return collect([ $created_at, $updated_at, $deleted_at ])->max();
+    }
+
+    /**
+     * @param int    $elementset_id
+     * @param string $field
+     *
+     * @return string
+     */
+    private static function getLatest($elementset_id, $field)
+    {
+        return \DB::table(ElementAttribute::TABLE)
+            ->join(Element::TABLE, Element::TABLE . '.id', '=', ElementAttribute::TABLE . '.schema_property_id')
+            ->select(ElementAttribute::TABLE . '.' . $field)
+            ->where(Element::TABLE . '.schema_id', $elementset_id)
+            ->max(ElementAttribute::TABLE . '.' . $field);
     }
 }
