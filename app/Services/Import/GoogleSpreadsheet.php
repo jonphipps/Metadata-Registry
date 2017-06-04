@@ -4,6 +4,7 @@
 
 namespace App\Services\Import;
 
+use Arcanedev\NoCaptcha\Exceptions\InvalidUrlException;
 use Google\Spreadsheet\DefaultServiceRequest;
 use Google\Spreadsheet\ServiceRequestFactory;
 use Google_Client;
@@ -66,11 +67,14 @@ class GoogleSpreadsheet
      * @param string $url Google service URL
      *
      * @return string
+     * @throws \Arcanedev\NoCaptcha\Exceptions\InvalidUrlException
      */
     private function getIdFromUrl(string $url): string
     {
         preg_match('/[-\\w]{25,}/u', $url, $matches);
-
-        return $matches[0];
+        if (count($matches)) {
+            return $matches[0];
+        }
+        throw new InvalidUrlException();
     }
 }
