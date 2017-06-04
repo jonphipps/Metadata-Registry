@@ -97,7 +97,7 @@ class Element extends Model
     protected $dates = [ 'deleted_at' ];
     protected $guarded = [ 'id' ];
 
-    public function properties()
+    public function statements()
     {
         return $this->hasMany( ElementAttribute::class, 'schema_property_id', 'id' );
     }
