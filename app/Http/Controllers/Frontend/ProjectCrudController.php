@@ -34,6 +34,10 @@ class ProjectCrudController extends CrudController
 
         $this->addCustomDoctrineColumnTypes();
         $this->crud->setFromDb();
+        $languages = getLanguageListFromSymfony('en');
+
+        // ------ CRUD ACCESS
+        $this->crud->allowAccess([ 'index', 'show' ]);
 
         // ------ CRUD FIELDS
         // $this->crud->addField($options, 'update/create/both');
@@ -110,24 +114,28 @@ class ProjectCrudController extends CrudController
             [
                 'name'  => 'default_language',
                 'label' => 'Default Language',
-                'type'  => 'text',
+                'type'  => 'select2_from_array',
+                'allows_null'=> true,
+                'options' => $languages,
                 'hint'  => 'The default language for all of your resources.<br />This can be set for each individual resource as well.',
                 'tab' => 'Project Defaults',
                 'attributes' => [
-                    'placeholder' => 'Enter a language code. This will eventually be a drop-down list',
+                    'placeholder' => 'Select a language code. ',
                 ],
             ],
-            // TODO: Create a view for selecting multiple languages from an array, like tags
-            // [
-            //     'name'  => 'languages',
-            //     'label' => 'Languages in use',
-            //     'type'  => 'select2_from_array_multiple',
-            //     'hint'  => 'All of the languages in which you wish to make your resources available.<br />This can be set for each individual resource as well.',
-            //     'tab' => 'Project Defaults',
-            //     'attributes' => [
-            //         'placeholder' => 'Enter language codes, separated by a comma. This will eventually be a multi-select drop-down list',
-            //     ],
-            // ],
+            [
+                'name'  => 'languages',
+                'label' => 'Languages in use',
+                'type'  => 'select2_from_array',
+                'allows_null' => true,
+                'allows_multiple' => true,
+                'options' => $languages,
+                'hint'  => 'All of the languages in which you wish to make your resources available.<br />This can be set for each individual resource as well.',
+                'tab' => 'Project Defaults',
+                'attributes' => [
+                    'placeholder' => 'Select one or more language codes',
+                ],
+            ],
             [   // URL
                 'name'  => 'base_domain',
                 'label' => 'Base Domain',
@@ -246,13 +254,6 @@ class ProjectCrudController extends CrudController
             $this->crud->removeAllButtonsFromStack( 'line' );
         // }
 
-        // ------ CRUD ACCESS
-        $this->crud->allowAccess( [ 'list', 'show' ] );
-        $this->crud->denyAccess( [ 'create', 'update', 'delete' ] );
-        if ( Auth::check() ) {
-            $this->crud->allowAccess( 'create' );
-        }
-
         // ------ CRUD REORDER
         // $this->crud->enableReorder('label_name', MAX_TREE_LEVEL);
         // NOTE: you also need to do allow access to the right users: $this->crud->allowAccess('reorder');
@@ -321,4 +322,5 @@ class ProjectCrudController extends CrudController
         // use $this->data['entry'] or $this->crud->entry
         return $redirect_location;
     }
+
 }
