@@ -1,5 +1,5 @@
 <!-- jqxGrid -->
-<input type="hidden" name="{{$field['name']}}" id="{{$field['name']}}">
+<input type="hidden" name="selected_{{$field['name']}}" id="selected_{{$field['name']}}">
 <div @include('crud::inc.field_wrapper_attributes') >
     <div><label>{!! $field['label'] !!}</label></div>
     <div id='jqxWidget' style="font-size: 13px; font-family: Verdana; float: left;">
@@ -93,7 +93,7 @@
         for (var i = 0; i < selectedRowIndexes.length; i++) {
           selectedIds[i] = jqxGrid.jqxGrid('getrowdatabyid', i).id;
         }
-        $('input[name="{{$field['name']}}"]').val(JSON.stringify(selectedIds));
+        $('input[name="selected_{{$field['name']}}"]').val(JSON.stringify(selectedIds));
       });
     </script>
     @endpush
