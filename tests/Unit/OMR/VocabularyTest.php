@@ -22,6 +22,6 @@ class VocabularyTest extends TestCase
     {
         $this->seed('RDAMediaTypeSeeder');
         $date = ConceptAttribute::getLatestDateForVocabulary(37);
-        $this->assertSame($date, '2015-10-29 11:09:17');
+        $this->assertSame((string) $date, '2015-10-29 11:09:17');
     }
 }

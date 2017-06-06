@@ -65,6 +65,7 @@ return [
     */
 
     'timezone' => env('APP_TIMEZONE', 'UTC'),
+    'timestamp_format' => 'Y-m-d H:i:s',
 
   /*
     |--------------------------------------------------------------------------

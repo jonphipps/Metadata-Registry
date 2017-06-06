@@ -5,26 +5,29 @@ use App\Models\Traits\BelongsToElement;
 use App\Models\Traits\BelongsToProfileProperty;
 use App\Models\Traits\BelongsToRelatedElement;
 use App\Models\Traits\HasStatus;
+use Carbon\Carbon;
+use function config;
 use Culpa\Traits\Blameable;
 use Culpa\Traits\CreatedBy;
 use Culpa\Traits\DeletedBy;
 use Culpa\Traits\UpdatedBy;
 use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use InvalidArgumentException;
 use Laracasts\Matryoshka\Cacheable;
 
 /**
  * App\Models\ElementAttribute
  *
- * @property int                                                                                 $id
- * @property \Carbon\Carbon                                                                      $created_at
- * @property \Carbon\Carbon                                                                      $updated_at
- * @property \Carbon\Carbon                                                                      $deleted_at
- * @property int                                                                                 $created_user_id
- * @property int                                                                                 $updated_user_id
- * @property int                                                                                 $deleted_user_id
- * @property int                                                                                 $schema_property_id
- * @property int                                                                                 $profile_property_id
+ * @property int    $id
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property Carbon $deleted_at
+ * @property int    $created_user_id
+ * @property int    $updated_user_id
+ * @property int    $deleted_user_id
+ * @property int    $schema_property_id
+ * @property int    $profile_property_id
  * @property bool                                                                                $is_schema_property
  * @property string                                                                              $object
  * @property int                                                                                 $related_schema_property_id
@@ -84,13 +87,25 @@ class ElementAttribute extends Model
         return $this->hasMany(ElementAttributeHistory::class, 'schema_property_element_id', 'id');
     }
 
-    public static function getLatestDateForElementSet($elementset_id)
+    /**
+     * @param $elementset_id
+     *
+     * @return Carbon
+     * @throws InvalidArgumentException
+     */
+    public static function getLatestDateForElementSet($elementset_id): Carbon
     {
         $created_at = self::getLatest($elementset_id, 'created_at');
         $updated_at = self::getLatest($elementset_id, 'updated_at');
         $deleted_at = self::getLatest($elementset_id, 'deleted_at');
 
-        return collect([ $created_at, $updated_at, $deleted_at ])->max();
+        $date = collect([ $created_at, $updated_at, $deleted_at ])->max();
+        try {
+            return Carbon::createFromFormat(config('app.timestamp_format'), $date);
+        }
+        catch (InvalidArgumentException $e) {
+            return null;
+        }
     }
 
     /**

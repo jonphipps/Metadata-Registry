@@ -4,6 +4,7 @@
 namespace Tests\Unit\OMR;
 
 use App\Models\ElementAttribute;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
@@ -22,6 +23,6 @@ class ElementSetTest extends TestCase
     {
         $this->seed('RDAClassesSeeder');
         $date = ElementAttribute::getLatestDateForElementSet(83);
-        $this->assertSame($date, '2017-02-10 11:58:57');
+        $this->assertSame((string) $date, '2017-02-10 11:58:57');
     }
 }

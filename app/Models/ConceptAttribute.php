@@ -6,29 +6,31 @@ use App\Helpers\Macros\Traits\Languages;
 use App\Models\Traits\BelongsToConcept;
 use App\Models\Traits\BelongsToProfileProperty;
 use App\Models\Traits\BelongsToRelatedConcept;
+use Carbon\Carbon;
 use Culpa\Traits\Blameable;
 use Culpa\Traits\CreatedBy;
 use Culpa\Traits\DeletedBy;
 use Culpa\Traits\UpdatedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use InvalidArgumentException;
 use Laracasts\Matryoshka\Cacheable;
 
 /**
  * App\Models\ConceptAttribute
  *
- * @property int                               $id
- * @property \Carbon\Carbon                    $created_at
- * @property \Carbon\Carbon                    $updated_at
- * @property \Carbon\Carbon                    $deleted_at
- * @property int                               $created_user_id
- * @property int                               $updated_user_id
- * @property int                               $concept_id
- * @property bool                              $primary_pref_label
- * @property int                               $skos_property_id
- * @property string                            $object
- * @property int                               $scheme_id
- * @property int                               $related_concept_id
+ * @property int    $id
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property Carbon $deleted_at
+ * @property int    $created_user_id
+ * @property int    $updated_user_id
+ * @property int    $concept_id
+ * @property bool   $primary_pref_label
+ * @property int    $skos_property_id
+ * @property string $object
+ * @property int    $scheme_id
+ * @property int    $related_concept_id
  * @property string                            $language
  * @property int                               $status_id
  * @property bool                              $is_concept_property
@@ -83,13 +85,25 @@ class ConceptAttribute extends Model
     protected $guarded = [ 'id' ];
     protected $touches = [ 'concept' ];
 
-    public static function getLatestDateForVocabulary($vocabulary_id)
+    /**
+     * @param $vocabulary_id
+     *
+     * @return Carbon
+     * @throws \InvalidArgumentException
+     */
+    public static function getLatestDateForVocabulary($vocabulary_id): Carbon
     {
         $created_at = self::getLatest($vocabulary_id, 'created_at');
         $updated_at = self::getLatest($vocabulary_id, 'updated_at');
         $deleted_at = self::getLatest($vocabulary_id, 'deleted_at');
 
-        return collect([ $created_at, $updated_at, $deleted_at ])->max();
+        $date = collect([ $created_at, $updated_at, $deleted_at ])->max();
+        try {
+            return Carbon::createFromFormat(config('app.timestamp_format'), $date);
+        }
+        catch (InvalidArgumentException $e) {
+            return null;
+        }
     }
 
     public function history()
