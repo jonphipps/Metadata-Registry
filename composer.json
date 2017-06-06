@@ -156,7 +156,8 @@
         ],
         "files": [
             "app/helpers.php",
-            "app/Helpers/helpers.php"
+            "app/Helpers/helpers.php",
+            "tests/helpers.php"
         ]
     },
     "scripts": {
