@@ -90,7 +90,7 @@ class User extends Authenticatable
     protected $table = self::TABLE;
     public const TABLE = 'users';
 
-    protected $guarded = [ 'id' ];
+    protected $guarded = [ 'id', 'is_administrator' ];
 
     /**
      * The attributes that should be hidden for arrays.
