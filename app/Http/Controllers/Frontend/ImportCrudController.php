@@ -10,13 +10,37 @@ use App\Http\Traits\UsesEnums;
 use App\Http\Traits\UsesPolicies;
 use App\Models\Import;
 use App\Models\Project;
+use App\Wizard\Import\ProjectSteps\ApproveImportStep;
+use App\Wizard\Import\ProjectSteps\DisplayResultsStep;
+use App\Wizard\Import\ProjectSteps\PerformImportStep;
+use App\Wizard\Import\ProjectSteps\SelectWorksheetsStep;
+use App\Wizard\Import\ProjectSteps\SetSpreadsheetStep;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Illuminate\Http\Request;
+use Smajti1\Laravel\Exceptions\StepNotFoundException;
+use Smajti1\Laravel\Wizard;
 use const null;
+use function method_exists;
 
 class ImportCrudController extends CrudController
 {
     use UsesPolicies, UsesEnums;
+    public $steps = [
+        'spreadsheet' => SetSpreadsheetStep::class,
+        'worksheets' => SelectWorksheetsStep::class,
+        'approve' => ApproveImportStep::class,
+        'import' => PerformImportStep::class,
+        'report' => DisplayResultsStep::class,
+    ];
+    protected $wizard;
+
+    public function __construct() {
+        parent::__construct();
+        $this->wizard = new Wizard($this->steps, $sessionKeyName = 'project-import');
+
+        view()->share([ 'wizard' => $this->wizard ]);
+
+    }
 
     public function setup()
     {
@@ -39,26 +63,7 @@ class ImportCrudController extends CrudController
 
         // ------ CRUD FIELDS
 
-        $this->crud->addFields([
-            [
-                'name'  => 'source_file_name',
-                'label' => 'Link to Google Spreadsheet',
-                'type'  => 'url',
-                'step'  => 1,
-            ],
-            [
-                'name'    => 'import_type',
-                'label'   => 'Type of Import',
-                'type'    => 'radio',
-                'options' => [ // the key will be stored in the db, the value will be shown as label;
-                               0 => "Sparse -- Non-destructive. Empty rows and cells will be ignored.",
-                               1 => "Partial -- Empty Cells will be deleted. Missing rows will be ignored.",
-                               2 => 'Full -- Destructive. Empty cells will be deleted. Empty rows will be deleted, or deprecated if published.',
-                ],
-                'step'    => 1,
-            ],
-        ],
-            'both');
+        // $this->crud->addFields();
         // $this->crud->addFields($array_of_arrays, 'update/create/both');
         // $this->crud->removeField('name', 'update/create/both');
         // $this->crud->removeFields($array_of_names, 'update/create/both');
@@ -82,8 +87,8 @@ class ImportCrudController extends CrudController
         // $this->crud->removeAllButtonsFromStack('line');
 
         // ------ CRUD ACCESS
-        // $this->crud->allowAccess(['list', 'create', 'update', 'reorder', 'delete']);
-        // $this->crud->denyAccess(['list', 'create', 'update', 'reorder', 'delete']);
+        $this->crud->allowAccess([ 'list', 'show' ]);
+        $this->crud->denyAccess([ 'create', 'update', 'delete', 'importProject' ]);
 
         // ------ CRUD REORDER
         // $this->crud->enableReorder('label_name', MAX_TREE_LEVEL);
@@ -126,25 +131,61 @@ class ImportCrudController extends CrudController
         // $this->crud->limit();
     }
 
-    public function importProject(Request $request, Project $project, $type, $step = null)
+    public function importProject(Request $request, Project $project, $step = null)
     {
-        $wizard         = self::getWizardStep($step);
-        $wizard['last'] = $wizard['next'] === false;
-        $wizard['next'] = $wizard['next'] ?? config('backpack.base.route_prefix') . 'projects/' . $project->id;
         $this->policyAuthorize('importProject', $project, $project->id);
-        $this->crud->setCreateView('frontend.Import.project.wizard');
+        //if we get to here we're authorized to import a project, so we authorize create
+        $this->crud->allowAccess([ 'create' ]);
+        try {
+            if (null === $step) {
+                $step = $this->wizard->firstOrLastProcessed();
+            } else {
+                $step = $this->wizard->getBySlug($step);
+            }
+        }
+        catch (StepNotFoundException $e) {
+            abort(404);
+        }
+        //we've jumped into a middle step of the sequence (we should always have worksheets after step 1)
+        if ($step->number > 1 && ! $this->wizard->dataHas('worksheets')) {
+            $step = $this->wizard->first();
+        }
+
+        $this->crud->setCreateView('frontend.import.project.wizard');
         $this->crud->setRoute(config('backpack.base.route_prefix') . 'projects/' . $project->id );
-        $this->data['wizard']  = $wizard;
+        $this->crud->addFields($step->fields(),'create');
+        $this->data['step']  = $step;
         $this->data['project'] = $project;
+        $this->data['wizard_data'] = $this->wizard->data();
 
         return parent::create();
     }
 
-    public function processImportProject(ImportRequest $request, Project $project, $type, $step = null)
+    public function processImportProject(ImportRequest $request, Project $project, $step = null)
     {
+        $this->policyAuthorize('importProject', $project, $project->id);
+        //if we get to here we're authorized to import a project, so we authorize create
+        $this->crud->allowAccess([ 'create' ]);
+        try {
+            $step = $this->wizard->getBySlug($step);
+        }
+        catch (StepNotFoundException $e) {
+            abort(404);
+        }
+
         //here we validate the input from the step
-        //create the record if it's new (store), update it if it's not (update)
+
+        if (method_exists($step, 'validate')) {
+            $step->validate($request);
+        } else {
+            $this->validate($request, $step->rules($request));
+        }
+        //handle the next/last step
+        $step->process($request);
+
         //and redirect to the next step if valid
+        return redirect()->route('frontend.project.import',
+            [ 'project' => $project->id, 'step' => $this->wizard->nextSlug() ]);
     }
 
     public function store(StoreRequest $request)

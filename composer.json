@@ -77,6 +77,7 @@
         "roave/security-advisories": "dev-master",
         "robmorgan/phinx": "^0.5.0",
         "semsol/arc2": "^2.2",
+        "smajti1/laravel-wizard": "^1.0",
         "spatie/eloquent-sortable": "^3.2",
         "spatie/laravel-artisan-dd": "^1.1",
         "spatie/laravel-fractal": "^3.5",
@@ -143,6 +144,7 @@
     "autoload-dev": {
         "psr-4": {
             "ImportVocab\\": "plugins/jpAdminGeneratorPlugin/lib/ImportVocab",
+            "App\\Wizard\\Steps\\": "app/Steps",
             "model\\": "lib/model",
             "apps\\": "apps",
             "App\\": "app",
