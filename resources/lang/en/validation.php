@@ -2,6 +2,8 @@
 
 return [
 
+    //OMR custom validation errors
+    'googleUrl' => 'This is not a valid Google Sheets URL',
     /*
     |--------------------------------------------------------------------------
     | Validation Language Lines
