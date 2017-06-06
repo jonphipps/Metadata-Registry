@@ -39,6 +39,13 @@ trait UsesPolicies
         return parent::index();
     }
 
+    public function list()
+    {
+        $this->policyAuthorize('index', $this->crud->getModel());
+
+        return parent::index();
+    }
+
     public function show($id)
     {
         $this->policyAuthorize('show', $this->crud->getModel(), $id);
