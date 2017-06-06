@@ -32,6 +32,7 @@
     <script src="{{ asset('vendor/jqwidgets/jqxmenu.js') }}"></script>
     <script src="{{ asset('vendor/jqwidgets/jqxgrid.js') }}"></script>
     <script src="{{ asset('vendor/jqwidgets/jqxgrid.selection.js') }}"></script>
+    <script src="{{ asset('vendor/jqwidgets/jqxgrid.columnsresize.js') }}"></script>
     <script src="{{ asset('vendor/jqwidgets/jqxdata.js') }}"></script>
     <script src="{{ asset('vendor/jqwidgets/jqxgrid.sort.js') }}"></script>
     <script src="{{ asset('vendor/jqwidgets/jqxgrid.filter.js') }}"></script>
@@ -58,7 +59,7 @@
           loadError: function (xhr, status, error) {
           }
         });
-        ;
+
         jqxGrid.jqxGrid( {!! $props !!});
         /* $props should be a properties object. For instance...
         {
@@ -83,6 +84,7 @@
             ]
           }
           */
+        jqxGrid.jqxGrid('autoresizecolumns');
       });
       $("form").submit(function (event) {
         var jqxGrid = $('#jqxGrid-{!! $field["name"] !!}');
