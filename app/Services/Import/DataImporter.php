@@ -193,8 +193,8 @@ class DataImporter
      */
     public function getVocabularyStatements()
     {
-        return Concept::whereVocabularyId($this->export->vocabulary_id)->with('properties.profile_property', 'status')->get()->keyBy('id')->map(function ($concept, $key) {
-            return $concept->properties->keyBy('id')->map(function ($property) {
+        return Concept::whereVocabularyId($this->export->vocabulary_id)->with('statements.profile_property', 'status')->get()->keyBy('id')->map(function ($concept, $key) {
+            return $concept->statements->keyBy('id')->map(function ($property) {
                 return [
                     'old value'  => $property->object,
                     'updated_at' => $property->updated_at,
@@ -216,9 +216,9 @@ class DataImporter
      */
     public function getElementSetStatements()
     {
-        return Element::whereSchemaId($this->export->schema_id)->with('properties.profile_property', 'status')->get()->keyBy('id')->map(function ($element, $key) {
+        return Element::whereSchemaId($this->export->schema_id)->with('statements.profile_property', 'status')->get()->keyBy('id')->map(function ($element, $key) {
             $status = $element->status->display_name;
-            $thingy = $element->properties->keyBy('id')->map(function ($property) {
+            $thingy = $element->statements->keyBy('id')->map(function ($property) {
                 return [
                     'old value'  => $property->object,
                     'updated_at' => $property->updated_at,
