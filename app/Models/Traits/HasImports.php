@@ -10,10 +10,18 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 trait HasImports
 {
     /**
-     * @return MorphToMany
+     * @return MorphToMany|null
      */
-    public function imports()
+    public function imports(): ?MorphToMany
     {
-        return $this->morphToMany(Import::class, 'importable');
+        return $this->morphToMany(Import::class, 'importable')->withTimestamps();
+    }
+
+    /**
+     * @return Import|null
+     */
+    public function getLatestImport(): ?Import
+    {
+        return $this->imports()->latest()->first();
     }
 }
