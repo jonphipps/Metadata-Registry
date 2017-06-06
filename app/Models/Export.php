@@ -10,6 +10,7 @@ namespace App\Models;
 use App\Models\Traits\BelongsToElementset;
 use App\Models\Traits\BelongsToProfile;
 use App\Models\Traits\BelongsToVocabulary;
+use App\Models\Traits\HasImports;
 use Backpack\CRUD\CrudTrait;
 use Culpa\Traits\Blameable;
 use Culpa\Traits\CreatedBy;
@@ -66,7 +67,9 @@ class Export extends Model
 {
     const TABLE = 'reg_export_history';
     public $table = self::TABLE;
-    use CrudTrait, Blameable, CreatedBy, BelongsToProfile, BelongsToVocabulary, BelongsToElementset;
+    use CrudTrait;
+    use Blameable, CreatedBy;
+    use BelongsToProfile, BelongsToVocabulary, BelongsToElementset, HasImports;
     protected $blameable = [
         'created' => 'user_id',
     ];
@@ -102,11 +105,6 @@ class Export extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-
-    public function imports()
-    {
-        return $this->belongsToMany( Import::class )->withTimestamps();
-    }
 
     /*
     |--------------------------------------------------------------------------
