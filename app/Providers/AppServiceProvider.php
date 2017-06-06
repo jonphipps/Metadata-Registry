@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use Antennaio\Codeception\DbDumpServiceProvider;
 use App\Rules\ValidateGoogleUrl;
 use Barryvdh\Debugbar\Facade;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
@@ -102,7 +101,6 @@ class AppServiceProvider extends ServiceProvider
             $loader->alias('Debugbar', Facade::class);
             $this->app->register(IdeHelperServiceProvider::class);
             $this->app->register(TestFactoryHelperServiceProvider::class);
-            $this->app->register(DbDumpServiceProvider::class);
             $this->app->register(GeneratorsServiceProvider::class);
             $this->app->register(MigrationsGeneratorServiceProvider::class);
             $this->app->register(IseedServiceProvider::class);
