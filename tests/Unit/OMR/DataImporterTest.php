@@ -6,6 +6,7 @@ namespace Tests\Unit\OMR;
 
 use App\Models\Export;
 use App\Models\Import;
+use App\Models\ImportInstruction;
 use App\Services\Import\DataImporter;
 use function base_path;
 use function create;
@@ -236,15 +237,22 @@ class DataImporterTest extends TestCase
         $export = create(Export::class);
         //and it has an import
         $import = create(Import::class);
+        /** @var Export $export */
         $export->addImport($import);
-        $instruction = create(ImportInstruction::class);
-        $attachedImport = $export->imports()->find($export->id);
+        $instruction = factory(ImportInstruction::class)->states('element')->create();
+        $ConceptInstruction = factory(ImportInstruction::class)->states('concept')->create();
+        /** @var Import $attachedImport */
+        $attachedImport = $export->imports()->find($import->id);
         //and an instruction stored in the database
-        $attachedImport->addInstruction($instruction);
+        $attachedImport->addInstructions($instruction);
+        $attachedImport->addInstructions($ConceptInstruction);
         //when we ask for the instructions from the database
-        $attachedImport->instructions()::find($instruction->id);
+        $savedInstruction = $attachedImport->instructions()->find($instruction->id);
+        $savedConceptInstruction = $attachedImport->instructions()->find($ConceptInstruction->id);
 
         //then we get one
+        $this->assertEquals($savedInstruction->id, $instruction->id);
+        $this->assertEquals($savedConceptInstruction->id, $ConceptInstruction->id);
     }
 
     private function getColumns()
