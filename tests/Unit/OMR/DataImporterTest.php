@@ -5,9 +5,12 @@
 namespace Tests\Unit\OMR;
 
 use App\Models\Export;
+use App\Models\Import;
 use App\Services\Import\DataImporter;
 use function base_path;
+use function create;
 use function db2_conn_error;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Spatie\Snapshots\MatchesSnapshots;
 use Tests\TestCase;
 use function collect;
@@ -17,10 +20,11 @@ use function unserialize;
 class DataImporterTest extends TestCase
 {
     use MatchesSnapshots;
+    use DatabaseTransactions;
 
     public function setUp()
     {
-        //$this->dontSetupDatabase();
+        $this->dontSetupDatabase();
         parent::setUp();
     }
 
@@ -225,12 +229,21 @@ class DataImporterTest extends TestCase
     }
 
     /** @test */
-    public function it_retrieves_an_export_history_record_by_name()
+    public function it_stores_a_set_of_import_instructions_for_an_import_associated_with_an_export()
     {
-        //$this->markTestIncomplete();
-        //given we have a valid export history record
-        //factory(ExportHistory::class);
-        //when we ask for it from the database
+        $this->disableExceptionHandling();
+        //given we have a valid Export record
+        $export = create(Export::class);
+        //and it has an import
+        $import = create(Import::class);
+        $export->addImport($import);
+        $instruction = create(ImportInstruction::class);
+        $attachedImport = $export->imports()->find($export->id);
+        //and an instruction stored in the database
+        $attachedImport->addInstruction($instruction);
+        //when we ask for the instructions from the database
+        $attachedImport->instructions()::find($instruction->id);
+
         //then we get one
     }
 
