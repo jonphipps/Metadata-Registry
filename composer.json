@@ -107,7 +107,7 @@
         "flow/jsonpath": "^0.3.4",
         "fzaninotto/faker": "^1.6",
         "kint-php/kint": "^2.0",
-        "laravel/browser-kit-testing": "^2.0",
+        "laravel/browser-kit-testing": "^1.0",
         "mockery/mockery": "0.9.*",
         "mpociot/laravel-test-factory-helper": "^0.4.0",
         "orangehill/iseed": "^2.3",
