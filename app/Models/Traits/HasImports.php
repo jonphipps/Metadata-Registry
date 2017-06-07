@@ -24,4 +24,15 @@ trait HasImports
     {
         return $this->imports()->latest()->first();
     }
+
+    /**
+     * @param $import
+     *
+     * @return $this
+     */
+    public function addImport($import)
+    {
+        $this->imports()->attach($import->id);
+        return $this;
+    }
 }
