@@ -26,13 +26,18 @@ trait HasImports
     }
 
     /**
-     * @param $import
+     * @param mixed $imports
+     * $imports can be:
+     *   a single Import,
+     *   a Collection of Imports,
+     *   a Collection of Import Ids,
+     *   or an array of Import Ids
      *
      * @return $this
      */
-    public function addImport($import)
+    public function addImport($imports)
     {
-        $this->imports()->attach($import->id);
+        $this->imports()->attach($imports->id);
         return $this;
     }
 }
