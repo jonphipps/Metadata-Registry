@@ -10,6 +10,7 @@ use Culpa\Traits\CreatedBy;
 use Culpa\Traits\DeletedBy;
 use Culpa\Traits\UpdatedBy;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Matryoshka\Cacheable;
 
@@ -25,6 +26,8 @@ use Laracasts\Matryoshka\Cacheable;
  * @property string                                                                       $uri
  * @property string                                                                       $lexical_alias
  * @property string                                                                       $pref_label
+ * @property string                                                                       $name
+ * @property string                                                                       $label
  * @property int                                                                          $vocabulary_id
  * @property bool                                                                         $is_top_concept
  * @property int                                                                          $pref_label_id
@@ -86,7 +89,7 @@ class Concept extends Model
      *
      * @return array
      */
-    public static function selectConceptsByProject($projectId)
+    public static function selectConceptsByProject($projectId): array
     {
         return \DB::table(ConceptAttribute::TABLE)
             ->join(Concept::TABLE,
@@ -127,7 +130,10 @@ class Concept extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function statements()
+    /**
+     * @return HasMany|null
+     */
+    public function statements(): ?HasMany
     {
         return $this->hasMany(ConceptAttribute::class, 'concept_id');
     }
@@ -144,7 +150,18 @@ class Concept extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function getNameAttribute()
+    /**
+     * @return string
+     */
+    public function getNameAttribute(): string
+    {
+        return $this->pref_label;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLabelAttribute(): string
     {
         return $this->pref_label;
     }
@@ -153,4 +170,24 @@ class Concept extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
+
+    /**
+     * @param string $value
+     *
+     * @return string|void
+     */
+    public function setNameAttribute(string $value): void
+    {
+        $this->attributes['pref_label'] = $value;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return string|void
+     */
+    public function setLabelAttribute(string $value): void
+    {
+        $this->attributes['pref_label'] = $value;
+    }
 }
