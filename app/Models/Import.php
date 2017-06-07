@@ -95,6 +95,17 @@ class Import extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
+    /**
+     * @param mixed $instruction
+     *
+     * @return $this
+     */
+    public function addInstructions($instruction)
+    {
+        $this->instructions()->save($instruction);
+
+        return $this;
+    }
 
     /*
     |--------------------------------------------------------------------------
