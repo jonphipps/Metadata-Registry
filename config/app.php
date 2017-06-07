@@ -181,7 +181,6 @@ return [
          * Package Service Providers...
          */
         Arcanedev\LogViewer\LogViewerServiceProvider::class,
-        Arcanedev\NoCaptcha\NoCaptchaServiceProvider::class,
         Backpack\Base\BaseServiceProvider::class,
         Backpack\CRUD\CrudServiceProvider::class,
         Backpack\LangFileManager\LangFileManagerServiceProvider::class,
@@ -292,10 +291,8 @@ return [
         'Gravatar'     => Creativeorange\Gravatar\Facades\Gravatar::class,
         'Html'         => Collective\Html\HtmlFacade::class,
         'PDF'          => Barryvdh\Snappy\Facades\SnappyPdf::class,
-        'Render'       => Ixudra\Render\Facades\Render::class,
         'SnappyImage'  => Barryvdh\Snappy\Facades\SnappyImage::class,
         'Socialite'    => Laravel\Socialite\Facades\Socialite::class,
-        'Translate'    => Ixudra\Translation\Facades\Translation::class,
 
     ],
 

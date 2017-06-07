@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "12c9ffbfb2e86951281ead3a52dfef8d",
+    "content-hash": "d0726ce4550c5213aeb4fdd4f4c5f8a2",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -48,20 +48,20 @@
         },
         {
             "name": "arcanedev/log-viewer",
-            "version": "4.3.1",
+            "version": "4.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ARCANEDEV/LogViewer.git",
-                "reference": "7cad75841bd9304bccd90cd670dca0fc23c56a28"
+                "reference": "5ce287b6ef132d0a129337fbe6f472929bee89dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ARCANEDEV/LogViewer/zipball/7cad75841bd9304bccd90cd670dca0fc23c56a28",
-                "reference": "7cad75841bd9304bccd90cd670dca0fc23c56a28",
+                "url": "https://api.github.com/repos/ARCANEDEV/LogViewer/zipball/5ce287b6ef132d0a129337fbe6f472929bee89dc",
+                "reference": "5ce287b6ef132d0a129337fbe6f472929bee89dc",
                 "shasum": ""
             },
             "require": {
-                "arcanedev/support": "~3.20",
+                "arcanedev/support": "~4.1",
                 "php": ">=5.6",
                 "psr/log": "~1.0"
             },
@@ -107,89 +107,29 @@
                 "log-viewer",
                 "logviewer"
             ],
-            "time": "2017-01-31T12:03:39+00:00"
-        },
-        {
-            "name": "arcanedev/no-captcha",
-            "version": "3.2.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ARCANEDEV/noCAPTCHA.git",
-                "reference": "1c3145f063c8a2f72b855d41bc689d35653887f4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ARCANEDEV/noCAPTCHA/zipball/1c3145f063c8a2f72b855d41bc689d35653887f4",
-                "reference": "1c3145f063c8a2f72b855d41bc689d35653887f4",
-                "shasum": ""
-            },
-            "require": {
-                "arcanedev/support": "~3.20",
-                "ext-curl": "*",
-                "ext-json": "*",
-                "php": ">=5.6.4",
-                "psr/http-message": "~1.0"
-            },
-            "require-dev": {
-                "arcanedev/laravel-html": "~5.0",
-                "phpunit/phpcov": "~3.0",
-                "phpunit/phpunit": "~5.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.3-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Arcanedev\\NoCaptcha\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "ARCANEDEV",
-                    "email": "arcanedev.maroc@gmail.com",
-                    "homepage": "https://github.com/arcanedev-maroc",
-                    "role": "Developer"
-                }
-            ],
-            "description": "No CAPTCHA (new Google reCAPTCHA) with Laravel support",
-            "homepage": "https://github.com/ARCANEDEV/noCAPTCHA",
-            "keywords": [
-                "arcanedev",
-                "captcha",
-                "google",
-                "laravel",
-                "no-captcha",
-                "recaptcha"
-            ],
-            "time": "2017-03-13T16:53:40+00:00"
+            "time": "2017-04-23T11:47:56+00:00"
         },
         {
             "name": "arcanedev/support",
-            "version": "3.21.4",
+            "version": "4.1.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ARCANEDEV/Support.git",
-                "reference": "a4913355a537c71b22899ee9b932dbeb5ed229a9"
+                "reference": "50bf6c1e6aabf7c5c4e1cea0d6028b0622d5ce2d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ARCANEDEV/Support/zipball/a4913355a537c71b22899ee9b932dbeb5ed229a9",
-                "reference": "a4913355a537c71b22899ee9b932dbeb5ed229a9",
+                "url": "https://api.github.com/repos/ARCANEDEV/Support/zipball/50bf6c1e6aabf7c5c4e1cea0d6028b0622d5ce2d",
+                "reference": "50bf6c1e6aabf7c5c4e1cea0d6028b0622d5ce2d",
                 "shasum": ""
             },
             "require": {
-                "illuminate/filesystem": "~5.0",
-                "illuminate/support": "~5.0",
+                "illuminate/filesystem": "~5.4.0",
+                "illuminate/support": "~5.4.0",
                 "php": ">=5.6.4"
             },
             "require-dev": {
+                "orchestra/testbench-browser-kit": "~3.4.0",
                 "phpunit/phpcov": "~3.0",
                 "phpunit/phpunit": "~5.0"
             },
@@ -227,7 +167,7 @@
                 "laravel",
                 "support"
             ],
-            "time": "2017-03-21T16:12:55+00:00"
+            "time": "2017-05-08T12:18:25+00:00"
         },
         {
             "name": "asimlqt/php-google-spreadsheet-client",
@@ -335,12 +275,17 @@
         },
         {
             "name": "backpack/crud",
-            "version": "dev-patch-revisionable",
+            "version": "3.2.12",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Laravel-Backpack/CRUD.git",
+                "reference": "b5e8f929310d86d831b43310ca68eea2e1d254d0"
+            },
             "dist": {
-                "type": "path",
-                "url": "packages/backpack_CRUD",
-                "reference": "54c469cdc7172caf3bcf23f6e049c9ab12babf1c",
-                "shasum": null
+                "type": "zip",
+                "url": "https://api.github.com/repos/Laravel-Backpack/CRUD/zipball/b5e8f929310d86d831b43310ca68eea2e1d254d0",
+                "reference": "b5e8f929310d86d831b43310ca68eea2e1d254d0",
+                "shasum": ""
             },
             "require": {
                 "backpack/base": "^0.7.15",
@@ -348,7 +293,8 @@
                 "doctrine/dbal": "^2.5",
                 "intervention/image": "^2.3",
                 "laravelcollective/html": "~5.0",
-                "livecontrol/eloquent-datatable": "^0.1.5"
+                "livecontrol/eloquent-datatable": "^0.1.5",
+                "venturecraft/revisionable": "1.*"
             },
             "require-dev": {
                 "phpunit/phpunit": "4.*",
@@ -365,16 +311,7 @@
                     "Backpack\\CRUD\\": "src"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Backpack\\CRUD\\Test\\": "tests"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "phpunit"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -389,34 +326,33 @@
             "description": "Quickly build an admin interface for your Eloquent models, using Laravel 5. Build a CMS in a matter of minutes.",
             "homepage": "https://github.com/laravel-backpack/CRUD",
             "keywords": [
-                "CMS",
-                "CRUD",
-                "admin interface",
+                "Admin Interface",
                 "admin panel",
+                "cms",
                 "create",
+                "crud",
                 "delete",
                 "read",
                 "update"
             ],
-            "transport-options": {
-                "symlink": true
-            }
+            "time": "2017-05-31T05:40:02+00:00"
         },
         {
             "name": "backpack/langfilemanager",
-            "version": "1.0.5",
+            "version": "1.0.18",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Laravel-Backpack/langfilemanager.git",
-                "reference": "82118f85a8c1502bc6cae43ac4e83fc00a0dcbb6"
+                "url": "https://github.com/Laravel-Backpack/LangFileManager.git",
+                "reference": "6d83aaaec4579ccc874e93c0df110bf9810f6a18"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Backpack/langfilemanager/zipball/82118f85a8c1502bc6cae43ac4e83fc00a0dcbb6",
-                "reference": "82118f85a8c1502bc6cae43ac4e83fc00a0dcbb6",
+                "url": "https://api.github.com/repos/Laravel-Backpack/LangFileManager/zipball/6d83aaaec4579ccc874e93c0df110bf9810f6a18",
+                "reference": "6d83aaaec4579ccc874e93c0df110bf9810f6a18",
                 "shasum": ""
             },
             "require": {
+                "backpack/crud": "^3.0.6",
                 "illuminate/support": "~5.1",
                 "php": ">=5.3.0"
             },
@@ -470,7 +406,7 @@
                 "translationmanager",
                 "updivision"
             ],
-            "time": "2016-03-12T12:26:11+00:00"
+            "time": "2016-09-24T14:33:54+00:00"
         },
         {
             "name": "barryvdh/elfinder-flysystem-driver",
@@ -3337,16 +3273,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.4.24",
+            "version": "v5.4.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "ec8548db26c1b147570f661128649e98f3ac0f29"
+                "reference": "6bcc9b1f542b3deed16d51f6aa1fe318ab407c2a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/ec8548db26c1b147570f661128649e98f3ac0f29",
-                "reference": "ec8548db26c1b147570f661128649e98f3ac0f29",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/6bcc9b1f542b3deed16d51f6aa1fe318ab407c2a",
+                "reference": "6bcc9b1f542b3deed16d51f6aa1fe318ab407c2a",
                 "shasum": ""
             },
             "require": {
@@ -3462,7 +3398,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-05-30T12:44:32+00:00"
+            "time": "2017-06-07T13:35:12+00:00"
         },
         {
             "name": "laravel/socialite",
@@ -3768,22 +3704,23 @@
         },
         {
             "name": "league/fractal",
-            "version": "0.15.0",
+            "version": "0.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/fractal.git",
-                "reference": "0546bd5c2aba414ba50c6ac676f507d42c6150a5"
+                "reference": "d0445305e308d9207430680acfd580557b679ddc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/fractal/zipball/0546bd5c2aba414ba50c6ac676f507d42c6150a5",
-                "reference": "0546bd5c2aba414ba50c6ac676f507d42c6150a5",
+                "url": "https://api.github.com/repos/thephpleague/fractal/zipball/d0445305e308d9207430680acfd580557b679ddc",
+                "reference": "d0445305e308d9207430680acfd580557b679ddc",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.4"
             },
             "require-dev": {
+                "doctrine/orm": "^2.5",
                 "illuminate/contracts": "~5.0",
                 "mockery/mockery": "~0.9",
                 "pagerfanta/pagerfanta": "~1.0.0",
@@ -3827,7 +3764,7 @@
                 "league",
                 "rest"
             ],
-            "time": "2016-12-28T01:30:30+00:00"
+            "time": "2017-03-12T01:28:43+00:00"
         },
         {
             "name": "league/oauth1-client",
@@ -5802,12 +5739,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "ccffea64be8575eaa7ad09cd16dfeedfa4711607"
+                "reference": "7cd88c8d4e4e6b483633bb13c35bcec95fd6cd4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/ccffea64be8575eaa7ad09cd16dfeedfa4711607",
-                "reference": "ccffea64be8575eaa7ad09cd16dfeedfa4711607",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/7cd88c8d4e4e6b483633bb13c35bcec95fd6cd4c",
+                "reference": "7cd88c8d4e4e6b483633bb13c35bcec95fd6cd4c",
                 "shasum": ""
             },
             "conflict": {
@@ -5849,6 +5786,7 @@
                 "magento/magento2ce": ">=2,<2.2",
                 "monolog/monolog": ">=1.8,<1.12",
                 "namshi/jose": "<2.2",
+                "onelogin/php-saml": "<2.10.4",
                 "oro/crm": ">=1.7,<1.7.4",
                 "oro/platform": ">=1.7,<1.7.4",
                 "phpmailer/phpmailer": ">=5,<5.2.22",
@@ -5929,112 +5867,7 @@
                 }
             ],
             "description": "Prevents installation of composer packages with known security vulnerabilities: no API, simply require it",
-            "time": "2017-05-13T14:02:28+00:00"
-        },
-        {
-            "name": "robmorgan/phinx",
-            "version": "v0.5.5.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/robmorgan/phinx.git",
-                "reference": "809d403eaee5583efe48b0f24d3ff8f1d893e1a0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/robmorgan/phinx/zipball/809d403eaee5583efe48b0f24d3ff8f1d893e1a0",
-                "reference": "809d403eaee5583efe48b0f24d3ff8f1d893e1a0",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4",
-                "symfony/config": "~2.8|~3.0",
-                "symfony/console": "~2.8|~3.0",
-                "symfony/yaml": "~2.8|~3.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^3.7|^4.0|^5.0"
-            },
-            "bin": [
-                "bin/phinx"
-            ],
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Phinx\\": "src/Phinx"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Woody Gilk",
-                    "email": "woody.gilk@gmail.com",
-                    "homepage": "http://shadowhand.me",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Rob Morgan",
-                    "email": "robbym@gmail.com",
-                    "homepage": "https://robmorgan.id.au",
-                    "role": "Lead Developer"
-                }
-            ],
-            "description": "Phinx makes it ridiculously easy to manage the database migrations for your PHP app.",
-            "homepage": "https://phinx.org",
-            "keywords": [
-                "database",
-                "database migrations",
-                "db",
-                "migrations",
-                "phinx"
-            ],
-            "time": "2016-06-17T15:51:03+00:00"
-        },
-        {
-            "name": "semsol/arc2",
-            "version": "2.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/semsol/arc2.git",
-                "reference": "1cba0487e764b4d7e22913e995f7525192a226c5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/semsol/arc2/zipball/1cba0487e764b4d7e22913e995f7525192a226c5",
-                "reference": "1cba0487e764b4d7e22913e995f7525192a226c5",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "./",
-                    "parsers/",
-                    "serializers/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "W3C"
-            ],
-            "authors": [
-                {
-                    "name": "Benji Nowack",
-                    "email": "mail@bnowack.de",
-                    "homepage": "http://bnowack.de/"
-                }
-            ],
-            "description": "Semsol's ARC2 RDF library",
-            "homepage": "https://github.com/semsol/arc2",
-            "keywords": [
-                "RDF",
-                "sparql"
-            ],
-            "time": "2016-10-07T13:56:26+00:00"
+            "time": "2017-06-07T12:12:03+00:00"
         },
         {
             "name": "sensiolabs/security-checker",
@@ -6182,24 +6015,24 @@
         },
         {
             "name": "spatie/fractalistic",
-            "version": "1.0.2",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/fractalistic.git",
-                "reference": "59a2e7dfbd49e58b7de7d5621c1e7365786809f9"
+                "reference": "8f00c666a8b8dfb06f79286f97255e6ab1c89639"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/fractalistic/zipball/59a2e7dfbd49e58b7de7d5621c1e7365786809f9",
-                "reference": "59a2e7dfbd49e58b7de7d5621c1e7365786809f9",
+                "url": "https://api.github.com/repos/spatie/fractalistic/zipball/8f00c666a8b8dfb06f79286f97255e6ab1c89639",
+                "reference": "8f00c666a8b8dfb06f79286f97255e6ab1c89639",
                 "shasum": ""
             },
             "require": {
-                "league/fractal": "^0.14.0|^0.15.0",
+                "league/fractal": "^0.16.0",
                 "php": "^5.6|^7.0"
             },
             "require-dev": {
-                "illuminate/pagination": "^5.3",
+                "illuminate/pagination": "~5.3.0|~5.4.0",
                 "phpunit/phpunit": "^5.7"
             },
             "type": "library",
@@ -6229,7 +6062,7 @@
                 "spatie",
                 "transform"
             ],
-            "time": "2017-01-19T20:51:03+00:00"
+            "time": "2017-05-29T14:16:20+00:00"
         },
         {
             "name": "spatie/laravel-artisan-dd",
@@ -6286,23 +6119,23 @@
         },
         {
             "name": "spatie/laravel-fractal",
-            "version": "3.5.0",
+            "version": "4.01",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-fractal.git",
-                "reference": "16689b0ce340bc139ba767f0bf2904e4eab2b254"
+                "reference": "3b95780f5f3ca79e29d445a5df87eac9f7c7c053"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-fractal/zipball/16689b0ce340bc139ba767f0bf2904e4eab2b254",
-                "reference": "16689b0ce340bc139ba767f0bf2904e4eab2b254",
+                "url": "https://api.github.com/repos/spatie/laravel-fractal/zipball/3b95780f5f3ca79e29d445a5df87eac9f7c7c053",
+                "reference": "3b95780f5f3ca79e29d445a5df87eac9f7c7c053",
                 "shasum": ""
             },
             "require": {
                 "illuminate/contracts": "~5.1.0|~5.2.0|~5.3.0|~5.4.0",
                 "illuminate/support": "~5.1.0|~5.2.0|~5.3.0|~5.4.0",
                 "php": "^5.6|^7.0",
-                "spatie/fractalistic": "^1.0"
+                "spatie/fractalistic": "^2.0"
             },
             "require-dev": {
                 "orchestra/testbench": "~3.2.0|3.3.0|~3.4.0",
@@ -6329,7 +6162,7 @@
                     "role": "Developer"
                 }
             ],
-            "description": "A Fractal service provider for Laravel and Lumen",
+            "description": "An easy to use Fractal integration for Laravel applications",
             "homepage": "https://github.com/spatie/laravel-fractal",
             "keywords": [
                 "api",
@@ -6340,7 +6173,7 @@
                 "spatie",
                 "transform"
             ],
-            "time": "2017-02-21T23:17:02+00:00"
+            "time": "2017-05-05T19:01:43+00:00"
         },
         {
             "name": "spatie/laravel-migrate-fresh",
@@ -6626,66 +6459,6 @@
             "time": "2017-05-01T15:54:03+00:00"
         },
         {
-            "name": "symfony/config",
-            "version": "v3.3.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/config.git",
-                "reference": "35716d4904e0506a7a5a9bcf23f854aeb5719bca"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/config/zipball/35716d4904e0506a7a5a9bcf23f854aeb5719bca",
-                "reference": "35716d4904e0506a7a5a9bcf23f854aeb5719bca",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.5.9",
-                "symfony/filesystem": "~2.8|~3.0"
-            },
-            "conflict": {
-                "symfony/dependency-injection": "<3.3"
-            },
-            "require-dev": {
-                "symfony/dependency-injection": "~3.3",
-                "symfony/yaml": "~3.0"
-            },
-            "suggest": {
-                "symfony/yaml": "To use the yaml reference dumper"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.3-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Config\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony Config Component",
-            "homepage": "https://symfony.com",
-            "time": "2017-06-02T18:07:20+00:00"
-        },
-        {
             "name": "symfony/console",
             "version": "v3.3.2",
             "source": {
@@ -6925,55 +6698,6 @@
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
             "time": "2017-06-04T18:15:29+00:00"
-        },
-        {
-            "name": "symfony/filesystem",
-            "version": "v3.3.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/filesystem.git",
-                "reference": "c709670bf64721202ddbe4162846f250735842c0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/c709670bf64721202ddbe4162846f250735842c0",
-                "reference": "c709670bf64721202ddbe4162846f250735842c0",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.5.9"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.3-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Filesystem\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony Filesystem Component",
-            "homepage": "https://symfony.com",
-            "time": "2017-05-28T14:08:56+00:00"
         },
         {
             "name": "symfony/finder",
@@ -7705,61 +7429,6 @@
             "time": "2017-06-02T09:10:29+00:00"
         },
         {
-            "name": "symfony/yaml",
-            "version": "v3.3.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/yaml.git",
-                "reference": "9752a30000a8ca9f4b34b5227d15d0101b96b063"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/9752a30000a8ca9f4b34b5227d15d0101b96b063",
-                "reference": "9752a30000a8ca9f4b34b5227d15d0101b96b063",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.5.9"
-            },
-            "require-dev": {
-                "symfony/console": "~2.8|~3.0"
-            },
-            "suggest": {
-                "symfony/console": "For validating YAML files using the lint command"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.3-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Yaml\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony Yaml Component",
-            "homepage": "https://symfony.com",
-            "time": "2017-06-02T22:05:06+00:00"
-        },
-        {
             "name": "techlab/smartwizard",
             "version": "v4.2.2",
             "source": {
@@ -7894,12 +7563,17 @@
         },
         {
             "name": "venturecraft/revisionable",
-            "version": "dev-develop",
+            "version": "1.28.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/VentureCraft/revisionable.git",
+                "reference": "5a76d29b897d4864cef41c605e7e03258dd5d051"
+            },
             "dist": {
-                "type": "path",
-                "url": "packages/venturecraft_revisionable",
-                "reference": "9fd3e9f33da09f841616c28721e55f51e1cdb1c8",
-                "shasum": null
+                "type": "zip",
+                "url": "https://api.github.com/repos/VentureCraft/revisionable/zipball/5a76d29b897d4864cef41c605e7e03258dd5d051",
+                "reference": "5a76d29b897d4864cef41c605e7e03258dd5d051",
+                "shasum": ""
             },
             "require": {
                 "illuminate/support": "~4.0|~5.0|~5.1",
@@ -7914,6 +7588,7 @@
                     "Venturecraft\\Revisionable": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -7932,13 +7607,7 @@
                 "model",
                 "revision"
             ],
-            "support": {
-                "issues": "https://github.com/VentureCraft/revisionable/issues",
-                "source": "https://github.com/VentureCraft/revisionable"
-            },
-            "transport-options": {
-                "symlink": true
-            }
+            "time": "2016-08-02T02:32:00+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -8089,16 +7758,16 @@
         },
         {
             "name": "yajra/laravel-datatables-oracle",
-            "version": "v7.6.0",
+            "version": "v7.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yajra/laravel-datatables.git",
-                "reference": "f742ef931e9a5e5d2cf9330e5927a36650905585"
+                "reference": "edf2d782cc0b340876ecf6851a8f0de1c0e15a76"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/f742ef931e9a5e5d2cf9330e5927a36650905585",
-                "reference": "f742ef931e9a5e5d2cf9330e5927a36650905585",
+                "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/edf2d782cc0b340876ecf6851a8f0de1c0e15a76",
+                "reference": "edf2d782cc0b340876ecf6851a8f0de1c0e15a76",
                 "shasum": ""
             },
             "require": {
@@ -8146,7 +7815,7 @@
                 "jquery",
                 "laravel"
             ],
-            "time": "2017-05-30T05:56:50+00:00"
+            "time": "2017-06-07T05:28:09+00:00"
         }
     ],
     "packages-dev": [
@@ -8574,30 +8243,33 @@
         },
         {
             "name": "kint-php/kint",
-            "version": "1.1",
+            "version": "2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kint-php/kint.git",
-                "reference": "a8549198558560b24e2879c6bac2875de5371483"
+                "reference": "17ec4f2393560ea857f7e72ada106f489cb1e277"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kint-php/kint/zipball/a8549198558560b24e2879c6bac2875de5371483",
-                "reference": "a8549198558560b24e2879c6bac2875de5371483",
+                "url": "https://api.github.com/repos/kint-php/kint/zipball/17ec4f2393560ea857f7e72ada106f489cb1e277",
+                "reference": "17ec4f2393560ea857f7e72ada106f489cb1e277",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.1.0"
+                "php": ">=5.1.2"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.0",
+                "phpunit/phpunit": "^4.0",
+                "symfony/finder": "^2.6"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
             "autoload": {
                 "files": [
-                    "Kint.class.php"
+                    "init.php"
+                ],
+                "classmap": [
+                    "src/"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -8607,34 +8279,38 @@
             "authors": [
                 {
                     "name": "Rokas Šleinius",
-                    "homepage": "https://github.com/kint-php"
+                    "homepage": "https://github.com/raveren"
+                },
+                {
+                    "name": "Jonathan Vollebregt",
+                    "homepage": "https://github.com/jnvsor"
                 },
                 {
                     "name": "Contributors",
-                    "homepage": "https://github.com/kint-php/kint/contributors"
+                    "homepage": "https://github.com/kint-php/kint/graphs/contributors"
                 }
             ],
-            "description": "Kint - debugging helper for PHP developers",
-            "homepage": "https://github.com/kint-php/kint",
+            "description": "Kint - debugging tool for PHP developers",
+            "homepage": "https://kint-php.github.io/kint/",
             "keywords": [
                 "debug",
                 "kint",
                 "php"
             ],
-            "time": "2017-01-15T14:23:43+00:00"
+            "time": "2017-05-13T17:24:30+00:00"
         },
         {
             "name": "laravel/browser-kit-testing",
-            "version": "v1.0.3",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/browser-kit-testing.git",
-                "reference": "0adfb725147815bff5516d157577f375a6e66ebd"
+                "reference": "23f1a7eefcbca0797305b236600aa5426c9528f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/browser-kit-testing/zipball/0adfb725147815bff5516d157577f375a6e66ebd",
-                "reference": "0adfb725147815bff5516d157577f375a6e66ebd",
+                "url": "https://api.github.com/repos/laravel/browser-kit-testing/zipball/23f1a7eefcbca0797305b236600aa5426c9528f2",
+                "reference": "23f1a7eefcbca0797305b236600aa5426c9528f2",
                 "shasum": ""
             },
             "require": {
@@ -8645,7 +8321,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0-dev"
+                    "dev-master": "2.0-dev"
                 }
             },
             "autoload": {
@@ -8668,7 +8344,7 @@
                 "laravel",
                 "testing"
             ],
-            "time": "2017-02-08T22:32:37+00:00"
+            "time": "2017-05-26T12:46:48+00:00"
         },
         {
             "name": "maximebf/debugbar",
@@ -10193,16 +9869,16 @@
         },
         {
             "name": "spatie/phpunit-snapshot-assertions",
-            "version": "0.4.1",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/phpunit-snapshot-assertions.git",
-                "reference": "1ca92cc5b9d961e9bed85c71024f8f55d1c47de2"
+                "reference": "4e6c8423f8a21b5eec15db596a41b0476bee416d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/phpunit-snapshot-assertions/zipball/1ca92cc5b9d961e9bed85c71024f8f55d1c47de2",
-                "reference": "1ca92cc5b9d961e9bed85c71024f8f55d1c47de2",
+                "url": "https://api.github.com/repos/spatie/phpunit-snapshot-assertions/zipball/4e6c8423f8a21b5eec15db596a41b0476bee416d",
+                "reference": "4e6c8423f8a21b5eec15db596a41b0476bee416d",
                 "shasum": ""
             },
             "require": {
@@ -10237,7 +9913,7 @@
                 "spatie",
                 "testing"
             ],
-            "time": "2017-03-27T14:46:37+00:00"
+            "time": "2017-05-29T08:51:38+00:00"
         },
         {
             "name": "spatie/temporary-directory",
@@ -10443,6 +10119,61 @@
             "description": "Symfony DomCrawler Component",
             "homepage": "https://symfony.com",
             "time": "2017-05-25T23:10:31+00:00"
+        },
+        {
+            "name": "symfony/yaml",
+            "version": "v3.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/yaml.git",
+                "reference": "9752a30000a8ca9f4b34b5227d15d0101b96b063"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/9752a30000a8ca9f4b34b5227d15d0101b96b063",
+                "reference": "9752a30000a8ca9f4b34b5227d15d0101b96b063",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "require-dev": {
+                "symfony/console": "~2.8|~3.0"
+            },
+            "suggest": {
+                "symfony/console": "For validating YAML files using the lint command"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Yaml\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Yaml Component",
+            "homepage": "https://symfony.com",
+            "time": "2017-06-02T22:05:06+00:00"
         },
         {
             "name": "tightenco/mailthief",
@@ -10691,7 +10422,7 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "beta",
+    "minimum-stability": "dev",
     "stability-flags": {
         "backpack/crud": 20,
         "laracasts/matryoshka": 20,
