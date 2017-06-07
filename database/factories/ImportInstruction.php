@@ -1,25 +1,22 @@
 <?php
 /** Created by PhpStorm,  User: jonphipps,  Date: 2017-05-27,  Time: 9:44 AM */
 
+use App\Models\Concept;
+use App\Models\Element;
 use App\Models\ImportInstruction;
 
 /** @var Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(ImportInstruction::class,
-    function(Faker\Generator $faker) {
-        return [
+$factory->define(ImportInstruction::class, function($faker) {
+    /** @var \Faker\Generator $faker */
+    return [
             'import_id'              => getRandomClassId('Import'),
-            'action'                 => getRandomAction($faker->randomElement([
+            'action'                 => $faker->randomElement([
                 'updated',
                 'added',
                 'deleted',
                 'force_deleted',
                 'generated',
-            ])),
-
-            //different for concept and schema
-            'profile_property_id'    => getRandomConceptProfilePropertyId(),
-            //get the correct label
-            'profile_property_label' => getRandomConceptProfilePropertyId(),
+            ]),
 
             'concept_property_id'        => getRandomClassId('ConceptAttribute'),
             'schema_property_element_id' => getRandomClassId('ElementAttribute'),
@@ -34,32 +31,30 @@ $factory->define(ImportInstruction::class,
         ];
     });
 
-//define an elementset import
-$factory->defineAs(ImportInstruction::class,
-    'ElementImportInstruction',
-    function(Faker\Generator $faker) use ($factory) {
-        $importInstruction = $factory->raw(ImportInstruction::class);
-
-        return array_merge($importInstruction,
-            [
-                'profile_property_id'    => getRandomElementProfilePropertyId(),
-                //get the correct label
-                'profile_property_label' => 'label',
-                'resource_id'            => getRandomClassId('Element'),
-            ]);
+$factory->state(ImportInstruction::class,
+    'element',
+    function($faker) {
+        $propertyId = getRandomElementProfilePropertyId();
+        $resourceId = getRandomClassId('Element');
+        return [
+            'profile_property_id' => $propertyId,
+            'profile_property_label' => \App\Models\ProfileProperty::find($propertyId)->label,
+            'resource_id' => $resourceId,
+            'resource_label' => Element::find($resourceId)->label,
+        ];
     });
 
 //define a vocabulary import
-$factory->defineAs(ImportInstruction::class,
-    'ConceptImportInstruction',
-    function(Faker\Generator $faker) use ($factory) {
-        $importInstruction = $factory->raw(ImportInstruction::class);
+$factory->state(ImportInstruction::class,
+    'concept',
+    function($faker) {
+        $propertyId = getRandomConceptProfilePropertyId();
+        $resourceId = getRandomClassId('Concept');
 
-        return array_merge($importInstruction,
-            [
-                'profile_property_id'    => getRandomConceptProfilePropertyId(),
-                //get the correct label
-                'profile_property_label' => 'label',
-                'resource_id'            => getRandomClassId('Concept'),
-            ]);
+        return [
+            'profile_property_id'    => $propertyId,
+            'profile_property_label' => \App\Models\ProfileProperty::find($propertyId)->label,
+            'resource_id'            => $resourceId,
+            'resource_label'         => Concept::find($resourceId)->label,
+        ];
     });
