@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\models\Import;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ImportInstruction extends Model
 {
@@ -22,6 +24,13 @@ class ImportInstruction extends Model
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * @return BelongsTo
+     */
+    public function import(): ?BelongsTo
+    {
+        return $this->belongsTo(Import::class);
+    }
     /*
     |--------------------------------------------------------------------------
     | SCOPES
