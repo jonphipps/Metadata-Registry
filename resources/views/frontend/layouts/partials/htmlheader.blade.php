@@ -14,6 +14,7 @@
         @yield('meta')
 
         <!-- Styles -->
+        <script src="https://use.fontawesome.com/f27a8c3a13.js"></script>
         @yield('before-styles')
 
         <!-- Check if the language is set to RTL, so apply the RTL layouts -->
