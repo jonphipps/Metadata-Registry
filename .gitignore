@@ -81,3 +81,7 @@ mix.*.js
 mix.js
 /_ide_helper_models.php
 .swp
+web/vendor/jqwidgets
+web/css/all.css
+web/js/manifest.js
+web/js/vendor.js
