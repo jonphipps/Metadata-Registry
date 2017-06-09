@@ -53,11 +53,11 @@
     @yield('head_scripts')
 </head>
 <body id="app-layout" class="hold-transition {{ config('backpack.base.skin') }} sidebar-mini ">
+    @include('includes.partials.logged-in-as')
 <div id="app">
     <!-- Site wrapper -->
     <div class="wrapper">
         <!-- =============================================== -->
-    @include('includes.partials.logged-in-as')
     @include('backend.includes.header')
     @include('backpack::inc.sidebar')
     <!-- =============================================== -->
