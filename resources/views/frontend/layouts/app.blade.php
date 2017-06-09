@@ -36,7 +36,7 @@
     <body id="app-layout">
         <div id="app">
             @include('includes.partials.logged-in-as')
-            @include('frontend.includes.nav')
+            @include('backend.includes.header')
 
             <div class="container">
                 @include('includes.partials.messages')
