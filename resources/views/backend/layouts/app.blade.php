@@ -71,6 +71,12 @@
 
         <!-- JavaScripts -->
         @yield('before-scripts')
+        <script type="text/javascript">
+          // Set active state on menu element
+          var current_url = "{{ Request::url() }}";
+        </script>
+        {!! Html::script(mix('js/manifest.js')) !!}
+        {!! Html::script(mix('js/vendor.js')) !!}
         {{ Html::script(mix('js/backend.js')) }}
         @yield('after-scripts')
     </body>

@@ -50,7 +50,19 @@ $(function(){
         addDeleteForms();
     });
 
-    /**
+    // backpack: To make Pace works on Ajax calls
+    $(document).ajaxStart(function () {
+        Pace.restart();
+    });
+    // backpack: Set active state on menu element
+    $("ul.sidebar-menu li a").each(function () {
+        if ($(this).attr('href').startsWith(current_url) || current_url.startsWith($(this).attr('href'))) {
+            $(this).parents('li').addClass('active');
+        }
+    });
+
+
+  /**
      * Generic confirm form delete using Sweet Alert
      */
     $('body').on('submit', 'form[name=delete_item]', function(e){
