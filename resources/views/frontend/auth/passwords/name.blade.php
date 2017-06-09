@@ -1,4 +1,4 @@
-@extends('frontend.layouts.app')
+@extends('backpack::layout')
 
 @section('content')
     <div class="row">
