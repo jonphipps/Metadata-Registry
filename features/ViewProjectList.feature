@@ -4,8 +4,9 @@ Feature: ViewProjectList
   I need to view the list
 
   Scenario: see the list 
-    Given I am on "/projects"
-    Then I should see "NSDL Registry"
-    And I should not see "Add Project"
+    Given I am on the projects page
+    And I am not logged in
+    Then I should see the default project
+    And I should not see the Add Project button
 
 

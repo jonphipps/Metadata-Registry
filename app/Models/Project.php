@@ -156,6 +156,28 @@ class Project extends Model
     |--------------------------------------------------------------------------
     */
 
+    public function getTitleLink()
+    {
+        return '<a href="' . route('frontend.project.show', [ 'id' => $this->id ]) . '">' . $this->title . '</a>';
+    }
+
+    public static function badge($count)
+    {
+        return '<span class="badge">' . $count . '</span>';
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | RELATIONS
+    |--------------------------------------------------------------------------
+    */
+
+    /*
+    |--------------------------------------------------------------------------
+    | SCOPES
+    |--------------------------------------------------------------------------
+    */
+
     /**
      * @param Builder $query
      *
@@ -176,22 +198,12 @@ class Project extends Model
         return $query->where('is_private', '<>', 1);
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | RELATIONS
-    |--------------------------------------------------------------------------
-    */
 
     /*
     |--------------------------------------------------------------------------
-    | SCOPES
+    | ACCESSORS
     |--------------------------------------------------------------------------
     */
-
-    public static function badge($count)
-    {
-        return '<span class="badge">' . $count . '</span>';
-    }
 
     /**
      * @return string
@@ -199,17 +211,6 @@ class Project extends Model
     public function getTitleAttribute()
     {
         return $this->attributes['org_name'];
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | ACCESORS
-    |--------------------------------------------------------------------------
-    */
-
-    public function getTitleLink()
-    {
-        return '<a href="' . route('frontend.project.show', [ 'id' => $this->id ]) . '">' . $this->title . '</a>';
     }
 
     /*

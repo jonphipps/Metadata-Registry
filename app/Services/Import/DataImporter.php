@@ -71,7 +71,7 @@ class DataImporter
      *
      * @return Collection
      */
-    public function getAddRows()
+    public function getAddRows(): Collection
     {
         //only keep rows that have no reg_id
         return collect($this->rows->filter(function ($row, $key) {
@@ -142,9 +142,11 @@ class DataImporter
         });
     }
 
-    public function getDeleteRows()
+    /**
+     * @return Collection
+     */
+    public function getDeleteRows(): Collection
     {
-
         //only keep rows that are in the rowmap but are missing from the supplied data
         $updateRows = $this->updateRows;
 
@@ -159,7 +161,7 @@ class DataImporter
      *
      * @return Collection
      */
-    public static function getHeaderFromMap(Collection $map)
+    public static function getHeaderFromMap(Collection $map): Collection
     {
         return collect($map->first());
     }
@@ -169,7 +171,7 @@ class DataImporter
      *
      * @return Collection
      */
-    public static function getRowMap(Collection $map)
+    public static function getRowMap(Collection $map): Collection
     {
         $p = self::getHeaderFromMap($map);
 
@@ -180,7 +182,10 @@ class DataImporter
         });
     }
 
-    public function getUpdateRows()
+    /**
+     * @return Collection
+     */
+    public function getUpdateRows(): Collection
     {
         //only keep rows that have a non-empty reg_id
         return $this->rows->reject(function ($row) {
@@ -191,10 +196,10 @@ class DataImporter
     /**
      * @return Collection
      */
-    public function getVocabularyStatements()
+    public function getVocabularyStatements(): Collection
     {
-        return Concept::whereVocabularyId($this->export->vocabulary_id)->with('properties.profile_property', 'status')->get()->keyBy('id')->map(function ($concept, $key) {
-            return $concept->properties->keyBy('id')->map(function ($property) {
+        return Concept::whereVocabularyId($this->export->vocabulary_id)->with('statements.profile_property', 'status')->get()->keyBy('id')->map(function ($concept, $key) {
+            return $concept->statements->keyBy('id')->map(function ($property) {
                 return [
                     'old value'  => $property->object,
                     'updated_at' => $property->updated_at,
@@ -214,11 +219,11 @@ class DataImporter
     /**
      * @return Collection
      */
-    public function getElementSetStatements()
+    public function getElementSetStatements(): Collection
     {
-        return Element::whereSchemaId($this->export->schema_id)->with('properties.profile_property', 'status')->get()->keyBy('id')->map(function ($element, $key) {
+        return Element::whereSchemaId($this->export->schema_id)->with('statements.profile_property', 'status')->get()->keyBy('id')->map(function ($element, $key) {
             $status = $element->status->display_name;
-            $thingy = $element->properties->keyBy('id')->map(function ($property) {
+            $thingy = $element->statements->keyBy('id')->map(function ($property) {
                 return [
                     'old value'  => $property->object,
                     'updated_at' => $property->updated_at,
@@ -244,7 +249,7 @@ class DataImporter
      *
      * @return string
      */
-    private static function makeFqn($prefixes, $uri)
+    private static function makeFqn($prefixes, $uri): string
     {
         $result = $uri;
         foreach ($prefixes as $prefix => $fullUri) {
@@ -263,7 +268,7 @@ class DataImporter
      *
      * @return string
      */
-    private static function makeCurie($prefixes, $uri)
+    private static function makeCurie($prefixes, $uri): string
     {
         $result = $uri;
         foreach ($prefixes as $prefix => $fullUri) {

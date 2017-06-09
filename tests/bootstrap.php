@@ -1,5 +1,5 @@
 <?php
-/** Created by PhpStorm,  User: jonphipps,  Date: 2016-12-28,  Time: 10:29 AM */
+// Here you can initialize variables that will be available to your tests
 
 $dir = __DIR__;
 

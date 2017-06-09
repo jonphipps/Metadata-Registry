@@ -1,5 +1,5 @@
-<!doctype html>
-<html lang="{{ config('app.locale') }}">
+<!DOCTYPE html>
+<html lang="{{ app()->getLocale() }}">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -36,7 +36,7 @@
     <body id="app-layout">
         <div id="app">
             @include('includes.partials.logged-in-as')
-            @include('frontend.includes.nav')
+            @include('backend.includes.header')
 
             <div class="container">
                 @include('includes.partials.messages')
@@ -46,6 +46,12 @@
 
         <!-- Scripts -->
         @yield('before-scripts')
+        <script type="text/javascript">
+          // Set active state on menu element
+          var current_url = "{{ Request::url() }}";
+        </script>
+        {!! Html::script(mix('js/manifest.js')) !!}
+        {!! Html::script(mix('js/vendor.js')) !!}
         {!! Html::script(mix('js/frontend.js')) !!}
         @yield('after-scripts')
 

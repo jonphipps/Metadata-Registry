@@ -11,21 +11,21 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * App\Models\ProjectUser
  *
- * @property int $id
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property \Carbon\Carbon $deleted_at
- * @property int $user_id
- * @property int $agent_id
- * @property bool $is_registrar_for
- * @property bool $is_admin_for
- * @property bool $is_maintainer_for
- * @property string $languages
- * @property string $default_language
- * @property string $current_language
+ * @property int                               $id
+ * @property \Carbon\Carbon                    $created_at
+ * @property \Carbon\Carbon                    $updated_at
+ * @property \Carbon\Carbon                    $deleted_at
+ * @property int                               $user_id
+ * @property int                               $agent_id
+ * @property bool                              $is_registrar_for
+ * @property bool                              $is_admin_for
+ * @property bool                              $is_maintainer_for
+ * @property string                            $languages
+ * @property string                            $default_language
+ * @property string                            $current_language
  * @property-read \App\Models\Access\User\User $creator
- * @property-read mixed $language
- * @property-read \App\Models\Project $project
+ * @property-read mixed                        $language
+ * @property-read \App\Models\Project          $project
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectUser whereAgentId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectUser whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectUser whereCurrentLanguage($value)
@@ -71,4 +71,35 @@ class ProjectUser extends Model
         'default_language'  => 'string',
         'current_language'  => 'string',
     ];
+
+    /*
+    |--------------------------------------------------------------------------
+    | FUNCTIONS
+    |--------------------------------------------------------------------------
+    */
+
+    /*
+    |--------------------------------------------------------------------------
+    | RELATIONS
+    |--------------------------------------------------------------------------
+    */
+
+    /*
+    |--------------------------------------------------------------------------
+    | SCOPES
+    |--------------------------------------------------------------------------
+    */
+
+    /*
+    |--------------------------------------------------------------------------
+    | ACCESSORS
+    |--------------------------------------------------------------------------
+    */
+
+    /*
+    |--------------------------------------------------------------------------
+    | MUTATORS
+    |--------------------------------------------------------------------------
+    */
+
 }

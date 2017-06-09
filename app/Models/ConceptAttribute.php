@@ -6,44 +6,46 @@ use App\Helpers\Macros\Traits\Languages;
 use App\Models\Traits\BelongsToConcept;
 use App\Models\Traits\BelongsToProfileProperty;
 use App\Models\Traits\BelongsToRelatedConcept;
+use Carbon\Carbon;
 use Culpa\Traits\Blameable;
 use Culpa\Traits\CreatedBy;
 use Culpa\Traits\DeletedBy;
 use Culpa\Traits\UpdatedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use InvalidArgumentException;
 use Laracasts\Matryoshka\Cacheable;
 
 /**
  * App\Models\ConceptAttribute
  *
- * @property int $id
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property \Carbon\Carbon $deleted_at
- * @property int $created_user_id
- * @property int $updated_user_id
- * @property int $concept_id
- * @property bool $primary_pref_label
- * @property int $skos_property_id
+ * @property int    $id
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property Carbon $deleted_at
+ * @property int    $created_user_id
+ * @property int    $updated_user_id
+ * @property int    $concept_id
+ * @property bool   $primary_pref_label
+ * @property int    $skos_property_id
  * @property string $object
- * @property int $scheme_id
- * @property int $related_concept_id
- * @property string $language
- * @property int $status_id
- * @property bool $is_concept_property
- * @property int $profile_property_id
- * @property bool $is_generated
- * @property int $created_by
- * @property int $updated_by
- * @property int $deleted_by
- * @property-read \App\Models\Concept $concept
+ * @property int    $scheme_id
+ * @property int    $related_concept_id
+ * @property string                            $language
+ * @property int                               $status_id
+ * @property bool                              $is_concept_property
+ * @property int                               $profile_property_id
+ * @property bool                              $is_generated
+ * @property int                               $created_by
+ * @property int                               $updated_by
+ * @property int                               $deleted_by
+ * @property-read \App\Models\Concept          $concept
  * @property-read \App\Models\Access\User\User $creator
  * @property-read \App\Models\Access\User\User $eraser
- * @property-read mixed $current_language
- * @property-read mixed $default_language
- * @property-read \App\Models\ProfileProperty $profile_property
- * @property-read \App\Models\Concept $related_concept
+ * @property-read mixed                        $current_language
+ * @property-read mixed                        $default_language
+ * @property-read \App\Models\ProfileProperty  $profile_property
+ * @property-read \App\Models\Concept          $related_concept
  * @property-read \App\Models\Access\User\User $updater
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereConceptId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereCreatedAt($value)
@@ -81,4 +83,46 @@ class ConceptAttribute extends Model
     ];
     protected $dates = [ 'deleted_at' ];
     protected $guarded = [ 'id' ];
+    protected $touches = [ 'concept' ];
+
+    /**
+     * @param $vocabulary_id
+     *
+     * @return Carbon
+     * @throws \InvalidArgumentException
+     */
+    public static function getLatestDateForVocabulary($vocabulary_id): Carbon
+    {
+        $created_at = self::getLatest($vocabulary_id, 'created_at');
+        $updated_at = self::getLatest($vocabulary_id, 'updated_at');
+        $deleted_at = self::getLatest($vocabulary_id, 'deleted_at');
+
+        $date = collect([ $created_at, $updated_at, $deleted_at ])->max();
+        try {
+            return Carbon::createFromFormat(config('app.timestamp_format'), $date);
+        }
+        catch (InvalidArgumentException $e) {
+            return null;
+        }
+    }
+
+    public function history()
+    {
+        return $this->hasMany(ConceptAttributeHistory::class, 'concept_property_id', 'id');
+    }
+
+    /**
+     * @param int    $vocabulary_id
+     * @param string $field
+     *
+     * @return string
+     */
+    private static function getLatest($vocabulary_id, $field)
+    {
+        return \DB::table(ConceptAttribute::TABLE)
+            ->join(Concept::TABLE, Concept::TABLE . '.id', '=', ConceptAttribute::TABLE . '.concept_id')
+            ->select(ConceptAttribute::TABLE . '.' . $field)
+            ->where(Concept::TABLE . '.vocabulary_id', $vocabulary_id)
+            ->max(ConceptAttribute::TABLE . '.' . $field);
+    }
 }

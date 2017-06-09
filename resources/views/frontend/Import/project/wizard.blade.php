@@ -1,4 +1,7 @@
-@extends('backpack::layout')<?php /** @var \App\Models\Project $project  @var Backpack\CRUD\CrudPanel $crud */ ?>
+@extends('backpack::layout')<?php /** @var \App\Models\Project $project
+ * @var Backpack\CRUD\CrudPanel $crud
+ * @var Smajti1\Laravel\Wizard  $wizard
+ */ ?>
 @section('header')
     <section class="content-header">
         <h1>
@@ -19,6 +22,21 @@
 
 @section('content')
     <div class="row">
+        <ol>
+            @foreach($wizard->all() as $key => $_step)
+                <li>
+                    @if($step->index === $_step->index)
+                        <strong>{{ $_step::$label }}</strong>
+                    @elseif($step->index > $_step->index)
+                        <a href="{{ route('frontend.project.import', ['project' => $project->id, 'step'=>$_step::$slug]) }}">{{ $_step::$label }}</a>
+                    @else
+                        {{ $_step::$label }}
+                    @endif
+                </li>
+            @endforeach
+        </ol>
+    </div>
+    <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <!-- Default box -->
             @if ($crud->hasAccess('list'))
@@ -28,21 +46,30 @@
 
             @include('crud::inc.grouped_errors')
 
-            {!! Form::open(array('url' => $crud->route, 'method' => 'post', 'files'=>$crud->hasUploadFields('create'))) !!}
+            {!! Form::open(array('url' => route('frontend.project.import.post', ['project' => $project->id,'step' => $step::$slug]), 'method' => 'post', 'files'=>$crud->hasUploadFields('create'))) !!}
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">{{ $steps['title']}}</h3>
+                    <h3 class="box-title">{{ $step::$label}}</h3>
                 </div>
                 <div class="box-body row">
-                    <!-- load the view from the application if it exists, otherwise load the one in the package -->
-                    @if(view()->exists('vendor.backpack.crud.form_content'))
-                        @include('vendor.backpack.crud.form_content', [ 'fields' => $crud->getFields('create'), 'action' => 'create' ])
-                    @else
-                        @include('crud::form_content', [ 'fields' => $crud->getFields('create'), 'action' => 'create' ])
-                    @endif
+                    @include($step::$view, compact('step', 'errors'))
                 </div><!-- /.box-body -->
                 <div class="box-footer">
-                    @include('crud::inc.form_step_buttons')
+                    <nav class="navbar btn-toolbar sw-toolbar sw-toolbar-bottom">
+                        <div class="btn-group navbar-btn sw-btn-group-extra pull-right" role="group">
+                            @unless($wizard->hasNext())
+                                <button class="btn btn-info">Finish</button>
+                            @endunless
+                            <a href="{{ url($crud->route) }}" class="btn btn-default"><span class="fa fa-ban"></span>
+                                &nbsp;{{ trans('backpack::crud.cancel') }}</a>
+                        </div>
+                        <div class="btn-group navbar-btn sw-btn-group pull-right" role="group">
+                            <a class="btn btn-default sw-btn-prev @unless($wizard->hasPrev()) disabled @endunless" href="{{ route('frontend.project.import', ['project' => $project->id,'step' => $wizard->prevSlug()]) }}" type="button">Previous</a>
+                            @if ($wizard->hasNext())
+                                <button class="btn btn-default sw-btn-next">Next</button>
+                            @endif
+                        </div>
+                    </nav>
                 </div><!-- /.box-footer-->
             </div><!-- /.box -->
             {!! Form::close() !!}

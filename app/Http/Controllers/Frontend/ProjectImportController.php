@@ -16,7 +16,7 @@ class ProjectImportController extends ImportCrudController
     public function importStep(Request $request, Project $project, $type, $step = null)
     {
         $this->policyAuthorize('importProject', $project, $project->id );
-        $this->crud->setCreateView('frontend.Import.project.step-1');
+        $this->crud->setCreateView('frontend.import.project.step-1');
 
         // prepare the fields you need to show
         $this->data['crud']       = $this->crud;

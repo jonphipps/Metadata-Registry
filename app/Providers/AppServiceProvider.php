@@ -2,13 +2,14 @@
 
 namespace App\Providers;
 
-use Antennaio\Codeception\DbDumpServiceProvider;
+use App\Rules\ValidateGoogleUrl;
 use Barryvdh\Debugbar\Facade;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Carbon\Carbon;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Dusk\DuskServiceProvider;
 use Mpociot\LaravelTestFactoryHelper\TestFactoryHelperServiceProvider;
@@ -72,6 +73,9 @@ class AppServiceProvider extends ServiceProvider
             $bugsnag->setReleaseStage(env('BUGSNAG_RELEASE_STAGE', ''));
             $bugsnag->setErrorReportingLevel(E_ALL & ~E_NOTICE);
         }
+
+        //register validation rules
+        Validator::extend('googleUrl', ValidateGoogleUrl::class.'@validateSheet');
     }
 
     /**
@@ -97,7 +101,6 @@ class AppServiceProvider extends ServiceProvider
             $loader->alias('Debugbar', Facade::class);
             $this->app->register(IdeHelperServiceProvider::class);
             $this->app->register(TestFactoryHelperServiceProvider::class);
-            $this->app->register(DbDumpServiceProvider::class);
             $this->app->register(GeneratorsServiceProvider::class);
             $this->app->register(MigrationsGeneratorServiceProvider::class);
             $this->app->register(IseedServiceProvider::class);

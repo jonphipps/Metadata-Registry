@@ -1,12 +1,19 @@
 <!doctype html>
-<html lang="en">
+<html class="no-js" lang="{{ config('app.locale') }}">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>@yield('title', 'The Registry!')</title>
+    	<link rel="icon" href="/<?php echo env('FAVICON', 'registry_favicon_prod.ico') ?>"/>
+
+        <title>@yield('title', app_name())</title>
+
+        <!-- Meta -->
+        <meta name="description" content="@yield('meta_description', 'Open Metadata Registry')">
+        <meta name="author" content="@yield('meta_author', 'Jon Phipps')">
+        @yield('meta')
 
         <!-- Styles -->
         @yield('before-styles-end')
@@ -67,6 +74,12 @@
 
         <!-- JavaScripts -->
         @yield('before-scripts-end')
+        <script type="text/javascript">
+          // Set active state on menu element
+          var current_url = "{{ Request::url() }}";
+        </script>
+        {!! Html::script(mix('js/manifest.js')) !!}
+        {!! Html::script(mix('js/vendor.js')) !!}
         {{ Html::script(mix('js/backend.js')) }}
         @yield('after-scripts-end')
 

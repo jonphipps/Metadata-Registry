@@ -7,6 +7,9 @@ use Backpack\CRUD\CrudTrait;
 use Culpa\Traits\Blameable;
 use Culpa\Traits\CreatedBy;
 use Illuminate\Database\Eloquent\Model as Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * App\Models\Import
@@ -92,6 +95,17 @@ class Import extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
+    /**
+     * @param mixed $instruction
+     *
+     * @return $this
+     */
+    public function addInstructions($instruction)
+    {
+        $this->instructions()->save($instruction);
+
+        return $this;
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -99,32 +113,58 @@ class Import extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function batch()
+    /**
+     * @return BelongsTo|null
+     */
+    public function batch(): ?BelongsTo
     {
         return $this->belongsTo( Batch::class, 'batch_id', 'id' );
     }
 
-    public function concept_attribute_history()
+    /**
+     * @return HasMany|null
+     */
+    public function concept_history(): ?HasMany
     {
         return $this->hasMany( ConceptAttributeHistory::class, 'import_id', 'id' );
     }
 
-    public function element_attribute_history()
+    /**
+     * @return HasMany|null
+     */
+    public function element_history(): ?HasMany
     {
-        return $this->hasMany( ElementAttributeHistory::class, 'import_id', 'id' );
+        return $this->hasMany(ElementAttributeHistory::class, 'import_id', 'id');
     }
 
-    public function projects()
+    /**
+     * @return HasMany
+     */
+    public function instructions(): ?HasMany
+    {
+        return $this->hasMany(ImportInstruction::class, 'import_id', 'id');
+    }
+
+    /**
+     * @return BelongsToMany|null
+     */
+    public function projects(): ?BelongsToMany
     {
         return $this->morphedByMany(Project::class, 'importable')->withTimestamps();
     }
 
-    public function vocabularies()
+    /**
+     * @return BelongsToMany|null
+     */
+    public function vocabularies(): ?BelongsToMany
     {
         return $this->morphedByMany(Vocabulary::class, 'importable')->withTimestamps();
     }
 
-    public function elementsets()
+    /**
+     * @return BelongsToMany|null
+     */
+    public function elementsets(): ?BelongsToMany
     {
         return $this->morphedByMany(Elementset::class, 'importable')->withTimestamps();
     }
@@ -137,7 +177,7 @@ class Import extends Model
 
     /*
     |--------------------------------------------------------------------------
-    | ACCESORS
+    | ACCESSORS
     |--------------------------------------------------------------------------
     */
 
