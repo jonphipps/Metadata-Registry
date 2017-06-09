@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "c3914ce1fdb5c46a3262add6049145cd",
+    "content-hash": "8a6ac464400598d4444ba760eb0b2d86",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -48,16 +48,16 @@
         },
         {
             "name": "arcanedev/log-viewer",
-            "version": "4.3.7",
+            "version": "4.3.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ARCANEDEV/LogViewer.git",
-                "reference": "5ce287b6ef132d0a129337fbe6f472929bee89dc"
+                "reference": "5981067142321751389683f66a4edf4f75c33923"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ARCANEDEV/LogViewer/zipball/5ce287b6ef132d0a129337fbe6f472929bee89dc",
-                "reference": "5ce287b6ef132d0a129337fbe6f472929bee89dc",
+                "url": "https://api.github.com/repos/ARCANEDEV/LogViewer/zipball/5981067142321751389683f66a4edf4f75c33923",
+                "reference": "5981067142321751389683f66a4edf4f75c33923",
                 "shasum": ""
             },
             "require": {
@@ -107,7 +107,7 @@
                 "log-viewer",
                 "logviewer"
             ],
-            "time": "2017-04-23T11:47:56+00:00"
+            "time": "2017-06-07T23:30:00+00:00"
         },
         {
             "name": "arcanedev/support",
@@ -649,16 +649,16 @@
         },
         {
             "name": "bugsnag/bugsnag",
-            "version": "v3.5.0",
+            "version": "v3.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bugsnag/bugsnag-php.git",
-                "reference": "ba743434ab6bfbbd2a7f9bc0572bf82628e9fdc1"
+                "reference": "4df7153905c3676fff119167ca6f30a25bb9698a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bugsnag/bugsnag-php/zipball/ba743434ab6bfbbd2a7f9bc0572bf82628e9fdc1",
-                "reference": "ba743434ab6bfbbd2a7f9bc0572bf82628e9fdc1",
+                "url": "https://api.github.com/repos/bugsnag/bugsnag-php/zipball/4df7153905c3676fff119167ca6f30a25bb9698a",
+                "reference": "4df7153905c3676fff119167ca6f30a25bb9698a",
                 "shasum": ""
             },
             "require": {
@@ -702,7 +702,7 @@
                 "logging",
                 "tracking"
             ],
-            "time": "2017-04-06T17:03:50+00:00"
+            "time": "2017-06-07T23:48:45+00:00"
         },
         {
             "name": "bugsnag/bugsnag-laravel",
@@ -2785,6 +2785,188 @@
                 "watermark"
             ],
             "time": "2017-04-23T18:45:36+00:00"
+        },
+        {
+            "name": "ixudra/curl",
+            "version": "6.10.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ixudra/curl.git",
+                "reference": "0b801533e9ac5acdb2f0d69984c8b495deada210"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ixudra/curl/zipball/0b801533e9ac5acdb2f0d69984c8b495deada210",
+                "reference": "0b801533e9ac5acdb2f0d69984c8b495deada210",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": ">=4.0",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ixudra\\Curl\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Oris",
+                    "email": "jan.oris@ixudra.be"
+                }
+            ],
+            "description": "Custom PHP Curl library for the Laravel 5 framework - developed by Ixudra",
+            "homepage": "http://ixudra.be",
+            "keywords": [
+                "Ixudra",
+                "curl",
+                "laravel"
+            ],
+            "time": "2017-03-29T08:23:59+00:00"
+        },
+        {
+            "name": "ixudra/generators",
+            "version": "5.6.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ixudra/generators.git",
+                "reference": "2a9f755f9aa749b13800da6419b4d1e7e652017a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ixudra/generators/zipball/2a9f755f9aa749b13800da6419b4d1e7e652017a",
+                "reference": "2a9f755f9aa749b13800da6419b4d1e7e652017a",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "phpunit/phpunit": "~4.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ixudra\\Generators\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Oris",
+                    "email": "jan.oris@ixudra.be"
+                }
+            ],
+            "description": "Custom PHP resource generation library for the Laravel 5 framework - developed by Ixudra",
+            "homepage": "http://ixudra.be",
+            "keywords": [
+                "Ixudra",
+                "generator",
+                "laravel"
+            ],
+            "time": "2017-02-09T14:57:35+00:00"
+        },
+        {
+            "name": "ixudra/render",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ixudra/render.git",
+                "reference": "e9daf8f7517a9d0a9bf77a5d89fa3dae37c39a5f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ixudra/render/zipball/e9daf8f7517a9d0a9bf77a5d89fa3dae37c39a5f",
+                "reference": "e9daf8f7517a9d0a9bf77a5d89fa3dae37c39a5f",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.0",
+                "ixudra/translation": "~5.1",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ixudra\\Render\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Oris",
+                    "email": "jan.oris@gmail.com"
+                }
+            ],
+            "description": "Custom PHP rendering library for the Laravel 5 framework - developed by Ixudra",
+            "homepage": "http://ixudra.be",
+            "keywords": [
+                "Ixudra",
+                "Rendering",
+                "laravel"
+            ],
+            "time": "2017-02-10T23:04:51+00:00"
+        },
+        {
+            "name": "ixudra/translation",
+            "version": "5.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ixudra/translation.git",
+                "reference": "a64e666f250787614a7ca7c9f46ba92dc9b94ba7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ixudra/translation/zipball/a64e666f250787614a7ca7c9f46ba92dc9b94ba7",
+                "reference": "a64e666f250787614a7ca7c9f46ba92dc9b94ba7",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.0",
+                "illuminate/translation": "~5.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "phpunit/phpunit": "4.1.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ixudra\\Translation\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Oris",
+                    "email": "jan.oris@ixudra.be"
+                }
+            ],
+            "description": "Custom PHP translation library for the Laravel 5 framework - developed by Ixudra",
+            "homepage": "http://ixudra.be",
+            "keywords": [
+                "Ixudra",
+                "laravel",
+                "translation"
+            ],
+            "time": "2017-02-09T14:52:31+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",
