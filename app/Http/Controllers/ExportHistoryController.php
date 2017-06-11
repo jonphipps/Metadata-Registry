@@ -1,5 +1,7 @@
 <?php
 
+/** @deprecated */
+
 namespace App\Http\Controllers;
 
 use App\Models\ExportHistory;

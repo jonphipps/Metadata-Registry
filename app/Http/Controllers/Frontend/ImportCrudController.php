@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Frontend;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
-use App\Http\Requests\ImportRequest;
-use App\Http\Requests\ImportRequest as StoreRequest;
-use App\Http\Requests\ImportRequest as UpdateRequest;
+use App\Http\Requests\Frontend\ImportRequest;
+use App\Http\Requests\Frontend\ImportRequest as StoreRequest;
+use App\Http\Requests\Frontend\ImportRequest as UpdateRequest;
 use App\Http\Traits\UsesEnums;
 use App\Http\Traits\UsesPolicies;
 use App\Models\Import;
@@ -50,8 +50,8 @@ class ImportCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         $this->crud->setModel(Import::class);
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/import');
-        $this->crud->setEntityNameStrings('import', 'imports');
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/projects/' . request()->project . '/imports');
+        $this->crud->setEntityNameStrings('Import', 'Imports');
 
         /*
         |--------------------------------------------------------------------------
@@ -133,7 +133,7 @@ class ImportCrudController extends CrudController
 
     public function importProject(Request $request, Project $project, $step = null)
     {
-        $this->policyAuthorize('importProject', $project, $project->id);
+        $this->policyAuthorize('import', $project, $project->id);
         //if we get to here we're authorized to import a project, so we authorize create
         $this->crud->allowAccess([ 'create' ]);
         try {
@@ -163,7 +163,7 @@ class ImportCrudController extends CrudController
 
     public function processImportProject(ImportRequest $request, Project $project, $step = null)
     {
-        $this->policyAuthorize('importProject', $project, $project->id);
+        $this->policyAuthorize('import', $project, $project->id);
         //if we get to here we're authorized to import a project, so we authorize create
         $this->crud->allowAccess([ 'create' ]);
         try {

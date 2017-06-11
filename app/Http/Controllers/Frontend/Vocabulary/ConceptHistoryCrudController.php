@@ -1,18 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Frontend;
+namespace App\Http\Controllers\Frontend\Vocabulary;
 
+use App\Models\ConceptAttributeHistory;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
-use App\Http\Requests\Frontend\ExportRequest as StoreRequest;
-use App\Http\Requests\Frontend\ExportRequest as UpdateRequest;
-use App\Models\Export;
+use App\Http\Requests\Frontend\Vocabulary\ConceptHistoryRequest as StoreRequest;
+use App\Http\Requests\Frontend\Vocabulary\ConceptHistoryRequest as UpdateRequest;
 
-class ExportCrudController extends CrudController
+class ConceptHistoryCrudController extends CrudController
 {
-
-    public function setUp()
+    public function setup()
     {
 
         /*
@@ -20,9 +19,9 @@ class ExportCrudController extends CrudController
         | BASIC CRUD INFORMATION
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel(Export::class);
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/export');
-        $this->crud->setEntityNameStrings('export', 'exports');
+        $this->crud->setModel(ConceptAttributeHistory::class);
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/concepthistory');
+        $this->crud->setEntityNameStrings('concepthistory', 'concept_histories');
 
         /*
         |--------------------------------------------------------------------------
@@ -53,6 +52,8 @@ class ExportCrudController extends CrudController
         // $this->crud->addButtonFromView($stack, $name, $view, $position); // add a button whose HTML is in a view placed at resources\views\vendor\backpack\crud\buttons
         // $this->crud->removeButton($name);
         // $this->crud->removeButtonFromStack($name, $stack);
+        // $this->crud->removeAllButtons();
+        // $this->crud->removeAllButtonsFromStack('line');
 
         // ------ CRUD ACCESS
         // $this->crud->allowAccess(['list', 'create', 'update', 'reorder', 'delete']);

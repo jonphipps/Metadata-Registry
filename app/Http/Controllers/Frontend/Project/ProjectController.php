@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Frontend;
+/** @deprecated */
 
+namespace App\Http\Controllers\Frontend\Project;
+
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\Frontend\Elementset\ElementsetCrudController;
 use App\Models\Project;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\View\View;
 
 class ProjectController extends Controller
 {
@@ -57,7 +59,10 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        return view('frontend.project.dashboard', \compact('project'));
+        $elementset = new ElementsetCrudController();
+        $elementset->setup();
+
+        return view('frontend.project.dashboard', \compact('project', 'elementset'));
     }
 
     /**

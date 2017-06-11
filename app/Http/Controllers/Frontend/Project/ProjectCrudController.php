@@ -1,13 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Frontend;
+namespace App\Http\Controllers\Frontend\Project;
 
-use App\Http\Requests\ProjectRequest as StoreRequest;
-use App\Http\Requests\ProjectRequest as UpdateRequest;
+use App\Http\Controllers\Frontend\Elementset\ElementsetCrudController;
+use App\Http\Controllers\Frontend\ImportCrudController;
+use App\Http\Controllers\Frontend\Vocabulary\VocabularyCrudController;
+use App\Http\Requests\Frontend\Project\ProjectRequest as StoreRequest;
+use App\Http\Requests\Frontend\Project\ProjectRequest as UpdateRequest;
 use App\Http\Traits\UsesEnums;
 use App\Http\Traits\UsesPolicies;
 use Auth;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use App\Models\Project;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
 class ProjectCrudController extends CrudController
@@ -22,9 +26,10 @@ class ProjectCrudController extends CrudController
         | BASIC CRUD INFORMATION
         |--------------------------------------------------------------------------
         */
-        $this->crud->setModel( 'App\Models\Project' );
+        $this->crud->setModel(Project::class);
         $this->crud->setRoute( config( 'backpack.base.route_prefix' ) . '/projects' );
-        $this->crud->setEntityNameStrings( 'project', 'projects' );
+        $this->crud->setEntityNameStrings( 'Project', 'Projects' );
+        $this->crud->setShowView('frontend.project.dashboard');
 
         /*
         |--------------------------------------------------------------------------
@@ -295,6 +300,24 @@ class ProjectCrudController extends CrudController
         // $this->crud->limit();
     }
 
+    public function show($id)
+    {
+        $this->policyAuthorize('show', $this->crud->getModel(), $id);
+
+        $this->data['project'] = $this->crud->getEntry($id);
+        $classArray = [
+            'elementset' => ElementsetCrudController::class,
+            'vocabulary' => VocabularyCrudController::class,
+            'import' => ImportCrudController::class,
+        ];
+        foreach ($classArray as $thing => $className) {
+            $thingController = new $className;
+            /** @var CrudController $thingController */
+            $thingController->setup();
+            $this->data[$thing] = $thingController;
+        }
+        return parent::show($id);
+    }
 
     public function store( StoreRequest $request )
     {

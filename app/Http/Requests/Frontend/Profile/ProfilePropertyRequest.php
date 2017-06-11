@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Frontend\Profile;
 
 use App\Http\Requests\Request;
 
-class ImportRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
+class ProfilePropertyRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
 {
     /**
      * Determine if the user is authorized to make this request.

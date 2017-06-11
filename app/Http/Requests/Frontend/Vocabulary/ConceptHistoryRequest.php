@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Frontend\Vocabulary;
 
 use App\Http\Requests\Request;
 
-class ExportRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
+class ConceptHistoryRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
 {
     /**
      * Determine if the user is authorized to make this request.
