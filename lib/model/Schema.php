@@ -997,7 +997,7 @@ SQL
     $id            = $this->getId();
     $deleteSQL     = $includeDeleted ? '' : 'and reg_schema_property_element.deleted_at is null';
     $generatedSQL  = $includeGenerated ? '' : 'and reg_schema_property_element.is_generated = 0';
-    $deprecatedSQL = $includeDeprecated ? '' :'and reg_schema_property.status_id <> 8';
+    $deprecatedSQL = $includeDeprecated ? '' :'and reg_schema_property.status_id <> 8 and reg_schema_property_element.status_id <> 8';
 
     $allStatusSQL = '';
     if ($includeNotAccepted && $includeDeprecated) {
