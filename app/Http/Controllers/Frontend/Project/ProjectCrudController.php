@@ -43,6 +43,7 @@ class ProjectCrudController extends CrudController
 
         // ------ CRUD ACCESS
         $this->crud->allowAccess([ 'index', 'show' ]);
+        $this->crud->denyAccess([ 'create', 'update', 'delete', 'import' ]);
 
         // ------ CRUD FIELDS
         // $this->crud->addField($options, 'update/create/both');
