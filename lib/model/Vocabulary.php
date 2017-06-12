@@ -256,7 +256,7 @@ class Vocabulary extends BaseVocabulary
     $rs = $con->executeQuery(/** @lang MySQL */
         <<<SQL
 select profile_property.* from reg_concept_property, reg_concept, profile_property
-where reg_concept.vocabulary_id = 58
+where reg_concept.vocabulary_id = $id
 and reg_concept_property.concept_id = reg_concept.id
 and reg_concept_property.profile_property_id = profile_property.id
 group by profile_property.id
