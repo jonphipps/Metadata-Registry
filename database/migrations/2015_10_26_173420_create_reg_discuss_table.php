@@ -1,12 +1,11 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
- use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateRegDiscussTable extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -15,7 +14,7 @@ class CreateRegDiscussTable extends Migration
     public function up()
     {
         Schema::create('reg_discuss',
-            function (Blueprint $table) {
+            function(Blueprint $table) {
                 $table->integer('id', true);
                 $table->dateTime('created_at')->nullable();
                 $table->timestamp('updated_at')->nullable()->default(DB::raw('CURRENT_TIMESTAMP'));
@@ -36,7 +35,6 @@ class CreateRegDiscussTable extends Migration
             });
     }
 
-
     /**
      * Reverse the migrations.
      *
@@ -46,5 +44,4 @@ class CreateRegDiscussTable extends Migration
     {
         Schema::drop('reg_discuss');
     }
-
 }

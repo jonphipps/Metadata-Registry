@@ -1,8 +1,6 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
- use Illuminate\Support\Facades\Schema;
 
 class UpdateVocabularyTableWithDefaultProfileId extends Migration
 {
@@ -13,7 +11,7 @@ class UpdateVocabularyTableWithDefaultProfileId extends Migration
      */
     public function up()
     {
-        DB::statement('update reg_vocabulary set profile_id = 2;');
+        DB::statement('UPDATE reg_vocabulary SET profile_id = 2;');
     }
 
     /**

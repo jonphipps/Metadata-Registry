@@ -1,12 +1,11 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
- use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateRegAgentTable extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -15,10 +14,12 @@ class CreateRegAgentTable extends Migration
     public function up()
     {
         Schema::create('reg_agent',
-            function (Blueprint $table) {
+            function(Blueprint $table) {
                 $table->integer('id', true);
                 $table->dateTime('created_at')->nullable();
-                $table->timestamp('last_updated')->default(DB::raw('CURRENT_TIMESTAMP'))->onUpdate(DB::raw('CURRENT_TIMESTAMP'));
+                $table->timestamp('last_updated')
+                    ->default(DB::raw('CURRENT_TIMESTAMP'))
+                    ->onUpdate(DB::raw('CURRENT_TIMESTAMP'));
                 $table->dateTime('deleted_at')->nullable();
                 $table->string('org_email', 100)->default('');
                 $table->string('org_name')->default('');
@@ -36,7 +37,6 @@ class CreateRegAgentTable extends Migration
             });
     }
 
-
     /**
      * Reverse the migrations.
      *
@@ -46,5 +46,4 @@ class CreateRegAgentTable extends Migration
     {
         Schema::drop('reg_agent');
     }
-
 }

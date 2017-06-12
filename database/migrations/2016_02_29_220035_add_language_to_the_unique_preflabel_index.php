@@ -1,12 +1,11 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
- use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddLanguageToTheUniquePreflabelIndex extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -14,12 +13,12 @@ class AddLanguageToTheUniquePreflabelIndex extends Migration
      */
     public function up()
     {
-        Schema::table('reg_concept', function (Blueprint $table) {
-            $table->dropIndex('vocabulary_id_pref_label');
-            $table->unique([ 'vocabulary_id', 'pref_label', 'language' ], 'vocabulary_id_pref_label');
-        });
+        Schema::table('reg_concept',
+            function(Blueprint $table) {
+                $table->dropIndex('vocabulary_id_pref_label');
+                $table->unique([ 'vocabulary_id', 'pref_label', 'language' ], 'vocabulary_id_pref_label');
+            });
     }
-
 
     /**
      * Reverse the migrations.
@@ -29,7 +28,7 @@ class AddLanguageToTheUniquePreflabelIndex extends Migration
     public function down()
     {
         Schema::table('reg_concept',
-            function (Blueprint $table) {
+            function(Blueprint $table) {
                 $table->dropIndex('vocabulary_id_pref_label');
                 $table->unique([ 'vocabulary_id', 'pref_label' ], 'vocabulary_id_pref_label');
             });

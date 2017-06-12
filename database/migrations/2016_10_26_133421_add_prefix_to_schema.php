@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddPrefixToSchema extends Migration
 {
@@ -13,9 +13,10 @@ class AddPrefixToSchema extends Migration
      */
     public function up()
     {
-        Schema::table('reg_schema', function (Blueprint $table) {
-          $table->string('prefix')->default('');
-        });
+        Schema::table('reg_schema',
+            function(Blueprint $table) {
+                $table->string('prefix')->default('');
+            });
     }
 
     /**
@@ -25,8 +26,9 @@ class AddPrefixToSchema extends Migration
      */
     public function down()
     {
-        Schema::table('reg_schema', function (Blueprint $table) {
-          $table->dropColumn('prefix');
-        });
+        Schema::table('reg_schema',
+            function(Blueprint $table) {
+                $table->dropColumn('prefix');
+            });
     }
 }

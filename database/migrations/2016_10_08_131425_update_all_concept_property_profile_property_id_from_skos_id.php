@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class UpdateAllConceptPropertyProfilePropertyIdFromSkosId extends Migration
@@ -13,11 +11,11 @@ class UpdateAllConceptPropertyProfilePropertyIdFromSkosId extends Migration
      */
     public function up()
     {
-      if (DB::getDriverName() == 'mysql') {
-        DB::statement('update reg_concept_property, profile_property
-set reg_concept_property.profile_property_id = profile_property.id
-where reg_concept_property.skos_property_id = profile_property.skos_id;');
-      }
+        if (DB::getDriverName() == 'mysql') {
+            DB::statement('UPDATE reg_concept_property, profile_property
+SET reg_concept_property.profile_property_id = profile_property.id
+WHERE reg_concept_property.skos_property_id = profile_property.skos_id;');
+        }
     }
 
     /**
@@ -27,6 +25,5 @@ where reg_concept_property.skos_property_id = profile_property.skos_id;');
      */
     public function down()
     {
-
     }
 }

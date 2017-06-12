@@ -1,12 +1,11 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
- use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateRegStatusTable extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -15,14 +14,13 @@ class CreateRegStatusTable extends Migration
     public function up()
     {
         Schema::create('reg_status',
-            function (Blueprint $table) {
+            function(Blueprint $table) {
                 $table->integer('id', true);
                 $table->integer('display_order')->nullable()->index();
                 $table->string('display_name')->nullable();
                 $table->string('uri')->nullable();
             });
     }
-
 
     /**
      * Reverse the migrations.
@@ -33,5 +31,4 @@ class CreateRegStatusTable extends Migration
     {
         Schema::drop('reg_status');
     }
-
 }

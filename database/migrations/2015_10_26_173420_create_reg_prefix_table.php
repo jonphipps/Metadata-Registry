@@ -1,12 +1,11 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
- use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateRegPrefixTable extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -15,13 +14,12 @@ class CreateRegPrefixTable extends Migration
     public function up()
     {
         Schema::create('reg_prefix',
-            function (Blueprint $table) {
+            function(Blueprint $table) {
                 $table->string('prefix', 40)->primary();
                 $table->string('uri', 256)->nullable()->index('prefix_uri');
                 $table->integer('rank')->nullable()->default(0)->index('prefix_rank');
             });
     }
-
 
     /**
      * Reverse the migrations.
@@ -32,5 +30,4 @@ class CreateRegPrefixTable extends Migration
     {
         Schema::drop('reg_prefix');
     }
-
 }

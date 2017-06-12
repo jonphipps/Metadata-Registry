@@ -1,12 +1,11 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
- use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateRegVocabularyHasVersionTable extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -15,7 +14,7 @@ class CreateRegVocabularyHasVersionTable extends Migration
     public function up()
     {
         Schema::create('reg_vocabulary_has_version',
-            function (Blueprint $table) {
+            function(Blueprint $table) {
                 $table->integer('id', true);
                 $table->string('name')->default('')->index('name');
                 $table->dateTime('created_at')->nullable();
@@ -27,7 +26,6 @@ class CreateRegVocabularyHasVersionTable extends Migration
             });
     }
 
-
     /**
      * Reverse the migrations.
      *
@@ -37,5 +35,4 @@ class CreateRegVocabularyHasVersionTable extends Migration
     {
         Schema::drop('reg_vocabulary_has_version');
     }
-
 }

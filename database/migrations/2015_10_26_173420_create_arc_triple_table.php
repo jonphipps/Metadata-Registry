@@ -1,12 +1,11 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
- use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateArcTripleTable extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -15,7 +14,7 @@ class CreateArcTripleTable extends Migration
     public function up()
     {
         Schema::create('arc_triple',
-            function (Blueprint $table) {
+            function(Blueprint $table) {
                 $table->integer('t')->unsigned()->unique('t-t');
                 $table->integer('s')->unsigned()->index('s-t');
                 $table->integer('p')->unsigned()->index('p-t');
@@ -31,7 +30,6 @@ class CreateArcTripleTable extends Migration
             });
     }
 
-
     /**
      * Reverse the migrations.
      *
@@ -41,5 +39,4 @@ class CreateArcTripleTable extends Migration
     {
         Schema::drop('arc_triple');
     }
-
 }

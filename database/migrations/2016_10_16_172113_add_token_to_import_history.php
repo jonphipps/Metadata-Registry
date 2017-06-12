@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddTokenToImportHistory extends Migration
 {
@@ -13,9 +13,10 @@ class AddTokenToImportHistory extends Migration
      */
     public function up()
     {
-        Schema::table('reg_file_import_history', function (Blueprint $table) {
-            $table->integer('token')->nullable();
-        });
+        Schema::table('reg_file_import_history',
+            function(Blueprint $table) {
+                $table->integer('token')->nullable();
+            });
     }
 
     /**
@@ -25,8 +26,9 @@ class AddTokenToImportHistory extends Migration
      */
     public function down()
     {
-        Schema::table('reg_file_import_history', function (Blueprint $table) {
-            $table->dropColumn('token');
-        });
+        Schema::table('reg_file_import_history',
+            function(Blueprint $table) {
+                $table->dropColumn('token');
+            });
     }
 }

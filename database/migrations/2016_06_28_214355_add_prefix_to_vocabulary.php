@@ -1,12 +1,11 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
- use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddPrefixToVocabulary extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -15,11 +14,10 @@ class AddPrefixToVocabulary extends Migration
     public function up()
     {
         Schema::table('reg_vocabulary',
-            function (Blueprint $table) {
+            function(Blueprint $table) {
                 $table->string('prefix')->default('');
             });
     }
-
 
     /**
      * Reverse the migrations.
@@ -29,7 +27,7 @@ class AddPrefixToVocabulary extends Migration
     public function down()
     {
         Schema::table('reg_vocabulary',
-            function (Blueprint $table) {
+            function(Blueprint $table) {
                 $table->dropColumn('prefix');
             });
     }

@@ -1,12 +1,11 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
- use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateRegBatchTable extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -15,7 +14,7 @@ class CreateRegBatchTable extends Migration
     public function up()
     {
         Schema::create('reg_batch',
-            function (Blueprint $table) {
+            function(Blueprint $table) {
                 $table->integer('id', true);
                 $table->dateTime('run_time')->nullable();
                 $table->text('run_description')->nullable();
@@ -28,7 +27,6 @@ class CreateRegBatchTable extends Migration
             });
     }
 
-
     /**
      * Reverse the migrations.
      *
@@ -38,5 +36,4 @@ class CreateRegBatchTable extends Migration
     {
         Schema::drop('reg_batch');
     }
-
 }

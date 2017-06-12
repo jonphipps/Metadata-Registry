@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddFileAndMapToExportHistory extends Migration
 {
@@ -13,10 +13,11 @@ class AddFileAndMapToExportHistory extends Migration
      */
     public function up()
     {
-        Schema::table('reg_export_history', function (Blueprint $table) {
-            $table->string('file')->nullable();
-            $table->longText('map')->nullable();
-        });
+        Schema::table('reg_export_history',
+            function(Blueprint $table) {
+                $table->string('file')->nullable();
+                $table->longText('map')->nullable();
+            });
     }
 
     /**
@@ -26,10 +27,10 @@ class AddFileAndMapToExportHistory extends Migration
      */
     public function down()
     {
-        Schema::table('reg_export_history', function (Blueprint $table) {
-          $table->dropColumn('file');
-          $table->dropColumn('map');
-
-        });
+        Schema::table('reg_export_history',
+            function(Blueprint $table) {
+                $table->dropColumn('file');
+                $table->dropColumn('map');
+            });
     }
 }

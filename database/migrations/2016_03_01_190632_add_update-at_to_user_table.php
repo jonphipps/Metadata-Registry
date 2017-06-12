@@ -1,25 +1,23 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
- use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddUpdateAtToUserTable extends Migration
 {
-
     /**
      * Run the migrations.
      *
      * @return void
      */
-  public function up()
-  {
-    Schema::table('reg_user',
-        function (Blueprint $table) {
-          $table->timestamp('updated_at')->nullable()->after('created_at');
-        });
-  }
-
+    public function up()
+    {
+        Schema::table('reg_user',
+            function(Blueprint $table) {
+                $table->timestamp('updated_at')->nullable()->after('created_at');
+            });
+    }
 
     /**
      * Reverse the migrations.
@@ -29,7 +27,7 @@ class AddUpdateAtToUserTable extends Migration
     public function down()
     {
         Schema::table('reg_user',
-            function (Blueprint $table) {
+            function(Blueprint $table) {
                 $table->dropColumn('updated_at');
             });
     }

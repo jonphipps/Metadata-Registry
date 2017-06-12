@@ -1,12 +1,11 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
- use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateArcSettingTable extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -15,12 +14,11 @@ class CreateArcSettingTable extends Migration
     public function up()
     {
         Schema::create('arc_setting',
-            function (Blueprint $table) {
+            function(Blueprint $table) {
                 $table->char('k', 32)->unique('k');
                 $table->text('val');
             });
     }
-
 
     /**
      * Reverse the migrations.
@@ -31,5 +29,4 @@ class CreateArcSettingTable extends Migration
     {
         Schema::drop('arc_setting');
     }
-
 }

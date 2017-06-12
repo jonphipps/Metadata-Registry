@@ -1,12 +1,11 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
- use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateArcG2tTable extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -15,14 +14,13 @@ class CreateArcG2tTable extends Migration
     public function up()
     {
         Schema::create('arc_g2t',
-            function (Blueprint $table) {
+            function(Blueprint $table) {
                 $table->integer('g')->unsigned()->index('g');
                 $table->integer('t')->unsigned()->index('t');
                 $table->unique([ 'g', 't' ], 'gt');
                 $table->index([ 't', 'g' ], 'tg');
             });
     }
-
 
     /**
      * Reverse the migrations.
@@ -33,5 +31,4 @@ class CreateArcG2tTable extends Migration
     {
         Schema::drop('arc_g2t');
     }
-
 }

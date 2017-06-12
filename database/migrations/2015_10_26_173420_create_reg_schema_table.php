@@ -1,12 +1,11 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
- use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateRegSchemaTable extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -15,7 +14,7 @@ class CreateRegSchemaTable extends Migration
     public function up()
     {
         Schema::create('reg_schema',
-            function (Blueprint $table) {
+            function(Blueprint $table) {
                 $table->integer('id', true);
                 $table->integer('agent_id')->index('agent_id');
                 $table->dateTime('created_at')->nullable();
@@ -43,7 +42,6 @@ class CreateRegSchemaTable extends Migration
             });
     }
 
-
     /**
      * Reverse the migrations.
      *
@@ -53,5 +51,4 @@ class CreateRegSchemaTable extends Migration
     {
         Schema::drop('reg_schema');
     }
-
 }

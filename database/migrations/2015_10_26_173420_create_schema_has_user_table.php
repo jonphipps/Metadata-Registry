@@ -1,12 +1,11 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
- use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateSchemaHasUserTable extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -15,7 +14,7 @@ class CreateSchemaHasUserTable extends Migration
     public function up()
     {
         Schema::create('schema_has_user',
-            function (Blueprint $table) {
+            function(Blueprint $table) {
                 $table->integer('id', true);
                 $table->dateTime('created_at')->nullable();
                 $table->dateTime('updated_at')->nullable();
@@ -31,7 +30,6 @@ class CreateSchemaHasUserTable extends Migration
             });
     }
 
-
     /**
      * Reverse the migrations.
      *
@@ -41,5 +39,4 @@ class CreateSchemaHasUserTable extends Migration
     {
         Schema::drop('schema_has_user');
     }
-
 }

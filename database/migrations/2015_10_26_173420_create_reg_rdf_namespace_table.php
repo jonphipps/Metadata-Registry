@@ -1,12 +1,11 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
- use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateRegRdfNamespaceTable extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -15,7 +14,7 @@ class CreateRegRdfNamespaceTable extends Migration
     public function up()
     {
         Schema::create('reg_rdf_namespace',
-            function (Blueprint $table) {
+            function(Blueprint $table) {
                 $table->integer('id', true);
                 $table->integer('schema_id')->index();
                 $table->dateTime('created_at')->nullable();
@@ -29,7 +28,6 @@ class CreateRegRdfNamespaceTable extends Migration
             });
     }
 
-
     /**
      * Reverse the migrations.
      *
@@ -39,5 +37,4 @@ class CreateRegRdfNamespaceTable extends Migration
     {
         Schema::drop('reg_rdf_namespace');
     }
-
 }

@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
- use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddUpdateAtToAgentTable extends Migration
 {
@@ -14,11 +14,10 @@ class AddUpdateAtToAgentTable extends Migration
     public function up()
     {
         Schema::table('reg_agent',
-            function (Blueprint $table) {
-              $table->timestamp('updated_at')->nullable()->after('created_at');
+            function(Blueprint $table) {
+                $table->timestamp('updated_at')->nullable()->after('created_at');
             });
     }
-
 
     /**
      * Reverse the migrations.
@@ -28,7 +27,7 @@ class AddUpdateAtToAgentTable extends Migration
     public function down()
     {
         Schema::table('reg_agent',
-            function (Blueprint $table) {
+            function(Blueprint $table) {
                 $table->dropColumn('updated_at');
             });
     }

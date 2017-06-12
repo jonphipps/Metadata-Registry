@@ -1,12 +1,11 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
- use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateProfilePropertyTable extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -15,7 +14,7 @@ class CreateProfilePropertyTable extends Migration
     public function up()
     {
         Schema::create('profile_property',
-            function (Blueprint $table) {
+            function(Blueprint $table) {
                 $table->integer('id', true);
                 $table->integer('skos_id')->default(0)->index('profile_property_skos_id');
                 $table->dateTime('created_at')->nullable();
@@ -56,7 +55,6 @@ class CreateProfilePropertyTable extends Migration
             });
     }
 
-
     /**
      * Reverse the migrations.
      *
@@ -66,5 +64,4 @@ class CreateProfilePropertyTable extends Migration
     {
         Schema::drop('profile_property');
     }
-
 }

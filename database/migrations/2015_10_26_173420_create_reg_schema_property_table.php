@@ -1,12 +1,11 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
- use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateRegSchemaPropertyTable extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -15,7 +14,7 @@ class CreateRegSchemaPropertyTable extends Migration
     public function up()
     {
         Schema::create('reg_schema_property',
-            function (Blueprint $table) {
+            function(Blueprint $table) {
                 $table->integer('id', true);
                 $table->dateTime('created_at')->nullable();
                 $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
@@ -42,7 +41,6 @@ class CreateRegSchemaPropertyTable extends Migration
             });
     }
 
-
     /**
      * Reverse the migrations.
      *
@@ -52,5 +50,4 @@ class CreateRegSchemaPropertyTable extends Migration
     {
         Schema::drop('reg_schema_property');
     }
-
 }

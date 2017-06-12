@@ -1,12 +1,11 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
- use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateRegVocabularyHasUserTable extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -15,7 +14,7 @@ class CreateRegVocabularyHasUserTable extends Migration
     public function up()
     {
         Schema::create('reg_vocabulary_has_user',
-            function (Blueprint $table) {
+            function(Blueprint $table) {
                 $table->integer('id', true);
                 $table->dateTime('created_at')->nullable();
                 $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
@@ -33,7 +32,6 @@ class CreateRegVocabularyHasUserTable extends Migration
             });
     }
 
-
     /**
      * Reverse the migrations.
      *
@@ -43,5 +41,4 @@ class CreateRegVocabularyHasUserTable extends Migration
     {
         Schema::drop('reg_vocabulary_has_user');
     }
-
 }

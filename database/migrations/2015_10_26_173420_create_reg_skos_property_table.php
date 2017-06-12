@@ -1,12 +1,11 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
- use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateRegSkosPropertyTable extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -15,7 +14,7 @@ class CreateRegSkosPropertyTable extends Migration
     public function up()
     {
         Schema::create('reg_skos_property',
-            function (Blueprint $table) {
+            function(Blueprint $table) {
                 $table->integer('id', true);
                 $table->integer('parent_id')->nullable();
                 $table->integer('inverse_id')->nullable();
@@ -36,7 +35,6 @@ class CreateRegSkosPropertyTable extends Migration
             });
     }
 
-
     /**
      * Reverse the migrations.
      *
@@ -46,5 +44,4 @@ class CreateRegSkosPropertyTable extends Migration
     {
         Schema::drop('reg_skos_property');
     }
-
 }

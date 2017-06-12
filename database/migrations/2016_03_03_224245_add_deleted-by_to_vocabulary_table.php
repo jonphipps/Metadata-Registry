@@ -1,12 +1,11 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
- use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddDeletedByToVocabularyTable extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -15,17 +14,15 @@ class AddDeletedByToVocabularyTable extends Migration
     public function up()
     {
         Schema::table('reg_vocabulary',
-            function (Blueprint $table) {
+            function(Blueprint $table) {
                 $table->integer('deleted_user_id')->after('updated_user_id')->nullable()->index();
                 $table->foreign('deleted_user_id', 'reg_vocabulary_ibfk_7')
-                      ->references('id')
-                      ->on('reg_user')
-                      ->onUpdate('NO ACTION')
-                      ->onDelete('SET NULL');
-
+                    ->references('id')
+                    ->on('reg_user')
+                    ->onUpdate('NO ACTION')
+                    ->onDelete('SET NULL');
             });
     }
-
 
     /**
      * Reverse the migrations.
@@ -35,10 +32,9 @@ class AddDeletedByToVocabularyTable extends Migration
     public function down()
     {
         Schema::table('reg_vocabulary',
-            function (Blueprint $table) {
+            function(Blueprint $table) {
                 $table->dropForeign('reg_vocabulary_ibfk_7');
                 $table->dropColumn('deleted_user_id');
-
             });
     }
 }

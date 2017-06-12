@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class UpdateAllVocabularyProfileId extends Migration
@@ -13,9 +11,7 @@ class UpdateAllVocabularyProfileId extends Migration
      */
     public function up()
     {
-
-      DB::statement('update reg_vocabulary set profile_id = 2;');
-
+        DB::statement('UPDATE reg_vocabulary SET profile_id = 2;');
     }
 
     /**
@@ -25,6 +21,5 @@ class UpdateAllVocabularyProfileId extends Migration
      */
     public function down()
     {
-
     }
 }

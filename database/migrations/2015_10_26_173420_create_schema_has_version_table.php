@@ -1,12 +1,11 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
- use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateSchemaHasVersionTable extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -15,7 +14,7 @@ class CreateSchemaHasVersionTable extends Migration
     public function up()
     {
         Schema::create('schema_has_version',
-            function (Blueprint $table) {
+            function(Blueprint $table) {
                 $table->integer('id', true);
                 $table->string('name')->default('');
                 $table->dateTime('created_at')->nullable();
@@ -27,7 +26,6 @@ class CreateSchemaHasVersionTable extends Migration
             });
     }
 
-
     /**
      * Reverse the migrations.
      *
@@ -37,5 +35,4 @@ class CreateSchemaHasVersionTable extends Migration
     {
         Schema::drop('schema_has_version');
     }
-
 }

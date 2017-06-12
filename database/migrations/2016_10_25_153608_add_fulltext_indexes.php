@@ -13,10 +13,10 @@ class AddFulltextIndexes extends Migration
      */
     public function up()
     {
-      if (DB::getDriverName() == 'mysql') {
-        DB::statement('CREATE FULLTEXT INDEX `fulltext` ON reg_schema_property_element (`object` DESC);');
-        DB::statement('CREATE FULLTEXT INDEX `fulltext` ON reg_concept_property (`object` DESC);');
-      }
+        if (DB::getDriverName() == 'mysql') {
+            DB::statement('CREATE FULLTEXT INDEX `fulltext` ON reg_schema_property_element (`object` DESC);');
+            DB::statement('CREATE FULLTEXT INDEX `fulltext` ON reg_concept_property (`object` DESC);');
+        }
     }
 
     /**
@@ -26,15 +26,15 @@ class AddFulltextIndexes extends Migration
      */
     public function down()
     {
-      if (DB::getDriverName() == 'mysql') {
-        Schema::table('reg_concept_property',
-            function (Blueprint $table) {
-              $table->dropIndex('fulltext');
-            });
-        Schema::table('reg_schema_property_element',
-            function (Blueprint $table) {
-              $table->dropIndex('fulltext');
-            });
+        if (DB::getDriverName() == 'mysql') {
+            Schema::table('reg_concept_property',
+                function(Blueprint $table) {
+                    $table->dropIndex('fulltext');
+                });
+            Schema::table('reg_schema_property_element',
+                function(Blueprint $table) {
+                    $table->dropIndex('fulltext');
+                });
         }
     }
 }
