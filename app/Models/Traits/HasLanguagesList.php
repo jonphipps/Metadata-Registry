@@ -6,12 +6,17 @@ namespace App\Models\Traits;
 
 trait HasLanguagesList
 {
-    public function getLanguagesAttribute( $value )
+    /**
+     * @param string $value
+     *
+     * @return array
+     */
+    public function getLanguagesAttribute( $value ): array
     {
         if ( empty( $value ) ) {
             $languages = [ $this->language ];
 
-            if ( empty( $languages ) ) {
+            if ( empty( $languages[0] ) ) {
                 $languages = [ 'en' ];
             }
         } else {
@@ -21,7 +26,10 @@ trait HasLanguagesList
         return $languages;
     }
 
-    public function setLanguagesAttribute( $value )
+    /**
+     * @param array $value
+     */
+    public function setLanguagesAttribute( array $value ): void
     {
         $this->attributes['languages'] = serialize( $value );
     }
