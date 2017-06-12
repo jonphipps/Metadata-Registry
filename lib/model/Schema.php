@@ -164,6 +164,7 @@ class Schema extends BaseSchema {
             }
         }
 
+        /** @noinspection SuspiciousAssignmentsInspection */
         $con = Propel::getConnection();
         try
         {
@@ -383,6 +384,7 @@ class Schema extends BaseSchema {
         $c->addJoin( SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID );
 
         $foo     = array();
+        /** @var array $results */
         $results = SchemaPropertyElementPeer::doSelectRS( $c );
         foreach ( $results as $result )
         {
@@ -407,6 +409,7 @@ class Schema extends BaseSchema {
         $c->addJoin( SchemaPropertyElementPeer::SCHEMA_PROPERTY_ID, SchemaPropertyPeer::ID );
 
         $foo     = array();
+        /** @var array $results */
         $results = SchemaPropertyElementPeer::doSelectRS( $c );
         unset( $c );
 
@@ -435,6 +438,7 @@ class Schema extends BaseSchema {
         $v = parent::getPrefixes();
         try
         {
+            /** @noinspection UnserializeExploitsInspection */
             $n = unserialize( $v );
             if (!empty($n) and is_array(($n))) { //make sure it's a valid (not empty) prefix
                 foreach ($n as $key => $value) {
@@ -480,6 +484,7 @@ class Schema extends BaseSchema {
         }
         else
         {
+            /** @noinspection UnserializeExploitsInspection */
             $languages = unserialize( $languages );
         }
 
@@ -835,9 +840,10 @@ EOT;
 
     public function getRdfNamespaces($criteria = null, $con = null)
     {
+        /** @noinspection SuspiciousAssignmentsInspection */
         $con = Propel::getConnection(SchemaPeer::DATABASE_NAME);
-        $id = $this->getId();
-        $rs = $con->executeQuery(
+        $id  = $this->getId();
+        $rs  = $con->executeQuery(
         /** @lang MySQL */
             <<<SQL
 SELECT DISTINCT reg_prefix.prefix, reg_prefix.uri
@@ -909,20 +915,17 @@ SQL
 
   }
 
-
-  /**
-   * @param bool $excludeDeprecated
-   * @param bool $includeGenerated
-   * @param bool $includeDeleted
-   * @param bool $includeNotAccepted
-   * @param array $languages
-
-
-   *
-*@return array
-   */
-  public function getColumnCounts(
-      $excludeDeprecated = false, $includeGenerated = false, $includeDeleted = false, $includeNotAccepted = false,
+    /**
+     * @param bool  $includeDeprecated
+     * @param bool  $includeGenerated
+     * @param bool  $includeDeleted
+     * @param bool  $includeNotAccepted
+     * @param array $languages
+     *
+     * @return array
+     */
+  public function getColumnCounts($includeDeprecated = false,
+      $includeGenerated = false, $includeDeleted = false, $includeNotAccepted = false,
       $languages = []
   ) {
     $results       = [];
@@ -931,7 +934,7 @@ SQL
     $id            = $this->getId();
     $deleteSQL     = $includeDeleted ? '' : 'and reg_schema_property_element.deleted_at is null';
     $generatedSQL  = $includeGenerated ? '' : 'and is_generated = 0';
-    $deprecatedSQL = $excludeDeprecated ? 'and reg_schema_property.status_id <> 8 and reg_schema_property_element.status_id <> 8' : '';
+    $deprecatedSQL = $includeDeprecated ? '' : 'and reg_schema_property.status_id <> 8 and reg_schema_property_element.status_id <> 8';
     $allStatusSQL  = $includeNotAccepted ? '' : 'and reg_schema_property.status_id = 1';
     $languageSQL   = '';
     if (count($languages)) {
@@ -977,17 +980,15 @@ SQL
     return $results;
   }
 
-
-  /**
-   * @param bool $excludeDeprecated
-   * @param bool $includeGenerated
-   * @param bool $includeDeleted
-   * @param bool $includeNotAccepted
-   * @param array $languages
-
-   *
-*@return array
-   */
+    /**
+     * @param bool  $includeDeprecated
+     * @param bool  $includeGenerated
+     * @param bool  $includeDeleted
+     * @param bool  $includeNotAccepted
+     * @param array $languages
+     *
+     * @return array
+     */
   public function getDataForExport(
       $includeDeprecated = false, $includeGenerated = false, $includeDeleted = false, $includeNotAccepted = false,
       $languages = []

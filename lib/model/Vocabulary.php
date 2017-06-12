@@ -49,7 +49,8 @@ class Vocabulary extends BaseVocabulary
 
   public function save($con = null)
   {
-    $con = Propel::getConnection();
+      /** @noinspection SuspiciousAssignmentsInspection */
+      $con = Propel::getConnection();
     try
     {
       $con->begin();
@@ -158,7 +159,8 @@ class Vocabulary extends BaseVocabulary
     $v = parent::getPrefixes();
     try
     {
-      $n = unserialize( $v );
+        /** @noinspection UnserializeExploitsInspection */
+        $n = unserialize( $v );
     }
     catch( Exception $e )
     {
@@ -187,7 +189,8 @@ class Vocabulary extends BaseVocabulary
     }
     else
     {
-      $languages = unserialize( $languages );
+        /** @noinspection UnserializeExploitsInspection */
+        $languages = unserialize( $languages );
     }
 
     return $languages;
@@ -226,7 +229,8 @@ class Vocabulary extends BaseVocabulary
         'rdakit' => 'http://metadataregistry.org/uri/profile/rdakit/',
     ];
     $namespaces = [];
-    foreach ($rs as $r) {
+      /** @var array $rs */
+      foreach ($rs as $r) {
       $array = explode(":", $r[0]);
       if (isset($coreNamespaces[$array[0]])) {
         $namespaces[$array[0]] = $coreNamespaces[$array[0]];
@@ -279,19 +283,17 @@ SQL
 
   }
 
-
-  /**
-   * @param bool $excludeDeprecated
-   * @param bool $includeGenerated
-   * @param bool $includeDeleted
-   * @param bool $includeNotAccepted
-   * @param array $languages
-
-   *
-*@return array
-   */
+    /**
+     * @param bool  $includeDeprecated
+     * @param bool  $includeGenerated
+     * @param bool  $includeDeleted
+     * @param bool  $includeNotAccepted
+     * @param array $languages
+     *
+     * @return array
+     */
   public function getColumnCounts(
-      $excludeDeprecated = false, $includeGenerated = false, $includeDeleted = false, $includeNotAccepted = false,
+      $includeDeprecated = false, $includeGenerated = false, $includeDeleted = false, $includeNotAccepted = false,
       $languages = []
   ) {
     $results       = [];
@@ -300,7 +302,7 @@ SQL
     $id            = $this->getId();
     $deleteSQL     = $includeDeleted ? '' : 'and reg_concept_property.deleted_at is null';
     $generatedSQL  = $includeGenerated ? '' : 'and is_generated = 0';
-    $deprecatedSQL = $excludeDeprecated ? 'and reg_concept.status_id <> 8 and reg_concept_property.status_id <> 8' : '';
+    $deprecatedSQL = $includeDeprecated ? '' : 'and reg_concept.status_id <> 8 and reg_concept_property.status_id <> 8';
     $allStatusSQL  = $includeNotAccepted ? '' : 'and reg_concept.status_id = 1';
     $languageSQL   = '';
     if (count($languages)) {
@@ -351,17 +353,15 @@ SQL
     return $results;
   }
 
-
-  /**
-   * @param bool $excludeDeprecated
-   * @param bool $includeGenerated
-   * @param bool $includeDeleted
-   * @param bool $includeNotAccepted
-   * @param array $languages
-
-   *
-*@return array
-   */
+    /**
+     * @param bool  $includeDeprecated
+     * @param bool  $includeGenerated
+     * @param bool  $includeDeleted
+     * @param bool  $includeNotAccepted
+     * @param array $languages
+     *
+     * @return array
+     */
   public function getDataForExport(
       $includeDeprecated = false, $includeGenerated = false, $includeDeleted = false, $includeNotAccepted = false,
       $languages = []
