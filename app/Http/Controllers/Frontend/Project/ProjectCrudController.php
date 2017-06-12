@@ -237,12 +237,14 @@ class ProjectCrudController extends CrudController
                 'type'          => 'model_function',
                 'function_name' => 'getTitleLink',
             ] ); // adjusts the properties of the passed in column (by name)
-        $this->crud->addColumn( [
+        $this->crud->addColumn([
+            'name'          =>'vocabularies',
             'label'         => "Vocabularies",
             'type'          => "model_function",
             'function_name' => 'getVocabColumn',
         ] );
-        $this->crud->addColumn( [
+        $this->crud->addColumn(  [
+            'name'          => 'elementsets',
             'label'         => "Element Sets",
             'type'          => "model_function",
             'function_name' => 'getElementColumn',
