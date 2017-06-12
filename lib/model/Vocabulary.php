@@ -300,7 +300,7 @@ SQL
     $id            = $this->getId();
     $deleteSQL     = $includeDeleted ? '' : 'and reg_concept_property.deleted_at is null';
     $generatedSQL  = $includeGenerated ? '' : 'and is_generated = 0';
-    $deprecatedSQL = $excludeDeprecated ? 'and reg_concept.status_id <> 8' : '';
+    $deprecatedSQL = $excludeDeprecated ? 'and reg_concept.status_id <> 8 and reg_concept_property.status_id <> 8' : '';
     $allStatusSQL  = $includeNotAccepted ? '' : 'and reg_concept.status_id = 1';
     $languageSQL   = '';
     if (count($languages)) {
