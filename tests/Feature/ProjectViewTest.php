@@ -8,11 +8,12 @@ use const ENT_QUOTES;
 use function htmlspecialchars;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\BrowserKitTestCase;
 use Tests\TestCase;
 
-class ProjectViewTest extends TestCase
+class ProjectViewTest extends BrowserKitTestCase
 {
-  use DatabaseTransactions;
+  //use DatabaseTransactions;
   //use DatabaseMigrations;
 
   /**
@@ -26,8 +27,8 @@ class ProjectViewTest extends TestCase
     $project = factory(Project::class)->create();
     //when I go to the url
     $this->get($this->baseUrl . '/projects/' . $project->id)
-        ->assertSeeText(htmlspecialchars($project->title))
-        ->assertDontSee("projects/{$project->id}/edit");
+        ->see(htmlspecialchars($project->title))
+        ->dontSee("projects/{$project->id}/edit");
   }
 
   /**
@@ -41,21 +42,33 @@ class ProjectViewTest extends TestCase
     $this->user->projects()->attach($project,
                                     [ 'is_registrar_for' => true,
                                       'is_admin_for'     => true, ]);
-    $this->assertDatabaseHas(ProjectUser::TABLE,
+    $this->seeInDatabase(ProjectUser::TABLE,
                              [ 'is_registrar_for' => true,
                                'is_admin_for'     => true,
                                'agent_id'         => $project->id,
                                'user_id'          => $this->user->id, ]);
     //check the list for editability
     $this->actingAs($this->user);
-    $this->get($this->baseUrl . '/projects')->assertSeeText($project->title);
-    $this->get($this->baseUrl . '/projects/' . $project->id)
-        ->assertSeeText(htmlspecialchars($project->title))
-        ->assertSee("projects/{$project->id}/edit");
-    $this->get($this->baseUrl . '/projects/58')
-        ->assertSeeText('NSDL Registry')
-        ->assertDontSee('projects/58/edit');
-    $this->get($this->baseUrl . '/dashboard' )->assertSee($project->title);
+    $this->visit($this->baseUrl . '/projects')
+        ->see($project->title);
+    $this->visit($this->baseUrl . '/projects/' . $project->id)
+        ->see(htmlspecialchars($project->title))
+        ->see("projects/{$project->id}/edit");
+    $this->visit($this->baseUrl . '/projects/58')
+         ->see('NSDL Registry')
+        ->dontSee('projects/58/edit');
+    $this->visit($this->baseUrl . '/dashboard' )
+        ->see($project->title);
   }
 
+    /**
+     * @test
+     */
+    public function a_logged_in_user_cannot_edit_a_project_they_donnot_own()
+    {
+         $this->actingAs($this->user);
+        $this->visit($this->baseUrl . '/projects/58')->see('NSDL Registry')->dontSee('projects/58/edit');
+        $this->get($this->baseUrl . '/projects/58/edit')
+            ->seeStatusCode(403);
+    }
 }

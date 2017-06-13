@@ -2,12 +2,13 @@
 
 namespace Tests\Unit;
 
-use Illuminate\Support\Facades\Auth;
 use Tests\BrowserKitTestCase;
+use Tests\Feature\Traits\Authorize;
 
 class ViewProjectListTest extends BrowserKitTestCase
 {
     //use DatabaseTransactions;
+    use Authorize;
 
     public function setUp()
     {
@@ -27,11 +28,6 @@ class ViewProjectListTest extends BrowserKitTestCase
     {
         $this->visit('/projects');
         $this->assertResponseOk();
-    }
-
-    protected function IAmNotLoggedIn()
-    {
-        Auth::logout();
     }
 
     protected function thenIShouldSeeTheDefaultProject()
