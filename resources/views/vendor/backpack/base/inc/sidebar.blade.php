@@ -24,7 +24,7 @@
         <div class="input-group">
           <input type=search name="q" results=5 class="form-control" autosave=search_concepts required placeholder="Search Concepts...">
           <span class="input-group-btn">
-                    <button type='submit' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
+                    <button type='submit' id='search-concepts-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
                   </span><!--input-group-btn-->
         </div><!--input-group-->
       {{ Form::close() }}
@@ -32,7 +32,7 @@
         <div class="input-group">
           <input type=search name=q results=5 class="form-control" autosave=search_elements required placeholder="Search Elements...">
           <span class="input-group-btn">
-                    <button type='submit' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
+                    <button type='submit' id='search-elements-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
                   </span><!--input-group-btn-->
         </div><!--input-group-->
       {{ Form::close() }}
