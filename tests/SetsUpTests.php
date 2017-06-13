@@ -19,6 +19,7 @@ trait SetsUpTests
      * @var string
      */
     protected $baseUrl;
+    /** @var  User $admin */
     protected $admin;
     /** @var  User $executive */
     protected $executive;
