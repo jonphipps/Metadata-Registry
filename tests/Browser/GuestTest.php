@@ -3,15 +3,15 @@
 namespace Tests\Browser;
 
 use App\Models\Project;
-use function ddd;
-use const false;
 use Laravel\Dusk\Browser;
 use Tests\Browser\Pages\ProjectList;
 use Tests\Browser\Pages\ProjectPage;
+use Tests\Traits\TestData;
 use Tests\DuskTestCase;
 
-class ProjectTest extends DuskTestCase
+class GuestTest extends DuskTestCase
 {
+    use TestData;
     /**
      * A Dusk test example.
      *
@@ -21,19 +21,7 @@ class ProjectTest extends DuskTestCase
     {
         /** @var Project $project */
         //$project = factory( Project::class )->create(['is_private' => false]);
-        $testData['project']['id']=177;
-        $testData['project']['title']='ALA Publishing';
-        $testData['vocabulary']['id'] = 437;
-        $testData['vocabulary']['title']='RDA Material';
-        $testData['vocabulary']['importId']=866;
-        $testData['vocabulary']['exportId']=625;
-        $testData['vocabulary']['maintainerId']=500;
-        $testData['concept']['id']=8455;
-        $testData['concept']['preferredLabelId']=33545;
-        $testData['concept']['title']= 'acetate';
-        $testData['elementSet']['id'] = 83;
-        $testData['elementSet']['title']='RDA Classes';
-        $testData['elementSet']['importId']=1053;
+        $testData = self::getTestData();
 
         $this->browse( function( Browser $browser ) use ( $testData ) {
             $browser->visit( new ProjectList() )->assertSee( 'Projects' )
