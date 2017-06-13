@@ -5,14 +5,14 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="panel panel-default">
-                <div class="panel-heading">{{ trans('navs.frontend.dashboard') }}</div>
+                <div class="panel-heading"><h1>{{ trans('navs.frontend.dashboard') }}</h1></div>
 
                 <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
-                                            <h4>My Projects</h4>
+                                            <h3>My Projects</h3>
                                         </div><!--panel-heading-->
                                         <div class="panel-body">
                                             <ul class="list-unstyled">
@@ -26,25 +26,13 @@
                                         </div><!--panel-body-->
                                     </div><!--panel-->
                                 </div><!--col-xs-12-->
-                                <div class="col-md-3">
+                                <div class="col-md-6">
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
-                                            <h4>Members</h4>
+                                            <h3>Activity</h3>
                                         </div><!--panel-heading-->
                                         <div class="panel-body">
-                                            <p>This will be a list of members of this project
-                                                (maybe). Languages in use is another possibility. Or maps.</p>
-                                        </div><!--panel-body-->
-                                    </div><!--panel-->
-                                </div><!--col-md-6-->
-                                <div class="col-md-3">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <h4>Profiles</h4>
-                                        </div><!--panel-heading-->
-                                        <div class="panel-body">
-                                            <p>This will be a list of Application Profiles used by this project
-                                                (maybe)</p>
+                                            <p>This will be a running display of my activity</p>
                                         </div><!--panel-body-->
                                     </div><!--panel-->
                                 </div><!--col-md-6-->
@@ -53,7 +41,7 @@
                                 <div class="col-md-6">
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
-                                            <h4>Vocabularies I Maintain</h4>
+                                            <h3>Vocabularies I Maintain</h3>
                                         </div><!--panel-heading-->
                                         <div class="panel-body">
                                             <ul class="list-unstyled">
@@ -69,7 +57,7 @@
                                 <div class="col-md-6">
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
-                                            <h4>Element Sets I Maintain</h4>
+                                            <h3>Element Sets I Maintain</h3>
                                         </div><!--panel-heading-->
                                         <div class="panel-body">
                                             <ul class="list-unstyled">
