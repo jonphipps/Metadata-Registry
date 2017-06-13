@@ -136,13 +136,13 @@ class Breadcrumb
      *
      * @return Breadcrumb
      */
-    public static function elementSetFactory($elementset, $show = false)
+    public static function elementSetFactory($elementSet, $show = false)
     {
         $breadcrumb = new Breadcrumb(
             'Element Sets',
             '@schema_list',
-            $elementset->getName(),
-            '@schema_show?id=' . $elementset->getId(),
+            $elementSet->getName(),
+            '@schema_show?id=' . $elementSet->getId(),
             'schema',
             [ 'agent_id' => '@agent_schema_list?agent_id=' ]);
 
