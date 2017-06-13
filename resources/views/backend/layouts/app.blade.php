@@ -44,13 +44,13 @@
         </script>
     </head>
     <body class="skin-{{ config('backend.theme') }} {{ config('backend.layout') }}">
+    <div id="app">
         @include('includes.partials.logged-in-as')
-
         <div class="wrapper">
-            @include('backend.includes.header')
-            @include('backend.includes.sidebar')
+        @include('backend.includes.header')
+        @include('backend.includes.sidebar')
 
-            <!-- Content Wrapper. Contains page content -->
+        <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
@@ -59,26 +59,24 @@
                     {{-- Change to Breadcrumbs::render() if you want it to error to remind you to create the breadcrumbs for the given route --}}
                     {!! Breadcrumbs::renderIfExists() !!}
                 </section>
-
                 <!-- Main content -->
                 <section class="content">
                     @include('includes.partials.messages')
                     @yield('content')
                 </section><!-- /.content -->
             </div><!-- /.content-wrapper -->
-
             @include('backend.includes.footer')
         </div><!-- ./wrapper -->
-
-        <!-- JavaScripts -->
-        @yield('before-scripts')
-        <script type="text/javascript">
-          // Set active state on menu element
-          var current_url = "{{ Request::url() }}";
-        </script>
-        {!! Html::script(mix('js/manifest.js')) !!}
-        {!! Html::script(mix('js/vendor.js')) !!}
-        {{ Html::script(mix('js/backend.js')) }}
-        @yield('after-scripts')
+    </div>
+    <!-- JavaScripts -->
+    @yield('before-scripts')
+    <script type="text/javascript">
+      // Set active state on menu element
+      var current_url = "{{ Request::url() }}";
+    </script>
+    {!! Html::script(mix('js/manifest.js')) !!}
+    {!! Html::script(mix('js/vendor.js')) !!}
+    {{ Html::script(mix('js/backend.js')) }}
+    @yield('after-scripts')
     </body>
 </html>
