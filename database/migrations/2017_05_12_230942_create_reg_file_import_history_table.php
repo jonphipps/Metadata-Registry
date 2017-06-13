@@ -33,6 +33,7 @@ class CreateRegFileImportHistoryTable extends Migration
                 $table->unsignedInteger('vocabulary_id')->nullable()->index();
                 $table->unsignedInteger('schema_id')->nullable()->index();
                 $table->integer('token')->nullable();
+                $table->longText('instructions')->nullable();
             });
     }
 
