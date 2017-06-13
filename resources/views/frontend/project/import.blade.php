@@ -127,7 +127,7 @@
             var btnFinish = $('<button></button>').text('Finish')
                 .addClass('btn btn-info')
                 .on('click', function () {
-                    window.location = "{{ route('frontend.project.show', ['id'=> $project->id]) }}" ;
+                    window.location = "{{ route('frontend.crud.projects.show', ['id'=> $project->id]) }}" ;
                 });
             var btnCancel = $('<button></button>').text('Cancel')
                 .addClass('btn btn-danger')
