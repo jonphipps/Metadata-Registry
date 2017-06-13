@@ -19,33 +19,34 @@ use Laracasts\Matryoshka\Cacheable;
 /**
  * App\Models\ConceptAttribute
  *
- * @property int    $id
- * @property Carbon $created_at
- * @property Carbon $updated_at
- * @property Carbon $deleted_at
- * @property int    $created_user_id
- * @property int    $updated_user_id
- * @property int    $concept_id
- * @property bool   $primary_pref_label
- * @property int    $skos_property_id
+ * @property int $id
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property \Carbon\Carbon $deleted_at
+ * @property int $created_user_id
+ * @property int $updated_user_id
+ * @property int $concept_id
+ * @property bool $primary_pref_label
+ * @property int $skos_property_id
  * @property string $object
- * @property int    $scheme_id
- * @property int    $related_concept_id
- * @property string                            $language
- * @property int                               $status_id
- * @property bool                              $is_concept_property
- * @property int                               $profile_property_id
- * @property bool                              $is_generated
- * @property int                               $created_by
- * @property int                               $updated_by
- * @property int                               $deleted_by
- * @property-read \App\Models\Concept          $concept
+ * @property int $scheme_id
+ * @property int $related_concept_id
+ * @property string $language
+ * @property int $status_id
+ * @property bool $is_concept_property
+ * @property int $profile_property_id
+ * @property bool $is_generated
+ * @property int $created_by
+ * @property int $updated_by
+ * @property int $deleted_by
+ * @property-read \App\Models\Concept $concept
  * @property-read \App\Models\Access\User\User $creator
  * @property-read \App\Models\Access\User\User $eraser
- * @property-read mixed                        $current_language
- * @property-read mixed                        $default_language
- * @property-read \App\Models\ProfileProperty  $profile_property
- * @property-read \App\Models\Concept          $related_concept
+ * @property-read mixed $current_language
+ * @property-read mixed $default_language
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConceptAttributeHistory[] $history
+ * @property-read \App\Models\ProfileProperty $profile_property
+ * @property-read \App\Models\Concept $related_concept
  * @property-read \App\Models\Access\User\User $updater
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereConceptId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereCreatedAt($value)

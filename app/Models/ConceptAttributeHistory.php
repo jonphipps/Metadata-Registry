@@ -33,6 +33,7 @@ use Laracasts\Matryoshka\Cacheable;
  * @property int $import_id
  * @property int $profile_property_id
  * @property int $created_by
+ * @property-read \App\Models\Concept $concept
  * @property-read \App\Models\ConceptAttribute $concept_attribute
  * @property-read \App\Models\Access\User\User $creator
  * @property-read mixed $current_language

@@ -49,7 +49,7 @@ use Laracasts\Matryoshka\Cacheable;
  * @property-read \App\Models\Access\User\User $eraser
  * @property-read mixed $current_language
  * @property-read mixed $default_language
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementAttribute[] $properties
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementAttribute[] $statements
  * @property-read \App\Models\Status $status
  * @property-read \App\Models\Access\User\User $updater
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Element whereComment($value)

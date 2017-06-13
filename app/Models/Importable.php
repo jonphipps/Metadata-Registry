@@ -4,6 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\Importable
+ *
+ * @mixin \Eloquent
+ */
 class Importable extends Model
 {
     const TABLE = 'importable';

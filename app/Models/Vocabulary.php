@@ -42,7 +42,7 @@ use Laracasts\Matryoshka\Cacheable;
  * @property int $last_uri_id
  * @property int $status_id
  * @property string $language This is the default language for all concept properties
- * @property string $languages
+ * @property array $languages
  * @property int $profile_id
  * @property string $ns_type
  * @property string $prefixes
@@ -57,6 +57,7 @@ use Laracasts\Matryoshka\Cacheable;
  * @property-read \App\Models\Access\User\User $eraser
  * @property-read mixed $current_language
  * @property-read mixed $default_language
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Import[] $imports
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\User\User[] $members
  * @property-read \App\Models\Profile $profile
  * @property-read \App\Models\Project $project

@@ -41,6 +41,7 @@ use function unserialize;
  * @property \Illuminate\Support\Collection|null $map
  * @property-read \App\Models\Access\User\User $creator
  * @property-read \App\Models\Elementset $elementset
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Import[] $imports
  * @property-read \App\Models\Profile $profile
  * @property-read \App\Models\Vocabulary $vocabulary
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Export whereCreatedAt($value)

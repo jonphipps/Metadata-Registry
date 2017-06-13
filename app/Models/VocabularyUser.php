@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property bool $is_maintainer_for
  * @property bool $is_registrar_for
  * @property bool $is_admin_for
- * @property string $languages
+ * @property array $languages
  * @property string $default_language
  * @property string $current_language
  * @property-read \App\Models\Access\User\User $creator

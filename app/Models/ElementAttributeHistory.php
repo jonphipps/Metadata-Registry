@@ -30,6 +30,7 @@ use Laracasts\Matryoshka\Cacheable;
  * @property int $status_id
  * @property string $change_note
  * @property int $import_id
+ * @property int $created_by
  * @property-read \App\Models\Access\User\User $creator
  * @property-read \App\Models\Element $element
  * @property-read \App\Models\ElementAttribute $element_attribute
@@ -43,6 +44,7 @@ use Laracasts\Matryoshka\Cacheable;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereAction($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereChangeNote($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereCreatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereCreatedBy($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereCreatedUserId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereImportId($value)

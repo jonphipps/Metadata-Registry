@@ -31,11 +31,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $vocabulary_id
  * @property int $schema_id
  * @property int $token
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Models\ImportInstruction[] $instructions
  * @property-read \App\Models\Access\User\User $User
  * @property-read \App\Models\Batch $batch
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConceptAttributeHistory[] $concept_attribute_history
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConceptAttributeHistory[] $concept_history
  * @property-read \App\Models\Access\User\User $creator
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementAttributeHistory[] $element_attribute_history
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementAttributeHistory[] $element_history
  * @property-read \App\Models\Elementset $elementset
  * @property-read \App\Models\Vocabulary $vocabulary
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Import whereBatchId($value)
@@ -44,6 +45,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Import whereFileName($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Import whereFileType($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Import whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Import whereInstructions($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Import whereMap($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Import whereResults($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Import whereSchemaId($value)

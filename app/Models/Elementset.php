@@ -44,7 +44,7 @@ use Laracasts\Matryoshka\Cacheable;
  * @property int $profile_id
  * @property string $ns_type
  * @property string $prefixes
- * @property string $languages
+ * @property array $languages
  * @property string $repo
  * @property string $spreadsheet
  * @property string $worksheet
@@ -57,6 +57,7 @@ use Laracasts\Matryoshka\Cacheable;
  * @property-read \App\Models\Access\User\User $eraser
  * @property-read mixed $current_language
  * @property-read mixed $default_language
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Import[] $imports
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\User\User[] $members
  * @property-read \App\Models\Profile $profile
  * @property-read \App\Models\Project $project
