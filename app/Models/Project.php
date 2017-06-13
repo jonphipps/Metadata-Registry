@@ -56,7 +56,7 @@ use Laracasts\Matryoshka\Cacheable;
  * @property string                                                                       $uri_append
  * @property int                                                                          $starting_number
  * @property string                                                                       $default_language
- * @property string                                                                       $languages
+ * @property array                                                                        $languages
  * @property string                                                                       $prefixes
  * @property string                                                                       $google_sheet_url
  * @property-read \App\Models\Access\User\User                                            $creator
