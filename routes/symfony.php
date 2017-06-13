@@ -1,7 +1,9 @@
 <?php
 /** Created by PhpStorm,  User: jonphipps,  Date: 2017-01-08,  Time: 5:39 PM */
 
-Route::group(['middleware' => 'symfony'],
+use Tracy\Debugger;
+
+Route::group([ 'middleware' => 'symfony'],
     function () {
 
         Route::group(['middleware' => 'passthru'],
@@ -45,6 +47,10 @@ Route::group(['middleware' => 'symfony'],
 
                 // return the symfony rendering as the response
                 $html = ob_get_clean();
+
+                //enable the Tracy debugger
+                Debugger::enable();
+
                 return $html === false ? '' :$html;
             })->where('all', '.*');
     });

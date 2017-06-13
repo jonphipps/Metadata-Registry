@@ -115,6 +115,7 @@
         "mpociot/laravel-test-factory-helper": "^0.4.0",
         "orangehill/iseed": "^2.3",
         "phpunit/phpunit": "5.7.x",
+        "recca0120/laravel-tracy": "dev-master",
         "spatie/laravel-db-snapshots": "^1.0",
         "spatie/phpunit-snapshot-assertions": "^1.0",
         "sstalle/php7cc": "^1.1",

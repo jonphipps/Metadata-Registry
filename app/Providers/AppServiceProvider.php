@@ -14,6 +14,7 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Dusk\DuskServiceProvider;
 use Mpociot\LaravelTestFactoryHelper\TestFactoryHelperServiceProvider;
 use Orangehill\Iseed\IseedServiceProvider;
+use Recca0120\LaravelTracy\LaravelTracyServiceProvider;
 use Spatie\DbSnapshots\DbSnapshotsServiceProvider;
 use Way\Generators\GeneratorsServiceProvider;
 use Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider;
@@ -76,6 +77,7 @@ class AppServiceProvider extends ServiceProvider
 
         //register validation rules
         Validator::extend('googleUrl', ValidateGoogleUrl::class.'@validateSheet');
+
     }
 
     /**
@@ -97,16 +99,17 @@ class AppServiceProvider extends ServiceProvider
             /**
              * Load third party local providers and facades
              */
-            $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
-            $loader->alias('Debugbar', Facade::class);
+            //$this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
+            //$loader->alias('Debugbar', Facade::class);
             $this->app->register(IdeHelperServiceProvider::class);
             $this->app->register(TestFactoryHelperServiceProvider::class);
             $this->app->register(GeneratorsServiceProvider::class);
             $this->app->register(MigrationsGeneratorServiceProvider::class);
             $this->app->register(IseedServiceProvider::class);
             $this->app->register(DuskServiceProvider::class);
-            $this->app->register( DbSnapshotsServiceProvider::class);
-            $this->app->register( \Backpack\Generators\GeneratorsServiceProvider::class);
+            $this->app->register(DbSnapshotsServiceProvider::class);
+            $this->app->register(\Backpack\Generators\GeneratorsServiceProvider::class);
+            $this->app->register(LaravelTracyServiceProvider::class);
         }
         $this->app->bind('path.public',
             function() {

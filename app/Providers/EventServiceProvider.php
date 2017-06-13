@@ -2,26 +2,31 @@
 
 namespace App\Providers;
 
+use App\Listeners\BarRenderListener;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Recca0120\LaravelTracy\Events\BeforeBarRender;
 
 /**
  * Class EventServiceProvider.
  */
 class EventServiceProvider extends ServiceProvider
 {
-  /**
+    /**
      * The event listener mappings for the application.
      *
      * @var array
      */
-  protected $listen = [];
-
-  /**
+    protected $listen = [
+        BeforeBarRender::class => [
+            BarRenderListener::class,
+        ],
+    ];
+    /**
      * Class event subscribers.
      *
      * @var array
      */
-  protected $subscribe = [
+    protected $subscribe = [
         /*
          * Frontend Subscribers
          */
@@ -29,7 +34,7 @@ class EventServiceProvider extends ServiceProvider
         /*
          * Auth Subscribers
          */
-    \App\Listeners\Frontend\Auth\UserEventListener::class,
+        \App\Listeners\Frontend\Auth\UserEventListener::class,
 
         /*
          * Backend Subscribers
@@ -38,19 +43,18 @@ class EventServiceProvider extends ServiceProvider
         /*
          * Access Subscribers
          */
-    \App\Listeners\Backend\Access\User\UserEventListener::class,
-    \App\Listeners\Backend\Access\Role\RoleEventListener::class,
-  ];
+        \App\Listeners\Backend\Access\User\UserEventListener::class,
+        \App\Listeners\Backend\Access\Role\RoleEventListener::class,
+    ];
 
-  /**
+    /**
      * Register any events for your application.
      *
      * @return void
      */
-  public function boot()
-  {
-    parent::boot();
-
-    //
-  }
+    public function boot()
+    {
+        parent::boot();
+        //
+    }
 }
