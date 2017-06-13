@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Rules\ValidateGoogleUrl;
-use Barryvdh\Debugbar\Facade;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Carbon\Carbon;
 use Illuminate\Foundation\AliasLoader;
@@ -18,10 +17,10 @@ use Recca0120\LaravelTracy\LaravelTracyServiceProvider;
 use Spatie\DbSnapshots\DbSnapshotsServiceProvider;
 use Way\Generators\GeneratorsServiceProvider;
 use Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider;
+use function in_array;
 
 class AppServiceProvider extends ServiceProvider
 {
-
     /**
      * Bootstrap any application services.
      *
@@ -49,7 +48,7 @@ class AppServiceProvider extends ServiceProvider
          * Set the session variable for whether or not the app is using RTL support
          * For use in the blade directive in BladeServiceProvider
          */
-        if (config('locale.languages')[config('app.locale')][2]) {
+        if (config('locale.languages')[ config('app.locale') ][2]) {
             session([ 'lang-rtl' => true ]);
         } else {
             session()->forget('lang-rtl');
@@ -76,8 +75,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         //register validation rules
-        Validator::extend('googleUrl', ValidateGoogleUrl::class.'@validateSheet');
-
+        Validator::extend('googleUrl', ValidateGoogleUrl::class . '@validateSheet');
     }
 
     /**
@@ -109,6 +107,8 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(DuskServiceProvider::class);
             $this->app->register(DbSnapshotsServiceProvider::class);
             $this->app->register(\Backpack\Generators\GeneratorsServiceProvider::class);
+        }
+        if ( ! in_array($environment, [ 'production', 'testing' ], true)) {
             $this->app->register(LaravelTracyServiceProvider::class);
         }
         $this->app->bind('path.public',
