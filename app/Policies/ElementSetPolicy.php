@@ -37,14 +37,14 @@ class ElementSetPolicy
       };
     }
 
-
-  /**
-   * Determine whether the user can create Elementsets.
-   * @param  User   $user
-   * @param Project $project
-   *
-   * @return mixed
-   */
+    /**
+     * Determine whether the user can create Elementsets.
+     *
+     * @param  User   $user
+     * @param Project $project
+     *
+     * @return mixed
+     */
     public function create(User $user, Project $project = null)
     {
         return ($project && $user->isAdminForProjectId($project->id));

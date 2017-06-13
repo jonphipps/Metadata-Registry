@@ -49,9 +49,9 @@ class ImportPolicy
      * @param  User  $user
      * @return mixed
      */
-    public function create(User $user)
+    public function create(User $user, Project $project)
     {
-        //
+        return (bool) $user->isAdminForProjectId($project->id);
     }
 
     /**
