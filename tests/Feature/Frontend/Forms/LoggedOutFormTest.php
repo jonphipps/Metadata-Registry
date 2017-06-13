@@ -14,7 +14,7 @@ use App\Events\Frontend\Auth\UserRegistered;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
 use App\Notifications\Frontend\Auth\UserNeedsPasswordReset;
-use Tests\traits\InteractsWithMailTrap;
+use Tests\Traits\InteractsWithMailTrap;
 
 /**
  * Class LoggedOutFormTest
