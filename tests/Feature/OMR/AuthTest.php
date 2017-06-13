@@ -17,7 +17,7 @@ class AuthTest extends BrowserKitTestCase
 
     public function setUp()
     {
-        //$this->dontSetupDatabase();
+        $this->dontSetupDatabase();
         parent::setUp();
     }
 

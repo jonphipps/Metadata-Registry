@@ -22,7 +22,7 @@ class ImportTest extends TestCase
 
     public function setUp()
     {
-      //$this->dontSetupDatabase();
+      $this->dontSetupDatabase();
       parent::setUp();
     }
 

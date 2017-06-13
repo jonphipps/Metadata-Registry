@@ -14,9 +14,16 @@ class LoggedInFormTest extends BrowserKitTestCase
 
   public static function setUpBeforeClass()
   {
+
     self::$setupDatabase = true;
     parent::setUpBeforeClass();
   }
+
+    public function setUp()
+    {
+        //$this->dontSetupDatabase();
+        parent::setUp();
+    }
 
     /**
      * Test that the errors work if nothing is filled in the update account form.
