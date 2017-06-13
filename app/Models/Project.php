@@ -158,7 +158,7 @@ class Project extends Model
 
     public function getTitleLink()
     {
-        return '<a href="' . route('frontend.project.show', [ 'id' => $this->id ]) . '">' . $this->title . '</a>';
+        return '<a href="' . route('frontend.crud.projects.show', [ 'id' => $this->id ]) . '">' . $this->title . '</a>';
     }
 
     public static function badge($count)

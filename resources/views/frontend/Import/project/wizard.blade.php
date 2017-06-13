@@ -12,7 +12,7 @@
                 <a href="{{ route('frontend.user.dashboard' ) }}">{{ trans('backpack::base.dashboard') }}</a>
             </li>
             <li>
-                <a href="{{ route('frontend.project.show', ['id' => $project->id] ) }}">Project</a>
+                <a href="{{ route('frontend.crud.projects.show', ['id' => $project->id] ) }}">Project</a>
             </li>
             <li><a href="{{ url($crud->route) }}" class="text-capitalize">{{ $crud->entity_name_plural }}</a></li>
             <li class="active">{{ trans('backpack::crud.add') }}</li>
