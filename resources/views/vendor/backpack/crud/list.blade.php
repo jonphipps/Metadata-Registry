@@ -22,8 +22,8 @@
 @section('content')
 <!-- Default box -->
   <div class="row">
-
-    <!-- THE ACTUAL CONTENT -->
+      @bdump($crud)
+      <!-- THE ACTUAL CONTENT -->
     <div class="col-md-12">
       <div class="box">
         <div class="box-header {{ $crud->hasAccess('create')?'with-border':'' }}">
