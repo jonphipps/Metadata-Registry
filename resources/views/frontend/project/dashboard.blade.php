@@ -1,4 +1,9 @@
-@extends('backpack::layout')<?php /** @var \App\Models\Project $project */ ?>
+@extends('backpack::layout')
+<?php
+/** @var \App\Models\Project $project */
+/** @var \App\Http\Controllers\Frontend\Vocabulary\VocabularyCrudController $vocabulary */
+/** @var \App\Models\Import $import */
+?>
 @section('content')
     <div class="row">
         <div class="col-xs-12">
@@ -10,9 +15,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4>Project Vocabularies</h4>
-                                </div><!--panel-heading-->
+                                @include('frontend.partials.panelheader', ['crud' => $vocabulary->crud, 'policy_model' => $project, 'permission' =>'edit' ])<!--panel-heading-->
                                 <div class="panel-body">
                                     <ul class="list-unstyled">
                                         @forelse ($project->vocabularies->sortBy('name') as $vocab)
@@ -26,9 +29,7 @@
                         </div><!--col-md-6-->
                         <div class="col-md-6">
                             <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4>Project Element Sets</h4>
-                                </div><!--panel-heading-->
+                            @include('frontend.partials.panelheader', ['crud' => $elementset->crud, 'policy_model' => $project, 'permission' =>'edit' ])<!--panel-heading-->
                                 <div class="panel-body">
                                     <ul class="list-unstyled">
                                         @forelse ($project->elementsets->sortBy('name') as $elementset)
@@ -45,7 +46,7 @@
                         <div class="col-md-6">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <h4>Project Detail</h4>
+                                    <h3>Project Detail</h3>
                                 </div><!--panel-heading-->
                                 <div class="panel-body">
                                     <div class="list-group">Metadata</div>
@@ -71,7 +72,7 @@
                         <div class="col-md-6">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <h4>Activity</h4>
+                                    <h3>Activity</h3>
                                 </div><!--panel-heading-->
                                 <div class="panel-body">
                                     <p>This will be a running display of project activity</p>
@@ -83,7 +84,7 @@
                         <div class="col-md-6">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <h4>Exports</h4>
+                                    <h3>Exports</h3>
                                 </div><!--panel-heading-->
                                 <div class="panel-body">
                                     <p>This will be a list of Project-level Exports
@@ -93,57 +94,75 @@
                         </div><!--col-md-6-->
                         <div class="col-md-6">
                             <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4>Imports</h4>
-                                </div><!--panel-heading-->
+                                @include('frontend.partials.panelheader', ['crud' => $import->crud, 'policy_model' => $project, 'permission' =>'edit' ])<!--panel-heading-->
                                 <div class="panel-body">
-                                    <p>This will be a list of project-level Imports</p>
+                                    <ul class="list-unstyled">
+                                        @forelse ($project->imports->sortBy('date') as $import)
+                                            <li>{{ laravel_link_to('imports/'.$import->id . '/elements', $import->source_file_name) }}</li>
+                                        @empty
+                                            No Project Imports yet
+                                        @endforelse
+                                    </ul>
                                 </div><!--panel-body-->
                             </div><!--panel-->
                         </div><!--col-md-6-->
                     </div><!--row-->
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <h4>Languages</h4>
+                                    <h3>Languages</h3>
                                 </div><!--panel-heading-->
                                 <div class="panel-body">
-                                    <p>This will be a list of Languages in use by this project
-                                        (maybe)</p>
+                                    <ul class="list-unstyled">
+                                        @forelse ($project->languages as $language)
+                                            <li>{{ $language }}</li>
+                                        @empty
+                                            No Languages in use
+                                    @endforelse
+                                    </ul>
                                 </div><!--panel-body-->
                             </div><!--panel-->
                         </div><!--col-md-6-->
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <h4>Maps</h4>
+                                    <h3>Prefixes</h3>
                                 </div><!--panel-heading-->
                                 <div class="panel-body">
-                                    <p>This will be a list of maps maintained by this project</p>
+                                    <p>This will be a list of prefixes in use by this project</p>
                                 </div><!--panel-body-->
                             </div><!--panel-->
                         </div><!--col-md-6-->
-                    </div><!--row-->
-                    <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <h4>Members</h4>
+                                    <h3>Members</h3>
                                 </div><!--panel-heading-->
                                 <div class="panel-body">
-                                    <p>This will be a list of members of this project
-                                        (maybe)</p>
+                                    <p>This will be a list of members of this project</p>
                                 </div><!--panel-body-->
                             </div><!--panel-->
                         </div><!--col-md-6-->
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <h4>Profiles</h4>
+                                    <h3>Profiles</h3>
                                 </div><!--panel-heading-->
                                 <div class="panel-body">
                                     <p>This will be a list of Application Profiles used by this project</p>
+                                </div><!--panel-body-->
+                            </div><!--panel-->
+                        </div><!--col-md-6-->
+                    </div><!--row-->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3>Maps</h3>
+                                </div><!--panel-heading-->
+                                <div class="panel-body">
+                                    <p>This will be a list of maps maintained by this project</p>
                                 </div><!--panel-body-->
                             </div><!--panel-->
                         </div><!--col-md-6-->
