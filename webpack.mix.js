@@ -50,6 +50,13 @@ mix.copy('node_modules/jqwidgets-framework/jqwidgets', 'web/vendor/jqwidgets');
 if (mix.config.inProduction) {
   mix.version();
 }
+mix.options({
+//   extractVueStyles: false, // Extract .vue component styling to file, rather than inline.
+//   processCssUrls: true, // Process/optimize relative stylesheet url()'s. Set to false, if you don't want them touched.
+  purifyCss: true // Remove unused CSS selectors.
+//   uglify: {}, // Uglify-specific options. https://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin
+//   postCss: [] // Post-CSS options: https://github.com/postcss/postcss/blob/master/docs/plugins.md
+});
 /*
  | See https://browsersync.io/docs/options
 */
@@ -84,10 +91,4 @@ if (mix.config.inProduction) {
 // mix.autoload({}); <-- Will be passed to Webpack's ProvidePlugin.
 // mix.webpackConfig({}); <-- Override webpack.config.js, without editing the file directly.
 // mix.then(function () {}) <-- Will be triggered each time Webpack finishes building.
-mix.options({
-//   extractVueStyles: false, // Extract .vue component styling to file, rather than inline.
-//   processCssUrls: true, // Process/optimize relative stylesheet url()'s. Set to false, if you don't want them touched.
-   purifyCss: true // Remove unused CSS selectors.
-//   uglify: {}, // Uglify-specific options. https://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin
-//   postCss: [] // Post-CSS options: https://github.com/postcss/postcss/blob/master/docs/plugins.md
- });
+
