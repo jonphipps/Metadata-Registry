@@ -16,7 +16,7 @@ class ValidateGoogleUrl
      * @param Validator $validator
      *
      * @return bool
-     * @throws \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
+     * @throws InvalidConfigurationException
      */
     public function validateSheet($attribute, $sheetUrl, $parameters, $validator)
     {
