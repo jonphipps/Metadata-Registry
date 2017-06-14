@@ -31,7 +31,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $vocabulary_id
  * @property int $schema_id
  * @property int $token
- * @property \Illuminate\Database\Eloquent\Collection|\App\Models\ImportInstruction[] $instructions
+ * @property string $instructions
  * @property-read \App\Models\Access\User\User $User
  * @property-read \App\Models\Batch $batch
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConceptAttributeHistory[] $concept_history
@@ -98,17 +98,6 @@ class Import extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
-    /**
-     * @param mixed $instruction
-     *
-     * @return $this
-     */
-    public function addInstructions($instruction)
-    {
-        $this->instructions()->save($instruction);
-
-        return $this;
-    }
 
     /*
     |--------------------------------------------------------------------------
@@ -138,14 +127,6 @@ class Import extends Model
     public function element_history(): ?HasMany
     {
         return $this->hasMany(ElementAttributeHistory::class, 'import_id', 'id');
-    }
-
-    /**
-     * @return HasMany
-     */
-    public function instructions(): ?HasMany
-    {
-        return $this->hasMany(ImportInstruction::class, 'import_id', 'id');
     }
 
     /**
