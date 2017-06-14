@@ -38,6 +38,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read \App\Models\Access\User\User $creator
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementAttributeHistory[] $element_history
  * @property-read \App\Models\Elementset $elementset
+ * @property string $worksheet
  * @property-read \App\Models\Vocabulary $vocabulary
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Import whereBatchId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Import whereCreatedAt($value)
@@ -183,10 +184,29 @@ class Import extends Model
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * @param string $value
+     *
+     * @return string
+     */
+    public function getWorksheetAttribute($value): string
+    {
+        return $this->attributes['source_file_name'];
+    }
+
     /*
     |--------------------------------------------------------------------------
     | MUTATORS
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * @param string $value
+     *
+     * @return string
+     */
+    public function setWorksheetAttribute($value): string
+    {
+        return $this->attributes['source_file_name'] = $value;
+    }
 }
