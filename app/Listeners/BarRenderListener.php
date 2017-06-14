@@ -26,7 +26,7 @@ class BarRenderListener
      */
     public function handle(BeforeBarRender $event)
     {
-        if ( ! is_array($_SESSION['_tracy'])) {
+        if ( isset($_SESSION['_tracy']) && ! is_array($_SESSION['_tracy'])) {
             $_SESSION['_tracy'] = [];
         }
     }
