@@ -14,18 +14,19 @@
         @yield('meta')
 
         <!-- Styles -->
-        <script src="https://use.fontawesome.com/f27a8c3a13.js"></script>
         @yield('before-styles')
+        {{ Html::style('fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}
 
-        <!-- Check if the language is set to RTL, so apply the RTL layouts -->
+    <!-- Check if the language is set to RTL, so apply the RTL layouts -->
         <!-- Otherwise apply the normal LTR layouts -->
         @langRTL
             {{ Html::style(getRtlCss(mix('css/frontend.css'))) }}
         @else
             {{ Html::style(mix('css/frontend.css')) }}
         @endif
+        {{ Html::style(mix('css/all.css')) }}
 
-        @yield('after-styles')
+    @yield('after-styles')
 
         <!-- Scripts -->
         <script>
