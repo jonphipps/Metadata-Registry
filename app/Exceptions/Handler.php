@@ -57,6 +57,9 @@ class Handler extends ExceptionHandler
         if ($exception instanceof TokenMismatchException) {
             return redirect()->route('frontend.auth.login');
         }
+        if ($exception instanceof \Illuminate\Auth\Access\AuthorizationException) {
+            return redirect()->route(homeRoute())->withFlashDanger(trans('auth.general_error'));
+        }
 
         /*
          * All instances of GeneralException redirect back with a flash message to show a bootstrap alert-error

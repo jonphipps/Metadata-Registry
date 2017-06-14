@@ -60,10 +60,9 @@ trait UsesPolicies
      * @param Model    $class   The instance of a Model class to check against
      * @param int|null $id      The id of the individual to check against
      *
-     * @return void
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    protected function policyAuthorize($ability, $class, $id = null)
+    protected function policyAuthorize($ability, $class, $id = null): void
     {
         //if the controller had pre-authorized access then bail
         if ($this->crud->hasAccess($ability)) {
