@@ -24,6 +24,7 @@
     {
         "php": ">=7.0.0",
         "arcanedev/log-viewer": "~4.0",
+        "arcanedev/no-captcha": "^4.0",
         "asimlqt/php-google-spreadsheet-client": "3.0.*",
         "backpack/base": "^0.7.16",
         "backpack/crud": "dev-master",
@@ -77,6 +78,7 @@
         "spatie/laravel-tinker-tools": "^1.0",
         "spatie/laravel-translatable": "^1.2",
         "symfony/psr-http-message-bridge": "^1.0",
+        "symfony/config": "^3.3",
         "techlab/smartwizard": "^4.2",
         "thedevsaddam/laravel-schema": "^2.0",
         "venturecraft/revisionable": "*",
