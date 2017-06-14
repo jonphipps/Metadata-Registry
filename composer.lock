@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "8954f7a7f94ef8ac77496e75f0fa75d6",
+    "content-hash": "de5c3efabdb0b8e7c85198a73f9f6f82",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -108,6 +108,67 @@
                 "logviewer"
             ],
             "time": "2017-06-07T23:30:00+00:00"
+        },
+        {
+            "name": "arcanedev/no-captcha",
+            "version": "4.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ARCANEDEV/noCAPTCHA.git",
+                "reference": "cd5c4fe01776b02feb32b6500b6c276439479c21"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ARCANEDEV/noCAPTCHA/zipball/cd5c4fe01776b02feb32b6500b6c276439479c21",
+                "reference": "cd5c4fe01776b02feb32b6500b6c276439479c21",
+                "shasum": ""
+            },
+            "require": {
+                "arcanedev/support": "~4.0",
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": ">=5.6.4",
+                "psr/http-message": "~1.0"
+            },
+            "require-dev": {
+                "arcanedev/laravel-html": "~5.0",
+                "phpunit/phpcov": "~3.0",
+                "phpunit/phpunit": "~5.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Arcanedev\\NoCaptcha\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "ARCANEDEV",
+                    "email": "arcanedev.maroc@gmail.com",
+                    "homepage": "https://github.com/arcanedev-maroc",
+                    "role": "Developer"
+                }
+            ],
+            "description": "No CAPTCHA (new Google reCAPTCHA) with Laravel support",
+            "homepage": "https://github.com/ARCANEDEV/noCAPTCHA",
+            "keywords": [
+                "arcanedev",
+                "captcha",
+                "google",
+                "laravel",
+                "no-captcha",
+                "recaptcha"
+            ],
+            "time": "2017-03-17T16:34:51+00:00"
         },
         {
             "name": "arcanedev/support",
@@ -3384,16 +3445,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.4.25",
+            "version": "v5.4.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "6bcc9b1f542b3deed16d51f6aa1fe318ab407c2a"
+                "reference": "a7ebbfab64111e24f8e584db64e2be9279ded357"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/6bcc9b1f542b3deed16d51f6aa1fe318ab407c2a",
-                "reference": "6bcc9b1f542b3deed16d51f6aa1fe318ab407c2a",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/a7ebbfab64111e24f8e584db64e2be9279ded357",
+                "reference": "a7ebbfab64111e24f8e584db64e2be9279ded357",
                 "shasum": ""
             },
             "require": {
@@ -3509,7 +3570,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-06-07T13:35:12+00:00"
+            "time": "2017-06-13T18:58:49+00:00"
         },
         {
             "name": "laravel/socialite",
@@ -6570,6 +6631,66 @@
             "time": "2017-05-01T15:54:03+00:00"
         },
         {
+            "name": "symfony/config",
+            "version": "v3.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/config.git",
+                "reference": "35716d4904e0506a7a5a9bcf23f854aeb5719bca"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/config/zipball/35716d4904e0506a7a5a9bcf23f854aeb5719bca",
+                "reference": "35716d4904e0506a7a5a9bcf23f854aeb5719bca",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9",
+                "symfony/filesystem": "~2.8|~3.0"
+            },
+            "conflict": {
+                "symfony/dependency-injection": "<3.3"
+            },
+            "require-dev": {
+                "symfony/dependency-injection": "~3.3",
+                "symfony/yaml": "~3.0"
+            },
+            "suggest": {
+                "symfony/yaml": "To use the yaml reference dumper"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Config\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Config Component",
+            "homepage": "https://symfony.com",
+            "time": "2017-06-02T18:07:20+00:00"
+        },
+        {
             "name": "symfony/console",
             "version": "v3.3.2",
             "source": {
@@ -6809,6 +6930,55 @@
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
             "time": "2017-06-04T18:15:29+00:00"
+        },
+        {
+            "name": "symfony/filesystem",
+            "version": "v3.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/filesystem.git",
+                "reference": "c709670bf64721202ddbe4162846f250735842c0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/c709670bf64721202ddbe4162846f250735842c0",
+                "reference": "c709670bf64721202ddbe4162846f250735842c0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Filesystem\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Filesystem Component",
+            "homepage": "https://symfony.com",
+            "time": "2017-05-28T14:08:56+00:00"
         },
         {
             "name": "symfony/finder",
@@ -9323,12 +9493,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/recca0120/laravel-tracy.git",
-                "reference": "c74825666bf909dcd79dc0a18802e9b508982edc"
+                "reference": "69db4e4b9d7b344e536f26eb3928ab55074eaf4d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/recca0120/laravel-tracy/zipball/c74825666bf909dcd79dc0a18802e9b508982edc",
-                "reference": "c74825666bf909dcd79dc0a18802e9b508982edc",
+                "url": "https://api.github.com/repos/recca0120/laravel-tracy/zipball/69db4e4b9d7b344e536f26eb3928ab55074eaf4d",
+                "reference": "69db4e4b9d7b344e536f26eb3928ab55074eaf4d",
                 "shasum": ""
             },
             "require": {
@@ -9378,7 +9548,7 @@
                 "tracy",
                 "webprofiler"
             ],
-            "time": "2017-06-09T06:53:30+00:00"
+            "time": "2017-06-01T06:40:46+00:00"
         },
         {
             "name": "recca0120/terminal",
@@ -10005,25 +10175,25 @@
         },
         {
             "name": "spatie/laravel-db-snapshots",
-            "version": "1.0.1",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-db-snapshots.git",
-                "reference": "776cfaad8fded436927f2e67f4950e42269ab2a4"
+                "reference": "c0758aef1d36fc6670a601f4097cc42e8e5289fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-db-snapshots/zipball/776cfaad8fded436927f2e67f4950e42269ab2a4",
-                "reference": "776cfaad8fded436927f2e67f4950e42269ab2a4",
+                "url": "https://api.github.com/repos/spatie/laravel-db-snapshots/zipball/c0758aef1d36fc6670a601f4097cc42e8e5289fa",
+                "reference": "c0758aef1d36fc6670a601f4097cc42e8e5289fa",
                 "shasum": ""
             },
             "require": {
                 "illuminate/support": "^5.4.16",
                 "league/flysystem": "^1.0.27",
                 "php": "^7.0",
-                "spatie/db-dumper": "^2.4",
+                "spatie/db-dumper": "^2.7",
                 "spatie/laravel-migrate-fresh": "^1.4.1",
-                "spatie/temporary-directory": "^1.0"
+                "spatie/temporary-directory": "^1.1"
             },
             "require-dev": {
                 "mockery/mockery": "^0.9.8",
@@ -10054,7 +10224,7 @@
                 "laravel-db-snapshots",
                 "spatie"
             ],
-            "time": "2017-04-07T21:16:13+00:00"
+            "time": "2017-06-13T21:50:12+00:00"
         },
         {
             "name": "spatie/phpunit-snapshot-assertions",
