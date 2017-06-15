@@ -9,10 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 trait HasStatus
 {
-    /**
-     * @return BelongsTo
-     */
-    public function status()
+    public function status(): ?BelongsTo
     {
         return $this->belongsTo( Status::class, 'status_id', 'id' );
     }

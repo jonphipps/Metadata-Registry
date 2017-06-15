@@ -7,7 +7,10 @@ use Culpa\Traits\CreatedBy;
 use Culpa\Traits\DeletedBy;
 use Culpa\Traits\UpdatedBy;
 use Illuminate\Database\Eloquent\Model as Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 
 /**
  * App\Models\Profile
@@ -80,22 +83,22 @@ class Profile extends Model
      * relationships
      **********************************/
 
-    public function profile_properties()
+    public function profile_properties(): ?HasMany
     {
         return $this->hasMany( \App\Models\ProfileProperty::class, 'profile_id', 'id' );
     }
 
-    public function elementsets()
+    public function elementsets(): ?HasMany
     {
         return $this->hasMany( \App\Models\Elementset::class, 'profile_id', 'id' );
     }
 
-    public function vocabularies()
+    public function vocabularies(): ?HasMany
     {
         return $this->hasMany( \App\Models\Vocabulary::class, 'profile_id', 'id' );
     }
 
-    public function projects()
+    public function projects(): ?BelongsToMany
     {
         return $this->belongsToMany( Project::class );
     }
@@ -104,7 +107,7 @@ class Profile extends Model
      * lookup functions
      **********************************/
 
-    public function required_properties()
+    public function required_properties(): ?Collection
     {
         return $this->profile_properties()->whereIsRequired( true )->get();
     }

@@ -2,15 +2,14 @@
 
 namespace App\Models\Access\Permission\Traits\Relationship;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
 /**
  * Class PermissionRelationship.
  */
 trait PermissionRelationship
 {
-    /**
-     * @return mixed
-     */
-    public function roles()
+    public function roles(): ?BelongsToMany
     {
         return $this->belongsToMany( config( 'access.role' ),
             config( 'access.permission_role_table' ),

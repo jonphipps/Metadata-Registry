@@ -13,6 +13,7 @@ use Culpa\Traits\CreatedBy;
 use Culpa\Traits\DeletedBy;
 use Culpa\Traits\UpdatedBy;
 use Illuminate\Database\Eloquent\Model as Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Matryoshka\Cacheable;
 
@@ -197,7 +198,7 @@ class Elementset extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function elements()
+    public function elements(): ?HasMany
     {
         return $this->hasMany( Element::class, 'schema_id', 'id' );
     }

@@ -9,10 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 trait BelongsToProject
 {
-    /**
-     * @return BelongsTo
-     */
-    public function project()
+    public function project(): ?BelongsTo
     {
         return $this->belongsTo( Project::class, 'agent_id', 'id' );
     }

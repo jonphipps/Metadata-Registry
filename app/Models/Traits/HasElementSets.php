@@ -6,13 +6,11 @@ namespace App\Models\Traits;
 
 use App\Models\Elementset;
 use App\Models\Project;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 trait HasElementsets
 {
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function elementsets()
+    public function elementsets(): ?HasMany
     {
         return $this->hasMany( Elementset::class, 'agent_id', 'id' );
     }

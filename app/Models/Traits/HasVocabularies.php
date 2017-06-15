@@ -6,6 +6,7 @@ namespace App\Models\Traits;
 
 use App\Models\Project;
 use App\Models\Vocabulary;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 trait HasVocabularies
 {
@@ -23,10 +24,7 @@ trait HasVocabularies
             Project::badge( $count ) : '&nbsp;';
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function vocabularies()
+    public function vocabularies(): ?HasMany
     {
         return $this->hasMany( Vocabulary::class, 'agent_id', 'id' );
     }

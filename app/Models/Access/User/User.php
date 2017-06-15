@@ -13,6 +13,7 @@ use App\Models\Project;
 use App\Models\ProjectUser;
 use App\Models\Vocabulary;
 use App\Models\VocabularyUser;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -185,20 +186,14 @@ class User extends Authenticatable
         return (bool) $this->projects()->wherePivot( 'agent_id', $project->id )->count();
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function projects()
+    public function projects(): ?BelongsToMany
     {
         return $this->belongsToMany( Project::class, ProjectUser::TABLE, 'user_id', 'agent_id' )
             ->withPivot( 'is_registrar_for', 'is_admin_for' )
             ->withTimestamps();
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function vocabularies()
+    public function vocabularies(): ?BelongsToMany
     {
         return $this->belongsToMany( Vocabulary::class,
             VocabularyUser::TABLE,
@@ -211,10 +206,7 @@ class User extends Authenticatable
             'current_language' )->withTimestamps();
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function elementsets()
+    public function elementsets(): ?BelongsToMany
     {
         return $this->belongsToMany( Elementset::class,
             ElementsetUser::TABLE,

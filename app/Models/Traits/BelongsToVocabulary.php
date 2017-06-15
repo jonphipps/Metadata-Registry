@@ -9,10 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 trait BelongsToVocabulary
 {
-    /**
-     * @return BelongsTo
-     */
-    public function vocabulary()
+    public function vocabulary(): ?BelongsTo
     {
         return $this->belongsTo( Vocabulary::class, 'vocabulary_id', 'id' );
     }

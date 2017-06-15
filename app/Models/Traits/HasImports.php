@@ -9,17 +9,12 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 trait HasImports
 {
-    /**
-     * @return MorphToMany|null
-     */
+
     public function imports(): ?MorphToMany
     {
         return $this->morphToMany(Import::class, 'importable')->withTimestamps();
     }
 
-    /**
-     * @return Import|null
-     */
     public function getLatestImport(): ?Import
     {
         return $this->imports()->latest()->first();

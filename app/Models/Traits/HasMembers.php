@@ -5,13 +5,14 @@
 namespace App\Models\Traits;
 
 use App\Models\Access\User\User;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 trait HasMembers
 {
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function members()
+    public function members(): ?BelongsToMany
     {
         //determine the parent class
         $class = __CLASS__;

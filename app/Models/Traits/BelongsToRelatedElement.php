@@ -9,10 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 trait BelongsToRelatedElement
 {
-    /**
-     * @return BelongsTo
-     */
-    public function related_element()
+    public function related_element(): ?BelongsTo
     {
         return $this->belongsTo( Element::class, 'related_schema_property_id', 'id' );
     }

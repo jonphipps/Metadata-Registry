@@ -9,10 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 trait BelongsToImport
 {
-    /**
-     * @return BelongsTo
-     */
-    public function import()
+    public function import(): BelongsTo
     {
         return $this->belongsTo( Import::class, 'import_id', 'id' );
     }

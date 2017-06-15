@@ -130,9 +130,6 @@ class Concept extends Model
     |--------------------------------------------------------------------------
     */
 
-    /**
-     * @return HasMany|null
-     */
     public function statements(): ?HasMany
     {
         return $this->hasMany(ConceptAttribute::class, 'concept_id');

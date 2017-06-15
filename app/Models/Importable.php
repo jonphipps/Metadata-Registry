@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * App\Models\Importable
@@ -26,17 +27,17 @@ class Importable extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function projects()
+    public function projects(): ?BelongsToMany
     {
         return $this->morphedByMany(Project::class, 'importable')->withTimestamps();
     }
 
-    public function vocabularies()
+    public function vocabularies(): ?BelongsToMany
     {
         return $this->morphedByMany(Vocabulary::class, 'importable')->withTimestamps();
     }
 
-    public function elementsets()
+    public function elementsets(): ?BelongsToMany
     {
         return $this->morphedByMany(Elementset::class, 'importable')->withTimestamps();
     }

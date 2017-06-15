@@ -10,6 +10,7 @@ use Culpa\Traits\CreatedBy;
 use Culpa\Traits\DeletedBy;
 use Culpa\Traits\UpdatedBy;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Matryoshka\Cacheable;
 
@@ -97,7 +98,7 @@ class Element extends Model
     protected $dates = [ 'deleted_at' ];
     protected $guarded = [ 'id' ];
 
-    public function statements()
+    public function statements(): ?HasMany
     {
         return $this->hasMany( ElementAttribute::class, 'schema_property_id', 'id' );
     }

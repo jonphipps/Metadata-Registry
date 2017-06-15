@@ -10,6 +10,7 @@ use App\Models\Traits\HasStatus;
 use Culpa\Traits\Blameable;
 use Culpa\Traits\CreatedBy;
 use Illuminate\Database\Eloquent\Model as Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laracasts\Matryoshka\Cacheable;
 
 /**
@@ -99,7 +100,7 @@ class ConceptAttributeHistory extends Model
         'change_note' => 'max:65535',
     ];
 
-    public function concept_attribute()
+    public function concept_attribute(): ?BelongsTo
     {
         return $this->belongsTo( ConceptAttribute::class, 'concept_property_id', 'id' );
     }

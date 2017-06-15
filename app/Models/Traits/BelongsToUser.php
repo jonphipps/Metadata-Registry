@@ -9,10 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 trait BelongsToUser
 {
-    /**
-     * @return BelongsTo
-     */
-    public function User()
+    public function User(): ?BelongsTo
     {
         return $this->belongsTo( User::class, 'user_id', 'id' );
     }

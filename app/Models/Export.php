@@ -132,7 +132,7 @@ class Export extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function imports(): HasMany
+    public function imports(): ?HasMany
     {
         return $this->hasMany(Import::class);
     }

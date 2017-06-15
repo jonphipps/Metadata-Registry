@@ -16,6 +16,7 @@ use Culpa\Traits\CreatedBy;
 use Culpa\Traits\DeletedBy;
 use Culpa\Traits\UpdatedBy;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Matryoshka\Cacheable;
 
@@ -138,10 +139,7 @@ class Vocabulary extends Model
     |--------------------------------------------------------------------------
     */
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function concepts()
+    public function concepts(): ?HasMany
     {
         return $this->hasMany( Concept::class, 'vocabulary_id' );
     }

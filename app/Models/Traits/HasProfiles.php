@@ -5,13 +5,11 @@
 namespace App\Models\Traits;
 
 use App\Models\Profile;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 trait HasProfiles
 {
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function profiles()
+    public function profiles(): ?HasMany
     {
         return $this->hasMany( Profile::class );
     }

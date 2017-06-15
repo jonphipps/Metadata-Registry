@@ -9,10 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 trait BelongsToProfileProperty
 {
-    /**
-     * @return BelongsTo
-     */
-    public function profile_property()
+    public function profile_property(): ?BelongsTo
     {
         return $this->belongsTo( ProfileProperty::class, 'profile_property_id', 'id' );
     }

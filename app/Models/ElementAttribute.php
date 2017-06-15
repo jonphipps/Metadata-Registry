@@ -12,6 +12,7 @@ use Culpa\Traits\CreatedBy;
 use Culpa\Traits\DeletedBy;
 use Culpa\Traits\UpdatedBy;
 use Illuminate\Database\Eloquent\Model as Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use InvalidArgumentException;
 use Laracasts\Matryoshka\Cacheable;
@@ -82,7 +83,7 @@ class ElementAttribute extends Model
     protected $dates = [ 'deleted_at' ];
     protected $touches = [ 'element' ];
 
-    public function history()
+    public function history(): ?HasMany
     {
         return $this->hasMany(ElementAttributeHistory::class, 'schema_property_element_id', 'id');
     }

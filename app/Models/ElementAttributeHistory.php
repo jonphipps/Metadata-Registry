@@ -10,6 +10,7 @@ use App\Models\Traits\HasStatus;
 use Culpa\Traits\Blameable;
 use Culpa\Traits\CreatedBy;
 use Illuminate\Database\Eloquent\Model as Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laracasts\Matryoshka\Cacheable;
 
 /**
@@ -93,7 +94,7 @@ class ElementAttributeHistory extends Model
         'change_note' => 'max:65535',
     ];
 
-    public function element_attribute()
+    public function element_attribute(): ?BelongsTo
     {
         return $this->belongsTo( ElementAttribute::class,
             'schema_property_element_id',

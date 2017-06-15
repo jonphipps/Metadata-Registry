@@ -180,7 +180,7 @@ trait UserAccess
      *
      * @return void
      */
-    public function attachRole( $role )
+    public function attachRole( $role ): void
     {
         if ( is_object( $role ) ) {
             $role = $role->getKey();

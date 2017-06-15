@@ -109,57 +109,31 @@ class Import extends Model
     |--------------------------------------------------------------------------
     */
 
-    /**
-     * @return BelongsTo|null
-     */
     public function batch(): ?BelongsTo
     {
         return $this->belongsTo( Batch::class, 'batch_id', 'id' );
     }
 
-    /**
-     * @return BelongsTo|null
-     */
     public function export(): ?BelongsTo
     {
         return $this->belongsTo(Export::class, 'export_id', 'id');
     }
 
-    /**
-     * @return HasMany|null
-     */
     public function concept_history(): ?HasMany
     {
         return $this->hasMany( ConceptAttributeHistory::class, 'import_id', 'id' );
     }
 
-    /**
-     * @return HasMany|null
-     */
     public function element_history(): ?HasMany
     {
         return $this->hasMany(ElementAttributeHistory::class, 'import_id', 'id');
     }
 
-    /**
-     * @return BelongsToMany|null
-     */
-    public function projects(): ?BelongsToMany
-    {
-        return $this->morphedByMany(Project::class, 'importable')->withTimestamps();
-    }
-
-    /**
-     * @return BelongsToMany|null
-     */
     public function vocabularies(): ?BelongsToMany
     {
         return $this->morphedByMany(Vocabulary::class, 'importable')->withTimestamps();
     }
 
-    /**
-     * @return BelongsToMany|null
-     */
     public function elementsets(): ?BelongsToMany
     {
         return $this->morphedByMany(Elementset::class, 'importable')->withTimestamps();

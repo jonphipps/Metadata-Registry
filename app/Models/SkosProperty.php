@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * App\Models\SkosProperty
@@ -53,7 +54,7 @@ class SkosProperty extends Model
     public $timestamps = false;
     protected $guarded = [ 'id' ];
 
-    public function concept_attribute_history()
+    public function concept_attribute_history(): ?HasMany
     {
         return $this->hasMany( ConceptAttributeHistory::class,
             'skos_property_id',
