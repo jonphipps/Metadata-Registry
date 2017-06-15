@@ -15,6 +15,7 @@ use Culpa\Traits\DeletedBy;
 use Culpa\Traits\UpdatedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Matryoshka\Cacheable;
 
@@ -65,6 +66,7 @@ use Laracasts\Matryoshka\Cacheable;
  * @property-read mixed $current_language
  * @property-read mixed $language
  * @property string $title
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Batch[] $importBatches
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Import[] $imports
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\User\User[] $members
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Profile[] $profiles
@@ -173,6 +175,10 @@ class Project extends Model
     |--------------------------------------------------------------------------
     */
 
+    public function importBatches(): ?HasMany
+    {
+        return $this->hasMany(Batch::class);
+    }
     /*
     |--------------------------------------------------------------------------
     | SCOPES

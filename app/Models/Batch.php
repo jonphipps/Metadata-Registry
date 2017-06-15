@@ -1,6 +1,9 @@
 <?php namespace App\Models;
 
+use App\Models\Import;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * App\Models\Batch
@@ -14,13 +17,16 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $event_type
  * @property string $event_description
  * @property string $registry_uri
+ * @property int $project_id
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Import[] $imports
+ * @property-read \App\Models\Project $project
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereEventDescription($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereEventTime($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereEventType($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereObjectId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereObjectType($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereProjectId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereRegistryUri($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereRunDescription($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereRunTime($value)
@@ -50,8 +56,13 @@ class Batch extends Model
         'registry_uri'      => 'max:255',
     ];
 
-    public function imports()
+    public function imports(): ?HasMany
     {
-        return $this->hasMany( \App\Models\Import::class, 'batch_id', 'id' );
+        return $this->hasMany( Import::class, 'batch_id', 'id' );
+    }
+
+    public function project(): ?BelongsTo
+    {
+        return $this->belongsTo(Project::class);
     }
 }
