@@ -1,7 +1,6 @@
 <?php namespace App\Models;
 
 use App\Helpers\Macros\Traits\Languages;
-use App\Models\Element;
 use App\Models\Traits\BelongsToProfile;
 use App\Models\Traits\BelongsToProject;
 use App\Models\Traits\HasImports;
@@ -170,6 +169,26 @@ class Elementset extends Model
             ->mapWithKeys( function( $item ) {
                 return [ $item['id'] => $item['name'] ];
             } );
+    }
+
+    /**
+     * @param int $project_id
+     *
+     * @return string
+     */
+    public static function create_route(int $project_id): string
+    {
+        return 'projects/' . $project_id . '/elementsets/create';
+    }
+
+    /**
+     * @param int $project_id
+     *
+     * @return string
+     */
+    public static function title(int $project_id): string
+    {
+        return 'projects/' . $project_id . '/elementsets/create';
     }
 
     /*
