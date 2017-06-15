@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 @include('frontend.layouts.partials.htmlheader')
 <div class="container">

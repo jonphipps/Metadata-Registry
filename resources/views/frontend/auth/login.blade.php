@@ -1,16 +1,16 @@
-@extends('backpack::layout')
+@extends('backpack::auth')
 
 @section('content')
 
     <div class="row">
 
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-6 col-md-offset-3">
             @if (session('status'))
                 <div class="alert alert-success">
                     {{ session('status') }}
                 </div>
             @endif
-            <div class="panel panel-default">
+            <div class="panel panel-info">
                 <div class="panel-heading">{{ trans('labels.frontend.auth.login_box_title') }}</div>
 
                 <div class="panel-body">
@@ -58,7 +58,7 @@
 
             </div><!-- panel -->
 
-        </div><!-- col-md-8 -->
+        </div><!-- col-md-6 -->
 
     </div><!-- row -->
 
