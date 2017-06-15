@@ -35,7 +35,7 @@ class RouteNeedsPermission
         if (! $access) {
             return redirect()
                 ->route(homeRoute())
-                ->withFlashDanger(trans('auth.general_error'));
+                ->withFlashDanger(trans('backpack::crud.unauthorized_access'));
         }
 
         return $next($request);

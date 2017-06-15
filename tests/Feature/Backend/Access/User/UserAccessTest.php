@@ -18,7 +18,7 @@ class UserAccessTest extends BrowserKitTestCase
              ->actingAs($this->user)
              ->visit('/admin/dashboard')
              ->seePageIs('/dashboard')
-             ->see('You do not have access to do that.');
+             ->see('Unauthorized access');
     }
 
     public function testExecutiveCanAccessAdminDashboard()
@@ -38,6 +38,6 @@ class UserAccessTest extends BrowserKitTestCase
              ->seePageIs('/admin/dashboard')
              ->visit('/admin/access/role')
              ->seePageIs('/admin/dashboard')
-             ->see('You do not have access to do that.');
+             ->see('Unauthorized access');
     }
 }

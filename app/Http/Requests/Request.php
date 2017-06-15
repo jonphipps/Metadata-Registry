@@ -20,7 +20,7 @@ abstract class Request extends FormRequest
     public function forbiddenResponse()
     {
         if (empty($error)) {
-            $this->error = trans('auth.general_error');
+            $this->error = trans('backpack::crud.unauthorized_access');
         }
 
     return redirect()->back()->withErrors($this->error);

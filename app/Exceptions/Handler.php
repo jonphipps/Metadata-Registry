@@ -58,7 +58,7 @@ class Handler extends ExceptionHandler
             return redirect()->route('frontend.auth.login');
         }
         if ($exception instanceof \Illuminate\Auth\Access\AuthorizationException) {
-            return redirect()->route(homeRoute())->withFlashDanger(trans('auth.general_error'));
+            return redirect()->route(homeRoute())->withFlashDanger(trans('backpack::crud.unauthorized_access'));
         }
 
         /*
