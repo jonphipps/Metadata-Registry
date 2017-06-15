@@ -181,6 +181,7 @@ return [
          * Package Service Providers...
          */
         Arcanedev\LogViewer\LogViewerServiceProvider::class,
+        Arcanedev\NoCaptcha\NoCaptchaServiceProvider::class,
         Backpack\Base\BaseServiceProvider::class,
         Backpack\CRUD\CrudServiceProvider::class,
         Barryvdh\Elfinder\ElfinderServiceProvider::class,
@@ -280,6 +281,7 @@ return [
         'Alert'        => Prologue\Alerts\Facades\Alert::class,
         'Breadcrumbs'  => DaveJamesMiller\Breadcrumbs\Facade::class,
         'Bugsnag'      => Bugsnag\BugsnagLaravel\Facades\Bugsnag::class,
+        'Captcha'      => Arcanedev\NoCaptcha\Facades\NoCaptcha::class,
         'CRUD'         => Backpack\CRUD\CrudServiceProvider::class,
         'Debugbar'     => Barryvdh\Debugbar\Facade::class,
         'Excel'        => Maatwebsite\Excel\Facades\Excel::class,
