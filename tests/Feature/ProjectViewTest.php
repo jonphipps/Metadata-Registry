@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Project;
 use App\Models\ProjectUser;
 use Tests\BrowserKitTestCase;
+use function homeRoute;
 use function htmlspecialchars;
 
 class ProjectViewTest extends BrowserKitTestCase
@@ -67,9 +68,7 @@ class ProjectViewTest extends BrowserKitTestCase
     public function a_logged_in_user_cannot_edit_a_project_they_donnot_own()
     {
         $this->actingAs($this->user);
-        $this->visit($this->baseUrl . '/projects/58')
-            ->see('NSDL Registry')
-            ->dontSee('projects/58/edit');
-        $this->get($this->baseUrl . '/projects/58/edit')->seeStatusCode(403);
+        $this->visit($this->baseUrl . '/projects/58')->see('NSDL Registry')->dontSee('projects/58/edit');
+        $this->get($this->baseUrl . '/projects/58/edit')->seeStatusCode(302)->assertRedirectedToRoute(homeRoute());
     }
 }

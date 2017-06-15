@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Models\Export;
+use App\Models\Import;
 use App\Services\Import\DataImporter;
 use App\Services\Import\GoogleSpreadsheet;
 use Illuminate\Bus\Queueable;
@@ -17,9 +17,9 @@ class importVocabulary implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels;
     /**
-     * @var Export
+     * @var Import
      */
-    private $export;
+    private $import;
     /**
      * @var string
      */
@@ -29,9 +29,9 @@ class importVocabulary implements ShouldQueue
      */
     private $spreadsheet;
 
-    public function __construct(Export $export, string $worksheet_id, array $spreadsheet)
+    public function __construct(Import $import, string $worksheet_id, array $spreadsheet)
     {
-        $this->export       = $export;
+        $this->import       = $import;
         $this->worksheet_id = $worksheet_id;
         $this->spreadsheet  = $spreadsheet;
     }
@@ -44,12 +44,14 @@ class importVocabulary implements ShouldQueue
     {
         $source_file_name = '';
         $import_type = 0;
-        extract($this->$this->spreadsheet, EXTR_OVERWRITE);
+        extract($this->spreadsheet, EXTR_OVERWRITE);
         $sheet = new GoogleSpreadsheet($source_file_name);
         $data     = collect($sheet->getWorksheetData($this->worksheet_id)->toArray());
         //TODO: Handle $import_type in the importer
-        $importer = new DataImporter($data, $this->export);
+        $importer = new DataImporter($data, $this->import->export);
         //then we pass them to the importer
         $changeSet = $importer->getChangeset();
+        $this->import->instructions = $changeSet->toJson();
+        $this->import->save();
     }
 }

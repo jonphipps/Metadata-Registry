@@ -37,7 +37,7 @@ trait HasImports
      */
     public function addImport($imports)
     {
-        $this->imports()->attach($imports->id);
+        $this->imports()->attach($imports);
         return $this;
     }
 }

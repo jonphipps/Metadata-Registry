@@ -20,6 +20,7 @@ class AddForeignKeysToRegFileImportHistoryTable extends Migration
                 $table->foreign('vocabulary_id', 'reg_file_import_history_ibfk_2')->references('id')->on('reg_vocabulary')->onUpdate('NO ACTION')->onDelete('NO ACTION');
                 $table->foreign('schema_id', 'reg_file_import_history_ibfk_3')->references('id')->on('reg_schema')->onUpdate('NO ACTION')->onDelete('NO ACTION');
                 $table->foreign('batch_id', 'reg_file_import_history_ibfk_4')->references('id')->on('reg_batch')->onUpdate('NO ACTION')->onDelete('CASCADE');
+                $table->foreign('export_id', 'reg_file_import_history_ibfk_5')->references('id')->on('reg_export_history')->onUpdate('NO ACTION')->onDelete('CASCADE');
             });
     }
 
@@ -36,6 +37,7 @@ class AddForeignKeysToRegFileImportHistoryTable extends Migration
                 $table->dropForeign('reg_file_import_history_ibfk_2');
                 $table->dropForeign('reg_file_import_history_ibfk_3');
                 $table->dropForeign('reg_file_import_history_ibfk_4');
+                $table->dropForeign('reg_file_import_history_ibfk_5');
             });
     }
 }

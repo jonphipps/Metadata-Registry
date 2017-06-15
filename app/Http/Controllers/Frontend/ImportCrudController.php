@@ -16,6 +16,7 @@ use App\Wizard\Import\ProjectSteps\PerformImportStep;
 use App\Wizard\Import\ProjectSteps\SelectWorksheetsStep;
 use App\Wizard\Import\ProjectSteps\SetSpreadsheetStep;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Smajti1\Laravel\Exceptions\StepNotFoundException;
 use Smajti1\Laravel\Wizard;
@@ -157,11 +158,21 @@ class ImportCrudController extends CrudController
         $this->data['step']  = $step;
         $this->data['project'] = $project;
         $this->data['wizard_data'] = $this->wizard->data();
-
+        if (isset($this->wizard->data()[ $step->key ])){
+            $data = $this->wizard->data()[ $step->key ];
+            if ($step->key === 'spreadsheet') {
+                foreach ($data as $key => $datum) {
+                    $this->crud->create_fields[ $key ]['value'] = $datum;
+                }
+            }
+            if ($step->key === 'worksheets') {
+                $this->crud->create_fields[ 'worksheets' ]['value'] = $data;
+            }
+        }
         return parent::create();
     }
 
-    public function processImportProject(ImportRequest $request, Project $project, $step = null)
+    public function processImportProject(ImportRequest $request, Project $project, $step = null): RedirectResponse
     {
         $this->policyAuthorize('import', $project, $project->id);
         //if we get to here we're authorized to import a project, so we authorize create
@@ -180,6 +191,9 @@ class ImportCrudController extends CrudController
         } else {
             $this->validate($request, $step->rules($request));
         }
+
+        $request->flash();
+
         //handle the next/last step
         $step->process($request);
 

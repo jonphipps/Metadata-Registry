@@ -10,11 +10,12 @@ namespace App\Models;
 use App\Models\Traits\BelongsToElementset;
 use App\Models\Traits\BelongsToProfile;
 use App\Models\Traits\BelongsToVocabulary;
-use App\Models\Traits\HasImports;
 use Backpack\CRUD\CrudTrait;
 use Culpa\Traits\Blameable;
 use Culpa\Traits\CreatedBy;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use function is_iterable;
 use const true;
 use function unserialize;
 
@@ -70,7 +71,7 @@ class Export extends Model
     public $table = self::TABLE;
     use CrudTrait;
     use Blameable, CreatedBy;
-    use BelongsToProfile, BelongsToVocabulary, BelongsToElementset, HasImports;
+    use BelongsToProfile, BelongsToVocabulary, BelongsToElementset;
     protected $blameable = [
         'created' => 'user_id',
     ];
@@ -101,11 +102,40 @@ class Export extends Model
         return self::whereFile( $name )->firstOrFail();
     }
 
+    /**
+     * @param Import|iterable $imports
+     *
+     * @return $this
+     */
+    public function addImports($imports)
+    {
+        if (is_iterable($imports)) {
+            $this->imports()->saveMany($imports);
+        } else {
+            $this->imports()->save($imports);
+        }
+        return $this;
+
+    }
+
+    /**
+     * @return Import|null
+     */
+    public function getLatestImport(): ?Import
+    {
+        return $this->imports()->latest()->first();
+    }
+
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
     |--------------------------------------------------------------------------
     */
+
+    public function imports(): HasMany
+    {
+        return $this->hasMany(Import::class);
+    }
 
     /*
     |--------------------------------------------------------------------------

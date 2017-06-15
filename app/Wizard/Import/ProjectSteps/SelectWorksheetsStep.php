@@ -5,7 +5,9 @@
 namespace App\Wizard\Import\ProjectSteps;
 
 use App\Jobs\importVocabulary;
+use App\Models\Batch;
 use App\Models\Export;
+use App\Models\Import;
 use function dispatch;
 use function explode;
 use Illuminate\Http\Request;
@@ -33,12 +35,17 @@ class SelectWorksheetsStep extends Step
     {
         $worksheets[] = json_decode($request->selected_worksheets);
         $spreadsheet = $this->wizard->dataGet('spreadsheet');
+        $batch_id = $this->wizard->dataHas('batch') ? $this->wizard->dataGet('batch') : $batch = Batch::create()->id;
+        $this->wizard->data(['batch' => $batch_id]);
+
         // setup a job for each worksheet
         foreach ($worksheets[0] as $worksheet) {
             [$export_id, $worksheet_id] = explode('::', $worksheet);
             $export = Export::find($export_id);
+            $import = Import::create(['worksheet' => $worksheet_id, 'user_id' => auth()->id(), 'batch_id' => $batch_id]);
+            $export->addImport($import);
             // setup a job to run the worksheet processor to get the change instructions for each vocab
-            dispatch(new importVocabulary($export, $worksheet_id, $spreadsheet));
+            dispatch(new importVocabulary($import, $worksheet_id, $spreadsheet));
             // each worksheet being processed will have its own checkbox table, hidden as a master->detail
             //it should look as if each of the worksheet selection rows had simply expanded to show the instructions
             // the row itself should have the master of the master-detail row just below with a summary of the changes

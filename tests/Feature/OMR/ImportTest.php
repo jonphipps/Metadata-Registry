@@ -33,7 +33,7 @@ class ImportTest extends TestCase
         $import  = factory(Import::class)->create([ 'created_at' => Carbon::now()->subDay(2) ]);
         $import2 = factory(Import::class)->create([ 'created_at' => Carbon::now() ]);
         $export  = Export::first();
-        $export->imports()->attach([ $import->id, $import2->id ]);
+        $export->addImports([ $import, $import2 ]);
         $project = Project::first();
         $project->imports()->attach([ $import->id, $import2->id ]);
 
@@ -57,7 +57,7 @@ class ImportTest extends TestCase
         //given there are multiple imports fro an export
         $import  = create(Import::class, [ 'created_at' => Carbon::now()->subDay(2) ]);
         $import2 = create(Import::class, [ 'created_at' => Carbon::now() ]);
-        $export->imports()->attach([ $import->id, $import2->id ]);
+        $export->addImports([ $import, $import2 ]);
 
         //and I can get the latest one
         $latestImport = $export->getLatestImport();
