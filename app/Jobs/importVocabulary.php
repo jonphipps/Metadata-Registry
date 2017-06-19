@@ -3,55 +3,41 @@
 namespace App\Jobs;
 
 use App\Models\Import;
-use App\Services\Import\DataImporter;
-use App\Services\Import\GoogleSpreadsheet;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use const EXTR_OVERWRITE;
-use function collect;
-use function extract;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
 
-class importVocabulary implements ShouldQueue
+class ImportVocabulary implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     /**
      * @var Import
      */
     private $import;
-    /**
-     * @var string
-     */
-    private $worksheet_id;
-    /**
-     * @var array
-     */
-    private $spreadsheet;
 
-    public function __construct(Import $import, string $worksheet_id, array $spreadsheet)
+    /**
+     * Create a new job instance.
+     *
+     * @param Import $import
+     */
+    public function __construct(Import $import)
     {
-        $this->import       = $import;
-        $this->worksheet_id = $worksheet_id;
-        $this->spreadsheet  = $spreadsheet;
+        //
+        $this->import = $import;
     }
 
     /**
      * Execute the job.
      *
+     * @return void
      */
     public function handle()
     {
-        $source_file_name = '';
-        $import_type = 0;
-        extract($this->spreadsheet, EXTR_OVERWRITE);
-        $sheet = new GoogleSpreadsheet($source_file_name);
-        $data     = collect($sheet->getWorksheetData($this->worksheet_id)->toArray());
-        //TODO: Handle $import_type in the importer
-        $importer = new DataImporter($data, $this->import->export);
-        //then we pass them to the importer
-        $changeSet = $importer->getChangeset();
-        $this->import->instructions = $changeSet->toJson();
-        $this->import->save();
+        //start a transaction
+        //step through the changeset and change/add the statements
+        //changing the statements should trigger an addition to the history table for each one
+        //update each resource base model with data from the statements
     }
 }
