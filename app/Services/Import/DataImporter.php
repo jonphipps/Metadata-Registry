@@ -44,6 +44,8 @@ class DataImporter
     /** @var array $prefixes */
     private $prefixes = [];
 
+    private $stats = [];
+
     public function __construct(collection $data, Export $export = null)
     {
         $this->data    = $data;
@@ -166,6 +168,10 @@ class DataImporter
         return collect($map->first());
     }
 
+    public function getStats(): Collection
+    {
+        return collect($this->stats);
+    }
     /**
      * @param Collection $map
      *
