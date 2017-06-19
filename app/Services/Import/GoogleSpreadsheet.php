@@ -48,6 +48,11 @@ class GoogleSpreadsheet
         return collect($this->service->spreadsheets_values->get($this->spreadsheetId, $name)->getValues());
     }
 
+    public function getSpreadsheetTitle(): string
+    {
+        return $this->service->spreadsheets->get($this->spreadsheetId)->getProperties()->getTitle();
+    }
+
     /**
      * @return Collection
      */
