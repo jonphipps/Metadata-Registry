@@ -47,6 +47,6 @@ class ProjectPage extends BasePage
      */
     public function elements()
     {
-        return [ '@element' => '#selector', ];
+        return [ '@addImport' => ' Add Import', ];
     }
 }

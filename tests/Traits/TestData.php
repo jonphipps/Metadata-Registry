@@ -6,7 +6,7 @@ namespace Tests\Traits;
 
 trait TestData
 {
-    private static function getTestData()
+    public static function getTestData()
     {
         $testData                                = [];
         $testData['project']['adminId']          = 422;
@@ -23,6 +23,7 @@ trait TestData
         $testData['elementSet']['id']            = 83;
         $testData['elementSet']['title']         = 'RDA Classes';
         $testData['elementSet']['importId']      = 1053;
+        $testData['import']['validSpreadsheetUri']    ='https://docs.google.com/spreadsheets/d/1WTxiOvHHUurz76NZ0WU_2GjjY4SG8Gzbg0vH8xwNz_I/edit#gid=0';
 
         return $testData;
     }
