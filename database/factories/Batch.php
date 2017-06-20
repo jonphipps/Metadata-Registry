@@ -13,5 +13,6 @@ $factory->define( App\Models\Batch::class,
             'event_type'        => $faker->word,
             'event_description' => $faker->text,
             'registry_uri'      => $faker->word,
+            'project_id'        => getRandomClassId('Project'),
         ];
     } );

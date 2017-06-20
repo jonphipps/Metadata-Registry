@@ -1,6 +1,5 @@
 <?php namespace App\Models;
 
-use App\Models\Import;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -17,26 +16,33 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $event_type
  * @property string $event_description
  * @property string $registry_uri
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
  * @property int $project_id
+ * @property string $next_step
+ * @property string $step_data
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Import[] $imports
  * @property-read \App\Models\Project $project
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereCreatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereEventDescription($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereEventTime($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereEventType($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereNextStep($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereObjectId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereObjectType($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereProjectId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereRegistryUri($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereRunDescription($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereRunTime($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereStepData($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class Batch extends Model
 {
     const TABLE = 'reg_batch';
     protected $table = self::TABLE;
-    public $timestamps = false;
     protected $dates = [ 'run_time', 'event_time' ];
     protected $guarded = [ 'id' ];
     protected $casts = [
@@ -47,6 +53,7 @@ class Batch extends Model
         'event_type'        => 'string',
         'event_description' => 'string',
         'registry_uri'      => 'string',
+        'step_data'         => 'array',
     ];
     public static $rules = [
         'run_description'   => 'max:65535',
@@ -55,14 +62,91 @@ class Batch extends Model
         'event_description' => 'max:65535',
         'registry_uri'      => 'max:255',
     ];
+    /*
+    |--------------------------------------------------------------------------
+    | FUNCTIONS
+    |--------------------------------------------------------------------------
+    */
+
+    /**
+     * @param Import|iterable $imports
+     *
+     * @return $this
+     */
+    public function addImports($imports)
+    {
+        if (is_iterable($imports)) {
+            /** @noinspection NullPointerExceptionInspection */
+            $this->imports()->saveMany($imports);
+        } else {
+            /** @noinspection NullPointerExceptionInspection */
+            $this->imports()->save($imports);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param string $key
+     *
+     * @return bool
+     */
+    public function dataHas($key): bool
+    {
+        $data = $this->step_data;
+
+        return isset($data[ $key ]);
+    }
+
+    /**
+     * @param string $key
+     *
+     * @return array|null
+     */
+    public function dataGet($key): ?array
+    {
+        $data = $this->step_data;
+
+        return $data[ $key ] ?? null;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | RELATIONS
+    |--------------------------------------------------------------------------
+    */
 
     public function imports(): ?HasMany
     {
-        return $this->hasMany( Import::class, 'batch_id', 'id' );
+        return $this->hasMany(Import::class, 'batch_id', 'id');
     }
 
     public function project(): ?BelongsTo
     {
         return $this->belongsTo(Project::class);
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | SCOPES
+    |--------------------------------------------------------------------------
+    */
+
+    /*
+    |--------------------------------------------------------------------------
+    | ACCESORS
+    |--------------------------------------------------------------------------
+    */
+
+    public function getNextStepAttribute($value): string
+    {
+        return $value ?? 'spreadsheet';
+
+    }
+    /*
+    |--------------------------------------------------------------------------
+    | MUTATORS
+    |--------------------------------------------------------------------------
+    */
+
 }

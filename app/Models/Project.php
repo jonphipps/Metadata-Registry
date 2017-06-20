@@ -16,6 +16,7 @@ use Culpa\Traits\UpdatedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Matryoshka\Cacheable;
 
@@ -159,12 +160,12 @@ class Project extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function getTitleLink()
+    public function getTitleLink(): string
     {
         return '<a href="' . route('frontend.crud.projects.show', [ 'id' => $this->id ]) . '">' . $this->title . '</a>';
     }
 
-    public static function badge($count)
+    public static function badge($count): string
     {
         return '<span class="badge">' . $count . '</span>';
     }
@@ -178,6 +179,11 @@ class Project extends Model
     public function importBatches(): ?HasMany
     {
         return $this->hasMany(Batch::class);
+    }
+
+    public function imports(): ?HasManyThrough
+    {
+        return $this->hasManyThrough(Import::class, Batch::class);
     }
     /*
     |--------------------------------------------------------------------------

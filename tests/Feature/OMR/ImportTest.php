@@ -2,6 +2,7 @@
 /** @noinspection ReturnTypeCanBeDeclaredInspection */
 namespace Tests\Feature\OMR;
 
+use App\Models\Batch;
 use App\Models\Elementset;
 use App\Models\Export;
 use App\Models\Import;
@@ -32,10 +33,12 @@ class ImportTest extends TestCase
         //given there are multiple exports for a project
         $import  = factory(Import::class)->create([ 'created_at' => Carbon::now()->subDay(2) ]);
         $import2 = factory(Import::class)->create([ 'created_at' => Carbon::now() ]);
-        $export  = Export::first();
+        $project = Project::findOrFail(177);
+        /** @var Batch $batch */
+        $batch  = factory(Batch::class)->create(['project_id' => 177]);
+        $batch->addImports([ $import, $import2 ]);
+        $export = Export::first();
         $export->addImports([ $import, $import2 ]);
-        $project = Project::first();
-        $project->imports()->attach([ $import->id, $import2->id ]);
 
         //when I ask for a list of all of the imports related to an export
         $AllImports     = $export->imports;
@@ -62,5 +65,14 @@ class ImportTest extends TestCase
         //and I can get the latest one
         $latestImport = $export->getLatestImport();
         $this->assertSame($latestImport->id, $import2->id);
+    }
+
+    /** @test */
+    public function a_project_admin_can_create_a_new_spreadsheet_import()
+    {
+        //given there is a project
+        //and I am a project admin
+        //when I go to the import create page
+        //then
     }
 }
