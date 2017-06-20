@@ -23,6 +23,7 @@ class SetSpreadsheetStep extends Step
     public static $view = 'frontend.import.project.steps.spreadsheet';
     private $sheet;
     private $worksheets;
+    private $title;
 
     public function fields()
     {
@@ -47,8 +48,10 @@ class SetSpreadsheetStep extends Step
 
     public function process(Request $request)
     {
+        //check to see if we have a batch
+        //if no batch, create one and save the id to the session
         // save progress to session
-        $this->saveProgress($request, [ 'worksheets' => $this->worksheets ]);
+        $this->saveProgress($request, [ 'googlesheets' => $this->worksheets, 'title' => $this->title ]);
     }
 
     public function rules(Request $request = null)
@@ -78,6 +81,8 @@ class SetSpreadsheetStep extends Step
                 ->validate();
         }
         $this->sheet = $spread_sheet;
+        $this->title = $spread_sheet->getSpreadsheetTitle();
+
         $worksheets  = [];
         foreach ($spread_worksheets as $worksheet) {
             try {
@@ -88,10 +93,14 @@ class SetSpreadsheetStep extends Step
                     $sheet['languages'] = $arr[1];
                     $sheet['exported_at'] = $export->created_at->toDayDateTimeString();
                     if ($export->elementset) {
-                        $sheet['last_edit'] = ElementAttribute::getLatestDateForElementSet($export->elementset->id);
+                        $id = $export->elementset->id;
+                        $sheet['last_edit'] = ElementAttribute::getLatestDateForElementSet($id);
+                        $sheet['elementset_id'] = $id;
                     }
                     if ($export->vocabulary) {
-                        $sheet['last_edit'] = ConceptAttribute::getLatestDateForVocabulary($export->vocabulary->id);
+                        $id                = $export->vocabulary->id;
+                        $sheet['last_edit'] = ConceptAttribute::getLatestDateForVocabulary($id);
+                        $sheet['vocabulary_id'] = $id;
                     }
                     $sheet['last_edit']    =
                         $sheet['last_edit']?  $sheet['last_edit']->toDayDateTimeString(): 'Never Edited';

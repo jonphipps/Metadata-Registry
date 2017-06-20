@@ -14,8 +14,9 @@ Route::group([ 'namespace' => 'Project' ],
     });
         /* ----------------------------------------------------------------------- */
 Route::get('projects/{project}/imports/create', 'ImportCrudController@importProject')->name('project.import.create');
-Route::get('projects/{project}/import/{step?}', 'ImportCrudController@importProject')->name('project.import');
-Route::post('projects/{project}/import/{step}', 'ImportCrudController@processImportProject')->name('project.import.post');
+Route::post('projects/{project}/imports/create', 'ImportCrudController@createBatch')->name('project.import.create.post');
+Route::get('projects/{project}/imports/{batch}/{step}', 'ImportCrudController@importProject')->name('project.import');
+Route::post('projects/{project}/imports/{batch}/{step}', 'ImportCrudController@processImportProject')->name('project.import.post');
 /*
  * These frontend controllers require the user to be logged in
  * All route names are prefixed with 'frontend.'

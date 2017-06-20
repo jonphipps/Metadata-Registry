@@ -28,7 +28,7 @@
                     @if($step->index === $_step->index)
                         <strong>{{ $_step::$label }}</strong>
                     @elseif($step->index > $_step->index)
-                        <a href="{{ route('frontend.project.import', ['project' => $project->id, 'step'=>$_step::$slug]) }}">{{ $_step::$label }}</a>
+                        <a href="{{ route('frontend.project.import', ['project' => $project->id, 'batch' => $batch->id, 'step'=>$_step::$slug]) }}">{{ $_step::$label }}</a>
                     @else
                         {{ $_step::$label }}
                     @endif
@@ -46,12 +46,16 @@
 
             @include('crud::inc.grouped_errors')
 
-            {!! Form::open(array('url' => route('frontend.project.import.post', ['project' => $project->id,'step' => $step::$slug]), 'method' => 'post', 'files'=>$crud->hasUploadFields('create'))) !!}
+            @if (!empty($batch->id))
+                {!! Form::open(array('url' => route('frontend.project.import.post', ['project' => $project->id, 'batch' => $batch->id, 'step' => $step::$slug]), 'method' => 'post', 'files'=>$crud->hasUploadFields('create'))) !!}
+            @else
+                {!! Form::open(array('url' => route('frontend.project.import.create.post', ['project' => $project->id ]), 'method' => 'post', 'files'=>$crud->hasUploadFields('create'))) !!}
+            @endif
             <div class="box">
                 <div class="box-header with-border">
                     <h3 class="box-title">{{ $step::$label}}</h3>
                 </div>
-                <div class="box-body row">
+                <div class="box-body">
                     @include($step::$view, compact('step', 'errors'))
                 </div><!-- /.box-body -->
                 <div class="box-footer">
@@ -64,7 +68,7 @@
                                 &nbsp;{{ trans('backpack::crud.cancel') }}</a>
                         </div>
                         <div class="btn-group navbar-btn sw-btn-group pull-right" role="group">
-                            <a class="btn btn-default sw-btn-prev @unless($wizard->hasPrev()) disabled @endunless" href="{{ route('frontend.project.import', ['project' => $project->id,'step' => $wizard->prevSlug()]) }}" type="button">Previous</a>
+                            <a class="btn btn-default sw-btn-prev @unless($wizard->hasPrev()) disabled @endunless" href="{{ route('frontend.project.import', ['project' => $project->id, 'batch' => $batch->id, 'step' => $wizard->prevSlug()]) }}" type="button">Previous</a>
                             @if ($wizard->hasNext())
                                 <button class="btn btn-default sw-btn-next">Next</button>
                             @endif
