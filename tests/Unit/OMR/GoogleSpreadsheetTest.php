@@ -19,9 +19,7 @@ class GoogleSpreadsheetTest extends TestCase
         parent::setUp();
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_retrieves_a_set_of_worksheet_titles_from_a_google_spreadsheet()
     {
         if (is_readable(base_path('client_secret.json'))) {
@@ -44,9 +42,7 @@ class GoogleSpreadsheetTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_retrieves_the_data_for_a_worksheet()
     {
         if (is_readable(base_path('client_secret.json'))) {
@@ -62,9 +58,7 @@ class GoogleSpreadsheetTest extends TestCase
         }
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_retrieves_the_data_for_an_elementset_worksheet()
     {
         if (is_readable(base_path('client_secret.json'))) {
@@ -77,6 +71,23 @@ class GoogleSpreadsheetTest extends TestCase
             $this->assertMatchesSnapshot($data);
         } else {
             $this->assertTrue(true,'no client secret file available');
+        }
+    }
+
+    /** @test */
+    public function it_retrieves_the_title_of_the_spreadsheet()
+    {
+        if (is_readable(base_path('client_secret.json'))) {
+            //given a spreadsheet and worksheet title string
+            $sheetUrl =
+                'https://docs.google.com/spreadsheets/d/1WTxiOvHHUurz76NZ0WU_2GjjY4SG8Gzbg0vH8xwNz_I/edit#gid=901382718';
+            $sheet    = new GoogleSpreadsheet($sheetUrl);
+            //when I request the data for a worksheet
+            $title = $sheet->getSpreadsheetTitle();
+            //then i get the data back
+            $this->assertEquals('Registry tests', $title);
+        } else {
+            $this->assertTrue(true, 'no client secret file available');
         }
     }
 }
