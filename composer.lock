@@ -337,16 +337,11 @@
         {
             "name": "backpack/crud",
             "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Laravel-Backpack/CRUD.git",
-                "reference": "e115a421892eb05082b542f53c92919b9bac45d5"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Backpack/CRUD/zipball/e115a421892eb05082b542f53c92919b9bac45d5",
-                "reference": "e115a421892eb05082b542f53c92919b9bac45d5",
-                "shasum": ""
+                "type": "path",
+                "url": "packages/backpack_CRUD",
+                "reference": "95d4e372a9e65f82bde4e60e15990d3295128289",
+                "shasum": null
             },
             "require": {
                 "backpack/base": "^0.7.15",
@@ -354,8 +349,7 @@
                 "doctrine/dbal": "^2.5",
                 "intervention/image": "^2.3",
                 "laravelcollective/html": "~5.0",
-                "livecontrol/eloquent-datatable": "^0.1.5",
-                "venturecraft/revisionable": "1.*"
+                "livecontrol/eloquent-datatable": "^0.1.5"
             },
             "require-dev": {
                 "phpunit/phpunit": "4.*",
@@ -372,7 +366,16 @@
                     "Backpack\\CRUD\\": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Backpack\\CRUD\\Test\\": "tests"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -387,16 +390,18 @@
             "description": "Quickly build an admin interface for your Eloquent models, using Laravel 5. Build a CMS in a matter of minutes.",
             "homepage": "https://github.com/laravel-backpack/CRUD",
             "keywords": [
-                "Admin Interface",
+                "CMS",
+                "CRUD",
+                "admin interface",
                 "admin panel",
-                "cms",
                 "create",
-                "crud",
                 "delete",
                 "read",
                 "update"
             ],
-            "time": "2017-05-31T05:41:17+00:00"
+            "transport-options": {
+                "symlink": true
+            }
         },
         {
             "name": "barryvdh/elfinder-flysystem-driver",
@@ -3279,20 +3284,20 @@
         },
         {
             "name": "knplabs/knp-snappy",
-            "version": "0.4.3",
+            "version": "v0.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/snappy.git",
-                "reference": "44f7a9b37d5686fd7db4c1e9569a802a5d16923f"
+                "reference": "370da31fa92a8e583e34558c589e630647617a38"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/snappy/zipball/44f7a9b37d5686fd7db4c1e9569a802a5d16923f",
-                "reference": "44f7a9b37d5686fd7db4c1e9569a802a5d16923f",
+                "url": "https://api.github.com/repos/KnpLabs/snappy/zipball/370da31fa92a8e583e34558c589e630647617a38",
+                "reference": "370da31fa92a8e583e34558c589e630647617a38",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3",
+                "php": ">=5.6",
                 "symfony/process": "~2.3|~3.0"
             },
             "require-dev": {
@@ -3312,8 +3317,8 @@
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "Knp\\Snappy": "src/"
+                "psr-4": {
+                    "Knp\\Snappy\\": "src/Knp/Snappy"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -3340,7 +3345,7 @@
                 "thumbnail",
                 "wkhtmltopdf"
             ],
-            "time": "2015-11-17T13:16:27+00:00"
+            "time": "2017-06-16T07:50:40+00:00"
         },
         {
             "name": "laracasts/matryoshka",
@@ -4048,16 +4053,16 @@
         },
         {
             "name": "maatwebsite/excel",
-            "version": "2.1.17",
+            "version": "2.1.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Maatwebsite/Laravel-Excel.git",
-                "reference": "14d5abf8e20563c80dd074fd7c8cf1c05bf51f1d"
+                "reference": "a43db59e621e8e8d72321e885d1610509cc7b096"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/14d5abf8e20563c80dd074fd7c8cf1c05bf51f1d",
-                "reference": "14d5abf8e20563c80dd074fd7c8cf1c05bf51f1d",
+                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/a43db59e621e8e8d72321e885d1610509cc7b096",
+                "reference": "a43db59e621e8e8d72321e885d1610509cc7b096",
                 "shasum": ""
             },
             "require": {
@@ -4084,6 +4089,16 @@
                 "illuminate/view": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*"
             },
             "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Maatwebsite\\Excel\\ExcelServiceProvider"
+                    ],
+                    "aliases": {
+                        "Excel": "Maatwebsite\\Excel\\Facades\\Excel"
+                    }
+                }
+            },
             "autoload": {
                 "classmap": [
                     "src/Maatwebsite/Excel"
@@ -4112,7 +4127,7 @@
                 "import",
                 "laravel"
             ],
-            "time": "2017-04-04T18:28:12+00:00"
+            "time": "2017-06-21T20:39:34+00:00"
         },
         {
             "name": "michelf/php-markdown",
@@ -4263,16 +4278,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.22.1",
+            "version": "1.23.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "1e044bc4b34e91743943479f1be7a1d5eb93add0"
+                "reference": "fd8c787753b3a2ad11bc60c063cff1358a32a3b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/1e044bc4b34e91743943479f1be7a1d5eb93add0",
-                "reference": "1e044bc4b34e91743943479f1be7a1d5eb93add0",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/fd8c787753b3a2ad11bc60c063cff1358a32a3b4",
+                "reference": "fd8c787753b3a2ad11bc60c063cff1358a32a3b4",
                 "shasum": ""
             },
             "require": {
@@ -4293,7 +4308,7 @@
                 "phpunit/phpunit-mock-objects": "2.3.0",
                 "ruflin/elastica": ">=0.90 <3.0",
                 "sentry/sentry": "^0.13",
-                "swiftmailer/swiftmailer": "~5.3"
+                "swiftmailer/swiftmailer": "^5.3|^6.0"
             },
             "suggest": {
                 "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",
@@ -4337,7 +4352,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2017-03-13T07:08:03+00:00"
+            "time": "2017-06-19T01:22:40+00:00"
         },
         {
             "name": "mtdowling/cron-expression",
@@ -5708,16 +5723,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.8.6",
+            "version": "v0.8.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "7028d6d525fb183d50b249b7c07598e3d386b27d"
+                "reference": "be969b9dc89dcaefdb9a3117fa91fa38bca19f50"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/7028d6d525fb183d50b249b7c07598e3d386b27d",
-                "reference": "7028d6d525fb183d50b249b7c07598e3d386b27d",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/be969b9dc89dcaefdb9a3117fa91fa38bca19f50",
+                "reference": "be969b9dc89dcaefdb9a3117fa91fa38bca19f50",
                 "shasum": ""
             },
             "require": {
@@ -5777,7 +5792,7 @@
                 "interactive",
                 "shell"
             ],
-            "time": "2017-06-04T10:34:20+00:00"
+            "time": "2017-06-20T12:51:31+00:00"
         },
         {
             "name": "pusher/pusher-php-server",
@@ -5911,12 +5926,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "7cd88c8d4e4e6b483633bb13c35bcec95fd6cd4c"
+                "reference": "0b18b6bbeed070fb900ad78e81ffa1182a57a752"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/7cd88c8d4e4e6b483633bb13c35bcec95fd6cd4c",
-                "reference": "7cd88c8d4e4e6b483633bb13c35bcec95fd6cd4c",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/0b18b6bbeed070fb900ad78e81ffa1182a57a752",
+                "reference": "0b18b6bbeed070fb900ad78e81ffa1182a57a752",
                 "shasum": ""
             },
             "conflict": {
@@ -5941,8 +5956,8 @@
                 "doctrine/mongodb-odm-bundle": ">=2,<3.0.1",
                 "doctrine/orm": ">=2,<2.4.8|>=2.5,<2.5.1",
                 "dompdf/dompdf": ">=0.6,<0.6.2",
-                "drupal/core": ">=8,<8.2.8|>=8.3,<8.3.1",
-                "drupal/drupal": ">=8,<8.2.8|>=8.3,<8.3.1",
+                "drupal/core": ">=8,<8.3.4",
+                "drupal/drupal": ">=8,<8.3.4",
                 "firebase/php-jwt": "<2",
                 "friendsofsymfony/rest-bundle": ">=1.2,<1.2.2",
                 "friendsofsymfony/user-bundle": ">=1.2,<1.3.5",
@@ -6039,7 +6054,7 @@
                 }
             ],
             "description": "Prevents installation of composer packages with known security vulnerabilities: no API, simply require it",
-            "time": "2017-06-07T12:12:03+00:00"
+            "time": "2017-06-22T16:43:17+00:00"
         },
         {
             "name": "sensiolabs/security-checker",
@@ -7844,17 +7859,12 @@
         },
         {
             "name": "venturecraft/revisionable",
-            "version": "1.28.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/VentureCraft/revisionable.git",
-                "reference": "5a76d29b897d4864cef41c605e7e03258dd5d051"
-            },
+            "version": "dev-master",
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/VentureCraft/revisionable/zipball/5a76d29b897d4864cef41c605e7e03258dd5d051",
-                "reference": "5a76d29b897d4864cef41c605e7e03258dd5d051",
-                "shasum": ""
+                "type": "path",
+                "url": "packages/venturecraft_revisionable",
+                "reference": "66231f9778b93070784cf991e4fe464089b2b5ac",
+                "shasum": null
             },
             "require": {
                 "illuminate/support": "~4.0|~5.0|~5.1",
@@ -7869,7 +7879,6 @@
                     "Venturecraft\\Revisionable": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -7888,7 +7897,13 @@
                 "model",
                 "revision"
             ],
-            "time": "2016-08-02T02:32:00+00:00"
+            "support": {
+                "issues": "https://github.com/VentureCraft/revisionable/issues",
+                "source": "https://github.com/VentureCraft/revisionable"
+            },
+            "transport-options": {
+                "symlink": true
+            }
         },
         {
             "name": "vlucas/phpdotenv",
@@ -7994,16 +8009,16 @@
         },
         {
             "name": "yajra/laravel-datatables-oracle",
-            "version": "v7.7.0",
+            "version": "v7.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yajra/laravel-datatables.git",
-                "reference": "edf2d782cc0b340876ecf6851a8f0de1c0e15a76"
+                "reference": "21ea69ce355faf3b68ca8d7195ed13ca5701b71b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/edf2d782cc0b340876ecf6851a8f0de1c0e15a76",
-                "reference": "edf2d782cc0b340876ecf6851a8f0de1c0e15a76",
+                "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/21ea69ce355faf3b68ca8d7195ed13ca5701b71b",
+                "reference": "21ea69ce355faf3b68ca8d7195ed13ca5701b71b",
                 "shasum": ""
             },
             "require": {
@@ -8051,7 +8066,7 @@
                 "jquery",
                 "laravel"
             ],
-            "time": "2017-06-07T05:28:09+00:00"
+            "time": "2017-06-22T02:54:34+00:00"
         }
     ],
     "packages-dev": [
@@ -8176,28 +8191,30 @@
         },
         {
             "name": "barryvdh/laravel-ide-helper",
-            "version": "v2.3.2",
+            "version": "v2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-ide-helper.git",
-                "reference": "e82de98cef0d6597b1b686be0b5813a3a4bb53c5"
+                "reference": "87a02ff574f722c685e011f76692ab869ab64f6c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-ide-helper/zipball/e82de98cef0d6597b1b686be0b5813a3a4bb53c5",
-                "reference": "e82de98cef0d6597b1b686be0b5813a3a4bb53c5",
+                "url": "https://api.github.com/repos/barryvdh/laravel-ide-helper/zipball/87a02ff574f722c685e011f76692ab869ab64f6c",
+                "reference": "87a02ff574f722c685e011f76692ab869ab64f6c",
                 "shasum": ""
             },
             "require": {
                 "barryvdh/reflection-docblock": "^2.0.4",
-                "illuminate/console": "^5.0,<5.5",
-                "illuminate/filesystem": "^5.0,<5.5",
-                "illuminate/support": "^5.0,<5.5",
+                "illuminate/console": "^5.0,<5.6",
+                "illuminate/filesystem": "^5.0,<5.6",
+                "illuminate/support": "^5.0,<5.6",
                 "php": ">=5.4.0",
                 "symfony/class-loader": "^2.3|^3.0"
             },
             "require-dev": {
                 "doctrine/dbal": "~2.3",
+                "illuminate/config": "^5.0,<5.6",
+                "illuminate/view": "^5.0,<5.6",
                 "phpunit/phpunit": "4.*",
                 "scrutinizer/ocular": "~1.1",
                 "squizlabs/php_codesniffer": "~2.3"
@@ -8209,6 +8226,11 @@
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.3-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider"
+                    ]
                 }
             },
             "autoload": {
@@ -8238,7 +8260,7 @@
                 "phpstorm",
                 "sublime"
             ],
-            "time": "2017-02-22T12:27:33+00:00"
+            "time": "2017-06-16T14:08:59+00:00"
         },
         {
             "name": "barryvdh/reflection-docblock",
@@ -8479,16 +8501,16 @@
         },
         {
             "name": "kint-php/kint",
-            "version": "2.1",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kint-php/kint.git",
-                "reference": "17ec4f2393560ea857f7e72ada106f489cb1e277"
+                "reference": "df63cec9406b44e10a316138ce47d8da7e9868d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kint-php/kint/zipball/17ec4f2393560ea857f7e72ada106f489cb1e277",
-                "reference": "17ec4f2393560ea857f7e72ada106f489cb1e277",
+                "url": "https://api.github.com/repos/kint-php/kint/zipball/df63cec9406b44e10a316138ce47d8da7e9868d5",
+                "reference": "df63cec9406b44e10a316138ce47d8da7e9868d5",
                 "shasum": ""
             },
             "require": {
@@ -8533,7 +8555,7 @@
                 "kint",
                 "php"
             ],
-            "time": "2017-05-13T17:24:30+00:00"
+            "time": "2017-06-20T18:21:30+00:00"
         },
         {
             "name": "laravel/browser-kit-testing",
@@ -9493,12 +9515,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/recca0120/laravel-tracy.git",
-                "reference": "7cc1694ff32b88611148366b036cbc34622ab19d"
+                "reference": "47cb6d87a13b1bb05f2e713b112e1de5074969a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/recca0120/laravel-tracy/zipball/7cc1694ff32b88611148366b036cbc34622ab19d",
-                "reference": "7cc1694ff32b88611148366b036cbc34622ab19d",
+                "url": "https://api.github.com/repos/recca0120/laravel-tracy/zipball/47cb6d87a13b1bb05f2e713b112e1de5074969a6",
+                "reference": "47cb6d87a13b1bb05f2e713b112e1de5074969a6",
                 "shasum": ""
             },
             "require": {
@@ -9548,20 +9570,20 @@
                 "tracy",
                 "webprofiler"
             ],
-            "time": "2017-06-15T19:08:21+00:00"
+            "time": "2017-06-19T20:04:56+00:00"
         },
         {
             "name": "recca0120/terminal",
-            "version": "v1.6.11",
+            "version": "v1.6.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/recca0120/laravel-terminal.git",
-                "reference": "cbb017f8e950642ac8b46e9521d42582e2222ffa"
+                "reference": "968e4f0b8a2c53b56fdba2d54a8b4340393d64f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/recca0120/laravel-terminal/zipball/cbb017f8e950642ac8b46e9521d42582e2222ffa",
-                "reference": "cbb017f8e950642ac8b46e9521d42582e2222ffa",
+                "url": "https://api.github.com/repos/recca0120/laravel-terminal/zipball/968e4f0b8a2c53b56fdba2d54a8b4340393d64f3",
+                "reference": "968e4f0b8a2c53b56fdba2d54a8b4340393d64f3",
                 "shasum": ""
             },
             "require": {
@@ -9608,7 +9630,7 @@
                 "web",
                 "web artisan"
             ],
-            "time": "2017-05-31T14:14:28+00:00"
+            "time": "2017-06-19T18:06:50+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
