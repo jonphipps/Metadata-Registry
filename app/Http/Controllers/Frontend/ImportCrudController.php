@@ -168,7 +168,7 @@ class ImportCrudController extends CrudController
 
         }
         //we've jumped into a middle step of the sequence (we should always have worksheets after step 1)
-        if ($step->number > 1 && ! $this->wizard->dataHas('worksheets')) {
+        if ($step->number > 1 && ! $this->wizard->dataHas('googlesheets')) {
             $step = $this->wizard->first();
         }
         //if we have no wizard data for this step AND we have batch data,

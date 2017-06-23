@@ -1,6 +1,6 @@
 @php
     /** @var array $worksheets */
-    $data = json_encode($wizard_data['worksheets']);
+    $data = json_encode($wizard_data['googlesheets']);
     $props = "{
     width: 1000,
     autoheight: true,
