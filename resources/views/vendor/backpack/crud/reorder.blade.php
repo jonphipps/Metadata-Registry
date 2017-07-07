@@ -25,7 +25,7 @@ function tree_element($entry, $key, $all_entries, $crud)
 
         // show the tree element
         echo '<li id="list_'.$entry->getKey().'">';
-        echo '<div><span class="disclose"><span></span></span>'.$entry->{$crud->reorder_label}.'</div>';
+        echo '<div><span class="disclose"><span></span></span>'.object_get($entry, $crud->reorder_label).'</div>';
 
         // see if this element has any children
         $children = [];

@@ -86,8 +86,12 @@
 
         $.each(errors, function(property, messages){
 
-            var field = $('[name="' + property + '"]'),
+            var field = $('[name="' + property + '[]"]').length ?
+                        $('[name="' + property + '[]"]') :
+                        $('[name="' + property + '"]'),
                 container = field.parents('.form-group');
+
+            console.log(field);
 
             container.addClass('has-error');
 

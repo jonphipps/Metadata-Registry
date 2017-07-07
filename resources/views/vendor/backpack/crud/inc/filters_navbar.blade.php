@@ -3,12 +3,12 @@
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-          <span class="sr-only">Toggle filters</span>
+          <span class="sr-only">{{ trans('backpack::crud.toggle_filters') }}</span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">Filters</a>
+        <a class="navbar-brand" href="#">{{ trans('backpack::crud.filters') }}</a>
       </div>
 
       <!-- Collect the nav links, forms, and other content for toggling -->
@@ -18,7 +18,7 @@
 			@foreach ($crud->filters as $filter)
 				@include($filter->view)
 			@endforeach
-          <li><a href="#" id="remove_filters_button"><i class="fa fa-eraser"></i> Remove filters</a></li>
+          <li><a href="#" id="remove_filters_button"><i class="fa fa-eraser"></i> {{ trans('backpack::crud.remove_filters') }}</a></li>
         </ul>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->

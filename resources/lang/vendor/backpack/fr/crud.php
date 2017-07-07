@@ -14,10 +14,10 @@ return [
     */
 
     // Forms
-    'save_action_save_and_new' => 'Save and new item', // TODO: translate
-    'save_action_save_and_edit' => 'Save and edit this item', // TODO: translate
-    'save_action_save_and_back' => 'Save and back', // TODO: translate
-    'save_action_changed_notification' => 'Default save action changed', // TODO: translate
+    'save_action_save_and_new' => 'Enregistrer et créer un nouveau',
+    'save_action_save_and_edit' => 'Enregistrer et éditer',
+    'save_action_save_and_back' => 'Enregistrer et retour',
+    'save_action_changed_notification' => 'Action par defaut changée',
 
     // Create form
     'add'                 => 'Ajouter',

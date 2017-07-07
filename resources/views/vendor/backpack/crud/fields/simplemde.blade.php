@@ -3,9 +3,9 @@
     <label>{!! $field['label'] !!}</label>
     @include('crud::inc.field_translatable_icon')
     <textarea
-    	id="simplemde-{{ $field['name'] }}"
+    	id="simplemde_{{ $field['name'] }}"
         name="{{ $field['name'] }}"
-        @include('crud::inc.field_attributes', ['default_class' => 'form-control ckeditor'])
+        @include('crud::inc.field_attributes', ['default_class' => 'form-control'])
     	>{{ old($field['name']) ? old($field['name']) : (isset($field['value']) ? $field['value'] : (isset($field['default']) ? $field['default'] : '' )) }}</textarea>
 
     {{-- HINT --}}
@@ -22,24 +22,40 @@
 
     {{-- FIELD CSS - will be loaded in the after_styles section --}}
     @push('crud_fields_styles')
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
         <style type="text/css">
         .CodeMirror-fullscreen, .editor-toolbar.fullscreen {
             z-index: 9999 !important;
+        }
+        .CodeMirror{
+        	min-height: auto !important;
         }
         </style>
     @endpush
 
     {{-- FIELD JS - will be loaded in the after_scripts section --}}
     @push('crud_fields_scripts')
-        <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+        <script src="//cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
     @endpush
 
 @endif
 
 @push('crud_fields_scripts')
 <script>
-    var simplemde = new SimpleMDE({ element: $("#simplemde-{{ $field['name'] }}")[0] });
+    var simplemde_{{ $field['name'] }} = new SimpleMDE({
+    	element: $("#simplemde_{{ $field['name'] }}")[0],
+    	@if(isset($field['simplemdeAttributes']))
+    		@foreach($field['simplemdeAttributes'] as $index => $value)
+    			{{$index}} : @if(is_bool($value)) {{ ($value?'true':'false') }} @else {!! '"'.$value.'"' !!} @endif,
+    		@endforeach
+    	@endif
+    	{!! isset($field['simplemdeAttributesRaw']) ? $field['simplemdeAttributesRaw'] : "" !!}
+    });
+    simplemde_{{ $field['name'] }}.options.minHeight = simplemde_{{ $field['name'] }}.options.minHeight || "300px";
+    simplemde_{{ $field['name'] }}.codemirror.getScrollerElement().style.minHeight = simplemde_{{ $field['name'] }}.options.minHeight;
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+    	setTimeout(function() { simplemde_{{ $field['name'] }}.codemirror.refresh(); }, 10);
+    });
 </script>
 @endpush
 {{-- End of Extra CSS and JS --}}

@@ -40,6 +40,9 @@ return [
     'undo'                 => 'Deshacer',
     'revision_restored'    => 'Revisión restaurada correctamente',
 
+    // Translatable models
+    'edit_translations' => 'EDITAR TRADUCCIONES',
+    'language'          => 'Idioma',
     // CRUD table view
     'all'                       => 'Todos los registros de ',
     'in_the_database'           => 'en la base de datos',

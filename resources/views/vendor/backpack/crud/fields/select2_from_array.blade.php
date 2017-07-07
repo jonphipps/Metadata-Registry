@@ -3,7 +3,8 @@
     <label>{!! $field['label'] !!}</label>
     <select
         name="{{ $field['name'] }}@if (isset($field['allows_multiple']) && $field['allows_multiple']==true)[]@endif"
-        @include('crud::inc.field_attributes', ['default_class' =>  'form-control select2'])
+        style="width: 100%"
+        @include('crud::inc.field_attributes', ['default_class' =>  'form-control select2_from_array'])
         @if (isset($field['allows_multiple']) && $field['allows_multiple']==true)multiple @endif
         >
 
@@ -37,21 +38,23 @@
     {{-- FIELD CSS - will be loaded in the after_styles section --}}
     @push('crud_fields_styles')
     <!-- include select2 css-->
-    <link href="{{ asset('vendor/backpack/select2/select2.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('vendor/backpack/select2/select2-bootstrap-dick.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('vendor/adminlte/plugins/select2/select2.min.css') }}" rel="stylesheet" type="text/css" />
+    {{-- <link href="{{ asset('vendor/backpack/select2/select2-bootstrap-dick.css') }}" rel="stylesheet" type="text/css" /> --}}
     @endpush
 
     {{-- FIELD JS - will be loaded in the after_scripts section --}}
     @push('crud_fields_scripts')
     <!-- include select2 js-->
-    <script src="{{ asset('vendor/backpack/select2/select2.js') }}"></script>
+    <script src="{{ asset('vendor/adminlte/plugins/select2/select2.min.js') }}"></script>
     <script>
         jQuery(document).ready(function($) {
             // trigger select2 for each untriggered select2 box
-            $('.select2').each(function (i, obj) {
-                if (!$(obj).data("select2"))
+            $('.select2_from_array').each(function (i, obj) {
+                if (!$(obj).hasClass("select2-hidden-accessible"))
                 {
-                    $(obj).select2();
+                    $(obj).select2({
+                        theme: "bootstrap"
+                    });
                 }
             });
         });
