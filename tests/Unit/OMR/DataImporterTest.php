@@ -128,7 +128,7 @@ class DataImporterTest extends TestCase
     }
 
     /** @test */
-    public function it_builds_an_array_of_additions_to_the_dataset_froma_worksheet_and_export_map()
+    public function it_builds_an_array_of_additions_to_the_dataset_from_a_worksheet_and_export_map()
     {
         //given a data set pulled from a worksheet
         $data   = collect($this->getVocabularyWorksheetData());
@@ -155,7 +155,7 @@ class DataImporterTest extends TestCase
     }
 
     /** @test */
-    public function it_builds_an_array_of_deleted_rows_missing_froma_worksheet_but_present_in_export_map()
+    public function it_builds_an_array_of_deleted_rows_missing_from_a_worksheet_but_present_in_export_map()
     {
         //given a data set pulled from a worksheet
         $data = collect($this->getVocabularyWorksheetData());
@@ -175,6 +175,45 @@ class DataImporterTest extends TestCase
         $this->assertMatchesSnapshot($deletedRows->toArray());
         //and i get back a list of fields that will be updated
         $this->assertMatchesSnapshot($updatedRows->toArray());
+    }
+
+    /** @test */
+    public function it_builds_an_array_of_statistics_and_stores_it_in_the_database()
+    {
+        //given a data set pulled from a worksheet
+        $data = collect($this->getVocabularyWorksheetData());
+        //add a new row that has no reg_id
+        $newRow     = $data[$data->count()-1];
+        $newRow[0]  = '';
+        $newRow[1]  = 'New Video Row';
+        $newRow[15] = 'RDAMediaType:1009';
+        $data[]     = $newRow;
+        //delete a row
+        $data->pull(4);
+        $map        = $this->getMap()->toArray();
+        $export     = factory(Export::class)->make([
+            'map'              => $map,
+            'selected_columns' => $this->getColumns(),
+        ]);
+        //and an export map
+        $importer = new DataImporter($data, $export);
+        //when i pass them to the importer
+        $deletedRows = $importer->getDeleteRows()->count();
+        $updatedRows = $importer->getUpdateRows()->count();
+        $addedRows = $importer->getAddRows()->count();
+        $this->assertEquals($importer->getStats()['deleted'], 1);
+        $this->assertEquals($importer->getStats()['updated'], 7);
+        $this->assertEquals($importer->getStats()['added'], 1);
+        //when I store it in the database
+        $import = Import::create([ 'results' => $importer->getStats()]);
+        $export->addImports($import);
+        //I can retrieve the list of changes for that import
+        /** @var Import $attachedImport */
+        $attachedImport = Import::find($import->id);
+        //when we ask for the stats from the database
+        $savedStats = $attachedImport->results;
+        //then we get one
+        $this->assertEquals($savedStats, $importer->getStats()->toArray());
     }
 
     /** @test */

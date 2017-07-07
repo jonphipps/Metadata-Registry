@@ -64,8 +64,10 @@ class DataImporter
                 $this->prefixes   = $export->elementSet->prefixes;
                 $this->statements = $this->getElementSetStatements();
             }
-
         }
+        $this->stats['deleted'] = $this->deleteRows === null ? 0 : $this->deleteRows->count();
+        $this->stats['updated'] = $this->updateRows === null ? 0: $this->updateRows->count();
+        $this->stats['added']   = $this->addRows === null ? 0: $this->addRows->count();
     }
 
     /**
