@@ -84,7 +84,7 @@ class Import extends Model
         'source_file_name'      => 'string',
         'file_type'             => 'string',
         'batch_id'              => 'integer',
-        'results'               => 'string',
+        'results'               => 'array',
         'total_processed_count' => 'integer',
         'error_count'           => 'integer',
         'success_count'         => 'integer',
