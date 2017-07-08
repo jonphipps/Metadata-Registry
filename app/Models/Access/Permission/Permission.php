@@ -12,15 +12,15 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property string $display_name
  * @property int $sort
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\Role\Role[] $roles
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\Permission\Permission whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\Permission\Permission whereDisplayName($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\Permission\Permission whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\Permission\Permission whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\Permission\Permission whereSort($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\Permission\Permission whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\Permission\Permission whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\Permission\Permission whereDisplayName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\Permission\Permission whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\Permission\Permission whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\Permission\Permission whereSort($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\Permission\Permission whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class Permission extends Model

@@ -12,9 +12,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * App\Models\ElementsetUser
  *
  * @property int $id
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property \Carbon\Carbon $deleted_at
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
  * @property int $schema_id
  * @property int $user_id
  * @property bool $is_maintainer_for
@@ -26,18 +26,23 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \App\Models\Access\User\User $creator
  * @property-read \App\Models\Elementset $elementset
  * @property-read mixed $language
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereCurrentLanguage($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereDefaultLanguage($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereIsAdminFor($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereIsMaintainerFor($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereIsRegistrarFor($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereLanguages($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereSchemaId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser whereUserId($value)
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementsetUser whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementsetUser whereCurrentLanguage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementsetUser whereDefaultLanguage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementsetUser whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementsetUser whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementsetUser whereIsAdminFor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementsetUser whereIsMaintainerFor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementsetUser whereIsRegistrarFor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementsetUser whereLanguages($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementsetUser whereSchemaId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementsetUser whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementsetUser whereUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser withoutTrashed()
  * @mixin \Eloquent
  */
 class ElementsetUser extends Model

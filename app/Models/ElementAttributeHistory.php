@@ -17,8 +17,8 @@ use Laracasts\Matryoshka\Cacheable;
  * App\Models\ElementAttributeHistory
  *
  * @property int $id
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
  * @property int $created_user_id
  * @property string $action
  * @property int $schema_property_element_id
@@ -31,33 +31,33 @@ use Laracasts\Matryoshka\Cacheable;
  * @property int $status_id
  * @property string $change_note
  * @property int $import_id
- * @property int $created_by
- * @property-read \App\Models\Access\User\User $creator
- * @property-read \App\Models\Element $element
- * @property-read \App\Models\ElementAttribute $element_attribute
- * @property-read \App\Models\Elementset $elementset
+ * @property int|null $created_by
+ * @property-read \App\Models\Access\User\User|null $creator
+ * @property-read \App\Models\Element|null $element
+ * @property-read \App\Models\ElementAttribute|null $element_attribute
+ * @property-read \App\Models\Elementset|null $elementset
  * @property-read mixed $current_language
  * @property-read mixed $default_language
- * @property-read \App\Models\Import $import
- * @property-read \App\Models\ProfileProperty $profile_property
- * @property-read \App\Models\Element $related_element
- * @property-read \App\Models\Status $status
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereAction($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereChangeNote($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereCreatedBy($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereCreatedUserId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereImportId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereLanguage($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereObject($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereProfilePropertyId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereRelatedSchemaPropertyId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereSchemaId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereSchemaPropertyElementId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereSchemaPropertyId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereStatusId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttributeHistory whereUpdatedAt($value)
+ * @property-read \App\Models\Import|null $import
+ * @property-read \App\Models\ProfileProperty|null $profile_property
+ * @property-read \App\Models\Element|null $related_element
+ * @property-read \App\Models\Status|null $status
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttributeHistory whereAction($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttributeHistory whereChangeNote($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttributeHistory whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttributeHistory whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttributeHistory whereCreatedUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttributeHistory whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttributeHistory whereImportId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttributeHistory whereLanguage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttributeHistory whereObject($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttributeHistory whereProfilePropertyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttributeHistory whereRelatedSchemaPropertyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttributeHistory whereSchemaId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttributeHistory whereSchemaPropertyElementId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttributeHistory whereSchemaPropertyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttributeHistory whereStatusId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttributeHistory whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class ElementAttributeHistory extends Model

@@ -16,53 +16,58 @@ use Illuminate\Support\Collection;
  * App\Models\Profile
  *
  * @property int $id
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property \Carbon\Carbon $deleted_at
- * @property int $created_by
- * @property int $updated_by
- * @property int $deleted_by
- * @property string $child_updated_at
- * @property int $child_updated_by
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
+ * @property int|null $created_by
+ * @property int|null $updated_by
+ * @property int|null $deleted_by
+ * @property string|null $child_updated_at
+ * @property int|null $child_updated_by
  * @property string $name
- * @property string $note
+ * @property string|null $note
  * @property string $uri
- * @property string $url
+ * @property string|null $url
  * @property string $base_domain
  * @property string $token
- * @property string $community
- * @property int $last_uri_id
+ * @property string|null $community
+ * @property int|null $last_uri_id
  * @property int $status_id
  * @property string $language
- * @property-read \App\Models\Access\User\User $creator
+ * @property-read \App\Models\Access\User\User|null $creator
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Elementset[] $elementsets
- * @property-read \App\Models\Access\User\User $eraser
+ * @property-read \App\Models\Access\User\User|null $eraser
  * @property-read mixed $current_language
  * @property-read mixed $default_language
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProfileProperty[] $profile_properties
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Project[] $projects
  * @property-read \App\Models\Status $status
- * @property-read \App\Models\Access\User\User $updater
+ * @property-read \App\Models\Access\User\User|null $updater
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vocabulary[] $vocabularies
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereBaseDomain($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereChildUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereChildUpdatedBy($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereCommunity($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereCreatedBy($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereDeletedBy($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereLanguage($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereLastUriId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereNote($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereStatusId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereToken($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereUpdatedBy($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereUri($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile whereUrl($value)
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereBaseDomain($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereChildUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereChildUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereCommunity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereLanguage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereLastUriId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereNote($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereStatusId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereUri($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereUrl($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile withoutTrashed()
  * @mixin \Eloquent
  */
 class Profile extends Model

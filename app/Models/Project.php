@@ -24,46 +24,46 @@ use Laracasts\Matryoshka\Cacheable;
  * App\Models\Project
  *
  * @property int $id
- * @property string $description
- * @property bool $is_private
- * @property string $repo
- * @property string $license
+ * @property string|null $description
+ * @property int|null $is_private
+ * @property string|null $repo
+ * @property string|null $license
  * @property string $org_email
  * @property string $org_name
- * @property string $ind_affiliation
- * @property string $ind_role
- * @property string $address1
- * @property string $address2
- * @property string $city
- * @property string $state
- * @property string $postal_code
- * @property string $country
- * @property string $phone
- * @property string $web_address
- * @property string $type
- * @property int $created_by
- * @property int $updated_by
- * @property int $deleted_by
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property \Carbon\Carbon $deleted_at
- * @property string $name
- * @property string $label
- * @property string $url
- * @property string $license_uri
- * @property string $base_domain
- * @property string $namespace_type
- * @property string $uri_strategy
- * @property string $uri_prepend
- * @property string $uri_append
- * @property int $starting_number
- * @property string $default_language
+ * @property string|null $ind_affiliation
+ * @property string|null $ind_role
+ * @property string|null $address1
+ * @property string|null $address2
+ * @property string|null $city
+ * @property string|null $state
+ * @property string|null $postal_code
+ * @property string|null $country
+ * @property string|null $phone
+ * @property string|null $web_address
+ * @property string|null $type
+ * @property int|null $created_by
+ * @property int|null $updated_by
+ * @property int|null $deleted_by
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
+ * @property string|null $name
+ * @property string|null $label
+ * @property string|null $url
+ * @property string|null $license_uri
+ * @property string|null $base_domain
+ * @property string|null $namespace_type
+ * @property string|null $uri_strategy
+ * @property string|null $uri_prepend
+ * @property string|null $uri_append
+ * @property int|null $starting_number
+ * @property string|null $default_language
  * @property array $languages
- * @property string $prefixes
- * @property string $google_sheet_url
- * @property-read \App\Models\Access\User\User $creator
+ * @property string|null $prefixes
+ * @property string|null $google_sheet_url
+ * @property-read \App\Models\Access\User\User|null $creator
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Elementset[] $elementsets
- * @property-read \App\Models\Access\User\User $eraser
+ * @property-read \App\Models\Access\User\User|null $eraser
  * @property-read mixed $current_language
  * @property-read mixed $language
  * @property string $title
@@ -71,46 +71,51 @@ use Laracasts\Matryoshka\Cacheable;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Import[] $imports
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\User\User[] $members
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Profile[] $profiles
- * @property-read \App\Models\Access\User\User $updater
+ * @property-read \App\Models\Access\User\User|null $updater
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vocabulary[] $vocabularies
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereAddress1($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereAddress2($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereBaseDomain($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereCity($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereCountry($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereCreatedBy($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereDefaultLanguage($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereDeletedBy($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereDescription($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereGoogleSheetUrl($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereIndAffiliation($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereIndRole($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereIsPrivate($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereLabel($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereLanguages($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereLicense($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereLicenseUri($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereNamespaceType($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereOrgEmail($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereOrgName($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project wherePhone($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project wherePostalCode($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project wherePrefixes($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereRepo($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereStartingNumber($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereState($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereType($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereUpdatedBy($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereUriAppend($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereUriPrepend($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereUriStrategy($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereUrl($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Project whereWebAddress($value)
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereAddress1($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereAddress2($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereBaseDomain($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereCity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereCountry($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereDefaultLanguage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereGoogleSheetUrl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereIndAffiliation($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereIndRole($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereIsPrivate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereLabel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereLanguages($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereLicense($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereLicenseUri($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereNamespaceType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereOrgEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereOrgName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project wherePostalCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project wherePrefixes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereRepo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereStartingNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereState($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereUriAppend($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereUriPrepend($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereUriStrategy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereUrl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereWebAddress($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Project withoutTrashed()
  * @mixin \Eloquent
  */
 class Project extends Model

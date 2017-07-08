@@ -12,9 +12,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * App\Models\VocabularyUser
  *
  * @property int $id
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property \Carbon\Carbon $deleted_at
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
  * @property int $vocabulary_id
  * @property int $user_id
  * @property bool $is_maintainer_for
@@ -26,18 +26,23 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \App\Models\Access\User\User $creator
  * @property-read mixed $language
  * @property-read \App\Models\Vocabulary $vocabulary
- * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyUser whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyUser whereCurrentLanguage($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyUser whereDefaultLanguage($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyUser whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyUser whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyUser whereIsAdminFor($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyUser whereIsMaintainerFor($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyUser whereIsRegistrarFor($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyUser whereLanguages($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyUser whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyUser whereUserId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyUser whereVocabularyId($value)
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyUser onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\VocabularyUser whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\VocabularyUser whereCurrentLanguage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\VocabularyUser whereDefaultLanguage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\VocabularyUser whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\VocabularyUser whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\VocabularyUser whereIsAdminFor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\VocabularyUser whereIsMaintainerFor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\VocabularyUser whereIsRegistrarFor($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\VocabularyUser whereLanguages($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\VocabularyUser whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\VocabularyUser whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\VocabularyUser whereVocabularyId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyUser withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyUser withoutTrashed()
  * @mixin \Eloquent
  */
 class VocabularyUser extends Model

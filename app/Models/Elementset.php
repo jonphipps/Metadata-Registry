@@ -21,16 +21,16 @@ use Laracasts\Matryoshka\Cacheable;
  * App\Models\Elementset
  *
  * @property int $id
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property \Carbon\Carbon $deleted_at
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
  * @property int $created_user_id
  * @property int $updated_user_id
- * @property int $deleted_user_id
- * @property string $child_updated_at
+ * @property int|null $deleted_user_id
+ * @property string|null $child_updated_at
  * @property int $child_updated_user_id
  * @property int $agent_id
- * @property string $label
+ * @property string|null $label
  * @property string $name
  * @property string $note
  * @property string $uri
@@ -46,55 +46,60 @@ use Laracasts\Matryoshka\Cacheable;
  * @property string $prefixes
  * @property array $languages
  * @property string $repo
- * @property string $spreadsheet
- * @property string $worksheet
+ * @property string|null $spreadsheet
+ * @property string|null $worksheet
  * @property string $prefix
- * @property int $created_by
- * @property int $updated_by
- * @property int $deleted_by
- * @property-read \App\Models\Access\User\User $creator
+ * @property int|null $created_by
+ * @property int|null $updated_by
+ * @property int|null $deleted_by
+ * @property-read \App\Models\Access\User\User|null $creator
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Element[] $elements
- * @property-read \App\Models\Access\User\User $eraser
+ * @property-read \App\Models\Access\User\User|null $eraser
  * @property-read mixed $current_language
  * @property-read mixed $default_language
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Import[] $imports
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\User\User[] $members
- * @property-read \App\Models\Profile $profile
- * @property-read \App\Models\Project $project
+ * @property-read \App\Models\Profile|null $profile
+ * @property-read \App\Models\Project|null $project
  * @property-read \App\Models\Status $status
- * @property-read \App\Models\Access\User\User $updater
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset whereAgentId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset whereBaseDomain($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset whereChildUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset whereChildUpdatedUserId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset whereCommunity($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset whereCreatedBy($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset whereCreatedUserId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset whereDeletedBy($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset whereDeletedUserId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset whereLabel($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset whereLanguage($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset whereLanguages($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset whereLastUriId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset whereNote($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset whereNsType($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset wherePrefix($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset wherePrefixes($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset whereProfileId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset whereRepo($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset whereSpreadsheet($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset whereStatusId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset whereToken($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset whereUpdatedBy($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset whereUpdatedUserId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset whereUri($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset whereUrl($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset whereWorksheet($value)
+ * @property-read \App\Models\Access\User\User|null $updater
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereAgentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereBaseDomain($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereChildUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereChildUpdatedUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereCommunity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereCreatedUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereDeletedUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereLabel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereLanguage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereLanguages($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereLastUriId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereNote($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereNsType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset wherePrefix($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset wherePrefixes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereProfileId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereRepo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereSpreadsheet($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereStatusId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereUpdatedUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereUri($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereUrl($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereWorksheet($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset withoutTrashed()
  * @mixin \Eloquent
  */
 class Elementset extends Model

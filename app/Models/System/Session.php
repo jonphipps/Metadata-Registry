@@ -8,17 +8,17 @@ use Illuminate\Database\Eloquent\Model;
  * App\Models\System\Session
  *
  * @property int $id
- * @property int $user_id
- * @property string $ip_address
- * @property string $user_agent
+ * @property int|null $user_id
+ * @property string|null $ip_address
+ * @property string|null $user_agent
  * @property string $payload
  * @property int $last_activity
- * @method static \Illuminate\Database\Query\Builder|\App\Models\System\Session whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\System\Session whereIpAddress($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\System\Session whereLastActivity($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\System\Session wherePayload($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\System\Session whereUserAgent($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\System\Session whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\System\Session whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\System\Session whereIpAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\System\Session whereLastActivity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\System\Session wherePayload($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\System\Session whereUserAgent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\System\Session whereUserId($value)
  * @mixin \Eloquent
  */
 class Session extends Model

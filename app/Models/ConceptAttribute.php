@@ -20,54 +20,59 @@ use Laracasts\Matryoshka\Cacheable;
  * App\Models\ConceptAttribute
  *
  * @property int $id
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property \Carbon\Carbon $deleted_at
- * @property int $created_user_id
- * @property int $updated_user_id
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
+ * @property int|null $created_user_id
+ * @property int|null $updated_user_id
  * @property int $concept_id
- * @property bool $primary_pref_label
- * @property int $skos_property_id
- * @property string $object
- * @property int $scheme_id
- * @property int $related_concept_id
- * @property string $language
- * @property int $status_id
- * @property bool $is_concept_property
- * @property int $profile_property_id
- * @property bool $is_generated
- * @property int $created_by
- * @property int $updated_by
- * @property int $deleted_by
+ * @property int|null $primary_pref_label
+ * @property int|null $skos_property_id
+ * @property string|null $object
+ * @property int|null $scheme_id
+ * @property int|null $related_concept_id
+ * @property string|null $language
+ * @property int|null $status_id
+ * @property int $is_concept_property
+ * @property int|null $profile_property_id
+ * @property int $is_generated
+ * @property int|null $created_by
+ * @property int|null $updated_by
+ * @property int|null $deleted_by
  * @property-read \App\Models\Concept $concept
- * @property-read \App\Models\Access\User\User $creator
- * @property-read \App\Models\Access\User\User $eraser
+ * @property-read \App\Models\Access\User\User|null $creator
+ * @property-read \App\Models\Access\User\User|null $eraser
  * @property-read mixed $current_language
  * @property-read mixed $default_language
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConceptAttributeHistory[] $history
- * @property-read \App\Models\ProfileProperty $profile_property
- * @property-read \App\Models\Concept $related_concept
- * @property-read \App\Models\Access\User\User $updater
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereConceptId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereCreatedBy($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereCreatedUserId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereDeletedBy($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereIsConceptProperty($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereIsGenerated($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereLanguage($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereObject($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute wherePrimaryPrefLabel($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereProfilePropertyId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereRelatedConceptId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereSchemeId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereSkosPropertyId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereStatusId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereUpdatedBy($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute whereUpdatedUserId($value)
+ * @property-read \App\Models\ProfileProperty|null $profile_property
+ * @property-read \App\Models\Concept|null $related_concept
+ * @property-read \App\Models\Access\User\User|null $updater
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ConceptAttribute whereConceptId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ConceptAttribute whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ConceptAttribute whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ConceptAttribute whereCreatedUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ConceptAttribute whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ConceptAttribute whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ConceptAttribute whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ConceptAttribute whereIsConceptProperty($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ConceptAttribute whereIsGenerated($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ConceptAttribute whereLanguage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ConceptAttribute whereObject($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ConceptAttribute wherePrimaryPrefLabel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ConceptAttribute whereProfilePropertyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ConceptAttribute whereRelatedConceptId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ConceptAttribute whereSchemeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ConceptAttribute whereSkosPropertyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ConceptAttribute whereStatusId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ConceptAttribute whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ConceptAttribute whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ConceptAttribute whereUpdatedUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute withoutTrashed()
  * @mixin \Eloquent
  */
 class ConceptAttribute extends Model

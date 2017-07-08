@@ -18,49 +18,54 @@ use Laracasts\Matryoshka\Cacheable;
  * App\Models\Concept
  *
  * @property int $id
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property \Carbon\Carbon $deleted_at
- * @property int $created_user_id
- * @property int $updated_user_id
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
+ * @property int|null $created_user_id
+ * @property int|null $updated_user_id
  * @property string $uri
- * @property string $lexical_alias
- * @property string $pref_label
- * @property int $vocabulary_id
- * @property bool $is_top_concept
- * @property int $pref_label_id
+ * @property string|null $lexical_alias
+ * @property string|null $pref_label
+ * @property int|null $vocabulary_id
+ * @property int|null $is_top_concept
+ * @property int|null $pref_label_id
  * @property int $status_id
  * @property string $language
- * @property int $created_by
- * @property int $updated_by
- * @property int $deleted_by
- * @property-read \App\Models\Access\User\User $creator
- * @property-read \App\Models\Access\User\User $eraser
+ * @property int|null $created_by
+ * @property int|null $updated_by
+ * @property int|null $deleted_by
+ * @property-read \App\Models\Access\User\User|null $creator
+ * @property-read \App\Models\Access\User\User|null $eraser
  * @property-read mixed $current_language
  * @property-read mixed $default_language
  * @property string $label
  * @property string $name
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConceptAttribute[] $statements
  * @property-read \App\Models\Status $status
- * @property-read \App\Models\Access\User\User $updater
- * @property-read \App\Models\Vocabulary $vocabulary
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereCreatedBy($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereCreatedUserId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereDeletedBy($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereIsTopConcept($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereLanguage($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereLexicalAlias($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept wherePrefLabel($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept wherePrefLabelId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereStatusId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereUpdatedBy($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereUpdatedUserId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereUri($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept whereVocabularyId($value)
+ * @property-read \App\Models\Access\User\User|null $updater
+ * @property-read \App\Models\Vocabulary|null $vocabulary
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Concept whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Concept whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Concept whereCreatedUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Concept whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Concept whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Concept whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Concept whereIsTopConcept($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Concept whereLanguage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Concept whereLexicalAlias($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Concept wherePrefLabel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Concept wherePrefLabelId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Concept whereStatusId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Concept whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Concept whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Concept whereUpdatedUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Concept whereUri($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Concept whereVocabularyId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Concept withoutTrashed()
  * @mixin \Eloquent
  */
 class Concept extends Model

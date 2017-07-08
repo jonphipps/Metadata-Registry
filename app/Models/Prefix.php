@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model as Model;
  * @property string $prefix
  * @property string $uri
  * @property int $rank
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Prefix wherePrefix($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Prefix whereRank($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Prefix whereUri($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Prefix wherePrefix($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Prefix whereRank($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Prefix whereUri($value)
  * @mixin \Eloquent
  */
 class Prefix extends Model

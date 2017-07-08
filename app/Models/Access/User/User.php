@@ -22,22 +22,22 @@ use Illuminate\Notifications\Notifiable;
  * App\Models\Access\User\User
  *
  * @property int $id
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property \Carbon\Carbon $deleted_at
- * @property string $nickname
- * @property string $salutation
- * @property string $first_name
- * @property string $last_name
- * @property string $email
- * @property bool $is_administrator
- * @property string $password
- * @property bool $status
- * @property string $culture
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
+ * @property string|null $nickname
+ * @property string|null $salutation
+ * @property string|null $first_name
+ * @property string|null $last_name
+ * @property string|null $email
+ * @property int|null $is_administrator
+ * @property string|null $password
+ * @property int $status
+ * @property string|null $culture
  * @property string $confirmation_code
  * @property string $name
- * @property bool $confirmed
- * @property string $remember_token
+ * @property int $confirmed
+ * @property string|null $remember_token
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Elementset[] $elementsets
  * @property-read string $action_buttons
  * @property-read string $change_password_button
@@ -59,25 +59,30 @@ use Illuminate\Notifications\Notifiable;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\Role\Role[] $roles
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\System\Session[] $sessions
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vocabulary[] $vocabularies
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User active($status = true)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User confirmed($confirmed = true)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereConfirmationCode($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereConfirmed($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereCulture($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereEmail($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereFirstName($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereIsAdministrator($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereLastName($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereNickname($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User wherePassword($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereRememberToken($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereSalutation($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereStatus($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\User\User active($status = true)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\User\User confirmed($confirmed = true)
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\User\User whereConfirmationCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\User\User whereConfirmed($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\User\User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\User\User whereCulture($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\User\User whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\User\User whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\User\User whereFirstName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\User\User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\User\User whereIsAdministrator($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\User\User whereLastName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\User\User whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\User\User whereNickname($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\User\User wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\User\User whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\User\User whereSalutation($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\User\User whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\User\User whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User withoutTrashed()
  * @mixin \Eloquent
  */
 class User extends Authenticatable

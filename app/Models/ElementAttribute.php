@@ -21,51 +21,56 @@ use Laracasts\Matryoshka\Cacheable;
  * App\Models\ElementAttribute
  *
  * @property int $id
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property \Carbon\Carbon $deleted_at
- * @property int $created_user_id
- * @property int $updated_user_id
- * @property int $deleted_user_id
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
+ * @property int|null $created_user_id
+ * @property int|null $updated_user_id
+ * @property int|null $deleted_user_id
  * @property int $schema_property_id
  * @property int $profile_property_id
- * @property bool $is_schema_property
+ * @property int|null $is_schema_property
  * @property string $object
- * @property int $related_schema_property_id
+ * @property int|null $related_schema_property_id
  * @property string $language
- * @property int $status_id
- * @property bool $is_generated
- * @property int $created_by
- * @property int $updated_by
- * @property int $deleted_by
- * @property-read \App\Models\Access\User\User $creator
+ * @property int|null $status_id
+ * @property int $is_generated
+ * @property int|null $created_by
+ * @property int|null $updated_by
+ * @property int|null $deleted_by
+ * @property-read \App\Models\Access\User\User|null $creator
  * @property-read \App\Models\Element $element
- * @property-read \App\Models\Access\User\User $eraser
+ * @property-read \App\Models\Access\User\User|null $eraser
  * @property-read mixed $current_language
  * @property-read mixed $default_language
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementAttributeHistory[] $history
  * @property-read \App\Models\ProfileProperty $profile_property
- * @property-read \App\Models\Element $related_element
- * @property-read \App\Models\Status $status
- * @property-read \App\Models\Access\User\User $updater
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereCreatedBy($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereCreatedUserId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereDeletedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereDeletedBy($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereDeletedUserId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereIsGenerated($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereIsSchemaProperty($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereLanguage($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereObject($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereProfilePropertyId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereRelatedSchemaPropertyId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereSchemaPropertyId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereStatusId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereUpdatedBy($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute whereUpdatedUserId($value)
+ * @property-read \App\Models\Element|null $related_element
+ * @property-read \App\Models\Status|null $status
+ * @property-read \App\Models\Access\User\User|null $updater
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttribute whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttribute whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttribute whereCreatedUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttribute whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttribute whereDeletedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttribute whereDeletedUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttribute whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttribute whereIsGenerated($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttribute whereIsSchemaProperty($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttribute whereLanguage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttribute whereObject($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttribute whereProfilePropertyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttribute whereRelatedSchemaPropertyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttribute whereSchemaPropertyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttribute whereStatusId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttribute whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttribute whereUpdatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttribute whereUpdatedUserId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementAttribute withoutTrashed()
  * @mixin \Eloquent
  */
 class ElementAttribute extends Model

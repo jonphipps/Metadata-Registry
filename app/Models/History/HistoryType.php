@@ -9,12 +9,12 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property int $id
  * @property string $name
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @method static \Illuminate\Database\Query\Builder|\App\Models\History\HistoryType whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\History\HistoryType whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\History\HistoryType whereName($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\History\HistoryType whereUpdatedAt($value)
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\History\HistoryType whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\History\HistoryType whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\History\HistoryType whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\History\HistoryType whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class HistoryType extends Model

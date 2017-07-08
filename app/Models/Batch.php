@@ -8,35 +8,41 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * App\Models\Batch
  *
  * @property int $id
- * @property \Carbon\Carbon $run_time
+ * @property \Carbon\Carbon|null $run_time
  * @property string $run_description
  * @property string $object_type
  * @property int $object_id
- * @property \Carbon\Carbon $event_time
+ * @property \Carbon\Carbon|null $event_time
  * @property string $event_type
  * @property string $event_description
  * @property string $registry_uri
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
- * @property int $project_id
- * @property string $next_step
- * @property string $step_data
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property int|null $project_id
+ * @property int|null $user_id
+ * @property string|null $next_step
+ * @property array $step_data
+ * @property int|null $total_count
+ * @property int|null $handled_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Import[] $imports
- * @property-read \App\Models\Project $project
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereCreatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereEventDescription($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereEventTime($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereEventType($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereNextStep($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereObjectId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereObjectType($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereProjectId($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereRegistryUri($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereRunDescription($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereRunTime($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereStepData($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Batch whereUpdatedAt($value)
+ * @property-read \App\Models\Project|null $project
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Batch whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Batch whereEventDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Batch whereEventTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Batch whereEventType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Batch whereHandledCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Batch whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Batch whereNextStep($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Batch whereObjectId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Batch whereObjectType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Batch whereProjectId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Batch whereRegistryUri($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Batch whereRunDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Batch whereRunTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Batch whereStepData($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Batch whereTotalCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Batch whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Batch whereUserId($value)
  * @mixin \Eloquent
  */
 class Batch extends Model
