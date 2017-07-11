@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="{{ config('app.locale') }}">
+<html class="no-js" lang="{{ app()->getLocale() }}">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -60,8 +60,13 @@
                     {{-- Change to Breadcrumbs::render() if you want it to error to remind you to create the breadcrumbs for the given route --}}
                     {!! Breadcrumbs::renderIfExists() !!}
                 </section>
+
                 <!-- Main content -->
                 <section class="content">
+                    <div class="loader" style="display: none;">
+                        <div class="ajax-spinner ajax-skeleton"></div>
+                    </div><!--loader-->
+
                     @include('includes.partials.messages')
                     @yield('content')
                 </section><!-- /.content -->

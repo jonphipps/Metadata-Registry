@@ -19,7 +19,7 @@ class CreateRolesTable extends Migration
                 $table->increments('id');
                 $table->string('name')->unique();
                 $table->string('display_name')->nullable();
-                $table->boolean('all')->default(0);
+                $table->boolean('all')->default(false);
                 $table->smallInteger('sort')->unsigned()->default(0);
                 $table->timestamps();
             });

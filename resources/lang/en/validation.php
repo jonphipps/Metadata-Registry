@@ -136,7 +136,7 @@ return [
                     'name'   => 'Name',
                     'first_name' => 'First Name',
                     'last_name'  => 'Last Name',
-                    'system' => 'System?',
+                    'system'     => 'System',
                 ],
 
                 'roles' => [
@@ -167,11 +167,14 @@ return [
             'first_name'                => 'First Name',
             'last_name'                 => 'Last Name',
             'name'                      => 'Login Name',
+            'nickname'                  => 'Login Name',
             'password'                  => 'Password',
             'password_confirmation'     => 'Password Confirmation',
-            'old_password'              => 'Old Password',
+            'phone' => 'Phone',
+            'message' => 'Message',
             'new_password'              => 'New Password',
             'new_password_confirmation' => 'New Password Confirmation',
+            'old_password'              => 'Old Password',
         ],
     ],
 

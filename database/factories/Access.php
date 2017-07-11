@@ -40,8 +40,8 @@ $factory->define(App\Models\Access\Role\Role::class,
         return [
             'name'         => $faker->name,
             'display_name' => $faker->word,
-            'all'          => $faker->boolean,
-            'sort'         => $faker->randomNumber(),
+            'all'  => 0,
+            'sort' => $faker->numberBetween(1, 100),
         ];
     });
 

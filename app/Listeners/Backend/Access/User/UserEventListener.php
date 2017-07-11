@@ -147,6 +147,54 @@ class UserEventListener
     }
 
     /**
+     * @param $event
+     */
+    public function onConfirmed($event)
+    {
+        history()->withType($this->history_slug)
+            ->withEntity($event->user->id)
+            ->withText('trans("history.backend.users.confirmed") <strong>{user}</strong>')
+            ->withIcon('check')
+            ->withClass('bg-green')
+            ->withAssets([
+                'user_link' => ['admin.access.user.show', $event->user->name, $event->user->id],
+            ])
+            ->log();
+    }
+
+    /**
+     * @param $event
+     */
+    public function onUnconfirmed($event)
+    {
+        history()->withType($this->history_slug)
+            ->withEntity($event->user->id)
+            ->withText('trans("history.backend.users.unconfirmed") <strong>{user}</strong>')
+            ->withIcon('times')
+            ->withClass('bg-red')
+            ->withAssets([
+                'user_link' => ['admin.access.user.show', $event->user->name, $event->user->id],
+            ])
+            ->log();
+    }
+
+    /**
+     * @param $event
+     */
+    public function onSocialDeleted($event)
+    {
+        history()->withType($this->history_slug)
+            ->withEntity($event->user->id)
+            ->withText('trans("history.backend.users.deleted_social") <strong>'.$event->social->provider.'</strong> for <strong>{user}</strong>')
+            ->withIcon('times')
+            ->withClass('bg-red')
+            ->withAssets([
+                'user_link' => ['admin.access.user.show', $event->user->name, $event->user->id],
+            ])
+            ->log();
+    }
+
+    /**
      * Register the listeners for the subscriber.
      *
      * @param \Illuminate\Events\Dispatcher $events
@@ -191,6 +239,21 @@ class UserEventListener
         $events->listen(
             \App\Events\Backend\Access\User\UserReactivated::class,
             'App\Listeners\Backend\Access\User\UserEventListener@onReactivated'
+        );
+
+        $events->listen(
+            \App\Events\Backend\Access\User\UserConfirmed::class,
+            'App\Listeners\Backend\Access\User\UserEventListener@onConfirmed'
+        );
+
+        $events->listen(
+            \App\Events\Backend\Access\User\UserUnconfirmed::class,
+            'App\Listeners\Backend\Access\User\UserEventListener@onUnconfirmed'
+        );
+
+        $events->listen(
+            \App\Events\Backend\Access\User\UserSocialDeleted::class,
+            'App\Listeners\Backend\Access\User\UserEventListener@onSocialDeleted'
         );
     }
 }

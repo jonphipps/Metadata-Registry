@@ -55,6 +55,8 @@
                         </ul>
                     </li>
                 @endif
+
+                <li>{{ laravel_link_to_route('frontend.contact', trans('navs.frontend.contact'), [], ['class' => active_class(Active::checkRoute('frontend.contact')) ]) }}</li>
             </ul>
         </div><!--navbar-collapse-->
     </div><!--container-->

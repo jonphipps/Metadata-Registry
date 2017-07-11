@@ -1,8 +1,8 @@
 <?php
 
-use database\TruncateTable;
+use Database\TruncateTable;
 use Illuminate\Database\Seeder;
-use database\DisablesForeignKeys;
+use Database\DisablesForeignKeys;
 
 /**
  * Class UserRoleSeeder.

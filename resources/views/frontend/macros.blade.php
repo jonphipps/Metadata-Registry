@@ -1,5 +1,7 @@
 @extends('backpack::layout')
 
+@section('title', app_name() . ' | Macros')
+
 @section('content')
     <div class="row">
 

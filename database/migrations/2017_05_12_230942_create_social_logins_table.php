@@ -17,9 +17,9 @@ class CreateSocialLoginsTable extends Migration
         Schema::create('social_logins',
             function(Blueprint $table) {
                 $table->increments('id');
-                $table->unsignedInteger('user_id')->index();
+                $table->unsignedInteger('user_id')->nullable()->index();
                 $table->string('provider', 32);
-                $table->string('provider_id');
+                $table->string('provider_id')->nullable();
                 $table->string('token')->nullable();
                 $table->string('avatar')->nullable();
                 $table->timestamps();
@@ -33,6 +33,6 @@ class CreateSocialLoginsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('social_logins');
+        Schema::dropIfExists('social_logins');
     }
 }

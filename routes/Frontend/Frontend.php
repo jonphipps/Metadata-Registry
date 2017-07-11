@@ -6,6 +6,9 @@
  */
 Route::get('/', 'FrontendController@index')->name('index');
 Route::get('macros', 'FrontendController@macros')->name('macros');
+Route::get('contact', 'ContactController@index')->name('contact');
+Route::post('contact/send', 'ContactController@send')->name('contact.send');
+
 Route::group([ 'namespace' => 'Project' ],
     function() {
         CRUD::resource('projects', 'ProjectCrudController');

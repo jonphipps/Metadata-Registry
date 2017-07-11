@@ -30,9 +30,9 @@ class CreateUsersTable extends Migration
                 $table->string('password')->nullable();
                 $table->boolean('status')->default(1);
                 $table->string('culture', 7)->nullable()->default('en_US');
-                $table->string('confirmation_code')->default('');
+                $table->string('confirmation_code')->nullable();
                 $table->string('name')->default('');
-                $table->boolean('confirmed')->default(0);
+                $table->boolean('confirmed')->default(config('access.users.confirm_email') ? false : true);
                 $table->string('remember_token', 100)->nullable();
             });
     }
@@ -44,6 +44,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::drop('users');
+        Schema::dropIfExists('users');
     }
 }
