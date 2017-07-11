@@ -47,6 +47,9 @@
 		.input-group.date {
 			width: 320px;
 			max-width: 100%; }
+		.daterangepicker.dropdown-menu {
+			z-index: 3001!important;
+		}
 	</style>
 @endpush
 
@@ -58,6 +61,48 @@
 	<script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 	<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
   <script>
+
+  		function applyDateRangeFilter(start, end) {
+  			if (start && end) {
+  				var dates = {
+					'from': start.format('YYYY-MM-DD'),
+					'to': end.format('YYYY-MM-DD')
+				};
+				var value = JSON.stringify(dates);
+  			} else {
+  				var value = null;
+  			}
+			var parameter = '{{ $filter->name }}';
+
+			@if (!$crud->ajaxTable())
+				// behaviour for normal table
+				var current_url = normalizeAmpersand('{{ Request::fullUrl() }}');
+				var new_url = addOrUpdateUriParameter(current_url, parameter, value);
+
+				// refresh the page to the new_url
+				new_url = normalizeAmpersand(new_url.toString());
+		    	window.location.href = new_url;
+		    @else
+		    	// behaviour for ajax table
+				var ajax_table = $('#crudTable').DataTable();
+				var current_url = ajax_table.ajax.url();
+				var new_url = addOrUpdateUriParameter(current_url, parameter, value);
+
+				// replace the datatables ajax url with new_url and reload it
+				new_url = normalizeAmpersand(new_url.toString());
+				ajax_table.ajax.url(new_url).load();
+
+				// mark this filter as active in the navbar-filters
+				if (URI(new_url).hasQuery('{{ $filter->name }}', true)) {
+					$('li[filter-name={{ $filter->name }}]').removeClass('active').addClass('active');
+				}
+				else
+				{
+					$('li[filter-name={{ $filter->name }}]').trigger('filter:clear');
+				}
+		    @endif
+  		}
+
 		jQuery(document).ready(function($) {
 			var dateRangeInput = $('#daterangepicker-{{ str_slug($filter->name) }}').daterangepicker({
 				timePicker: false,
@@ -77,41 +122,7 @@
 				autoUpdateInput: true
 			},
 			function (start, end) {
-				alert(start);
-				var dates = {
-					'from': start.format('YYYY-MM-DD'),
-					'to': end.format('YYYY-MM-DD')
-				};
-				var value = JSON.stringify(dates);
-				var parameter = '{{ $filter->name }}';
-
-				@if (!$crud->ajaxTable())
-					// behaviour for normal table
-					var current_url = normalizeAmpersand('{{ Request::fullUrl() }}');
-					var new_url = addOrUpdateUriParameter(current_url, parameter, value);
-
-					// refresh the page to the new_url
-					new_url = normalizeAmpersand(new_url.toString());
-			    	window.location.href = new_url;
-			    @else
-			    	// behaviour for ajax table
-					var ajax_table = $('#crudTable').DataTable();
-					var current_url = ajax_table.ajax.url();
-					var new_url = addOrUpdateUriParameter(current_url, parameter, value);
-
-					// replace the datatables ajax url with new_url and reload it
-					new_url = normalizeAmpersand(new_url.toString());
-					ajax_table.ajax.url(new_url).load();
-
-					// mark this filter as active in the navbar-filters
-					if (URI(new_url).hasQuery('{{ $filter->name }}', true)) {
-						$('li[filter-name={{ $filter->name }}]').removeClass('active').addClass('active');
-					}
-					else
-					{
-						$('li[filter-name={{ $filter->name }}]').trigger('filter:clear');
-					}
-			    @endif
+				applyDateRangeFilter(start, end);
 			});
 
 			$('li[filter-name={{ $filter->name }}]').on('hide.bs.dropdown', function () {
@@ -122,7 +133,7 @@
 			$('li[filter-name={{ $filter->name }}]').on('filter:clear', function(e) {
 				// console.log('daterangepicker filter cleared');
 				$('li[filter-name={{ $filter->name }}]').removeClass('active');
-				$('#daterangepicker-{{ str_slug($filter->name) }}').val('');
+				applyDateRangeFilter(null, null);
 			});
 
 			// datepicker clear button
@@ -130,7 +141,6 @@
 				e.preventDefault();
 
 				$('li[filter-name={{ $filter->name }}]').trigger('filter:clear');
-				// $('#daterangepicker-{{ str_slug($filter->name) }}').trigger('changeDate');
 			})
 		});
   </script>
