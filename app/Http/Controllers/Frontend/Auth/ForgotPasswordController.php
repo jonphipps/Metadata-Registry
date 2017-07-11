@@ -66,11 +66,11 @@ class ForgotPasswordController extends Controller
     public function sendResetLinkEmailForName(Request $request)
     {
         $table = new User();
-        $this->validate($request, [ 'name' => 'required|exists:' . $table->getTable() ]);
+        $this->validate($request, [ 'nickname' => 'required|exists:' . $table->getTable() ]);
 
         //After we validate the user
         //We will get the user for this name and retrieve the email
-        $user = User::where('name', $request->only('name'))
+        $user = User::where('nickname', $request->only('nickname'))
                 ->first();
 
         //We also have to validate the users email here
@@ -86,7 +86,7 @@ class ForgotPasswordController extends Controller
         //add the user name to the password tokens table
         DB::table('password_resets')
         ->where('email', $user->email)
-        ->update([ 'name' => $request->name ]);
+        ->update([ 'name' => $request->nickname ]);
 
         return $response == Password::RESET_LINK_SENT ? $this->sendResetLinkResponse($response) : $this->sendResetLinkFailedResponse(
             $request,

@@ -23,10 +23,10 @@
 
             <div class="box-body">
                 <div class="form-group">
-                    {{ Form::label('name', trans('validation.attributes.backend.access.users.name'), ['class' => 'col-lg-2 control-label']) }}
+                    {{ Form::label('nickname', trans('validation.attributes.backend.access.users.name'), ['class' => 'col-lg-2 control-label']) }}
 
                     <div class="col-lg-10">
-                        {{ Form::text('name', null, ['class' => 'form-control', 'maxlength' => '191', 'required' => 'required', 'autofocus' => 'autofocus', 'placeholder' => trans('validation.attributes.backend.access.users.name')]) }}
+                        {{ Form::text('nickname', null, ['class' => 'form-control', 'maxlength' => '191', 'required' => 'required', 'autofocus' => 'autofocus', 'placeholder' => trans('validation.attributes.backend.access.users.name')]) }}
                     </div><!--col-lg-10-->
                 </div><!--form control-->
 
@@ -44,14 +44,6 @@
 
                         <div class="col-lg-1">
                             {{ Form::checkbox('status', '1', $user->status == 1) }}
-                        </div><!--col-lg-1-->
-                    </div><!--form control-->
-
-                    <div class="form-group">
-                        {{ Form::label('confirmed', trans('validation.attributes.backend.access.users.confirmed'), ['class' => 'col-lg-2 control-label']) }}
-
-                        <div class="col-lg-1">
-                            {{ Form::checkbox('confirmed', '1', $user->confirmed == 1) }}
                         </div><!--col-lg-1-->
                     </div><!--form control-->
 
@@ -111,7 +103,6 @@
 
         @if ($user->id == 1)
             {{ Form::hidden('status', 1) }}
-            {{ Form::hidden('confirmed', 1) }}
             {{ Form::hidden('assignees_roles[0]', 1) }}
         @endif
 

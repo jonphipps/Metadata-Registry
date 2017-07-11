@@ -23,10 +23,10 @@
 
             <div class="box-body">
                 <div class="form-group">
-                    {{ Form::label('name', trans('validation.attributes.backend.access.users.name'), ['class' => 'col-lg-2 control-label']) }}
+                    {{ Form::label('nickname', trans('validation.attributes.backend.access.users.name'), ['class' => 'col-lg-2 control-label']) }}
 
                     <div class="col-lg-10">
-                        {{ Form::text('name', null, ['class' => 'form-control', 'maxlength' => '191', 'required' => 'required', 'autofocus' => 'autofocus', 'placeholder' => trans('validation.attributes.backend.access.users.name')]) }}
+                        {{ Form::text('nickname', null, ['class' => 'form-control', 'maxlength' => '191', 'required' => 'required', 'autofocus' => 'autofocus', 'placeholder' => trans('validation.attributes.backend.access.users.name')]) }}
                     </div><!--col-lg-10-->
                 </div><!--form control-->
 
@@ -70,6 +70,7 @@
                     </div><!--col-lg-1-->
                 </div><!--form control-->
 
+                @if (! config('access.users.requires_approval'))
                 <div class="form-group">
                     <label class="col-lg-2 control-label">{{ trans('validation.attributes.backend.access.users.send_confirmation_email') }}<br/>
                         <small>{{ trans('strings.backend.access.users.if_confirmed_off') }}</small>
@@ -79,6 +80,7 @@
                         {{ Form::checkbox('confirmation_email', '1') }}
                     </div><!--col-lg-1-->
                 </div><!--form control-->
+                @endif
 
                 <div class="form-group">
                     {{ Form::label('associated_roles', trans('validation.attributes.backend.access.users.associated_roles'), ['class' => 'col-lg-2 control-label']) }}

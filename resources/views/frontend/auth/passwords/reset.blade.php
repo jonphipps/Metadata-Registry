@@ -1,5 +1,7 @@
 @extends('backpack::auth')
 
+@section('title', app_name() . ' | Reset Password')
+
 @section('content')
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
@@ -29,15 +31,15 @@
                         </div><!--form-group-->
 
                     <div class="form-group">
-                        {{ Form::label('name', trans('validation.attributes.frontend.name'), ['class' => 'col-md-4 control-label']) }}
+                        {{ Form::label('nickname', trans('validation.attributes.frontend.name'), ['class' => 'col-md-4 control-label']) }}
                         <div class="col-md-6">
                             <p class="form-control-static">{{ $name }}</p>
-                            {{ Form::hidden('name', $name, ['class' => 'form-control', 'placeholder' => trans('validation.attributes.frontend.name')]) }}
+                            {{ Form::hidden('nickname', $name, ['class' => 'form-control', 'placeholder' => trans('validation.attributes.frontend.name')]) }}
                         </div><!--col-md-6-->
                     </div><!--form-group-->
 
                     <div class="form-group">
-                        {{ Form::label('password', trans('validation.attributes.frontend.password'), ['class' => 'col-md-4 control-label']) }}
+                        {{ Form::label('password', trans('validation.attributes.frontend.password'), ['class' => 'col-md-4 control-label', 'autofocus']) }}
                         <div class="col-md-6">
                             {{ Form::password('password', ['class' => 'form-control', 'required' => 'required', 'autofocus' => 'autofocus', 'placeholder' => trans('validation.attributes.frontend.password')]) }}
                         </div><!--col-md-6-->

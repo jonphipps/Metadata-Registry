@@ -19,7 +19,7 @@ class AccessRepositoryTest extends BrowserKitTestCase
             ->toArray();
 
         $this->assertCount(1, $results);
-        $this->assertArraySubset(['name' => $this->executive->name], $results[0]);
+        $this->assertArraySubset(['nickname' => $this->executive->nickname], $results[0]);
     }
 
     public function testGetUsersByPermissionsUsingNames()
@@ -31,8 +31,8 @@ class AccessRepositoryTest extends BrowserKitTestCase
             ->toArray();
 
         $this->assertCount(2, $results);
-        $this->assertArraySubset(['name' => $this->executive->name], $results[0]);
-        $this->assertArraySubset(['name' => $this->user->name], $results[1]);
+        $this->assertArraySubset(['nickname' => $this->executive->nickname], $results[0]);
+        $this->assertArraySubset(['nickname' => $this->user->nickname], $results[1]);
     }
 
     public function testGetUsersByPermissionUsingId()
@@ -42,7 +42,7 @@ class AccessRepositoryTest extends BrowserKitTestCase
             ->toArray();
 
         $this->assertCount(1, $results);
-        $this->assertArraySubset(['name' => $this->executive->name], $results[0]);
+        $this->assertArraySubset(['nickname' => $this->executive->nickname], $results[0]);
     }
 
     public function testGetUsersByPermissionsUsingIds()
@@ -54,8 +54,8 @@ class AccessRepositoryTest extends BrowserKitTestCase
             ->toArray();
 
         $this->assertCount(2, $results);
-        $this->assertArraySubset(['name' => $this->executive->name], $results[0]);
-        $this->assertArraySubset(['name' => $this->user->name], $results[1]);
+        $this->assertArraySubset(['nickname' => $this->executive->nickname], $results[0]);
+        $this->assertArraySubset(['nickname' => $this->user->nickname], $results[1]);
     }
 
     public function testGetUsersByRoleUsingName()
@@ -65,7 +65,7 @@ class AccessRepositoryTest extends BrowserKitTestCase
             ->toArray();
 
         $this->assertCount(1, $results);
-        $this->assertArraySubset(['name' => $this->user->name], $results[0]);
+        $this->assertArraySubset(['nickname' => $this->user->nickname], $results[0]);
     }
 
     public function testGetUsersByRolesUsingNames()
@@ -75,8 +75,8 @@ class AccessRepositoryTest extends BrowserKitTestCase
             ->toArray();
 
         $this->assertCount(2, $results);
-        $this->assertArraySubset(['name' => $this->executive->name], $results[0]);
-        $this->assertArraySubset(['name' => $this->user->name], $results[1]);
+        $this->assertArraySubset(['nickname' => $this->executive->nickname], $results[0]);
+        $this->assertArraySubset(['nickname' => $this->user->nickname], $results[1]);
     }
 
     public function testGetUsersByRoleUsingId()
@@ -86,7 +86,7 @@ class AccessRepositoryTest extends BrowserKitTestCase
             ->toArray();
 
         $this->assertCount(3, $results);
-        $this->assertArraySubset(['name' => $this->admin->name], $results[0]);
+        $this->assertArraySubset(['nickname' => $this->admin->nickname], $results[0]);
     }
 
     public function testGetUsersByRolesUsingIds()
@@ -96,7 +96,7 @@ class AccessRepositoryTest extends BrowserKitTestCase
             ->toArray();
 
         $this->assertCount(4, $results);
-        $this->assertArraySubset(['name' => $this->admin->name], $results[0]);
-        $this->assertArraySubset(['name' => $this->user->name], $results[1]);
+        $this->assertArraySubset(['nickname' => $this->admin->nickname], $results[0]);
+        $this->assertArraySubset(['nickname' => $this->user->nickname], $results[1]);
     }
 }

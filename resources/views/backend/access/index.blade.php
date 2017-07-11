@@ -33,6 +33,7 @@
                             <th>{{ trans('labels.backend.access.users.table.email') }}</th>
                             <th>{{ trans('labels.backend.access.users.table.confirmed') }}</th>
                             <th>{{ trans('labels.backend.access.users.table.roles') }}</th>
+                        <th>{{ trans('labels.backend.access.users.table.social') }}</th>
                             <th>{{ trans('labels.backend.access.users.table.created') }}</th>
                             <th>{{ trans('labels.backend.access.users.table.last_updated') }}</th>
                             <th>{{ trans('labels.general.actions') }}</th>
@@ -58,23 +59,31 @@
 
 @section('after-scripts')
     {{ Html::script("https://cdn.datatables.net/v/bs/dt-1.10.15/datatables.min.js") }}
+    {{ Html::script("js/backend/plugin/datatables/dataTables-extend.js") }}
 
     <script>
-        $(function() {
+        $(function () {
             $('#users-table').DataTable({
-                processing: true,
+                dom: 'lfrtip',
+                processing: false,
                 serverSide: true,
+                autoWidth: false,
                 ajax: {
                     url: '{{ route("admin.access.user.get") }}',
                     type: 'post',
-                    data: {status: 1, trashed: false}
+                    data: {status: 1, trashed: false},
+                    error: function (xhr, err) {
+                        if (err === 'parsererror')
+                            location.reload();
+                    }
                 },
                 columns: [
                     {data: 'id', name: '{{config('access.users_table')}}.id'},
-                    {data: 'name', name: '{{config('access.users_table')}}.name'},
+                    {data: 'nickname', name: '{{config('access.users_table')}}.nickname'},
                     {data: 'email', name: '{{config('access.users_table')}}.email'},
                     {data: 'confirmed', name: '{{config('access.users_table')}}.confirmed'},
                     {data: 'roles', name: '{{config('access.roles_table')}}.name', sortable: false},
+                    {data: 'social', name: 'social', sortable: false},
                     {data: 'created_at', name: '{{config('access.users_table')}}.created_at'},
                     {data: 'updated_at', name: '{{config('access.users_table')}}.updated_at'},
                     {data: 'actions', name: 'actions', searchable: false, sortable: false}

@@ -53,7 +53,7 @@ class UserRouteTest extends BrowserKitTestCase
         $this->actingAs($this->admin)
             ->visit('/admin/access/user/'.$this->user->id.'/edit')
             ->see('Edit User')
-            ->see($this->user->name)
+            ->see($this->user->nickname)
             ->see($this->user->email);
     }
 
@@ -66,6 +66,9 @@ class UserRouteTest extends BrowserKitTestCase
 
     public function testResendUserConfirmationEmail()
     {
+        config(['access.users.confirm_email' => true]);
+        config(['access.users.requires_approval' => false]);
+
         Notification::fake();
         $this->actingAs($this->admin)
             ->visit('/admin/access/user')
@@ -80,8 +83,8 @@ class UserRouteTest extends BrowserKitTestCase
         $this->actingAs($this->admin)
             ->visit('/admin/access/user/'.$this->user->id.'/login-as')
              ->seePageIs('/dashboard')
-            ->see('You are currently logged in as '.$this->user->name.'.')
-            ->see($this->admin->name)
+            ->see('You are currently logged in as '.$this->user->nickname.'.')
+            ->see($this->admin->nickname)
             ->assertTrue(access()->id() == $this->user->id);
     }
 
@@ -97,8 +100,8 @@ class UserRouteTest extends BrowserKitTestCase
         $this->actingAs($this->admin)
             ->visit('/admin/access/user/'.$this->user->id.'/login-as')
              ->seePageIs('/dashboard')
-            ->see('You are currently logged in as '.$this->user->name.'.')
-            ->click('Re-Login as '.$this->admin->name)
+            ->see('You are currently logged in as '.$this->user->nickname.'.')
+            ->click('Re-Login as '.$this->admin->nickname)
             ->seePageIs('/admin/access/user')
             ->assertTrue(access()->id() == $this->admin->id);
     }

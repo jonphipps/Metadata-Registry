@@ -15,9 +15,9 @@
                 <div class="panel-body">
                     {{ Form::open(['route' => 'frontend.auth.password.name.post', 'class' => 'form-horizontal']) }}
                     <div class="form-group">
-                        {{ Form::label('name', trans('validation.attributes.frontend.name'), ['class' => 'col-md-4 control-label']) }}
+                        {{ Form::label('nickname', trans('validation.attributes.frontend.name'), ['class' => 'col-md-4 control-label']) }}
                         <div class="col-md-6">
-                            {{ Form::text('name', 'name', null, ['class' => 'form-control', 'placeholder' => trans('validation.attributes.frontend.name')]) }}
+                            {{ Form::text('nickname', null, ['class' => 'form-control', 'placeholder' => trans('validation.attributes.frontend.name'), 'autofocus']) }}
                             <div style="padding-top: .5em">
                                 {{ laravel_link_to_route('frontend.auth.password.email', trans('labels.frontend.passwords.forgot_login_name')) }}
                             </div>

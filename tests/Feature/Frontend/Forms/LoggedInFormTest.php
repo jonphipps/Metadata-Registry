@@ -33,19 +33,19 @@ class LoggedInFormTest extends BrowserKitTestCase
         if (config('access.users.change_email')) {
             $this->actingAs($this->user)
                 ->visit('/account')
-                ->type('', 'name')
+                ->type('', 'nickname')
                 ->type('', 'email')
                 ->press('update-profile')
                 ->seePageIs('/account')
-                ->see('The name field is required.')
+                ->see('The nickname field is required.')
                 ->see('The email field is required.');
         } else {
             $this->actingAs($this->user)
                 ->visit('/account')
-                ->type('', 'name')
+                ->type('', 'nickname')
                 ->press('update-profile')
                 ->seePageIs('/account')
-                ->see('The name field is required.');
+                ->see('The nickname field is required.');
         }
     }
 
@@ -61,22 +61,22 @@ class LoggedInFormTest extends BrowserKitTestCase
             $this->actingAs($this->user)
                 ->visit('/account')
                 ->see('My Account')
-                ->type($this->user->name.'_'.$rand, 'name')
+                ->type($this->user->nickname.'_'.$rand, 'nickname')
                 ->type('2_'.$this->user->email, 'email')
                 ->press('update-profile')
                 ->seePageIs('/login')
                 ->see('You must confirm your new e-mail address')
                  ->seeInDatabase(config('access.users_table'),
-                     ['email' => '2_'.$this->user->email, 'name' => $this->user->name.'_'.$rand]);
+                     ['email' => '2_'.$this->user->email, 'nickname' => $this->user->nickname.'_'.$rand]);
         } else {
             $this->actingAs($this->user)
                 ->visit('/account')
                 ->see('My Account')
-                ->type($this->user->name.'_'.$rand, 'name')
+                ->type($this->user->nickname.'_'.$rand, 'nickname')
                 ->press('update-profile')
                 ->seePageIs('/account')
                 ->see('Profile successfully updated.')
-                ->seeInDatabase(config('access.users_table'), ['name'  => $this->user->name.'_'.$rand]);
+                ->seeInDatabase(config('access.users_table'), ['nickname'  => $this->user->nickname.'_'.$rand]);
         }
     }
 

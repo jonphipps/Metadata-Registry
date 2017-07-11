@@ -2,8 +2,10 @@
 
 namespace Tests\Feature\Frontend\Forms;
 
+use App\Mail\Frontend\Contact\SendContact;
 use Faker\Factory;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Mail;
 use Tests\BrowserKitTestCase;
 use App\Models\Access\User\User;
 use Illuminate\Support\Facades\DB;
@@ -32,12 +34,12 @@ class LoggedOutFormTest extends BrowserKitTestCase
     public function testRegistrationRequiredFields()
     {
         $this->visit('/register')
-         ->type('', 'name')
+         ->type('', 'nickname')
          ->type('', 'email')
          ->type('', 'password')
          ->press('Register')
          ->seePageIs('/register')
-         ->see('The name field is required.')
+         ->see('The nickname field is required.')
          ->see('The email field is required.')
          ->see('The password field is required.');
     }
@@ -53,45 +55,112 @@ class LoggedOutFormTest extends BrowserKitTestCase
         // Make sure our events are fired
         Event::fake();
 
+        config(['access.users.confirm_email' => false]);
+        config(['access.users.requires_approval' => false]);
+
         // Create any needed resources
         $faker = Factory::create();
-        $name     = $faker->name;
+        $name     = $faker->userName;
         $email    = $faker->safeEmail;
         $password = $faker->password(8);
 
-        // Check if confirmation required is on or off
-        if (config('access.users.confirm_email')) {
-            Notification::fake();
+        $this->visit('/register')
+             ->type($name, 'nickname')
+             ->type($email, 'email')
+             ->type($password, 'password')
+             ->type($password, 'password_confirmation')
+             ->press('Register')
+             ->seePageIs('/')
+            ->seeInDatabase(config('access.users_table'),
+                 [
+                     'email' => $email,
+                     'nickname' => $name,
+                     'confirmed' => 1,
+                 ]);
 
-            $this->visit('/register')
-               ->type($name, 'name')
-               ->type($email, 'email')
-               ->type($password, 'password')
-               ->type($password, 'password_confirmation')
-               ->press('Register')
-               ->see('Your account was successfully created. We have sent you an e-mail to confirm your account.')
-               ->see('Login')
-               ->seePageIs('/')
-                ->seeInDatabase(config('access.users_table'), ['email' => $email, 'name'  => $name]);
+        Event::assertDispatched(UserRegistered::class);
+    }
 
-            // Get the user that was inserted into the database
-            $user = User::where('email', $email)->first();
+    /**
+     * Test the required fields error messages when trying to register
+     * without filling out the fields.
+     */
+    public function testRegistrationFormConfirmationRequired()
+    {
+        Event::fake();
+        Notification::fake();
 
-            // Check that the user was sent the confirmation email
-            Notification::assertSentTo([$user],
-                UserNeedsConfirmation::class);
-        } else {
-            $this->visit('/register')
-               ->type($name, 'name')
-               ->type($email, 'email')
-               ->type($password, 'password')
-               ->type($password, 'password_confirmation')
-               ->press('Register')
-               ->see('Dashboard')
-               ->seePageIs('/')
-                 ->seeInDatabase(config('access.users_table'), ['email' => $email, 'name' => $name]);
-        }
+        config(['access.users.confirm_email' => true]);
+        config(['access.users.requires_approval' => false]);
 
+        // Create any needed resources
+        $faker =  Factory::create();
+        $name  = $faker->userName;
+        $email = $faker->safeEmail;
+        $password = $faker->password(8);
+
+        $this->visit('/register')
+            ->type($name, 'nickname')
+            ->type($email, 'email')
+            ->type($password, 'password')
+            ->type($password, 'password_confirmation')
+            ->press('Register')
+            ->see('Your account was successfully created. We have sent you an e-mail to confirm your account.')
+            ->see('Login')
+            ->seePageIs('/')
+            ->seeInDatabase(config('access.users_table'),
+                [
+                    'email' => $email,
+                    'nickname' => $name,
+                    'confirmed' => 0,
+                ]);
+
+        // Get the user that was inserted into the database
+        $user = User::where('nickname', $name)->first();
+
+        Notification::assertSentTo([$user], UserNeedsConfirmation::class);
+        Event::assertDispatched(UserRegistered::class);
+    }
+
+    /**
+     * Test the registration form when account are set to be pending an approval
+     * ensure they are registered but not confirmed.
+     */
+    public function testRegistrationFormPendingApproval()
+    {
+        Event::fake();
+        Notification::fake();
+
+        // Set registration to pending approval
+        config(['access.users.confirm_email' => false]);
+        config(['access.users.requires_approval' => true]);
+
+        // Create any needed resources
+        $faker = Factory::create();
+        $name     = $faker->userName;
+        $email = $faker->safeEmail;
+        $password = $faker->password(8);
+
+        $this->visit('/register')
+            ->type($name, 'nickname')
+            ->type($email, 'email')
+            ->type($password, 'password')
+            ->type($password, 'password_confirmation')
+            ->press('Register')
+            ->see('Your account was successfully created and is pending approval. An e-mail will be sent when your account is approved.')
+            ->see('Login')
+            ->seePageIs('/')
+            ->seeInDatabase(config('access.users_table'),
+                [
+                    'email' => $email,
+                    'nickname' => $name,
+                    'confirmed' => 0,
+                ]);
+
+        // Get the user that was inserted into the database
+        $user = User::where('nickname', $name)->first();
+
+        Notification::assertNotSentTo([$user], UserNeedsConfirmation::class);
         Event::assertDispatched(UserRegistered::class);
     }
 
@@ -102,11 +171,11 @@ class LoggedOutFormTest extends BrowserKitTestCase
     public function testLoginRequiredFields()
     {
         $this->visit('/login')
-         ->type('', 'name')
+         ->type('', 'nickname')
          ->type('', 'password')
          ->press('Login')
          ->seePageIs('/login')
-         ->see('The name field is required.')
+         ->see('The nickname field is required.')
          ->see('The password field is required.');
     }
 
@@ -124,17 +193,17 @@ class LoggedOutFormTest extends BrowserKitTestCase
 
         //User Test
         $this->visit('/login')
-         ->type($this->user->name, 'name')
+         ->type($this->user->nickname, 'nickname')
          ->type('1234', 'password')
-         ->press('Login')
-         ->seePageIs('/dashboard')
+         ->press('Login');
+         $this->seePageIs('/dashboard')
          ->see($this->user->name);
 
         Auth::logout();
 
         //Admin Test
         $this->visit('/login')
-         ->type($this->admin->name, 'name')
+         ->type($this->admin->nickname, 'nickname')
          ->type('1234', 'password')
          ->press('Login')
          ->seePageIs('/admin/dashboard')
@@ -171,7 +240,7 @@ class LoggedOutFormTest extends BrowserKitTestCase
 
         $this->_initializeClient();
         $this->receivedAnEmailToEmail($this->user->email);
-        $this->seeInEmailTextBody($this->user->name);
+        $this->seeInEmailTextBody($this->user->nickname);
     }
 
 
@@ -192,8 +261,8 @@ class LoggedOutFormTest extends BrowserKitTestCase
 
         $this->_initializeClient();
         $this->receivedAnEmailToEmail($this->user->email);
-        $this->seeInEmailTextBody($this->user->name);
-        $this->seeInEmailTextBody($user2->name);
+        $this->seeInEmailTextBody($this->user->nickname);
+        $this->seeInEmailTextBody($user2->nickname);
     }
 
 
@@ -203,10 +272,10 @@ class LoggedOutFormTest extends BrowserKitTestCase
     public function testForgotPasswordRequiredFields()
     {
         $this->visit('/password/reset')
-         ->type('', 'name')
+         ->type('', 'nickname')
          ->press('Send Password Reset Link')
          ->seePageIs('/password/reset')
-         ->see('The name field is required.');
+         ->see('The nickname field is required.');
     }
 
 
@@ -219,12 +288,12 @@ class LoggedOutFormTest extends BrowserKitTestCase
         Notification::fake();
 
         $this->visit('password/reset')
-         ->type($this->user->name, 'name')
+         ->type($this->user->nickname, 'nickname')
          ->press('Send Password Reset Link')
          ->seePageIs('password/reset')
          ->see('We have e-mailed your password reset link!')
          ->seeInDatabase('password_resets', [ 'email' => $this->user->email ])
-         ->seeInDatabase('password_resets', [ 'name' => $this->user->name ]);
+         ->seeInDatabase('password_resets', [ 'name' => $this->user->nickname ]);
 
         Notification::assertSentTo(
             [ $this->user ],
@@ -241,11 +310,11 @@ class LoggedOutFormTest extends BrowserKitTestCase
       $token = $this->app->make('auth.password.broker')->createToken($this->user);
 
       //add the user name to the password tokens table
-      DB::table('password_resets')->where('email', $this->user->email)->update([ 'name' => $this->user->name ]);
+      DB::table('password_resets')->where('email', $this->user->email)->update([ 'name' => $this->user->nickname ]);
 
       $this->visit('password/reset/' . $token)
          ->see($this->user->email)
-         ->see($this->user->name)
+         ->see($this->user->nickname)
          ->type('', 'password')
          ->type('', 'password_confirmation')
          ->press('Reset Password')
@@ -261,12 +330,12 @@ class LoggedOutFormTest extends BrowserKitTestCase
         //add the user name to the password tokens table
         DB::table('password_resets')
           ->where('email', $this->user->email)
-          ->update(['name' => $this->user->name]);
+          ->update(['name' => $this->user->nickname]);
 
         /** @noinspection PhpVoidFunctionResultUsedInspection */
         $this->visit('password/reset/'.$token)
              ->see($this->user->email)
-             ->see($this->user->name)
+             ->see($this->user->nickname)
              ->type('12345678', 'password')
              ->type('12345678', 'password_confirmation')
              ->press('Reset Password')
@@ -287,18 +356,38 @@ class LoggedOutFormTest extends BrowserKitTestCase
      */
     public function testUnconfirmedUserCanNotLogIn()
     {
+        config(['access.users.requires_approval' => false]);
+
         // Create default user to test with
         $unconfirmed = factory(User::class)->states('unconfirmed')->create();
         $unconfirmed->attachRole(3); //User
 
         $this->visit('/login')
-         ->type($unconfirmed->name, 'name')
+         ->type($unconfirmed->nickname, 'nickname')
          ->type('secret', 'password')
          ->press('Login')
          ->seePageIs('/login')
          ->see('Your account is not confirmed.');
     }
 
+    /**
+     * Test that an account this is currently pending approval can not log in.
+     */
+    public function testUnconfirmedUserCanNotLogInPendingApproval()
+    {
+        config(['access.users.requires_approval' => true]);
+
+        // Create default user to test with
+        $unconfirmed = factory(User::class)->states('unconfirmed')->create();
+        $unconfirmed->attachRole(3); //User
+
+        $this->visit('/login')
+            ->type($unconfirmed->nickname, 'nickname')
+            ->type('secret', 'password')
+            ->press('Login')
+            ->seePageIs('/login')
+            ->see('Your account is currently pending approval.');
+    }
 
   /**
      * Test that an inactive user can not login.
@@ -310,7 +399,7 @@ class LoggedOutFormTest extends BrowserKitTestCase
         $inactive->attachRole(3); //User
 
         $this->visit('/login')
-         ->type($inactive->name, 'name')
+         ->type($inactive->nickname, 'nickname')
          ->type('secret', 'password')
          ->press('Login')
          ->seePageIs('/login')
@@ -324,13 +413,44 @@ class LoggedOutFormTest extends BrowserKitTestCase
     public function testInvalidLoginCredentials()
     {
         $this->visit('/login')
-         ->type($this->user->name, 'name')
+         ->type($this->user->nickname, 'nickname')
          ->type('9s8gy8s9diguh4iev', 'password')
          ->press('Login')
          ->seePageIs('/login')
          ->see('These credentials do not match our records.');
     }
 
+    /**
+     * Test the contact forms required fields.
+     */
+    public function testContactFormRequiredFields()
+    {
+        $this->visit('/contact')
+            ->press(trans('labels.frontend.contact.button'))
+            ->seePageIs('/contact')
+            ->see('The nickname field is required.')
+            ->see('The email field is required.')
+            ->see('The message field is required.');
+    }
+
+    /**
+     * Test the contact form sends the mail.
+     */
+    public function testContactForm()
+    {
+        Mail::fake();
+
+        $this->visit('/contact')
+            ->type('Administrator', 'nickname')
+            ->type('admin@admin.com', 'email')
+            ->type('1112223333', 'phone')
+            ->type('Hello There', 'message')
+            ->press(trans('labels.frontend.contact.button'))
+            ->seePageIs('/contact')
+            ->see(trans('alerts.frontend.contact.sent'));
+
+        Mail::assertSent(SendContact::class);
+    }
 
   /**
      * Adds a password reset row to the database to play with.

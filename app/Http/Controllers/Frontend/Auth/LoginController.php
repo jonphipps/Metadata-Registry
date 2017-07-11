@@ -10,6 +10,7 @@ use App\Helpers\Frontend\Auth\Socialite;
 use App\Events\Frontend\Auth\UserLoggedIn;
 use App\Events\Frontend\Auth\UserLoggedOut;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Repositories\Frontend\Access\User\UserSessionRepository;
 
 /**
  * Class LoginController.
@@ -20,7 +21,7 @@ class LoginController extends Controller
 
     public function username()
     {
-        return 'name';
+        return 'nickname';
     }
 
     /**
@@ -63,6 +64,13 @@ class LoginController extends Controller
          */
         if (! $user->isConfirmed()) {
             access()->logout();
+
+            // If the user is pending (account approval is on)
+            if ($user->isPending()) {
+                throw new GeneralException(trans('exceptions.frontend.auth.confirmation.pending'));
+            }
+
+            // Otherwise see if they want to resent the confirmation e-mail
             throw new GeneralException(trans('exceptions.frontend.auth.confirmation.resend', ['user_id' => $user->id]));
         } elseif (! $user->isActive()) {
             access()->logout();
@@ -70,6 +78,12 @@ class LoginController extends Controller
         }
 
         event(new UserLoggedIn($user));
+
+        // If only allowed one session at a time
+        if (config('access.users.single_login')) {
+            app()->make(UserSessionRepository::class)->clearSessionExceptCurrent($user);
+        }
+
         return redirect()->intended($this->redirectPath());
     }
 
@@ -140,6 +154,7 @@ class LoginController extends Controller
 
             //Otherwise logout and redirect to login
             access()->logout();
+
             return redirect()->route('frontend.auth.login');
         }
     }

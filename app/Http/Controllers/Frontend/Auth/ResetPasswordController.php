@@ -75,16 +75,22 @@ class ResetPasswordController extends Controller
      */
     public function showResetForm($token = null)
     {
-        if (! $token) {
+        if ( ! $token) {
             return redirect()->route('frontend.auth.password.email');
         }
-      /** @noinspection NonSecureExtractUsageInspection */
-      extract($this->user->getEmailForPasswordToken($token));
 
-        return view('frontend.auth.passwords.reset')
-        ->withToken($token)
-        ->withEmail($email)
-        ->withName($name);
+        $user = $this->user->findByPasswordResetToken($token);
+
+        if ($user && app()->make('auth.password.broker')->tokenExists($user, $token)) {
+            return view('frontend.auth.passwords.reset')
+                ->withToken($token)
+                ->withEmail($user->email)
+                ->withName($user->nickname);
+        }
+
+        return redirect()
+            ->route('frontend.auth.password.email')
+            ->withFlashDanger(trans('exceptions.frontend.auth.password.reset_problem'));
     }
 
 
@@ -97,7 +103,7 @@ class ResetPasswordController extends Controller
     {
         return [
         'token'    => 'required',
-        'name'     => 'required',
+        'nickname' => 'required',
         'password' => 'required|confirmed|min:6',
         ];
     }
@@ -113,7 +119,7 @@ class ResetPasswordController extends Controller
     protected function credentials(Request $request)
     {
         return $request->only(
-            'name',
+            'nickname',
             'password',
             'password_confirmation',
             'token'
@@ -131,7 +137,7 @@ class ResetPasswordController extends Controller
    */
     protected function sendResetFailedResponse(Request $request, $response)
     {
-        return redirect()->back()->withInput($request->only('name'))->withErrors([ 'name' => trans($response) ]);
+        return redirect()->back()->withInput($request->only('nickname'))->withErrors([ 'nickname' => trans($response) ]);
     }
 
     /**

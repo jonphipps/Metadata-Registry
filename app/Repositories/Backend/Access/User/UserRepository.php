@@ -11,9 +11,12 @@ use App\Events\Backend\Access\User\UserCreated;
 use App\Events\Backend\Access\User\UserDeleted;
 use App\Events\Backend\Access\User\UserUpdated;
 use App\Events\Backend\Access\User\UserRestored;
+use App\Events\Backend\Access\User\UserConfirmed;
 use App\Events\Backend\Access\User\UserDeactivated;
 use App\Events\Backend\Access\User\UserReactivated;
+use App\Events\Backend\Access\User\UserUnconfirmed;
 use App\Events\Backend\Access\User\UserPasswordChanged;
+use App\Notifications\Backend\Access\UserAccountActive;
 use App\Repositories\Backend\Access\Role\RoleRepository;
 use App\Events\Backend\Access\User\UserPermanentlyDeleted;
 use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
@@ -52,10 +55,12 @@ class UserRepository extends BaseRepository
         if (! is_array($permissions)) {
             $permissions = [$permissions];
         }
+
         return $this->query()->whereHas('roles.permissions', function ($query) use ($permissions, $by) {
             $query->whereIn('permissions.'.$by, $permissions);
         })->get();
     }
+
     /**
      * @param        $roles
      * @param string $by
@@ -67,10 +72,12 @@ class UserRepository extends BaseRepository
         if (! is_array($roles)) {
             $roles = [$roles];
         }
+
         return $this->query()->whereHas('roles', function ($query) use ($roles, $by) {
             $query->whereIn('roles.'.$by, $roles);
         })->get();
     }
+
     /**
      * @param int  $status
      * @param bool $trashed
@@ -87,7 +94,7 @@ class UserRepository extends BaseRepository
             ->with('roles')
             ->select([
                 config('access.users_table').'.id',
-                config('access.users_table').'.name',
+                config('access.users_table').'.nickname',
                 config('access.users_table').'.email',
                 config('access.users_table').'.status',
                 config('access.users_table').'.confirmed',
@@ -102,6 +109,14 @@ class UserRepository extends BaseRepository
 
         // active() is a scope on the UserScope trait
         return $dataTableQuery->active($status);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUnconfirmedCount()
+    {
+        return $this->query()->where('confirmed', 0)->count();
     }
 
     /**
@@ -125,8 +140,8 @@ class UserRepository extends BaseRepository
                 //Attach new roles
                 $user->attachRoles($roles['assignees_roles']);
 
-                //Send confirmation email if requested
-                if (isset($data['confirmation_email']) && $user->confirmed == 0) {
+                //Send confirmation email if requested and account approval is off
+                if (isset($data['confirmation_email']) && $user->confirmed == 0 && ! config('access.users.requires_approval')) {
                     $user->notify(new UserNeedsConfirmation($user->confirmation_code));
                 }
 
@@ -153,10 +168,9 @@ class UserRepository extends BaseRepository
 
         $this->checkUserByEmail($data, $user);
 
-        $user->name = $data['name'];
+        $user->nickname = $data['nickname'];
         $user->email = $data['email'];
         $user->status = isset($data['status']) ? 1 : 0;
-        $user->confirmed = isset($data['confirmed']) ? 1 : 0;
 
         DB::transaction(function () use ($user, $data, $roles) {
             if ($user->save()) {
@@ -297,6 +311,69 @@ class UserRepository extends BaseRepository
     }
 
     /**
+     * @param Model $user
+     *
+     * @return bool
+     * @throws GeneralException
+     */
+    public function confirm(Model $user)
+    {
+        if ($user->confirmed == 1) {
+            throw new GeneralException(trans('exceptions.backend.access.users.already_confirmed'));
+        }
+
+        $user->confirmed = 1;
+        $confirmed = $user->save();
+
+        if ($confirmed) {
+            event(new UserConfirmed($user));
+
+            // Let user know their account was approved
+            if (config('access.users.requires_approval')) {
+                $user->notify(new UserAccountActive());
+            }
+
+            return true;
+        }
+
+        throw new GeneralException(trans('exceptions.backend.access.users.cant_confirm'));
+    }
+
+    /**
+     * @param Model $user
+     *
+     * @return bool
+     * @throws GeneralException
+     */
+    public function unconfirm(Model $user)
+    {
+        if ($user->confirmed == 0) {
+            throw new GeneralException(trans('exceptions.backend.access.users.not_confirmed'));
+        }
+
+        if ($user->id == 1) {
+            // Cant un-confirm admin
+            throw new GeneralException(trans('exceptions.backend.access.users.cant_unconfirm_admin'));
+        }
+
+        if ($user->id == access()->id()) {
+            // Cant un-confirm self
+            throw new GeneralException(trans('exceptions.backend.access.users.cant_unconfirm_self'));
+        }
+
+        $user->confirmed = 0;
+        $unconfirmed = $user->save();
+
+        if ($unconfirmed) {
+            event(new UserUnconfirmed($user));
+
+            return true;
+        }
+
+        throw new GeneralException(trans('exceptions.backend.access.users.cant_unconfirm')); // TODO
+    }
+
+    /**
      * @param  $input
      * @param  $user
      *
@@ -347,7 +424,7 @@ class UserRepository extends BaseRepository
     {
         $user = self::MODEL;
         $user = new $user;
-        $user->name = $input['name'];
+        $user->nickname = $input['nickname'];
         $user->email = $input['email'];
         $user->password = bcrypt($input['password']);
         $user->status = isset($input['status']) ? 1 : 0;

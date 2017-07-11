@@ -25,12 +25,12 @@ class UserFormTest extends BrowserKitTestCase
     {
         $this->actingAs($this->admin)
              ->visit('/admin/access/user/create')
-             ->type('', 'name')
+             ->type('', 'nickname')
              ->type('', 'email')
              ->type('', 'password')
              ->type('', 'password_confirmation')
              ->press('Create')
-             ->see('The name field is required.')
+             ->see('The nickname field is required.')
              ->see('The email field is required.')
              ->see('The password field is required.');
     }
@@ -39,7 +39,7 @@ class UserFormTest extends BrowserKitTestCase
     {
         $this->actingAs($this->admin)
              ->visit('/admin/access/user/create')
-             ->type('Test User', 'name')
+             ->type('Test User', 'nickname')
              ->type('test@test.com', 'email')
              ->type('123456', 'password')
              ->type('1234567', 'password_confirmation')
@@ -54,13 +54,13 @@ class UserFormTest extends BrowserKitTestCase
 
         // Create any needed resources
         $faker = Factory::create();
-        $name = $faker->name;
+        $name = $faker->userName;
         $email = $faker->safeEmail;
         $password = $faker->password(8);
 
         $this->actingAs($this->admin)
              ->visit('/admin/access/user/create')
-             ->type($name, 'name')
+             ->type($name, 'nickname')
              ->type($email, 'email')
              ->type($password, 'password')
              ->type($password, 'password_confirmation')
@@ -72,7 +72,7 @@ class UserFormTest extends BrowserKitTestCase
              ->press('Create')
              ->seePageIs('/admin/access/user')
              ->see('The user was successfully created.')
-             ->seeInDatabase(config('access.users_table'), ['name' => $name, 'email' => $email, 'status' => 1, 'confirmed' => 1]);
+             ->seeInDatabase(config('access.users_table'), ['nickname' => $name, 'email' => $email, 'status' => 1, 'confirmed' => 1]);
         $latestId = User::orderby('created_at', 'desc')
                         ->first()->id;
         $this->seeInDatabase(config('access.role_user_table'), ['user_id' => $latestId, 'role_id' => 2])
@@ -97,7 +97,7 @@ class UserFormTest extends BrowserKitTestCase
 
         $this->actingAs($this->admin)
              ->visit('/admin/access/user/create')
-             ->type($name, 'name')
+             ->type($name, 'nickname')
              ->type($email, 'email')
              ->type($password, 'password')
              ->type($password, 'password_confirmation')
@@ -110,7 +110,7 @@ class UserFormTest extends BrowserKitTestCase
              ->seePageIs('/admin/access/user')
              ->see('The user was successfully created.')
              ->seeInDatabase(config('access.users_table'),
-                 ['name' => $name, 'email' => $email, 'status' => 1, 'confirmed' => 0]);
+                 ['nickname' => $name, 'email' => $email, 'status' => 1, 'confirmed' => 0]);
         $latestId = User::orderby('created_at', 'desc')
                         ->first()->id;
         $this->seeInDatabase(config('access.role_user_table'), ['user_id' => $latestId, 'role_id' => 2])
@@ -131,24 +131,24 @@ class UserFormTest extends BrowserKitTestCase
         //    $this->markTestSkipped('Must be revisited:');
         $this->actingAs($this->admin)
              ->visit('/admin/access/user/create')
-             ->type('defaultuser', 'name')
+             ->type('defaultuser', 'nickname')
              ->type('user@user.com', 'email')
              ->type('123456', 'password')
              ->type('123456', 'password_confirmation')
              ->check('assignees_roles[3]');
         $this->press('Create');
         $this->seePageIs('/admin/access/user/create')
-             ->see('The name has already been taken.');
+             ->see('The nickname has already been taken.');
     }
 
     public function testUpdateUserRequiredFields()
     {
         $this->actingAs($this->admin)
              ->visit('/admin/access/user/3/edit')
-             ->type('', 'name')
+             ->type('', 'nickname')
              ->type('', 'email')
              ->press('Update')
-             ->see('The name field is required.')
+             ->see('The nickname field is required.')
              ->see('The email field is required.');
     }
 
@@ -159,12 +159,11 @@ class UserFormTest extends BrowserKitTestCase
 
         $this->actingAs($this->admin)
              ->visit('/admin/access/user/'.$this->user->id.'/edit')
-             ->see($this->user->name)
+             ->see($this->user->nickname)
              ->see($this->user->email)
-             ->type('User New', 'name')
+             ->type('UserNew', 'nickname')
              ->type('user2@user.com', 'email')
              ->uncheck('status')
-             ->uncheck('confirmed')
              ->check('assignees_roles[2]')
              ->uncheck('assignees_roles[3]')
              ->press('Update')
@@ -173,10 +172,9 @@ class UserFormTest extends BrowserKitTestCase
              ->seeInDatabase(config('access.users_table'),
                  [
                      'id'        => $this->user->id,
-                     'name'      => 'User New',
+                     'nickname'  => 'UserNew',
                      'email'     => 'user2@user.com',
                      'status'    => 0,
-                     'confirmed' => 0,
                  ])
              ->seeInDatabase(config('access.role_user_table'), ['user_id' => $this->user->id, 'role_id' => 2])
              ->notSeeInDatabase(config('access.role_user_table'), ['user_id' => $this->user->id, 'role_id' => 3]);

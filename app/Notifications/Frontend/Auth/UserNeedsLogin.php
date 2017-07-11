@@ -49,13 +49,13 @@ class UserNeedsLogin extends Notification
                                   ->line(trans('strings.emails.auth.login_name_cause_of_email'));
         if ($this->users->count() === 1) {
             $message->line(trans('strings.emails.auth.login_name_list'))
-              ->line($notifiable->name);
+              ->line($notifiable->nickname);
         } else {
             $count = 0;
             /** @var \Collection $notifiable */
             $message->line(trans('strings.emails.auth.login_names_list'));
             foreach ($this->users as $login) {
-                $message->line(++$count . ':   ' . $login->name);
+                $message->line(++$count . ':   ' . $login->nickname);
             }
         }
 

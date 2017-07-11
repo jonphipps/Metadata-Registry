@@ -103,7 +103,7 @@ class UserRepository extends BaseRepository
   {
     $user                    = self::MODEL;
     $user                    = new $user();
-    $user->name              = $data['name'];
+    $user->nickname          = $data['nickname'];
     $user->email             = $data['email'];
     $user->confirmation_code = md5(uniqid(mt_rand(), true));
     $user->status            = 1;
@@ -162,7 +162,7 @@ class UserRepository extends BaseRepository
             }
 
       $user = $this->create([
-          'name'  => $data->name,
+          'nickname'  => $data->nickname,
           'email' => $user_email,
             ], true);
     }
@@ -225,7 +225,7 @@ class UserRepository extends BaseRepository
   public function updateProfile($id, $input)
   {
         $user = $this->find($id);
-    $user->name = $input['name'];
+    $user->nickname = $input['nickname'];
 
     if ($user->canChangeEmail()) {
       //Address is not current address

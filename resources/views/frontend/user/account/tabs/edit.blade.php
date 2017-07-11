@@ -1,9 +1,9 @@
 {{ Form::model($logged_in_user, ['route' => 'frontend.user.profile.update', 'class' => 'form-horizontal', 'method' => 'PATCH']) }}
 
     <div class="form-group">
-        {{ Form::label('name', trans('validation.attributes.frontend.name'), ['class' => 'col-md-4 control-label']) }}
+        {{ Form::label('nickname', trans('validation.attributes.frontend.name'), ['class' => 'col-md-4 control-label']) }}
         <div class="col-md-6">
-            {{ Form::text('name', null, ['class' => 'form-control', 'required' => 'required', 'autofocus' => 'autofocus', 'maxlength' => '191', 'placeholder' => trans('validation.attributes.frontend.name')]) }}
+            {{ Form::text('nickname', null, ['class' => 'form-control', 'required' => 'required', 'autofocus' => 'autofocus', 'maxlength' => '191', 'placeholder' => trans('validation.attributes.frontend.name')]) }}
         </div>
     </div>
 

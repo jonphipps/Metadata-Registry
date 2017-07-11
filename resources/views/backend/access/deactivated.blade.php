@@ -46,20 +46,27 @@
 
 @section('after-scripts')
     {{ Html::script("https://cdn.datatables.net/v/bs/dt-1.10.15/datatables.min.js") }}
+    {{ Html::script("js/backend/plugin/datatables/dataTables-extend.js") }}
 
     <script>
         $(function() {
             $('#users-table').DataTable({
-                processing: true,
+                dom: 'lfrtip',
+                processing: false,
                 serverSide: true,
+                autoWidth: false,
                 ajax: {
                     url: '{{ route("admin.access.user.get") }}',
                     type: 'post',
-                    data: {status: 0, trashed: false}
+                    data: {status: 0, trashed: false},
+                    error: function (xhr, err) {
+                        if (err === 'parsererror')
+                            location.reload();
+                    }
                 },
                 columns: [
                     {data: 'id', name: '{{config('access.users_table')}}.id'},
-                    {data: 'name', name: '{{config('access.users_table')}}.name'},
+                    {data: 'nickname', name: '{{config('access.users_table')}}.name'},
                     {data: 'email', name: '{{config('access.users_table')}}.email'},
                     {data: 'confirmed', name: '{{config('access.users_table')}}.confirmed'},
                     {data: 'roles', name: '{{config('access.roles_table')}}.name', sortable: false},

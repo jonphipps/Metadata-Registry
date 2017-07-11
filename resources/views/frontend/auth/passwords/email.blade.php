@@ -1,5 +1,7 @@
 @extends('backpack::auth')
 
+@section('title', app_name() . ' | Send login')
+
 @section('content')
     <div class="row">
 

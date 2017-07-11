@@ -5,7 +5,7 @@
     </tr>
     <tr>
         <th>{{ trans('labels.frontend.user.profile.name') }}</th>
-        <td>{{ $logged_in_user->name }}</td>
+        <td>{{ $logged_in_user->nickname }}</td>
     </tr>
     <tr>
         <th>{{ trans('labels.frontend.user.profile.email') }}</th>

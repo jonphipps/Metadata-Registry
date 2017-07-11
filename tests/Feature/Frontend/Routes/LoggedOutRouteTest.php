@@ -39,6 +39,10 @@ class LoggedOutRouteTest extends BrowserKitTestCase
         $this->visit('/macros')->see('Macro Examples');
     }
 
+    public function testContactPage()
+    {
+        $this->visit('/contact')->see('Contact Us');
+    }
 
   /**
      * Test the login page works.
@@ -75,7 +79,6 @@ class LoggedOutRouteTest extends BrowserKitTestCase
         $this->visit('/dashboard')->seePageIs('/login');
     }
 
-
   /**
      * Test the account page redirects to login.
      */
@@ -83,7 +86,6 @@ class LoggedOutRouteTest extends BrowserKitTestCase
     {
         $this->visit('/account')->seePageIs('/login');
     }
-
 
   /**
      * Create an unconfirmed user and assure the user gets
@@ -105,7 +107,6 @@ class LoggedOutRouteTest extends BrowserKitTestCase
         Event::assertDispatched(UserConfirmed::class);
     }
 
-
   /**
      * Assure the user gets resent a confirmation email
      * after hitting the resend confirmation route.
@@ -122,7 +123,6 @@ class LoggedOutRouteTest extends BrowserKitTestCase
             UserNeedsConfirmation::class);
     }
 
-
   /**
      * Test the language switcher changes the desired language in the session.
      */
@@ -137,10 +137,13 @@ class LoggedOutRouteTest extends BrowserKitTestCase
         }
     }
 
-
+    /**
+     * Test the generic 404 page.
+     */
     // public function test404Page()
     // {
-    //     $this->get($this->baseUrl . '/angobango')
-    //         ->see('The server returned a 404 response');
+    //     $response = $this->visit( '7g48hwbfw9eufj');
+    //     $this->assertEquals(404, $response->getStatusCode());
+    //     $this->assertContains('Page Not Found', $response->getContent());
     // }
 }
