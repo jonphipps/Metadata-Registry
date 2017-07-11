@@ -25,7 +25,7 @@ class SetSpreadsheetStep extends Step
     private $worksheets;
     private $title;
 
-    public function fields()
+    public function fields(): array
     {
         return [
             [
@@ -46,7 +46,7 @@ class SetSpreadsheetStep extends Step
         ];
     }
 
-    public function process(Request $request)
+    public function process(Request $request): void
     {
         //check to see if we have a batch
         //if no batch, create one and save the id to the session
@@ -54,14 +54,14 @@ class SetSpreadsheetStep extends Step
         $this->saveProgress($request, [ 'googlesheets' => $this->worksheets, 'title' => $this->title ]);
     }
 
-    public function rules(Request $request = null)
+    public function rules(Request $request = null): array
     {
         return [
             'source_file_name' => 'required|googleUrl',
         ];
     }
 
-    public function validate(Request $request)
+    public function validate(Request $request): void
     {
         //here we validate the input from the step
         Validator::make($request->all(), $this->rules($request))->validate();

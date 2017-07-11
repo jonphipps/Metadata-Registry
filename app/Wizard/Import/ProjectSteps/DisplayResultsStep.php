@@ -13,12 +13,12 @@ class DisplayResultsStep extends Step
     public static $slug = 'results';
     public static $view = 'frontend.import.project.steps.results';
 
-    public function fields()
+    public function fields(): array
     {
         return [];
     }
 
-    public function process(Request $request)
+    public function process(Request $request): void
     {
         // This will be a generic report of all of the imports in this run
         // it should maybe be a normal report screen rather than a step
@@ -26,11 +26,11 @@ class DisplayResultsStep extends Step
         //$this->saveProgress($request);
     }
 
-    public function validate(Request $request)
+    public function validate(Request $request): void
     {
     }
 
-    public function rules(Request $request = null)
+    public function rules(Request $request = null): array
     {
         return [];
     }

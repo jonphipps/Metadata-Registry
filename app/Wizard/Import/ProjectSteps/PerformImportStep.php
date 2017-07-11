@@ -13,12 +13,12 @@ class PerformImportStep extends Step
     public static $slug = 'import';
     public static $view = 'frontend.import.project.steps.import';
 
-    public function fields()
+    public function fields(): array
     {
         return [];
     }
 
-    public function process(Request $request)
+    public function process(Request $request): void
     {
         // run the import for each worksheet
         // deactivate the next button while processing, but keep the 'Finish in the background button'
@@ -26,11 +26,11 @@ class PerformImportStep extends Step
         //$this->saveProgress($request);
     }
 
-    public function validate(Request $request)
+    public function validate(Request $request): void
     {
     }
 
-    public function rules(Request $request = null)
+    public function rules(Request $request = null): array
     {
         return [];
     }

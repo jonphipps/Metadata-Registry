@@ -19,7 +19,7 @@ class SelectWorksheetsStep extends Step
     public static $slug = 'worksheets';
     public static $view = 'frontend.import.project.steps.worksheets';
 
-    public function fields()
+    public function fields(): array
     {
         return [
             [
@@ -30,7 +30,7 @@ class SelectWorksheetsStep extends Step
         ];
     }
 
-    public function process(Request $request)
+    public function process(Request $request): void
     {
         $worksheets[] = json_decode($request->selected_worksheets);
         $spreadsheet  = $this->wizard->dataGet('spreadsheet');

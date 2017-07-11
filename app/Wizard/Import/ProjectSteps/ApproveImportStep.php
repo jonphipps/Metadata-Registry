@@ -13,18 +13,18 @@ class ApproveImportStep extends Step
     public static $slug = 'approve';
     public static $view = 'frontend.import.project.steps.approve';
 
-    public function fields()
+    public function fields(): array
     {
         return [
             [
                 'name'  => 'approve',
                 'label' => 'Select to approve',
-                'type'  => 'jqxtree_select',
+                'type'  => 'jqxgrid_select',
             ],
         ];
     }
 
-    public function process(Request $request)
+    public function process(Request $request): void
     {
         // run the read each worksheet and get the changes
         // show the changes in a checkbox tree
@@ -33,11 +33,11 @@ class ApproveImportStep extends Step
         $this->saveProgress($request);
     }
 
-    public function validate(Request $request)
+    public function validate(Request $request): void
     {
     }
 
-    public function rules(Request $request = null)
+    public function rules(Request $request = null): array
     {
         return [];
     }
