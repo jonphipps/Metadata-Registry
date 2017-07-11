@@ -47,6 +47,8 @@ return [
     'in_array'             => ':attribute veld bestaat niet in :other.',
     'integer'              => ':attribute moet een heel getal zijn .',
     'ip'                   => ':attribute moet een geldig IP adres zijn.',
+    'ipv4'                 => 'The :attribute must be a valid IPv4 address.',
+    'ipv6'                 => 'The :attribute must be a valid IPv6 address.',
     'json'                 => ':attribute moet een geldige JSON string zijn.',
     'max'                  => [
         'numeric' => ':attribute mag niet groter zijn dan :max.',
@@ -156,6 +158,8 @@ return [
             'name'                      => 'Naam',
             'password'                  => 'Wachwoord',
             'password_confirmation'     => 'Wachtwoord Bevestiging',
+            'phone' => 'Phone',
+            'message' => 'Message',
             'old_password'              => 'Oud Wachtwoord',
             'new_password'              => 'Nieuw Wachtwoord',
             'new_password_confirmation' => 'Nieuw Wachtwoord Bevestigen',

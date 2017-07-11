@@ -47,6 +47,8 @@ return [
     'in_array'             => 'Das :attribute-Feld existiert nicht in :other.',
     'integer'              => ':attribute muss eine Ganzzahl sein.',
     'ip'                   => ':attribute muss eine gültige IP-Adresse sein.',
+    'ipv4'                 => 'The :attribute must be a valid IPv4 address.',
+    'ipv6'                 => 'The :attribute must be a valid IPv6 address.',
     'json'                 => ':attribute muss eine gültige JSON-Zeichenkette sein.',
     'max'                  => [
         'numeric' => ':attribute darf nicht grösser sein als :max.',
@@ -156,6 +158,8 @@ return [
             'name'                      => 'Name',
             'password'                  => 'Kennwort',
             'password_confirmation'     => 'Kennwort (Wdh.)',
+            'phone' => 'Phone',
+            'message' => 'Message',
             'old_password'              => 'Altes Kennwort',
             'new_password'              => 'Neues Kennwort',
             'new_password_confirmation' => 'Neues Kennwort (Wdh.)',

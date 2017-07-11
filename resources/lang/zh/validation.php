@@ -47,6 +47,8 @@ return [
     'in_array'             => ':attribute 没有在 :other 中。',
     'integer'              => ':attribute 必须是整数。',
     'ip'                   => ':attribute 必须是有效的 IP 地址。',
+    'ipv4'                 => 'The :attribute must be a valid IPv4 address.',
+    'ipv6'                 => 'The :attribute must be a valid IPv6 address.',
     'json'                 => ':attribute 必须是正确的 JSON 格式。',
     'max'                  => [
         'numeric' => ':attribute 不能大于 :max。',
@@ -158,6 +160,8 @@ return [
             'name'                      => '用户名',
             'password'                  => '密码',
             'password_confirmation'     => '确认密码',
+            'phone' => 'Phone',
+            'message' => 'Message',
             'old_password'              => '旧密码',
             'new_password'              => '新密码',
             'new_password_confirmation' => '确认新密码',
