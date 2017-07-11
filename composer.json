@@ -27,7 +27,7 @@
         "arcanedev/no-captcha": "^4.0",
         "asimlqt/php-google-spreadsheet-client": "3.0.*",
         "backpack/base": "^0.7.16",
-        "backpack/crud": "dev-master",
+        "backpack/crud": "*",
         "barryvdh/laravel-snappy": "^0.3.2",
         "bgcc/sf-select2-widgets-plugin": "~1.0",
         "bpocallaghan/titan": "^0.1.7",

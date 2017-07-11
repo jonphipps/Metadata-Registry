@@ -14,8 +14,8 @@ let WebpackRTLPlugin = require('webpack-rtl-plugin');
  */
 
 mix.setPublicPath('web/');
-mix.sass('resources/assets/sass/frontend/app.scss', 'web/css/frontend.css')
-  .sass('resources/assets/sass/backend/app.scss', 'web/css/backend.css')
+mix.sass('resources/assets/sass/frontend/app.scss', 'css/frontend.css')
+  .sass('resources/assets/sass/backend/app.scss', 'css/backend.css')
   .combine(['web/vendor/adminlte/bootstrap/css/bootstrap.min.css',
     'web/vendor/adminlte/dist/css/AdminLTE.min.css',
     'web/vendor/adminlte/dist/css/skins/skin-blue.min.css',
@@ -27,7 +27,7 @@ mix.sass('resources/assets/sass/frontend/app.scss', 'web/css/frontend.css')
     'resources/assets/js/frontend/app.js',
     'resources/assets/js/plugin/sweetalert/sweetalert.min.js',
     'resources/assets/js/plugins.js'
-  ], 'web/js/frontend.js')
+  ], 'js/frontend.js')
   .js([
     'resources/assets/js/backend/app.js',
     'resources/assets/js/plugin/sweetalert/sweetalert.min.js',
@@ -36,7 +36,7 @@ mix.sass('resources/assets/sass/frontend/app.scss', 'web/css/frontend.css')
     'web/vendor/adminlte/plugins/fastclick/fastclick.js',
     'web/vendor/adminlte/dist/js/app.min.js',
     'resources/assets/js/plugins.js'
-  ], 'web/js/backend.js')
+  ], 'js/backend.js')
   .webpackConfig({
     plugins: [
       new WebpackRTLPlugin('/css/[name].rtl.css')
@@ -45,9 +45,9 @@ mix.sass('resources/assets/sass/frontend/app.scss', 'web/css/frontend.css')
 
   mix.js('resources/assets/js/app.js', 'web/js')
   .extract(['vue', 'axios', 'jquery', 'lodash']);
-mix.copy('node_modules/jqwidgets-framework/jqwidgets', 'web/vendor/jqwidgets');
+mix.copy('node_modules/jqwidgets-framework/jqwidgets', 'vendor/jqwidgets');
 
-if (mix.config.inProduction) {
+if(mix.inProduction){
   mix.version();
 }
 mix.options({
