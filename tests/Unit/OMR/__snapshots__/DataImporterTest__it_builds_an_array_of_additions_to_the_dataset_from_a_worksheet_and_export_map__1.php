@@ -2,6 +2,26 @@
   0 => 
   array (
     'reg_id' => '',
+    '*preferred label[0]_en' => 'foobar',
+    '*preferred label[0]_fr' => 'fubaire',
+    'alternative label[0]_en' => '',
+    'alternative label[0]_fr' => '',
+    'ToolkitLabel_en' => 'foobar',
+    'ToolkitLabel_fr' => 'fubaire',
+    'definition[0]_en' => 'English definition',
+    'definition[0]_fr' => 'French definition',
+    'ToolkitDefinition_en' => 'English Toolkit Definition',
+    'ToolkitDefinition_fr' => 'French Toolkit definition',
+    'scope note[0]_en' => 'First English Scope Note',
+    'scope note[1]_en' => 'Second English Scope Note',
+    'scope note[0]_fr' => 'First French Scope Note',
+    'scope note[1]_fr' => 'Second French Scope Note',
+    '*uri' => 'RDAMediaType:1009',
+    '*status' => 'Published',
+  ),
+  1 => 
+  array (
+    'reg_id' => '',
     '*preferred label[0]_en' => 'New Video Row',
     '*preferred label[0]_fr' => 'vidéo',
     'alternative label[0]_en' => '',

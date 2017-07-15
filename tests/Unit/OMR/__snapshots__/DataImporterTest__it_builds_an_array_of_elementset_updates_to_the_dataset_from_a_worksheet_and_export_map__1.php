@@ -6,6 +6,8 @@
       'new value' => 'bingo',
       'old value' => NULL,
       'statement_id' => NULL,
+      'language' => 'fr',
+      'property_id' => '1',
       'updated_at' => NULL,
     ),
     '*label_fr' => 
@@ -13,6 +15,8 @@
       'new value' => 'foobar',
       'old value' => 'Famille',
       'statement_id' => 180596,
+      'language' => 'fr',
+      'property_id' => '2',
       'updated_at' => 
       Carbon\Carbon::__set_state(array(
          'date' => '2016-02-17 10:14:07.000000',
@@ -25,6 +29,8 @@
       'new value' => '',
       'old value' => 'rdac:Family.en',
       'statement_id' => 128175,
+      'language' => 'en',
+      'property_id' => '27',
       'updated_at' => 
       Carbon\Carbon::__set_state(array(
          'date' => '2015-06-20 19:37:46.000000',
