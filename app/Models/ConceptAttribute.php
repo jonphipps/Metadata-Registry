@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use InvalidArgumentException;
 use Laracasts\Matryoshka\Cacheable;
+use Venturecraft\Revisionable\RevisionableTrait;
 
 /**
  * App\Models\ConceptAttribute
@@ -47,6 +48,7 @@ use Laracasts\Matryoshka\Cacheable;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConceptAttributeHistory[] $history
  * @property-read \App\Models\ProfileProperty|null $profile_property
  * @property-read \App\Models\Concept|null $related_concept
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Venturecraft\Revisionable\Revision[] $revisionHistory
  * @property-read \App\Models\Access\User\User|null $updater
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute onlyTrashed()
@@ -80,6 +82,7 @@ class ConceptAttribute extends Model
     const TABLE = 'reg_concept_property';
     protected $table = self::TABLE;
     use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy;
+    use RevisionableTrait;
     use Cacheable;
     use Languages, BelongsToProfileProperty, BelongsToConcept, BelongsToRelatedConcept;
     protected $blameable = [
@@ -90,6 +93,7 @@ class ConceptAttribute extends Model
     protected $dates = [ 'deleted_at' ];
     protected $guarded = [ 'id' ];
     protected $touches = [ 'concept' ];
+    protected $revisionCreationsEnabled = true;
 
     /**
      * @param $vocabulary_id

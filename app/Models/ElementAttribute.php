@@ -6,7 +6,6 @@ use App\Models\Traits\BelongsToProfileProperty;
 use App\Models\Traits\BelongsToRelatedElement;
 use App\Models\Traits\HasStatus;
 use Carbon\Carbon;
-use function config;
 use Culpa\Traits\Blameable;
 use Culpa\Traits\CreatedBy;
 use Culpa\Traits\DeletedBy;
@@ -16,6 +15,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use InvalidArgumentException;
 use Laracasts\Matryoshka\Cacheable;
+use function config;
+use Venturecraft\Revisionable\RevisionableTrait;
 
 /**
  * App\Models\ElementAttribute
@@ -46,6 +47,7 @@ use Laracasts\Matryoshka\Cacheable;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementAttributeHistory[] $history
  * @property-read \App\Models\ProfileProperty $profile_property
  * @property-read \App\Models\Element|null $related_element
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Venturecraft\Revisionable\Revision[] $revisionHistory
  * @property-read \App\Models\Status|null $status
  * @property-read \App\Models\Access\User\User|null $updater
  * @method static bool|null forceDelete()
@@ -78,6 +80,7 @@ class ElementAttribute extends Model
     protected $table = self::TABLE;
     const TABLE = 'reg_schema_property_element';
     use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy;
+    use RevisionableTrait;
     use Cacheable;
     use Languages, HasStatus, BelongsToProfileProperty, BelongsToElement, BelongsToRelatedElement;
     protected $blameable = [
@@ -87,6 +90,8 @@ class ElementAttribute extends Model
     ];
     protected $dates = [ 'deleted_at' ];
     protected $touches = [ 'element' ];
+    protected $guarded = [ 'id' ];
+    protected $revisionCreationsEnabled = true;
 
     public function history(): ?HasMany
     {
