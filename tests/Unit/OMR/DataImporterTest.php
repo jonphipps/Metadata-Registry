@@ -182,12 +182,6 @@ class DataImporterTest extends TestCase
     {
         //given a data set pulled from a worksheet
         $data = collect($this->getVocabularyWorksheetData());
-        //add a new row that has no reg_id
-        $newRow     = $data[$data->count()-1];
-        $newRow[0]  = '';
-        $newRow[1]  = 'New Video Row';
-        $newRow[15] = 'RDAMediaType:1009';
-        $data[]     = $newRow;
         //delete a row
         $data->pull(4);
         $map        = $this->getMap()->toArray();
@@ -201,9 +195,9 @@ class DataImporterTest extends TestCase
         $deletedRows = $importer->getDeleteRows()->count();
         $updatedRows = $importer->getUpdateRows()->count();
         $addedRows = $importer->getAddRows()->count();
-        $this->assertEquals($importer->getStats()['deleted'], 1);
-        $this->assertEquals($importer->getStats()['updated'], 7);
-        $this->assertEquals($importer->getStats()['added'], 1);
+        $this->assertEquals(1,$importer->getStats()['deleted']);
+        $this->assertEquals(7,$importer->getStats()['updated']);
+        $this->assertEquals(1,$importer->getStats()['added']);
         //when I store it in the database
         $import = Import::create([ 'results' => $importer->getStats()]);
         $export->addImports($import);
