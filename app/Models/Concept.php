@@ -129,6 +129,28 @@ class Concept extends Model
             ->toArray();
     }
 
+    public function updateFromStatements(): self
+    {
+        //TODO the profile_property keys should be constants
+        $language   = $this->language;
+        $statements = $this->statements->keyBy(function($item) {
+            return $item['profile_property_id'] . '-' . $item['language'];
+        });
+        $this->uri  = isset($statements["62-"])? $statements["62-"]->object: null;
+        //$this->lexical_alias = $statements[0];
+        $this->pref_label    = isset($statements["45-$language"])? $statements["45-$language"]->object: null;
+        $this->pref_label_id = isset($statements["45-$language"])? $statements["45-$language"]->id: null;
+        if (isset($statements["59-"])) {
+            $this->status_id =
+                is_numeric($statements["59-"]->object)? $statements["59-"]->object:
+                    Status::getByName($statements["59-"]->object)->id;
+        }
+
+        $this->save();
+
+        return $this;
+    }
+
     /*
     |--------------------------------------------------------------------------
     | RELATIONS

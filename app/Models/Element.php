@@ -103,9 +103,45 @@ class Element extends Model
     protected $dates = [ 'deleted_at' ];
     protected $guarded = [ 'id' ];
 
-    public function statements(): ?HasMany
+    /*
+    |--------------------------------------------------------------------------
+    | FUNCTIONS
+    |--------------------------------------------------------------------------
+    */
+
+    public function updateFromStatements(): self
     {
-        return $this->hasMany( ElementAttribute::class, 'schema_property_id', 'id' );
+        //TODO the profile_property keys should be constants
+        $language         = $this->language;
+        $statements       = $this->statements->keyBy(function($item) {
+            return $item['profile_property_id'] . '-' . $item['language'];
+        });
+        $this->name       = $statements["1-$language"]->object;
+        $this->label      = $statements["2-$language"]->object;
+        $this->definition = isset($statements["3-$language"])? $statements["3-$language"]->object: null;
+        $this->type       = isset($statements["4-"])? $statements["4-"]->object: null;
+        $this->comment    = isset($statements["5-$language"])? $statements["5-$language"]->object: null;
+        if (strtolower($this->type) === 'property') {
+            $this->parent_uri = isset($statements["6-"])? $statements["6-"]->object: null;
+        } else {
+            $this->parent_uri = isset($statements["9-"])? $statements["9-"]->object: null;
+        }
+        $this->note          = isset($statements["7-$language"])? $statements["7-$language"]->object: null;
+        $this->domain        = isset($statements["11-"])? $statements["11-"]->object: null;
+        $this->orange        = isset($statements["12-"])? $statements["12-"]->object: null;
+        $this->uri = $statements["13-"]->object;
+        if (isset($statements["14-"])) {
+            $this->status_id =
+                is_numeric($statements["14-"]->object)? $statements["14-"]->object:
+                    Status::getByName($statements["14-"]->object)->id;
+        } else {
+            $this->status_id = null;
+        }
+        $this->lexical_alias = isset($statements["27-$language"])? $statements["27-$language"]->object: null;
+        //$this->url    = $statements["45-$language"]->object;
+        $this->save();
+
+        return $this;
     }
 
     /**
@@ -113,32 +149,30 @@ class Element extends Model
      *
      * @return array
      */
-    public static function SelectElementsByProject( $projectId )
+    public static function SelectElementsByProject($projectId)
     {
-        return \DB::table( ElementAttribute::TABLE )
-            ->join( Element::TABLE,
+        return \DB::table(ElementAttribute::TABLE)
+            ->join(Element::TABLE,
                 Element::TABLE . '.id',
                 '=',
-                ElementAttribute::TABLE . '.schema_property_id' )
-            ->join( Elementset::TABLE,
+                ElementAttribute::TABLE . '.schema_property_id')
+            ->join(Elementset::TABLE,
                 Elementset::TABLE . '.id',
                 '=',
-                Element::TABLE . '.schema_id' )
-            ->select( ElementAttribute::TABLE .
-                '.schema_property_id as id',
+                Element::TABLE . '.schema_id')
+            ->select(ElementAttribute::TABLE . '.schema_property_id as id',
                 Elementset::TABLE . '.name as Elementset',
                 ElementAttribute::TABLE . '.language',
-                ElementAttribute::TABLE . '.object as label' )
-            ->where( [
+                ElementAttribute::TABLE . '.object as label')
+            ->where([
                 [ ElementAttribute::TABLE . '.profile_property_id', 2, ],
                 [ Elementset::TABLE . '.agent_id', $projectId, ],
-            ] )
-            ->orderBy( Elementset::TABLE . '.name' )
-            ->orderBy( ElementAttribute::TABLE .
-                '.language' )
-            ->orderBy( ElementAttribute::TABLE . '.object' )
+            ])
+            ->orderBy(Elementset::TABLE . '.name')
+            ->orderBy(ElementAttribute::TABLE . '.language')
+            ->orderBy(ElementAttribute::TABLE . '.object')
             ->get()
-            ->mapWithKeys( function( $item ) {
+            ->mapWithKeys(function($item) {
                 return [
                     $item->id . '_' . $item->language => $item->Elementset .
                         ' - (' .
@@ -146,7 +180,36 @@ class Element extends Model
                         ') ' .
                         $item->label,
                 ];
-            } )
+            })
             ->toArray();
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | RELATIONS
+    |--------------------------------------------------------------------------
+    */
+
+    public function statements(): ?HasMany
+    {
+        return $this->hasMany(ElementAttribute::class, 'schema_property_id', 'id');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | SCOPES
+    |--------------------------------------------------------------------------
+    */
+
+    /*
+    |--------------------------------------------------------------------------
+    | ACCESSORS
+    |--------------------------------------------------------------------------
+    */
+
+    /*
+    |--------------------------------------------------------------------------
+    | MUTATORS
+    |--------------------------------------------------------------------------
+    */
 }
