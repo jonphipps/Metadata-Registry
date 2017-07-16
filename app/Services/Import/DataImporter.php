@@ -38,13 +38,17 @@ class DataImporter
     /** @var Collection $updateRows */
     private $deleteRows;
 
+    /** @var Collection $errors */
+    private $errors;
+
     /** @var DBCollection $statements */
     private $statements;
 
     /** @var array $prefixes */
     private $prefixes = [];
-
     private $stats = [];
+    /** @var Collection $columnProfileMap */
+    private $columnProfileMap;
 
     public function __construct(collection $data, Export $export = null)
     {
@@ -55,19 +59,21 @@ class DataImporter
         $this->export = $export;
         if ($export) {
             $this->rowMap     = self::getRowMap($export->map);
+            $this->columnProfileMap = self::getColumnProfileMap($export->map);
             $this->updateRows = $this->getUpdateRows(); //gets data rows with matching map
             $this->deleteRows = $this->getDeleteRows(); //gets map rows with no matching row
             if ($export->vocabulary_id) {
                 $this->prefixes   = $export->vocabulary->prefixes;
                 $this->statements = $this->getVocabularyStatements();
             } else {
-                $this->prefixes   = $export->elementSet->prefixes;
+                $this->prefixes   = $export->elementset->prefixes;
                 $this->statements = $this->getElementSetStatements();
             }
         }
         $this->stats['deleted'] = $this->deleteRows === null ? 0 : $this->deleteRows->count();
         $this->stats['updated'] = $this->updateRows === null ? 0: $this->updateRows->count();
         $this->stats['added']   = $this->addRows === null ? 0: $this->addRows->count();
+        $this->stats['errors']   = $this->errors === null ? 0: $this->errors->count();
     }
 
     /**
@@ -92,13 +98,14 @@ class DataImporter
     {
         $rows       = $this->updateRows;
         $rowMap     = $this->rowMap;
+        $columnMap  = $this->columnProfileMap;
         $statements = $this->statements;
 
-        $changeSet = $rows->map(function (Collection $row, $key) use ($rowMap, $statements) {
+        $changes = $rows->map(function (Collection $row, $key) use ($rowMap, $columnMap, $statements) {
             $map          = $rowMap[$key];
             $statementRow = $statements[$key];
 
-            return $row->map(function ($value, $column) use ($map, $statementRow) {
+            return $row->map(function ($value, $column) use ($map, $columnMap, $statementRow) {
                 // this is to correct for export maps that have '0' for a statement cell reference, but do have data in the statement row
                 $statementId = ( $map->get($column) !== 0 ) ? $map->get($column) : $column;
                 $statement   = $statementId ? collect($statementRow->pull($statementId)) : null;
@@ -107,6 +114,8 @@ class DataImporter
                     'new value'    => $value,
                     'old value'    => $statement ? $statement->get('old value') : null,
                     'statement_id' => $statementId,
+                    'language'     => $columnMap[$column]['language'],
+                    'property_id'  => $columnMap[$column]['id'],
                     'updated_at'   => $statement ? $statement->get('updated_at') : null,
                 ];
             })->reject(function ($array) {
