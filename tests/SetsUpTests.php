@@ -45,6 +45,7 @@ trait SetsUpTests
             $this->setupDatabase();
         }
         ini_restore('arg_separator.output');
+        ini_set('memory_limit', '-1');
         /*
          * Create class properties to be used in tests
          */
