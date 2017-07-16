@@ -283,7 +283,7 @@ return [
         'Bugsnag'      => Bugsnag\BugsnagLaravel\Facades\Bugsnag::class,
         'Captcha'      => Arcanedev\NoCaptcha\Facades\NoCaptcha::class,
         'CRUD'         => Backpack\CRUD\CrudServiceProvider::class,
-        'Debugbar'     => Barryvdh\Debugbar\Facade::class,
+        //'Debugbar'     => Barryvdh\Debugbar\Facade::class,
         'Excel'        => Maatwebsite\Excel\Facades\Excel::class,
         'Form'         => Collective\Html\FormFacade::class,
         'Fractal'      => Spatie\Fractal\FractalFacade::class,
