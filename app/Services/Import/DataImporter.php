@@ -136,7 +136,10 @@ class DataImporter
             return $items->count() === 0; //reject every row that no longer has items
         });
 
-        return $changeSet;
+        $changeset['update'] = $changes;
+        $changeset['delete'] = $this->deleteRows;
+        $changeset['add'] = $this->addRows;
+        return collect($changeset);
     }
 
     /**
@@ -183,6 +186,7 @@ class DataImporter
     {
         return collect($this->stats);
     }
+
     /**
      * @param Collection $map
      *
@@ -192,11 +196,23 @@ class DataImporter
     {
         $p = self::getHeaderFromMap($map);
 
-        return $map->slice(1)->transform(function ($item, $key) use ($p) {
-            return collect($item)->mapWithKeys(function ($item, $key) use ($p) {
-                return [ $p[$key]['label'] => $item ];
+        return $map->slice(1)->transform(function($item, $key) use ($p) {
+            return collect($item)->mapWithKeys(function($item, $key) use ($p) {
+                return [ $p[ $key ]['label'] => $item ];
             });
         });
+    }
+
+    /**
+     * @param Collection $map
+     *
+     * @return Collection
+     */
+    public static function getColumnProfileMap(Collection $map): Collection
+    {
+        $p = self::getHeaderFromMap($map);
+
+        return $p->keyBy('label');
     }
 
     /**
