@@ -5947,12 +5947,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "0b18b6bbeed070fb900ad78e81ffa1182a57a752"
+                "reference": "c1bdf69b424087447dc8e12d95b373c2b1cc77f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/0b18b6bbeed070fb900ad78e81ffa1182a57a752",
-                "reference": "0b18b6bbeed070fb900ad78e81ffa1182a57a752",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/c1bdf69b424087447dc8e12d95b373c2b1cc77f2",
+                "reference": "c1bdf69b424087447dc8e12d95b373c2b1cc77f2",
                 "shasum": ""
             },
             "conflict": {
@@ -5966,7 +5966,8 @@
                 "codeigniter/framework": "<=3.0.6",
                 "composer/composer": "<=1.0.0-alpha11",
                 "contao-components/mediaelement": ">=2.14.2,<2.21.1",
-                "contao/core": ">=2.11,<3.5.15",
+                "contao/core": ">=2,<3.5.28",
+                "contao/core-bundle": ">=4,<4.4.1",
                 "doctrine/annotations": ">=1,<1.2.7",
                 "doctrine/cache": ">=1,<1.3.2|>=1.4,<1.4.2",
                 "doctrine/common": ">=2,<2.4.3|>=2.5,<2.5.1",
@@ -6075,7 +6076,7 @@
                 }
             ],
             "description": "Prevents installation of composer packages with known security vulnerabilities: no API, simply require it",
-            "time": "2017-06-22T16:43:17+00:00"
+            "time": "2017-07-12T12:45:47+00:00"
         },
         {
             "name": "sensiolabs/security-checker",
@@ -8037,16 +8038,16 @@
         },
         {
             "name": "yajra/laravel-datatables-oracle",
-            "version": "v7.9.2",
+            "version": "v7.9.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yajra/laravel-datatables.git",
-                "reference": "df205c536bb1017e5604cbdb4797c787f67369e4"
+                "reference": "97168bfeb4a3317bc27e61a579302d6a26380d5d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/df205c536bb1017e5604cbdb4797c787f67369e4",
-                "reference": "df205c536bb1017e5604cbdb4797c787f67369e4",
+                "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/97168bfeb4a3317bc27e61a579302d6a26380d5d",
+                "reference": "97168bfeb4a3317bc27e61a579302d6a26380d5d",
                 "shasum": ""
             },
             "require": {
@@ -8094,7 +8095,7 @@
                 "jquery",
                 "laravel"
             ],
-            "time": "2017-07-05T01:50:21+00:00"
+            "time": "2017-07-12T02:33:08+00:00"
         }
     ],
     "packages-dev": [
@@ -8842,16 +8843,16 @@
         },
         {
             "name": "orangehill/iseed",
-            "version": "v2.4",
+            "version": "v2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orangehill/iseed.git",
-                "reference": "40578a04668e9581045d43db217ff5f912978d2d"
+                "reference": "4d635d2d5a33e2135b25a12e26beda059b990e8b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orangehill/iseed/zipball/40578a04668e9581045d43db217ff5f912978d2d",
-                "reference": "40578a04668e9581045d43db217ff5f912978d2d",
+                "url": "https://api.github.com/repos/orangehill/iseed/zipball/4d635d2d5a33e2135b25a12e26beda059b990e8b",
+                "reference": "4d635d2d5a33e2135b25a12e26beda059b990e8b",
                 "shasum": ""
             },
             "require": {
@@ -8890,7 +8891,7 @@
                 "laravel",
                 "seed"
             ],
-            "time": "2017-05-09T09:29:28+00:00"
+            "time": "2017-07-13T09:57:05+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
