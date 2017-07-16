@@ -51,23 +51,132 @@
   array (
     0 => 
     array (
-      'reg_id' => '',
-      '*preferred label[0]_en' => 'foobar',
-      '*preferred label[0]_fr' => 'fubaire',
-      'alternative label[0]_en' => '',
-      'alternative label[0]_fr' => '',
-      'ToolkitLabel_en' => 'foobar',
-      'ToolkitLabel_fr' => 'fubaire',
-      'definition[0]_en' => 'English definition',
-      'definition[0]_fr' => 'French definition',
-      'ToolkitDefinition_en' => 'English Toolkit Definition',
-      'ToolkitDefinition_fr' => 'French Toolkit definition',
-      'scope note[0]_en' => 'First English Scope Note',
-      'scope note[1]_en' => 'Second English Scope Note',
-      'scope note[0]_fr' => 'First French Scope Note',
-      'scope note[1]_fr' => 'Second French Scope Note',
-      '*uri' => 'RDAMediaType:1009',
-      '*status' => 'Published',
+      '*preferred label[0]_en' => 
+      array (
+        'new value' => 'foobar',
+        'old value' => NULL,
+        'statement_id' => NULL,
+        'language' => 'en',
+        'property_id' => '45',
+        'updated_at' => NULL,
+      ),
+      '*preferred label[0]_fr' => 
+      array (
+        'new value' => 'fubaire',
+        'old value' => NULL,
+        'statement_id' => NULL,
+        'language' => 'fr',
+        'property_id' => '45',
+        'updated_at' => NULL,
+      ),
+      'ToolkitLabel_en' => 
+      array (
+        'new value' => 'foobar',
+        'old value' => NULL,
+        'statement_id' => NULL,
+        'language' => 'en',
+        'property_id' => '61',
+        'updated_at' => NULL,
+      ),
+      'ToolkitLabel_fr' => 
+      array (
+        'new value' => 'fubaire',
+        'old value' => NULL,
+        'statement_id' => NULL,
+        'language' => 'fr',
+        'property_id' => '61',
+        'updated_at' => NULL,
+      ),
+      'definition[0]_en' => 
+      array (
+        'new value' => 'English definition',
+        'old value' => NULL,
+        'statement_id' => NULL,
+        'language' => 'en',
+        'property_id' => '37',
+        'updated_at' => NULL,
+      ),
+      'definition[0]_fr' => 
+      array (
+        'new value' => 'French definition',
+        'old value' => NULL,
+        'statement_id' => NULL,
+        'language' => 'fr',
+        'property_id' => '37',
+        'updated_at' => NULL,
+      ),
+      'ToolkitDefinition_en' => 
+      array (
+        'new value' => 'English Toolkit Definition',
+        'old value' => NULL,
+        'statement_id' => NULL,
+        'language' => 'en',
+        'property_id' => '60',
+        'updated_at' => NULL,
+      ),
+      'ToolkitDefinition_fr' => 
+      array (
+        'new value' => 'French Toolkit definition',
+        'old value' => NULL,
+        'statement_id' => NULL,
+        'language' => 'fr',
+        'property_id' => '60',
+        'updated_at' => NULL,
+      ),
+      'scope note[0]_en' => 
+      array (
+        'new value' => 'First English Scope Note',
+        'old value' => NULL,
+        'statement_id' => NULL,
+        'language' => 'en',
+        'property_id' => '47',
+        'updated_at' => NULL,
+      ),
+      'scope note[1]_en' => 
+      array (
+        'new value' => 'Second English Scope Note',
+        'old value' => NULL,
+        'statement_id' => NULL,
+        'language' => 'en',
+        'property_id' => '47',
+        'updated_at' => NULL,
+      ),
+      'scope note[0]_fr' => 
+      array (
+        'new value' => 'First French Scope Note',
+        'old value' => NULL,
+        'statement_id' => NULL,
+        'language' => 'fr',
+        'property_id' => '47',
+        'updated_at' => NULL,
+      ),
+      'scope note[1]_fr' => 
+      array (
+        'new value' => 'Second French Scope Note',
+        'old value' => NULL,
+        'statement_id' => NULL,
+        'language' => 'fr',
+        'property_id' => '47',
+        'updated_at' => NULL,
+      ),
+      '*uri' => 
+      array (
+        'new value' => 'http://rdaregistry.info/termList/RDAMediaType/1009',
+        'old value' => NULL,
+        'statement_id' => NULL,
+        'language' => '',
+        'property_id' => '62',
+        'updated_at' => NULL,
+      ),
+      '*status' => 
+      array (
+        'new value' => 'Published',
+        'old value' => NULL,
+        'statement_id' => NULL,
+        'language' => '',
+        'property_id' => '59',
+        'updated_at' => NULL,
+      ),
     ),
   ),
 );
