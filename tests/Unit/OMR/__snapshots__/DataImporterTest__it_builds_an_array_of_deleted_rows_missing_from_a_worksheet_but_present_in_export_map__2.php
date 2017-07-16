@@ -59,26 +59,6 @@
     '*uri' => 'RDAMediaType:1003',
     '*status' => 'Published',
   ),
-  478 => 
-  array (
-    'reg_id' => '478',
-    '*preferred label[0]_en' => 'microscopic',
-    '*preferred label[0]_fr' => 'microscopique',
-    'alternative label[0]_en' => '',
-    'alternative label[0]_fr' => '',
-    'ToolkitLabel_en' => 'microscopic',
-    'ToolkitLabel_fr' => 'microscopique',
-    'definition[0]_en' => 'A media type used to store minute objects, designed for use with a device such as a microscope to reveal details invisible to the naked eye.',
-    'definition[0]_fr' => 'Média servant à emmagasiner des objets minuscules et conçu pour une utilisation au moyen d’un dispositif tel qu’un microscope, pour faire apparaître des détails invisibles à l’œil nu.',
-    'ToolkitDefinition_en' => 'A media type used to store minute objects, designed for use with a device such as a microscope to reveal details invisible to the naked eye.',
-    'ToolkitDefinition_fr' => '',
-    'scope note[0]_en' => '',
-    'scope note[1]_en' => '',
-    'scope note[0]_fr' => '',
-    'scope note[1]_fr' => '',
-    '*uri' => 'RDAMediaType:1004',
-    '*status' => 'Published',
-  ),
   479 => 
   array (
     'reg_id' => '479',

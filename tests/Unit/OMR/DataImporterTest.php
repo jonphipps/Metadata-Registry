@@ -34,7 +34,9 @@ class DataImporterTest extends TestCase
         //when i pass them to the importer
         $changeSet = $importer->getChangeset();
         //then i get back a list of fields that will change, none in this case
-        $this->assertEquals(0, $changeSet->count());
+        $this->assertEquals(0, $changeSet['update']->count());
+        $this->assertEquals(0, $changeSet['delete']->count());
+        $this->assertEquals(1, $changeSet['add']->count());
     }
 
     /** @test */
@@ -49,7 +51,9 @@ class DataImporterTest extends TestCase
         //when i pass them to the importer
         $changeSet = $importer->getChangeset();
         //then i get back a list of fields that will change, none in this case
-        $this->assertEquals(0, $changeSet->count());
+        $this->assertEquals(0, $changeSet['update']->count());
+        $this->assertEquals(0, $changeSet['delete']->count());
+        $this->assertEquals(0, $changeSet['add']->count());
     }
 
     /** @test */
@@ -69,8 +73,8 @@ class DataImporterTest extends TestCase
         //when i pass them to the importer
         $changeSet = $importer->getChangeset();
         //then i get back a list of fields that will change, one in this case
-        $this->assertEquals(1, $changeSet->count());
-        $this->assertMatchesSnapshot($changeSet->toArray());
+        $this->assertEquals(1, $changeSet['update']->count());
+        $this->assertMatchesSnapshot($changeSet['update']->toArray());
     }
 
     /** @test */
@@ -90,10 +94,10 @@ class DataImporterTest extends TestCase
         //when i pass them to the importer
         $changeSet = $importer->getChangeset();
         //then i get back a list of records that will change, one in this case
-        $this->assertEquals(1, $changeSet->count());
+        $this->assertEquals(1, $changeSet['update']->count());
         //then i get back a list of fields that will change, three in this case
-        $this->assertEquals(3, $changeSet->first()->count());
-        $this->assertMatchesSnapshot($changeSet->toArray());
+        $this->assertEquals(3, $changeSet['update']->first()->count());
+        $this->assertMatchesSnapshot($changeSet['update']->toArray());
         //when I store it in the database
         $import = Import::create(['instructions' => $changeSet]);
         $export->addImports($import);
@@ -123,8 +127,8 @@ class DataImporterTest extends TestCase
         //when i pass them to the importer
         $changeSet = $importer->getChangeset();
         //then i get back a list of fields that will change, none in this case
-        $this->assertEquals(1, $changeSet->count());
-        $this->assertMatchesSnapshot($changeSet->toArray());
+        $this->assertEquals(1, $changeSet['update']->count());
+        $this->assertMatchesSnapshot($changeSet['update']->toArray());
     }
 
     /** @test */
@@ -160,7 +164,7 @@ class DataImporterTest extends TestCase
         //given a data set pulled from a worksheet
         $data = collect($this->getVocabularyWorksheetData());
         //add a new row that has no reg_id
-        $deletedRow = $data->pop();
+        $deletedRow = $data->pull(4);
         $map        = $this->getMap()->toArray();
         $export     = factory(Export::class)->make([
             'map'              => $map,
@@ -177,6 +181,32 @@ class DataImporterTest extends TestCase
         $this->assertMatchesSnapshot($updatedRows->toArray());
     }
 
+    /** @test */
+    public function it_builds_a_changeset_for_a_vocabulary_that_includes_update_and_add_and_delete()
+    {
+        //given a data set pulled from a worksheet
+        $data = collect($this->getVocabularyWorksheetData());
+        //and a deleted row
+        $deletedRow = $data->pull(4);
+        $row = $data->pull(8);
+        $row[4] = 'bingo';
+        $row[5] = 'foobar';
+        $row[6] = '';
+        $data->put(8, $row);
+        $export = Export::findByExportFileName('RDAMediaType_en-fr_20170511T172922_569_0.csv');
+        //and an export map
+        $importer = new DataImporter($data, $export);
+        //when i process the data
+        //then i should see all three sections in the database
+        $import = Import::create([ 'instructions' => $importer->getChangeset() ]);
+        $export->addImports($import);
+        //I can retrieve the list of changes for that import
+        /** @var Import $attachedImport */
+        $attachedImport = Import::find($import->id);
+        //when we ask for the stats from the database
+        $changeset = $attachedImport->instructions;
+        $this->assertMatchesSnapshot($changeset);
+    }
     /** @test */
     public function it_builds_an_array_of_statistics_and_stores_it_in_the_database()
     {
@@ -230,6 +260,17 @@ class DataImporterTest extends TestCase
         $header = DataImporter::getHeaderFromMap($map);
         //then it returns a proper header/profile
         $this->assertMatchesSnapshot($this->getMap()->toArray()[0]);
+    }
+
+    /** @test */
+    public function it_gets_an_export_data_column_profile_map_from_an_export_map()
+    {
+        //given a deserialized export map
+        $map = $this->getMap();
+        //when i pass it to the MapHeader function
+        $profile = DataImporter::getColumnProfileMap($map);
+        //then it returns a proper header/profile
+        $this->assertMatchesSnapshot($profile->toArray());
     }
 
     /** @test */

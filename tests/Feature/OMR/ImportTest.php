@@ -2,24 +2,21 @@
 /** @noinspection ReturnTypeCanBeDeclaredInspection */
 namespace Tests\Feature\OMR;
 
+use App\Jobs\ImportVocabulary;
 use App\Models\Batch;
-use App\Models\Elementset;
+use App\Models\Concept;
+use App\Models\ConceptAttribute;
+use App\Models\ElementAttribute;
 use App\Models\Export;
 use App\Models\Import;
 use App\Models\Project;
 use Carbon\Carbon;
-use function factory;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
-use Tests\BrowserKitTestCase;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
+use function factory;
 
 class ImportTest extends TestCase
 {
-    use DatabaseTransactions;
+    //use DatabaseTransactions;
 
     public function setUp()
     {
@@ -68,11 +65,157 @@ class ImportTest extends TestCase
     }
 
     /** @test */
-    public function a_project_admin_can_create_a_new_spreadsheet_import()
+    public function a_changeset_should_have_update_delete_and_addition_sections()
     {
-        //given there is a project
-        //and I am a project admin
-        //when I go to the import create page
-        //then
+        //given an import with a changeset
+        //when
+        //then the changeset should have all of the instructions
+    }
+    /** @test */
+    public function a_changeset_can_update_an_elementset_resource()
+    {
+        $this->actingAs($this->admin);
+        $this->artisan('db:seed', [ '--class' => 'RDAClassesSeeder' ]);
+        $export = Export::findByExportFileName('rdac_en-fr_20170511T182904_570_0.csv');
+        //given an import with a changeset
+        $import = factory(Import::class)->create([
+            'vocabulary_id' => null,
+            'schema_id'     => 83,
+            'source'        => 'Google',
+            'instructions'  => $this->getChangeSet(),
+        ]);
+        //when I run the import job
+        dispatch(new ImportVocabulary($import));
+        //then I should see the changes in the database
+        $lexical = ElementAttribute::withTrashed()->find(128175);
+        $this->assertNotNull($lexical->deleted_at);
+        $this->assertEquals($lexical->deleted_user_id, 1);
+        $this->assertDatabaseHas(ElementAttribute::TABLE,
+            [
+                'id'              => 180596,
+                'object'          => 'foobar',
+                'updated_user_id' => 1,
+            ]);
+        //assert that the value of name, language french, is bingo
+        $this->assertDatabaseHas(ElementAttribute::TABLE,
+            [
+                'object'              => 'bingo',
+                'language'            => 'fr',
+                'schema_property_id'  => 14335,
+                'profile_property_id' => 1,
+                'created_user_id'     => 1,
+                'updated_user_id'     => 1,
+            ]);
+    }
+
+    /** @test */
+    public function a_changeset_can_update_vocabulary_statements()
+    {
+        $this->actingAs($this->admin);
+        $this->artisan('db:seed', [ '--class' => 'RDAMediaTypeSeeder' ]);
+        $export = Export::findByExportFileName('RDAMediaType_en-fr_20170511T172922_569_0.csv');
+        //given an import with a changeset
+        $import = factory(Import::class)->create([
+            'vocabulary_id' => 37,
+            'schema_id'     => null,
+            'source'        => 'Google',
+            'instructions'  => $this->getVocabChangeSet(),
+        ]);
+        //when I run the import job
+        dispatch(new ImportVocabulary($import));
+        //then I should see the changes in the database
+        $lexical = ConceptAttribute::withTrashed()->find(24412);
+        $this->assertNotNull($lexical->deleted_at);
+        $this->assertEquals(1, $lexical->deleted_by);
+        $this->assertDatabaseHas(ConceptAttribute::TABLE,
+            [
+                'id'              => 24411,
+                'object'          => 'foobar',
+                'updated_user_id' => 1,
+            ]);
+        //assert that the value of name, language french, is bingo
+        $this->assertDatabaseHas(ConceptAttribute::TABLE,
+            [
+                'object'              => 'bingo',
+                'language'            => 'fr',
+                'concept_id'          => 482,
+                'profile_property_id' => 34,
+                'created_user_id'     => 1,
+                'updated_user_id'     => 1,
+            ]);
+    }
+
+    /** @test */
+    public function a_changeset_can_update_a_vocabulary_resource()
+    {
+        $this->actingAs($this->admin);
+        $this->artisan('db:seed', [ '--class' => 'RDAMediaTypeSeeder' ]);
+        $export = Export::findByExportFileName('RDAMediaType_en-fr_20170511T172922_569_0.csv');
+        //given an import with a changeset
+        $changeset = $this->getVocabChangeSet();
+        $changeset[482]['*preferred label[0]_en'] = [
+            'language'     => 'en',
+            'new value'    => 'foobar',
+            'old value'    => 'video',
+            'property_id'  => '45',
+            'statement_id' => 1288,
+            'updated_at'   => null,
+        ];
+        $changeset[482]['*preferred label[0]_fr'] = [
+            'language'     => 'fr',
+            'new value'    => 'foobar',
+            'old value'    => 'vidéo',
+            'property_id'  => '45',
+            'statement_id' => 21439,
+            'updated_at'   => null,
+        ];
+        $changeset[482]['*uri'] = [
+            'language'     => '',
+            'new value'    => 'http://rdaregistry.info/termList/RDAMediaType/9999',
+            'old value'    => 'http://rdaregistry.info/termList/RDAMediaType/1008',
+            'property_id'  => '62',
+            'statement_id' => null,
+            'updated_at'   => null,
+        ];
+        $changeset[482]['*status'] = [
+            'language'     => '',
+            'new value'    => 'Deprecated',
+            'old value'    => 'Published',
+            'property_id'  => '59',
+            'statement_id' => null,
+            'updated_at'   => null,
+        ];
+        $import = factory(Import::class)->create([
+            'vocabulary_id' => 37,
+            'schema_id'     => null,
+            'source'        => 'Google',
+            'instructions'  => $changeset,
+        ]);
+        //when I run the import job
+        dispatch(new ImportVocabulary($import));
+        //then I should see the changes in the database
+        $concept = Concept::find(482);
+        $this->assertSame('foobar', $concept->pref_label);
+        $this->assertSame(1288, $concept->pref_label_id);
+        $this->assertSame('http://rdaregistry.info/termList/RDAMediaType/9999', $concept->uri);
+        $this->assertSame(8, $concept->status_id);
+        $this->assertSame(1, $concept->updated_user_id);
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    private function getChangeSet()
+    {
+        return include __DIR__ .
+            '/../../Unit/OMR/__snapshots__/DataImporterTest__it_builds_an_array_of_elementset_updates_to_the_dataset_from_a_worksheet_and_export_map__1.php';
+    }
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    private function getVocabChangeSet()
+    {
+        return include __DIR__ .
+            '/../../Unit/OMR/__snapshots__/DataImporterTest__it_builds_an_array_of_updates_to_the_dataset_from_a_worksheet_and_export_map__1.php';
     }
 }
