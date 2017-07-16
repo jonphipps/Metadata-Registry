@@ -168,17 +168,33 @@ class ImportCrudController extends CrudController
 
         }
         //we've jumped into a middle step of the sequence (we should always have worksheets after step 1)
-        if ($step->number > 1 && ! $this->wizard->dataHas('googlesheets')) {
+        if ($step->number > 1 && ! $batch->dataHas('googlesheets')) {
             $step = $this->wizard->first();
         }
-        //if we have no wizard data for this step AND we have batch data,
-        if ( ! $this->wizard->dataHas($step->key) && $batch->dataHas($step->key)) {
-            //then we've returned from an incomplete import
+        if ($this->wizard->data() != $batch->step_data) {
+            //we've returned from an incomplete import
             //and have to load the previous step data into the wizard from the database
-            $this->wizard->data($batch->dataGet($step->key));
+            $this->wizard->data($batch->step_data);
         }
 
         $this->setWizardData('batch_id', $batch->id);
+
+        if ($step->key === 'approve' && ($batch->total_count <= $batch->handled_count)) {
+            $batch->load('imports');
+            $data = [];
+            //load the stats from each import into an array
+            foreach ($batch->imports as $import) {
+                $stats              = $import->results;
+                $datum['id']        = $import->id;
+                $datum['worksheet'] = $import->worksheet;
+                $datum['added']     = $stats['added'];
+                $datum['updated']   = $stats['updated'];
+                $datum['deleted']   = $stats['deleted'];
+                $datum['errors']    = $stats['errors'];
+                $data[]             = $datum;
+            }
+            $this->setWizardData('approve', $data);
+        }
 
         $this->crud->setCreateView('frontend.import.project.wizard');
         $this->crud->setRoute(config('backpack.base.route_prefix') . 'projects/' . $project->id );
@@ -195,7 +211,10 @@ class ImportCrudController extends CrudController
                 }
             }
             if ($step->key === 'worksheets') {
-                $this->crud->create_fields[ 'worksheets' ]['value'] = $data;
+                $this->crud->create_fields['worksheets']['value'] = $data;
+            }
+            if ($step->key === 'approve') {
+                $this->crud->create_fields['approve']['value'] = $data;
             }
         }
         return parent::create();

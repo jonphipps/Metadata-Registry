@@ -5,6 +5,7 @@
 namespace App\Wizard\Import\ProjectSteps;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Smajti1\Laravel\Step;
 
 class ApproveImportStep extends Step
@@ -35,10 +36,15 @@ class ApproveImportStep extends Step
 
     public function validate(Request $request): void
     {
+        Validator::make([ 'selected_approve' => json_decode($request->selected_approve) ],
+            [ 'selected_approve' => 'required' ],
+            [ 'selected_approve.required' => 'You must select at least one set of changes before you can import the spreadsheet.' ])
+            ->validate();
     }
 
     public function rules(Request $request = null): array
     {
-        return [];
-    }
+        return [
+            'selected_approve' => 'required',
+        ];    }
 }
