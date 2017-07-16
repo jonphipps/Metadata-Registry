@@ -53,7 +53,7 @@ class DataImporterTest extends TestCase
         //then i get back a list of fields that will change, none in this case
         $this->assertEquals(0, $changeSet['update']->count());
         $this->assertEquals(0, $changeSet['delete']->count());
-        $this->assertEquals(0, $changeSet['add']->count());
+        $this->assertEquals(1, $changeSet['add']->count());
     }
 
     /** @test */
@@ -188,10 +188,10 @@ class DataImporterTest extends TestCase
         $data = collect($this->getVocabularyWorksheetData());
         //and a deleted row
         $deletedRow = $data->pull(4);
-        $row = $data->pull(8);
-        $row[4] = 'bingo';
-        $row[5] = 'foobar';
-        $row[6] = '';
+        $row        = $data->pull(8);
+        $row[4]     = 'bingo';
+        $row[5]     = 'foobar';
+        $row[6]     = '';
         $data->put(8, $row);
         $export = Export::findByExportFileName('RDAMediaType_en-fr_20170511T172922_569_0.csv');
         //and an export map
@@ -207,6 +207,34 @@ class DataImporterTest extends TestCase
         $changeset = $attachedImport->instructions;
         $this->assertMatchesSnapshot($changeset);
     }
+
+    /** @test */
+    public function it_builds_a_changeset_for_an_elementset_that_includes_update_and_add_and_delete()
+    {
+        //given a data set pulled from a worksheet
+        $data = collect($this->getElementSetWorksheetData());
+        //and a deleted row
+        $deletedRow = $data->pull(4);
+        $row = $data->pull(8);
+        $row[2] = 'bingo';
+        $row[4] = 'foobar';
+        $row[5] = '';
+        $data->put(8, $row);
+        $export = Export::findByExportFileName('rdac_en-fr_20170511T182904_570_0.csv');
+        //and an export map
+        $importer = new DataImporter($data, $export);
+        //when i process the data
+        //then i should see all three sections in the database
+        $import = Import::create([ 'instructions' => $importer->getChangeset() ]);
+        $export->addImports($import);
+        //I can retrieve the list of changes for that import
+        /** @var Import $attachedImport */
+        $attachedImport = Import::find($import->id);
+        //when we ask for the stats from the database
+        $changeset = $attachedImport->instructions;
+        $this->assertMatchesSnapshot($changeset);
+    }
+
     /** @test */
     public function it_builds_an_array_of_statistics_and_stores_it_in_the_database()
     {

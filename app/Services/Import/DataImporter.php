@@ -54,12 +54,12 @@ class DataImporter
     {
         $this->data    = $data;
         $this->rows    = $this->getDataForImport();
-        $this->addRows = $this->getAddRows(); //only gets data rows with no row_id
 
         $this->export = $export;
         if ($export) {
             $this->rowMap     = self::getRowMap($export->map);
             $this->columnProfileMap = self::getColumnProfileMap($export->map);
+            $this->addRows    = $this->getAddRows(); //only gets data rows with no row_id
             $this->updateRows = $this->getUpdateRows(); //gets data rows with matching map
             $this->deleteRows = $this->getDeleteRows(); //gets map rows with no matching row
             if ($export->vocabulary_id) {
@@ -136,11 +136,37 @@ class DataImporter
             return $items->count() === 0; //reject every row that no longer has items
         });
 
+        $rows      = $this->addRows;
+        $additions = $rows->map(function(Collection $row) use ($columnMap) {
+            return $row->map(function($value, $column) use ($columnMap) {
+                //reset the URI to be fully qualified
+                if ($column === '*uri') {
+                    $value = self::makeFqn($this->prefixes, $value);
+                }
+
+                return [
+                    'new value'    => $value,
+                    'old value'    => null,
+                    'statement_id' => null,
+                    'language'     => $columnMap[ $column ]['language'],
+                    'property_id'  => $columnMap[ $column ]['id'],
+                    'updated_at'   => null,
+                ];
+            })->reject(function($array) {
+                return empty($array['new value']); //remove all of the items that have been, and continue to be, empty
+            })->reject(function($array, $arrayKey) {
+                return $arrayKey === 'reg_id'; //remove all of the reg_id items
+            });
+        })->reject(function(Collection $items) {
+            return $items->count() === 0; //reject every row that no longer has items
+        });
+
         $changeset['update'] = $changes;
         $changeset['delete'] = $this->deleteRows;
-        $changeset['add'] = $this->addRows;
+        $changeset['add'] = $additions;
         return collect($changeset);
     }
+
 
     /**
      * Returns an associative array of data based on the data supplied for import
