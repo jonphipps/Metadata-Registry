@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
  * App\Models\Access\User\SocialLogin
  *
  * @property int $id
- * @property int $user_id
+ * @property int|null $user_id
  * @property string $provider
- * @property string $provider_id
+ * @property string|null $provider_id
  * @property string|null $token
  * @property string|null $avatar
  * @property \Carbon\Carbon|null $created_at

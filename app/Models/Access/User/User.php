@@ -34,7 +34,7 @@ use Illuminate\Notifications\Notifiable;
  * @property string|null $password
  * @property int $status
  * @property string|null $culture
- * @property string $confirmation_code
+ * @property string|null $confirmation_code
  * @property string $name
  * @property int $confirmed
  * @property string|null $remember_token
@@ -47,6 +47,7 @@ use Illuminate\Notifications\Notifiable;
  * @property-read string $delete_button
  * @property-read string $delete_permanently_button
  * @property-read string $edit_button
+ * @property-read string $full_name
  * @property-read string $login_as_button
  * @property-read mixed $picture
  * @property-read string $restore_button

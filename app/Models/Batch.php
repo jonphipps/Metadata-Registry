@@ -22,8 +22,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int|null $user_id
  * @property string|null $next_step
  * @property array $step_data
- * @property int|null $total_count
- * @property int|null $handled_count
+ * @property int $total_count
+ * @property int $handled_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Import[] $imports
  * @property-read \App\Models\Project|null $project
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Batch whereCreatedAt($value)

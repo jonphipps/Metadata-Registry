@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\Model;
  * App\Models\History\History
  *
  * @property int $id
- * @property int $type_id
- * @property int $user_id
+ * @property int|null $type_id
+ * @property int|null $user_id
  * @property int|null $entity_id
  * @property string|null $icon
  * @property string|null $class
