@@ -31,6 +31,7 @@ class CreateRegConceptPropertyTable extends Migration
                 $table->unsignedInteger('status_id')->nullable()->default(1)->index();
                 $table->boolean('is_concept_property')->default(0);
                 $table->unsignedInteger('profile_property_id')->nullable()->index();
+                $table->unsignedInteger('last_import_id')->nullable();
                 $table->boolean('is_generated')->default(0);
                 $table->unsignedInteger('created_by')->nullable()->index();
                 $table->unsignedInteger('updated_by')->nullable()->index();

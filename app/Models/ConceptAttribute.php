@@ -36,6 +36,7 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @property int|null $status_id
  * @property int $is_concept_property
  * @property int|null $profile_property_id
+ * @property int|null $last_import_id
  * @property int $is_generated
  * @property int|null $created_by
  * @property int|null $updated_by
@@ -63,6 +64,7 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ConceptAttribute whereIsConceptProperty($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ConceptAttribute whereIsGenerated($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ConceptAttribute whereLanguage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ConceptAttribute whereLastImportId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ConceptAttribute whereObject($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ConceptAttribute wherePrimaryPrefLabel($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ConceptAttribute whereProfilePropertyId($value)

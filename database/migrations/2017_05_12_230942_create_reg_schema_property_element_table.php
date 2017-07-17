@@ -29,6 +29,7 @@ class CreateRegSchemaPropertyElementTable extends Migration
                 $table->unsignedInteger('related_schema_property_id')->nullable()->index();
                 $table->char('language', 12)->default('en');
                 $table->unsignedInteger('status_id')->nullable()->default(1)->index();
+                $table->unsignedInteger('last_import_id')->nullable();
                 $table->boolean('is_generated')->default(0);
                 $table->unsignedInteger('created_by')->nullable()->index();
                 $table->unsignedInteger('updated_by')->nullable()->index();

@@ -35,6 +35,7 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @property int|null $related_schema_property_id
  * @property string $language
  * @property int|null $status_id
+ * @property int|null $last_import_id
  * @property int $is_generated
  * @property int|null $created_by
  * @property int|null $updated_by
@@ -63,6 +64,7 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttribute whereIsGenerated($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttribute whereIsSchemaProperty($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttribute whereLanguage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttribute whereLastImportId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttribute whereObject($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttribute whereProfilePropertyId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttribute whereRelatedSchemaPropertyId($value)
