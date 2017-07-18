@@ -137,4 +137,47 @@ class ConceptAttribute extends Model
             ->where(Concept::TABLE . '.vocabulary_id', $vocabulary_id)
             ->max(ConceptAttribute::TABLE . '.' . $field);
     }
+
+    /**
+     * Create the event listeners for the saving and saved events
+     * This lets us save revisions whenever a save is made, no matter the
+     * http method.
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function(ConceptAttribute $attribute) {
+            $attribute->createHistory('added');
+        });
+        static::updated(function(ConceptAttribute $attribute) {
+            if ( ! $attribute->isDirty('deleted_user_id')) {
+                $attribute->createHistory('updated');
+            }
+        });
+        static::deleted(function(ConceptAttribute $attribute) {
+            $attribute->createHistory('deleted');
+        });
+    }
+
+    public function createHistory(string $action): ConceptAttributeHistory
+    {
+        return ConceptAttributeHistory::create([
+            'action'              => $action,
+            'concept_property_id' => $this->id,
+            'concept_id'          => $this->concept_id,
+            'vocabulary_id'       => $this->concept->vocabulary_id,
+            'profile_property_id' => $this->profile_property_id,
+            'object'              => $this->object,
+            'language'            => $this->getAttributeFromArray('language'),
+            'status_id'           => $this->status_id,
+            //this should be set to null in the parent if there was no import
+            'import_id'           => $this->last_import_id,
+            //things we don't know yet. Must come from post-processing
+            'scheme_id'           => null,
+            'related_concept_id'  => null,
+            //should be added to the concept model and not here
+            'change_note'         => null,
+        ]);
+    }
 }

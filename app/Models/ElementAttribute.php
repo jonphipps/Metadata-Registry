@@ -15,8 +15,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use InvalidArgumentException;
 use Laracasts\Matryoshka\Cacheable;
-use function config;
 use Venturecraft\Revisionable\RevisionableTrait;
+use function config;
 
 /**
  * App\Models\ElementAttribute
@@ -94,6 +94,48 @@ class ElementAttribute extends Model
     protected $touches = [ 'element' ];
     protected $guarded = [ 'id' ];
     protected $revisionCreationsEnabled = true;
+
+    /**
+     * Create the event listeners for the saving and saved events
+     * This lets us save revisions whenever a save is made, no matter the
+     * http method.
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function(ElementAttribute $attribute) {
+            $attribute->createHistory('added');
+        });
+        static::updated(function(ElementAttribute $attribute) {
+            if ( ! $attribute->isDirty('deleted_user_id')) {
+                $attribute->createHistory('updated');
+            }
+        });
+        static::deleted(function(ElementAttribute $attribute) {
+            $attribute->createHistory('deleted');
+        });
+    }
+
+    public function createHistory(string $action): ElementAttributeHistory
+    {
+        return ElementAttributeHistory::create([
+            'action'                     => $action,
+            'schema_property_element_id' => $this->id,
+            'schema_property_id'         => $this->schema_property_id,
+            'schema_id'                  => $this->element->schema_id,
+            'profile_property_id'        => $this->profile_property_id,
+            'object'                     => $this->object,
+            'language'                   => $this->getAttributeFromArray('language'),
+            'status_id'                  => $this->status_id,
+            //this should be set to null in the parent if there was no import
+            'import_id'                  => $this->last_import_id,
+            //things we don't know yet. Must come from post-processing
+            'related_schema_property_id' => null,
+            //should be added to the concept model and not here
+            'change_note'                => null,
+        ]);
+    }
 
     public function history(): ?HasMany
     {
