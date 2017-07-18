@@ -5,6 +5,7 @@
 namespace App\Wizard\Import\ProjectSteps;
 
 use App\Jobs\ParseVocabulary;
+use App\Models\Batch;
 use App\Models\Export;
 use App\Models\Import;
 use Illuminate\Http\Request;
@@ -35,6 +36,10 @@ class SelectWorksheetsStep extends Step
         $worksheets[] = json_decode($request->selected_worksheets);
         $spreadsheet  = $this->wizard->dataGet('spreadsheet');
         $batch_id     = $this->wizard->dataGet('batch_id');
+        $batch = Batch::findOrFail($batch_id);
+        $batch->total_count = count($worksheets[0]);
+        $batch->handled_count = 0;
+        $batch->save();
 
         // setup a job for each worksheet
         foreach ($worksheets[0] as $worksheet) {

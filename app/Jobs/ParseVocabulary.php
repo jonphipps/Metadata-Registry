@@ -52,10 +52,15 @@ class ParseVocabulary implements ShouldQueue
         //then we pass them to the importer
         $changeSet = $importer->getChangeset();
         $this->import->instructions = $changeSet->toJson();
-        //TODO: Figure out how to get some useful statistics from a changeset
-        $stats = $importer->getStats();
-        $this->import->results = $stats->toJson();
+        $this->import->results = $importer->getStats();
         $this->import->save();
-        dispatch(new ImportVocabulary($this->import));
+        $batch = $this->import->batch;
+        $batch->handled_count++;
+        $batch->save();
+
+        if ($batch->total_count <= $batch->handled_count) {
+            // we're done
+            //TODO: send a notification
+        }
     }
 }
