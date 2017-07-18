@@ -69,7 +69,7 @@ class ImportSpreadsheetTest extends BrowserKitTestCase
 
     protected function ISeeANewBatchEntryInTheDatabase() {
 
-        $this->markTestIncomplete('Time to code');
+        //$this->markTestIncomplete('Time to code');
 
     }
 
