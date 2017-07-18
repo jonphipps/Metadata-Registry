@@ -98,6 +98,7 @@ class ImportTest extends TestCase
                 'id'              => 180596,
                 'object'          => 'foobar',
                 'updated_user_id' => 1,
+                'last_import_id'  => $import->id,
             ]);
         //assert that the value of name, language french, is bingo
         $this->assertDatabaseHas(ElementAttribute::TABLE,
@@ -108,6 +109,7 @@ class ImportTest extends TestCase
                 'profile_property_id' => 1,
                 'created_user_id'     => 1,
                 'updated_user_id'     => 1,
+                'last_import_id' => $import->id,
             ]);
         //this is the add part
         $element = Element::with('statements')->where('name', 'EnglishName')->first();
@@ -116,6 +118,7 @@ class ImportTest extends TestCase
         $element->statements->map(function($values){
             $values['created_at'] = null;
             $values['updated_at'] = null;
+            $values['last_import_id'] = null;
             return $values;
         });
         $this->assertMatchesSnapshot($element->toArray());
@@ -220,7 +223,7 @@ class ImportTest extends TestCase
         $element->statements->map(function($values) {
             $values['created_at'] = null;
             $values['updated_at'] = null;
-
+            $values['last_import_id'] = null;
             return $values;
         });
         $this->assertMatchesSnapshot($element->toArray());
