@@ -349,23 +349,7 @@ class ConceptProperty extends BaseConceptProperty
      */
     public function getProfileProperty($con = null)
     {
-        if ($this->aProfilePropertyRelatedBySkosPropertyId === null && ($this->skos_property_id !== null)) {
-            // include the related Peer class
-            include_once 'lib/model/om/BaseProfilePropertyPeer.php';
-
-            if ($con === null) {
-                $con = \Propel::getConnection(\ProfilePropertyPeer::DATABASE_NAME);
-            }
-
-            $criteria = new \Criteria(ProfilePropertyPeer::DATABASE_NAME);
-            $criteria->add(\ProfilePropertyPeer::SKOS_ID, $this->skos_property_id);
-
-            $v = ProfilePropertyPeer::doSelect($criteria, $con);
-
-            $this->aProfilePropertyRelatedBySkosPropertyId = ! empty($v) > 0 ? $v[0] : null;
-        }
-
-        return $this->aProfilePropertyRelatedBySkosPropertyId;
+        return $this->getProfilePropertyRelatedByProfilePropertyId();
     }
 
     /**
