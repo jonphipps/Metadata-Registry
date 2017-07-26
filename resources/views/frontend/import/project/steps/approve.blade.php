@@ -18,11 +18,11 @@
         altrows: true,
         columns: [
         {text: 'id', datafield: 'id', hidden: true},
-        {text: 'Worksheet', datafield: 'worksheet'},
-        {text: 'Added', datafield: 'added', columntype: number},
-        {text: 'Deleted', datafield: 'deleted', columntype: number},
-        {text: 'Changed', datafield: 'updated', columntype: number},
-        {text: 'Errors', datafield: 'errors', columntype: number},
+        {text: 'Worksheet', datafield: 'worksheet', width: 240},
+        {text: 'Added', datafield: 'added', width: 240, cellsalign: 'center'},
+        {text: 'Deleted', datafield: 'deleted', width: 240, cellsalign: 'center'},
+        {text: 'Changed', datafield: 'updated', width: 240, cellsalign: 'center'},
+        {text: 'Errors', datafield: 'errors', width: 240, cellsalign: 'center'},
         ]}";
     @endphp
     @include('vendor.backpack.crud.form_content', [ 'fields' => $crud->getFields('create'), 'action' => 'create' ])
