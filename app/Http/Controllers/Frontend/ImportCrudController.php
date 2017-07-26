@@ -178,6 +178,8 @@ class ImportCrudController extends CrudController
 
         $this->setWizardData('batch_id', $batch->id);
 
+        $step->preProcess($request, $this->wizard);
+
         if ($step->key === 'approve' && ($batch->total_count <= $batch->handled_count)) {
             $batch->load('imports');
             $data = [];
