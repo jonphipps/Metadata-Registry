@@ -1,6 +1,7 @@
 @php
     /** @var array $worksheets */
     $data = json_encode($wizard_data['googlesheets']);
+    $selected = $wizard_data['worksheets']['selected_worksheets'] ?? json_encode([]);
     $props = "{
     width: 1000,
     autoheight: true,

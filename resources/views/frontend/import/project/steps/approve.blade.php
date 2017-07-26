@@ -2,6 +2,7 @@
     @php
         /** @var array $worksheets */
         $data = json_encode($wizard_data['approve']);
+        $selected = $wizard_data['approve']['selected_worksheets'] ?? json_encode([]);
         $props = "{
         width: 1000,
         autoheight: true,
