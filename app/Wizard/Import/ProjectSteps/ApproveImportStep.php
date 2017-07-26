@@ -4,6 +4,8 @@
 
 namespace App\Wizard\Import\ProjectSteps;
 
+use App\Jobs\ImportVocabulary;
+use App\Models\Batch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Smajti1\Laravel\Step;
@@ -33,10 +35,10 @@ class ApproveImportStep extends Step
 
     public function process(Request $request): void
     {
-        // run the read each worksheet and get the changes
-        // show the changes in a checkbox tree
-        // activate the 'Finish and notify me when done' button
-        // save progress to session
+        $importIds = json_decode($request->selected_approve);
+        foreach ($importIds as $importId) {
+            dispatch(new ImportVocabulary($importId));
+        }
         $this->saveProgress($request);
     }
 
