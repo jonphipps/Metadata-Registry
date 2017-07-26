@@ -185,7 +185,7 @@ class ImportCrudController extends CrudController
             $data = [];
             //load the stats from each import into an array
             foreach ($batch->imports as $import) {
-                $stats              = $import->results;
+                $stats              = $import->preprocess;
                 $datum['id']        = $import->id;
                 $datum['worksheet'] = $import->worksheet;
                 $datum['added']     = $stats['added'];
