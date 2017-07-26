@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int $id
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
  * @property string $source_file_name
  * @property string|null $source
  * @property string $map stores the serialized column map array
@@ -45,8 +46,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \App\Models\Export|null $export
  * @property string $worksheet
  * @property-read \App\Models\Vocabulary|null $vocabulary
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Import onlyTrashed()
+ * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereBatchId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereErrorCount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereExportId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereFileName($value)
@@ -66,6 +71,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereVocabularyId($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Import withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Models\Import withoutTrashed()
  * @mixin \Eloquent
  */
 class Import extends Model
