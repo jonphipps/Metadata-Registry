@@ -41,9 +41,13 @@
     <script src="{{ asset('vendor/jqwidgets/jqxcheckbox.js') }}"></script>
     <script src="{{ asset('vendor/jqwidgets/jqxlistbox.js') }}"></script>
     <script src="{{ asset('vendor/jqwidgets/jqxdropdownlist.js') }}"></script>
-    <script>
+    @endpush
+@endif
+@push('crud_fields_scripts')
+<script>
       $(document).ready(function () {
         var jqxGrid = $('#jqxGrid-{!! $field["name"] !!}');
+        var selectedRows = {!! $selected ?? json_encode([]) !!};
 
         var source =
           {
@@ -61,42 +65,61 @@
         });
 
         jqxGrid.jqxGrid( {!! $props !!});
-        /* $props should be a properties object. For instance...
-        {
-            width: 700,
-            autoheight: true,
-            source: dataAdapter,
-            sortable: true,
-            filterable: true,
-            pageable: true,
-            ready: function () {
-              // called when the Grid is loaded. Call methods or set properties here.
-            },
-            selectionmode: 'checkbox',
-            altrows: true,
-            columns: [
-              {text: 'First Name', datafield: 'firstname', width: 100},
-              {text: 'Last Name', datafield: 'lastname', width: 100},
-              {text: 'Product', datafield: 'productname', width: 180},
-              {text: 'Quantity', datafield: 'quantity', width: 80, cellsalign: 'right'},
-              {text: 'Unit Price', datafield: 'price', width: 90, cellsalign: 'right', cellsformat: 'c2'},
-              {text: 'Total', datafield: 'total', width: 100, cellsalign: 'right', cellsformat: 'c2'}
-            ]
-          }
-          */
-        jqxGrid.jqxGrid('autoresizecolumns');
-      });
-      $("form").submit(function (event) {
-        var jqxGrid = $('#jqxGrid-{!! $field["name"] !!}');
-        var selectedIds = [];
-        var selectedRowIndexes = jqxGrid.jqxGrid('getselectedrowindexes');
-        for (var i = 0; i < selectedRowIndexes.length; i++) {
-          selectedIds[i] = jqxGrid.jqxGrid('getrowdatabyid', i).id;
-        }
-        $('input[name="selected_{{$field['name']}}"]').val(JSON.stringify(selectedIds));
-      });
-    </script>
-    @endpush
-@endif
+{{-- $props should be a properties object. For instance...
+{
+    width: 700,
+    autoheight: true,
+    source: dataAdapter,
+    sortable: true,
+    filterable: true,
+    pageable: true,
+    ready: function () {
+      // called when the Grid is loaded. Call methods or set properties here.
+    },
+    selectionmode: 'checkbox',
+    altrows: true,
+    columns: [
+      {text: 'First Name', datafield: 'firstname', width: 100}, //must include a default width if using autoresize
+      {text: 'Last Name', datafield: 'lastname', width: 100},
+      {text: 'Product', datafield: 'productname', width: 180},
+      {text: 'Quantity', datafield: 'quantity', width: 80, cellsalign: 'right'},
+      {text: 'Unit Price', datafield: 'price', width: 90, cellsalign: 'right', cellsformat: 'c2'},
+      {text: 'Total', datafield: 'total', width: 100, cellsalign: 'right', cellsformat: 'c2'}
+    ]
+  }
+--}}
+jqxGrid.jqxGrid('autoresizecolumns');
+//resize the grid
+var gridWidth = 30;
+var columns = jqxGrid.jqxGrid('columns');
+for (var i = 2; i < columns.length(); i++) {
+  gridWidth += columns.records[i].width;
+}
+jqxGrid.jqxGrid({width: gridWidth});
+
+//select the rows
+var gridRows = jqxGrid.jqxGrid('getrows');
+for (var i = 0; i < selectedRows.length; i++) {
+  for (var x = 0; x < gridRows.length; x++) {
+    var rowId = jqxGrid.jqxGrid('getrowdatabyid', x).id;
+    if (rowId === selectedRows[i]) {
+      jqxGrid.jqxGrid('selectrow', i);
+    }
+  }
+}
+
+});
+
+$("form").submit(function (event) {
+var jqxGrid = $('#jqxGrid-{!! $field["name"] !!}');
+var selectedIds = [];
+var selectedRowIndexes = jqxGrid.jqxGrid('getselectedrowindexes');
+for (var i = 0; i < selectedRowIndexes.length; i++) {
+  selectedIds[i] = jqxGrid.jqxGrid('getrowdatabyid', i).id;
+}
+$('input[name="selected_{{$field['name']}}"]').val(JSON.stringify(selectedIds));
+});
+</script>
+@endpush
 {{-- End of Extra CSS and JS --}}
 {{-- ########################################## --}}
