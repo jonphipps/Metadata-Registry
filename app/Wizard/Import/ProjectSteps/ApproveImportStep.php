@@ -7,6 +7,7 @@ namespace App\Wizard\Import\ProjectSteps;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Smajti1\Laravel\Step;
+use Smajti1\Laravel\Wizard;
 
 class ApproveImportStep extends Step
 {
@@ -23,6 +24,11 @@ class ApproveImportStep extends Step
                 'type'  => 'jqxgrid_select',
             ],
         ];
+    }
+
+    public function preProcess(Request $request, Wizard $wizard)
+    {
+
     }
 
     public function process(Request $request): void

@@ -6,6 +6,7 @@ namespace App\Wizard\Import\ProjectSteps;
 
 use Illuminate\Http\Request;
 use Smajti1\Laravel\Step;
+use Smajti1\Laravel\Wizard;
 
 class PerformImportStep extends Step
 {
@@ -16,6 +17,10 @@ class PerformImportStep extends Step
     public function fields(): array
     {
         return [];
+    }
+
+    public function preProcess(Request $request, Wizard $wizard = null)
+    {
     }
 
     public function process(Request $request): void

@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Smajti1\Laravel\Step;
+use Smajti1\Laravel\Wizard;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 
 class SetSpreadsheetStep extends Step
@@ -46,6 +47,10 @@ class SetSpreadsheetStep extends Step
         ];
     }
 
+    public function preProcess(Request $request, Wizard $wizard = null)
+    {
+
+    }
     public function process(Request $request): void
     {
         //check to see if we have a batch

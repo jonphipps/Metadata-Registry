@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use Smajti1\Laravel\Step;
 use function dispatch;
 use function explode;
+use Smajti1\Laravel\Wizard;
 
 class SelectWorksheetsStep extends Step
 {
@@ -29,6 +30,11 @@ class SelectWorksheetsStep extends Step
                 'type'  => 'jqxgrid_select',
             ],
         ];
+    }
+
+    public function PreProcess(Request $request, Wizard $wizard = null)
+    {
+
     }
 
     public function process(Request $request): void
