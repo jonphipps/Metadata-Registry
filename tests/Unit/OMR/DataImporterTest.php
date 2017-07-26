@@ -296,7 +296,9 @@ class DataImporterTest extends TestCase
         //given a deserialized export map
         $map = $this->getMap();
         //when i pass it to the MapHeader function
-        $profile = DataImporter::getColumnProfileMap($map);
+        /** @var Export $export */
+        $export  = factory(Export::class)->make([ 'map' => $map, 'profile_id' => 2]);
+        $profile = DataImporter::getColumnProfileMap($export, collect([]));
         //then it returns a proper header/profile
         $this->assertMatchesSnapshot($profile->toArray());
     }
