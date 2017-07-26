@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Models\Import
@@ -23,7 +24,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $user_id
  * @property string $file_name
  * @property string $file_type
+ * @property array $preprocess stores the serialized results of the pre-import process
  * @property array $results stores the serialized results of the import
+ * @property string|null $imported_at
  * @property int $total_processed_count
  * @property int $error_count
  * @property int $success_count
@@ -49,8 +52,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereFileName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereFileType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereImportedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereInstructions($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereMap($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import wherePreprocess($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereResults($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereSchemaId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereSource($value)
@@ -67,11 +72,14 @@ class Import extends Model
 {
     const TABLE = 'reg_file_import_history';
     protected $table = self::TABLE;
-    use Blameable, CreatedBy;
+    use SoftDeletes, Blameable, CreatedBy;
     use CrudTrait;
     use BelongsToVocabulary, BelongsToElementset, BelongsToUser;
     protected $blameable = [
         'created' => 'user_id',
+    ];
+    protected $dates = [
+        'deleted_at',
     ];
     protected $guarded = [ 'id' ];
     protected $casts = [
@@ -85,6 +93,7 @@ class Import extends Model
         'file_type'             => 'string',
         'batch_id'              => 'integer',
         'results'               => 'array',
+        'preprocess'               => 'array',
         'total_processed_count' => 'integer',
         'error_count'           => 'integer',
         'success_count'         => 'integer',
@@ -95,6 +104,7 @@ class Import extends Model
         'file_name'        => 'max:255',
         'source_file_name' => 'max:255',
         'file_type'        => 'max:30',
+        'preprocess'          => 'max:65535',
         'results'          => 'max:65535',
     ];
     /*
@@ -159,6 +169,11 @@ class Import extends Model
     public function getWorksheetAttribute($value): string
     {
         return $this->attributes['source_file_name'];
+    }
+
+    public function getInstructionsAttribute($value)
+    {
+        return json_decode($value, true);
     }
 
     /*
