@@ -8,7 +8,6 @@ use App\Models\ConceptAttribute;
 use App\Models\ElementAttribute;
 use App\Models\Export;
 use App\Services\Import\GoogleSpreadsheet;
-use function explode;
 use Google_Service_Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -16,6 +15,7 @@ use Illuminate\Support\Facades\Validator;
 use Smajti1\Laravel\Step;
 use Smajti1\Laravel\Wizard;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
+use function explode;
 
 class SetSpreadsheetStep extends Step
 {
@@ -93,27 +93,27 @@ class SetSpreadsheetStep extends Step
             try {
                 $export = Export::findByExportFileName($worksheet . '.csv');
                 if ($export) {
-                    $arr = explode('_', $worksheet);
-                    $sheet['worksheet'] = $arr[0];
-                    $sheet['languages'] = $arr[1];
+                    $sheet['worksheet']   = $export->worksheet;
+                    $sheet['languages']   = $export->languages;
                     $sheet['exported_at'] = $export->created_at->toDayDateTimeString();
                     if ($export->elementset) {
-                        $id = $export->elementset->id;
-                        $sheet['last_edit'] = ElementAttribute::getLatestDateForElementSet($id);
+                        $id                     = $export->elementset->id;
+                        $sheet['last_edit']     = ElementAttribute::getLatestDateForElementSet($id);
                         $sheet['elementset_id'] = $id;
                     }
                     if ($export->vocabulary) {
-                        $id                = $export->vocabulary->id;
-                        $sheet['last_edit'] = ConceptAttribute::getLatestDateForVocabulary($id);
+                        $id                     = $export->vocabulary->id;
+                        $sheet['last_edit']     = ConceptAttribute::getLatestDateForVocabulary($id);
                         $sheet['vocabulary_id'] = $id;
                     }
-                    $sheet['last_edit']    =
-                        $sheet['last_edit']?  $sheet['last_edit']->toDayDateTimeString(): 'Never Edited';
-                    $sheet['id']       = $export->id.'::'.$worksheet;
-                    $lastImport               = $export->getLatestImport();
-                    $sheet['last_import']     =
-                        $lastImport? $lastImport->created_at->toDayDateTimeString(): 'Never Imported';
-                    $worksheets[] = $sheet;
+                    $sheet['last_edit']            =
+                        $sheet['last_edit']? $sheet['last_edit']->toDayDateTimeString(): 'Never Edited';
+                    $sheet['id']                   = $export->id . '::' . $worksheet;
+                    $lastImport                    = $export->getLatestImport();
+                    $sheet['last_import']          =
+                        $lastImport? $lastImport->imported_at->toDayDateTimeString(): 'Never Imported';
+                    $sheet['last_import_batch_id'] = $lastImport? $lastImport->batch_id: '';
+                    $worksheets[]                  = $sheet;
                 }
             }
             catch (ModelNotFoundException $e) {
