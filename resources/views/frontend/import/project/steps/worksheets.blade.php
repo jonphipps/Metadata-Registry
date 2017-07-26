@@ -25,3 +25,9 @@
     ]}";
 @endphp
 @include('vendor.backpack.crud.form_content', [ 'fields' => $crud->getFields('create'), 'action' => 'create' ])
+
+<h3>What happens next...</h3>
+<p>The Worksheets you selected for processing have been queued as a series of 'import' tasks on the server.
+    They'll be checked for errors and a set of import instructions will be generated for each Worksheet.
+    When the worksheets are finished processing, you'll receive a notification with a link to a page that will display some statistics about the import and ask if you want to proceed.
+</p>

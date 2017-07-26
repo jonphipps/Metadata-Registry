@@ -29,8 +29,5 @@
 @endif
 
 <h3>What happens next...</h3>
-<p>The Worksheets you selected for processing have been queued as a series of 'import' tasks on the server.
-    They'll be checked for errors and a set of import instructions will be generated for each Worksheet.
-    As each Worksheet is processed you'll receive a notification with a link to a page that will display some statistics about the import and ask if you want to proceed.
-If you approve, the import will continue and the Vocabulary or Element Set will be sent to the server for importing.
-When the import completes, you'll receive another notification of a successful import.</p>
+<p>The Imports you select for processing will be sent to the server for importing.
+When the import completes, you'll receive another notification of a successful import with a link to a page displaying the results.</p>
