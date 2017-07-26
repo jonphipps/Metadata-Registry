@@ -51,8 +51,8 @@ class ParseVocabulary implements ShouldQueue
         $importer = new DataImporter($data, $this->import->export);
         //then we pass them to the importer
         $changeSet = $importer->getChangeset();
-        $this->import->instructions = $changeSet->toJson();
-        $this->import->results = $importer->getStats();
+        $this->import->instructions = $changeSet;
+        $this->import->preprocess = $importer->getStats();
         $this->import->save();
         $batch = $this->import->batch;
         $batch->handled_count++;
