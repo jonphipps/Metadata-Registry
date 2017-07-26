@@ -1,6 +1,6 @@
 <?php
 /** @var ConceptPropertyHistory $concept_property_history **/
-$skosName = $concept_property_history->getSkosProperty() ? $concept_property_history->getSkosProperty()->getName() : null;
+$skosName = $concept_property_history->getProfileProperty() ? $concept_property_history->getProfileProperty()->getName() : null;
 
 if ($concept_property_history->getConceptProperty())
   {
@@ -10,4 +10,3 @@ if ($concept_property_history->getConceptProperty())
   {
     echo $skosName ? $skosName : __s('-');
   }
-?>
