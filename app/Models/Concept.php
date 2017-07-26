@@ -136,14 +136,18 @@ class Concept extends Model
         $statements = $this->statements->keyBy(function($item) {
             return $item['profile_property_id'] . '-' . $item['language'];
         });
-        $this->uri  = isset($statements["62-"])? $statements["62-"]->object: null;
+        if (isset($statements['62-'])) {
+            $this->uri = $statements['62-']->object;
+        }
         //$this->lexical_alias = $statements[0];
-        $this->pref_label    = isset($statements["45-$language"])? $statements["45-$language"]->object: null;
-        $this->pref_label_id = isset($statements["45-$language"])? $statements["45-$language"]->id: null;
-        if (isset($statements["59-"])) {
+        if (isset($statements["45-$language"])) {
+            $this->pref_label = $statements["45-$language"]->object;
+            $this->pref_label_id = $statements["45-$language"]->id;
+        }
+        if (isset($statements['59-'])) {
             $this->status_id =
-                is_numeric($statements["59-"]->object)? $statements["59-"]->object:
-                    Status::getByName($statements["59-"]->object)->id;
+                is_numeric($statements['59-']->object)? $statements['59-']->object:
+                    Status::getByName($statements['59-']->object)->id;
         }
 
         $this->save();

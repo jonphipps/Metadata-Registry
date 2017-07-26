@@ -118,26 +118,44 @@ class Element extends Model
         });
         $this->name       = $statements["1-$language"]->object;
         $this->label      = $statements["2-$language"]->object;
-        $this->definition = isset($statements["3-$language"])? $statements["3-$language"]->object: null;
-        $this->type       = isset($statements["4-"])? $statements["4-"]->object: null;
-        $this->comment    = isset($statements["5-$language"])? $statements["5-$language"]->object: null;
+        if (isset($statements["3-$language"])) {
+            $this->definition = $statements["3-$language"]->object;
+        }
+        if (isset($statements['4-'])) {
+            $this->type = $statements['4-']->object;
+        }
+        if (isset($statements["5-$language"])) {
+            $this->comment = $statements["5-$language"]->object;
+        }
         if (strtolower($this->type) === 'property') {
-            $this->parent_uri = isset($statements["6-"])? $statements["6-"]->object: null;
+            if (isset($statements['6-'])) {
+                $this->parent_uri = $statements['6-']->object;
+            }
         } else {
-            $this->parent_uri = isset($statements["9-"])? $statements["9-"]->object: null;
+            if (isset($statements['9-'])) {
+                $this->parent_uri = $statements['9-']->object;
+            }
         }
-        $this->note          = isset($statements["7-$language"])? $statements["7-$language"]->object: null;
-        $this->domain        = isset($statements["11-"])? $statements["11-"]->object: null;
-        $this->orange        = isset($statements["12-"])? $statements["12-"]->object: null;
-        $this->uri = $statements["13-"]->object;
-        if (isset($statements["14-"])) {
+        if (isset($statements["7-$language"])) {
+            $this->note = $statements["7-$language"]->object;
+        }
+        if (isset($statements['11-'])) {
+            $this->domain = $statements['11-']->object;
+        }
+        if (isset($statements['12-'])) {
+            $this->orange = $statements['12-']->object;
+        }
+        if (isset($statements['13-'])) {
+            $this->uri = $statements['13-']->object;
+        }
+        if (isset($statements['14-'])) {
             $this->status_id =
-                is_numeric($statements["14-"]->object)? $statements["14-"]->object:
-                    Status::getByName($statements["14-"]->object)->id;
-        } else {
-            $this->status_id = null;
+                is_numeric($statements['14-']->object)? $statements['14-']->object:
+                    Status::getByName($statements['14-']->object)->id;
         }
-        $this->lexical_alias = isset($statements["27-$language"])? $statements["27-$language"]->object: null;
+        if (isset($statements["27-$language"])) {
+            $this->lexical_alias = $statements["27-$language"]->object;
+        }
         //$this->url    = $statements["45-$language"]->object;
         $this->save();
 
