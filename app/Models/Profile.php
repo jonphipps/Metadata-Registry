@@ -116,4 +116,18 @@ class Profile extends Model
     {
         return $this->profile_properties()->whereIsRequired( true )->get();
     }
+
+    public function getColumnMapFromHeader(string $header): array
+    {
+        //parse the label from the string
+        $test     = ltrim($header, '*');
+        $test     = explode('_', $test);
+        $language = $test[1] ?? '';
+        $label    = explode('[', $test[0])[0];
+        //get the property by looking up the label
+        $profile = $this->profile_properties()->where('label', $label)->first();
+
+        //return the property id, the label, and the language
+        return [ 'id' => $profile? $profile->id: '', 'label' => $header, 'language' => $language ];
+    }
 }

@@ -53,12 +53,13 @@ class DataImporter
     public function __construct(collection $data, Export $export = null)
     {
         $this->data    = $data;
+        $columnHeaders = collect($data[0]);
         $this->rows    = $this->getDataForImport();
 
         $this->export = $export;
         if ($export) {
             $this->rowMap     = self::getRowMap($export->map);
-            $this->columnProfileMap = self::getColumnProfileMap($export->map);
+            $this->columnProfileMap = self::getColumnProfileMap($export, $columnHeaders);
             $this->addRows    = $this->getAddRows(); //only gets data rows with no row_id
             $this->updateRows = $this->getUpdateRows(); //gets data rows with matching map
             $this->deleteRows = $this->getDeleteRows(); //gets map rows with no matching row
@@ -230,15 +231,25 @@ class DataImporter
     }
 
     /**
-     * @param Collection $map
+     * @param Export     $export
+     * @param Collection $columnHeaders
      *
      * @return Collection
      */
-    public static function getColumnProfileMap(Collection $map): Collection
+    public static function getColumnProfileMap(Export $export, Collection $columnHeaders): Collection
     {
-        $p = self::getHeaderFromMap($map);
+        $map     = $export->map;
+        $profile = $export->profile;
+        $p       = self::getHeaderFromMap($map)->keyBy('label');
+        $keys    = $p->keys()->toArray();
+        //get the map for all new columns
+        $newColumns = $columnHeaders->reject(function($value, $key) use ($keys) {
+            return in_array($value, $keys, false);
+        })->map(function($column) use ($profile) {
+            return $profile->getColumnMapFromHeader($column);
+        })->keyBy('label');
 
-        return $p->keyBy('label');
+        return $p->merge($newColumns);
     }
 
     /**
