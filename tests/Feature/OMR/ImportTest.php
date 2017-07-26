@@ -88,7 +88,7 @@ class ImportTest extends TestCase
             'instructions'  => $this->getChangeSet(),
         ]);
         //when I run the import job
-        dispatch(new ImportVocabulary($import));
+        dispatch(new ImportVocabulary($import->id));
         //then I should see the changes in the database
         $lexical = ElementAttribute::withTrashed()->find(128175);
         $this->assertNotNull($lexical->deleted_at);
@@ -138,7 +138,7 @@ class ImportTest extends TestCase
             'instructions'  => $this->getVocabChangeSet(),
         ]);
         //when I run the import job
-        dispatch(new ImportVocabulary($import));
+        dispatch(new ImportVocabulary($import->id));
         //then I should see the changes in the database
         $lexical = ConceptAttribute::withTrashed()->find(24412);
         $this->assertNotNull($lexical->deleted_at);
@@ -208,7 +208,7 @@ class ImportTest extends TestCase
             'instructions'  => $changeset,
         ]);
         //when I run the import job
-        dispatch(new ImportVocabulary($import));
+        dispatch(new ImportVocabulary($import->id));
         //then I should see the changes in the database
         $concept = Concept::find(482);
         $this->assertSame('fubar', $concept->pref_label);
