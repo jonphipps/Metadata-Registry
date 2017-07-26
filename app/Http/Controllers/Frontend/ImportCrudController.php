@@ -31,7 +31,6 @@ class ImportCrudController extends CrudController
         'spreadsheet' => SetSpreadsheetStep::class,
         'worksheets' => SelectWorksheetsStep::class,
         'approve' => ApproveImportStep::class,
-        'import' => PerformImportStep::class,
         'report' => DisplayResultsStep::class,
     ];
     protected $wizard;
