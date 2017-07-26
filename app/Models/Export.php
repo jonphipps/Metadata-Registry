@@ -15,8 +15,8 @@ use Culpa\Traits\Blameable;
 use Culpa\Traits\CreatedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use function is_iterable;
 use const true;
+use function is_iterable;
 use function unserialize;
 
 /**
@@ -42,6 +42,8 @@ use function unserialize;
  * @property \Illuminate\Support\Collection|null $map
  * @property-read \App\Models\Access\User\User|null $creator
  * @property-read \App\Models\Elementset|null $elementset
+ * @property-read mixed $languages
+ * @property-read mixed $worksheet
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Import[] $imports
  * @property-read \App\Models\Profile|null $profile
  * @property-read \App\Models\Vocabulary|null $vocabulary
@@ -152,9 +154,23 @@ class Export extends Model
     /**
      * @return \Illuminate\Support\Collection|null
      */
-    public function getMapAttribute( $value )
+    public function getMapAttribute($value)
     {
-        return $value ? collect( unserialize( $value, [ true ] ) ) : null;
+        return $value? collect(unserialize($value, [ true ])): null;
+    }
+
+    public function getWorksheetAttribute(): ?string
+    {
+        $arr = explode('_', $this->attributes['file']);
+
+        return $arr[0] ?? null;
+    }
+
+    public function getLanguagesAttribute(): ?string
+    {
+        $arr = explode('_', $this->attributes['file']);
+
+        return $arr[1] ?? null;
     }
 
     /**
