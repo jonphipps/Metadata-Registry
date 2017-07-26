@@ -17,24 +17,26 @@
     "css-loader": "^0.28.4",
     "font-awesome": "^4.7.0",
     "jquery": "^3.1.1",
-    "laravel-mix": "^1.0",
+    "laravel-mix": "^1.3.1",
     "lodash": "^4.17.4",
     "node-sass": "^4.5.3",
     "purifycss-webpack": "^0.7.0",
-    "resolve-url-loader": "^2.0.2",
+    "resolve-url-loader": "^2.1.0",
     "sass-loader": "^6.0.5",
     "style-loader": "^0.18.2",
     "url-loader": "^0.5.8",
-    "vue": "^2.3.3",
-    "vue-template-compiler": "^2.3.3",
+    "vue": "^2.4.2",
+    "vue-template-compiler": "^2.4.2",
     "webpack-rtl-plugin": "^1.5.0"
   },
   "dependencies": {
-    "jqwidgets-framework": "^4.6.2",
+    "babel": "^6.23.0",
+    "jqwidgets-framework": "^4.6.4",
     "laravel-echo": "^1.3.0",
     "pace": "0.0.4",
-    "purify-css": "^1.2.5",
+    "purify-css": "^1.2.6",
     "pusher-js": "^4.1.0",
-    "smartwizard": "^4.2.2"
+    "smartwizard": "^4.2.2",
+    "webpack": "^3.3.0"
   }
 }
