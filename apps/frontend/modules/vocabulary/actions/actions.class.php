@@ -2,7 +2,7 @@
 use apps\frontend\lib\services\jsonldService;
 use ImportVocab\ExportVocab;
 use League\Flysystem\Adapter\Local as Adapter;
-use League\Flysystem\Cache\Memory as Cache;
+use League\Flysystem\Cached\Storage\Memory as Cache;
 use League\Flysystem\Filesystem;
 
 /**
@@ -207,7 +207,7 @@ class vocabularyActions extends autoVocabularyActions
         $file = rtrim($vocabDir, "/") . "." . $mime;
 
         $repoRoot   = SF_ROOT_DIR . DIRECTORY_SEPARATOR . 'web' . DIRECTORY_SEPARATOR . 'repos' . DIRECTORY_SEPARATOR . "agents" . DIRECTORY_SEPARATOR . $vocabulary->getAgentId() . DIRECTORY_SEPARATOR . $repo;
-        $filesystem = new Filesystem(new Adapter($repoRoot), new Cache);
+        $filesystem = new Filesystem(new Adapter($repoRoot, new Cache));
         $filePath   = $repoRoot . DIRECTORY_SEPARATOR . $mime . DIRECTORY_SEPARATOR . $file;
         //TODO: create an alias file
         $aliasPath = "alias" . DIRECTORY_SEPARATOR . $vocabDir;
