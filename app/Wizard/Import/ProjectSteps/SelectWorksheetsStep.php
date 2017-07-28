@@ -6,14 +6,16 @@ namespace App\Wizard\Import\ProjectSteps;
 
 use App\Jobs\ParseVocabulary;
 use App\Models\Batch;
+use App\Models\ConceptAttribute;
+use App\Models\ElementAttribute;
 use App\Models\Export;
 use App\Models\Import;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Smajti1\Laravel\Step;
+use Smajti1\Laravel\Wizard;
 use function dispatch;
 use function explode;
-use Smajti1\Laravel\Wizard;
 
 class SelectWorksheetsStep extends Step
 {
@@ -32,9 +34,38 @@ class SelectWorksheetsStep extends Step
         ];
     }
 
-    public function PreProcess(Request $request, Wizard $wizard = null)
+    public function PreProcess(Request $request, Wizard $wizard)
     {
-
+        $worksheets = [];
+        $sheets = $wizard->data()['googlesheets'];
+        foreach ($sheets as $key => $worksheet) {
+            $export               = Export::find($worksheet['id']);
+            $sheet['worksheet']   = $export->worksheet;
+            $sheet['languages']   = $export->languages;
+            $sheet['exported_at'] = $export->created_at->toDayDateTimeString();
+            if ($export->elementset) {
+                $id                     = $export->elementset->id;
+                $sheet['last_edit']     = ElementAttribute::getLatestDateForElementSet($id);
+                $sheet['elementset_id'] = $id;
+            }
+            if ($export->vocabulary) {
+                $id                     = $export->vocabulary->id;
+                $sheet['last_edit']     = ConceptAttribute::getLatestDateForVocabulary($id);
+                $sheet['vocabulary_id'] = $id;
+            }
+            $sheet['last_edit']            =
+                $sheet['last_edit'] ? $sheet['last_edit']->toDayDateTimeString() : 'Never Edited';
+            $sheet['id']                   = $export->id . '::' . $key;
+            $lastImport                    = $export->getLatestImport();
+            $sheet['last_import']          =
+                ($lastImport && $lastImport->imported_at) ? $lastImport->imported_at->toDayDateTimeString() :
+                    'Never Imported';
+            $sheet['last_import_batch_id'] = ($lastImport && $lastImport->batch_id) ? $lastImport->batch_id : '';
+            $worksheets[]                  = $sheet;
+        }
+        $data                 = $wizard->data();
+        $data['googlesheets'] = $worksheets;
+        $wizard->data($data);
     }
 
     public function process(Request $request): void
