@@ -91,6 +91,7 @@ use Laracasts\Matryoshka\Cacheable;
 class Element extends Model
 {
     const TABLE = 'reg_schema_property';
+    const FORM_PROPERTIES = [ 1, 2, 3, 4, 5, 6, 7, 9, 11, 12, 13, 14, 27 ];
     protected $table = self::TABLE;
     use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy;
     use Cacheable;
@@ -109,58 +110,6 @@ class Element extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function updateFromStatements(): self
-    {
-        //TODO the profile_property keys should be constants
-        $language         = $this->language;
-        $statements       = $this->statements->keyBy(function($item) {
-            return $item['profile_property_id'] . '-' . $item['language'];
-        });
-        $this->name       = $statements["1-$language"]->object;
-        $this->label      = $statements["2-$language"]->object;
-        if (isset($statements["3-$language"])) {
-            $this->definition = $statements["3-$language"]->object;
-        }
-        if (isset($statements['4-'])) {
-            $this->type = $statements['4-']->object;
-        }
-        if (isset($statements["5-$language"])) {
-            $this->comment = $statements["5-$language"]->object;
-        }
-        if (strtolower($this->type) === 'property') {
-            if (isset($statements['6-'])) {
-                $this->parent_uri = $statements['6-']->object;
-            }
-        } else {
-            if (isset($statements['9-'])) {
-                $this->parent_uri = $statements['9-']->object;
-            }
-        }
-        if (isset($statements["7-$language"])) {
-            $this->note = $statements["7-$language"]->object;
-        }
-        if (isset($statements['11-'])) {
-            $this->domain = $statements['11-']->object;
-        }
-        if (isset($statements['12-'])) {
-            $this->orange = $statements['12-']->object;
-        }
-        if (isset($statements['13-'])) {
-            $this->uri = $statements['13-']->object;
-        }
-        if (isset($statements['14-'])) {
-            $this->status_id =
-                is_numeric($statements['14-']->object)? $statements['14-']->object:
-                    Status::getByName($statements['14-']->object)->id;
-        }
-        if (isset($statements["27-$language"])) {
-            $this->lexical_alias = $statements["27-$language"]->object;
-        }
-        //$this->url    = $statements["45-$language"]->object;
-        $this->save();
-
-        return $this;
-    }
 
     /**
      * @param int $projectId
@@ -200,6 +149,70 @@ class Element extends Model
                 ];
             })
             ->toArray();
+    }
+
+    public function updateFromStatements(array $statements = null): self
+    {
+        $language    = $this->language;
+        if (!$statements) {
+            $s          =
+                collect($this->statements->whereIn('profile_property_id', self::FORM_PROPERTIES)->toArray());
+            $statements = $s->filter(function($item) use ($language) {
+                return $item['language'] === $language || $item['language'] === '';
+            })->keyBy(function($item) {
+                return $item['profile_property_id'];
+            })->map(function($item) {
+                return $item['object'];
+            });
+        }
+        if (isset($statements['1'])) {
+            $this->name = $statements['1'];
+        }
+        if (isset($statements['2'])) {
+            $this->label = $statements['2'];
+        }
+        if (isset($statements['3'])) {
+            $this->definition = $statements['3'];
+        }
+        if (isset($statements['4'])) {
+            $this->type = $statements['4'];
+        }
+        if (isset($statements['5'])) {
+            $this->comment = $statements['5'];
+        }
+        if (strtolower($this->type) === 'property') {
+            if (isset($statements['6'])) {
+                $this->parent_uri = $statements['6'];
+            }
+        } else {
+            if (isset($statements['9'])) {
+                $this->parent_uri = $statements['9'];
+            }
+        }
+        if (isset($statements['7'])) {
+            $this->note = $statements['7'];
+        }
+        if (isset($statements['11'])) {
+            $this->domain = $statements['11'];
+        }
+        if (isset($statements['12'])) {
+            $this->orange = $statements['12'];
+        }
+        if (isset($statements['13'])) {
+            $this->uri = $statements['13'];
+        }
+        if (isset($statements['14'])) {
+            $this->status_id =
+                is_numeric($statements['14']) ? $statements['14'] :
+                    Status::getByName($statements['14'])->id;
+        }
+        if (isset($statements['27'])) {
+            $this->lexical_alias = $statements['27'];
+        }
+        //$this->url    = $statements["45"];
+        $this->save();
+
+        return $this;
     }
 
     /*

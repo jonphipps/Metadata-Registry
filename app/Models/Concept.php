@@ -71,6 +71,7 @@ use Laracasts\Matryoshka\Cacheable;
 class Concept extends Model
 {
     const TABLE = 'reg_concept';
+    const FORM_PROPERTIES = [ 45, 49, 59, 62, 74 ];
     protected $table = self::TABLE;
     use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy;
     use Cacheable;
@@ -129,25 +130,37 @@ class Concept extends Model
             ->toArray();
     }
 
-    public function updateFromStatements(): self
+    public function updateFromStatements(array $statements = null): self
     {
-        //TODO the profile_property keys should be constants
         $language   = $this->language;
-        $statements = $this->statements->keyBy(function($item) {
-            return $item['profile_property_id'] . '-' . $item['language'];
-        });
-        if (isset($statements['62-'])) {
-            $this->uri = $statements['62-']->object;
+        if ( ! $statements) {
+            $s          = collect($this->statements->whereIn('profile_property_id', self::FORM_PROPERTIES)->toArray());
+            $s = $s->filter(function($item) use ($language) {
+                return $item['language'] === $language || $item['language'] === '';
+            })->keyBy(function($item) {
+                return $item['profile_property_id'];
+            });
+            $prefLabelId = $s->where('profile_property_id', 45)->first()['id'];
+            $statements = $s->map(function($item) {
+                return $item['object'];
+            });
+            $statements['45-id'] = $prefLabelId;
         }
-        //$this->lexical_alias = $statements[0];
-        if (isset($statements["45-$language"])) {
-            $this->pref_label = $statements["45-$language"]->object;
-            $this->pref_label_id = $statements["45-$language"]->id;
+
+        if (isset($statements['62'])) {
+            $this->uri = $statements['62'];
         }
-        if (isset($statements['59-'])) {
+        if (isset($statements['74'])) {
+            $this->lexical_alias = $statements['74'];
+        }
+        if (isset($statements['45'])) {
+            $this->pref_label = $statements['45'];
+            $this->pref_label_id = $statements['45-id'];
+        }
+        if (isset($statements['59'])) {
             $this->status_id =
-                is_numeric($statements['59-']->object)? $statements['59-']->object:
-                    Status::getByName($statements['59-']->object)->id;
+                is_numeric($statements['59'])? $statements['59']:
+                    Status::getByName($statements['59'])->id;
         }
 
         $this->save();
