@@ -4,6 +4,7 @@
 
 namespace App\Wizard\Import\ProjectSteps;
 
+use App\Models\Import;
 use Illuminate\Http\Request;
 use Smajti1\Laravel\Step;
 use Smajti1\Laravel\Wizard;
@@ -16,11 +17,30 @@ class DisplayResultsStep extends Step
 
     public function fields(): array
     {
-        return [];
+        return [
+            [
+                'name'  => 'results',
+                'label' => 'Here are your results...',
+                'type'  => 'jqxgrid_select',
+            ],
+        ];
     }
 
-    public function preProcess(Request $request, Wizard $wizard = null)
+    public function preProcess(Request $request, Wizard $wizard)
     {
+        /** @var Import[] $imports */
+        $imports = $request->batch->imports;
+        $data = [];
+        foreach ($imports as $import) {
+            $results['results']   = $import->results;
+            $results['worksheet'] = $import->source_file_name;
+            $results['processed'] = $import->total_processed_count;
+            $results['errors']    = $import->error_count;
+            $data[]               = $results;
+        }
+        $wizardData =   $wizard->data();
+        $wizardData['results'] = $data;
+        $wizard->data($wizardData);
     }
 
     public function process(Request $request): void
