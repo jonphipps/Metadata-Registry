@@ -28,7 +28,7 @@ class DataImporterTest extends TestCase
         $this->artisan('db:seed',['--class'=> 'RDAMediaTypeSeeder']);
         //given a data set pulled from a worksheet
         $data   = collect($this->getVocabularyWorksheetData());
-        $export = Export::findByExportFileName('RDAMediaType_en-fr_20170511T172922_569_0.csv');
+        $export = Export::findByExportFileName('RDAMediaType_en-fr_20170511T172922_569_0');
         //and an export map
         $importer = new DataImporter($data, $export);
         //when i pass them to the importer
@@ -45,7 +45,7 @@ class DataImporterTest extends TestCase
         $this->artisan('db:seed', [ '--class' => 'RDAClassesSeeder' ]);
         //given a data set pulled from a worksheet
         $data   = collect($this->getElementSetWorksheetData());
-        $export = Export::findByExportFileName('rdac_en-fr_20170511T182904_570_0.csv');
+        $export = Export::findByExportFileName('rdac_en-fr_20170511T182904_570_0');
         //and an export map
         $importer = new DataImporter($data, $export);
         //when i pass them to the importer
@@ -67,7 +67,7 @@ class DataImporterTest extends TestCase
         $row[5] = 'foobar';
         $row[6] = '';
         $data->put(8, $row);
-        $export = Export::findByExportFileName('RDAMediaType_en-fr_20170511T172922_569_0.csv');
+        $export = Export::findByExportFileName('RDAMediaType_en-fr_20170511T172922_569_0');
         //and an export map
         $importer = new DataImporter($data, $export);
         //when i pass them to the importer
@@ -88,7 +88,7 @@ class DataImporterTest extends TestCase
         $row[5] = 'foobar';
         $row[6] = '';
         $data->put(8, $row);
-        $export = Export::findByExportFileName('RDAMediaType_en-fr_20170511T172922_569_0.csv');
+        $export = Export::findByExportFileName('RDAMediaType_en-fr_20170511T172922_569_0');
         //and an export map
         $importer = new DataImporter($data, $export);
         //when i pass them to the importer
@@ -121,7 +121,7 @@ class DataImporterTest extends TestCase
         $row[4] = 'foobar';
         $row[5] = '';
         $data->put(8, $row);
-        $export = Export::findByExportFileName('rdac_en-fr_20170511T182904_570_0.csv');
+        $export = Export::findByExportFileName('rdac_en-fr_20170511T182904_570_0');
         //and an export map
         $importer = new DataImporter($data, $export);
         //when i pass them to the importer
@@ -193,7 +193,7 @@ class DataImporterTest extends TestCase
         $row[5]     = 'foobar';
         $row[6]     = '';
         $data->put(8, $row);
-        $export = Export::findByExportFileName('RDAMediaType_en-fr_20170511T172922_569_0.csv');
+        $export = Export::findByExportFileName('RDAMediaType_en-fr_20170511T172922_569_0');
         //and an export map
         $importer = new DataImporter($data, $export);
         //when i process the data
@@ -220,7 +220,7 @@ class DataImporterTest extends TestCase
         $row[4] = 'foobar';
         $row[5] = '';
         $data->put(8, $row);
-        $export = Export::findByExportFileName('rdac_en-fr_20170511T182904_570_0.csv');
+        $export = Export::findByExportFileName('rdac_en-fr_20170511T182904_570_0');
         //and an export map
         $importer = new DataImporter($data, $export);
         //when i process the data

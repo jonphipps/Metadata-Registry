@@ -79,7 +79,7 @@ class ImportTest extends TestCase
     {
         $this->actingAs($this->admin);
         $this->artisan('db:seed', [ '--class' => 'RDAClassesSeeder' ]);
-        $export = Export::findByExportFileName('rdac_en-fr_20170511T182904_570_0.csv');
+        $export = Export::findByExportFileName('rdac_en-fr_20170511T182904_570_0');
         //given an import with a changeset
         $import = factory(Import::class)->create([
             'vocabulary_id' => null,
@@ -129,7 +129,7 @@ class ImportTest extends TestCase
     {
         $this->actingAs($this->admin);
         $this->artisan('db:seed', [ '--class' => 'RDAMediaTypeSeeder' ]);
-        $export = Export::findByExportFileName('RDAMediaType_en-fr_20170511T172922_569_0.csv');
+        $export = Export::findByExportFileName('RDAMediaType_en-fr_20170511T172922_569_0');
         //given an import with a changeset
         $import = factory(Import::class)->create([
             'vocabulary_id' => 37,
@@ -166,7 +166,7 @@ class ImportTest extends TestCase
     {
         $this->actingAs($this->admin);
         $this->artisan('db:seed', [ '--class' => 'RDAMediaTypeSeeder' ]);
-        $export = Export::findByExportFileName('RDAMediaType_en-fr_20170511T172922_569_0.csv');
+        $export = Export::findByExportFileName('RDAMediaType_en-fr_20170511T172922_569_0');
         //given an import with a changeset
         $changeset = $this->getVocabChangeSet();
         $changeset['update'][482]['*preferred label[0]_en'] = [
