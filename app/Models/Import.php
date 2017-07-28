@@ -87,6 +87,7 @@ class Import extends Model
     ];
     protected $dates = [
         'deleted_at',
+        'imported_at',
     ];
     protected $guarded = [ 'id' ];
     protected $casts = [
