@@ -90,9 +90,14 @@
 --}}
 jqxGrid.jqxGrid('autoresizecolumns');
 //resize the grid
-var gridWidth = 30;
+var gridWidth = 0;
+var startCol = 0;
+if(jqxGrid.jqxGrid('selectionmode') === 'checkbox') {
+  gridWidth = 30;
+  startCol = 2;
+}
 var columns = jqxGrid.jqxGrid('columns');
-for (var i = 2; i < columns.length(); i++) {
+for (var i = startCol; i < columns.length(); i++) {
   gridWidth += columns.records[i].width;
 }
 jqxGrid.jqxGrid({width: gridWidth});
