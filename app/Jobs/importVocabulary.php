@@ -197,7 +197,7 @@ class ImportVocabulary implements ShouldQueue
     {
         if ($this->isElementSet()) {
             return ElementAttribute::create([
-                'element_id'          => $this->resource->id,
+                'schema_property_id'  => $this->resource->id,
                 'object'              => $statement['new value'],
                 'language'            => $statement['language'],
                 'profile_property_id' => $statement['property_id'],
