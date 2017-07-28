@@ -13,7 +13,6 @@ use App\Models\Import;
 use App\Models\Project;
 use App\Wizard\Import\ProjectSteps\ApproveImportStep;
 use App\Wizard\Import\ProjectSteps\DisplayResultsStep;
-use App\Wizard\Import\ProjectSteps\PerformImportStep;
 use App\Wizard\Import\ProjectSteps\SelectWorksheetsStep;
 use App\Wizard\Import\ProjectSteps\SetSpreadsheetStep;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -178,7 +177,9 @@ class ImportCrudController extends CrudController
 
         $this->setWizardData('batch_id', $batch->id);
 
-        $step->preProcess($request, $this->wizard);
+        if (method_exists($step, 'preProcess')) {
+            $step->preProcess($request, $this->wizard);
+        }
 
         if ($step->key === 'approve' && ($batch->total_count <= $batch->handled_count)) {
             $batch->load('imports');
