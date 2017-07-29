@@ -92,10 +92,17 @@ class ImportVocabulary implements ShouldQueue
                         }
                     } else {
                         //make a new one
+                        $existingStatement = $statements->filter(function($item) use ($statement){
+                            return $item->profile_property_id == $statement['property_id'] &&
+                                $item->object == $statement['new value'] &&
+                                $item->getOriginal('language') === $statement['language'];
+                        });
+                        if ($existingStatement->count() === 0) {
                             $newStatement              = $this->addStatement($statement, $reg_id);
                             $statement['statement_id'] = $newStatement->id;
                             $this->addUpdateStatement($statement);
                             $dirty = true;
+                        }
                     }
                 }
                 if (count($this->updatedStatements)) {
