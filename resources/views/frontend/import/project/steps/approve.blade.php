@@ -1,3 +1,6 @@
+<h4>Note:</h4><p>The counts you see here will always be based on a comparison of the worksheet data to the <em>original</em> export,
+    not to the results of the import, which hasn't happened yet.<br/>
+    The import results will be displayed on the 'results' page.</p>
 @if (isset($wizard_data['approve']))
     @php
         /** @var array $worksheets */
@@ -27,9 +30,6 @@
     @endphp
     @include('vendor.backpack.crud.form_content', [ 'fields' => $crud->getFields('create'), 'action' => 'create' ])
 @endif
-<h3>Note:</h3>
-<p>The counts you see here will always be based on a comparison of the new data to the original export, not to the results of the actual import.
-    The import results will be displayed on the 'results' page.</p>
 <h3>What happens next...</h3>
 <p>The Imports you select for processing will be sent to the server for importing.
 When the import completes, you'll receive another notification of a successful import with a link to a page displaying the results.</p>
