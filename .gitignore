@@ -77,6 +77,7 @@ Todo.rtf
 .vagrant
 /.vagrant
 npm-debug.log
+yarn-error.log
 mix.*.js
 mix.js
 /_ide_helper_models.php

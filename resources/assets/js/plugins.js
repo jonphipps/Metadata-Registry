@@ -37,7 +37,7 @@ $(function(){
         location.reload();
     }).ajaxStop(function () {
         $loading.hide();
-    }).ajaxComplete(function () {
+    }).on('draw.dt', function() {
         /**
          * This is for delete buttons that are loaded via AJAX in datatables, they will not work right
          * without this block of code
