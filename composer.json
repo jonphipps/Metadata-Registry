@@ -82,7 +82,7 @@
         "jeroen-g/laravel-packager": "^1.5",
         "laracasts/matryoshka": "dev-master",
         "laravel/dusk": "^1.1",
-        "laravel/framework": "5.4.x-dev",
+        "laravel/framework": "5.4.x",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "5.4.*",
