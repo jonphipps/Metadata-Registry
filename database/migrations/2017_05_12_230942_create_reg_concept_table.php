@@ -21,9 +21,9 @@ class CreateRegConceptTable extends Migration
                 $table->softDeletes();
                 $table->unsignedInteger('created_user_id')->nullable()->index();
                 $table->unsignedInteger('updated_user_id')->nullable()->index();
-                $table->string('uri')->default('')->index();
+                $table->string('uri')->index();
                 $table->text('lexical_alias')->nullable();
-                $table->string('pref_label')->nullable()->default('')->index();
+                $table->string('pref_label')->index();
                 $table->unsignedInteger('vocabulary_id')->nullable()->index();
                 $table->boolean('is_top_concept')->nullable();
                 $table->unsignedInteger('pref_label_id')->nullable()->index();

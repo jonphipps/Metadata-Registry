@@ -30,7 +30,7 @@ class CreateRegSchemaPropertyTable extends Migration
                 $table->string('type', 15)->default('property');
                 $table->unsignedInteger('is_subproperty_of')->nullable()->index();
                 $table->string('parent_uri')->nullable();
-                $table->string('uri')->default('')->index();
+                $table->string('uri')->index();
                 $table->unsignedInteger('status_id')->default(1)->index();
                 $table->char('language', 12)->default('en');
                 $table->text('note')->nullable();
