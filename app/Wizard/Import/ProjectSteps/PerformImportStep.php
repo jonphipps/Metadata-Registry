@@ -19,10 +19,6 @@ class PerformImportStep extends Step
         return [];
     }
 
-    public function preProcess(Request $request, Wizard $wizard = null)
-    {
-    }
-
     public function process(Request $request): void
     {
         // run the import for each worksheet
