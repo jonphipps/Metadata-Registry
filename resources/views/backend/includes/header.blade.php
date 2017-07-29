@@ -111,23 +111,19 @@
                                 </p>
                             </li>
                             <li class="user-body">
-                                <div class="col-xs-4 text-center">
-                                    {{ laravel_link_to('#', 'Link') }}
-                                </div>
-                                <div class="col-xs-4 text-center">
-                                    {{ laravel_link_to_route('frontend.user.account', 'Account') }}
-                                </div>
-                                <div class="col-xs-4 text-center">
-                                    {{ laravel_link_to_route('admin.dashboard', 'Admin') }}
+                                <div class="col-xs-12 text-center">
+                                    {{ laravel_link_to_route('frontend.user.account', trans('navs.frontend.user.account')) }}
                                 </div>
                             </li>
                             <li class="user-footer">
+                                @if (access()->hasRole('Administrator'))
                                 <div class="pull-left">
-                                    <a href="{!! route('frontend.user.dashboard') !!}" class="btn btn-default btn-flat">
+                                    <a href="{!! route('admin.dashboard') !!}" class="btn btn-default btn-flat">
                                         <i class="fa fa-home"></i>
                                         {{ trans('navs.frontend.dashboard') }}
                                     </a>
                                 </div>
+                                @endif
                                 <div class="pull-right">
                                     <a href="{!! route('frontend.auth.logout') !!}" class="btn btn-danger btn-flat">
                                         <i class="fa fa-sign-out"></i>
