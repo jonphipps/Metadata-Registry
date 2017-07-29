@@ -15,8 +15,11 @@
     altrows: true,
     columns: [
         {text: 'Worksheet', datafield: 'worksheet', width: 240},
-        {text: 'Results', datafield: 'results', width: 500},
+        {text: 'Processing time', datafield: 'results', width: 500},
         {text: 'Processed', datafield: 'processed', width: 240, cellsalign: 'center'},
+        {text: 'Added', datafield: 'added', width: 240, cellsalign: 'center'},
+        {text: 'Deleted', datafield: 'deleted', width: 240, cellsalign: 'center'},
+        {text: 'Changed', datafield: 'updated', width: 240, cellsalign: 'center'},
         {text: 'Errors', datafield: 'errors', width: 240, cellsalign: 'center'},
     ]}";
 @endphp

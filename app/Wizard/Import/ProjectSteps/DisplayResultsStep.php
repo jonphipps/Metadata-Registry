@@ -20,7 +20,7 @@ class DisplayResultsStep extends Step
         return [
             [
                 'name'  => 'results',
-                'label' => 'Here are your results...',
+                'label' => '',
                 'type'  => 'jqxgrid_select',
             ],
         ];
@@ -35,6 +35,9 @@ class DisplayResultsStep extends Step
             $results['results']   = $import->results;
             $results['worksheet'] = $import->source_file_name;
             $results['processed'] = $import->total_processed_count;
+            $results['updated']   = $import->updated_count;
+            $results['added']     = $import->added_count;
+            $results['deleted']   = $import->deleted_count;
             $results['errors']    = $import->error_count;
             $data[]               = $results;
         }

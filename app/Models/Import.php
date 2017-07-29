@@ -27,10 +27,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $file_type
  * @property array $preprocess stores the serialized results of the pre-import process
  * @property array $results stores the serialized results of the import
- * @property string|null $imported_at
+ * @property \Carbon\Carbon|null $imported_at
  * @property int $total_processed_count
  * @property int $error_count
  * @property int $success_count
+ * @property int|null $added_count
+ * @property int|null $updated_count
+ * @property int|null $deleted_count
  * @property int $batch_id
  * @property int $vocabulary_id
  * @property int $schema_id
@@ -49,9 +52,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Import onlyTrashed()
  * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereAddedCount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereBatchId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereDeletedCount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereErrorCount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereExportId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereFileName($value)
@@ -69,6 +74,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereTotalProcessedCount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereUpdatedCount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereVocabularyId($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Import withTrashed()

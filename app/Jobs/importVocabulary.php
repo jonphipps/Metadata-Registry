@@ -65,12 +65,16 @@ class ImportVocabulary implements ShouldQueue
         $vocabId         = $this->isElementSet() ? $this->import->schema_id : $this->import->vocabulary_id;
         $changeset       = $this->import->instructions;
         $total_processed = 0;
+        $added = 0;
+        $updated = 0;
+        $deleted = 0;
         //each item in the main array is a row. Each item in the statements array is a statement
         foreach ($changeset['update'] as $reg_id => $row) {
             $this->updatedStatements = [];
             //start a transaction
-            DB::transaction(function() use ($reg_id, $row) {
+            DB::transaction(function() use ($reg_id, $row, &$updated) {
                 $statements = $this->getStatements($reg_id);
+                $dirty = false;
                 foreach ($row as $statement) {
                     $old = $statements->find($statement['statement_id']);
                     if ($old) {
@@ -80,25 +84,31 @@ class ImportVocabulary implements ShouldQueue
                                 'last_import_id' => $this->import->id,
                             ]);
                             $this->addUpdateStatement($statement);
+                            $dirty = true;
                         } else {
                             $old->delete();
                             $this->addUpdateStatement($statement);
+                            $dirty = true;
                         }
                     } else {
                         //make a new one
-                        $newStatement = $this->addStatement($statement, $reg_id);
-                        $statement['statement_id'] = $newStatement->id;
-                        $this->addUpdateStatement($statement);
+                            $newStatement              = $this->addStatement($statement, $reg_id);
+                            $statement['statement_id'] = $newStatement->id;
+                            $this->addUpdateStatement($statement);
+                            $dirty = true;
                     }
                 }
                 if (count($this->updatedStatements)) {
                     $this->resource->updateFromStatements($this->updatedStatements);
                 }
+                if ($dirty) {
+                    $updated++;
+                }
             });
             $total_processed++;
         }
         foreach ($changeset['add'] as $row) {
-            DB::transaction(function() use ($row, $vocabId) {
+            DB::transaction(function() use ($row, $vocabId, &$added) {
                 $resource = $this->createResource($vocabId);
                 foreach ($row as $statement) {
                     $newStatement = $this->addStatement($statement, $resource->id);
@@ -108,6 +118,7 @@ class ImportVocabulary implements ShouldQueue
                 if (count($this->updatedStatements)) {
                     $this->resource->updateFromStatements($this->updatedStatements);
                 }
+                $added++;
             });
             $total_processed++;
         }
@@ -116,12 +127,14 @@ class ImportVocabulary implements ShouldQueue
             //delete the resource
             //cascade delete the statements, which should cascade delete the reciprocals
             $total_processed++;
+            $deleted++;
         }
-        $this->import->results =
-            'Your file has been imported. It took us: ' .
-            $timer->diff(new \DateTime())->format('%h hours; %i minutes; %s seconds');
+        $this->import->results = $timer->diff(new \DateTime())->format('%h hours; %i minutes; %s seconds');
         $this->import->batch->increment('handled_count');
         $this->import->total_processed_count = $total_processed;
+        $this->import->added_count           = $added;
+        $this->import->updated_count         = $updated;
+        $this->import->deleted_count         = $deleted;
         $this->import->imported_at           = new \DateTime();
         $this->import->save();
     }

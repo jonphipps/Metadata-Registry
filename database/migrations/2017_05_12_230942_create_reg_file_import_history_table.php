@@ -31,6 +31,9 @@ class CreateRegFileImportHistoryTable extends Migration
                 $table->unsignedInteger('total_processed_count')->nullable();
                 $table->unsignedInteger('error_count')->nullable();
                 $table->unsignedInteger('success_count')->nullable();
+                $table->unsignedInteger('added_count')->nullable();
+                $table->unsignedInteger('updated_count')->nullable();
+                $table->unsignedInteger('deleted_count')->nullable();
                 $table->unsignedInteger('batch_id')->nullable()->index();
                 $table->unsignedInteger('vocabulary_id')->nullable()->index();
                 $table->unsignedInteger('schema_id')->nullable()->index();
