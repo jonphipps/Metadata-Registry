@@ -1,27 +1,58 @@
 {
-    "name"            : "jonphipps/metadata-registry", "description": "A metadata registry",
-    "repositories":
-    [
-    { "type": "vcs", "url": "git@github.com:jonphipps/phpspecgen.git" },
-    { "type": "vcs", "url": "git@github.com:jonphipps/laxative.git" },
-    { "type": "vcs", "url": "git@github.com:jonphipps/html.git" },
-    { "type": "vcs", "url": "git@github.com:jonphipps/laravel-codeception-dbdump.git" },
-    { "type": "vcs", "url": "git@github.com:jonphipps/laravel-wizard.git" },
-    { "type": "path", "url": "packages/backpack_CRUD",
-        "options": { "symlink": true } },
-    { "type": "path", "url": "packages/venturecraft_revisionable",
-        "options": { "symlink": true } }
+    "name": "jonphipps/metadata-registry",
+    "description": "A metadata registry",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:jonphipps/phpspecgen.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:jonphipps/laxative.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:jonphipps/html.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:jonphipps/laravel-codeception-dbdump.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:jonphipps/laravel-wizard.git"
+        },
+        {
+            "type": "path",
+            "url": "packages/backpack_CRUD",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "packages/venturecraft_revisionable",
+            "options": {
+                "symlink": true
+            }
+        }
     ],
-    "config"           :
-        { "process-timeout": 900, "cache-dir:": "../", "preferred-install": "dist", "sort-packages": true },
-    "license"          : "Apache-2.0", "authors":
-    [
-        { "name": "Jon Phipps", "email": "jphipps@madcreek.com" }
+    "config": {
+        "process-timeout": 900,
+        "cache-dir:": "../",
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Jon Phipps",
+            "email": "jphipps@madcreek.com"
+        }
     ],
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "require":
-    {
+    "require": {
         "php": ">=7.0.0",
         "arcanedev/log-viewer": "~4.0",
         "arcanedev/no-captcha": "^4.0",
@@ -30,7 +61,7 @@
         "backpack/crud": "*",
         "barryvdh/laravel-snappy": "^0.3.2",
         "bgcc/sf-select2-widgets-plugin": "~1.0",
-        "bpocallaghan/titan": "^0.1.7",
+        "bpocallaghan/titan": "dev-master",
         "bugsnag/bugsnag": "^3.0",
         "bugsnag/bugsnag-laravel": "^2.0",
         "creativeorange/gravatar": "~1.0",
@@ -51,7 +82,7 @@
         "jeroen-g/laravel-packager": "^1.5",
         "laracasts/matryoshka": "dev-master",
         "laravel/dusk": "^1.1",
-        "laravel/framework": "5.4.*",
+        "laravel/framework": "5.4.x-dev",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "5.4.*",
@@ -116,7 +147,7 @@
         "mpociot/laravel-test-factory-helper": "^0.4.0",
         "orangehill/iseed": "^2.3",
         "phpunit/phpunit": "5.7.x",
-        "recca0120/laravel-tracy": "dev-master",
+        "recca0120/laravel-tracy": "^1.8.10",
         "spatie/laravel-db-snapshots": "^1.0",
         "spatie/phpunit-snapshot-assertions": "^1.0",
         "sstalle/php7cc": "^1.1",

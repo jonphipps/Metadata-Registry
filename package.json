@@ -17,7 +17,7 @@
     "css-loader": "^0.28.4",
     "font-awesome": "^4.7.0",
     "jquery": "^3.1.1",
-    "laravel-mix": "^1.3.1",
+    "laravel-mix": "^1.4.2",
     "lodash": "^4.17.4",
     "node-sass": "^4.5.3",
     "purifycss-webpack": "^0.7.0",
@@ -32,11 +32,11 @@
   "dependencies": {
     "babel": "^6.23.0",
     "jqwidgets-framework": "^4.6.4",
-    "laravel-echo": "^1.3.0",
+    "laravel-echo": "^1.3.1",
     "pace": "0.0.4",
     "purify-css": "^1.2.6",
     "pusher-js": "^4.1.0",
     "smartwizard": "^4.2.2",
-    "webpack": "^3.3.0"
+    "webpack": "^3.4.1"
   }
 }

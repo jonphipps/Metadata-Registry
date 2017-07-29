@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "77386208ef25c08b117ef339dd2bf577",
+    "content-hash": "72cfefa9843ac8339d9441d8bd0744a1",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -594,16 +594,16 @@
         },
         {
             "name": "bpocallaghan/titan",
-            "version": "0.1.7",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bpocallaghan/titan.git",
-                "reference": "247d844bd13bf3cd025bece080c5bd962c6d0002"
+                "reference": "a94b950d1b9ef45dea73600e6e11a20a5ff01482"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bpocallaghan/titan/zipball/247d844bd13bf3cd025bece080c5bd962c6d0002",
-                "reference": "247d844bd13bf3cd025bece080c5bd962c6d0002",
+                "url": "https://api.github.com/repos/bpocallaghan/titan/zipball/a94b950d1b9ef45dea73600e6e11a20a5ff01482",
+                "reference": "a94b950d1b9ef45dea73600e6e11a20a5ff01482",
                 "shasum": ""
             },
             "require": {
@@ -640,7 +640,7 @@
                 "titan",
                 "traits"
             ],
-            "time": "2017-04-20T07:37:04+00:00"
+            "time": "2017-07-14T06:14:36+00:00"
         },
         {
             "name": "bugsnag/bugsnag",
@@ -1626,16 +1626,16 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "v2.6.0",
+            "version": "v2.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "498760e55195ccaf08076cb9100a2972ba74c001"
+                "reference": "1a086f853425b1f5349775ce57e45a772d2d2ba5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/498760e55195ccaf08076cb9100a2972ba74c001",
-                "reference": "498760e55195ccaf08076cb9100a2972ba74c001",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/1a086f853425b1f5349775ce57e45a772d2d2ba5",
+                "reference": "1a086f853425b1f5349775ce57e45a772d2d2ba5",
                 "shasum": ""
             },
             "require": {
@@ -1695,37 +1695,37 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2017-07-23T01:02:22+00:00"
+            "time": "2017-07-28T10:40:18+00:00"
         },
         {
             "name": "doctrine/inflector",
-            "version": "v1.2.0",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/inflector.git",
-                "reference": "e11d84c6e018beedd929cff5220969a3c6d1d462"
+                "reference": "90b2128806bfde671b6952ab8bea493942c1fdae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/inflector/zipball/e11d84c6e018beedd929cff5220969a3c6d1d462",
-                "reference": "e11d84c6e018beedd929cff5220969a3c6d1d462",
+                "url": "https://api.github.com/repos/doctrine/inflector/zipball/90b2128806bfde671b6952ab8bea493942c1fdae",
+                "reference": "90b2128806bfde671b6952ab8bea493942c1fdae",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.0"
+                "php": ">=5.3.2"
             },
             "require-dev": {
-                "phpunit/phpunit": "^6.2"
+                "phpunit/phpunit": "4.*"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.2.x-dev"
+                    "dev-master": "1.1.x-dev"
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Doctrine\\Common\\Inflector\\": "lib/Doctrine/Common/Inflector"
+                "psr-0": {
+                    "Doctrine\\Common\\Inflector\\": "lib/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1762,7 +1762,7 @@
                 "singularize",
                 "string"
             ],
-            "time": "2017-07-22T12:18:28+00:00"
+            "time": "2015-11-06T14:35:42+00:00"
         },
         {
             "name": "doctrine/lexer",
@@ -3474,20 +3474,20 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.4.30",
+            "version": "5.4.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "b9a64955f4278f45ac348a6e000b5ecc85da167a"
+                "reference": "e4108ee1ae35e76fd6dd896c67e4768a1f0e5c63"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/b9a64955f4278f45ac348a6e000b5ecc85da167a",
-                "reference": "b9a64955f4278f45ac348a6e000b5ecc85da167a",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/e4108ee1ae35e76fd6dd896c67e4768a1f0e5c63",
+                "reference": "e4108ee1ae35e76fd6dd896c67e4768a1f0e5c63",
                 "shasum": ""
             },
             "require": {
-                "doctrine/inflector": "~1.0",
+                "doctrine/inflector": "~1.1.0",
                 "erusev/parsedown": "~1.6",
                 "ext-mbstring": "*",
                 "ext-openssl": "*",
@@ -3599,7 +3599,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-07-19T19:26:19+00:00"
+            "time": "2017-07-28T22:25:54+00:00"
         },
         {
             "name": "laravel/socialite",
@@ -4085,16 +4085,16 @@
         },
         {
             "name": "maatwebsite/excel",
-            "version": "2.1.19",
+            "version": "2.1.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Maatwebsite/Laravel-Excel.git",
-                "reference": "f4535ac21968f6086438e098cdf289b350aa993c"
+                "reference": "a8baf7de1030d261318f90fa5c273a47ef616b59"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/f4535ac21968f6086438e098cdf289b350aa993c",
-                "reference": "f4535ac21968f6086438e098cdf289b350aa993c",
+                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/a8baf7de1030d261318f90fa5c273a47ef616b59",
+                "reference": "a8baf7de1030d261318f90fa5c273a47ef616b59",
                 "shasum": ""
             },
             "require": {
@@ -4110,7 +4110,7 @@
             },
             "require-dev": {
                 "mockery/mockery": "~0.9",
-                "orchestra/testbench": "3.1.*",
+                "orchestra/testbench": "3.1.*|3.2.*|3.3.*|3.4.*|3.5.*",
                 "phpseclib/phpseclib": "~1.0",
                 "phpunit/phpunit": "~4.0"
             },
@@ -4159,7 +4159,7 @@
                 "import",
                 "laravel"
             ],
-            "time": "2017-07-02T07:00:56+00:00"
+            "time": "2017-07-26T18:04:04+00:00"
         },
         {
             "name": "michelf/php-markdown",
@@ -5190,19 +5190,20 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v5.2.23",
+            "version": "v5.2.24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "7115df4a6f76281109ebe352900c42403b728bb4"
+                "reference": "22d04c6a58145a244696f3f254c1875aa653b26a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/7115df4a6f76281109ebe352900c42403b728bb4",
-                "reference": "7115df4a6f76281109ebe352900c42403b728bb4",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/22d04c6a58145a244696f3f254c1875aa653b26a",
+                "reference": "22d04c6a58145a244696f3f254c1875aa653b26a",
                 "shasum": ""
             },
             "require": {
+                "ext-ctype": "*",
                 "php": ">=5.0.0"
             },
             "require-dev": {
@@ -5262,7 +5263,7 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2017-03-15T19:32:56+00:00"
+            "time": "2017-07-26T21:00:20+00:00"
         },
         {
             "name": "phpoffice/phpexcel",
@@ -5961,12 +5962,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "fa53c38b02d1ec883f4ea2b2c05492da0c7611cf"
+                "reference": "626c97bd5b45a08db902a0fb0b13f58f3785b439"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/fa53c38b02d1ec883f4ea2b2c05492da0c7611cf",
-                "reference": "fa53c38b02d1ec883f4ea2b2c05492da0c7611cf",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/626c97bd5b45a08db902a0fb0b13f58f3785b439",
+                "reference": "626c97bd5b45a08db902a0fb0b13f58f3785b439",
                 "shasum": ""
             },
             "conflict": {
@@ -6012,7 +6013,7 @@
                 "onelogin/php-saml": "<2.10.4",
                 "oro/crm": ">=1.7,<1.7.4",
                 "oro/platform": ">=1.7,<1.7.4",
-                "phpmailer/phpmailer": ">=5,<5.2.22",
+                "phpmailer/phpmailer": ">=5,<5.2.24",
                 "pusher/pusher-php-server": "<2.2.1",
                 "sabre/dav": ">=1.6,<1.6.99|>=1.7,<1.7.11|>=1.8,<1.8.9",
                 "shopware/shopware": "<4.4|>=5,<5.2.16",
@@ -6090,20 +6091,20 @@
                 }
             ],
             "description": "Prevents installation of composer packages with known security vulnerabilities: no API, simply require it",
-            "time": "2017-07-18T08:09:10+00:00"
+            "time": "2017-07-28T07:54:11+00:00"
         },
         {
             "name": "sensiolabs/security-checker",
-            "version": "v4.0.5",
+            "version": "v4.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/security-checker.git",
-                "reference": "6a3b0c3b42e41c777b1ad75032d8177863fdc5e1"
+                "reference": "cf61ce9d9706ba35e60a894fe6f3584c6d0e5c9f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/security-checker/zipball/6a3b0c3b42e41c777b1ad75032d8177863fdc5e1",
-                "reference": "6a3b0c3b42e41c777b1ad75032d8177863fdc5e1",
+                "url": "https://api.github.com/repos/sensiolabs/security-checker/zipball/cf61ce9d9706ba35e60a894fe6f3584c6d0e5c9f",
+                "reference": "cf61ce9d9706ba35e60a894fe6f3584c6d0e5c9f",
                 "shasum": ""
             },
             "require": {
@@ -6116,7 +6117,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.0-dev"
+                    "dev-master": "4.1-dev"
                 }
             },
             "autoload": {
@@ -6135,7 +6136,7 @@
                 }
             ],
             "description": "A security checker for your composer.lock",
-            "time": "2017-07-24T11:42:56+00:00"
+            "time": "2017-07-28T18:31:05+00:00"
         },
         {
             "name": "shiftonelabs/laravel-cascade-deletes",
@@ -6395,16 +6396,16 @@
         },
         {
             "name": "spatie/laravel-fractal",
-            "version": "4.2.0",
+            "version": "4.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-fractal.git",
-                "reference": "c28e773d1bd68a0cc1b607e1b65ac276f465880e"
+                "reference": "a3598933f15f74edcb44edb3ff3e0afa23663907"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-fractal/zipball/c28e773d1bd68a0cc1b607e1b65ac276f465880e",
-                "reference": "c28e773d1bd68a0cc1b607e1b65ac276f465880e",
+                "url": "https://api.github.com/repos/spatie/laravel-fractal/zipball/a3598933f15f74edcb44edb3ff3e0afa23663907",
+                "reference": "a3598933f15f74edcb44edb3ff3e0afa23663907",
                 "shasum": ""
             },
             "require": {
@@ -6459,7 +6460,7 @@
                 "spatie",
                 "transform"
             ],
-            "time": "2017-07-18T07:28:13+00:00"
+            "time": "2017-07-26T14:15:40+00:00"
         },
         {
             "name": "spatie/laravel-migrate-fresh",
@@ -6517,16 +6518,16 @@
         },
         {
             "name": "spatie/laravel-tinker-tools",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-tinker-tools.git",
-                "reference": "4674f9a3d874c8ad488e25ffb7cd936bb7348e43"
+                "reference": "130b5a029fcf6608c462d9fd2e7429e45436a5e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-tinker-tools/zipball/4674f9a3d874c8ad488e25ffb7cd936bb7348e43",
-                "reference": "4674f9a3d874c8ad488e25ffb7cd936bb7348e43",
+                "url": "https://api.github.com/repos/spatie/laravel-tinker-tools/zipball/130b5a029fcf6608c462d9fd2e7429e45436a5e5",
+                "reference": "130b5a029fcf6608c462d9fd2e7429e45436a5e5",
                 "shasum": ""
             },
             "require": {
@@ -6554,7 +6555,7 @@
                     "role": "Developer"
                 }
             ],
-            "description": "Flysystem Adapter for the Dropbox v2 API",
+            "description": "Use short class names in an Artisan tinker session",
             "homepage": "https://github.com/spatie/laravel-tinker-tools",
             "keywords": [
                 "Flysystem",
@@ -6564,7 +6565,7 @@
                 "spatie",
                 "v2"
             ],
-            "time": "2017-05-22T11:30:34+00:00"
+            "time": "2017-07-29T03:41:36+00:00"
         },
         {
             "name": "spatie/laravel-translatable",
@@ -8115,16 +8116,16 @@
         },
         {
             "name": "yajra/laravel-datatables-oracle",
-            "version": "v7.9.5",
+            "version": "v7.9.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yajra/laravel-datatables.git",
-                "reference": "1d26b26863495b389808c21d178bbe6ad680ea7d"
+                "reference": "a3f41e3a9d9874e69be7495b567721b759fe503e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/1d26b26863495b389808c21d178bbe6ad680ea7d",
-                "reference": "1d26b26863495b389808c21d178bbe6ad680ea7d",
+                "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/a3f41e3a9d9874e69be7495b567721b759fe503e",
+                "reference": "a3f41e3a9d9874e69be7495b567721b759fe503e",
                 "shasum": ""
             },
             "require": {
@@ -8172,7 +8173,7 @@
                 "jquery",
                 "laravel"
             ],
-            "time": "2017-07-21T00:47:56+00:00"
+            "time": "2017-07-29T02:37:05+00:00"
         }
     ],
     "packages-dev": [
@@ -9705,7 +9706,7 @@
         },
         {
             "name": "recca0120/laravel-tracy",
-            "version": "dev-master",
+            "version": "v1.8.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/recca0120/laravel-tracy.git",
@@ -11160,9 +11161,10 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "bpocallaghan/titan": 20,
         "laracasts/matryoshka": 20,
+        "laravel/framework": 20,
         "roave/security-advisories": 20,
-        "recca0120/laravel-tracy": 20,
         "werxe/whoops-laravel": 20
     },
     "prefer-stable": true,
