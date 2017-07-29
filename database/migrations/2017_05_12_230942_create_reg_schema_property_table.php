@@ -43,6 +43,7 @@ class CreateRegSchemaPropertyTable extends Migration
                 $table->unsignedInteger('created_by')->nullable()->index();
                 $table->unsignedInteger('updated_by')->nullable()->index();
                 $table->unsignedInteger('deleted_by')->nullable()->index();
+                $table->unique([ 'schema_id', 'uri' ], 'reg_schema_property_unique_index');
             });
         if (DB::getDriverName() === 'mysql') {
             DB::statement('ALTER TABLE reg_schema_property ADD FULLTEXT full( `label`)');
