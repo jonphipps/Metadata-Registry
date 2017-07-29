@@ -155,7 +155,9 @@ class Concept extends Model
         }
         if (isset($statements['45'])) {
             $this->pref_label = $statements['45'];
-            $this->pref_label_id = $statements['45-id'];
+            if (isset($statements['45-id'])) {
+                $this->pref_label_id = $statements['45-id'];
+            }
         }
         if (isset($statements['59'])) {
             $this->status_id =
