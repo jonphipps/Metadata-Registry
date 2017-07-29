@@ -23,7 +23,7 @@ class UserEventListener
             ->withIcon('plus')
             ->withClass('bg-green')
             ->withAssets([
-                'user_link' => ['admin.access.user.show', $event->user->name, $event->user->id],
+                'user_link' => ['admin.access.user.show', $event->user->full_name, $event->user->id],
             ])
             ->log();
     }
@@ -39,7 +39,7 @@ class UserEventListener
             ->withIcon('save')
             ->withClass('bg-aqua')
             ->withAssets([
-                'user_link' => ['admin.access.user.show', $event->user->name, $event->user->id],
+                'user_link' => ['admin.access.user.show', $event->user->full_name, $event->user->id],
             ])
             ->log();
     }
@@ -55,7 +55,7 @@ class UserEventListener
             ->withIcon('trash')
             ->withClass('bg-maroon')
             ->withAssets([
-                'user_link' => ['admin.access.user.show', $event->user->name, $event->user->id],
+                'user_link' => ['admin.access.user.show', $event->user->full_name, $event->user->id],
             ])
             ->log();
     }
@@ -71,7 +71,7 @@ class UserEventListener
             ->withIcon('refresh')
             ->withClass('bg-aqua')
             ->withAssets([
-                'user_link' => ['admin.access.user.show', $event->user->name, $event->user->id],
+                'user_link' => ['admin.access.user.show', $event->user->full_name, $event->user->id],
             ])
             ->log();
     }
@@ -87,13 +87,13 @@ class UserEventListener
             ->withIcon('trash')
             ->withClass('bg-maroon')
             ->withAssets([
-                'user_string' => $event->user->name,
+                'user_string' => $event->user->full_name,
             ])
             ->log();
         history()->withType($this->history_slug)
             ->withEntity($event->user->id)
             ->withAssets([
-                'user_string' => $event->user->name,
+                'user_string' => $event->user->full_name,
             ])
             ->updateUserLinkAssets();
     }
@@ -109,7 +109,7 @@ class UserEventListener
             ->withIcon('lock')
             ->withClass('bg-blue')
             ->withAssets([
-                'user_link' => ['admin.access.user.show', $event->user->name, $event->user->id],
+                'user_link' => ['admin.access.user.show', $event->user->full_name, $event->user->id],
             ])
             ->log();
     }
@@ -125,7 +125,7 @@ class UserEventListener
             ->withIcon('times')
             ->withClass('bg-yellow')
             ->withAssets([
-                'user_link' => ['admin.access.user.show', $event->user->name, $event->user->id],
+                'user_link' => ['admin.access.user.show', $event->user->full_name, $event->user->id],
             ])
             ->log();
     }
@@ -141,7 +141,7 @@ class UserEventListener
             ->withIcon('check')
             ->withClass('bg-green')
             ->withAssets([
-                'user_link' => ['admin.access.user.show', $event->user->name, $event->user->id],
+                'user_link' => ['admin.access.user.show', $event->user->full_name, $event->user->id],
             ])
             ->log();
     }
@@ -157,7 +157,7 @@ class UserEventListener
             ->withIcon('check')
             ->withClass('bg-green')
             ->withAssets([
-                'user_link' => ['admin.access.user.show', $event->user->name, $event->user->id],
+                'user_link' => ['admin.access.user.show', $event->user->full_name, $event->user->id],
             ])
             ->log();
     }
@@ -173,7 +173,7 @@ class UserEventListener
             ->withIcon('times')
             ->withClass('bg-red')
             ->withAssets([
-                'user_link' => ['admin.access.user.show', $event->user->name, $event->user->id],
+                'user_link' => ['admin.access.user.show', $event->user->full_name, $event->user->id],
             ])
             ->log();
     }
@@ -189,7 +189,7 @@ class UserEventListener
             ->withIcon('times')
             ->withClass('bg-red')
             ->withAssets([
-                'user_link' => ['admin.access.user.show', $event->user->name, $event->user->id],
+                'user_link' => ['admin.access.user.show', $event->user->full_name, $event->user->id],
             ])
             ->log();
     }

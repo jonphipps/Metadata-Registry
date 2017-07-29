@@ -29,6 +29,8 @@
                     <thead>
                         <tr>
                             <th>{{ trans('labels.backend.access.users.table.id') }}</th>
+                            <th>{{ trans('labels.backend.access.users.table.last_name') }}</th>
+                            <th>{{ trans('labels.backend.access.users.table.first_name') }}</th>
                             <th>{{ trans('labels.backend.access.users.table.name') }}</th>
                             <th>{{ trans('labels.backend.access.users.table.email') }}</th>
                             <th>{{ trans('labels.backend.access.users.table.confirmed') }}</th>
@@ -79,6 +81,8 @@
                 },
                 columns: [
                     {data: 'id', name: '{{config('access.users_table')}}.id'},
+                    {data: 'last_name', name: '{{config('access.users_table')}}.last_name'},
+                    {data: 'first_name', name: '{{config('access.users_table')}}.first_name'},
                     {data: 'nickname', name: '{{config('access.users_table')}}.nickname'},
                     {data: 'email', name: '{{config('access.users_table')}}.email'},
                     {data: 'confirmed', name: '{{config('access.users_table')}}.confirmed'},

@@ -44,6 +44,8 @@ class UserRouteTest extends BrowserKitTestCase
             ->see('View User')
             ->see('Overview')
             ->see('History')
+             ->see($this->user->first_name)
+             ->see($this->user->last_name)
             ->see($this->user->name)
             ->see($this->user->email);
     }
@@ -53,6 +55,8 @@ class UserRouteTest extends BrowserKitTestCase
         $this->actingAs($this->admin)
             ->visit('/admin/access/user/'.$this->user->id.'/edit')
             ->see('Edit User')
+             ->see($this->user->first_name)
+             ->see($this->user->last_name)
             ->see($this->user->nickname)
             ->see($this->user->email);
     }
@@ -61,7 +65,7 @@ class UserRouteTest extends BrowserKitTestCase
     {
         $this->actingAs($this->admin)
             ->visit('/admin/access/user/'.$this->user->id.'/password/change')
-            ->see('Change Password for '.$this->user->name);
+             ->see('Change Password for '.$this->user->full_name);
     }
 
     public function testResendUserConfirmationEmail()

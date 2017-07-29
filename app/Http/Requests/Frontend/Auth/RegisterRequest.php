@@ -28,6 +28,8 @@ class RegisterRequest extends Request
     public function rules()
     {
         return [
+            'first_name'           => 'required|string|max:191',
+            'last_name'            => 'required|string|max:191',
             'nickname' => ['required','max:191', Rule::unique('users', 'nickname')],
             'email' => ['required', 'email', 'max:191'],
             'password' => 'required|string|min:6|confirmed',

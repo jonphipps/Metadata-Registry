@@ -34,11 +34,15 @@ class LoggedOutFormTest extends BrowserKitTestCase
     public function testRegistrationRequiredFields()
     {
         $this->visit('/register')
+             ->type('', 'first_name')
+             ->type('', 'last_name')
          ->type('', 'nickname')
          ->type('', 'email')
          ->type('', 'password')
          ->press('Register')
          ->seePageIs('/register')
+             ->see('The first name field is required.')
+             ->see('The last name field is required.')
          ->see('The nickname field is required.')
          ->see('The email field is required.')
          ->see('The password field is required.');
@@ -60,12 +64,16 @@ class LoggedOutFormTest extends BrowserKitTestCase
 
         // Create any needed resources
         $faker = Factory::create();
-        $name     = $faker->userName;
+         $firstName = $faker->firstName;
+        $lastName = $faker->lastName;
+       $name     = $faker->userName;
         $email    = $faker->safeEmail;
         $password = $faker->password(8);
 
         $this->visit('/register')
-             ->type($name, 'nickname')
+              ->type($firstName, 'first_name')
+             ->type($lastName, 'last_name')
+            ->type($name, 'nickname')
              ->type($email, 'email')
              ->type($password, 'password')
              ->type($password, 'password_confirmation')
@@ -74,6 +82,8 @@ class LoggedOutFormTest extends BrowserKitTestCase
             ->seeInDatabase(config('access.users_table'),
                  [
                      'email' => $email,
+                     'first_name' => $firstName,
+                     'last_name' => $lastName,
                      'nickname' => $name,
                      'confirmed' => 1,
                  ]);
@@ -95,11 +105,15 @@ class LoggedOutFormTest extends BrowserKitTestCase
 
         // Create any needed resources
         $faker =  Factory::create();
-        $name  = $faker->userName;
+         $firstName = $faker->firstName;
+        $lastName = $faker->lastName;
+       $name  = $faker->userName;
         $email = $faker->safeEmail;
         $password = $faker->password(8);
 
         $this->visit('/register')
+            ->type($firstName, 'first_name')
+            ->type($lastName, 'last_name')
             ->type($name, 'nickname')
             ->type($email, 'email')
             ->type($password, 'password')
@@ -111,7 +125,9 @@ class LoggedOutFormTest extends BrowserKitTestCase
             ->seeInDatabase(config('access.users_table'),
                 [
                     'email' => $email,
-                    'nickname' => $name,
+                     'first_name' => $firstName,
+                    'last_name' => $lastName,
+                   'nickname' => $name,
                     'confirmed' => 0,
                 ]);
 
@@ -137,11 +153,15 @@ class LoggedOutFormTest extends BrowserKitTestCase
 
         // Create any needed resources
         $faker = Factory::create();
+        $firstName = $faker->firstName;
+        $lastName = $faker->lastName;
         $name     = $faker->userName;
         $email = $faker->safeEmail;
         $password = $faker->password(8);
 
         $this->visit('/register')
+            ->type($firstName, 'first_name')
+            ->type($lastName, 'last_name')
             ->type($name, 'nickname')
             ->type($email, 'email')
             ->type($password, 'password')
@@ -153,6 +173,8 @@ class LoggedOutFormTest extends BrowserKitTestCase
             ->seeInDatabase(config('access.users_table'),
                 [
                     'email' => $email,
+                    'first_name' => $firstName,
+                    'last_name' => $lastName,
                     'nickname' => $name,
                     'confirmed' => 0,
                 ]);
