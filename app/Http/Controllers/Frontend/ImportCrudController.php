@@ -181,22 +181,6 @@ class ImportCrudController extends CrudController
             $step->preProcess($request, $this->wizard);
         }
 
-        if ($step->key === 'approve' && ($batch->total_count <= $batch->handled_count)) {
-            $batch->load('imports');
-            $data = [];
-            //load the stats from each import into an array
-            foreach ($batch->imports as $import) {
-                $stats              = $import->preprocess;
-                $datum['id']        = $import->id;
-                $datum['worksheet'] = $import->worksheet;
-                $datum['added']     = $stats['added'];
-                $datum['updated']   = $stats['updated'];
-                $datum['deleted']   = $stats['deleted'];
-                $datum['errors']    = $stats['errors'];
-                $data[]             = $datum;
-            }
-            $this->setWizardData('approve', $data);
-        }
 
         $this->crud->setCreateView('frontend.import.project.wizard');
         $this->crud->setRoute(config('backpack.base.route_prefix') . 'projects/' . $project->id );

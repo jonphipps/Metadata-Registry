@@ -30,7 +30,25 @@ class ApproveImportStep extends Step
 
     public function preProcess(Request $request, Wizard $wizard)
     {
-
+        $batch = $request->batch;
+        if ($batch->total_count <= $batch->handled_count) {
+            $batch->load('imports');
+            $data = [];
+            //load the stats from each import into an array
+            foreach ($batch->imports as $import) {
+                $stats              = $import->preprocess;
+                $datum['id']        = $import->id;
+                $datum['worksheet'] = $import->worksheet;
+                $datum['added']     = $stats['added'];
+                $datum['updated']   = $stats['updated'];
+                $datum['deleted']   = $stats['deleted'];
+                $datum['errors']    = $stats['errors'];
+                $data[]             = $datum;
+            }
+            $wizardData         = $wizard->data();
+            $wizardData[ 'approve' ] = $data;
+            $wizard->data($wizardData);
+        }
     }
 
     public function process(Request $request): void
