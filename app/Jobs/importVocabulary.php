@@ -93,20 +93,26 @@ class ImportVocabulary implements ShouldQueue
                     } else {
                         //make a new one
                         $existingStatement = $statements->filter(function($item) use ($statement){
+                            /** @var Model $item */
                             return $item->profile_property_id == $statement['property_id'] &&
                                 $item->object == $statement['new value'] &&
                                 $item->getOriginal('language') === $statement['language'];
                         });
                         if ($existingStatement->count() === 0) {
-                            $newStatement              = $this->addStatement($statement, $reg_id);
-                            $statement['statement_id'] = $newStatement->id;
+                            $newStatement = $this->makeStatement($statement);
+                            $this->resource->statements()->save($newStatement);
                             $this->addUpdateStatement($statement);
                             $dirty = true;
                         }
                     }
                 }
                 if (count($this->updatedStatements)) {
-                    $this->resource->updateFromStatements($this->updatedStatements);
+                    try {
+                        $this->resource->updateFromStatements($this->updatedStatements);
+                    }
+                    catch (Exception $e) {
+                        xdebug_break();
+                    }
                 }
                 if ($dirty) {
                     $updated++;
@@ -116,15 +122,24 @@ class ImportVocabulary implements ShouldQueue
         }
         foreach ($changeset['add'] as $row) {
             DB::transaction(function() use ($row, $vocabId, &$added) {
-                $resource = $this->createResource($vocabId);
+                $allStatements = [];
                 foreach ($row as $statement) {
-                    $newStatement = $this->addStatement($statement, $resource->id);
-                    $statement['statement_id'] = $newStatement->id;
                     $this->addUpdateStatement($statement);
+                    $allStatements[] = $this->makeStatement($statement);
                 }
-                if (count($this->updatedStatements)) {
-                    $this->resource->updateFromStatements($this->updatedStatements);
+                try {
+                    //this will make a resource with insufficient values...
+                    $resource = $this->makeResource($vocabId);
+                    //this will update the resource from the statements and save it...
+                    $resource->updateFromStatements($this->updatedStatements);
+                    //this will add the statements...
+                    $resource->statements()->saveMany($allStatements);
+                    $this->UpdatePrefLabelId($resource);
                 }
+                catch (Exception $e) {
+                    xdebug_break();
+                }
+
                 $added++;
             });
             $total_processed++;
@@ -156,10 +171,6 @@ class ImportVocabulary implements ShouldQueue
         if ($this->formLanguageProps->contains($statement['property_id']) &&
             $this->resourceLang === $statement['language']) {
             $this->updatedStatements[ $statement['property_id'] ] = $statement['new value'];
-            //deprecated special handling for prefLabel
-            if ($statement['property_id'] == 45) {
-                $this->updatedStatements[ $statement['property_id'] . '-id' ] = $statement['statement_id'];
-            }
         }
         if ( $this->formResourceProps->contains($statement['property_id']) ) {
             $this->updatedStatements[ $statement['property_id'] ] = $statement['new value'];
@@ -202,40 +213,42 @@ class ImportVocabulary implements ShouldQueue
             $this->isElementSet() ? $this->import->elementset->getOriginal('language') : $this->import->vocabulary->getOriginal('language');
     }
 
-    private function createResource(int $vocabId): ?Model
+    private function makeResource(int $vocabId): ?Model
     {
         if ($this->isElementSet()) {
-            $this->resource = Element::create([ 'schema_id' => $vocabId ]);
+            $this->resource = Element::make([ 'schema_id' => $vocabId ]);
         } else {
-            $this->resource = Concept::create([ 'vocabulary_id' => $vocabId ]);
+            $this->resource = Concept::make([ 'vocabulary_id' => $vocabId ]);
         }
 
         return $this->resource;
     }
 
-    private function addStatement(array $statement, $reg_id)
+    private function makeStatement(array $statement)
     {
-        if ($this->isElementSet()) {
-            return ElementAttribute::create([
-                'schema_property_id'  => $this->resource->id,
-                'object'              => $statement['new value'],
-                'language'            => $statement['language'],
-                'profile_property_id' => $statement['property_id'],
-                'status_id'           => $this->import->elementset->status_id,
-                'last_import_id'      => $this->import->id,
-            ]);
-        }
-
-        return ConceptAttribute::create([
-            'concept_id'          => $this->resource->id,
+        $values = [
             'object'              => $statement['new value'],
             'language'            => $statement['language'],
             'profile_property_id' => $statement['property_id'],
-            'status_id'           => $this->import->vocabulary->status_id,
             'last_import_id'      => $this->import->id,
-        ]);
+        ];
+        if ($this->isElementSet()) {
+            $values['status_id'] = $this->import->elementset->status_id;
+            return ElementAttribute::make($values);
+        }
+
+        $values['status_id'] = $this->import->vocabulary->status_id;
+        return ConceptAttribute::make($values);
     }
 
+    private function UpdatePrefLabelId(Concept $resource)
+    {
+        if ( ! $this->isElementSet()) {
+            $prefLabelAttribute = $resource->statements
+                ->where('language',
+                $resource->language)->pluck('id');
+        }
+    }
     private function isElementSet(): bool
     {
         return (bool) $this->import->schema_id;
