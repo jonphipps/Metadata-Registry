@@ -241,12 +241,16 @@ class ImportVocabulary implements ShouldQueue
         return ConceptAttribute::make($values);
     }
 
-    private function UpdatePrefLabelId(Concept $resource)
+    private function UpdatePrefLabelId(Model $resource)
     {
         if ( ! $this->isElementSet()) {
-            $prefLabelAttribute = $resource->statements
-                ->where('language',
-                $resource->language)->pluck('id');
+            $id = $resource->statements()
+                ->where([
+                    [ 'profile_property_id', 45 ],
+                    [ 'language', $this->resourceLang ]
+                ])->pluck('id');
+            $resource->pref_label_id = $id[0] ?? null;
+            $resource->save();
         }
     }
     private function isElementSet(): bool
