@@ -2,3 +2,7 @@
 	path = packages/backpack_CRUD
 	url = https://github.com/jonphipps/CRUD.git
 	branch = develop
+[submodule "packages/venturecraft_revisionable"]
+	path = packages/venturecraft_revisionable
+	url = git@github.com:jonphipps/revisionable.git
+	branch = develop
