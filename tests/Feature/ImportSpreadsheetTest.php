@@ -16,19 +16,23 @@ class ImportSpreadsheetTest extends BrowserKitTestCase
     use ProjectTest;
     use DatabaseTransactions;
 
-    public function testCreateAnImportBatch() {
-
-        //given
-        $this->IAmTheProjectAdministrator();
-        $this->IAmOnTheProjectDashboard();
-        //when
-        $this->IPressTheAddImportButton();
-        //then
-        $this->IAmOnTheImportCreatePage();
-        $this->IEnterAProcessableURL();
-        $this->IPressTheNextButton();
-        $this->IAmOnTheWorksheetPage();
-        $this->ISeeANewBatchEntryInTheDatabase();
+    public function testCreateAnImportBatch()
+    {
+        if (is_readable(base_path('client_secret.json'))) {
+            //given
+            $this->IAmTheProjectAdministrator();
+            $this->IAmOnTheProjectDashboard();
+            //when
+            $this->IPressTheAddImportButton();
+            //then
+            $this->IAmOnTheImportCreatePage();
+            $this->IEnterAProcessableURL();
+            $this->IPressTheNextButton();
+            $this->IAmOnTheWorksheetPage();
+            $this->ISeeANewBatchEntryInTheDatabase();
+        } else {
+            $this->assertTrue(true, 'no client secret file available');
+        }
     }
 
 
