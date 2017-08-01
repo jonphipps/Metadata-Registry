@@ -38,4 +38,16 @@ class ConceptTest extends TestCase
         $this->assertSame('foobar', $concept->pref_label);
         $this->assertSame($prefLabel->id, $concept->pref_label_id);
     }
+
+    /** @test */
+    public function a_related_statement_can_be_referenced()
+    {
+        //given a new statement with a reciprocal property (has broader)
+        $statement = factory(ConceptAttribute::class)->states('resource', 'has_reciprocal')->create();
+        //when it is added
+        //then then a new related is added to the database
+        $related = $statement->related_concept;
+        $this->assertEquals($related->id, $statement->related_concept_id);
+    }
+
 }
