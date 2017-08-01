@@ -98,6 +98,41 @@ class ConceptAttribute extends Model
     protected $revisionCreationsEnabled = true;
 
     /**
+     * Create the event listeners for the saving and saved events
+     * This lets us save revisions whenever a save is made, no matter the
+     * http method.
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function(ConceptAttribute $attribute) {
+            $attribute->createHistory('added');
+        });
+        static::updated(function(ConceptAttribute $attribute) {
+            if (count($attribute->dirtyData) === 1) {
+                if ($attribute->isDirty('deleted_user_id')) {
+                    return;
+               }
+                if ($attribute->isDirty('related_concept_id')){
+                    $attribute->updateHistory();
+                    return;
+                }
+            }
+            $attribute->createHistory('updated');
+        });
+        static::deleted(function(ConceptAttribute $attribute) {
+            $attribute->createHistory('deleted');
+        });
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | FUNCTIONS
+    |--------------------------------------------------------------------------
+    */
+
+    /**
      * @param $vocabulary_id
      *
      * @return Carbon
@@ -118,11 +153,6 @@ class ConceptAttribute extends Model
         }
     }
 
-    public function history()
-    {
-        return $this->hasMany(ConceptAttributeHistory::class, 'concept_property_id', 'id');
-    }
-
     /**
      * @param int    $vocabulary_id
      * @param string $field
@@ -136,28 +166,6 @@ class ConceptAttribute extends Model
             ->select(ConceptAttribute::TABLE . '.' . $field)
             ->where(Concept::TABLE . '.vocabulary_id', $vocabulary_id)
             ->max(ConceptAttribute::TABLE . '.' . $field);
-    }
-
-    /**
-     * Create the event listeners for the saving and saved events
-     * This lets us save revisions whenever a save is made, no matter the
-     * http method.
-     */
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::created(function(ConceptAttribute $attribute) {
-            $attribute->createHistory('added');
-        });
-        static::updated(function(ConceptAttribute $attribute) {
-            if ( ! $attribute->isDirty('deleted_user_id')) {
-                $attribute->createHistory('updated');
-            }
-        });
-        static::deleted(function(ConceptAttribute $attribute) {
-            $attribute->createHistory('deleted');
-        });
     }
 
     public function createHistory(string $action): ConceptAttributeHistory
@@ -180,4 +188,42 @@ class ConceptAttribute extends Model
             'change_note'         => null,
         ]);
     }
+
+    public function updateHistory()
+    {
+        $history = $this->history()->where('import_id', $this->last_import_id)->first();
+        if ($history) {
+            $history->update([ 'related_concept_id' => $this->related_concept_id ]);
+        }
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | RELATIONS
+    |--------------------------------------------------------------------------
+    */
+
+    public function history()
+    {
+        return $this->hasMany(ConceptAttributeHistory::class, 'concept_property_id', 'id');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | SCOPES
+    |--------------------------------------------------------------------------
+    */
+
+    /*
+    |--------------------------------------------------------------------------
+    | ACCESSORS
+    |--------------------------------------------------------------------------
+    */
+
+    /*
+    |--------------------------------------------------------------------------
+    | MUTATORS
+    |--------------------------------------------------------------------------
+    */
+
 }

@@ -108,14 +108,27 @@ class ElementAttribute extends Model
             $attribute->createHistory('added');
         });
         static::updated(function(ElementAttribute $attribute) {
-            if ( ! $attribute->isDirty('deleted_user_id')) {
-                $attribute->createHistory('updated');
+            if (count($attribute->dirtyData) === 1) {
+                if ($attribute->isDirty('deleted_user_id')) {
+                    return;
+                }
+                if ($attribute->isDirty('related_schema_property_id')) {
+                    $attribute->updateHistory();
+                    return;
+                }
             }
+            $attribute->createHistory('updated');
         });
         static::deleted(function(ElementAttribute $attribute) {
             $attribute->createHistory('deleted');
         });
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | FUNCTIONS
+    |--------------------------------------------------------------------------
+    */
 
     public function createHistory(string $action): ElementAttributeHistory
     {
@@ -137,9 +150,12 @@ class ElementAttribute extends Model
         ]);
     }
 
-    public function history(): ?HasMany
+    public function updateHistory()
     {
-        return $this->hasMany(ElementAttributeHistory::class, 'schema_property_element_id', 'id');
+        $history = $this->history()->where('import_id', $this->last_import_id)->first();
+        if ($history) {
+            $history->update([ 'related_schema_property_id' => $this->related_schema_property_id ]);
+        }
     }
 
     /**
@@ -177,4 +193,34 @@ class ElementAttribute extends Model
             ->where(Element::TABLE . '.schema_id', $elementset_id)
             ->max(ElementAttribute::TABLE . '.' . $field);
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | RELATIONS
+    |--------------------------------------------------------------------------
+    */
+
+    public function history(): ?HasMany
+    {
+        return $this->hasMany(ElementAttributeHistory::class, 'schema_property_element_id', 'id');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | SCOPES
+    |--------------------------------------------------------------------------
+    */
+
+    /*
+    |--------------------------------------------------------------------------
+    | ACCESSORS
+    |--------------------------------------------------------------------------
+    */
+
+    /*
+    |--------------------------------------------------------------------------
+    | MUTATORS
+    |--------------------------------------------------------------------------
+    */
+
 }
