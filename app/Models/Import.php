@@ -6,6 +6,7 @@ use App\Models\Traits\BelongsToVocabulary;
 use Backpack\CRUD\CrudTrait;
 use Culpa\Traits\Blameable;
 use Culpa\Traits\CreatedBy;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -127,6 +128,22 @@ class Import extends Model
     |--------------------------------------------------------------------------
     */
 
+    public function conceptResourceStatements(): ?Collection
+    {
+        return $this->hasMany(ConceptAttribute::class, 'last_import_id', 'id')
+            ->with('profile_property')
+            ->get()
+            ->where('profile_property.is_object_prop', true);
+    }
+
+    public function elementResourceStatements(): ?Collection
+    {
+        return $this->hasMany(ElementAttribute::class, 'last_import_id', 'id')
+            ->with('profile_property')
+            ->get()
+            ->where('profile_property.is_object_prop', true);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
@@ -135,7 +152,7 @@ class Import extends Model
 
     public function batch(): ?BelongsTo
     {
-        return $this->belongsTo( Batch::class, 'batch_id', 'id' );
+        return $this->belongsTo(Batch::class, 'batch_id', 'id');
     }
 
     public function export(): ?BelongsTo
@@ -143,9 +160,19 @@ class Import extends Model
         return $this->belongsTo(Export::class, 'export_id', 'id');
     }
 
+    public function concept_statements(): ?HasMany
+    {
+        return $this->hasMany(ConceptAttribute::class, 'last_import_id', 'id');
+    }
+
     public function concept_history(): ?HasMany
     {
-        return $this->hasMany( ConceptAttributeHistory::class, 'import_id', 'id' );
+        return $this->hasMany(ConceptAttributeHistory::class, 'import_id', 'id');
+    }
+
+    public function element_statements(): ?HasMany
+    {
+        return $this->hasMany(ElementAttribute::class, 'last_import_id', 'id');
     }
 
     public function element_history(): ?HasMany
