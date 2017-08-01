@@ -1,6 +1,9 @@
 <?php
 /** Created by PhpStorm,  User: jonphipps,  Date: 2017-05-27,  Time: 10:53 AM */
 
+use App\Models\Element;
+use App\Models\ElementAttribute;
+
 /** @var Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(App\Models\ElementAttribute::class,
     function(Faker\Generator $faker) {
@@ -16,5 +19,27 @@ $factory->define(App\Models\ElementAttribute::class,
             'status_id'                  => getRandomClassId('Status'),
             'is_generated'               => $faker->boolean,
             // obsolete 'is_schema_property'         => $faker->boolean,
+        ];
+    });
+
+$factory->state(App\Models\ElementAttribute::class,
+    'resource',
+    function() {
+        $id = getRandomClassId('Element');
+        /** @var Element $element */
+        $element = Element::find($id);
+
+        return [
+            'language'           => null,
+            'related_schema_property_id' => $id,
+            'object'             => $element->uri,
+            'is_generated'       => false,
+        ];
+    });
+$factory->state(ElementAttribute::class,
+    'has_reciprocal',
+    function() {
+        return [
+            'profile_property_id' => 6,
         ];
     });
