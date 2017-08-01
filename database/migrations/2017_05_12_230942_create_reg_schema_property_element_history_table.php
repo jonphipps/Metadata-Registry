@@ -26,7 +26,7 @@ class CreateRegSchemaPropertyElementHistoryTable extends Migration
                 $table->unsignedInteger('profile_property_id')->nullable()->index();
                 $table->mediumText('object')->nullable();
                 $table->unsignedInteger('related_schema_property_id')->nullable()->index('reg_schema_propel_hist_rel_schema_propel_id_index');
-                $table->char('language', 12)->default('en');
+                $table->char('language', 12)->nullable()->default('en');
                 $table->unsignedInteger('status_id')->nullable()->default(1)->index();
                 $table->text('change_note')->nullable();
                 $table->unsignedInteger('import_id')->nullable()->index();
