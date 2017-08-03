@@ -82,6 +82,7 @@ class ImportVocabulary implements ShouldQueue
                             $old->update([
                                 'object'         => $statement['new value'],
                                 'last_import_id' => $this->import->id,
+                                'is_generated'   => false,
                             ]);
                             $this->addUpdateStatement($statement);
                             $dirty = true;
