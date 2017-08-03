@@ -50,6 +50,8 @@
       'created_by' => NULL,
       'updated_by' => NULL,
       'deleted_by' => NULL,
+      'review_reciprocal' => NULL,
+      'reciprocal_property_element_id' => NULL,
     ),
     1 => 
     array (
@@ -72,6 +74,8 @@
       'created_by' => NULL,
       'updated_by' => NULL,
       'deleted_by' => NULL,
+      'review_reciprocal' => NULL,
+      'reciprocal_property_element_id' => NULL,
     ),
     2 => 
     array (
@@ -94,6 +98,8 @@
       'created_by' => NULL,
       'updated_by' => NULL,
       'deleted_by' => NULL,
+      'review_reciprocal' => NULL,
+      'reciprocal_property_element_id' => NULL,
     ),
     3 => 
     array (
@@ -116,6 +122,8 @@
       'created_by' => NULL,
       'updated_by' => NULL,
       'deleted_by' => NULL,
+      'review_reciprocal' => NULL,
+      'reciprocal_property_element_id' => NULL,
     ),
     4 => 
     array (
@@ -138,6 +146,8 @@
       'created_by' => NULL,
       'updated_by' => NULL,
       'deleted_by' => NULL,
+      'review_reciprocal' => NULL,
+      'reciprocal_property_element_id' => NULL,
     ),
     5 => 
     array (
@@ -160,6 +170,8 @@
       'created_by' => NULL,
       'updated_by' => NULL,
       'deleted_by' => NULL,
+      'review_reciprocal' => NULL,
+      'reciprocal_property_element_id' => NULL,
     ),
     6 => 
     array (
@@ -182,6 +194,8 @@
       'created_by' => NULL,
       'updated_by' => NULL,
       'deleted_by' => NULL,
+      'review_reciprocal' => NULL,
+      'reciprocal_property_element_id' => NULL,
     ),
     7 => 
     array (
@@ -204,6 +218,8 @@
       'created_by' => NULL,
       'updated_by' => NULL,
       'deleted_by' => NULL,
+      'review_reciprocal' => NULL,
+      'reciprocal_property_element_id' => NULL,
     ),
     8 => 
     array (
@@ -226,6 +242,8 @@
       'created_by' => NULL,
       'updated_by' => NULL,
       'deleted_by' => NULL,
+      'review_reciprocal' => NULL,
+      'reciprocal_property_element_id' => NULL,
     ),
     9 => 
     array (
@@ -248,6 +266,8 @@
       'created_by' => NULL,
       'updated_by' => NULL,
       'deleted_by' => NULL,
+      'review_reciprocal' => NULL,
+      'reciprocal_property_element_id' => NULL,
     ),
     10 => 
     array (
@@ -270,6 +290,8 @@
       'created_by' => NULL,
       'updated_by' => NULL,
       'deleted_by' => NULL,
+      'review_reciprocal' => NULL,
+      'reciprocal_property_element_id' => NULL,
     ),
     11 => 
     array (
@@ -292,6 +314,8 @@
       'created_by' => NULL,
       'updated_by' => NULL,
       'deleted_by' => NULL,
+      'review_reciprocal' => NULL,
+      'reciprocal_property_element_id' => NULL,
     ),
     12 => 
     array (
@@ -314,6 +338,8 @@
       'created_by' => NULL,
       'updated_by' => NULL,
       'deleted_by' => NULL,
+      'review_reciprocal' => NULL,
+      'reciprocal_property_element_id' => NULL,
     ),
     13 => 
     array (
@@ -336,6 +362,8 @@
       'created_by' => NULL,
       'updated_by' => NULL,
       'deleted_by' => NULL,
+      'review_reciprocal' => NULL,
+      'reciprocal_property_element_id' => NULL,
     ),
     14 => 
     array (
@@ -358,6 +386,8 @@
       'created_by' => NULL,
       'updated_by' => NULL,
       'deleted_by' => NULL,
+      'review_reciprocal' => NULL,
+      'reciprocal_property_element_id' => NULL,
     ),
     15 => 
     array (
@@ -380,6 +410,8 @@
       'created_by' => NULL,
       'updated_by' => NULL,
       'deleted_by' => NULL,
+      'review_reciprocal' => NULL,
+      'reciprocal_property_element_id' => NULL,
     ),
     16 => 
     array (
@@ -402,6 +434,8 @@
       'created_by' => NULL,
       'updated_by' => NULL,
       'deleted_by' => NULL,
+      'review_reciprocal' => NULL,
+      'reciprocal_property_element_id' => NULL,
     ),
     17 => 
     array (
@@ -424,6 +458,8 @@
       'created_by' => NULL,
       'updated_by' => NULL,
       'deleted_by' => NULL,
+      'review_reciprocal' => NULL,
+      'reciprocal_property_element_id' => NULL,
     ),
     18 => 
     array (
@@ -446,6 +482,8 @@
       'created_by' => NULL,
       'updated_by' => NULL,
       'deleted_by' => NULL,
+      'review_reciprocal' => NULL,
+      'reciprocal_property_element_id' => NULL,
     ),
   ),
 );
