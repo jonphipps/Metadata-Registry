@@ -5,6 +5,7 @@ namespace Tests\Unit\OMR;
 
 use App\Models\Concept;
 use App\Models\ConceptAttribute;
+use App\Models\ConceptAttributeHistory;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Spatie\Snapshots\MatchesSnapshots;
 use Tests\TestCase;
@@ -42,6 +43,7 @@ class ConceptTest extends TestCase
     /** @test */
     public function a_related_statement_can_be_referenced()
     {
+        $this->actingAs($this->admin);
         //given a new statement with a reciprocal property (has broader)
         $statement = factory(ConceptAttribute::class)->states('resource', 'has_reciprocal')->create();
         //when it is added

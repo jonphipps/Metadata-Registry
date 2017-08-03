@@ -30,6 +30,7 @@ class UpdateRelatedIdsTest extends TestCase
     /** @test */
     public function it_can_update_the_related_concept_ids_for_an_import_batch()
     {
+        $this->actingAs($this->admin);
         //create a batch
         $batch = factory(Batch::class)->create();
         //create an import for the batch
