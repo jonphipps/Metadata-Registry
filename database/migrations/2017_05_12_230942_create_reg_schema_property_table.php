@@ -30,7 +30,7 @@ class CreateRegSchemaPropertyTable extends Migration
                 $table->string('type', 15)->default('property');
                 $table->unsignedInteger('is_subproperty_of')->nullable()->index();
                 $table->string('parent_uri')->nullable();
-                $table->string('uri')->index();
+                $table->string('uri')->unique();
                 $table->unsignedInteger('status_id')->default(1)->index();
                 $table->char('language', 12)->default('en');
                 $table->text('note')->nullable();
@@ -43,7 +43,6 @@ class CreateRegSchemaPropertyTable extends Migration
                 $table->unsignedInteger('created_by')->nullable()->index();
                 $table->unsignedInteger('updated_by')->nullable()->index();
                 $table->unsignedInteger('deleted_by')->nullable()->index();
-                $table->unique([ 'schema_id', 'uri' ], 'reg_schema_property_unique_index');
             });
         if (DB::getDriverName() === 'mysql') {
             DB::statement('ALTER TABLE reg_schema_property ADD FULLTEXT full( `label`)');
