@@ -25,7 +25,7 @@ use Laracasts\Matryoshka\Cacheable;
  * @property int|null $updated_user_id
  * @property string $uri
  * @property string|null $lexical_alias
- * @property string|null $pref_label
+ * @property string $pref_label
  * @property int|null $vocabulary_id
  * @property int|null $is_top_concept
  * @property int|null $pref_label_id

@@ -33,13 +33,15 @@ use function config;
  * @property int|null $is_schema_property
  * @property string $object
  * @property int|null $related_schema_property_id
- * @property string $language
+ * @property string|null $language
  * @property int|null $status_id
  * @property int|null $last_import_id
  * @property int $is_generated
  * @property int|null $created_by
  * @property int|null $updated_by
  * @property int|null $deleted_by
+ * @property int|null $review_reciprocal
+ * @property int|null $reciprocal_property_element_id
  * @property-read \App\Models\Access\User\User|null $creator
  * @property-read \App\Models\Element $element
  * @property-read \App\Models\Access\User\User|null $eraser
@@ -67,7 +69,9 @@ use function config;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttribute whereLastImportId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttribute whereObject($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttribute whereProfilePropertyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttribute whereReciprocalPropertyElementId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttribute whereRelatedSchemaPropertyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttribute whereReviewReciprocal($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttribute whereSchemaPropertyId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttribute whereStatusId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementAttribute whereUpdatedAt($value)

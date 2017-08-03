@@ -44,8 +44,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \App\Models\Access\User\User|null $User
  * @property-read \App\Models\Batch|null $batch
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConceptAttributeHistory[] $concept_history
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConceptAttribute[] $concept_statements
  * @property-read \App\Models\Access\User\User|null $creator
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementAttributeHistory[] $element_history
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementAttribute[] $element_statements
  * @property-read \App\Models\Elementset|null $elementset
  * @property-read \App\Models\Export|null $export
  * @property string $worksheet
@@ -108,7 +110,7 @@ class Import extends Model
         'file_type'             => 'string',
         'batch_id'              => 'integer',
         'results'               => 'array',
-        'preprocess'               => 'array',
+        'preprocess'            => 'array',
         'total_processed_count' => 'integer',
         'error_count'           => 'integer',
         'success_count'         => 'integer',
@@ -119,7 +121,7 @@ class Import extends Model
         'file_name'        => 'max:255',
         'source_file_name' => 'max:255',
         'file_type'        => 'max:30',
-        'preprocess'          => 'max:65535',
+        'preprocess'       => 'max:65535',
         'results'          => 'max:65535',
     ];
     /*
