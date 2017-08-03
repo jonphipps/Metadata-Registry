@@ -40,6 +40,13 @@ $factory->state(ConceptAttribute::class,
     'has_reciprocal',
     function() {
         return [
+            'profile_property_id' => 16,
+        ];
+    });
+$factory->state(ConceptAttribute::class,
+    'has_inverse',
+    function() {
+        return [
             'profile_property_id' => 35,
         ];
     });
