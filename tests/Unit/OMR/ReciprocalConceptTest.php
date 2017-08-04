@@ -10,7 +10,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Spatie\Snapshots\MatchesSnapshots;
 use Tests\TestCase;
 
-class ReciprocalTest extends TestCase
+class ReciprocalConceptTest extends TestCase
 {
     use DatabaseTransactions;
     use MatchesSnapshots;
