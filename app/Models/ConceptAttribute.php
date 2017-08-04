@@ -122,8 +122,7 @@ class ConceptAttribute extends Model
         'status_id'           => 'integer',
         'vocabulary_id'       => 'integer',
     ];
-    private static $historyAdded;
- 
+
     /**
      * Create the event listeners for the saving and saved events
      * This lets us save revisions whenever a save is made, no matter the
@@ -134,15 +133,16 @@ class ConceptAttribute extends Model
         parent::boot();
 
         static::created(function(ConceptAttribute $attribute) {
-            $attribute::$historyAdded = false;
             //make sure we don't keep making new reciprocals
             if ($attribute->reciprocal_concept_property_id) {
                 return;
             }
             $attribute->createHistory('added');
-            //this prevents a new history being added if we update this attribute when we make a reciprocal
-            $attribute::$historyAdded = true;
-            $attribute->createReciprocal();
+            if ($attribute->createReciprocal()) {
+                //Sometimes we just update this attribute instead of creating a reciprocal.
+                //This deletes the extra new history that was been added when we do that
+                $attribute->history()->latest()->first()->delete();
+            }
         });
 
         static::updated(function(ConceptAttribute $attribute) {
@@ -159,13 +159,9 @@ class ConceptAttribute extends Model
                         $attribute->reciprocal->createHistory('deleted');
                         $attribute->reciprocal()->delete();
                     }
-                    $attribute::$historyAdded = true;
                     $attribute->createReciprocal();
                     return;
                 }
-            }
-            if ($attribute::$historyAdded) {
-                return;
             }
             $attribute->createHistory('updated');
         });
@@ -270,14 +266,14 @@ class ConceptAttribute extends Model
         $relatedConcept = Concept::whereUri($this->object)->first();
         if ( ! $relatedConcept) {
             $this->update([ 'review_reciprocal' => true ]);
-            return false;
+            return true;
         }
         if (auth()->user()->cant('edit', $relatedConcept)) {
             return false;
         }
         //gonna need a review reciprocals job
         //create the reciprocal
-        $attribute = ConceptAttribute::create([
+        $attribute = self::create([
             'related_concept_id'             => $this->concept->id,
             'object'                         => $this->concept->uri,
             'concept_id'                     => $relatedConcept->id,
