@@ -6,6 +6,7 @@ use App\Helpers\Macros\Traits\Languages;
 use App\Models\Traits\BelongsToConcept;
 use App\Models\Traits\BelongsToProfileProperty;
 use App\Models\Traits\BelongsToRelatedConcept;
+use App\Models\Traits\HasStatus;
 use Carbon\Carbon;
 use Culpa\Traits\Blameable;
 use Culpa\Traits\CreatedBy;
@@ -26,20 +27,20 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property \Carbon\Carbon|null $deleted_at
- * @property int|null $created_user_id
- * @property int|null $updated_user_id
+ * @property int $created_user_id
+ * @property int $updated_user_id
  * @property int $concept_id
- * @property int|null $primary_pref_label
- * @property int|null $skos_property_id
- * @property string|null $object
- * @property int|null $scheme_id
- * @property int|null $related_concept_id
- * @property string|null $language
- * @property int|null $status_id
- * @property int $is_concept_property
- * @property int|null $profile_property_id
- * @property int|null $last_import_id
- * @property int $is_generated
+ * @property string $primary_pref_label
+ * @property int $skos_property_id
+ * @property string $object
+ * @property int $scheme_id
+ * @property int $related_concept_id
+ * @property string $language
+ * @property int $status_id
+ * @property bool $is_concept_property
+ * @property int $profile_property_id
+ * @property int $last_import_id
+ * @property bool $is_generated
  * @property int|null $created_by
  * @property int|null $updated_by
  * @property int|null $deleted_by
@@ -56,6 +57,7 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @property-read \App\Models\ConceptAttribute $reciprocal
  * @property-read \App\Models\Concept|null $related_concept
  * @property-read \Illuminate\Database\Eloquent\Collection|\Venturecraft\Revisionable\Revision[] $revisionHistory
+ * @property-read \App\Models\Status|null $status
  * @property-read \App\Models\Access\User\User|null $updater
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute onlyTrashed()
@@ -94,7 +96,7 @@ class ConceptAttribute extends Model
     use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy;
     use RevisionableTrait;
     use Cacheable;
-    use Languages, BelongsToProfileProperty, BelongsToConcept, BelongsToRelatedConcept;
+    use Languages, HasStatus, BelongsToProfileProperty, BelongsToConcept, BelongsToRelatedConcept;
     protected $blameable = [
         'created' => 'created_user_id',
         'updated' => 'updated_user_id',
