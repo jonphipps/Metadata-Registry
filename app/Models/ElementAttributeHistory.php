@@ -65,7 +65,7 @@ class ElementAttributeHistory extends Model
     //TODO: Only store the things that change and get the rest from the related attribute.
     const TABLE = 'reg_schema_property_element_history';
     protected $table = self::TABLE;
-    use HasStatus, Blameable, CreatedBy;
+    use Blameable, CreatedBy;
     use Cacheable;
     use Languages, HasStatus, BelongsToProfileProperty, BelongsToElementset, BelongsToElement, BelongsToImport, BelongsToRelatedElement;
     protected $blameable = [
