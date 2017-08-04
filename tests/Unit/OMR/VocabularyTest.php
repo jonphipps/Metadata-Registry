@@ -46,17 +46,15 @@ class VocabularyTest extends TestCase
         $this->actingAs($this->admin);
         //given a new statement
         /** @var ConceptAttribute $concept */
-        $concept = ConceptAttribute::first();
+        $concept = ConceptAttribute::find(21436);
         $concept->update([ 'last_import_id' => 29, 'object' => 'angobango' ]);
         //when it's added to the database
         //then a history table entry is added
         $concept->fresh('history');
         $history             = $concept->history()->latest()->first();
-        $history->created_at = null;
-        $history->updated_at = null;
-        $history->id         = null;
-
-        $this->assertMatchesSnapshot($history->toArray());
+        $this->assertSame($concept->object, $history->object);
+        $this->assertSame($concept->id, $history->concept_property_id);
+        $this->assertSame('updated', $history->action);
     }
 
     /** @test */
@@ -70,11 +68,9 @@ class VocabularyTest extends TestCase
         //when it's added to the database
         //then a history table entry is added
         $concept->fresh('history');
-        $history             = $concept->history()->latest()->first();
-        $history->created_at = null;
-        $history->updated_at = null;
-        $history->id         = null;
-
-        $this->assertMatchesSnapshot($history->toArray());
+        $history = $concept->history()->latest()->first();
+        $this->assertSame($concept->object, $history->object);
+        $this->assertSame($concept->id, $history->concept_property_id);
+        $this->assertSame('deleted', $history->action);
     }
 }
