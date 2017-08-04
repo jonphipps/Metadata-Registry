@@ -10,7 +10,7 @@ $factory->define(App\Models\ElementAttribute::class,
         return [
             'created_user_id'            => getRandomClassId('Access\User\User'),
             'updated_user_id'            => getRandomClassId('Access\User\User'),
-            'deleted_user_id'            => getRandomClassId('Access\User\User'),
+            //'deleted_user_id'            => getRandomClassId('Access\User\User'),
             'schema_property_id'         => getRandomClassId('Element'),
             'profile_property_id'        => getRandomElementProfilePropertyId(),
             'object'                     => $faker->text,
@@ -38,6 +38,13 @@ $factory->state(App\Models\ElementAttribute::class,
     });
 $factory->state(ElementAttribute::class,
     'has_reciprocal',
+    function() {
+        return [
+            'profile_property_id' => 16,
+        ];
+    });
+$factory->state(ElementAttribute::class,
+    'has_inverse',
     function() {
         return [
             'profile_property_id' => 6,
