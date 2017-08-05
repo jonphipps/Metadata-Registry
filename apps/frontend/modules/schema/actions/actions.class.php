@@ -210,11 +210,11 @@ class schemaActions extends autoSchemaActions
                  $file;
       $aliasPath =  "alias" . DIRECTORY_SEPARATOR . $vocabDir;
 
-      $propArray   = $schema->getPropertyArray();
-      $statusArray = $schema->getStatusArray();
+      $propArray   = $schema::getPropertyArray();
+      $statusArray = $schema::getStatusArray();
 
       //use the default language if none specified
-      if ($useLanguage == "") {
+      if ($useLanguage === "") {
           $useLanguage = $schema->getLanguage();
       }
 
