@@ -24,14 +24,14 @@
         },
         {
             "type": "path",
-            "url": "packages/backpack_CRUD",
+            "url": "packages/Backpack/CRUD",
             "options": {
                 "symlink": true
             }
         },
         {
             "type": "path",
-            "url": "packages/venturecraft_revisionable",
+            "url": "packages/venturecraft/revisionable",
             "options": {
                 "symlink": true
             }
