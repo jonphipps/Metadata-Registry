@@ -4,108 +4,65 @@ namespace App\Policies;
 
 use App\Models\Access\User\User;
 use App\Models\Project;
-use App\Models\ProjectUser;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ProjectPolicy
 {
     use HandlesAuthorization;
 
-    public function before($user)
+    public function before($user): ?bool
     {
         if ($user->is_administrator) {
             return true;
         }
+        return null;
     }
 
-  /**
-   * @return bool
-   */
-  public function index()
-  {
-    return true;
-  }
+    /** Anyone can view the list of public projects  */
+    public function index(): ?bool
+    {
+        return true;
+    }
 
-  /**
-   * Determine whether the user can view the elementSet.
-   *
-   * @param  User $user
-   * @param Project $project
-   *
-   * @return mixed
-   */
-  public function view(User $user, Project $project)
-  {
-    if ($project->is_private && $user->isMemberOfProject($project)) {
-      return true;
-    };
-    if ( ! $project->is_private) {
-      return true;
-    };
-  }
+    /** Anyone can view a non-private project
+     *  Only project members can view a private project     */
+    public function view(User $user, Project $project): ?bool
+    {
+        if ($project->is_private && $user->isMemberOfProject($project)) {
+            return true;
+        };
+        if ( ! $project->is_private) {
+            return true;
+        };
 
-  /**
-     * Determine whether the user can create projects.
-     *
-     * @param  User $user
-     *
-     * @return mixed
-     */
-    public function create(User $user)
+        return null;
+    }
+
+    /** Any authenticated user can create a project */
+    public function create(User $user): ?bool
     {
         return \Auth::check();
     }
 
-    /**
-     * Determine whether the user can update the project.
-     *
-     * @param  User    $user
-     * @param  Project $project
-     *
-     * @return mixed
-     */
-    public function update(User $user, Project $project)
+    public function update(User $user, Project $project): ?bool
     {
-        return (bool) $user->isAdminForProjectId($project->id);
+        return $user->isAdminForProjectId($project->id);
     }
 
-    /**
-     * Determine whether the user can update the project.
-     *
-     * @param  User    $user
-     * @param  Project $project
-     *
-     * @return mixed
-     */
-    public function edit(User $user, Project $project)
+
+    public function edit(User $user, Project $project): ?bool
     {
         return $this->update($user, $project);
     }
 
-    /**
-     * Determine whether the user can delete the project.
-     *
-     * @param  User    $user
-     * @param  Project $project
-     *
-     * @return mixed
-     */
-    public function delete(User $user, Project $project)
+
+    public function delete(User $user, Project $project): ?bool
     {
         return $this->update($user, $project);
     }
 
-    /**
-     * Determine whether the user can import the project.
-     *
-     * @param  User    $user
-     * @param  Project $project
-     *
-     * @return mixed
-     */
-    public function import( User $user, Project $project )
+    public function import(User $user, Project $project): ?bool
     {
-        return (bool) $user->isAdminForProjectId( $project->id );
+        return $user->isAdminForProjectId($project->id);
     }
-
 }
