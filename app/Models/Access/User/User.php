@@ -119,12 +119,8 @@ class User extends Authenticatable
         $this->table = config( 'access.users_table' );
     }
 
-    /**
-     * @param int $project_id
-     *
-     * @return bool
-     */
-    public function isAdminForProjectId( $project_id )
+
+    public function isAdminForProjectId( int $project_id ): bool
     {
         return (bool) ProjectUser::where( [
             [ 'user_id', '=', $this->id ],
@@ -133,12 +129,8 @@ class User extends Authenticatable
         ] )->count();
     }
 
-    /**
-     * @param Vocabulary $vocabulary
-     *
-     * @return bool
-     */
-    public function isAdminForVocabulary( Vocabulary $vocabulary )
+
+    public function isAdminForVocabulary( Vocabulary $vocabulary ): bool
     {
         return (bool) VocabularyUser::where( [
                 [ 'user_id', '=', $this->id ],
@@ -146,12 +138,8 @@ class User extends Authenticatable
             ] )->count() or $this->isAdminForProjectId( $vocabulary->agent_id );
     }
 
-    /**
-     * @param Vocabulary $vocabulary
-     *
-     * @return bool
-     */
-    public function isMaintainerForVocabulary( Vocabulary $vocabulary )
+
+    public function isMaintainerForVocabulary( Vocabulary $vocabulary ): bool
     {
         return (bool) VocabularyUser::where( [
                 [ 'user_id', '=', $this->id ],
@@ -159,13 +147,8 @@ class User extends Authenticatable
             ] )->count() or $this->isAdminForVocabulary( $vocabulary );
     }
 
-    /**
-     * @param Elementset $elementset
-     *
-     * @return bool
-     * @internal param Vocabulary $vocabulary
-     */
-    public function isAdminForElementSet( Elementset $elementset )
+
+    public function isAdminForElementSet( Elementset $elementset ): bool
     {
         return (bool) ElementsetUser::where( [
                 [ 'user_id', '=', $this->id ],
@@ -173,13 +156,8 @@ class User extends Authenticatable
             ] )->count() or $this->isAdminForProjectId( $elementset->agent_id );
     }
 
-    /**
-     * @param Elementset $elementset
-     *
-     * @return bool
-     * @internal param Vocabulary $vocabulary
-     */
-    public function isMaintainerForElementSet( Elementset $elementset )
+
+    public function isMaintainerForElementSet( Elementset $elementset ): bool
     {
         return (bool) ElementsetUser::where( [
                 [ 'user_id', '=', $this->id ],
@@ -187,7 +165,7 @@ class User extends Authenticatable
             ] )->count() or $this->isAdminForElementSet( $elementset );
     }
 
-    public function isMemberOfProject( Project $project )
+    public function isMemberOfProject( Project $project ): bool
     {
         return (bool) $this->projects()->wherePivot( 'agent_id', $project->id )->count();
     }
