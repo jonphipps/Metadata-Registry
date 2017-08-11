@@ -1,5 +1,4 @@
 @extends('frontend.layouts.app')
-
 @section('content')
     <div class="row">
         <div class="col-xs-12">
@@ -39,7 +38,7 @@
                                                 effect on your password on the production OMR. Feel free to set it to
                                                 the same password on both sites if you wish.</p>
                                             <h4>This is important...</h4>
-                                            <p class="bg-danger">We've ported the OMR data as of mid-December 2016 to this site, but we're
+                                            <p class="bg-danger">We've ported the OMR data as of <strong>{{env('LAST_UPDATE', 'mid-December 2016')}}</strong> to this site, but we're
                                                 going to periodically do it again, which will destroy anything that you
                                                 may create or edit here. We'll do this at random and without
                                                 warning, so poke around if you wish, but PLEASE don't count on any data
