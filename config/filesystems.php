@@ -65,7 +65,12 @@ return [
 
         'uploads' => [
             'driver' => 'local',
-            'root' => public_path('uploads'),
+            'root'   => public_path('uploads'),
+        ],
+
+        'repos' => [
+            'driver' => 'local',
+            'root'   => storage_path('repos'),
         ],
     ],
 
