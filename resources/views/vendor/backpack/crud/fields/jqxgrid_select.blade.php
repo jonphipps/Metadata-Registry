@@ -104,11 +104,12 @@ jqxGrid.jqxGrid({width: gridWidth});
 
 //select the rows
 var gridRows = jqxGrid.jqxGrid('getrows');
+//debugger;
 for (var i = 0; i < selectedRows.length; i++) {
   for (var x = 0; x < gridRows.length; x++) {
     var rowId = jqxGrid.jqxGrid('getrowdatabyid', x).id;
     if (rowId === selectedRows[i]) {
-      jqxGrid.jqxGrid('selectrow', i);
+      jqxGrid.jqxGrid('selectrow', x);
     }
   }
 }
@@ -116,11 +117,12 @@ for (var i = 0; i < selectedRows.length; i++) {
 });
 
 $("form").submit(function (event) {
+//debugger;
 var jqxGrid = $('#jqxGrid-{!! $field["name"] !!}');
 var selectedIds = [];
 var selectedRowIndexes = jqxGrid.jqxGrid('getselectedrowindexes');
 for (var i = 0; i < selectedRowIndexes.length; i++) {
-  selectedIds[i] = jqxGrid.jqxGrid('getrowdatabyid', i).id;
+  selectedIds[i] = jqxGrid.jqxGrid('getrowdatabyid', selectedRowIndexes[i]).id;
 }
 $('input[name="selected_{{$field['name']}}"]').val(JSON.stringify(selectedIds));
 });
