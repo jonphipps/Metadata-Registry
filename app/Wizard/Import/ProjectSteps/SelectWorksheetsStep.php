@@ -38,6 +38,10 @@ class SelectWorksheetsStep extends Step
     {
         $worksheets = [];
         $sheets = $wizard->data()['googlesheets'];
+        //it's already in the correct form
+        if( is_array($sheets) && isset($sheets[0])){
+            return;
+        }
         foreach ($sheets as $key => $worksheet) {
             $export               = Export::find($worksheet['id']);
             $sheet['worksheet']   = $export->worksheet;
