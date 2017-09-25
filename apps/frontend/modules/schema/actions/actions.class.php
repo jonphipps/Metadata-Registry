@@ -2,7 +2,6 @@
 use ImportVocab\ExportVocab;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Adapter\Local as Adapter;
-use League\Flysystem\Cached\Storage\Memory as Cache;
 use ML\JsonLD\JsonLD;
 use ML\JsonLD\NQuads;
 
@@ -204,7 +203,7 @@ class schemaActions extends autoSchemaActions
                   "agents" . DIRECTORY_SEPARATOR .
                   $schema->getAgentId() . DIRECTORY_SEPARATOR .
                   $repo;
-      $filesystem = new Filesystem(new Adapter($repoRoot, new Cache));
+      $filesystem = new Filesystem(new Adapter($repoRoot));
       $filePath = $repoRoot . DIRECTORY_SEPARATOR .
                   $mime . DIRECTORY_SEPARATOR .
                  $file;
