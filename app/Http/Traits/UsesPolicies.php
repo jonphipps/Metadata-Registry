@@ -61,6 +61,7 @@ trait UsesPolicies
      * @param int|null $id      The id of the individual to check against
      *
      * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
     protected function policyAuthorize($ability, $class, $id = null): void
     {
@@ -70,7 +71,7 @@ trait UsesPolicies
         }
 
         //the 'model' will either be a valid instance or the class
-        $model = $id !== null ? $class::findOrFail($id) : $class;
+        $model = $id !== null ? $class->findOrFail($id) : $class;
 
         //deny access to the ability by default
         $this->crud->denyAccess([ $ability ]);
