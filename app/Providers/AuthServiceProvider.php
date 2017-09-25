@@ -19,6 +19,7 @@ use App\Policies\ImportPolicy;
 use App\Policies\ProjectPolicy;
 use App\Policies\VocabularyPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Class AuthServiceProvider.
