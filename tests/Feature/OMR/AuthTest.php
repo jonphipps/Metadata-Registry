@@ -120,14 +120,13 @@ class AuthTest extends BrowserKitTestCase
                        'is_registrar_for' => true,
                        'is_admin_for'     => true,
                    ]);
-    $vocabulary = factory(\App\Models\Vocabulary::class)->make();
+    $vocabulary = factory(\App\Models\Vocabulary::class)->create();
     $this->user->vocabularies()
                ->attach($vocabulary,
                    [
                        'is_registrar_for' => true,
                        'is_admin_for'     => true,
                    ]);
-    $project->vocabularies()->save($vocabulary);
     //when
     //then she has permission to edit/create/delete a vocabulary
     $this->assertTrue($this->user->can('create', [ \App\Models\Vocabulary::class, $project ]));
@@ -143,9 +142,8 @@ class AuthTest extends BrowserKitTestCase
   {
     //given a user is a vocab admin
     $project    = factory(\App\Models\Project::class)->create();
-    $vocabulary = factory(\App\Models\Vocabulary::class)->make();
-    $project->vocabularies()
-            ->save($vocabulary);
+    $vocabulary = factory(\App\Models\Vocabulary::class)->create();
+    // $project->vocabularies()->save($vocabulary);
     $this->user->vocabularies()
                ->attach($vocabulary->id,
                    [
@@ -229,15 +227,13 @@ class AuthTest extends BrowserKitTestCase
                        'is_registrar_for' => true,
                        'is_admin_for'     => true,
                    ]);
-    $elementset = factory(\App\Models\Elementset::class)->make();
+    $elementset = factory(\App\Models\Elementset::class)->create();
     $this->user->elementsets()
                ->attach($elementset,
                    [
                        'is_registrar_for' => true,
                        'is_admin_for'     => true,
                    ]);
-    $project->vocabularies()
-            ->save($elementset);
     //when
     //then she has permission to edit/create/delete an elementSet
     $this->assertTrue($this->user->can('create', [ \App\Models\Elementset::class, $project ]));
