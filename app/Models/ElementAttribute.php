@@ -262,7 +262,7 @@ class ElementAttribute extends Model
             $this->update([ 'review_reciprocal' => true ]);
             return true;
         }
-        if (auth()->user()->cant('edit', $relatedElement)) {
+        if (auth()->user()->cant('update', $relatedElement)) {
             return false;
         }
         //gonna need a review reciprocals job
