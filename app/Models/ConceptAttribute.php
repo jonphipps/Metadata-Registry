@@ -270,9 +270,10 @@ class ConceptAttribute extends Model
             $this->update([ 'review_reciprocal' => true ]);
             return true;
         }
-        if (auth()->user()->cant('edit', $relatedConcept)) {
+        if (auth()->user()->cant('update', $relatedConcept)) {
             return false;
         }
+        //gonna need a review reciprocals job
         //gonna need a review reciprocals job
         //create the reciprocal
         $attribute = self::create([
