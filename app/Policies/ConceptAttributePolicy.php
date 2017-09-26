@@ -48,7 +48,7 @@ class ConceptAttributePolicy
   public function create(User $user, Vocabulary $vocabulary)
   {
     //User must be one of: admin, projectadmin, vocabularyadmin
-    if ($user->ismaintainerForVocabulary($vocabulary)) {
+    if ($user->isMaintainerForVocabulary($vocabulary)) {
       return true;
     }
   }
@@ -64,7 +64,7 @@ class ConceptAttributePolicy
   public function update(User $user, ConceptAttribute $conceptAttribute)
   {
     //User must be one of: admin, projectadmin, vocabularyadmin
-    if ($user->ismaintainerForVocabulary($conceptAttribute->concept->vocabulary)) {
+    if ($user->isMaintainerForVocabulary($conceptAttribute->concept->vocabulary)) {
       return true;
     }
   }
@@ -80,7 +80,7 @@ class ConceptAttributePolicy
   public function delete(User $user, ConceptAttribute $conceptAttribute)
   {
     //User must be one of: admin, projectadmin, vocabularyadmin
-    if ($user->ismaintainerForVocabulary($conceptAttribute->concept->vocabulary)) {
+    if ($user->isMaintainerForVocabulary($conceptAttribute->concept->vocabulary)) {
       return true;
     }
   }
