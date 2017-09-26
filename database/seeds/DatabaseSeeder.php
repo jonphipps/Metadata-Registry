@@ -1,5 +1,6 @@
 <?php
 
+use Database\TruncateTable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 
@@ -8,6 +9,8 @@ use Illuminate\Database\Seeder;
  */
 class DatabaseSeeder extends Seeder
 {
+    use TruncateTable;
+
     /**
      * Run the database seeds.
      *
@@ -17,6 +20,7 @@ class DatabaseSeeder extends Seeder
     {
         Model::unguard();
 
+        $this->truncateMultiple(['sessions']);
         $this->call( AdminSeeder::class );
 
         $this->call( SkosPropertySeeder::class );
@@ -25,6 +29,7 @@ class DatabaseSeeder extends Seeder
         $this->call( ProfilePropertySeeder::class );
         if ( 'testing' === app()->environment() ) {
             $this->call( DatabaseTestSeeder::class );
+        Model::reguard();
         }
     }
 }

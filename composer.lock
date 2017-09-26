@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "85eaeb2df1e34ce75b6261258de92d31",
+    "content-hash": "197b16204f55040956842eccefc0e45c",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -2222,16 +2222,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.26",
+            "version": "v0.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/google/google-api-php-client-services.git",
-                "reference": "84e5a19a1cbbf7b59c51aee2cb49dbb4ec13f99f"
+                "reference": "a78a34c76ba300d8236979d74f340b815151f893"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/google/google-api-php-client-services/zipball/84e5a19a1cbbf7b59c51aee2cb49dbb4ec13f99f",
-                "reference": "84e5a19a1cbbf7b59c51aee2cb49dbb4ec13f99f",
+                "url": "https://api.github.com/repos/google/google-api-php-client-services/zipball/a78a34c76ba300d8236979d74f340b815151f893",
+                "reference": "a78a34c76ba300d8236979d74f340b815151f893",
                 "shasum": ""
             },
             "require": {
@@ -2255,7 +2255,7 @@
             "keywords": [
                 "google"
             ],
-            "time": "2017-09-22T00:23:08+00:00"
+            "time": "2017-09-24T00:22:51+00:00"
         },
         {
             "name": "google/auth",
@@ -3525,16 +3525,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.5.12",
+            "version": "v5.5.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "74f5831447817034838b3539c644303036df3d8e"
+                "reference": "bfbe20d32ee9f98c89df852847827407a5127be4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/74f5831447817034838b3539c644303036df3d8e",
-                "reference": "74f5831447817034838b3539c644303036df3d8e",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/bfbe20d32ee9f98c89df852847827407a5127be4",
+                "reference": "bfbe20d32ee9f98c89df852847827407a5127be4",
                 "shasum": ""
             },
             "require": {
@@ -3653,7 +3653,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-09-22T13:33:35+00:00"
+            "time": "2017-09-24T19:09:38+00:00"
         },
         {
             "name": "laravel/socialite",
@@ -6046,16 +6046,16 @@
         },
         {
             "name": "ramsey/uuid",
-            "version": "3.7.0",
+            "version": "3.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ramsey/uuid.git",
-                "reference": "0ef23d1b10cf1bc576e9d865a7e9c47982c5715e"
+                "reference": "45cffe822057a09e05f7bd09ec5fb88eeecd2334"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ramsey/uuid/zipball/0ef23d1b10cf1bc576e9d865a7e9c47982c5715e",
-                "reference": "0ef23d1b10cf1bc576e9d865a7e9c47982c5715e",
+                "url": "https://api.github.com/repos/ramsey/uuid/zipball/45cffe822057a09e05f7bd09ec5fb88eeecd2334",
+                "reference": "45cffe822057a09e05f7bd09ec5fb88eeecd2334",
                 "shasum": ""
             },
             "require": {
@@ -6124,7 +6124,7 @@
                 "identifier",
                 "uuid"
             ],
-            "time": "2017-08-04T13:39:04+00:00"
+            "time": "2017-09-22T20:46:04+00:00"
         },
         {
             "name": "roave/security-advisories",
@@ -9828,16 +9828,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "6.3.0",
+            "version": "6.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "9501bab711403a1ab5b8378a8adb4ec3db3debdb"
+                "reference": "c0ff817b36a827e64bf5f57bc72278150cf30a77"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/9501bab711403a1ab5b8378a8adb4ec3db3debdb",
-                "reference": "9501bab711403a1ab5b8378a8adb4ec3db3debdb",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c0ff817b36a827e64bf5f57bc72278150cf30a77",
+                "reference": "c0ff817b36a827e64bf5f57bc72278150cf30a77",
                 "shasum": ""
             },
             "require": {
@@ -9908,7 +9908,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2017-08-04T05:20:39+00:00"
+            "time": "2017-09-24T07:25:54+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -10767,16 +10767,16 @@
         },
         {
             "name": "spatie/laravel-db-snapshots",
-            "version": "1.1.1",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-db-snapshots.git",
-                "reference": "5af6ebe1efecaff211bb98cba9964964c77b6871"
+                "reference": "e43b098406e1ba69b50eb1d8f21379195d6919e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-db-snapshots/zipball/5af6ebe1efecaff211bb98cba9964964c77b6871",
-                "reference": "5af6ebe1efecaff211bb98cba9964964c77b6871",
+                "url": "https://api.github.com/repos/spatie/laravel-db-snapshots/zipball/e43b098406e1ba69b50eb1d8f21379195d6919e9",
+                "reference": "e43b098406e1ba69b50eb1d8f21379195d6919e9",
                 "shasum": ""
             },
             "require": {
@@ -10823,7 +10823,7 @@
                 "laravel-db-snapshots",
                 "spatie"
             ],
-            "time": "2017-08-04T07:53:41+00:00"
+            "time": "2017-09-26T15:51:40+00:00"
         },
         {
             "name": "spatie/laravel-migrate-fresh",
