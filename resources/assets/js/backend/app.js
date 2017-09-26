@@ -8,6 +8,7 @@
 
 require('../bootstrap');
 
+// Uncomment to use Vue in backend
 window.Vue = require('vue');
 
 /**
@@ -22,6 +23,13 @@ const app = new Vue({
     el: '#app'
 });
 
+/**
+ * Admin LTE Scripts
+ */
+
+/* globals AdminLTEOptions: false */
+/* globals FastClick: false */
+
 /*! AdminLTE app.js
  * ================
  * Main JS application file for AdminLTE v2. This file
@@ -35,9 +43,11 @@ const app = new Vue({
  * @license MIT <http://opensource.org/licenses/MIT>
  */
 
+'use strict';
+
 //Make sure jQuery has been loaded before app.js
-if (typeof jQuery === "undefined") {
-  throw new Error("AdminLTE requires jQuery");
+if (typeof jQuery === 'undefined') {
+    throw new Error('AdminLTE requires jQuery');
 }
 
 /* AdminLTE
@@ -170,7 +180,7 @@ $(function () {
   $("body").removeClass("hold-transition");
 
   //Extend options if external options exist
-  if (typeof AdminLTEOptions !== "undefined") {
+  if (typeof AdminLTEOptions !== 'undefined') {
     $.extend(true,
       $.AdminLTE.options,
       AdminLTEOptions);
