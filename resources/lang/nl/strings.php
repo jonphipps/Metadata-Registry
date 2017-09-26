@@ -49,9 +49,9 @@ return [
             ],
 
             'you_have' => [
-                'messages'      => '{0} U heeft geen berichten|{1} U heeft 1 bericht|[2,Inf] U heeft :number berichten',
-                'notifications' => '{0} U heeft geen notificaties|{1} U heeft 1 notificatie|[2,Inf] U heeft :number notificaties',
-                'tasks'         => '{0} U heeft geen taken|{1} U heeft 1 taak|[2,Inf] U heeft :number taken',
+                'messages'      => '{0} U heeft geen berichten|{1} U heeft 1 bericht|[2,*] U heeft :number berichten',
+                'notifications' => '{0} U heeft geen notificaties|{1} U heeft 1 notificatie|[2,*] U heeft :number notificaties',
+                'tasks'         => '{0} U heeft geen taken|{1} U heeft 1 taak|[2,*] U heeft :number taken',
             ],
         ],
 
@@ -119,6 +119,10 @@ return [
             'view_console_it_works'          => 'U zou \'it works!\' in de console moeten zien, welke komt vanuit FrontendController@index',
             'you_can_see_because'            => 'U kunt dit zien omdat u de rol heeft van \':role\'!',
             'you_can_see_because_permission' => 'U kunt dit zien omdat u de permissie van \':permission\'!',
+        ],
+
+        'general' => [
+            'joined'        => 'Joined',
         ],
 
         'user' => [
