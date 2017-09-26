@@ -2,7 +2,7 @@
 
 @section('page-header')
     <h1>
-        {{ trans('strings.backend.search.results', ['query' => $search_term]) }}
+        {{ trans('strings.backend.search.results', ['query' => $searchTerm]) }}
     </h1>
 @endsection
 

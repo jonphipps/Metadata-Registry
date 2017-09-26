@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Listeners\BarRenderListener;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Event;
 use Recca0120\LaravelTracy\Events\BeforeBarRender;
 
 /**

@@ -26,6 +26,16 @@ class Handler extends ExceptionHandler
     ];
 
     /**
+     * A list of the inputs that are never flashed for validation exceptions.
+     *
+     * @var array
+     */
+    protected $dontFlash = [
+        'password',
+        'password_confirmation',
+    ];
+
+    /**
      * Report or log an exception.
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
@@ -88,42 +98,4 @@ class Handler extends ExceptionHandler
     }
 
 
-  /**
-   * Create a Symfony response for the given exception.
-   *
-   * @param  \Exception $e
-   *
-   * @return mixed
-   */
-    protected function convertExceptionToResponse(Exception $e)
-    {
-        if (config('app.debug')) {
-            $whoops = new \Whoops\Run;
-            $handler = new PrettyPageHandler();
-            //$handler->setEditor('phpstorm');
-            $handler->setEditor(function ($file, $line) {
-                // if your development server is not local it's good to map remote files to local
-                $translations = [ '^' . env('VAGRANT_HOME') => env('LOCAL_HOME') ]; // change to your path
-                foreach ($translations as $from => $to) {
-                    $file = preg_replace('#' . $from . '#', $to, $file, 1);
-                }
-
-                return [
-                  'url'  => "phpstorm://open?file=$file&line=$line",
-                  'ajax' => false
-                ];
-            });
-            $handler->addResourcePath(base_path('app/Exceptions'));
-            $handler->addCustomCss('whoops.base.css');
-            $whoops->pushHandler($handler);
-
-            return response()->make(
-                $whoops->handleException($e),
-                method_exists($e, 'getStatusCode') ? $e->getStatusCode() : 500,
-                method_exists($e, 'getHeaders') ? $e->getHeaders() : []
-            );
-        }
-
-        return parent::convertExceptionToResponse($e);
-    }
 }
