@@ -73,7 +73,6 @@
         "doctrine/dbal": "^2.6",
         "easyrdf/easyrdf": "^0.9.1",
         "fideloper/proxy": "~3.3",
-        "filp/whoops": "^2.0",
         "google/apiclient": "^2.1",
         "graham-campbell/github": "^6.0",
         "guzzlehttp/guzzle": "^6.3",
@@ -191,7 +190,8 @@
         {
             "dont-discover": [
                 "barryvdh/laravel-ide-helper",
-                "backpack/generators"
+                "backpack/generators",
+                "laravel/dusk"
             ]
         }
     },
