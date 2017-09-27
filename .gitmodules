@@ -5,4 +5,4 @@
 [submodule "packages/Backpack/CRUD"]
 	path = packages/Backpack/CRUD
 	url = git@github.com:jonphipps/CRUD.git
-	branch = origin_dev
+	branch = origin_master
