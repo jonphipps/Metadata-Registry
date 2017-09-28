@@ -21,6 +21,14 @@
                 $item = $connected_entity->find($old_value);
             @endphp
             @if ($item)
+
+            {{-- allow clear --}}
+            @if ($entity_model::isColumnNullable($field['name']))
+            <option value="" selected>
+                {{ $field['placeholder'] }}
+            </option>
+            @endif
+
             <option value="{{ $item->getKey() }}" selected>
                 {{ $item->{$field['attribute']} }}
             </option>
@@ -44,6 +52,14 @@
     <!-- include select2 css-->
     <link href="{{ asset('vendor/adminlte/plugins/select2/select2.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css" rel="stylesheet" type="text/css" />
+    {{-- allow clear --}}
+    @if ($entity_model::isColumnNullable($field['name']))
+    <style type="text/css">
+        .select2-selection__clear::after {
+            content: ' {{ trans('backpack::crud.clear') }}';
+        }
+    </style>
+    @endif
     @endpush
 
     {{-- FIELD JS - will be loaded in the after_scripts section --}}
@@ -67,6 +83,11 @@
                     multiple: false,
                     placeholder: "{{ $field['placeholder'] }}",
                     minimumInputLength: "{{ $field['minimum_input_length'] }}",
+
+                    {{-- allow clear --}}
+                    @if ($entity_model::isColumnNullable($field['name']))
+                    allowClear: true,
+                    @endif
                     ajax: {
                         url: "{{ $field['data_source'] }}",
                         dataType: 'json',
@@ -95,7 +116,17 @@
                         },
                         cache: true
                     },
-                });
+                })
+                {{-- allow clear --}}
+                @if ($entity_model::isColumnNullable($field['name']))
+                .on('select2:unselecting', function(e) {
+                    $(this).val('').trigger('change');
+                    // console.log('cleared! '+$(this).val());
+                    e.preventDefault();
+                })
+                @endif
+                ;
+
             }
         });
     });

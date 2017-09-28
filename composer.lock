@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "013a85ad5e7da5f7438a6170b807ba89",
+    "content-hash": "7e0a52ad6aff93580c6fa076583bc886",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -338,12 +338,17 @@
         },
         {
             "name": "backpack/crud",
-            "version": "dev-origin_dev",
+            "version": "3.2.21",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Laravel-Backpack/CRUD.git",
+                "reference": "0250f8dd23a4572c2cffa19e209e009b8c903943"
+            },
             "dist": {
-                "type": "path",
-                "url": "packages/Backpack/CRUD",
-                "reference": "04b59690cec4dd174fbc35a63ee65eb7038e5a1f",
-                "shasum": null
+                "type": "zip",
+                "url": "https://api.github.com/repos/Laravel-Backpack/CRUD/zipball/0250f8dd23a4572c2cffa19e209e009b8c903943",
+                "reference": "0250f8dd23a4572c2cffa19e209e009b8c903943",
+                "shasum": ""
             },
             "require": {
                 "backpack/base": "^0.7.15",
@@ -355,6 +360,8 @@
                 "venturecraft/revisionable": "1.*"
             },
             "require-dev": {
+                "orchestra/database": "~3.4",
+                "orchestra/testbench": "~3.0",
                 "phpunit/phpunit": "4.*",
                 "scrutinizer/ocular": "~1.1"
             },
@@ -362,6 +369,11 @@
             "extra": {
                 "branch-alias": {
                     "dev-master": "1.0-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Backpack\\CRUD\\CrudServiceProvider"
+                    ]
                 }
             },
             "autoload": {
@@ -369,16 +381,7 @@
                     "Backpack\\CRUD\\": "src"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Backpack\\CRUD\\Test\\": "tests"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "phpunit"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -393,18 +396,16 @@
             "description": "Quickly build an admin interface for your Eloquent models, using Laravel 5. Build a CMS in a matter of minutes.",
             "homepage": "https://github.com/laravel-backpack/CRUD",
             "keywords": [
-                "CMS",
-                "CRUD",
-                "admin interface",
+                "Admin Interface",
                 "admin panel",
+                "cms",
                 "create",
+                "crud",
                 "delete",
                 "read",
                 "update"
             ],
-            "transport-options": {
-                "symlink": true
-            }
+            "time": "2017-09-28T11:36:39+00:00"
         },
         {
             "name": "barryvdh/elfinder-flysystem-driver",
@@ -4629,16 +4630,16 @@
         },
         {
             "name": "paragonie/random_compat",
-            "version": "v2.0.10",
+            "version": "v2.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "634bae8e911eefa89c1abfbf1b66da679ac8f54d"
+                "reference": "5da4d3c796c275c55f057af5a643ae297d96b4d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/634bae8e911eefa89c1abfbf1b66da679ac8f54d",
-                "reference": "634bae8e911eefa89c1abfbf1b66da679ac8f54d",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/5da4d3c796c275c55f057af5a643ae297d96b4d8",
+                "reference": "5da4d3c796c275c55f057af5a643ae297d96b4d8",
                 "shasum": ""
             },
             "require": {
@@ -4673,7 +4674,7 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2017-03-13T16:27:32+00:00"
+            "time": "2017-09-27T21:40:39+00:00"
         },
         {
             "name": "pda/pheanstalk",
@@ -8029,23 +8030,23 @@
         },
         {
             "name": "venturecraft/revisionable",
-            "version": "dev-master",
+            "version": "1.28.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/VentureCraft/revisionable.git",
+                "reference": "5a76d29b897d4864cef41c605e7e03258dd5d051"
+            },
             "dist": {
-                "type": "path",
-                "url": "packages/venturecraft/revisionable",
-                "reference": "f124a991aa776936b143244fb974663c6afdcb8e",
-                "shasum": null
+                "type": "zip",
+                "url": "https://api.github.com/repos/VentureCraft/revisionable/zipball/5a76d29b897d4864cef41c605e7e03258dd5d051",
+                "reference": "5a76d29b897d4864cef41c605e7e03258dd5d051",
+                "shasum": ""
             },
             "require": {
                 "illuminate/support": "~4.0|~5.0|~5.1",
                 "php": ">=5.3.0"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
             "autoload": {
                 "classmap": [
                     "src/migrations"
@@ -8054,6 +8055,7 @@
                     "Venturecraft\\Revisionable": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -8072,13 +8074,7 @@
                 "model",
                 "revision"
             ],
-            "support": {
-                "issues": "https://github.com/VentureCraft/revisionable/issues",
-                "source": "https://github.com/VentureCraft/revisionable"
-            },
-            "transport-options": {
-                "symlink": true
-            }
+            "time": "2016-08-02T02:32:00+00:00"
         },
         {
             "name": "vlucas/phpdotenv",

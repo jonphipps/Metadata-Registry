@@ -21,22 +21,6 @@
     {
         "type": "vcs",
         "url": "git@github.com:jonphipps/laravel-wizard.git"
-    },
-    {
-        "type": "path",
-        "url": "packages/Backpack/CRUD",
-        "options":
-        {
-            "symlink": true
-        }
-    },
-    {
-        "type": "path",
-        "url": "packages/venturecraft/revisionable",
-        "options":
-        {
-            "symlink": true
-        }
     }],
     "config":
     {
@@ -61,7 +45,7 @@
         "arcanedev/no-captcha": "^4.0",
         "asimlqt/php-google-spreadsheet-client": "3.0.*",
         "backpack/base": "^0.7.16",
-        "backpack/crud": "*",
+        "backpack/crud": "^3.2",
         "barryvdh/laravel-snappy": "^0.4.0",
         "bgcc/sf-select2-widgets-plugin": "~1.0",
         "bpocallaghan/titan": "dev-master",

@@ -6,8 +6,8 @@
     @endforeach
 
     @if (!isset($field['wrapperAttributes']['class']))
-		class="form-group col-md-12"
+		class="form-group col-md-12{{ isset($field['attributes']['required']) ? ' required' : '' }}"
     @endif
 @else
-	class="form-group col-md-12"
+	class="form-group col-md-12{{ isset($field['attributes']['required']) ? ' required' : '' }}"
 @endif

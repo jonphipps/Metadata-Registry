@@ -16,15 +16,15 @@
         multiple>
 
         @if ($old_value)
-            @foreach ($old_value as $result_key)
-                @php
-                    $item = $connected_entity->find($result_key);
-                @endphp
-                @if ($item)
+            @foreach ($old_value as $item)
+                @if (!is_object($item))
+                    @php
+                        $item = $connected_entity->find($item);
+                    @endphp
+                @endif
                 <option value="{{ $item->getKey() }}" selected>
                     {{ $item->{$field['attribute']} }}
                 </option>
-                @endif
             @endforeach
         @endif
     </select>

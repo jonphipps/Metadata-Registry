@@ -4,7 +4,7 @@
 	<section class="content-header">
 	  <h1>
 	    <span class="text-capitalize">{{ $crud->entity_name_plural }}</span>
-	    <small>{{ trans('backpack::crud.all') }} <span class="text-lowercase">{{ $crud->entity_name_plural }}</span> {{ trans('backpack::crud.in_the_database') }}.</small>
+	    <small>{{ trans('backpack::crud.all') }} <span>{{ $crud->entity_name_plural }}</span> {{ trans('backpack::crud.in_the_database') }}.</small>
 	  </h1>
 	  <ol class="breadcrumb">
 @if(Auth::check())
@@ -49,11 +49,13 @@
 
                 {{-- Table columns --}}
                 @foreach ($crud->columns as $column)
-                  <th>{{ $column['label'] }}</th>
+                  <th {{ isset($column['orderable']) ? 'data-orderable=' .var_export($column['orderable'], true) : '' }}>
+                    {{ $column['label'] }}
+                  </th>
                 @endforeach
 
                 @if ( $crud->buttons->where('stack', 'line')->count() )
-                  <th>{{ trans('backpack::crud.actions') }}</th>
+                  <th data-orderable="false">{{ trans('backpack::crud.actions') }}</th>
                 @endif
               </tr>
             </thead>

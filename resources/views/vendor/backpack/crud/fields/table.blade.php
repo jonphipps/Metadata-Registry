@@ -140,13 +140,13 @@
                         }
                     }
 
-                    if( typeof $scope.items != 'undefined' && $scope.items.length ){
+                    if( typeof $scope.items != 'undefined' ){
 
                         if( typeof $scope.field != 'undefined'){
                             if( typeof $scope.field == 'string' ){
                                 $scope.field = $($scope.field);
                             }
-                            $scope.field.val( angular.toJson($scope.items) );
+                            $scope.field.val( $scope.items.length ? angular.toJson($scope.items) : null );
                         }
                     }
                 }, true);

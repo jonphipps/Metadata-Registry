@@ -11,7 +11,7 @@
 
         <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aira-expanded="false">
             <span class="caret"></span>
-            <span class="sr-only">Toggle Save Dropdown</span>
+            <span class="sr-only">&#x25BC;</span>
         </button>
 
         <ul class="dropdown-menu">

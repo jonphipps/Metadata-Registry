@@ -2,6 +2,11 @@
 @php
     $optionPointer = 0;
     $optionValue = old($field['name']) ? old($field['name']) : (isset($field['value']) ? $field['value'] : (isset($field['default']) ? $field['default'] : '' ));
+
+    // if the class isn't overwritten, use 'radio'
+    if (!isset($field['attributes']['class'])) {
+        $field['attributes']['class'] = 'radio';
+    }
 @endphp
 
 <div @include('crud::inc.field_wrapper_attributes') >
@@ -19,7 +24,13 @@
             @if( isset($field['inline']) && $field['inline'] )
 
             <label class="radio-inline" for="{{$field['name']}}_{{$optionPointer}}">
-                <input type="radio" id="{{$field['name']}}_{{$optionPointer}}" name="{{$field['name']}}" value="{{$value}}" {{$optionValue == $value ? ' checked': ''}}> {!! $label !!}
+                <input  type="radio"
+                        id="{{$field['name']}}_{{$optionPointer}}"
+                        name="{{$field['name']}}"
+                        value="{{$value}}"
+                        @include('crud::inc.field_attributes')
+                        {{$optionValue == $value ? ' checked': ''}}
+                        > {!! $label !!}
             </label>
 
             @else

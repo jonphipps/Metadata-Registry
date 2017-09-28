@@ -172,7 +172,7 @@ if (is_array($value)) {
 
                 var fetchVimeo = function( videoId, callback ){
 
-                    var api = 'http://vimeo.com/api/v2/video/' + videoId + '.json?callback=?';
+                    var api = 'https://vimeo.com/api/v2/video/' + videoId + '.json?callback=?';
 
                     var video = {
                         provider: 'vimeo',
