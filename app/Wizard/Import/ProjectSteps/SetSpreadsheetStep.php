@@ -4,7 +4,9 @@
 
 namespace App\Wizard\Import\ProjectSteps;
 
+use App\Models\Batch;
 use App\Models\Export;
+use App\Models\Project;
 use App\Services\Import\GoogleSpreadsheet;
 use Google_Service_Exception;
 use Illuminate\Http\Request;
@@ -24,29 +26,42 @@ class SetSpreadsheetStep extends Step
 
     public function fields(): array
     {
-        return [
-            [
-                'name'  => 'source_file_name',
-                'label' => 'Link to Google Spreadsheet',
-                'type'  => 'url',
-            ],
-            [
-                'name'    => 'import_type',
-                'label'   => 'Type of Import',
-                'type'    => 'radio',
-                'options' => [ // the key will be stored in the db, the value will be shown as label;
-                               0 => 'Full -- (Default) Empty cells will be deleted. Empty rows will be deleted, or deprecated if published.',
-                               1 => 'Sparse -- Non-destructive. Empty rows and cells will be ignored.',
-                               2 => 'Partial -- Empty Cells will be deleted. Missing rows will be ignored.',
-                ],
+        $id                = $this->wizard->data()['project_id'];
+        $batches           = Project::find($id)->importBatches;
+        $field_fileName    = [
+            'name'  => 'source_file_name',
+            'label' => 'OR... <br>Link to New Google Spreadsheet',
+            'type'  => 'url',
+        ];
+        $field_type        = [
+            'name'    => 'import_type',
+            'label'   => 'Type of Import',
+            'type'    => 'radio',
+            'options' => [ // the key will be stored in the db, the value will be shown as label;
+                           0 => 'Full -- (Default) Empty cells will be deleted. Empty rows will be deleted, or deprecated if published.',
+                           1 => 'Sparse -- Non-destructive. Empty rows and cells will be ignored.',
+                           2 => 'Partial -- Empty Cells will be deleted. Missing rows will be ignored.',
             ],
         ];
+
+        if ($batches) {
+            $batches           = $batches->pluck('step_data', 'run_description')->mapWithKeys(function($item, $key) {
+                return [ $item['spreadsheet']['source_file_name'] => $key ];
+            })->sort()->toArray();
+            $field_sheetSelect = [
+                'name'        => 'source_file_select',
+                'label'       => 'Select a previous Google Spreadsheet',
+                'type'        => 'select2_from_array',
+                'options'     => $batches,
+                'allows_null' => true,
+            ];
+
+            return [ $field_sheetSelect, $field_fileName, $field_type ];
+        }
+
+        return [ $field_fileName, $field_type ];
     }
 
-    public function preProcess(Request $request, Wizard $wizard = null)
-    {
-
-    }
     public function process(Request $request): void
     {
         //check to see if we have a batch
@@ -70,7 +85,8 @@ class SetSpreadsheetStep extends Step
             throw new InvalidConfigurationException('The Google Spreadsheet Reader Service is not configured correctly');
         }
         $spread_worksheets = [];
-        $spread_sheet      = new GoogleSpreadsheet($request->source_file_name);
+        $selectedSheet = $request->source_file_select ?? $request->source_file_name;
+        $spread_sheet      = new GoogleSpreadsheet($selectedSheet);
         try {
             $spread_worksheets = $spread_sheet->getWorksheets()->toArray();
         }
