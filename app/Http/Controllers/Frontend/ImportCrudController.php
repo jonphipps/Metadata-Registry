@@ -176,6 +176,7 @@ class ImportCrudController extends CrudController
         }
 
         $this->setWizardData('batch_id', $batch->id);
+        $this->setWizardData('project_id', $project->id);
 
         if (method_exists($step, 'preProcess')) {
             $step->preProcess($request, $this->wizard);
