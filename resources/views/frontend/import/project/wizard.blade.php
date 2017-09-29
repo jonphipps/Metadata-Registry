@@ -62,13 +62,17 @@
                     <nav class="navbar btn-toolbar sw-toolbar sw-toolbar-bottom">
                         <div class="btn-group navbar-btn sw-btn-group-extra pull-right" role="group">
                             @unless($wizard->hasNext())
-                                <button class="btn btn-info">Finish</button>
+                                <a class="btn btn-info" href="{{ route('frontend.crud.projects.show', ['project' => $project->id]) }}" type="button">Finish</a>
                             @endunless
+                            @if ($wizard->hasNext())
                             <a href="{{ url($crud->route) }}" class="btn btn-default"><span class="fa fa-ban"></span>
                                 &nbsp;{{ trans('backpack::crud.cancel') }}</a>
+                            @endif
                         </div>
                         <div class="btn-group navbar-btn sw-btn-group pull-right" role="group">
+                            @if ($wizard->hasNext())
                             <a class="btn btn-default sw-btn-prev @unless($wizard->hasPrev()) disabled @endunless" href="{{ route('frontend.project.import', ['project' => $project->id, 'batch' => $batch->id, 'step' => $wizard->prevSlug()]) }}" type="button">Previous</a>
+                            @endif
                             @if ($wizard->hasNext())
                                 <button class="btn btn-default sw-btn-next">Next</button>
                             @endif
