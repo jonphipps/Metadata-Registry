@@ -181,8 +181,6 @@ return [
          * Package Service Providers...
          */
         Arcanedev\NoCaptcha\NoCaptchaServiceProvider::class,
-        Backpack\CRUD\CrudServiceProvider::class,
-        Barryvdh\Elfinder\ElfinderServiceProvider::class,
         Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
         Creativeorange\Gravatar\GravatarServiceProvider::class,
         Culpa\CulpaServiceProvider::class,
@@ -268,8 +266,6 @@ return [
         'Breadcrumbs'  => DaveJamesMiller\Breadcrumbs\Facade::class,
         'Bugsnag'      => Bugsnag\BugsnagLaravel\Facades\Bugsnag::class,
         'Captcha'      => Arcanedev\NoCaptcha\Facades\NoCaptcha::class,
-        'CRUD'         => Backpack\CRUD\CrudServiceProvider::class,
-        'Form'         => Collective\Html\FormFacade::class,
         'Gravatar'     => Creativeorange\Gravatar\Facades\Gravatar::class,
 
     ],
