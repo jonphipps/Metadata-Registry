@@ -70,6 +70,7 @@
         "jeroen-g/laravel-packager": "^1.5",
         "laracasts/matryoshka": "dev-master",
         "laravel/framework": "5.5.*",
+        "laravel/horizon": "^1.0",
         "laravel/socialite": "^3.0",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "5.5.*",
