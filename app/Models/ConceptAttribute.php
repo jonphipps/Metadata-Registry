@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Exceptions\DuplicatePrefLabelException;
 use App\Helpers\Macros\Traits\Languages;
 use App\Models\Traits\BelongsToConcept;
 use App\Models\Traits\BelongsToProfileProperty;
@@ -129,10 +130,35 @@ class ConceptAttribute extends Model
      * Create the event listeners for the saving and saved events
      * This lets us save revisions whenever a save is made, no matter the
      * http method.
+     *
+     * @throws \App\Exceptions\DuplicatePrefLabelException
      */
     protected static function boot()
     {
         parent::boot();
+
+        static::saving(function(self $attribute) {
+            //get the profileProperty and check if this is a skos:prefLabel
+            //TODO make this check and see if the property subclasses skos:prefLabel
+            if ($attribute->isPrefLabel()) {
+                //if it's a prefLabel, then lookup the label+language combination and eager load the related concepts
+                $vocabId = $attribute->concept->vocabulary_id;
+                $matchingAttributesCount = self::join(Concept::TABLE,
+                    ConceptAttribute::TABLE . '.concept_id','=', Concept::TABLE . '.id')
+                    ->where([
+                        [ 'object', '=', $attribute->object ],
+                        [ ConceptAttribute::TABLE . '.language', '=', $attribute->getAttributeFromArray('language') ],
+                        [ Concept::TABLE . '.vocabulary_id', '=', $vocabId ],
+                    ])
+                    ->count();
+                //check the vocabulary Ids and see if any of them are the same
+                //if they are, then throw a DuplicatePrefLabel exception
+                if($matchingAttributesCount){
+                    throw new DuplicatePrefLabelException();
+                }
+            }
+
+        });
 
         static::created(function(ConceptAttribute $attribute) {
             //make sure we don't keep making new reciprocals
@@ -185,6 +211,9 @@ class ConceptAttribute extends Model
     |--------------------------------------------------------------------------
     */
 
+    public function isPrefLabel(){
+        return $this->profile_property->uri === 'skos:prefLabel';
+    }
     /**
      * @param $vocabulary_id
      *

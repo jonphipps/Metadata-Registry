@@ -50,3 +50,10 @@ $factory->state(ConceptAttribute::class,
             'profile_property_id' => 35,
         ];
     });
+$factory->state(ConceptAttribute::class,
+    'prefLabel',
+    function() {
+        return [
+            'profile_property_id' => 45,
+        ];
+    });
