@@ -7,6 +7,7 @@ use App\Exceptions\DuplicatePrefLabelException;
 use App\Models\Concept;
 use App\Models\ConceptAttribute;
 use App\Models\ConceptAttributeHistory;
+use App\Models\Vocabulary;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Spatie\Snapshots\MatchesSnapshots;
 use Tests\TestCase;
@@ -50,10 +51,10 @@ class ImportErrorsTest extends TestCase
     /** @test not duplicate prefLabel */
     public function a_concept_can_have_the_same_preflabel_language_combination_as_another_concept_if_vocabs_are_different()
     {
-        $this->expectException(DuplicatePrefLabelException::class);
         $this->actingAs($this->admin);
+        $vocabulary = factory(Vocabulary::class)->create();
         $concept1 = factory(Concept::class)->create([ 'vocabulary_id' => 37]);
-        $concept2 = factory(Concept::class)->create([ 'vocabulary_id' => 37]);
+        $concept2 = factory(Concept::class)->create([ 'vocabulary_id' => $vocabulary->id]);
         /** @var ConceptAttribute $statement */
         $statement =
             factory(ConceptAttribute::class)->states('prefLabel')->create([
@@ -62,7 +63,7 @@ class ImportErrorsTest extends TestCase
                 'related_concept_id' => null,
                 'concept_id'      => $concept1->id,
             ]);
-        //then then a duplicate preflabel is added to the database
+        //then a duplicate preflabel is added to the database
         $statement2 =
             factory(ConceptAttribute::class)->states('prefLabel')->create([
                 'object'             => 'foobar',
@@ -70,7 +71,8 @@ class ImportErrorsTest extends TestCase
                 'related_concept_id' => null,
                 'concept_id' => $concept2->id,
             ]);
-        //we should see an exception thrown
+        //we should not see an exception thrown
+        $this->assertNotNull($statement2->id);
     }
 
     /** @test inverse */
