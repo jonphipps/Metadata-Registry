@@ -70,7 +70,15 @@
                 var $existingVal = $field.val();
 
                 if( $existingVal.length ){
-                    preparedDate = new Date($existingVal).format($customConfig.format);
+                    // Passing an ISO-8601 date string (YYYY-MM-DD) to the Date constructor results in
+                    // varying behavior across browsers. Splitting and passing in parts of the date
+                    // manually gives us more defined behavior.
+                    // See https://stackoverflow.com/questions/2587345/why-does-date-parse-give-incorrect-results
+                    var parts = $existingVal.split('-')
+                    var year = parts[0]
+                    var month = parts[1] - 1 // Date constructor expects a zero-indexed month
+                    var day = parts[2]
+                    preparedDate = new Date(year, month, day).format($customConfig.format);
                     $fake.val(preparedDate);
                     $picker.bootstrapDP('update', preparedDate);
                 }
