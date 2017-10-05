@@ -16,6 +16,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
+use MailThief\Message;
 
 class ImportVocabulary implements ShouldQueue
 {
@@ -32,11 +33,12 @@ class ImportVocabulary implements ShouldQueue
     private $resourceLang;
     /** @var array  */
     private $updatedStatements;
+    /** @var array  */
+    private $results;
 
     /**
      * Create a new job instance.
      *
-     * @param int $import
      */
     public function __construct(int $importId)
     {
@@ -112,7 +114,10 @@ class ImportVocabulary implements ShouldQueue
                         $this->resource->updateFromStatements($this->updatedStatements);
                     }
                     catch (Exception $e) {
-                        xdebug_break();
+                        //log the error
+                        $this->makeErrorLogEntry($row['*uri']['new value'], $e->getMessage());
+                        //cancel the transaction
+                        return false;
                     }
                 }
                 if ($dirty) {
@@ -138,7 +143,10 @@ class ImportVocabulary implements ShouldQueue
                     $this->UpdatePrefLabelId($resource);
                 }
                 catch (Exception $e) {
-                    xdebug_break();
+                    //log the error
+                    $this->makeErrorLogEntry($row['*uri'][ 'new value' ], $e->getMessage());
+                    //cancel the transaction
+                    return false;
                 }
 
                 $added++;
@@ -152,7 +160,8 @@ class ImportVocabulary implements ShouldQueue
             $total_processed++;
             $deleted++;
         }
-        $this->import->results = $timer->diff(new \DateTime())->format('%h hours; %i minutes; %s seconds');
+        $this->setResults('timer', $timer->diff(new \DateTime())->format('%h hours; %i minutes; %s seconds'));
+        $this->import->results = $this->results;
         $this->import->batch->increment('handled_count');
         $this->import->total_processed_count = $total_processed;
         $this->import->added_count           = $added;
@@ -257,5 +266,15 @@ class ImportVocabulary implements ShouldQueue
     private function isElementSet(): bool
     {
         return (bool) $this->import->schema_id;
+    }
+
+    private function setResults($element, $value)
+    {
+        $this->results[ $element ][] = $value;
+    }
+
+    private function makeErrorLogEntry($rowId, $message)
+    {
+        $this->setResults('errors', ['row'=> $rowId, 'message' =>$message]);
     }
 }

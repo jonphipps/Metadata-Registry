@@ -180,7 +180,7 @@ class ImportTest extends TestCase
         ];
         $changeset['update'][482]['*preferred label[0]_fr'] = [
             'language'     => 'fr',
-            'new value'    => 'foobar',
+            'new value'    => 'fubaré',
             'old value'    => 'vidéo',
             'property_id'  => '45',
             'statement_id' => 21439,
@@ -218,7 +218,7 @@ class ImportTest extends TestCase
         $this->assertSame(8, $concept->status_id);
         $this->assertSame(1, $concept->updated_user_id);
         //this is the add part
-        $element             = Concept::with('statements')->where('pref_label', 'foobar')->first();
+        $element             = Concept::with('statements')->where('pref_label', 'fubar')->first();
         $element->created_at = null;
         $element->updated_at = null;
         $element->statements->map(function($values) {

@@ -131,36 +131,23 @@ class ConceptAttribute extends Model
      * This lets us save revisions whenever a save is made, no matter the
      * http method.
      *
-     * @throws \App\Exceptions\DuplicatePrefLabelException
      */
     protected static function boot()
     {
         parent::boot();
 
-        static::saving(function(self $attribute) {
-            //get the profileProperty and check if this is a skos:prefLabel
-            //TODO make this check and see if the property subclasses skos:prefLabel
-            if ($attribute->isPrefLabel()) {
-                //if it's a prefLabel, then lookup the label+language combination and eager load the related concepts
-                $vocabId = $attribute->concept->vocabulary_id;
-                $matchingAttributesCount = self::join(Concept::TABLE,
-                    ConceptAttribute::TABLE . '.concept_id','=', Concept::TABLE . '.id')
-                    ->where([
-                        [ 'object', '=', $attribute->object ],
-                        [ ConceptAttribute::TABLE . '.language', '=', $attribute->getAttributeFromArray('language') ],
-                        [ Concept::TABLE . '.vocabulary_id', '=', $vocabId ],
-                    ])
-                    ->count();
-                //check the vocabulary Ids and see if any of them are the same
-                //if they are, then throw a DuplicatePrefLabel exception
-                if($matchingAttributesCount){
-                    throw new DuplicatePrefLabelException();
-                }
-            }
-
+        static::creating(function(self $attribute) {
+            self::checkForDuplicatePrefLabel($attribute);
         });
 
-        static::created(function(ConceptAttribute $attribute) {
+        static::updating(function(self $attribute) {
+            //make sure the update isn't part of a delete
+            if (! array_key_exists('deleted_by', $attribute->getDirty())) {
+                self::checkForDuplicatePrefLabel($attribute);
+            }
+        });
+
+        static::created(function(self $attribute) {
             //make sure we don't keep making new reciprocals
             if ($attribute->reciprocal_concept_property_id) {
                 return;
@@ -173,7 +160,7 @@ class ConceptAttribute extends Model
             }
         });
 
-        static::updated(function(ConceptAttribute $attribute) {
+        static::updated(function(self $attribute) {
             if (count($attribute->dirtyData) === 1) {
                 if ($attribute->isDirty('deleted_user_id') || $attribute->isDirty('deleted_by')) {
                     return;
@@ -194,7 +181,7 @@ class ConceptAttribute extends Model
             $attribute->createHistory('updated');
         });
 
-        static::deleted(function(ConceptAttribute $attribute) {
+        static::deleted(function(self $attribute) {
             $attribute->createHistory('deleted');
             if ($attribute->reciprocal_concept_property_id) {
                 $reciprocal = self::find($attribute->reciprocal_concept_property_id);
@@ -317,6 +304,39 @@ class ConceptAttribute extends Model
             'language'                       => null,
         ]);
         $this->update([ 'reciprocal_concept_property_id' => $attribute->id]);
+    }
+
+    /**
+     * @param ConceptAttribute $attribute
+     *
+     * @throws DuplicatePrefLabelException
+     * @throws \App\Exceptions\DuplicatePrefLabelException
+     */
+    private static function checkForDuplicatePrefLabel(self $attribute): void
+    {
+        //get the profileProperty and check if this is a skos:prefLabel
+        //TODO make this check and see if the property subclasses skos:prefLabel
+        if ($attribute->isPrefLabel()) {
+            //if it's a prefLabel, then lookup the label+language combination and eager load the related concepts
+            $vocabId                 = $attribute->concept->vocabulary_id;
+            $matchingAttributesCount = self::join(Concept::TABLE,
+                self::TABLE . '.concept_id',
+                '=',
+                Concept::TABLE . '.id')->where([
+                [ 'object', '=', $attribute->object ],
+                [ self::TABLE . '.language', '=', $attribute->getAttributeFromArray('language') ],
+                [ Concept::TABLE . '.vocabulary_id', '=', $vocabId ],
+            ])->count();
+            //check the vocabulary Ids and see if any of them are the same
+            //if they are, then throw a DuplicatePrefLabel exception
+            if ($matchingAttributesCount) {
+                throw new DuplicatePrefLabelException('The skos:prefLabel combination of "' .
+                    $attribute->object .
+                    '" and "' .
+                    $attribute->language .
+                    '" already exists in this vocabulary');
+            }
+        }
     }
 
     /*

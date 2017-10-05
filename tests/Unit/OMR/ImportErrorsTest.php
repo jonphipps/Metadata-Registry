@@ -58,7 +58,7 @@ class ImportErrorsTest extends TestCase
         /** @var ConceptAttribute $statement */
         $statement =
             factory(ConceptAttribute::class)->states('prefLabel')->create([
-                'object'             => 'foobar',
+                'object'             => 'forbar',
                 'language'           => 'en',
                 'related_concept_id' => null,
                 'concept_id'      => $concept1->id,
@@ -66,7 +66,7 @@ class ImportErrorsTest extends TestCase
         //then a duplicate preflabel is added to the database
         $statement2 =
             factory(ConceptAttribute::class)->states('prefLabel')->create([
-                'object'             => 'foobar',
+                'object'             => 'forbar',
                 'language'           => 'en',
                 'related_concept_id' => null,
                 'concept_id' => $concept2->id,
