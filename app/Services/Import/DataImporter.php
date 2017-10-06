@@ -5,6 +5,7 @@
 namespace App\Services\Import;
 
 use App\Exceptions\MissingRequiredAttributeException;
+use App\Exceptions\UnknownAttributeException;
 use App\Models\Concept;
 use App\Models\Element;
 use App\Models\Export;
@@ -250,6 +251,21 @@ class DataImporter
         })->map(function($column) use ($profile) {
             return $profile->getColumnMapFromHeader($column);
         })->keyBy('label');
+        if (count($newColumns)) {
+            if (count($newColumns) > 1) {
+                $unknown = 'columns: ';
+                foreach ($newColumns as $item) {
+                    $unknown .= '"' . $item['label'] . '", ';
+                }
+                $unknown = rtrim($unknown, ', ') . ' ...are';
+            } else {
+                $unknown = 'column: ';
+                foreach ($newColumns as $item) {
+                    $unknown .= '"' . $item['label'] . '" ...is';
+                }
+            }
+            throw new UnknownAttributeException('The ' . $unknown . ' unknown and need to be registered with the Profile');
+        }
 
         $missingRequired = collect($keys)->diff($columnHeaders)->filter(function($value, $key) {
             return $value !== ltrim($value, '*');

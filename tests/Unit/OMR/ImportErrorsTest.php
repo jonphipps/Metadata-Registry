@@ -5,6 +5,7 @@ namespace Tests\Unit\OMR;
 
 use App\Exceptions\DuplicatePrefLabelException;
 use App\Exceptions\MissingRequiredAttributeException;
+use App\Exceptions\UnknownAttributeException;
 use App\Models\Concept;
 use App\Models\ConceptAttribute;
 use App\Models\ConceptAttributeHistory;
@@ -99,4 +100,23 @@ class ImportErrorsTest extends TestCase
         //then i get an exception
     }
 
+    /** @test */
+    public function it_returns_an_error_if_there_are_unknown_attributes()
+    {
+        $this->expectException(UnknownAttributeException::class);
+        $this->artisan('db:seed', [ '--class' => 'RDAMediaTypeSeeder' ]);
+        //given a data set pulled from a worksheet
+        $data = collect($this->getVocabularyWorksheetData());
+        //remove the URI and status columns
+        $data   = $data->map(function($item, $key) {
+            $item[17]='foobar';
+            return $item;
+        });
+        $export = Export::findByExportFileName('RDAMediaType_en-fr_20170511T172922_569_0');
+        //and an export map
+        $importer = new DataImporter($data, $export);
+        //when i pass them to the importer
+        $changeSet = $importer->getChangeset();
+        //then i get an exception
+    }
 }
