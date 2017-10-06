@@ -4,6 +4,7 @@
 
 namespace App\Services\Import;
 
+use App\Exceptions\MissingRequiredAttributeException;
 use App\Models\Concept;
 use App\Models\Element;
 use App\Models\Export;
@@ -235,13 +236,14 @@ class DataImporter
      * @param Collection $columnHeaders
      *
      * @return Collection
+     * @throws \App\Exceptions\MissingRequiredAttributeException
      */
     public static function getColumnProfileMap(Export $export, Collection $columnHeaders): Collection
     {
-        $map     = $export->map;
-        $profile = $export->profile;
-        $p       = self::getHeaderFromMap($map)->keyBy('label');
-        $keys    = $p->keys()->toArray();
+        $map        = $export->map;
+        $profile    = $export->profile;
+        $mapHeaders = self::getHeaderFromMap($map)->keyBy('label');
+        $keys       = $mapHeaders->keys()->toArray();
         //get the map for all new columns
         $newColumns = $columnHeaders->reject(function($value, $key) use ($keys) {
             return in_array($value, $keys, false);
@@ -249,7 +251,25 @@ class DataImporter
             return $profile->getColumnMapFromHeader($column);
         })->keyBy('label');
 
-        return $p->merge($newColumns);
+        $missingRequired = collect($keys)->diff($columnHeaders)->filter(function($value, $key) {
+            return $value !== ltrim($value, '*');
+        });
+        if (count($missingRequired)) {
+            if (count($missingRequired) > 1) {
+                $missing = 'columns: ';
+                foreach ($missingRequired as $item) {
+                    $missing .= '"' . $item . '", ';}
+                $missing = rtrim($missing, ', ') . ' ...are';
+            } else {
+                $missing = 'column: ';
+                foreach ($missingRequired as $item) {
+                    $missing .= '"'.$item . '" ...is';
+                }
+            }
+            throw new MissingRequiredAttributeException('The required attribute '.$missing .' missing');
+        }
+
+        return $mapHeaders->merge($newColumns);
     }
 
     /**

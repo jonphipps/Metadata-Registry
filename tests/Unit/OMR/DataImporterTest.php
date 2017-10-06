@@ -10,10 +10,11 @@ use App\Services\Import\DataImporter;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Spatie\Snapshots\MatchesSnapshots;
 use Tests\TestCase;
+use Tests\Unit\Traits\UsesWorksheetData;
 
 class DataImporterTest extends TestCase
 {
-    use MatchesSnapshots;
+    use MatchesSnapshots, UsesWorksheetData;
     //use DatabaseTransactions;
 
     public function setUp()
@@ -298,7 +299,7 @@ class DataImporterTest extends TestCase
         //when i pass it to the MapHeader function
         /** @var Export $export */
         $export  = factory(Export::class)->make([ 'map' => $map, 'profile_id' => 2]);
-        $profile = DataImporter::getColumnProfileMap($export, collect([]));
+        $profile = DataImporter::getColumnProfileMap($export, collect([ "*preferred label[0]_en", "*preferred label[0]_fr", "*uri", "*status", ]));
         //then it returns a proper header/profile
         $this->assertMatchesSnapshot($profile->toArray());
     }
@@ -414,22 +415,6 @@ INSERT INTO `reg_export_history` (`id`, `created_at`, `updated_at`, `user_id`, `
 
 SQL;
 
-    }
-
-    /**
-     * @return \Illuminate\Support\Collection
-     */
-    private function getVocabularyWorksheetData()
-    {
-        return include __DIR__ . '/__snapshots__/GoogleSpreadsheetTest__it_retrieves_the_data_for_a_worksheet__1.php';
-    }
-
-    /**
-     * @return \Illuminate\Support\Collection
-     */
-    private function getElementSetWorksheetData()
-    {
-        return include __DIR__ . '/__snapshots__/GoogleSpreadsheetTest__it_retrieves_the_data_for_an_elementset_worksheet__1.php';
     }
 
 }
