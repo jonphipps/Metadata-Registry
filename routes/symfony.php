@@ -1,7 +1,7 @@
 <?php
 /** Created by PhpStorm,  User: jonphipps,  Date: 2017-01-08,  Time: 5:39 PM */
 
-use Tracy\Debugger;
+// use Tracy\Debugger;
 
 Route::group([ 'middleware' => 'symfony'],
     function () {
@@ -49,7 +49,7 @@ Route::group([ 'middleware' => 'symfony'],
                 $html = ob_get_clean();
 
                 //enable the Tracy debugger
-                Debugger::enable();
+                // Debugger::enable();
 
                 return $html === false ? '' :$html;
             })->where('all', '.*');
