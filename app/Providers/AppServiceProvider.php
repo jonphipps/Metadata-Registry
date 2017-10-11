@@ -12,11 +12,11 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Dusk\DuskServiceProvider;
 use Mpociot\LaravelTestFactoryHelper\TestFactoryHelperServiceProvider;
-use Orangehill\Iseed\IseedServiceProvider;
-use Recca0120\LaravelTracy\LaravelTracyServiceProvider;
-use Spatie\DbSnapshots\DbSnapshotsServiceProvider;
+// use Orangehill\Iseed\IseedServiceProvider;
+// use Recca0120\LaravelTracy\LaravelTracyServiceProvider;
+// use Spatie\DbSnapshots\DbSnapshotsServiceProvider;
 use Way\Generators\GeneratorsServiceProvider;
-use Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider;
+// use Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider;
 use function in_array;
 
 class AppServiceProvider extends ServiceProvider
@@ -102,14 +102,14 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(IdeHelperServiceProvider::class);
             $this->app->register(TestFactoryHelperServiceProvider::class);
             $this->app->register(GeneratorsServiceProvider::class);
-            $this->app->register(MigrationsGeneratorServiceProvider::class);
-            $this->app->register(IseedServiceProvider::class);
+            // $this->app->register(MigrationsGeneratorServiceProvider::class);
+            // $this->app->register(IseedServiceProvider::class);
             $this->app->register(DuskServiceProvider::class);
-            $this->app->register(DbSnapshotsServiceProvider::class);
+            // $this->app->register(DbSnapshotsServiceProvider::class);
             $this->app->register(\Backpack\Generators\GeneratorsServiceProvider::class);
         }
         if ( ! in_array($environment, [ 'production', 'testing' ], true)) {
-            $this->app->register(LaravelTracyServiceProvider::class);
+            // $this->app->register(LaravelTracyServiceProvider::class);
         }
         $this->app->bind('path.public',
             function() {
