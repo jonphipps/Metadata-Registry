@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f64676964ade865bb8fbfd7709fa8472",
+    "content-hash": "93ffc60070731257558694459947efcc",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -113,34 +113,39 @@
         },
         {
             "name": "arcanedev/no-captcha",
-            "version": "4.0.1",
+            "version": "5.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ARCANEDEV/noCAPTCHA.git",
-                "reference": "cd5c4fe01776b02feb32b6500b6c276439479c21"
+                "reference": "c02d7f1ef25d281f304b9af460a13f4601bbc44c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ARCANEDEV/noCAPTCHA/zipball/cd5c4fe01776b02feb32b6500b6c276439479c21",
-                "reference": "cd5c4fe01776b02feb32b6500b6c276439479c21",
+                "url": "https://api.github.com/repos/ARCANEDEV/noCAPTCHA/zipball/c02d7f1ef25d281f304b9af460a13f4601bbc44c",
+                "reference": "c02d7f1ef25d281f304b9af460a13f4601bbc44c",
                 "shasum": ""
             },
             "require": {
                 "arcanedev/support": "~4.0",
                 "ext-curl": "*",
                 "ext-json": "*",
-                "php": ">=5.6.4",
+                "php": ">=7.0",
                 "psr/http-message": "~1.0"
             },
             "require-dev": {
                 "arcanedev/laravel-html": "~5.0",
-                "phpunit/phpcov": "~3.0",
-                "phpunit/phpunit": "~5.0"
+                "phpunit/phpcov": "~4.0",
+                "phpunit/phpunit": "~6.0"
             },
             "type": "library",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "2.3-dev"
+                "laravel": {
+                    "providers": [
+                        "Arcanedev\\NoCaptcha\\NoCaptchaServiceProvider"
+                    ],
+                    "aliases": {
+                        "Captcha": "Arcanedev\\NoCaptcha\\Facades\\NoCaptcha"
+                    }
                 }
             },
             "autoload": {
@@ -170,7 +175,7 @@
                 "no-captcha",
                 "recaptcha"
             ],
-            "time": "2017-03-17T16:34:51+00:00"
+            "time": "2017-09-08T13:38:56+00:00"
         },
         {
             "name": "arcanedev/support",
@@ -607,7 +612,7 @@
         },
         {
             "name": "bpocallaghan/titan",
-            "version": "dev-master",
+            "version": "0.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bpocallaghan/titan.git",
@@ -11307,7 +11312,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "bpocallaghan/titan": 20,
         "laracasts/matryoshka": 20,
         "roave/security-advisories": 20
     },
