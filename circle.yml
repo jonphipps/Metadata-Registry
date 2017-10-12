@@ -37,6 +37,7 @@ general:
   artifacts:
     - "tests/Browser/screenshots"
     - "tests/Browser/console"
+    - "storage/logs"
 
 test:
   pre:
