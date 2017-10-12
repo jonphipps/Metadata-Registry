@@ -33,6 +33,11 @@ dependencies:
     - sudo chown ubuntu ~/.composer -R
     - composer install --prefer-dist --no-interaction
 
+general:
+  artifacts:
+    - "tests/Browser/screenshots"
+    - "tests/Browser/console"
+
 test:
   pre:
     - npm run production
