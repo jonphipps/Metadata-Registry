@@ -4,6 +4,7 @@
 
 namespace App\Services\Import;
 
+use App\Exceptions\DuplicateAttributesException;
 use App\Exceptions\MissingRequiredAttributeException;
 use App\Exceptions\UnknownAttributeException;
 use App\Models\Concept;
@@ -113,13 +114,15 @@ class DataImporter
                 $statementId = ( $map->get($column) !== 0 ) ? $map->get($column) : $column;
                 $statement   = $statementId ? collect($statementRow->pull($statementId)) : null;
 
+
                 return [
-                    'new value'    => $value,
+                    'new value'    => self::validateRequired($value, $column),
                     'old value'    => $statement ? $statement->get('old value') : null,
                     'statement_id' => $statementId,
                     'language'     => $columnMap[$column]['language'],
                     'property_id'  => $columnMap[$column]['id'],
                     'updated_at'   => $statement ? $statement->get('updated_at') : null,
+                    'required'     => $column[0] ==='*',
                 ];
             })->reject(function ($array) {
                 return empty($array['new value']) && empty($array['statement_id']); //remove all of the items that have been, and continue to be, empty
@@ -147,13 +150,14 @@ class DataImporter
                     $value = self::makeFqn($this->prefixes, $value);
                 }
 
-                return [
-                    'new value'    => $value,
+               return [
+                    'new value'    => self::validateRequired($value, $column),
                     'old value'    => null,
                     'statement_id' => null,
                     'language'     => $columnMap[ $column ]['language'],
                     'property_id'  => $columnMap[ $column ]['id'],
                     'updated_at'   => null,
+                    'required'     => $column[0] === '*',
                 ];
             })->reject(function($array) {
                 return empty($array['new value']); //remove all of the items that have been, and continue to be, empty
@@ -237,7 +241,9 @@ class DataImporter
      * @param Collection $columnHeaders
      *
      * @return Collection
-     * @throws \App\Exceptions\MissingRequiredAttributeException
+     * @throws DuplicateAttributesException
+     * @throws MissingRequiredAttributeException
+     * @throws UnknownAttributeException
      */
     public static function getColumnProfileMap(Export $export, Collection $columnHeaders): Collection
     {
@@ -251,6 +257,18 @@ class DataImporter
         })->map(function($column) use ($profile) {
             return $profile->getColumnMapFromHeader($column);
         })->keyBy('label');
+
+        //check for duplicate column headers
+        $headers = [];
+        foreach ($columnHeaders as $columnHeader) {
+            if (isset($headers[$columnHeader])) {
+                throw new DuplicateAttributesException('"' .$columnHeader .'" is a duplicate attribute column. Columns cannot be duplicated');
+            } else {
+                $headers[$columnHeader] = $columnHeader;
+            }
+        }
+
+        //check for unknown columns
         if (count($newColumns)) {
             if (count($newColumns) > 1) {
                 $unknown = 'columns: ';
@@ -267,6 +285,7 @@ class DataImporter
             throw new UnknownAttributeException('The ' . $unknown . ' unknown and need to be registered with the Profile');
         }
 
+        //check for missing required columns
         $missingRequired = collect($keys)->diff($columnHeaders)->filter(function($value, $key) {
             return $value !== ltrim($value, '*');
         });
@@ -350,6 +369,16 @@ class DataImporter
     }
 
     /**
+     * @param $message
+     *
+     * @return string
+     */
+    protected static function makeErrorMessage($message): string
+    {
+        return "[ERROR: $message]";
+    }
+
+    /**
      * @param array  $prefixes
      * @param string $uri
      *
@@ -385,6 +414,17 @@ class DataImporter
         }
 
         return $result;
+    }
+
+    /**
+     * @param $value
+     * @param $column
+     *
+     * @return string
+     */
+    private static function validateRequired($value, $column): string
+    {
+        return $column[0] === '*' && empty($value) ? self::makeErrorMessage('Empty required attribute') : $value;
     }
 
 }

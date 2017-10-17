@@ -11,6 +11,7 @@
         'language' => 'fr',
         'property_id' => '34',
         'updated_at' => NULL,
+        'required' => false,
       ),
       'ToolkitLabel_en' => 
       array (
@@ -20,6 +21,7 @@
         'language' => 'en',
         'property_id' => '61',
         'updated_at' => NULL,
+        'required' => false,
       ),
       'ToolkitLabel_fr' => 
       array (
@@ -29,6 +31,7 @@
         'language' => 'fr',
         'property_id' => '61',
         'updated_at' => NULL,
+        'required' => false,
       ),
     ),
   ),
@@ -59,6 +62,7 @@
         'language' => 'en',
         'property_id' => '45',
         'updated_at' => NULL,
+        'required' => true,
       ),
       '*preferred label[0]_fr' => 
       array (
@@ -68,6 +72,7 @@
         'language' => 'fr',
         'property_id' => '45',
         'updated_at' => NULL,
+        'required' => true,
       ),
       'ToolkitLabel_en' => 
       array (
@@ -77,6 +82,7 @@
         'language' => 'en',
         'property_id' => '61',
         'updated_at' => NULL,
+        'required' => false,
       ),
       'ToolkitLabel_fr' => 
       array (
@@ -86,6 +92,7 @@
         'language' => 'fr',
         'property_id' => '61',
         'updated_at' => NULL,
+        'required' => false,
       ),
       'definition[0]_en' => 
       array (
@@ -95,6 +102,7 @@
         'language' => 'en',
         'property_id' => '37',
         'updated_at' => NULL,
+        'required' => false,
       ),
       'definition[0]_fr' => 
       array (
@@ -104,6 +112,7 @@
         'language' => 'fr',
         'property_id' => '37',
         'updated_at' => NULL,
+        'required' => false,
       ),
       'ToolkitDefinition_en' => 
       array (
@@ -113,6 +122,7 @@
         'language' => 'en',
         'property_id' => '60',
         'updated_at' => NULL,
+        'required' => false,
       ),
       'ToolkitDefinition_fr' => 
       array (
@@ -122,6 +132,7 @@
         'language' => 'fr',
         'property_id' => '60',
         'updated_at' => NULL,
+        'required' => false,
       ),
       'scope note[0]_en' => 
       array (
@@ -131,6 +142,7 @@
         'language' => 'en',
         'property_id' => '47',
         'updated_at' => NULL,
+        'required' => false,
       ),
       'scope note[1]_en' => 
       array (
@@ -140,6 +152,7 @@
         'language' => 'en',
         'property_id' => '47',
         'updated_at' => NULL,
+        'required' => false,
       ),
       'scope note[0]_fr' => 
       array (
@@ -149,6 +162,7 @@
         'language' => 'fr',
         'property_id' => '47',
         'updated_at' => NULL,
+        'required' => false,
       ),
       'scope note[1]_fr' => 
       array (
@@ -158,6 +172,7 @@
         'language' => 'fr',
         'property_id' => '47',
         'updated_at' => NULL,
+        'required' => false,
       ),
       '*uri' => 
       array (
@@ -167,6 +182,7 @@
         'language' => '',
         'property_id' => '62',
         'updated_at' => NULL,
+        'required' => true,
       ),
       '*status' => 
       array (
@@ -176,6 +192,7 @@
         'language' => '',
         'property_id' => '59',
         'updated_at' => NULL,
+        'required' => true,
       ),
     ),
   ),

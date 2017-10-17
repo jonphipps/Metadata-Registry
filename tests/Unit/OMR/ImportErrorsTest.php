@@ -43,7 +43,7 @@ class ImportErrorsTest extends TestCase
                 'related_concept_id' => null,
                 'concept_id'      => $concept1->id,
             ]);
-        //then then a duplicate preflabel is added to the database
+        //then a duplicate preflabel is added to the database
         $statement2 =
             factory(ConceptAttribute::class)->states('prefLabel')->create([
                 'object'             => 'foobar',
@@ -81,7 +81,7 @@ class ImportErrorsTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_an_error_if_required_attributes_are_missing()
+    public function it_returns_an_error_if_required_attribute_columns_are_missing()
     {
         $this->expectException(MissingRequiredAttributeException::class);
         $this->artisan('db:seed', [ '--class' => 'RDAMediaTypeSeeder' ]);
@@ -101,15 +101,54 @@ class ImportErrorsTest extends TestCase
     }
 
     /** @test */
+    public function it_returns_an_error_if_individual_required_attribute_values_are_missing()
+    {
+        $this->artisan('db:seed', [ '--class' => 'RDAMediaTypeSeeder' ]);
+        //given a data set pulled from a worksheet
+        $data   = collect($this->getVocabularyWorksheetData());
+        //remove the status value from the last row
+        $foo = $data->pop();
+        $foo[16] = '';
+        $data->push($foo);
+        $export = Export::findByExportFileName('RDAMediaType_en-fr_20170511T172922_569_0');
+        //and an export map
+        $importer = new DataImporter($data, $export);
+        //when i pass them to the importer
+        $changeSet = $importer->getChangeset();
+        $this->assertSame($changeSet->get('add')->first()->get('*status')['new value'],
+            '[ERROR: Empty required attribute]');
+    }
+
+    /** @test */
     public function it_returns_an_error_if_there_are_unknown_attributes()
     {
         $this->expectException(UnknownAttributeException::class);
         $this->artisan('db:seed', [ '--class' => 'RDAMediaTypeSeeder' ]);
         //given a data set pulled from a worksheet
         $data = collect($this->getVocabularyWorksheetData());
-        //remove the URI and status columns
+        //add a foobar column
         $data   = $data->map(function($item, $key) {
             $item[17]='foobar';
+            return $item;
+        });
+        $export = Export::findByExportFileName('RDAMediaType_en-fr_20170511T172922_569_0');
+        //and an export map
+        $importer = new DataImporter($data, $export);
+        //when i pass them to the importer
+        $changeSet = $importer->getChangeset();
+        //then i get an exception
+    }
+
+    /** @test */
+    public function it_returns_an_error_if_there_are_duplicate_attributes()
+    {
+        $this->expectException(\App\Exceptions\DuplicateAttributesException::class);
+        $this->artisan('db:seed', [ '--class' => 'RDAMediaTypeSeeder' ]);
+        //given a data set pulled from a worksheet
+        $data = collect($this->getVocabularyWorksheetData());
+        //duplicate the reg_id column
+        $data   = $data->map(function($item, $key) {
+            $item[17]='reg_id';
             return $item;
         });
         $export = Export::findByExportFileName('RDAMediaType_en-fr_20170511T172922_569_0');

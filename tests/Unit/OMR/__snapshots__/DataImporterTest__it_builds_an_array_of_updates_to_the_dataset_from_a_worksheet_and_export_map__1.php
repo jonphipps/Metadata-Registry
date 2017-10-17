@@ -9,6 +9,7 @@
       'language' => 'fr',
       'property_id' => '34',
       'updated_at' => NULL,
+      'required' => false,
     ),
     'ToolkitLabel_en' => 
     array (
@@ -18,6 +19,7 @@
       'language' => 'en',
       'property_id' => '61',
       'updated_at' => NULL,
+      'required' => false,
     ),
     'ToolkitLabel_fr' => 
     array (
@@ -27,6 +29,7 @@
       'language' => 'fr',
       'property_id' => '61',
       'updated_at' => NULL,
+      'required' => false,
     ),
   ),
 );

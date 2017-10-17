@@ -9,6 +9,7 @@
       'language' => 'fr',
       'property_id' => '1',
       'updated_at' => NULL,
+      'required' => true,
     ),
     '*label_fr' => 
     array (
@@ -18,11 +19,12 @@
       'language' => 'fr',
       'property_id' => '2',
       'updated_at' => 
-      Carbon\Carbon::__set_state(array(
+      Illuminate\Support\Carbon::__set_state(array(
          'date' => '2016-02-17 10:14:07.000000',
          'timezone_type' => 3,
          'timezone' => 'UTC',
       )),
+      'required' => true,
     ),
     'lexicalAlias_en' => 
     array (
@@ -32,11 +34,12 @@
       'language' => 'en',
       'property_id' => '27',
       'updated_at' => 
-      Carbon\Carbon::__set_state(array(
+      Illuminate\Support\Carbon::__set_state(array(
          'date' => '2015-06-20 19:37:46.000000',
          'timezone_type' => 3,
          'timezone' => 'UTC',
       )),
+      'required' => false,
     ),
   ),
 );

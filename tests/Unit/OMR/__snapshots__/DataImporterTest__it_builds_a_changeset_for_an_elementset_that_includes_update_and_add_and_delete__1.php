@@ -11,6 +11,7 @@
         'language' => 'fr',
         'property_id' => '1',
         'updated_at' => NULL,
+        'required' => true,
       ),
       '*label_fr' => 
       array (
@@ -25,6 +26,7 @@
           'timezone_type' => 3,
           'timezone' => 'UTC',
         ),
+        'required' => true,
       ),
       'lexicalAlias_en' => 
       array (
@@ -39,6 +41,7 @@
           'timezone_type' => 3,
           'timezone' => 'UTC',
         ),
+        'required' => false,
       ),
     ),
   ),
@@ -75,6 +78,7 @@
         'language' => 'en',
         'property_id' => '1',
         'updated_at' => NULL,
+        'required' => true,
       ),
       '*name_fr' => 
       array (
@@ -84,6 +88,7 @@
         'language' => 'fr',
         'property_id' => '1',
         'updated_at' => NULL,
+        'required' => true,
       ),
       '*label_en' => 
       array (
@@ -93,6 +98,7 @@
         'language' => 'en',
         'property_id' => '2',
         'updated_at' => NULL,
+        'required' => true,
       ),
       '*label_fr' => 
       array (
@@ -102,6 +108,7 @@
         'language' => 'fr',
         'property_id' => '2',
         'updated_at' => NULL,
+        'required' => true,
       ),
       'lexicalAlias_en' => 
       array (
@@ -111,6 +118,7 @@
         'language' => 'en',
         'property_id' => '27',
         'updated_at' => NULL,
+        'required' => false,
       ),
       'description[0]_en' => 
       array (
@@ -120,6 +128,7 @@
         'language' => 'en',
         'property_id' => '3',
         'updated_at' => NULL,
+        'required' => false,
       ),
       'description[0]_fr' => 
       array (
@@ -129,6 +138,7 @@
         'language' => 'fr',
         'property_id' => '3',
         'updated_at' => NULL,
+        'required' => false,
       ),
       'note[0]_en' => 
       array (
@@ -138,6 +148,7 @@
         'language' => 'en',
         'property_id' => '7',
         'updated_at' => NULL,
+        'required' => false,
       ),
       'note[0]_fr' => 
       array (
@@ -147,6 +158,7 @@
         'language' => 'fr',
         'property_id' => '7',
         'updated_at' => NULL,
+        'required' => false,
       ),
       'ToolkitLabel_en' => 
       array (
@@ -156,6 +168,7 @@
         'language' => 'en',
         'property_id' => '32',
         'updated_at' => NULL,
+        'required' => false,
       ),
       'ToolkitLabel_fr' => 
       array (
@@ -165,6 +178,7 @@
         'language' => 'fr',
         'property_id' => '32',
         'updated_at' => NULL,
+        'required' => false,
       ),
       'ToolkitDefinition_en' => 
       array (
@@ -174,6 +188,7 @@
         'language' => 'en',
         'property_id' => '33',
         'updated_at' => NULL,
+        'required' => false,
       ),
       'ToolkitDefinition_fr' => 
       array (
@@ -183,6 +198,7 @@
         'language' => 'fr',
         'property_id' => '33',
         'updated_at' => NULL,
+        'required' => false,
       ),
       '*uri' => 
       array (
@@ -192,6 +208,7 @@
         'language' => '',
         'property_id' => '13',
         'updated_at' => NULL,
+        'required' => true,
       ),
       '*type' => 
       array (
@@ -201,6 +218,7 @@
         'language' => '',
         'property_id' => '4',
         'updated_at' => NULL,
+        'required' => true,
       ),
       'subClassOf[0]' => 
       array (
@@ -210,6 +228,7 @@
         'language' => '',
         'property_id' => '9',
         'updated_at' => NULL,
+        'required' => false,
       ),
       'subClassOf[1]' => 
       array (
@@ -219,6 +238,7 @@
         'language' => '',
         'property_id' => '9',
         'updated_at' => NULL,
+        'required' => false,
       ),
       '*status' => 
       array (
@@ -228,6 +248,7 @@
         'language' => '',
         'property_id' => '14',
         'updated_at' => NULL,
+        'required' => true,
       ),
       'instructionNumber' => 
       array (
@@ -237,6 +258,7 @@
         'language' => '',
         'property_id' => '31',
         'updated_at' => NULL,
+        'required' => false,
       ),
     ),
   ),

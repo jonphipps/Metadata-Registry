@@ -51,6 +51,11 @@ class DataImporterTest extends TestCase
         $importer = new DataImporter($data, $export);
         //when i pass them to the importer
         $changeSet = $importer->getChangeset();
+        //reject the errors
+        $updates = $changeSet->pull('update')->reject(function($value, $key){
+            return $value->get('*name_fr')['new value'] = '[ERROR: Empty required attribute]';
+        });
+        $changeSet->put('update', $updates);
         //then i get back a list of fields that will change, none in this case
         $this->assertEquals(0, $changeSet['update']->count());
         $this->assertEquals(0, $changeSet['delete']->count());
@@ -127,6 +132,11 @@ class DataImporterTest extends TestCase
         $importer = new DataImporter($data, $export);
         //when i pass them to the importer
         $changeSet = $importer->getChangeset();
+        //reject the errors
+        $updates = $changeSet->pull('update')->reject(function($value, $key) {
+            return $value->get('*name_fr')['new value'] === '[ERROR: Empty required attribute]';
+        });
+        $changeSet->put('update', $updates);
         //then i get back a list of fields that will change, none in this case
         $this->assertEquals(1, $changeSet['update']->count());
         $this->assertMatchesSnapshot($changeSet['update']->toArray());
@@ -233,6 +243,12 @@ class DataImporterTest extends TestCase
         $attachedImport = Import::find($import->id);
         //when we ask for the stats from the database
         $changeset = $attachedImport->instructions;
+        //reject the errors
+        $updates = collect($changeset['update']);
+        $updateArray = $updates->reject(function($value, $key) {
+            return $value['*name_fr']['new value'] === '[ERROR: Empty required attribute]';
+        })->toArray();
+        $changeset['update'] = $updateArray;
         $this->assertMatchesSnapshot($changeset);
     }
 
