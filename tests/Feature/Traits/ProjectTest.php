@@ -6,9 +6,16 @@ namespace Tests\Feature\Traits;
 
 use App\Models\Project;
 use Tests\Browser\Pages\ProjectPage;
+use Tests\BrowserKitTestCase;
+use Tests\TestCase;
 use Tests\Traits\TestData;
 
+/**
+ * @mixin BrowserKitTestCase;
+ * @mixin TestCase
+ */
 trait ProjectTest
+
 {
     /** @var ProjectPage  */
     protected $projectPage;
