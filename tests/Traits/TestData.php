@@ -24,6 +24,7 @@ trait TestData
         $testData['elementSet']['title']         = 'RDA Classes';
         $testData['elementSet']['importId']      = 451;
         $testData['import']['validSpreadsheetUri']    ='https://docs.google.com/spreadsheets/d/1WTxiOvHHUurz76NZ0WU_2GjjY4SG8Gzbg0vH8xwNz_I/edit#gid=0';
+        $testData['import']['validSpreadsheetName']    ='Registry tests';
 
         return $testData;
     }

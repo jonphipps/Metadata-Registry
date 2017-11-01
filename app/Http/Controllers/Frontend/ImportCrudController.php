@@ -190,7 +190,7 @@ class ImportCrudController extends CrudController
         $this->data['project'] = $project;
         $this->data['batch'] = $batch;
         $this->data['wizard_data'] = $this->wizard->data();
-        if (isset($this->wizard->data()[ $step->key ])){
+        if (isset( $this->wizard->data()[ $step->key ])){
             $data = $this->wizard->data()[ $step->key ];
             if ($step->key === 'spreadsheet') {
                 foreach ($data as $key => $datum) {

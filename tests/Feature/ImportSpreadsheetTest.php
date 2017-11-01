@@ -2,6 +2,8 @@
 
 namespace Tests\Unit;
 
+use App\Models\Batch;
+use App\Models\Import;
 use App\Models\Project;
 use Tests\Browser\Pages\ProjectPage;
 use Tests\BrowserKitTestCase;
@@ -35,8 +37,27 @@ class ImportSpreadsheetTest extends BrowserKitTestCase
         }
     }
 
+    public function testCreateAnImportBatchFromPrevious()
+    {
+        if (is_readable(base_path('client_secret.json'))) {
+            //given
+            $this->addPreviousBatchData();
+            $this->IAmTheProjectAdministrator();
+            $this->IAmOnTheProjectDashboard();
+            //when
+            $this->IPressTheAddImportButton();
+            //then
+            $this->IAmOnTheImportCreatePage();
+            $this->ISelectAProcessableURL();
+            $this->IPressTheNextButton();
+            $this->IAmOnTheWorksheetPage();
+            $this->ISeeANewBatchEntryInTheDatabase();
+        } else {
+            $this->assertTrue(true, 'no client secret file available');
+        }
+    }
 
-    protected function IAmOnTheProjectDashboard() {
+        protected function IAmOnTheProjectDashboard() {
 
         $this->IAmOnAProjectPage();
 
@@ -60,6 +81,12 @@ class ImportSpreadsheetTest extends BrowserKitTestCase
 
     }
 
+    protected function ISelectAProcessableURL() {
+
+        $this->select(TestData::getTestData()['import']['validSpreadsheetName'], 'source_file_name');
+
+    }
+
     protected function IPressTheNextButton() {
 
         $this->press('Next');
@@ -77,5 +104,20 @@ class ImportSpreadsheetTest extends BrowserKitTestCase
 
     }
 
-
+    protected function addPreviousBatchData()
+    {
+        $batch = factory(Batch::class)->create([
+            'project_id' => 177,
+            'step_data'  => json_decode('{
+                "lastProcessed": 2,
+                "batch_id": 1,
+                "spreadsheet": {
+                    "source_file_name": "https://docs.google.com/spreadsheets/d/15J2KPJE_omBMEiRbHEuzbXZ6EAI9WTrB0ZnUKdUFqgU/edit?ts=595a20e8#gid=0",
+                    "import_type": "0"
+                },
+                "title": "XLFilesVV"
+            }'),
+            'run_description' => 'XLFilesVV',
+        ]);
+    }
 }

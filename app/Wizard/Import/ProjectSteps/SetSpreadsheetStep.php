@@ -79,13 +79,17 @@ class SetSpreadsheetStep extends Step
 
     public function validate(Request $request): void
     {
+        $selectedSheet = $request->source_file_select ?? $request->source_file_name;
+        if ($selectedSheet <> $request->source_file_name) {
+            $request->merge([ 'source_file_name' => $request->source_file_select ]);
+        }
+
         //here we validate the input from the step
         Validator::make($request->all(), $this->rules($request))->validate();
         if ( ! is_readable(base_path('client_secret.json'))) {
             throw new InvalidConfigurationException('The Google Spreadsheet Reader Service is not configured correctly');
         }
         $spread_worksheets = [];
-        $selectedSheet = $request->source_file_select ?? $request->source_file_name;
         $spread_sheet      = new GoogleSpreadsheet($selectedSheet);
         try {
             $spread_worksheets = $spread_sheet->getWorksheets()->toArray();
