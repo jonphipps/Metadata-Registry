@@ -3,6 +3,7 @@
 
 namespace Tests\Unit\OMR;
 
+use App\Exceptions\DuplicateAttributesException;
 use App\Exceptions\DuplicatePrefLabelException;
 use App\Exceptions\MissingRequiredAttributeException;
 use App\Exceptions\UnknownAttributeException;
@@ -83,7 +84,6 @@ class ImportErrorsTest extends TestCase
     /** @test */
     public function it_returns_an_error_if_required_attribute_columns_are_missing()
     {
-        $this->expectException(MissingRequiredAttributeException::class);
         $this->artisan('db:seed', [ '--class' => 'RDAMediaTypeSeeder' ]);
         //given a data set pulled from a worksheet
         $data   = collect($this->getVocabularyWorksheetData());
@@ -97,7 +97,10 @@ class ImportErrorsTest extends TestCase
         $importer = new DataImporter($data, $export);
         //when i pass them to the importer
         $changeSet = $importer->getChangeset();
-        //then i get an exception
+        //then i get an error
+        $this->assertSame('The required attribute columns: "*uri", "*status" ...are missing',
+            $importer->getErrors()['fatal']);
+        $this->assertSame($changeSet->count(), 0);
     }
 
     /** @test */
@@ -122,7 +125,6 @@ class ImportErrorsTest extends TestCase
     /** @test */
     public function it_returns_an_error_if_there_are_unknown_attributes()
     {
-        $this->expectException(UnknownAttributeException::class);
         $this->artisan('db:seed', [ '--class' => 'RDAMediaTypeSeeder' ]);
         //given a data set pulled from a worksheet
         $data = collect($this->getVocabularyWorksheetData());
@@ -136,13 +138,15 @@ class ImportErrorsTest extends TestCase
         $importer = new DataImporter($data, $export);
         //when i pass them to the importer
         $changeSet = $importer->getChangeset();
-        //then i get an exception
+        //then i get an error
+        $this->assertSame('The column: "foobar" ...is unknown and need to be registered with the Profile',
+            $importer->getErrors()['fatal']);
+        $this->assertSame($changeSet->count(), 0);
     }
 
     /** @test */
     public function it_returns_an_error_if_there_are_duplicate_attributes()
     {
-        $this->expectException(\App\Exceptions\DuplicateAttributesException::class);
         $this->artisan('db:seed', [ '--class' => 'RDAMediaTypeSeeder' ]);
         //given a data set pulled from a worksheet
         $data = collect($this->getVocabularyWorksheetData());
@@ -156,6 +160,9 @@ class ImportErrorsTest extends TestCase
         $importer = new DataImporter($data, $export);
         //when i pass them to the importer
         $changeSet = $importer->getChangeset();
-        //then i get an exception
+        //then i get an error
+        $this->assertSame('"reg_id" is a duplicate attribute column. Columns cannot be duplicated',
+            $importer->getErrors()['fatal']);
+        $this->assertSame($changeSet->count(), 0);
     }
 }

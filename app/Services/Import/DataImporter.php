@@ -53,7 +53,7 @@ class DataImporter
     /** @var Collection $columnProfileMap */
     private $columnProfileMap;
 
-    public function __construct(collection $data, Export $export = null)
+    public function __construct(Collection $data, Export $export = null)
     {
         $this->data    = $data;
         $columnHeaders = collect($data[0]);
@@ -62,7 +62,22 @@ class DataImporter
         $this->export = $export;
         if ($export) {
             $this->rowMap     = self::getRowMap($export->map);
-            $this->columnProfileMap = self::getColumnProfileMap($export, $columnHeaders);
+            try {
+                $this->columnProfileMap = self::getColumnProfileMap($export, $columnHeaders);
+            }
+            //these are all fatal errors
+            catch (DuplicateAttributesException $e) {
+                $this->errors = collect([ 'fatal' => $e->getMessage() ]);
+                return;
+            }
+            catch (MissingRequiredAttributeException $e) {
+                $this->errors = collect([ 'fatal' => $e->getMessage() ]);
+                return;
+            }
+            catch (UnknownAttributeException $e) {
+                $this->errors = collect(['fatal' => $e->getMessage()]);
+                return;
+            }
             $this->addRows    = $this->getAddRows(); //only gets data rows with no row_id
             $this->updateRows = $this->getUpdateRows(); //gets data rows with matching map
             $this->deleteRows = $this->getDeleteRows(); //gets map rows with no matching row
@@ -77,7 +92,7 @@ class DataImporter
         $this->stats['deleted'] = $this->deleteRows === null ? 0 : $this->deleteRows->count();
         $this->stats['updated'] = $this->updateRows === null ? 0: $this->updateRows->count();
         $this->stats['added']   = $this->addRows === null ? 0: $this->addRows->count();
-        $this->stats['errors']   = $this->errors === null ? 0: $this->errors->count();
+        $this->stats['errors']  = $this->errors === null ? 0: $this->errors->count();
     }
 
     /**
@@ -104,6 +119,10 @@ class DataImporter
         $rowMap     = $this->rowMap;
         $columnMap  = $this->columnProfileMap;
         $statements = $this->statements;
+
+        if ($rows === null) {
+            return collect([]);
+        }
 
         $changes = $rows->map(function (Collection $row, $key) use ($rowMap, $columnMap, $statements) {
             $map          = $rowMap[$key];
@@ -316,6 +335,14 @@ class DataImporter
         return $this->rows->reject(function ($row) {
             return empty($row['reg_id']);
         })->keyBy('reg_id');
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getErrors(): Collection
+    {
+        return $this->errors;
     }
 
     /**
