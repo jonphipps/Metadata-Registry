@@ -180,13 +180,11 @@ return [
       /*
          * Package Service Providers...
          */
-        Arcanedev\NoCaptcha\NoCaptchaServiceProvider::class,
         Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
         Creativeorange\Gravatar\GravatarServiceProvider::class,
         Culpa\CulpaServiceProvider::class,
         DaveJamesMiller\Breadcrumbs\ServiceProvider::class,
         Laracasts\Matryoshka\MatryoshkaServiceProvider::class,
-        Prettus\Repository\Providers\RepositoryServiceProvider::class,
         Prologue\Alerts\AlertsServiceProvider::class,
         Thedevsaddam\LaravelSchema\LaravelSchemaServiceProvider::class,
 
@@ -265,7 +263,6 @@ return [
         'Alert'        => Prologue\Alerts\Facades\Alert::class,
         'Breadcrumbs'  => DaveJamesMiller\Breadcrumbs\Facade::class,
         'Bugsnag'      => Bugsnag\BugsnagLaravel\Facades\Bugsnag::class,
-        'Captcha'      => Arcanedev\NoCaptcha\Facades\NoCaptcha::class,
         'Gravatar'     => Creativeorange\Gravatar\Facades\Gravatar::class,
 
     ],
