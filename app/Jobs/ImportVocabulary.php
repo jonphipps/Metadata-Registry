@@ -39,6 +39,7 @@ class ImportVocabulary implements ShouldQueue
     /**
      * Create a new job instance.
      *
+     * @param int $importId
      */
     public function __construct(int $importId)
     {
