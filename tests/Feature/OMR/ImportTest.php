@@ -11,15 +11,17 @@ use App\Models\ElementAttribute;
 use App\Models\Export;
 use App\Models\Import;
 use App\Models\Project;
+use App\Services\Import\DataImporter;
 use Carbon\Carbon;
 use Spatie\Snapshots\MatchesSnapshots;
 use Tests\TestCase;
 use function factory;
+use Tests\Unit\Traits\UsesWorksheetData;
 
 class ImportTest extends TestCase
 {
     //use DatabaseTransactions;
-    use MatchesSnapshots;
+    use MatchesSnapshots, UsesWorksheetData;
 
     public function setUp()
     {
