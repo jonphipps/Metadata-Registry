@@ -41,6 +41,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int|null $export_id
  * @property int|null $token
  * @property array $instructions
+ * @property mixed $errors
  * @property-read \App\Models\Access\User\User|null $User
  * @property-read \App\Models\Batch|null $batch
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConceptAttributeHistory[] $concept_history
@@ -61,6 +62,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereDeletedCount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereErrorCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereErrors($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereExportId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereFileName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereFileType($value)
