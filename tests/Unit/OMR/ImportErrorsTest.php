@@ -120,6 +120,27 @@ class ImportErrorsTest extends TestCase
         $changeSet = $importer->getChangeset();
         $this->assertSame($changeSet->get('add')->first()->get('*status')['new value'],
             '[ERROR: Empty required attribute]');
+        $errors = collect([ 'new row: 0','*status','[ERROR: Empty required attribute]','fatal']);
+        $this->assertEquals($errors, $importer->getErrors()['row'][0]);
+    }
+
+    /** @test */
+    public function it_returns_an_error_if_individual_attribute_values_contain_an_unknown_prefix()
+    {
+        $this->artisan('db:seed', [ '--class' => 'RDAMediaTypeSeeder' ]);
+        //given a data set pulled from a worksheet
+        $data   = collect($this->getVocabularyWorksheetData());
+        //remove the status value from the last row
+        $foo = $data->pop();
+        $foo[15] = 'foo:1009';
+        $data->push($foo);
+        $export = Export::findByExportFileName('RDAMediaType_en-fr_20170511T172922_569_0');
+        //and an export map
+        $importer = new DataImporter($data, $export);
+        //when i pass them to the importer
+        $changeSet = $importer->getChangeset();
+        $errors = collect([ 'new row: 0','*uri','[ERROR: \'foo\' is an unregistered prefix and cannot be expanded to form a full URI]','warning']);
+        $this->assertEquals($errors, $importer->getErrors()['row'][0]);
     }
 
     /** @test */

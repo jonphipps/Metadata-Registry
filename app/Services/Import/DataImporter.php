@@ -19,39 +19,32 @@ class DataImporter
 {
     /** @var String $exportName */
     private $exportName;
-
     /** @var Collection $data */
     private $data;
-
     /** @var Export */
     private $export;
-
     /** @var Collection $rowMap */
     private $rowMap;
-
     /** @var Collection $rows */
     private $rows;
-
     /** @var Collection $addRows */
     private $addRows;
-
     /** @var Collection $updateRows */
     private $updateRows;
-
     /** @var Collection $updateRows */
     private $deleteRows;
-
     /** @var Collection $errors */
     private $errors;
-
     /** @var DBCollection $statements */
     private $statements;
-
-    /** @var array $prefixes */
     private $prefixes = [];
     private $stats = [];
     /** @var Collection $columnProfileMap */
     private $columnProfileMap;
+    /** @var string */
+    private $currentColumnName;
+    /** @var string */
+    private $currentRowName;
 
     public function __construct(Collection $data, Export $export = null)
     {
@@ -78,6 +71,8 @@ class DataImporter
                 $this->errors = collect(['fatal' => $e->getMessage()]);
                 return;
             }
+            $this->errors = new Collection();
+            $this->errors->put('row', collect());
             $this->addRows    = $this->getAddRows(); //only gets data rows with no row_id
             $this->updateRows = $this->getUpdateRows(); //gets data rows with matching map
             $this->deleteRows = $this->getDeleteRows(); //gets map rows with no matching row
@@ -127,15 +122,16 @@ class DataImporter
         $changes = $rows->map(function (Collection $row, $key) use ($rowMap, $columnMap, $statements) {
             $map          = $rowMap[$key];
             $statementRow = $statements[$key];
+            $this->currentRowName = 'reg_id: ' . $key;
 
             return $row->map(function ($value, $column) use ($map, $columnMap, $statementRow) {
                 // this is to correct for export maps that have '0' for a statement cell reference, but do have data in the statement row
                 $statementId = ( $map->get($column) !== 0 ) ? $map->get($column) : $column;
                 $statement   = $statementId ? collect($statementRow->pull($statementId)) : null;
-
+                $this->currentColumnName = $column;
 
                 return [
-                    'new value'    => self::validateRequired($value, $column),
+                    'new value'    => $this->validateRequired($value, $column),
                     'old value'    => $statement ? $statement->get('old value') : null,
                     'statement_id' => $statementId,
                     'language'     => $columnMap[$column]['language'],
@@ -152,7 +148,7 @@ class DataImporter
             })->reject(function ($array) {
                 //reset the URI to be fully qualified
                 if ($array['statement_id'] === '*uri') {
-                    $array['new value'] = self::makeFqn($this->prefixes, $array['new value']);
+                    $array['new value'] = $this->makeFqn($this->prefixes, $array['new value']);
                 }
 
                 return $array['new value'] === $array['old value']; //reject if the URIs match
@@ -162,21 +158,23 @@ class DataImporter
         });
 
         $rows      = $this->addRows;
-        $additions = $rows->map(function(Collection $row) use ($columnMap) {
+        $additions = $rows->map(function(Collection $row, $key) use ($columnMap) {
+            $this->currentRowName = 'new row: ' . $key;
             return $row->map(function($value, $column) use ($columnMap) {
+                $this->currentColumnName = $column;
                 //reset the URI to be fully qualified
                 if ($column === '*uri') {
-                    $value = self::makeFqn($this->prefixes, $value);
+                    $value = $this->makeFqn($this->prefixes, $value);
                 }
 
                return [
-                    'new value'    => self::validateRequired($value, $column),
-                    'old value'    => null,
-                    'statement_id' => null,
-                    'language'     => $columnMap[ $column ]['language'],
-                    'property_id'  => $columnMap[ $column ]['id'],
-                    'updated_at'   => null,
-                    'required'     => $column[0] === '*',
+                   'new value'    => $this->validateRequired($value, $column),
+                   'old value'    => null,
+                   'statement_id' => null,
+                   'language'     => $columnMap[ $column ]['language'],
+                   'property_id'  => $columnMap[ $column ]['id'],
+                   'updated_at'   => null,
+                   'required'     => $column[0] === '*',
                 ];
             })->reject(function($array) {
                 return empty($array['new value']); //remove all of the items that have been, and continue to be, empty
@@ -406,12 +404,23 @@ class DataImporter
     }
 
     /**
+     * @param $value
+     * @param $column
+     * @param $row
+     * @param $level
+     */
+    private function logRowError($value, $column, $row, $level): void
+    {
+        $this->errors->get('row')->push(collect([ $row, $column, $value, $level]));
+    }
+
+    /**
      * @param array  $prefixes
      * @param string $uri
      *
      * @return string
      */
-    private static function makeFqn($prefixes, $uri): string
+    private function makeFqn($prefixes, $uri): string
     {
         $result = $uri;
         foreach ($prefixes as $prefix => $fullUri) {
@@ -419,6 +428,11 @@ class DataImporter
             if ($result !== $uri) {
                 break;
             }
+        }
+        if ($uri === $result && strpos($uri, ':') && !strpos($uri,'://')){
+            //we have an unregistered prefix
+            $prefix = str_before($uri, ':');
+            $this->logRowError(self::makeErrorMessage("'$prefix' is an unregistered prefix and cannot be expanded to form a full URI"), $this->currentColumnName, $this->currentRowName,'warning');
         }
 
         return $result;
@@ -444,14 +458,21 @@ class DataImporter
     }
 
     /**
-     * @param $value
-     * @param $column
+     * @param          $value
+     * @param          $column
      *
      * @return string
      */
-    private static function validateRequired($value, $column): string
+    private function validateRequired($value, $column): string
     {
-        return $column[0] === '*' && empty($value) ? self::makeErrorMessage('Empty required attribute') : $value;
+        if (empty($value) && $column[0] === '*') {
+            $value = self::makeErrorMessage('Empty required attribute');
+            $this->logRowError($value, $column, $this->currentRowName, 'fatal');
+        }
+
+        return $value;
     }
+
+
 
 }
