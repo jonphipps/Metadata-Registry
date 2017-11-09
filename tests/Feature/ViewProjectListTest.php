@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Feature;
 
 use Tests\BrowserKitTestCase;
 use Tests\Feature\Traits\Authorize;
