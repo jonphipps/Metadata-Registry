@@ -32,14 +32,14 @@ class DisplayResultsStep extends Step
         $imports = $request->batch->imports;
         $data = [];
         foreach ($imports as $import) {
-            $results['results']   = $import->results;
-            $results['worksheet'] = $import->source_file_name;
-            $results['processed'] = $import->total_processed_count;
-            $results['updated']   = $import->updated_count;
-            $results['added']     = $import->added_count;
-            $results['deleted']   = $import->deleted_count;
-            $results['errors']    = $import->error_count;
-            $data[]               = $results;
+            $results['results']       = $import->results;
+            $results['worksheet']     = $import->source_file_name;
+            $results['processed']     = $import->total_processed_count;
+            $results['updated']       = $import->updated_count;
+            $results['added']         = $import->added_count;
+            $results['deleted']       = $import->deleted_count;
+            $results['errors']        = $import->error_count;
+            $data[]                   = $results;
         }
         $wizardData =   $wizard->data();
         $wizardData['results'] = $data;
