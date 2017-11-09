@@ -12,8 +12,10 @@ class ExampleTest extends DuskTestCase
      * A basic browser test example.
      *
      * @return void
+     * @throws \Exception
+     * @throws \Throwable
      */
-    public function testBasicExample()
+    public function testBasicExample(): void
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/')

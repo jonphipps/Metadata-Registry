@@ -12,10 +12,13 @@ use Tests\DuskTestCase;
 class GuestTest extends DuskTestCase
 {
     use TestData;
+
     /**
      * A Dusk test example.
      *
      * @return void
+     * @throws \Exception
+     * @throws \Throwable
      */
     public function testHappyPath()
     {
