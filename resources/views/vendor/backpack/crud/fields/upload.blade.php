@@ -4,9 +4,15 @@
     @include('crud::inc.field_translatable_icon')
 
 	{{-- Show the file name and a "Clear" button on EDIT form. --}}
-    @if (isset($field['value']) && $field['value']!=null)
+    @if (!empty($field['value']))
     <div class="well well-sm">
-    	<a target="_blank" href="{{ isset($field['disk'])?asset(\Storage::disk($field['disk'])->url($field['value'])):asset($field['value']) }}">{{ $field['value'] }}</a>
+        @if (isset($field['disk']))
+            <a target="_blank" href="{{ (asset(\Storage::disk($field['disk'])->url(array_get($field, 'prefix', '').$field['value']))) }}">
+        @else
+            <a target="_blank" href="{{ (asset(array_get($field, 'prefix', '').$field['value'])) }}">
+        @endif
+            {{ $field['value'] }}
+        </a>
     	<a id="{{ $field['name'] }}_file_clear_button" href="#" class="btn btn-default btn-xs pull-right" title="Clear file"><i class="fa fa-remove"></i></a>
     	<div class="clearfix"></div>
     </div>

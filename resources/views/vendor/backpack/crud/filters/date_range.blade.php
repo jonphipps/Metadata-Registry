@@ -70,7 +70,8 @@
 				};
 				var value = JSON.stringify(dates);
   			} else {
-  				var value = null;
+  				//this change to empty string,because addOrUpdateUriParameter method just judgment string
+  				var value = '';
   			}
 			var parameter = '{{ $filter->name }}';
 
@@ -132,15 +133,14 @@
 
 			$('li[filter-name={{ $filter->name }}]').on('filter:clear', function(e) {
 				// console.log('daterangepicker filter cleared');
+				//if triggered by remove filters click just remove active class,no need to send ajax
 				$('li[filter-name={{ $filter->name }}]').removeClass('active');
-				applyDateRangeFilter(null, null);
 			});
 
 			// datepicker clear button
 			$(".daterangepicker-{{ str_slug($filter->name) }}-clear-button").click(function(e) {
 				e.preventDefault();
-
-				$('li[filter-name={{ $filter->name }}]').trigger('filter:clear');
+				applyDateRangeFilter(null, null);
 			})
 		});
   </script>

@@ -86,12 +86,14 @@
 
         $.each(errors, function(property, messages){
 
-            var field = $('[name="' + property + '[]"]').length ?
-                        $('[name="' + property + '[]"]') :
-                        $('[name="' + property + '"]'),
-                container = field.parents('.form-group');
+            var normalizedProperty = property.split('.').map(function(item, index){
+                    return index === 0 ? item : '['+item+']';
+                }).join('');
 
-            console.log(field);
+            var field = $('[name="' + normalizedProperty + '[]"]').length ?
+                        $('[name="' + normalizedProperty + '[]"]') :
+                        $('[name="' + normalizedProperty + '"]'),
+                        container = field.parents('.form-group');
 
             container.addClass('has-error');
 

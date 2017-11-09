@@ -5,7 +5,7 @@
       target="_blank"
     >
       <img
-        src="{{ asset($entry->{$column['name']}) }}"
+        src="{{ asset( (isset($column['prefix']) ? $column['prefix'] : '') . $entry->{$column['name']}) }}"
         style="
           max-height: {{ isset($column['height']) ? $column['height'] : "25px" }};
           width: {{ isset($column['width']) ? $column['width'] : "auto" }};

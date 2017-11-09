@@ -6,7 +6,17 @@
     <!-- Wrap the image or canvas element with a block element (container) -->
     <div class="row">
         <div class="col-sm-6" style="margin-bottom: 20px;">
-            <img id="mainImage" src="{{ isset($field['src']) ? $entry->find($entry->id)->{$field['src']}() : (isset($field['value']) ? $field['value'] : (isset($field['default']) ? $field['default'] : '' )) }}">
+            @if(!is_null(old($field['name'])))
+                <img id="mainImage" src="{{ old($field['name']) }}">
+            @elseif(isset($field['src']))
+                <img id="mainImage" src="{{ $entry->find($entry->id)->{$field['src']}() }}">
+            @elseif(isset($field['value']))
+                <img id="mainImage" src="{{ $field['value'] }}">
+            @elseif(isset($field['default']))
+                <img id="mainImage" src="{{ $field['default'] }}">
+            @else
+                <img id="mainImage" src="">
+            @endif
         </div>
         @if(isset($field['crop']) && $field['crop'])
         <div class="col-sm-3">

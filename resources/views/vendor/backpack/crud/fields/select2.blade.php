@@ -14,13 +14,13 @@
         @endif
 
             @if (isset($field['model']))
-                @foreach ($field['model']::all() as $connected_entity_entry)
-                    <option value="{{ $connected_entity_entry->getKey() }}"
-                        @if ( ( old($field['name']) && old($field['name']) == $connected_entity_entry->getKey() ) || (isset($field['value']) && $connected_entity_entry->getKey()==$field['value']))
-                             selected
-                        @endif
-                    >{{ $connected_entity_entry->{$field['attribute']} }}</option>
-                @endforeach
+            @foreach ($field['model']::all() as $connected_entity_entry)
+                @if(old($field['name']) == $connected_entity_entry->getKey() || (is_null(old($field['name'])) && isset($field['value']) && $field['value'] == $connected_entity_entry->getKey()))
+                    <option value="{{ $connected_entity_entry->getKey() }}" selected>{{ $connected_entity_entry->{$field['attribute']} }}</option>
+                @else
+                    <option value="{{ $connected_entity_entry->getKey() }}">{{ $connected_entity_entry->{$field['attribute']} }}</option>
+                @endif
+            @endforeach
             @endif
     </select>
 

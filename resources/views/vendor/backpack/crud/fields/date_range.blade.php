@@ -3,17 +3,24 @@
 <?php
     // if the column has been cast to Carbon or Date (using attribute casting)
     // get the value as a date string
-    if ( isset($entry) && ($entry->{$field['start_name']} instanceof \Carbon\Carbon || $entry->{$field['start_name']} instanceof \Jenssegers\Date\Date) ) {
-        $start_name = $entry->{$field['start_name']}->format( 'Y-m-d H:i:s' );
-    } else {
-        $start_name = null;
+    function formatDate($entry, $dateFieldName)
+    {
+        $formattedDate = null;
+        if (isset($entry) && !empty($entry->{$dateFieldName})) {
+            $dateField = $entry->{$dateFieldName};
+            if ($dateField instanceof \Carbon\Carbon || $dateField instanceof \Jenssegers\Date\Date) {
+                $formattedDate = $dateField->format('Y-m-d H:i:s');
+            } else {
+                $formattedDate = date('Y-m-d H:i:s', strtotime($entry->{$dateFieldName}));
+            }
+        }
+        return $formattedDate;
     }
 
-    //Do the same as the above but for the range end field
-    if ( isset($entry) && ($entry->{$field['end_name']} instanceof \Carbon\Carbon || $entry->{$field['end_name']} instanceof \Jenssegers\Date\Date) ) {
-        $end_name = $entry->{$field['end_name']}->format( 'Y-m-d H:i:s' );
-    } else {
-        $end_name = null;
+    if (isset($entry))
+    {
+        $start_name = formatDate($entry, $field['start_name']);
+        $end_name = formatDate($entry, $field['end_name']);
     }
 ?>
 
