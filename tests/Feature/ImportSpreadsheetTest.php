@@ -3,13 +3,8 @@
 namespace Tests\Feature;
 
 use App\Models\Batch;
-use App\Models\Import;
-use App\Models\Project;
-use Tests\Browser\Pages\ProjectPage;
 use Tests\BrowserKitTestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Tests\Feature\Traits\Authorize;
 use Tests\Feature\Traits\ProjectTest;
 use Tests\Traits\TestData;
 
