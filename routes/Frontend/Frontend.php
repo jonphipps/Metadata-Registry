@@ -11,6 +11,7 @@ use App\Models\Element;
 use App\Models\ElementAttribute;
 use App\Models\ElementAttributeHistory;
 use App\Models\Import;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'FrontendController@index')->name('index');
 Route::get('macros', 'FrontendController@macros')->name('macros');

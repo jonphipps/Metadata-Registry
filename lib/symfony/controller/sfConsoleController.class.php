@@ -14,7 +14,7 @@
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @version    SVN: $Id: sfConsoleController.class.php 210 2007-03-01 23:59:16Z jphipps $
  */
-class sfConsoleController extends sfController
+class sfConsoleController extends \sfController
 {
   /**
    * Dispatches a request.

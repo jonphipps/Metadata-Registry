@@ -179,7 +179,7 @@ abstract class Lob {
             $this->setInputFile($file);
         }
         if (!$this->inFile) {
-            throw Exception('No file specified for read.');
+            throw new Exception('No file specified for read.');
         }        
         $data = @file_get_contents($this->inFile);
         if ($data === false) {

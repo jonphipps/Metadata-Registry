@@ -179,7 +179,7 @@ class sfBrowser
     }
     $retval = ob_get_clean();
 
-    if ($this->currentException instanceof sfStopException)
+    if ($this->currentException instanceof \sfStopException)
     {
       $this->currentException = null;
     }

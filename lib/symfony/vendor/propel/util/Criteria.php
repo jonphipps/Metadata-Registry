@@ -1378,7 +1378,7 @@ class Criterion  {
 	 * Get the list of clauses in this Criterion.
 	 * @return     array
 	 */
-	private function getClauses()
+	public function getClauses()
 	{
 		return $this->clauses;
 	}

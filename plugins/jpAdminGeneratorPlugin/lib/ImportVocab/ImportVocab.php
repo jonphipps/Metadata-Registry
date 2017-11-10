@@ -430,14 +430,17 @@ class ImportVocab
                 //usesameasformatch is set then update the URIS
                 if ($this->useSameAsForMatching) {
                     //lookup URI using sameas value
+                    /** @var \SchemaPropertyElement $subproperty */
                     $subproperty = \SchemaPropertyElementPeer::lookupElement('',
                                                                              self::OWL_SAMEAS_PROPERTY_ID,
                                                                              $property->getParentUri());
                     if ($subproperty) {
                         //get the uri of the parent property
+                        /** @var \SchemaPropertyElement $subproperty */
                         $parentProperty = $subproperty->getSchemaPropertyRelatedBySchemaPropertyId();
                     }
                 } else {
+                    /** @var \SchemaProperty $parentProperty */
                     $parentProperty = \SchemaPropertyPeer::retrieveByUri($property->getParentUri());
                 }
                 if ($parentProperty) {

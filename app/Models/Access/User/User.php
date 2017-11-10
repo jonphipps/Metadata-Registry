@@ -62,7 +62,7 @@ use Illuminate\Notifications\Notifiable;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vocabulary[] $vocabularies
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\User\User active($status = true)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\User\User confirmed($confirmed = true)
- * @method static bool|null forceDelete()
+ * @method  bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Access\User\User onlyTrashed()
  * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\User\User whereConfirmationCode($value)

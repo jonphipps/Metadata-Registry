@@ -18,7 +18,7 @@
  * @author     Sean Kerr <sean@code-box.org>
  * @version    SVN: $Id: sfWebController.class.php 16348 2009-03-16 17:03:35Z fabien $
  */
-abstract class sfWebController extends sfController
+abstract class sfWebController extends \sfController
 {
 
   /**

@@ -373,7 +373,8 @@ abstract class sfController
       $this->controllerExists($moduleName, $controllerName, $extension, true);
     }
 
-    $class = $this->controllerClasses[$moduleName.'_'.$controllerName.'_'.$classSuffix];
+      /** @var sfController $class */
+      $class = $this->controllerClasses[ $moduleName.'_'.$controllerName.'_'.$classSuffix];
 
     // fix for same name classes
     $moduleClass = $moduleName.'_'.$class;

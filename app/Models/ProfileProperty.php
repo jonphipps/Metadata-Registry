@@ -56,7 +56,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read mixed $default_language
  * @property-read \App\Models\Profile $profile
  * @property-read \App\Models\Access\User\User|null $updater
- * @method static bool|null forceDelete()
+ * @method bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ProfileProperty onlyTrashed()
  * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProfileProperty whereComment($value)

@@ -3,6 +3,9 @@
 /**
  * All route names are prefixed with 'admin.access'.
  */
+
+use Illuminate\Support\Facades\Route;
+
 Route::group([
     'prefix'     => 'access',
     'as'         => 'access.',

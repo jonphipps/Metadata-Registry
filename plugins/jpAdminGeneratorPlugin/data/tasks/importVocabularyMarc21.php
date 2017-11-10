@@ -565,6 +565,7 @@ function run_import_marc_vocabulary($task, $args)
                                 //check to see if the property already exists
                                 //note that this also checks the object value as well, so there's no way to update or delete an existing triple
                                 //the sheet would have to conatin the identifier for the triple
+                                /** @var SchemaPropertyElement $element */
                                 $element = SchemaPropertyElementPeer::lookupElement(
                                                                     $schemaObj->getId(),
                                                                       $elementId,
@@ -574,6 +575,7 @@ function run_import_marc_vocabulary($task, $args)
                                 //create a new property for each unmatched column
                                 if (! empty($row[$value])) {
                                     if (! $element) {
+                                        /** @var SchemaPropertyElement $element */
                                         $element = new SchemaPropertyElement();
                                         $element->setCreatedUserId($userId);
                                         $element->setCreatedAt($updateTime);
@@ -598,6 +600,7 @@ function run_import_marc_vocabulary($task, $args)
                                     }
                                 } //the row value is empty
                                 else if ($deleteMissing && $element) {
+                                    /** @var SchemaPropertyElement $element */
                                     $element->delete();
                                 }
                             }

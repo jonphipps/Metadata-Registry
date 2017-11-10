@@ -30,7 +30,7 @@ echo $this->getClassName() ?>  $<?php echo $this->getSingularName() ?> */
 <?php endif; ?>
   <?php endif; ?>
    -
-<?php if (isset($credentials) && $credentials): ?>
+<?php if ($condition): ?>
 [?php endif; ?]
 <?php endif; ?>
 <?php endforeach; ?>

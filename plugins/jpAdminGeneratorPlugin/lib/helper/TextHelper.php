@@ -241,7 +241,6 @@ function _auto_link_email_addresses($text)
 function link_to_object($getter){
   //$agent_has_user->getUser()
   $name = (string) $getter;
-  $class = new AgentPeer();
   $class = get_class($getter);
   return sf_link_to($name, '@'.strtolower($class).'_show?id='. $getter->getId());
 }

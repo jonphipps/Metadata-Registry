@@ -43,7 +43,7 @@ class Clob extends Lob {
             $this->setInputFile($file);
         }
         if (!$this->inFile) {
-            throw Exception('No file specified for read.');
+            throw new Exception('No file specified for read.');
         }
         $data = null;
         $file = fopen($this->inFile, "rt");

@@ -26,7 +26,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \App\Models\Access\User\User $creator
  * @property-read mixed $language
  * @property-read \App\Models\Vocabulary $vocabulary
- * @method static bool|null forceDelete()
+ * @method bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyUser onlyTrashed()
  * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\VocabularyUser whereCreatedAt($value)
