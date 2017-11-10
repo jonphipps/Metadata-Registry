@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRevisionsTableWithSchema extends Migration
+class CreateRevisionsTable extends Migration
 {
     /**
      * Run the migrations.
