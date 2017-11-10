@@ -162,6 +162,30 @@ class GuestTest extends DuskTestCase
                 ->assertDontSee( 'The server returned a 404 response.' )
                 ->assertDontSee( '[sfException]' )
 
+                //elementtabs
+                ->visit("/elements/{$testData['element']['id']}")
+                ->assertPathIs( "/elements/{$testData['element']['id']}" )
+                ->assertDontSee( 'The server returned a 404 response.' )
+                ->assertDontSee( '[sfException]' )
+                ->clickLink( 'Statements' )
+                ->assertPathIs( "/elements/{$testData['element']['id']}/statements" )
+                ->assertDontSee( 'The server returned a 404 response.' )
+                ->assertDontSee( '[sfException]' )
+                ->clickLink( 'History' )
+                ->assertPathIs( "/elements/{$testData['element']['id']}/history" )
+                ->assertDontSee( 'The server returned a 404 response.' )
+                ->assertDontSee( '[sfException]' )
+
+                //statementtabs
+                ->visit("/elements/{$testData['element']['id']}/statements/{$testData['statement']['id']}")
+                ->assertPathIs("/elements/{$testData['element']['id']}/statements/{$testData['statement']['id']}" )
+                ->assertDontSee( 'The server returned a 404 response.' )
+                ->assertDontSee( '[sfException]' )
+                ->clickLink( 'History' )
+                ->assertPathIs( "/statements/{$testData['statement']['id']}/history" )
+                ->assertDontSee( 'The server returned a 404 response.' )
+                ->assertDontSee( '[sfException]' )
+
                 //pages
                 ->visit( "/elementsets/{$testData['elementSet']['id']}/imports/{$testData['elementSet']['importId']}" )
                 ->assertPathIs( "/elementsets/{$testData['elementSet']['id']}/imports/{$testData['elementSet']['importId']}" )
@@ -171,6 +195,7 @@ class GuestTest extends DuskTestCase
                 ->assertPathIs( "/schemaimports/{$testData['elementSet']['importId']}/history")
                 ->assertDontSee( 'The server returned a 404 response.' )
                 ->assertDontSee( '[sfException]' );
+
 
         } );
     }
