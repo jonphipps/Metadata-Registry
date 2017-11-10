@@ -140,10 +140,10 @@
         "mockery/mockery": "0.9.*",
         "mpociot/laravel-test-factory-helper": "^0.4.0",
         "orangehill/iseed": "^2.3",
+        "phan/phan": "dev-master",
         "phpunit/phpunit": "~6.0",
         "spatie/laravel-db-snapshots": "^1.0",
         "spatie/phpunit-snapshot-assertions": "^1.0",
-        "sstalle/php7cc": "^1.1",
         "tightenco/mailthief": "^0.3.4",
         "xethron/migrations-generator": "^2.0"
     },
