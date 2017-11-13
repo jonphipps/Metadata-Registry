@@ -145,6 +145,7 @@
         "phpunit/phpunit": "~6.0",
         "spatie/laravel-db-snapshots": "^1.0",
         "spatie/phpunit-snapshot-assertions": "^1.0",
+        "stechstudio/laravel-vfs-adapter": "^2.0",
         "tightenco/mailthief": "^0.3.4",
         "xethron/migrations-generator": "^2.0"
     },

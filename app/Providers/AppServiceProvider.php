@@ -12,11 +12,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Dusk\DuskServiceProvider;
 use Mpociot\LaravelTestFactoryHelper\TestFactoryHelperServiceProvider;
-// use Orangehill\Iseed\IseedServiceProvider;
-// use Recca0120\LaravelTracy\LaravelTracyServiceProvider;
-// use Spatie\DbSnapshots\DbSnapshotsServiceProvider;
+use STS\Filesystem\VfsFilesystemServiceProvider;
 use Way\Generators\GeneratorsServiceProvider;
-// use Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider;
 use function in_array;
 
 class AppServiceProvider extends ServiceProvider
@@ -107,6 +104,9 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(DuskServiceProvider::class);
             // $this->app->register(DbSnapshotsServiceProvider::class);
             $this->app->register(\Backpack\Generators\GeneratorsServiceProvider::class);
+            if (class_exists(VfsFilesystemServiceProvider::class)) {
+                $this->app->register(VfsFilesystemServiceProvider::class);
+            }
         }
         if ( ! in_array($environment, [ 'production', 'testing' ], true)) {
             // $this->app->register(LaravelTracyServiceProvider::class);
