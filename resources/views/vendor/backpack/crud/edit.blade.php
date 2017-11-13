@@ -3,7 +3,8 @@
 @section('header')
 	<section class="content-header">
 	  <h1>
-	    {{ trans('backpack::crud.edit') }} <span>{{ $crud->entity_name }}</span>
+        <span class="text-capitalize">{{ $crud->entity_name_plural }}</span>
+        <small>{{ trans('backpack::crud.edit').' '.$crud->entity_name }}.</small>
 	  </h1>
 	  <ol class="breadcrumb">
 	    <li><a href="{{ url(config('backpack.base.route_prefix'),'dashboard') }}">{{ trans('backpack::crud.admin') }}</a></li>

@@ -4,7 +4,7 @@
 <section class="content-header">
     <h1>
         <span class="text-capitalize">{{ $crud->entity_name_plural }}</span>
-        <small>{{ trans('backpack::crud.all') }} <span>{{ $crud->entity_name_plural }}</span> {{ trans('backpack::crud.in_the_database') }}.</small>
+        <small>{{ trans('backpack::crud.reorder').' '.$crud->entity_name_plural }}.</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="{{ url(config('backpack.base.route_prefix'), 'dashboard') }}">{{ trans('backpack::crud.admin') }}</a></li>
