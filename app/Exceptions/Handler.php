@@ -5,8 +5,10 @@ namespace App\Exceptions;
 use Bugsnag;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Arr;
 use Whoops\Handler\PrettyPageHandler;
 
 class Handler extends ExceptionHandler
@@ -97,5 +99,15 @@ class Handler extends ExceptionHandler
         return redirect()->guest(route('frontend.auth.login'));
     }
 
-
+    protected function whoopsHandler()
+    {
+        return tap(new PrettyPageHandler,
+            function($handler) {
+                $files = new Filesystem;
+                $handler->setEditor('phpstorm');
+                $handler->handleUnconditionally(true);
+                $handler->setApplicationPaths(array_flip(Arr::except(array_flip($files->directories(base_path())),
+                        [ base_path('vendor') ])));
+            });
+    }
 }
