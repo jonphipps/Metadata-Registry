@@ -18,18 +18,21 @@ Route::get('/vocabularies/{id}.rdf', function($id) { return redirect("vocabulary
 Route::get('/schema/list.html', function() { return redirect('elementsets', 301); });
 Route::get('/schema/show/id/{id}.html', function($id) { return redirect('elementsets/' . $id, 301); });
 Route::get('/schema/export/id/{id}.html', function($id) { return redirect("elementsets/{$id}/exports/create", 301); });
+Route::get('/elementsets/{id}.rdf', function($id) { return redirect("schema/show/id/$id.rdf", 301); });
 
 Route::get('/schemaprop/list/schema_id/{id}.html', function($id) { return redirect('elementsets/' . $id . '/elements', 301); });
-Route::get('/schemaprop/show/id/{id}.html',
-    function($id) {$elementsetId = Element::findOrFail($id)->schema_id;
+Route::get('/schemaprop/show/id/{id}.html', function($id) {
+        $elementsetId = Element::findOrFail($id)->schema_id;
         return redirect("elementsets/{$elementsetId}/elements/{$id}", 301);
     });
+Route::get('elementsets/{elementsetId}/elements/{id}.rdf', function($elementsetId, $id) { return redirect("/schemaprop/show/id/{$id}.rdf", 301); });
 
 Route::get('/concept/list/vocabulary_id/{id}.html', function($id) { return redirect('vocabularies/' . $id . '/concepts', 301); });
 Route::get('/concept/show/id/{id}.html', function($id) {
         $vocabId = Concept::findOrFail($id)->vocabulary_id;
         return redirect("vocabularies/{$vocabId}/concepts/{$id}", 301);
     });
+Route::get('vocabularies/{vocabId}/concepts/{id}.rdf', function($vocabId, $id) {return redirect("/concept/show/id/{$id}.rdf", 301); });
 
 Route::get('/conceptprop/list/concept_id/{id}.html', function($id) { return redirect('concepts/' . $id . '/properties', 301); });
 Route::get('/conceptprop/show/id/{id}.html', function($id) {

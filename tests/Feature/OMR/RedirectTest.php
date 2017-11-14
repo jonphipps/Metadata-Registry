@@ -18,6 +18,7 @@ class RedirectTest extends TestCase
     {
         $this->get(url('/schema/list.html'))->assertRedirect(url('elementsets'))->assertStatus(301);
         $this->get(url('/schema/show/id/83.html'))->assertRedirect(url('elementsets/83'))->assertStatus(301);
+        $this->get(url('elementsets/83.rdf'))->assertRedirect(url('/schema/show/id/83.rdf'))->assertStatus(301);
         $this->get(url('/schema/export/id/83.html'))->assertRedirect(url('elementsets/83/exports/create'))->assertStatus(301);
         $this->get(url('/schemahistory/list/schema_id/83.html'))->assertRedirect(url('elementsets/83/history'))->assertStatus(301);
         $this->get(url('/schemauser/list/schema_id/83.html'))->assertRedirect(url('elementsets/83/maintainers'))->assertStatus(301);
@@ -25,9 +26,11 @@ class RedirectTest extends TestCase
         $this->get(url('/schemaprop/list/schema_id/83.html'))->assertRedirect(url('elementsets/83/elements'))->assertStatus(301);
         $this->get(url('/schemahistory/list/schema_property_id/14328.html'))->assertRedirect(url('elements/14328/history'))->assertStatus(301);
         $this->get(url('/schemaprop/show/id/14328.html'))->assertRedirect(url('elementsets/83/elements/14328'))->assertStatus(301);
+        $this->get(url('elementsets/83/elements/14328.rdf'))->assertRedirect(url('/schemaprop/show/id/14328.rdf'))->assertStatus(301);
 
         $this->get(url('/concept/list/vocabulary_id/37.html'))->assertRedirect(url('vocabularies/37/concepts'))->assertStatus(301);
         $this->get(url('/concept/show/id/475.html'))->assertRedirect(url('vocabularies/37/concepts/475'))->assertStatus(301);
+        $this->get(url('vocabularies/37/concepts/475.rdf'))->assertRedirect(url('/concept/show/id/475.rdf'))->assertStatus(301);
         $this->get(url('/history/list/concept_id/475.html'))->assertRedirect(url('concepts/475/history'))->assertStatus(301);
 
         $this->get(url('/schemapropel/list/schema_property_id/14328.html'))->assertRedirect(url('elements/14328/statements'))->assertStatus(301);
@@ -42,6 +45,7 @@ class RedirectTest extends TestCase
 
         $this->get(url('/vocabulary/list.html'))->assertRedirect(url('vocabularies'))->assertStatus(301);
         $this->get(url('/vocabulary/show/id/37.html'))->assertRedirect(url('vocabularies/37'))->assertStatus(301);
+        $this->get(url('vocabularies/37.rdf'))->assertRedirect(url('/vocabulary/show/id/37.rdf'))->assertStatus(301);
         $this->get(url('/vocabulary/export/id/37.html'))->assertRedirect(url('vocabularies/37/exports/create'))->assertStatus(301);
         $this->get(url('/history/list/vocabulary_id/37.html'))->assertRedirect(url('vocabularies/37/history'))->assertStatus(301);
         $this->get(url('/version/list/vocabulary_id/37.html'))->assertRedirect(url('vocabularies/37/versions'))->assertStatus(301);

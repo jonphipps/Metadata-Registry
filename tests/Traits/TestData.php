@@ -6,7 +6,7 @@ namespace Tests\Traits;
 
 trait TestData
 {
-    public static function getTestData()
+    public static function getTestData(): array
     {
         $testData                                   = [];
         $testData['project']['adminId']             = 422;
