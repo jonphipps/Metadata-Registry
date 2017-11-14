@@ -2,6 +2,7 @@
 
 use App\Models\Export;
 use App\Models\Import;
+use App\Models\Prefix;
 use Database\DisablesForeignKeys;
 use Database\TruncateTable;
 use Illuminate\Database\Seeder;
@@ -25,8 +26,12 @@ class RDAImportExportSeeder extends Seeder
         DB::statement( $updateStatement );
 
         Export::truncate();
-        $updateStatement = file_get_contents( __DIR__ . '/sql/RDAExports.sql' );
-        DB::statement( $updateStatement );
+        $updateStatement = file_get_contents(__DIR__ . '/sql/RDAExports.sql');
+        DB::statement($updateStatement);
+
+        Prefix::truncate();
+        $updateStatement = file_get_contents(__DIR__ . '/sql/RDAPrefix.sql');
+        DB::statement($updateStatement);
 
         $this->enableForeignKeys();
     }
