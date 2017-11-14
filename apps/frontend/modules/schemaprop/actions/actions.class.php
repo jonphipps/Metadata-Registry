@@ -155,9 +155,11 @@ class schemapropActions extends autoSchemapropActions
     parent::executeList();
   }
 
-  /**
-   * Show RDF
-   */
+    /**
+     * Show RDF
+     *
+     * @throws sfError404Exception
+     */
   public function executeShowRdf ()
   {
     $ts = strtotime($this->getRequestParameter('ts'));
@@ -165,7 +167,7 @@ class schemapropActions extends autoSchemapropActions
     /** @var SchemaProperty **/
     if (!$this->property)
     {
-      $this->property = SchemaPropertyPeer::retrieveByPk($this->getRequestParameter('id'));
+      $this->property = SchemaPropertyPeer::retrieveByPK($this->getRequestParameter('id'));
     }
     $this->labels = $this->getLabels('show');
 
@@ -173,18 +175,19 @@ class schemapropActions extends autoSchemapropActions
     $this->schema = $this->property->getSchema();
   }
 
-  /**
-  * gets the current schema object
-  *
-  * @return schema current schema object
-  */
+    /**
+     * gets the current schema object
+     *
+     * @return Schema current schema object
+     * @throws sfError404Exception
+     */
   public function getCurrentSchema()
   {
     $schema = myActionTools::findCurrentSchema();
 
     if (!$schema) //we have to do it the hard way
     {
-      $this->schemaprop = SchemaPropertyPeer::retrieveByPk($this->getRequestParameter('id'));
+      $this->schemaprop = SchemaPropertyPeer::retrieveByPK($this->getRequestParameter('id'));
       if (isset($this->schemaprop))
       {
         $schema = $this->schemaprop->getSchema();
@@ -223,13 +226,16 @@ class schemapropActions extends autoSchemapropActions
      }
      $this->schemaprops = $options;
   }
-  
-  /**
-  * overload saveSchemaProperty
-  *
-  * @return mixed
-  * @param  SchemaProperty $schema_property
-  */
+
+    /**
+     * overload saveSchemaProperty
+     *
+     * @param  SchemaProperty $schema_property
+     *
+     * @return mixed
+     * @throws Exception
+     * @throws PropelException
+     */
   protected function saveSchemaProperty($schema_property)
   {
     $userId = sfContext::getInstance()->getUser()->getSubscriberId();
