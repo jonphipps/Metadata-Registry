@@ -60,9 +60,7 @@ trait UsesPolicies
 
     public function list()
     {
-        $this->policyAuthorize('index', $this->crud->getModel());
-
-        return parent::index();
+        $this->index();
     }
 
     public function show($id)
