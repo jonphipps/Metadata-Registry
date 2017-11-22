@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdakit="http://metadataregistry.org/uri/profile/rdakit/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:reg="http://metadataregistry.org/uri/profile/regap/" xmlns:skos="http://www.w3.org/2004/02/skos/core#">
+  <!-- NOTICE: This is a single-concept fragment -->
+  <!-- Scheme: RDA Media Type -->
+  <skos:ConceptScheme rdf:about="http://rdaregistry.info/termList/RDAMediaType">
+    <dc:title>RDA Media Type</dc:title>
+  </skos:ConceptScheme>
+  <!-- Concept: audio  -->
+  <skos:Concept rdf:about="http://rdaregistry.info/termList/RDAMediaType/1001" xml:lang="en">
+    <skos:inScheme rdf:resource="http://rdaregistry.info/termList/RDAMediaType"/>
+    <reg:status rdf:resource="http://metadataregistry.org/uri/RegStatus/1001"/>
+    <reg:identifier rdf:resource="http://metadataregistry.org/concepts/475"/>
+    <skos:prefLabel xml:lang="en">audio</skos:prefLabel>
+    <skos:definition xml:lang="en">A media type used to store recorded sound, designed for use with a playback device such as a turntable, audiocassette player, CD player, or MP3 player.</skos:definition>
+    <skos:scopeNote xml:lang="en">Media used to store digitally encoded as well as analog sound are included.</skos:scopeNote>
+    <skos:prefLabel xml:lang="fr">audio</skos:prefLabel>
+    <skos:definition xml:lang="fr">Média servant à emmagasiner du son enregistré et conçu pour une utilisation au moyen d’un dispositif de lecture tel qu’une platine, un lecteur de cassette audio, un lecteur de CD ou un lecteur MP3.</skos:definition>
+    <skos:scopeNote xml:lang="fr">Comprend tout média servant à emmagasiner du son encodé numériquement aussi bien que du son analogique.</skos:scopeNote>
+    <rdakit:toolkitLabel xml:lang="en">audio</rdakit:toolkitLabel>
+    <rdakit:toolkitLabel xml:lang="fr">audio</rdakit:toolkitLabel>
+    <rdakit:toolkitDefinition xml:lang="en">A media type used to store recorded sound, designed for use with a playback device such as a turntable, audiocassette player, CD player, or MP3 player.</rdakit:toolkitDefinition>
+  </skos:Concept>
+  <!-- Status properties used in this document  -->
+  <skos:Concept rdf:about="http://metadataregistry.org/uri/RegStatus/1001">
+    <skos:prefLabel xml:lang="en">Published</skos:prefLabel>
+  </skos:Concept>
+</rdf:RDF>

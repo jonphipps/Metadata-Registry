@@ -2,13 +2,11 @@
 
 namespace Tests\Feature\OMR;
 
-use Google\Auth\HttpHandler\Guzzle6HttpHandler;
 use GuzzleHttp\Client;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Snapshots\MatchesSnapshots;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class RDFGeneratorTest extends TestCase
 {
@@ -31,6 +29,32 @@ class RDFGeneratorTest extends TestCase
 
    /** @test */
     public function it_creates_an_rdf_file_for_download(): void
+    {
+        $client = new Client();
+        $res = $client->get(url('vocabularies/37.rdf'));
+        $this->assertMatchesXmlSnapshot((string) $res->getBody());
+        $this->assertSame(['attachment; filename="RDAMediaType.xml"'], $res->getHeader('Content-Disposition'));
+
+        $res = $client->get(url('elementsets/83.rdf'));
+        $this->assertMatchesXmlSnapshot((string) $res->getBody());
+        $this->assertSame([ 'attachment; filename="c.xml"' ], $res->getHeader('Content-Disposition'));
+
+        $res = $client->get(url('vocabularies/37/concepts/475.rdf'));
+        $this->assertMatchesXmlSnapshot((string) $res->getBody());
+        $this->assertArrayNotHasKey('Content-Disposition', $res->getHeaders());
+
+        $res = $client->get(url('elementsets/83/elements/14329.rdf'));
+        $this->assertMatchesXmlSnapshot((string) $res->getBody());
+        $this->assertArrayNotHasKey('Content-Disposition', $res->getHeaders());
+
+        Storage::fake('repos');
+        $file = UploadedFile::fake()->create('foobar.xml');
+        $upload = Storage::disk('repos')->putFileAs('', $file, $file->name);
+        Storage::disk('repos')->assertExists($upload);
+    }
+
+   /** @test */
+    public function it_creates_an_rdf_file_and_stores_it_in_the_repos_folder(): void
     {
         $client = new Client();
         $res = $client->get(url('vocabularies/37.rdf'));
