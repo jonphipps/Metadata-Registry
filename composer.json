@@ -114,7 +114,7 @@
             "ImportVocab\\": "plugins/jpAdminGeneratorPlugin/lib/ImportVocab",
             "model\\": "lib/model",
             "apps\\": "apps",
-            "App\\": "app/"
+            "App\\": "app"
         },
         "classmap": [
             "lib/model/",
@@ -140,9 +140,10 @@
         "laravel/dusk": "^2.0",
         "mockery/mockery": "0.9.*",
         "mpociot/laravel-test-factory-helper": "^0.4.0",
+        "nunomaduro/collision": "^1.1",
         "orangehill/iseed": "^2.3",
-        "phan/phan": "dev-master",
         "phpunit/phpunit": "~6.0",
+        "recca0120/laravel-tracy": "^1.8",
         "spatie/laravel-db-snapshots": "^1.0",
         "spatie/phpunit-snapshot-assertions": "^1.0",
         "stechstudio/laravel-vfs-adapter": "^2.0",
@@ -176,9 +177,9 @@
         "laravel":
         {
             "dont-discover": [
-                "barryvdh/laravel-ide-helper",
-                "backpack/generators",
-                "laravel/dusk"
+                "recca0120/laravel-tracy",
+                "recca0120/terminal",
+                "barryvdh/laravel-debugbar"
             ]
         }
     },
