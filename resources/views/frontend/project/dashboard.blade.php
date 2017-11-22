@@ -46,8 +46,8 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3>Project Detail</h3>
+                                <div class="panel-heading clearfix">
+                                    <h3 class="pull-left" style="margin-top: 8px; margin-bottom: 6px">Project Detail</h3>
                                 </div><!--panel-heading-->
                                 <div class="panel-body">
                                     <div class="list-group">Metadata</div>
@@ -72,11 +72,15 @@
                         </div><!--col-xs-12-->
                         <div class="col-md-6">
                             <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3>Activity</h3>
-                                </div><!--panel-heading-->
+                            @include('frontend.partials.panelheader', ['crud' => $release->crud, 'policy_model' => $project, 'permission' =>'edit' ])<!--panel-heading-->
                                 <div class="panel-body">
-                                    <p>This will be a running display of project activity</p>
+                                    <ul class="list-unstyled">
+                                        @forelse ($project->releases->sortBy('name') as $release)
+                                            <li>{{ laravel_link_to("projects/{$project->id}/releases/$release->id", $release->name) }}</li>
+                                        @empty
+                                            This project has no releases
+                                        @endforelse
+                                    </ul>
                                 </div><!--panel-body-->
                             </div><!--panel-->
                         </div><!--col-md-6-->

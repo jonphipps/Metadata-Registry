@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend\Project;
 
 use App\Http\Controllers\Frontend\Elementset\ElementsetCrudController;
 use App\Http\Controllers\Frontend\ImportCrudController;
+use App\Http\Controllers\Frontend\Release\ReleaseCrudController;
 use App\Http\Controllers\Frontend\Vocabulary\VocabularyCrudController;
 use App\Http\Requests\Frontend\Project\ProjectRequest as StoreRequest;
 use App\Http\Requests\Frontend\Project\ProjectRequest as UpdateRequest;
@@ -312,6 +313,7 @@ class ProjectCrudController extends CrudController
             'elementset' => ElementsetCrudController::class,
             'vocabulary' => VocabularyCrudController::class,
             'import' => ImportCrudController::class,
+            'release' => ReleaseCrudController::class,
         ];
         foreach ($classArray as $thing => $className) {
             $thingController = new $className;
