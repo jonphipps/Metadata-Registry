@@ -50,13 +50,14 @@ class RoleRepository extends BaseRepository
             ]);
     }
 
-  /**
-   * @param array $input
-   *
-   * @throws GeneralException
-   * @return bool
-   * @throws \Exception
-   */
+    /**
+     * @param array $input
+     *
+     * @return void|bool
+     * @throws GeneralException
+     * @throws \Exception
+     * @throws \Throwable
+     */
     public function create(array $input)
     {
         if ($this->query()->where('name', $input['name'])->first()) {
@@ -64,7 +65,7 @@ class RoleRepository extends BaseRepository
         }
 
         //See if the role has all access
-        $all = $input['associated-permissions'] == 'all' ? true : false;
+        $all = $input['associated-permissions'] === 'all';
 
         if (! isset($input['permissions'])) {
             $input['permissions'] = [];
