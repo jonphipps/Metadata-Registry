@@ -50,7 +50,7 @@ return [
     'in_the_database'           => 'in the database',
     'list'                      => 'List',
     'actions'                   => 'Actions',
-    'preview'                   => 'Preview',
+    'preview'                   => 'Show',
     'delete'                    => 'Delete',
     'admin'                     => 'Admin',
     'details_row'               => 'This is the details row. Modify as you please.',
