@@ -71,6 +71,7 @@ use Laracasts\Matryoshka\Cacheable;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Import[] $imports
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\User\User[] $members
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Profile[] $profiles
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Release[] $releases
  * @property-read \App\Models\Access\User\User|null $updater
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vocabulary[] $vocabularies
  * @method static bool|null forceDelete()
@@ -190,6 +191,13 @@ class Project extends Model
     {
         return $this->hasManyThrough(Import::class, Batch::class);
     }
+
+    public function releases(): ?HasMany
+    {
+        return $this->hasMany(Release::class, 'agent_id', 'id');
+    }
+
+
     /*
     |--------------------------------------------------------------------------
     | SCOPES

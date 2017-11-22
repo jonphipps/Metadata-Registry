@@ -14,6 +14,7 @@ use Culpa\Traits\DeletedBy;
 use Culpa\Traits\UpdatedBy;
 use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Matryoshka\Cacheable;
 
@@ -61,6 +62,7 @@ use Laracasts\Matryoshka\Cacheable;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\User\User[] $members
  * @property-read \App\Models\Profile|null $profile
  * @property-read \App\Models\Project|null $project
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Release[] $releases
  * @property-read \App\Models\Status $status
  * @property-read \App\Models\Access\User\User|null $updater
  * @method static bool|null forceDelete()
@@ -206,6 +208,11 @@ class Elementset extends Model
     public function elements(): ?HasMany
     {
         return $this->hasMany( Element::class, 'schema_id', 'id' );
+    }
+
+    public function releases(): ?MorphToMany
+    {
+        return $this->morphToMany(Release::class, 'releaseable');
     }
 
 
