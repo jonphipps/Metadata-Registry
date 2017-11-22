@@ -11,6 +11,25 @@ trait UsesPolicies
 {
     use AuthorizesRequests;
 
+    /**
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function authorizeAll()
+    {
+        $model     = $this->crud->getModel();
+        $authArray = [
+            'index'   => 'index',
+            'list'    => 'index',
+            'create'  => 'create',
+            'edit'    => 'update',
+            'show'    => 'show',
+            'destroy' => 'delete',
+        ];
+        foreach ($authArray as $key => $ability) {
+            $this->policyAuthorize($ability, $model);
+        }
+    }
+
     public function create()
     {
         $this->policyAuthorize('create', $this->crud->getModel());
