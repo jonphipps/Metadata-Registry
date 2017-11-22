@@ -26,7 +26,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \App\Models\Access\User\User $creator
  * @property-read \App\Models\Elementset $elementset
  * @property-read mixed $language
- * @method bool|null forceDelete()
+ * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser onlyTrashed()
  * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ElementsetUser whereCreatedAt($value)

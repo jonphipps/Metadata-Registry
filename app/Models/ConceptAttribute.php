@@ -60,7 +60,7 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @property-read \Illuminate\Database\Eloquent\Collection|\Venturecraft\Revisionable\Revision[] $revisionHistory
  * @property-read \App\Models\Status|null $status
  * @property-read \App\Models\Access\User\User|null $updater
- * @method bool|null forceDelete()
+ * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ConceptAttribute onlyTrashed()
  * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ConceptAttribute whereConceptId($value)

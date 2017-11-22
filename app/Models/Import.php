@@ -53,7 +53,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \App\Models\Export|null $export
  * @property string $worksheet
  * @property-read \App\Models\Vocabulary|null $vocabulary
- * @method bool|null forceDelete()
+ * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Import onlyTrashed()
  * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Import whereAddedCount($value)

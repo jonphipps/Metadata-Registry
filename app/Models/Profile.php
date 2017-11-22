@@ -44,7 +44,7 @@ use Illuminate\Support\Collection;
  * @property-read \App\Models\Status $status
  * @property-read \App\Models\Access\User\User|null $updater
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vocabulary[] $vocabularies
- * @method bool|null forceDelete()
+ * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Profile onlyTrashed()
  * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Profile whereBaseDomain($value)

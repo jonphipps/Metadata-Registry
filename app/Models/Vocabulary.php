@@ -64,7 +64,7 @@ use Laracasts\Matryoshka\Cacheable;
  * @property-read \App\Models\Project|null $project
  * @property-read \App\Models\Status $status
  * @property-read \App\Models\Access\User\User|null $updater
- * @method bool|null forceDelete()
+ * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary onlyTrashed()
  * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Vocabulary whereAgentId($value)
