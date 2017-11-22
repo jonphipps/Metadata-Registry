@@ -18,7 +18,11 @@
 		<env name="REGISTRATION_CAPTCHA_STATUS" value="false"/>
 		<env name="SESSION_DRIVER" value="array"/>
 		<env name="SF_ENVIRONMENT" value="testing"/>
+		<env name="STORAGE_DATA_DRIVER" value="vfs"/>
 	</php>
+	<listeners>
+		<listener class="NunoMaduro\Collision\Adapters\Phpunit\Listener"/>
+	</listeners>
 	<testsuites>
 		<testsuite name="Feature">
 			<directory suffix="Test.php">
