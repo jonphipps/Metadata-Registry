@@ -69,6 +69,10 @@ class ProjectViewTest extends BrowserKitTestCase
     {
         $this->actingAs($this->user);
         $this->visit($this->baseUrl . '/projects/58')->see('NSDL Registry')->dontSee('projects/58/edit');
-        $this->get($this->baseUrl . '/projects/58/edit')->seeStatusCode(302)->assertRedirectedToRoute(homeRoute());
+        $this->get($this->baseUrl . '/projects/58/edit')
+            ->seeStatusCode(302)
+            ->assertRedirectedTo($this->baseUrl . '/projects/58')
+            ->followRedirects()
+            ->seeText('Unauthorized access');
     }
 }

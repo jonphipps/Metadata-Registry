@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Backpack\CRUD\Exception\AccessDeniedException;
 use Bugsnag;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
@@ -61,8 +62,9 @@ class Handler extends ExceptionHandler
         if ($exception instanceof TokenMismatchException) {
             return redirect()->route('frontend.auth.login');
         }
-        if ($exception instanceof \Illuminate\Auth\Access\AuthorizationException) {
-            return redirect()->route(homeRoute())->withFlashDanger(trans('backpack::crud.unauthorized_access'));
+        if ($exception instanceof \Illuminate\Auth\Access\AuthorizationException ||
+            $exception instanceof AccessDeniedException) {
+            return redirect()->back()->withFlashDanger(trans('backpack::crud.unauthorized_access'));
         }
 
         /*
