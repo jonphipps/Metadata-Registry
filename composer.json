@@ -4,6 +4,14 @@
     "repositories": [
     {
         "type": "vcs",
+        "url": "git@github.com:jonphipps/Base.git"
+    },
+    {
+        "type": "vcs",
+        "url": "git@github.com:jonphipps/CRUD.git"
+    },
+    {
+        "type": "vcs",
         "url": "git@github.com:jonphipps/phpspecgen.git"
     },
     {
@@ -45,8 +53,8 @@
         "arcanedev/no-captcha": "^5.0",
         "asimlqt/php-google-spreadsheet-client": "3.0.*",
         "ausi/slug-generator": "^1.0",
-        "backpack/base": "^0.7.16",
-        "backpack/crud": "^3.2",
+        "backpack/base": "dev-master as 0.8.2",
+        "backpack/crud": "dev-master",
         "barryvdh/laravel-snappy": "^0.4.0",
         "bgcc/sf-select2-widgets-plugin": "~1.0",
         "bpocallaghan/titan": "^0.2",

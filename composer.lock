@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "c6dd31ef7777627a79c279a94cf110bb",
+    "content-hash": "d554f6055d187bf2500c7b7ed200dadc",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -329,29 +329,29 @@
         },
         {
             "name": "backpack/base",
-            "version": "0.7.25",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Laravel-Backpack/Base.git",
-                "reference": "4ab8bafaa2d339bff0cc1c8543b50caf33ca1de3"
+                "url": "https://github.com/jonphipps/Base.git",
+                "reference": "59fc119cf5ab0abdfec5b90955d9b690a679cbf0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Backpack/Base/zipball/4ab8bafaa2d339bff0cc1c8543b50caf33ca1de3",
-                "reference": "4ab8bafaa2d339bff0cc1c8543b50caf33ca1de3",
+                "url": "https://api.github.com/repos/jonphipps/Base/zipball/59fc119cf5ab0abdfec5b90955d9b690a679cbf0",
+                "reference": "59fc119cf5ab0abdfec5b90955d9b690a679cbf0",
                 "shasum": ""
             },
             "require": {
                 "almasaeed2010/adminlte": "2.3.*",
-                "illuminate/support": "~5.1",
+                "creativeorange/gravatar": "~1.0",
                 "jenssegers/date": "^3.2",
-                "laravel/framework": "5.3.*|5.4.*|5.5.*",
+                "laravel/framework": "5.5.*",
                 "prologue/alerts": "^0.4.1"
             },
             "require-dev": {
                 "backpack/generators": "^1.1",
                 "laracasts/generators": "^1.1",
-                "phpunit/phpunit": "4.*",
+                "phpunit/phpunit": "~6.0",
                 "scrutinizer/ocular": "~1.1",
                 "squizlabs/php_codesniffer": "~2.3"
             },
@@ -371,9 +371,18 @@
                     "Backpack\\Base\\": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Backpack\\Base\\Test\\": "tests"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit"
+                ]
+            },
             "license": [
-                "MIT"
+                "proprietary"
             ],
             "authors": [
                 {
@@ -389,35 +398,37 @@
                 "backpack",
                 "base"
             ],
-            "time": "2017-08-30T17:31:24+00:00"
+            "support": {
+                "source": "https://github.com/jonphipps/Base/tree/master"
+            },
+            "time": "2017-11-28T20:09:02+00:00"
         },
         {
             "name": "backpack/crud",
-            "version": "3.2.27",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Laravel-Backpack/CRUD.git",
-                "reference": "54fb667a1cf64f4c53f8a90a3752d1f964fdec6f"
+                "url": "https://github.com/jonphipps/CRUD.git",
+                "reference": "1c6e1656e826efb03853da214b4ccc0c85fef481"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Backpack/CRUD/zipball/54fb667a1cf64f4c53f8a90a3752d1f964fdec6f",
-                "reference": "54fb667a1cf64f4c53f8a90a3752d1f964fdec6f",
+                "url": "https://api.github.com/repos/jonphipps/CRUD/zipball/1c6e1656e826efb03853da214b4ccc0c85fef481",
+                "reference": "1c6e1656e826efb03853da214b4ccc0c85fef481",
                 "shasum": ""
             },
             "require": {
-                "backpack/base": "^0.7.15",
+                "backpack/base": "^0.8.0",
                 "barryvdh/laravel-elfinder": "^0.3.10",
                 "doctrine/dbal": "^2.5",
                 "intervention/image": "^2.3",
                 "laravelcollective/html": "~5.0",
-                "livecontrol/eloquent-datatable": "^0.1.5",
                 "venturecraft/revisionable": "1.*"
             },
             "require-dev": {
                 "orchestra/database": "~3.4",
                 "orchestra/testbench": "~3.0",
-                "phpunit/phpunit": "4.*",
+                "phpunit/phpunit": "~6.0",
                 "scrutinizer/ocular": "~1.1"
             },
             "type": "library",
@@ -436,9 +447,21 @@
                     "Backpack\\CRUD\\": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Backpack\\CRUD\\Tests\\": "tests"
+                },
+                "exclude-from-classmap": [
+                    "**/config"
+                ]
+            },
+            "scripts": {
+                "test": [
+                    "phpunit"
+                ]
+            },
             "license": [
-                "MIT"
+                "proprietary"
             ],
             "authors": [
                 {
@@ -451,16 +474,21 @@
             "description": "Quickly build an admin interface for your Eloquent models, using Laravel 5. Build a CMS in a matter of minutes.",
             "homepage": "https://github.com/laravel-backpack/CRUD",
             "keywords": [
-                "Admin Interface",
+                "CMS",
+                "CRUD",
+                "admin interface",
                 "admin panel",
-                "cms",
+                "content management framework",
+                "content management system",
                 "create",
-                "crud",
                 "delete",
                 "read",
                 "update"
             ],
-            "time": "2017-11-06T11:41:53+00:00"
+            "support": {
+                "source": "https://github.com/jonphipps/CRUD/tree/master"
+            },
+            "time": "2017-11-28T20:19:04+00:00"
         },
         {
             "name": "barryvdh/elfinder-flysystem-driver",
@@ -4238,51 +4266,6 @@
             "time": "2016-08-17T00:36:58+00:00"
         },
         {
-            "name": "livecontrol/eloquent-datatable",
-            "version": "0.1.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/LiveControl/EloquentDataTable.git",
-                "reference": "49488446f3116ebf725447bb805bb76c28109d1b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/LiveControl/EloquentDataTable/zipball/49488446f3116ebf725447bb805bb76c28109d1b",
-                "reference": "49488446f3116ebf725447bb805bb76c28109d1b",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/database": "5.*",
-                "php": ">=5.4.0"
-            },
-            "require-dev": {
-                "phpspec/phpspec": "~2.1"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "LiveControl\\EloquentDataTable": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jeffrey de Vreede",
-                    "email": "jeffrey@devreede.eu"
-                }
-            ],
-            "description": "Eloquent DataTable plugin for server side ajax call handling.",
-            "keywords": [
-                "datatable",
-                "eloquent",
-                "laravel"
-            ],
-            "time": "2015-09-15T11:39:39+00:00"
-        },
-        {
             "name": "maatwebsite/excel",
             "version": "2.1.23",
             "source": {
@@ -6719,16 +6702,16 @@
         },
         {
             "name": "spatie/laravel-fractal",
-            "version": "5.2.0",
+            "version": "5.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-fractal.git",
-                "reference": "4aa3d4a5e5b2956eea437ee1f82201bd8b91a65e"
+                "reference": "f395eb645cd454b209bc628f974ed137d16e03da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-fractal/zipball/4aa3d4a5e5b2956eea437ee1f82201bd8b91a65e",
-                "reference": "4aa3d4a5e5b2956eea437ee1f82201bd8b91a65e",
+                "url": "https://api.github.com/repos/spatie/laravel-fractal/zipball/f395eb645cd454b209bc628f974ed137d16e03da",
+                "reference": "f395eb645cd454b209bc628f974ed137d16e03da",
                 "shasum": ""
             },
             "require": {
@@ -6783,7 +6766,7 @@
                 "spatie",
                 "transform"
             ],
-            "time": "2017-09-15T18:57:48+00:00"
+            "time": "2017-11-28T16:33:26+00:00"
         },
         {
             "name": "spatie/laravel-translatable",
@@ -11768,9 +11751,18 @@
             "time": "2017-09-19T17:31:57+00:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "alias": "0.8.2",
+            "alias_normalized": "0.8.2.0",
+            "version": "9999999-dev",
+            "package": "backpack/base"
+        }
+    ],
     "minimum-stability": "dev",
     "stability-flags": {
+        "backpack/base": 20,
+        "backpack/crud": 20,
         "laracasts/matryoshka": 20,
         "roave/security-advisories": 20
     },

@@ -1,8 +1,0 @@
-[submodule "packages/venturecraft/revisionable"]
-	path = packages/venturecraft/revisionable
-	url = git@github.com:jonphipps/revisionable.git
-	branch = develop
-[submodule "packages/Backpack/CRUD"]
-	path = packages/Backpack/CRUD
-	url = git@github.com:jonphipps/CRUD.git
-	branch = origin_master
