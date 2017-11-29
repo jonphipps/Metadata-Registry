@@ -237,6 +237,9 @@ class ProjectCrudController extends CrudController
                 'label'         => 'Title',
                 'type'          => 'model_function',
                 'function_name' => 'getTitleLink',
+                'searchLogic' => function($query, $column, $searchTerm) {
+                    $query->orWhere('org_name', 'like', '%' . $searchTerm . '%');
+                }
             ] ); // adjusts the properties of the passed in column (by name)
         $this->crud->addColumn([
             'name'          =>'vocabularies',
