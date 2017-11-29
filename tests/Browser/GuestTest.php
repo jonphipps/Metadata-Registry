@@ -29,6 +29,7 @@ class GuestTest extends DuskTestCase
         $this->browse( function( Browser $browser ) use ( $testData ) {
             $browser->visit( new ProjectList() )->assertSee( 'Projects' )
                 ->type( '#crudTable_filter > label > input', 'ala')
+                ->waitForLink($testData['project']['title'])
                 ->assertSee( $testData['project']['title'] )
                 ->clickLink( $testData['project']['title'])
                 ->assertPathIs( "/projects/{$testData['project']['id']}")
