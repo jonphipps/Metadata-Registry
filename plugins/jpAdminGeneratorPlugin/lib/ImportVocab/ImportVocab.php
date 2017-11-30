@@ -1629,6 +1629,7 @@ class ImportVocab
                     $dbElement->setUpdatedUserId($this->userId);
                     $dbElement->importId = $this->importId;
                     $dbElement->setDeletedAt(null);
+                    $dbElement->setIsSchemaProperty(null);
                 }
                 //$dbElement->save();
                 if ($profileProperty->getIsInForm()) {
