@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'enabled' => env('APP_TRACY'),
-    'showBar' => env('APP_TRACY'),
+    'enabled' => false,
+    'showBar' => false,
     'accepts' => [
         'text/html',
     ],
