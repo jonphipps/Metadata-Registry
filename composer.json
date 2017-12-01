@@ -30,14 +30,6 @@
         "type": "vcs",
         "url": "git@github.com:jonphipps/laravel-wizard.git"
     }],
-    "config":
-    {
-        "process-timeout": 900,
-        "cache-dir:": "../",
-        "preferred-install": "dist",
-        "sort-packages": true,
-        "optimize-autoloader": true
-    },
     "license": "Apache-2.0",
     "authors": [
     {
@@ -115,25 +107,6 @@
         "willdurand/negotiation": "^2.0",
         "yajra/laravel-datatables-oracle": "^8.0"
     },
-    "autoload":
-    {
-        "psr-4":
-        {
-            "ImportVocab\\": "plugins/jpAdminGeneratorPlugin/lib/ImportVocab",
-            "model\\": "lib/model",
-            "apps\\": "apps",
-            "App\\": "app"
-        },
-        "classmap": [
-            "lib/model/",
-            "database",
-            "tests"
-        ],
-        "files": [
-            "app/helpers.php",
-            "app/Helpers/helpers.php"
-        ]
-    },
     "require-dev":
     {
         "backpack/generators": "^1.1",
@@ -158,25 +131,34 @@
         "tightenco/mailthief": "^0.3.4",
         "xethron/migrations-generator": "^2.0"
     },
-    "autoload-dev":
+    "autoload":
     {
         "psr-4":
         {
-            "ImportVocab\\": "plugins/jpAdminGeneratorPlugin/lib/ImportVocab",
-            "model\\": "lib/model",
-            "apps\\": "apps",
-            "App\\": "app",
-            "Database\\": "database/",
-            "Tests\\": "tests/"
+            "ImportVocab\\": "plugins/jpAdminGeneratorPlugin/lib/ImportVocab/",
+            "model\\"      : "lib/model/",
+            "apps\\"       : "apps/",
+            "App\\"        : "app/",
+            "Database\\"   : "database/",
+            "Tests\\"      : "tests/"
         },
         "classmap": [
-            "lib/model/",
-            "database",
-            "tests"
+            "lib/model",
+            "database"
         ],
         "files": [
             "app/helpers.php",
             "app/Helpers/helpers.php",
+            "tests/helpers.php"
+        ]
+    },
+    "autoload-dev":
+    {
+        "psr-4":
+        {
+            "Tests\\": "tests/"
+        },
+        "files": [
             "tests/helpers.php"
         ]
     },
@@ -185,9 +167,9 @@
         "laravel":
         {
             "dont-discover": [
-                "recca0120/laravel-tracy",
-                "recca0120/terminal",
-                "barryvdh/laravel-debugbar"
+                "backpack/generators",
+                "barryvdh/laravel-debugbar",
+                "laravel/dusk"
             ]
         }
     },
@@ -206,6 +188,14 @@
         "post-update-cmd": [
             "@php artisan ide-helper:generate"
         ]
+    },
+    "config":
+    {
+        "process-timeout": 900,
+        "cache-dir:": "../",
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true
     },
     "include-path": [
         "lib/model"
