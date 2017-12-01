@@ -50,9 +50,10 @@ class importActions extends autoImportActions
     parent::setDefaults( $file_import_history );
   }
 
-  /**
-   * @return string|void
-   * @throws sfStopException
+    /**
+     * @return string|void
+     * @throws sfStopException
+     * @throws PropelException
      */
   public function executeEdit()
   {
