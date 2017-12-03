@@ -38,7 +38,12 @@ Route::group([ 'middleware' => 'symfony'],
 
                 require_once SF_ROOT_DIR.DIRECTORY_SEPARATOR.'apps'.DIRECTORY_SEPARATOR.SF_APP.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.php';
 
-                //make sure we have a fresh instance since it's never an internal symfony forward
+                //set the xmlrequest header for rdf files (this toggles things that check for non-html returns, like Tracy)
+                if (ends_with(request()->getRequestUri(), 'rdf')) {
+                    request()->headers->set('X-Requested-With', 'XMLHttpRequest');
+                }
+
+                    //make sure we have a fresh instance since it's never an internal symfony forward
                 if (sfContext::hasInstance()) {
                   sfContext::removeInstance();
                 }
