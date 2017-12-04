@@ -2,24 +2,7 @@
 
 namespace App\Models;
 
-use App\Helpers\Macros\Traits\Languages;
-use App\Models\Access\User\User;
-use App\Models\Traits\BelongsToProfile;
-use App\Models\Traits\BelongsToProject;
-use App\Models\Traits\HasImports;
-use App\Models\Traits\HasLanguagesList;
-use App\Models\Traits\HasMembers;
-use App\Models\Traits\HasPrefixesList;
-use App\Models\Traits\HasStatus;
-use Culpa\Traits\Blameable;
-use Culpa\Traits\CreatedBy;
-use Culpa\Traits\DeletedBy;
-use Culpa\Traits\UpdatedBy;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Laracasts\Matryoshka\Cacheable;
 
 /**
  * App\Models\Vocabulary
@@ -28,27 +11,27 @@ use Laracasts\Matryoshka\Cacheable;
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property \Carbon\Carbon|null $deleted_at
- * @property int|null $agent_id
- * @property int|null $created_user_id
- * @property int|null $updated_user_id
+ * @property int $agent_id
+ * @property int $created_user_id
+ * @property int $updated_user_id
  * @property int|null $deleted_user_id
  * @property string|null $child_updated_at
- * @property int|null $child_updated_user_id
+ * @property int $child_updated_user_id
  * @property string $name
- * @property string|null $note
+ * @property string $note
  * @property string $uri
- * @property string|null $url
+ * @property string $url
  * @property string $base_domain
  * @property string $token
- * @property string|null $community
- * @property int|null $last_uri_id
+ * @property string $community
+ * @property int $last_uri_id
  * @property int $status_id
  * @property string $language This is the default language for all concept properties
  * @property array $languages
- * @property int|null $profile_id
+ * @property int $profile_id
  * @property string $ns_type
- * @property string|null $prefixes
- * @property string|null $repo
+ * @property string $prefixes
+ * @property string $repo
  * @property string $prefix
  * @property int|null $created_by
  * @property int|null $updated_by
@@ -103,41 +86,24 @@ use Laracasts\Matryoshka\Cacheable;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary withoutTrashed()
  * @mixin \Eloquent
  */
-class Vocabulary extends Model
+class Vocabulary extends VocabsModel
 {
-    const TABLE = 'reg_vocabulary';
-    protected $table = self::TABLE;
-    use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy;
-    use Cacheable;
-    use Languages, HasLanguagesList, HasPrefixesList;
-    use BelongsToProject, BelongsToProfile, HasStatus, HasMembers, HasImports;
-    protected $blameable = [
-        'created' => 'created_user_id',
-        'updated' => 'updated_user_id',
-        'deleted' => 'deleted_user_id',
-    ];
-    protected $dates = [ 'deleted_at' ];
-    protected $guarded = [ 'id' ];
+    public const TABLE = 'reg_vocabulary';
+    public $table = self::TABLE;
+
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
-
     /**
-     * @param int $projectId
+     * @param int $project_id
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return string
      */
-    public static function selectVocabulariesByProject( $projectId )
+    public static function create_route(int $project_id): string
     {
-        return Vocabulary::select( [ 'id', 'name', ] )
-            ->where( 'agent_id', $projectId )
-            ->orderBy( 'name' )
-            ->get()
-            ->mapWithKeys( function( $item ) {
-                return [ $item['id'] => $item['name'] ];
-            } );
+        return 'projects/' . $project_id . '/elementsets/create';
     }
 
     /*
@@ -151,10 +117,6 @@ class Vocabulary extends Model
         return $this->hasMany( Concept::class, 'vocabulary_id' );
     }
 
-    public function releases(): ?MorphToMany
-    {
-        return $this->morphToMany(Release::class, 'releaseable');
-    }
 
     /*
     |--------------------------------------------------------------------------

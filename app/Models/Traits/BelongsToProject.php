@@ -13,4 +13,9 @@ trait BelongsToProject
     {
         return $this->belongsTo( Project::class, 'agent_id', 'id' );
     }
+
+    public function getProjectIdAttribute($value)
+    {
+        return $this->agent_id;
+    }
 }
