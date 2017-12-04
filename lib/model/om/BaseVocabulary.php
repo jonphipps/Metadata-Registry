@@ -2715,14 +2715,13 @@ abstract class BaseVocabulary extends BaseObject  implements Persistent {
 		$this->aStatus = $v;
 	}
 
-
-	/**
-	 * Get the associated Status object
-	 *
-	 * @param      Connection Optional Connection object.
-	 * @return     Status The associated Status object.
-	 * @throws     PropelException
-	 */
+    /**
+     * Get the associated Status object
+     *
+     * @param null $con Optional Connection object.
+     *
+     * @return null|Status The associated Status object.
+     */
 	public function getStatus($con = null)
 	{
 		if ($this->aStatus === null && ($this->status_id !== null)) {
