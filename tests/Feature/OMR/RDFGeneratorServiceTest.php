@@ -28,4 +28,14 @@ class RDFGeneratorServiceTest extends TestCase
         $this->assertMatchesXmlSnapshot($file);
     }
 
+    /** @test */
+    public function it_creates_a_new_vocabulary_job_and_stores_jsonld(): void
+    {
+        $job = new GenerateRdf(GenerateRdf::VOCABULARY, 37);
+        $job->saveJsonLd();
+        $this->assertSame(storage_path('repos/projects/177/jsonld/termList/RDAMediaType.jsonld'),
+            $job->getStoragePath('jsonld'));
+        $file = Storage::get($job->getStoragePath('jsonld'));
+        $this->assertMatchesSnapshot($file);
+    }
 }

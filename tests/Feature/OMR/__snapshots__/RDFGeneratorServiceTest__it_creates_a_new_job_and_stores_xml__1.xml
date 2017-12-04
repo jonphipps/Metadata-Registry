@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdakit="http://metadataregistry.org/uri/profile/rdakit/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:reg="http://metadataregistry.org/uri/profile/regap/" xmlns:skos="http://www.w3.org/2004/02/skos/core#">
+  <!-- Scheme: RDA Media Type -->
+  <skos:ConceptScheme rdf:about="http://rdaregistry.info/termList/RDAMediaType">
+    <dc:title>RDA Media Type</dc:title>
+  </skos:ConceptScheme>
+  <!-- Concept: audio  -->
+  <skos:Concept rdf:about="http://rdaregistry.info/termList/RDAMediaType/1001" xml:lang="en">
+    <skos:inScheme rdf:resource="http://rdaregistry.info/termList/RDAMediaType"/>
+    <reg:status rdf:resource="http://metadataregistry.org/uri/RegStatus/1001"/>
+    <reg:identifier rdf:resource="http://metadataregistry.org/concepts/475"/>
+    <skos:prefLabel xml:lang="en">audio</skos:prefLabel>
+    <skos:definition xml:lang="en">A media type used to store recorded sound, designed for use with a playback device such as a turntable, audiocassette player, CD player, or MP3 player.</skos:definition>
+    <skos:scopeNote xml:lang="en">Media used to store digitally encoded as well as analog sound are included.</skos:scopeNote>
+    <skos:prefLabel xml:lang="fr">audio</skos:prefLabel>
+    <skos:definition xml:lang="fr">Média servant à emmagasiner du son enregistré et conçu pour une utilisation au moyen d’un dispositif de lecture tel qu’une platine, un lecteur de cassette audio, un lecteur de CD ou un lecteur MP3.</skos:definition>
+    <skos:scopeNote xml:lang="fr">Comprend tout média servant à emmagasiner du son encodé numériquement aussi bien que du son analogique.</skos:scopeNote>
+    <rdakit:toolkitLabel xml:lang="en">audio</rdakit:toolkitLabel>
+    <rdakit:toolkitLabel xml:lang="fr">audio</rdakit:toolkitLabel>
+    <rdakit:toolkitDefinition xml:lang="en">A media type used to store recorded sound, designed for use with a playback device such as a turntable, audiocassette player, CD player, or MP3 player.</rdakit:toolkitDefinition>
+  </skos:Concept>
+  <!-- Concept: microform  -->
+  <skos:Concept rdf:about="http://rdaregistry.info/termList/RDAMediaType/1002" xml:lang="en">
+    <skos:inScheme rdf:resource="http://rdaregistry.info/termList/RDAMediaType"/>
+    <reg:status rdf:resource="http://metadataregistry.org/uri/RegStatus/1001"/>
+    <reg:identifier rdf:resource="http://metadataregistry.org/concepts/476"/>
+    <skos:prefLabel xml:lang="en">microform</skos:prefLabel>
+    <skos:definition xml:lang="en">A media type used to store reduced-size images not readable to the human eye, designed for use with a device such as a microfilm or microfiche reader.</skos:definition>
+    <skos:scopeNote xml:lang="en">Both transparent and opaque micrographic media are included.</skos:scopeNote>
+    <skos:prefLabel xml:lang="fr">microforme</skos:prefLabel>
+    <skos:definition xml:lang="fr">Média servant à emmagasiner des images de taille réduite non lisibles à l’œil nu, et conçu pour une utilisation au moyen d’un dispositif tel que : lecteur de microfilm ou de microfiche.</skos:definition>
+    <skos:scopeNote xml:lang="fr">Comprend les deux médias microphotographiques, transparent et opaque.</skos:scopeNote>
+    <rdakit:toolkitLabel xml:lang="en">microform</rdakit:toolkitLabel>
+    <rdakit:toolkitLabel xml:lang="fr">microforme</rdakit:toolkitLabel>
+    <rdakit:toolkitDefinition xml:lang="en">A media type used to store reduced-size images not readable to the human eye, designed for use with a device such as a microfilm or microfiche reader.</rdakit:toolkitDefinition>
+  </skos:Concept>
+  <!-- Concept: computer  -->
+  <skos:Concept rdf:about="http://rdaregistry.info/termList/RDAMediaType/1003" xml:lang="en">
+    <skos:inScheme rdf:resource="http://rdaregistry.info/termList/RDAMediaType"/>
+    <reg:status rdf:resource="http://metadataregistry.org/uri/RegStatus/1001"/>
+    <reg:identifier rdf:resource="http://metadataregistry.org/concepts/477"/>
+    <skos:prefLabel xml:lang="en">computer</skos:prefLabel>
+    <skos:definition xml:lang="en">A media type used to store electronic files, designed for use with a computer.</skos:definition>
+    <skos:scopeNote xml:lang="en">Media that are accessed remotely through file servers as well as direct-access media such as computer tapes and discs are included.</skos:scopeNote>
+    <skos:prefLabel xml:lang="fr">informatique</skos:prefLabel>
+    <skos:definition xml:lang="fr">Média servant à emmagasiner des fichiers électroniques et conçu pour une utilisation au moyen d’un ordinateur.</skos:definition>
+    <skos:scopeNote xml:lang="fr">Comprend tout média accessible à distance par serveur aussi bien que tout média en accès direct tel que des bandes et des disques informatiques.</skos:scopeNote>
+    <rdakit:toolkitLabel xml:lang="en">computer</rdakit:toolkitLabel>
+    <rdakit:toolkitLabel xml:lang="fr">informatique</rdakit:toolkitLabel>
+    <rdakit:toolkitDefinition xml:lang="en">A media type used to store electronic files, designed for use with a computer.</rdakit:toolkitDefinition>
+  </skos:Concept>
+  <!-- Concept: microscopic  -->
+  <skos:Concept rdf:about="http://rdaregistry.info/termList/RDAMediaType/1004" xml:lang="en">
+    <skos:inScheme rdf:resource="http://rdaregistry.info/termList/RDAMediaType"/>
+    <reg:status rdf:resource="http://metadataregistry.org/uri/RegStatus/1001"/>
+    <reg:identifier rdf:resource="http://metadataregistry.org/concepts/478"/>
+    <skos:prefLabel xml:lang="en">microscopic</skos:prefLabel>
+    <skos:definition xml:lang="en">A media type used to store minute objects, designed for use with a device such as a microscope to reveal details invisible to the naked eye.</skos:definition>
+    <skos:prefLabel xml:lang="fr">microscopique</skos:prefLabel>
+    <skos:definition xml:lang="fr">Média servant à emmagasiner des objets minuscules et conçu pour une utilisation au moyen d’un dispositif tel qu’un microscope, pour faire apparaître des détails invisibles à l’œil nu.</skos:definition>
+    <rdakit:toolkitLabel xml:lang="en">microscopic</rdakit:toolkitLabel>
+    <rdakit:toolkitLabel xml:lang="fr">microscopique</rdakit:toolkitLabel>
+    <rdakit:toolkitDefinition xml:lang="en">A media type used to store minute objects, designed for use with a device such as a microscope to reveal details invisible to the naked eye.</rdakit:toolkitDefinition>
+  </skos:Concept>
+  <!-- Concept: projected  -->
+  <skos:Concept rdf:about="http://rdaregistry.info/termList/RDAMediaType/1005" xml:lang="en">
+    <skos:inScheme rdf:resource="http://rdaregistry.info/termList/RDAMediaType"/>
+    <reg:status rdf:resource="http://metadataregistry.org/uri/RegStatus/1001"/>
+    <reg:identifier rdf:resource="http://metadataregistry.org/concepts/479"/>
+    <skos:prefLabel xml:lang="en">projected</skos:prefLabel>
+    <skos:definition xml:lang="en">A media type used to store moving or still images, designed for use with a projection device such as a motion picture film projector, slide projector, or overhead projector.</skos:definition>
+    <skos:scopeNote xml:lang="en">Media designed to project both two-dimensional and three-dimensional images are included.</skos:scopeNote>
+    <skos:prefLabel xml:lang="fr">projeté</skos:prefLabel>
+    <skos:definition xml:lang="fr">Média servant à emmagasiner des images, animées ou fixes, et conçu pour une utilisation au moyen d’un dispositif de projection tel que : projecteur de film cinématographique, projecteur de diapositives ou rétroprojecteur.</skos:definition>
+    <skos:scopeNote xml:lang="fr">Comprend tout média conçu pour projeter des images bidimensionnelles et tridimensionnelles.</skos:scopeNote>
+    <rdakit:toolkitLabel xml:lang="en">projected</rdakit:toolkitLabel>
+    <rdakit:toolkitLabel xml:lang="fr">projeté</rdakit:toolkitLabel>
+    <rdakit:toolkitDefinition xml:lang="en">A media type used to store moving or still images, designed for use with a projection device such as a motion picture film projector, slide projector, or overhead projector.</rdakit:toolkitDefinition>
+  </skos:Concept>
+  <!-- Concept: stereographic  -->
+  <skos:Concept rdf:about="http://rdaregistry.info/termList/RDAMediaType/1006" xml:lang="en">
+    <skos:inScheme rdf:resource="http://rdaregistry.info/termList/RDAMediaType"/>
+    <reg:status rdf:resource="http://metadataregistry.org/uri/RegStatus/1001"/>
+    <reg:identifier rdf:resource="http://metadataregistry.org/concepts/480"/>
+    <skos:prefLabel xml:lang="en">stereographic</skos:prefLabel>
+    <skos:definition xml:lang="en">A media type used to store pairs of still images, designed for use with a device such as a stereoscope or stereograph viewer to give the effect of three dimensions.</skos:definition>
+    <skos:prefLabel xml:lang="fr">stéréoscopique</skos:prefLabel>
+    <skos:definition xml:lang="fr">Média servant à emmagasiner des paires d’images fixes et conçu pour une utilisation au moyen d’un dispositif tel qu’un stéréoscope ou une visionneuse stéréoscopique pour donner l’impression des trois dimensions.</skos:definition>
+    <rdakit:toolkitLabel xml:lang="en">stereographic</rdakit:toolkitLabel>
+    <rdakit:toolkitLabel xml:lang="fr">stéréoscopique</rdakit:toolkitLabel>
+    <rdakit:toolkitDefinition xml:lang="en">A media type used to store pairs of still images, designed for use with a device such as a stereoscope or stereograph viewer to give the effect of three dimensions.</rdakit:toolkitDefinition>
+  </skos:Concept>
+  <!-- Concept: unmediated  -->
+  <skos:Concept rdf:about="http://rdaregistry.info/termList/RDAMediaType/1007" xml:lang="en">
+    <skos:inScheme rdf:resource="http://rdaregistry.info/termList/RDAMediaType"/>
+    <reg:status rdf:resource="http://metadataregistry.org/uri/RegStatus/1001"/>
+    <reg:identifier rdf:resource="http://metadataregistry.org/concepts/481"/>
+    <skos:prefLabel xml:lang="en">unmediated</skos:prefLabel>
+    <skos:definition xml:lang="en">A media type used to store content designed to be perceived directly through one or more of the human senses without the aid of an intermediating device.</skos:definition>
+    <skos:scopeNote xml:lang="en">Media containing visual and/or tactile content produced using processes such as printing, engraving, lithography, etc., embossing, texturing, etc., or by means of handwriting, drawing, painting, etc., are included. Media used to convey three-dimensional forms such as sculptures, models, etc., are also included.</skos:scopeNote>
+    <skos:scopeNote xml:lang="en">Also includes media used to convey three-dimensional forms such as sculptures, models, etc.</skos:scopeNote>
+    <skos:prefLabel xml:lang="fr">sans médiation</skos:prefLabel>
+    <skos:definition xml:lang="fr">Média servant à emmagasiner un contenu conçu pour être perçu directement par un ou plusieurs sens humains sans l’aide d’un dispositif de médiation.</skos:definition>
+    <skos:scopeNote xml:lang="fr">Comprend tout média à contenu visuel et/ou tactile produit selon des procédés tels que : impression, gravure, lithographie, etc. ; embossage, texturation, etc. ; ou bien encore au moyen de l’écriture à la main, du dessin, de la peinture, etc. Comprend également tout média servant à communiquer des formes tridimensionnelles telles que : sculptures, maquettes, etc.</skos:scopeNote>
+    <rdakit:toolkitLabel xml:lang="en">unmediated</rdakit:toolkitLabel>
+    <rdakit:toolkitLabel xml:lang="fr">sans médiation</rdakit:toolkitLabel>
+    <rdakit:toolkitDefinition xml:lang="en">A media type used to store content designed to be perceived directly through one or more of the human senses without the aid of an intermediating device.</rdakit:toolkitDefinition>
+  </skos:Concept>
+  <!-- Concept: video  -->
+  <skos:Concept rdf:about="http://rdaregistry.info/termList/RDAMediaType/1008" xml:lang="en">
+    <skos:inScheme rdf:resource="http://rdaregistry.info/termList/RDAMediaType"/>
+    <reg:status rdf:resource="http://metadataregistry.org/uri/RegStatus/1001"/>
+    <reg:identifier rdf:resource="http://metadataregistry.org/concepts/482"/>
+    <skos:prefLabel xml:lang="en">video</skos:prefLabel>
+    <skos:definition xml:lang="en">A media type used to store moving or still images, designed for use with a playback device such as a videocassette player or DVD player.</skos:definition>
+    <skos:scopeNote xml:lang="en">Media used to store digitally encoded as well as analog images are included.</skos:scopeNote>
+    <skos:prefLabel xml:lang="fr">vidéo</skos:prefLabel>
+    <skos:definition xml:lang="fr">Média servant à emmagasiner des images animées ou fixes et conçu pour une utilisation au moyen d’un dispositif de lecture tel qu’un lecteur de cassette vidéo ou de DVD.</skos:definition>
+    <skos:scopeNote xml:lang="fr">Comprend tout média servant à emmagasiner des images encodées numériquement aussi bien que des images analogiques.</skos:scopeNote>
+    <rdakit:toolkitLabel xml:lang="en">video</rdakit:toolkitLabel>
+    <rdakit:toolkitLabel xml:lang="fr">vidéo</rdakit:toolkitLabel>
+    <rdakit:toolkitDefinition xml:lang="en">A media type used to store moving or still images, designed for use with a playback device such as a videocassette player or DVD player.</rdakit:toolkitDefinition>
+  </skos:Concept>
+  <!-- Status properties used in this document  -->
+  <skos:Concept rdf:about="http://metadataregistry.org/uri/RegStatus/1001">
+    <skos:prefLabel xml:lang="en">Published</skos:prefLabel>
+  </skos:Concept>
+</rdf:RDF>

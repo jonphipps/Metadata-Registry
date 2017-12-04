@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\VocabsModel;
+use apps\frontend\lib\services\jsonldService;
 use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -10,6 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Storage;
+use sfContext;
 
 class GenerateRdf implements ShouldQueue
 {
@@ -87,7 +89,10 @@ class GenerateRdf implements ShouldQueue
     public function saveJsonLd()
     {
         $storagePath = $this->getStoragePath('jsonld');
-        $client      = new Client();
-        $res         = $client->get(url(self::URLARRAY[ $this->class ] . $this->id . '/publish'));
+        initSymfonyEnv();
+        $vocabulary = \VocabularyPeer::retrieveByPK($this->id);
+        ob_get_clean();
+        $jsonLdService = new jsonldService($vocabulary);
+        Storage::put($storagePath, $jsonLdService->getJsonLd());
     }
 }
