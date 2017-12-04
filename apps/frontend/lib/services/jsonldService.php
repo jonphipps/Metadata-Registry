@@ -35,10 +35,10 @@ class jsonldService
         $this->vocabArray['description']       = [ $vocab->getLanguage() => $vocab->getNote() ];
         $this->vocabArray["token"]             = $vocab->getToken();
         $this->vocabArray["prefix"]            = $vocab->getPrefix();
-        $status                                = \ConceptPeer::getConceptByUri($vocab->getStatus()->getUri());
+        $status                                = $vocab->getStatus();
         $this->vocabArray['status']            = [
             "@id"   => $status->getUri(),
-            "label" => $status->getPrefLabel()
+            "label" => $status->getDisplayName()
         ];
         $this->vocabArray['omr_api']           = "http://api.metadataregistry.org/vocabularies/" . $vocab->getId();
         $this->vocabArray['omr_home']          = "http://metadataregistry.org/vocabulary/show/id/" . $vocab->getId();
