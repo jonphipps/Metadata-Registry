@@ -94,4 +94,30 @@ if (! function_exists('laravel_link_to_action')) {
             return $options;
         }
     }
+
+    if ( ! function_exists('initSymfonyEnv')) {
+        /**
+         * @return sfContext
+         */
+        function initSymfonyEnv()
+        {
+            if ( ! defined('SF_APP')) {
+                define('SF_APP', 'frontend');
+                define('SF_ENVIRONMENT', env('SF_ENVIRONMENT', 'prod'));
+                define('SF_DEBUG', env('SF_DEBUG', 'false'));
+            }
+            if ( ! defined('SF_ROOT_DIR')) {
+                define('SF_ROOT_DIR', env('SF_ROOT_DIR', app()->basePath()));
+            }
+            /** @noinspection PhpIncludeInspection */
+            require_once app()->basePath('apps/frontend/config/config.php');
+
+            //make sure we have a fresh instance since it's never an internal symfony forward
+            if (sfContext::hasInstance()) {
+                sfContext::removeInstance();
+            }
+
+            return sfContext::getInstance();
+        }
+    }
 }

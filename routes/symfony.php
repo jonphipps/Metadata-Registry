@@ -14,16 +14,8 @@ Route::group([ 'middleware' => 'symfony'],
 
         Route::any('{all}',
             function () {
-                // fire up symfony
-                if (! defined('SF_APP')) {
-                    define('SF_APP', 'frontend');
-                    define('SF_ENVIRONMENT', env('SF_ENVIRONMENT', 'prod'));
-                    define('SF_DEBUG', env('SF_DEBUG', 'false'));
-                }
-                if (! defined('SF_ROOT_DIR')) {
-                    define('SF_ROOT_DIR', env('SF_ROOT_DIR', app()->basePath()));
-                }
 
+                //set the global server headers that symfony needs
                 $_SERVER['HTTP_HOST'] = request()->getHost() ;
                 $_SERVER['SERVER_NAME'] = empty($_SERVER['SERVER_NAME']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME'];
                 $_SERVER['SERVER_PORT'] = empty($_SERVER['SERVER_PORT']) ? 80 : $_SERVER['SERVER_PORT'];
@@ -36,19 +28,16 @@ Route::group([ 'middleware' => 'symfony'],
                 $_SERVER['SCRIPT_FILENAME'] = empty($_SERVER['SCRIPT_FILENAME']) ? app()->basePath() . '/web/index.php' : $_SERVER['SCRIPT_FILENAME'];
                 $_SERVER['QUERY_STRING'] = request()->getQueryString() ;
 
-                require_once SF_ROOT_DIR.DIRECTORY_SEPARATOR.'apps'.DIRECTORY_SEPARATOR.SF_APP.DIRECTORY_SEPARATOR.'config'.DIRECTORY_SEPARATOR.'config.php';
-
                 //set the xmlrequest header for rdf files (this toggles things that check for non-html returns, like Tracy)
                 if (ends_with(request()->getRequestUri(), '.rdf')) {
                     request()->headers->set('X-Requested-With', 'XMLHttpRequest');
                 }
 
-                    //make sure we have a fresh instance since it's never an internal symfony forward
-                if (sfContext::hasInstance()) {
-                  sfContext::removeInstance();
-                }
+                // fire up symfony
+                $sfInstance = initSymfonyEnv();
+
                 //let symfony handle/render the request
-                sfContext::getInstance()->getController()->dispatch();
+                $sfInstance->getController()->dispatch();
 
                 // return the symfony rendering as the response
                 $html = ob_get_clean();
