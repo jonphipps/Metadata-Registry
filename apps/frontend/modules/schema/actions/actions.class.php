@@ -197,7 +197,6 @@ class schemaActions extends autoSchemaActions
       }
       $file = $vocabDir . "." . $mime;
 
-      storage_path('repos');
       $repoRoot = SF_ROOT_DIR . DIRECTORY_SEPARATOR .
                   'web' . DIRECTORY_SEPARATOR .
                   'repos' . DIRECTORY_SEPARATOR  .
