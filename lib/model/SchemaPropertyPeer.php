@@ -10,10 +10,11 @@
 class SchemaPropertyPeer extends BaseSchemaPropertyPeer
 {
   /**
-  * returns properties for the current schema
-  *
-  * @return SchemaProperty[]
-  */
+     * returns properties for the current schema
+     *
+     * @return SchemaProperty[]
+     * @throws PropelException
+     */
   public static function getPropertiesByCurrentSchemaID()
   {
     $schema = self::getSchema();
@@ -21,12 +22,12 @@ class SchemaPropertyPeer extends BaseSchemaPropertyPeer
     $c->add(self::SCHEMA_ID, $schema->getId());
     $c->add(self::TYPE,'property');
     $c->addOr(self::TYPE,'subproperty');
-    $c->addAscendingOrderByColumn(self::NAME);
+    $c->addAscendingOrderByColumn(self::LABEL);
     $properties = $schema->getSchemaPropertys($c);
 
     $request = sfContext::getInstance()->getRequest();
     $currentPropertyId = $request->getParameter('id');
-    if ("schemaprop" == $request->getParameter('module') && "edit" == $request->getParameter('action'))
+    if ('schemaprop' === $request->getParameter('module') && "edit" === $request->getParameter('action'))
     {
       foreach ($properties as $id => $property)
       {
@@ -41,10 +42,11 @@ class SchemaPropertyPeer extends BaseSchemaPropertyPeer
   }
 
   /**
-  * returns classes for the current schema
-  *
-  * @return SchemaProperty[]
-  */
+     * returns classes for the current schema
+     *
+     * @return SchemaProperty[]
+     * @throws PropelException
+     */
   public static function getClassesByCurrentSchemaID()
   {
     $schema = self::getSchema();
@@ -52,12 +54,12 @@ class SchemaPropertyPeer extends BaseSchemaPropertyPeer
     $c->add(self::SCHEMA_ID, $schema->getId());
     $c->add(self::TYPE,'class');
     $c->addOr(self::TYPE,'subclass');
-    $c->addAscendingOrderByColumn(self::NAME);
+    $c->addAscendingOrderByColumn(self::LABEL);
     $classes = self::doSelect($c);
 
     $request = sfContext::getInstance()->getRequest();
     $currentPropertyId = $request->getParameter('id');
-    if ("schemaprop" == $request->getParameter('module') && "edit" == $request->getParameter('action')) {
+    if ('schemaprop' === $request->getParameter('module') && 'edit' === $request->getParameter('action')) {
       /** @var $property SchemaProperty */
       foreach ($classes as $id => $property) {
         if ($property->getId() == $currentPropertyId) {

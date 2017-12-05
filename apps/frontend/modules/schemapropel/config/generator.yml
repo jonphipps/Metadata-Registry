@@ -37,6 +37,7 @@ generator:
 
     list:
       title:         Schema Property Statement List
+      peer_method:   doSelectJoinProfilePropertySortByProfileProperty
       fields:
         format_language: { name: Language }
         updated_user: { name: Updated by }

@@ -151,7 +151,7 @@ abstract class sfComponent
    *
    * @param string    $default
    *
-   * @return string The request parameter value
+   * @return array|string The request parameter value
    */
   public function getRequestParameter($name, $default = null)
   {
@@ -270,7 +270,9 @@ abstract class sfComponent
    *
    * @param  string $key The variable name
    * @param  string $value The variable value
-   **
+   *
+   * @return boolean always true
+   *
    * @see setVar()
    */
   public function __set($key, $value)

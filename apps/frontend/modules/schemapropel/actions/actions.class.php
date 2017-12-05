@@ -23,33 +23,34 @@ class schemapropelActions extends autoSchemapropelActions
     parent::preExecute();
   }
 
-  /**
-   * Set the defaults
-   *
-   * @param SchemaPropertyElement $schema_property_element
-   *
-   */
+    /**
+     * Set the defaults
+     *
+     * @param SchemaPropertyElement $schema_property_element
+     *
+     * @throws PropelException
+     */
   public function setDefaults($schema_property_element)
   {
     $schemaObj = $this->schema_property->getSchema();
     $language  = sfContext::getInstance()->getUser()->getCulture();
     $userId    = sfContext::getInstance()->getUser()->getSubscriberId();
 
-      if ("edit" == $this->getActionName() && $userId) {
+      if ($userId && $this->getActionName() === 'edit') {
         $schemaUser    = $schemaObj->GetUserForSchema($userId);
         $UserLanguages = is_object($schemaUser) ? $schemaUser->getLanguages() : ['en'];
-        $this->getUser()->setAttribute("languages", $UserLanguages);
+        $this->getUser()->setAttribute('languages', $UserLanguages);
 
         if (! in_array($language, $UserLanguages)) {
           $language = $schemaUser->getDefaultLanguage();
           //save the current culture
           $UserCulture = sfContext::getInstance()->getUser()->getCulture();
-          $this->getUser()->setAttribute("UserCulture", $UserCulture);
+          $this->getUser()->setAttribute('UserCulture', $UserCulture);
         }
 
-        $this->getUser()->setAttribute("CurrentLanguage", $language);
+        $this->getUser()->setAttribute('CurrentLanguage', $language);
       }
-      $schemaPropertyStatus = $this->schema_property->getStatusID();
+      $schemaPropertyStatus = $this->schema_property->getStatusId();
       $schema_property_element->setStatusId($schemaPropertyStatus);
 
     parent::setDefaults($schema_property_element);
@@ -61,7 +62,10 @@ class schemapropelActions extends autoSchemapropelActions
     $schema_property_element->setUpdatedUserId($userId);
   }
 
-  public function executeList ()
+    /**
+     * @throws PropelException
+     */
+    public function executeList ()
   {
     //a current schema is required to be in the request URL
     myActionTools::requireSchemaPropertyFilter();
@@ -88,10 +92,10 @@ class schemapropelActions extends autoSchemapropelActions
 
     if (!isset($this->noEditProperties))
     {
+      $noedit = array();
       $schema = $this->schema_property->getSchema();
       $profile = $schema->getProfile();
       $properties = $profile->getNoEditProperties();
-      $required = array();
 
       foreach ($properties as $value)
       {
@@ -112,7 +116,7 @@ class schemapropelActions extends autoSchemapropelActions
     /**
     * @todo this is too hardwired. Ultimately it will need to access a property of the profile
     **/
-    $this->setFlash('showList', 6 == $this->schema_property_element->getProfilePropertyId() || 9 == $this->schema_property_element->getProfilePropertyId());
+    $this->setFlash('showList', $this->schema_property_element->getProfilePropertyId() == 6 || $this->schema_property_element->getProfilePropertyId() == 9);
   }
 
   public function executeCreate()
@@ -123,55 +127,72 @@ class schemapropelActions extends autoSchemapropelActions
     parent::executeCreate();
   }
 
-  /**
-  * overrides the parent executeList function
-  *
-  */
-  protected function updateSchemaPropertyElementFromRequest()
-  {
-    $schema_property_element = $this->getRequestParameter('schema_property_element');
-
-    if (isset($schema_property_element['related_schema_class_id']) && $schema_property_element['related_schema_class_id'])
+    /**
+     * overrides the parent updateSchemaPropertyElementFromRequest function
+     */
+    protected function updateSchemaPropertyElementFromRequest()
     {
-      $schema_property_element['related_schema_property_id'] = $schema_property_element['related_schema_class_id'];
+        $schema_property_element = $this->getRequestParameter('schema_property_element');
+
+        if ( ! empty($schema_property_element['related_schema_class_id']) && $schema_property_element['related_schema_class_id']) {
+            $schema_property_element['related_schema_property_id'] = $schema_property_element['related_schema_class_id'];
+        }
+        unset($schema_property_element['related_schema_class_id']);
+
+        //if element profile does not have language set language to empty
+        $profile = ProfilePropertyPeer::retrieveByPK($schema_property_element['profile_property_id']);
+        if (!$profile->getHasLanguage()) {
+            $schema_property_element['language'] ='';
+        }
+        //lookup uri and set the id if found
+        if (empty($schema_property_element['related_schema_property_id']) && ! empty($schema_property_element['object'])) {
+            $property = SchemaPropertyPeer::retrieveByUri($schema_property_element['object']);
+            if ($property) {
+                $schema_property_element['related_schema_property_id'] = $property->getId();
+            }
+        }
+        if (!empty($schema_property_element['related_schema_property_id']) && empty($schema_property_element['object'])) {
+            $property = SchemaPropertyPeer::retrieveByPK($schema_property_element['related_schema_property_id']);
+            if ($property) {
+                $schema_property_element['object'] = $property->getUri();
+            }
+        }
+
+        $this->getRequest()->setParameter('schema_property_element', $schema_property_element);
+
+        parent::updateSchemaPropertyElementFromRequest();
     }
 
-    unset($schema_property_element['related_schema_class_id']);
-    $this->getRequest()->setParameter('schema_property_element',$schema_property_element);
-
-    parent::updateSchemaPropertyElementFromRequest();
-  }
-
-  protected function saveSchemaPropertyElement($schema_property_element)
+    /**
+     * @param $schema_property_element
+     *
+     * @return integer
+     * @throws PropelException
+     */
+    protected function saveSchemaPropertyElement($schema_property_element)
   {
-    $con = Propel::getConnection(SchemaPropertyElementPeer::DATABASE_NAME);
-
     try
     {
+      $con = Propel::getConnection(SchemaPropertyElementPeer::DATABASE_NAME);
       //start a transaction
       $con->begin();
 
       //save it first
       $affectedRows = $schema_property_element->save($con);
 
-      if ($affectedRows)
-      {
-        //update the property page
-        if ($schema_property_element->getIsSchemaProperty())
+      if ($affectedRows && $schema_property_element->getIsSchemaProperty()) {
+        $fieldName = sfInflector::underscore($schema_property_element->getProfileProperty($con)->getName());
+        //$fields = SchemaPropertyPeer::getFieldNames(BasePeer::TYPE_FIELDNAME);
+        //get the property page
+        $property = $schema_property_element->getSchemaPropertyRelatedBySchemaPropertyId($con);
+        $property->setByName($fieldName, $schema_property_element->getObject(), BasePeer::TYPE_FIELDNAME);
+        $property->setUpdatedUserId($schema_property_element->getUpdatedUserId());
+        if ('is_subproperty_of' === $fieldName)
         {
-          $fieldName = sfInflector::underscore($schema_property_element->getProfileProperty($con)->getName());
-          //$fields = SchemaPropertyPeer::getFieldNames(BasePeer::TYPE_FIELDNAME);
-          //get the property page
-          $property = $schema_property_element->getSchemaPropertyRelatedBySchemaPropertyId($con);
-          $property->setByName($fieldName, $schema_property_element->getObject(), BasePeer::TYPE_FIELDNAME);
-          $property->setUpdatedUserId($schema_property_element->getUpdatedUserId());
-          if ('is_subproperty_of' == $fieldName)
-          {
-            $property->setIsSubpropertyOf($schema_property_element->getRelatedSchemaPropertyId());
-          }
-
-          $property->save($con);
+          $property->setIsSubpropertyOf($schema_property_element->getRelatedSchemaPropertyId());
         }
+
+        $property->save($con);
       }
 
       //commit the transaction
@@ -181,19 +202,26 @@ class schemapropelActions extends autoSchemapropelActions
     }
     catch (PropelException $e)
     {
-      $con->rollback();
-      throw $e;
+        if (null !== $con) {
+            $con->rollback();
+        }
+        throw $e;
     }
   } //saveSchemaPropertyElement
 
-  protected function deleteSchemaPropertyElement($schema_property_element)
+    /**
+     * @param $schema_property_element
+     *
+     * @throws PropelException
+     */
+    protected function deleteSchemaPropertyElement($schema_property_element)
   {
-    $con = Propel::getConnection(SchemaPropertyElementPeer::DATABASE_NAME);
     /**
     * @todo at some point we need to refuse to delete a required field
     **/
     try
     {
+      $con = Propel::getConnection(SchemaPropertyElementPeer::DATABASE_NAME);
       //start a transaction
       $con->begin();
 
@@ -206,7 +234,7 @@ class schemapropelActions extends autoSchemapropelActions
         $property = $schema_property_element->getSchemaPropertyRelatedBySchemaPropertyId($con);
         $property->setByName($fieldName, '', BasePeer::TYPE_FIELDNAME);
         $property->setUpdatedUserId($schema_property_element->getUpdatedUserId());
-        if ('is_subproperty_of' == $fieldName)
+        if ('is_subproperty_of' === $fieldName)
         {
           $property->setRelatedPropertyId(null);
         }
@@ -222,8 +250,10 @@ class schemapropelActions extends autoSchemapropelActions
     }
     catch (PropelException $e)
     {
-      $con->rollback();
-      throw $e;
+        if (null !== $con) {
+            $con->rollback();
+        }
+        throw $e;
     }
 
   }
