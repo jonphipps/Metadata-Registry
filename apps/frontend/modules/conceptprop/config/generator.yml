@@ -34,9 +34,10 @@ generator:
 
     list:
       title:         Concept Property List
+      peer_method:   doSelectJoinProfilePropertyRelatedBySkosPropertyIdSortByProfileProperty
       fields:
-        _language:     { name: Lang }
-        updated_at: { name: Updated }
+        _language:    { name: Lang }
+        updated_at:   { name: Updated }
       display:        [=profile_property, _language, _show_object, status, updated_at]
       displayfilter:  false
       object_actions:

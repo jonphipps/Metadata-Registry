@@ -67,7 +67,7 @@ generator:
       display:
 #        "-Metadata":   { fields: [id, created_at, created_by, updated_at, updated_by], mode: edit, credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
         "Detail":      [pref_label, uri, is_top_concept, status_id, _language]
-        "Properties":  [_listproperties]
+        "Current Properties Listed by Language":  [_listproperties]
       actions:
         _list:         { query_string: { vocabulary_id: vocabulary_id} }
         _save:         { credentials: [[administrator, vocabularymaintainer, vocabularyadmin, conceptadmin]] }
@@ -82,7 +82,7 @@ generator:
       display:
         "-Metadata":   { fields: [id, created_at, created_by, updated_at, updated_by], credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
         "Detail":      [pref_label, _language, _uri, is_top_concept, status]
-        "Properties":  [_listproperties]
+        "Properties Listed by Language":  [_listproperties]
       actions:
         _list:         { query_string: { vocabulary_id: vocabulary_id} }
         _edit:         { credentials: [[administrator, vocabularymaintainer, vocabularyadmin]] }
