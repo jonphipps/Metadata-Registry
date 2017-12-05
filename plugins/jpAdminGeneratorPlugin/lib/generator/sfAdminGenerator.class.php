@@ -146,7 +146,7 @@ abstract class sfAdminGenerator extends sfCrudGenerator
     }
     elseif (isset($params['query_string']))
     {
-      $qry = '';
+      $qry = [];
       $queryString = $params['query_string'];
       foreach ($queryString as $key => $value)
       {

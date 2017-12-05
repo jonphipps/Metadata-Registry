@@ -156,7 +156,7 @@ abstract class sfComponent
    *
    * @param string    $default
    *
-   * @return string The request parameter value
+   * @return array|string The request parameter value
    */
   public function getRequestParameter($name, $default = null)
   {

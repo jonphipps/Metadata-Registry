@@ -44,14 +44,15 @@ class sfRefererFilter extends sfFilter
     {
       $request_stack = $user->getAttribute('request_stack', '', 'sfRefererPlugin');
 
-      if (isset($request_stack['current_uri']))
-      {
-        $request_stack['last_uri'] = $request_stack['current_uri'];
-      }
-
-      $request_stack['current_uri'] = $request->getUri();
-
-      $user->setAttribute('request_stack', $request_stack, 'sfRefererPlugin');
+        if (is_array($request_stack)) {
+            if (isset($request_stack['current_uri'])) {
+                $request_stack['last_uri'] = $request_stack['current_uri'];
+            }
+            $request_stack['current_uri'] = $request->getUri();
+        } else {
+            $request_stack = array();
+        }
+        $user->setAttribute('request_stack', $request_stack, 'sfRefererPlugin');
     }
 
     // execute next filter in chain
