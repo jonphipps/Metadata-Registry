@@ -21,12 +21,13 @@ class SkosPropertyPeer extends BaseSkosPropertyPeer
 	/** the value for the label ID  */
 	const LABEL_ID = 27;
 
-  /**
-  * description
-  *
-  * @return return_type
-  * @param  var_type $var
-  */
+    /**
+     * description
+     *
+     * @return array
+     * @throws PropelException
+     * @throws SQLException
+     */
   public static function getResourceProperties()
   {
     $c = new Criteria();
@@ -41,12 +42,12 @@ class SkosPropertyPeer extends BaseSkosPropertyPeer
     return $results;
   }
 
-  /**
-  * description
-  *
-  * @return return_type
-  * @param  var_type $var
-  */
+    /**
+     * description
+     *
+     * @return array
+     * @throws PropelException
+     */
   public static function getPicklist()
   {
     $c = new Criteria();
@@ -67,12 +68,13 @@ class SkosPropertyPeer extends BaseSkosPropertyPeer
     return $results;
   }
 
-  /**
-  * description
-  *
-  * @return return_type
-  * @param  var_type $var
-  */
+    /**
+     * description
+     *
+     * @return return_type
+     * @throws PropelException
+     * @throws SQLException
+     */
   public static function getPropertyNames()
   {
     $c = new Criteria();
