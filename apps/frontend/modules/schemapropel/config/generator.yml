@@ -29,12 +29,13 @@ generator:
 
     list:
       title:         Schema Property Statement List
+      peer_method:   doSelectJoinProfilePropertySortByProfileProperty
       fields:
         format_language: { name: Language }
         updated_user: { name: Updated by }
       display:        [=profile_property, format_language, _object, status, updated_at, updated_user]
       displayfilter:  false
-#      sort:           profile_property
+
       object_actions:
         _edit:        { credentials: [[administrator, schemamaintainer, schemaadmin]] }
         _delete:      { credentials: [[administrator, schemamaintainer, schemaadmin]] }

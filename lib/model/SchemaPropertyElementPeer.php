@@ -196,6 +196,23 @@ class SchemaPropertyElementPeer extends BaseSchemaPropertyElementPeer
 
         return $namespaces;
     }
+
+    /**
+     * @param Criteria $c
+     * @param null     $con
+     *
+     * @return array
+     * @throws PropelException
+     */
+    public static function doSelectJoinProfilePropertySortByProfileProperty(Criteria $c, $con = null)
+    {
+        $c = clone $c;
+
+        $c->addAscendingOrderByColumn(ProfilePropertyPeer::LABEL);
+        $c->addAscendingOrderByColumn(self::LANGUAGE);
+
+        return self::doSelectJoinProfileProperty($c, $con);
+    }
 }
 
 sfPropelBehavior::add( 'SchemaPropertyElement', array( 'paranoid' ) );
