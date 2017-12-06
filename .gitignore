@@ -53,7 +53,6 @@ spec/coverage
 .env
 dump.rdb
 node_modules
-composer.lock
 
 tests/_output/*
 FunctionalTesterActions.php
