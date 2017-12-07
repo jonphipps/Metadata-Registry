@@ -1,5 +1,5 @@
 <?php
-use apps\frontend\lib\services\jsonldService;
+use apps\frontend\lib\services\jsonldVocabularyService;
 use ImportVocab\ExportVocab;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Adapter\Local as Adapter;
@@ -215,7 +215,7 @@ class vocabularyActions extends autoVocabularyActions
         $filesystem->put($mime . DIRECTORY_SEPARATOR . $file, '');
         //open a file for writing the complete vocabulary file
         $vocabFile     = fopen($filePath, 'w');
-        $jsonLdService = new jsonldService($vocabulary);
+        $jsonLdService = new jsonldVocabularyService($vocabulary);
         fwrite($vocabFile, $jsonLdService->getJsonLd());
         fclose($vocabFile);
 
