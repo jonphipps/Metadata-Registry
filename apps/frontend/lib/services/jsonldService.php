@@ -226,15 +226,34 @@ class jsonldService
         return json_encode($this->itemArray, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 
-
+    /**
+     * @param             $language_iso
+     * @param string|null $culture
+     *
+     * @return string
+     */
     private static function format_language($language_iso, $culture = null)
     {
-        $c         = new \sfCultureInfo($culture === null ? \sfContext::getInstance()
-                                                                    ->getUser()
-                                                                    ->getCulture() : $culture);
+        $c         = new \sfCultureInfo($culture !== null ? $culture : self::getCulture());
         $languages = $c->getLanguages();
 
-        return isset( $languages[$language_iso] ) ? $languages[$language_iso] : '';
+        return isset($languages[ $language_iso ]) ? $languages[ $language_iso ] : '';
+    }
+
+    /**
+     * @return string
+     */
+    public static function getCulture()
+    {
+        $instance = \sfContext::getInstance();
+        if ($instance) {
+            $user = $instance->getUser();
+            if ($user) {
+                return $user->getCulture();
+            }
+        }
+
+        return 'en';
     }
 
 }
