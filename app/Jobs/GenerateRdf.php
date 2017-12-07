@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\VocabsModel;
-use apps\frontend\lib\services\jsonldService;
+use apps\frontend\lib\services\jsonldVocabularyService;
 use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -53,7 +53,7 @@ class GenerateRdf implements ShouldQueue
         $model           = $vocab::findOrFail($id);
         $this->projectId = $model->project_id;
         $basePath        = parse_url($model->base_domain)['path'];
-        $this->filePath  = parse_url($model->uri)['path'];
+        $this->filePath  = rtrim(parse_url($model->uri)['path'],'/');
         $this->fileName  = str_replace_first($basePath, '', parse_url($model->uri)['path']);
     }
 
@@ -89,10 +89,12 @@ class GenerateRdf implements ShouldQueue
     public function saveJsonLd()
     {
         $storagePath = $this->getStoragePath('jsonld');
-        initSymfonyEnv();
-        $vocabulary = \VocabularyPeer::retrieveByPK($this->id);
-        ob_get_clean();
-        $jsonLdService = new jsonldService($vocabulary);
+        if ($this->class === self::VOCABULARY) {
+            initSymfonyEnv();
+            $vocabulary = \VocabularyPeer::retrieveByPK($this->id);
+            ob_get_clean();
+            $jsonLdService = new jsonldVocabularyService($vocabulary);
+        }
         Storage::put($storagePath, $jsonLdService->getJsonLd());
     }
 }

@@ -10,7 +10,7 @@ namespace apps\frontend\lib\services;
 
 use GuzzleHttp\Client;
 
-class jsonldService
+class jsonldVocabularyService
 {
 
     private $vocab;
@@ -226,15 +226,13 @@ class jsonldService
         return json_encode($this->itemArray, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 
-
     private static function format_language($language_iso, $culture = null)
     {
-        $c         = new \sfCultureInfo($culture === null ? \sfContext::getInstance()
-                                                                    ->getUser()
-                                                                    ->getCulture() : $culture);
+        $c         =
+            new \sfCultureInfo($culture === null ? \sfContext::getInstance()->getUser()->getCulture() : $culture);
         $languages = $c->getLanguages();
 
-        return isset( $languages[$language_iso] ) ? $languages[$language_iso] : '';
+        return isset($languages[ $language_iso ]) ? $languages[ $language_iso ] : '';
     }
 
 }
