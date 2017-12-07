@@ -8,18 +8,21 @@
     }
   ],
   "require-dev": {
-    "raveren/kint": "1.0.*@dev",
-    "phpspec/phpspec": "2.1.0",
-    "henrikbjorn/phpspec-code-coverage": "1.0.*@dev",
+    "raveren/kint": "^1.0",
+    "phpspec/phpspec": "^2.1.0",
+    "henrikbjorn/phpspec-code-coverage": "^1.0",
     "codeception/specify": "^0.4.3",
     "codeception/verify": "^0.3.0",
     "captbaritone/mailcatcher-codeception-module": "^1.1",
     "codeception/codeception": "^2.2"
   },
   "config": {
-    "process-timeout": 900,
-    "cache-dir:": "../"
-  },
+  "process-timeout"    : 900,
+  "cache-dir:"         : "../",
+  "preferred-install"  : "dist",
+  "sort-packages"      : true,
+  "optimize-autoloader": true
+},
   "license": "Apache-2.0",
   "authors": [
     {
@@ -27,27 +30,27 @@
       "email": "jphipps@madcreek.com"
     }
   ],
-  "minimum-stability": "dev",
+  "minimum-stability": "beta",
   "require": {
     "bgcc/sf-select2-widgets-plugin": "~1.0",
     "league/plates": "2.*",
     "league/flysystem": "0.5.*",
-    "vlucas/phpdotenv": "1.*@dev",
+    "vlucas/phpdotenv": "^2.0",
     "ddeboer/data-import": "0.18.*",
     "google/apiclient": "^1.1",
     "semsol/arc2": "^2.2",
     "easyrdf/easyrdf": "^0.9.1",
     "ml/json-ld": "^1.0",
-    "symfony/property-access": "2.7.x-dev",
+    "symfony/property-access": "^2.7.0",
     "phpoffice/phpexcel": "^1.8",
-    "symfony/validator": "2.7.x-dev",
-    "symfony/intl": "2.7.x-dev",
+    "symfony/validator": "^2.7.0",
+    "symfony/intl": "^2.7.0",
     "psr/log": "^1.0",
-    "symfony/http-foundation": "2.7.x-dev",
+    "symfony/http-foundation": "^2.7.0",
     "neitanod/forceutf8": "^2.0",
     "mjphaynes/php-resque": "^1.2",
     "robmorgan/phinx": "^0.5.0",
-    "symfony/var-dumper": "2.8.x-dev",
+    "symfony/var-dumper": "^2.8.0",
     "knplabs/github-api": "1.7.*"
   },
 
