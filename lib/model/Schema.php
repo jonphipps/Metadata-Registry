@@ -509,15 +509,16 @@ class Schema extends BaseSchema {
     /**
      * @param SchemaProperty     $property
      * @param Criteria           $cLang
-     * @param ProfileProperty[] $propArray
-     * @param Status[]          $statusArray
-     * @param bool              $languageArray
+     * @param ProfileProperty[]  $propArray
+     * @param Status[]           $statusArray
+     * @param bool               $languageArray
      * @param                    $languageDefault
      *
      * @return array
-     *
+     * @throws Exception
+     * @throws PropelException
      */
-  public function getResourceArray(SchemaProperty $property, Criteria $cLang, $propArray, $statusArray, $languageArray, $languageDefault)
+    public function getResourceArray(SchemaProperty $property, Criteria $cLang, $propArray, $statusArray, $languageArray, $languageDefault)
   {
       //todo: this should be based on a constant rather than hard-coded;
       $lexicalAliasProperty = 27;
