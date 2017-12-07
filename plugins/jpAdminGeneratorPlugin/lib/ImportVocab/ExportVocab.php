@@ -129,6 +129,10 @@ class ExportVocab {
         $this->setLanguages( $this->schema->findLanguages() );
     }
 
+    /**
+     * @throws \InvalidArgumentException
+     * @throws \PropelException
+     */
     public function write()
     {
         $adapter = new Adapter("/");

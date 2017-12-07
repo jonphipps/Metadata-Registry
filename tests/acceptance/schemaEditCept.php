@@ -13,5 +13,5 @@ $I->login();
 $I->seeInTitle('Show Detail');
 $I->seeElement('input', [ 'title' => 'Edit' ]);
 $I->seeElement('input', [ 'title' => 'Publish' ]);
-$I->amOnPage('http://registry.dev/schema/edit/id/81.html');
+$I->amOnPage('/schema/edit/id/81.html');
 $I->seeElement('input', [ 'title' => 'Save' ]);

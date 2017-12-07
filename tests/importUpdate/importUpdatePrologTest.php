@@ -3,7 +3,7 @@ use Codeception\Util\Stub;
 use Codeception\Util\Fixtures;
 use ImportVocab\ImportVocab;
 
-class importUpdateTest extends \Codeception\TestCase\Test
+class importUpdatePrologTest extends \Codeception\TestCase\Test
 {
     /**
      * @var \UnitTester
