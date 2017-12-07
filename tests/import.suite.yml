@@ -5,6 +5,6 @@ modules:
     config:
         Db:
             dump: tests/_data/swregistry_test.sql
-            dsn: mysql:host=127.0.0.1;port=3306;dbname=swregistry_test_update
-            user: "%DB_USER%"
-            password: "%DB_PASS%"
+            dsn: %DB_CONNECTION%:host=%DB_HOST%;port=%DB_PORT%;dbname=swregistry_test_update
+            user: "%DB_USERNAME%"
+            password: "%DB_PASSWORD%"

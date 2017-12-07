@@ -10,10 +10,10 @@ modules:
         - Filesystem
         - \Helper\Functional
         - Asserts
-#        - Db:
-#            dump: tests/_data/swregistry_test.sql
-#            dsn: "mysql:host=127.0.0.1;port=3306;dbname=swregistry_test"
-#            user: "%DB_USER%"
-#            password: "%DB_PASS%"
-#            populate: false
-#            cleanup: false
+        - Db:
+            dump: tests/_data/swregistry_test.sql
+            dsn: %DB_CONNECTION%:host=%DB_HOST%;port=%DB_PORT%;dbname=swregistry_test
+            user: "%DB_USERNAME%"
+            password: "%DB_PASSWORD%"
+            populate: false
+            cleanup: false
