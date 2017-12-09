@@ -193,7 +193,8 @@ class Vocabulary extends BaseVocabulary
         $languages = unserialize( $languages );
     }
 
-    return $languages;
+      ksort($languages, SORT_FLAG_CASE | SORT_NATURAL);
+      return $languages;
   }
 
   public function getLanguagesNoDefault()

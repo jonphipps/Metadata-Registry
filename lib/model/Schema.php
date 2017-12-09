@@ -488,6 +488,7 @@ class Schema extends BaseSchema {
             $languages = unserialize( $languages );
         }
 
+        ksort($languages, SORT_FLAG_CASE | SORT_NATURAL);
         return $languages;
     }
 
