@@ -62,12 +62,15 @@ class jsonldElementsetService
         $this->vocabArray['@type']       = 'ElementSet';
         $this->vocabArray['title']       = [ $vocab->getLanguage() => $vocab->getName() ];
         $this->vocabArray['description'] = [ $vocab->getLanguage() => $vocab->getNote() ];
-        $this->vocabArray['prefix']      = $vocab->getToken();
+        $this->vocabArray['prefix']      = $vocab->getPrefix();
+        $this->vocabArray['token']      = $vocab->getToken();
         $status                          = $vocab->getStatus();
-        $this->vocabArray['status']      = [
-            '@id'   => $status->getUri(),
-            'label' => $status->getDisplayName()
-        ];
+        if ($status) {
+            $this->vocabArray['status'] = [
+                '@id'   => $status->getUri(),
+                'label' => $status->getDisplayName()
+            ];
+        }
         $this->vocabArray['omr_api']     = 'http://api.metadataregistry.org/elementsets/' . $vocab->getId();
         $this->vocabArray['omr_home']    = 'http://metadataregistry.org/elementsets/' . $vocab->getId();
         $docs                            = $vocab->getUrl();
@@ -200,6 +203,7 @@ class jsonldElementsetService
                 }
             }
             catch (\GuzzleHttp\Exception\ClientException $e) {
+                $this->release = false;
             }
         }
     }
@@ -210,7 +214,10 @@ class jsonldElementsetService
      */
     private function getElements(): array
     {
-        $elements = $this->vocab->getSchemaPropertys();
+        //TODO: let the user determine the sort order.
+        $c = new \Criteria();
+        $c->addAscendingOrderByColumn(\SchemaPropertyPeer::URI);
+        $elements = $this->vocab->getSchemaPropertys($c);
 
         return \count($elements) ? $elements : [];
     }

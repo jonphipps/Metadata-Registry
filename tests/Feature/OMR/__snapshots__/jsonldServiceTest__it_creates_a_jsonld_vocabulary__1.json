@@ -1,8 +1,8 @@
-<?php return '{
-    "@context": "http://rdaregistry.info/termList/Contexts/concepts_langmap.jsonld",
+{
+    "@context": "http:\/\/rdaregistry.info\/termList\/Contexts\/concepts_langmap.jsonld",
     "@graph": [
         {
-            "@id": "http://rdaregistry.info/termList/RDAMediaType",
+            "@id": "http:\/\/rdaregistry.info\/termList\/RDAMediaType",
             "@type": "ConceptScheme",
             "title": {
                 "en": "RDA Media Type"
@@ -13,12 +13,12 @@
             "prefix": "rdamt",
             "token": "RDAMediaType",
             "status": {
-                "@id": "http://metadataregistry.org/uri/RegStatus/1001",
+                "@id": "http:\/\/metadataregistry.org\/uri\/RegStatus\/1001",
                 "label": "Published"
             },
-            "omr_api": "http://api.metadataregistry.org/vocabularies/37",
-            "omr_home": "http://metadataregistry.org/vocabularies/37",
-            "documentation": "http://www.rdaregistry.info/termList/RDAMediaType/",
+            "omr_api": "http:\/\/api.metadataregistry.org\/vocabularies\/37",
+            "omr_home": "http:\/\/metadataregistry.org\/vocabularies\/37",
+            "documentation": "http:\/\/www.rdaregistry.info\/termList\/RDAMediaType\/",
             "count": 8,
             "languages": [
                 {
@@ -130,21 +130,21 @@
             "dateOfPublication": "October 17, 2017"
         },
         {
-            "@id": "http://rdaregistry.info/termList/RDAMediaType/1001",
+            "@id": "http:\/\/rdaregistry.info\/termList\/RDAMediaType\/1001",
             "@type": "Concept",
-            "api": "http://api.metadataregistry.org/concepts/475",
+            "api": "http:\/\/api.metadataregistry.org\/concepts\/475",
             "definition": {
                 "en": "A media type used to store recorded sound, designed for use with a playback device such as a turntable, audiocassette player, CD player, or MP3 player.",
-                "fr": "Média servant à emmagasiner du son enregistré et conçu pour une utilisation au moyen d’un dispositif de lecture tel qu’une platine, un lecteur de cassette audio, un lecteur de CD ou un lecteur MP3."
+                "fr": "M\u00e9dia servant \u00e0 emmagasiner du son enregistr\u00e9 et con\u00e7u pour une utilisation au moyen d\u2019un dispositif de lecture tel qu\u2019une platine, un lecteur de cassette audio, un lecteur de CD ou un lecteur MP3."
             },
-            "inScheme": "http://rdaregistry.info/termList/RDAMediaType",
+            "inScheme": "http:\/\/rdaregistry.info\/termList\/RDAMediaType",
             "prefLabel": {
                 "en": "audio",
                 "fr": "audio"
             },
             "scopeNote": {
                 "en": "Media used to store digitally encoded as well as analog sound are included.",
-                "fr": "Comprend tout média servant à emmagasiner du son encodé numériquement aussi bien que du son analogique."
+                "fr": "Comprend tout m\u00e9dia servant \u00e0 emmagasiner du son encod\u00e9 num\u00e9riquement aussi bien que du son analogique."
             },
             "status": "Published",
             "ToolkitDefinition": {
@@ -156,21 +156,21 @@
             }
         },
         {
-            "@id": "http://rdaregistry.info/termList/RDAMediaType/1002",
+            "@id": "http:\/\/rdaregistry.info\/termList\/RDAMediaType\/1002",
             "@type": "Concept",
-            "api": "http://api.metadataregistry.org/concepts/476",
+            "api": "http:\/\/api.metadataregistry.org\/concepts\/476",
             "definition": {
                 "en": "A media type used to store reduced-size images not readable to the human eye, designed for use with a device such as a microfilm or microfiche reader.",
-                "fr": "Média servant à emmagasiner des images de taille réduite non lisibles à l’œil nu, et conçu pour une utilisation au moyen d’un dispositif tel que : lecteur de microfilm ou de microfiche."
+                "fr": "M\u00e9dia servant \u00e0 emmagasiner des images de taille r\u00e9duite non lisibles \u00e0 l\u2019\u0153il nu, et con\u00e7u pour une utilisation au moyen d\u2019un dispositif tel que : lecteur de microfilm ou de microfiche."
             },
-            "inScheme": "http://rdaregistry.info/termList/RDAMediaType",
+            "inScheme": "http:\/\/rdaregistry.info\/termList\/RDAMediaType",
             "prefLabel": {
                 "en": "microform",
                 "fr": "microforme"
             },
             "scopeNote": {
                 "en": "Both transparent and opaque micrographic media are included.",
-                "fr": "Comprend les deux médias microphotographiques, transparent et opaque."
+                "fr": "Comprend les deux m\u00e9dias microphotographiques, transparent et opaque."
             },
             "status": "Published",
             "ToolkitDefinition": {
@@ -182,21 +182,21 @@
             }
         },
         {
-            "@id": "http://rdaregistry.info/termList/RDAMediaType/1003",
+            "@id": "http:\/\/rdaregistry.info\/termList\/RDAMediaType\/1003",
             "@type": "Concept",
-            "api": "http://api.metadataregistry.org/concepts/477",
+            "api": "http:\/\/api.metadataregistry.org\/concepts\/477",
             "definition": {
                 "en": "A media type used to store electronic files, designed for use with a computer.",
-                "fr": "Média servant à emmagasiner des fichiers électroniques et conçu pour une utilisation au moyen d’un ordinateur."
+                "fr": "M\u00e9dia servant \u00e0 emmagasiner des fichiers \u00e9lectroniques et con\u00e7u pour une utilisation au moyen d\u2019un ordinateur."
             },
-            "inScheme": "http://rdaregistry.info/termList/RDAMediaType",
+            "inScheme": "http:\/\/rdaregistry.info\/termList\/RDAMediaType",
             "prefLabel": {
                 "en": "computer",
                 "fr": "informatique"
             },
             "scopeNote": {
                 "en": "Media that are accessed remotely through file servers as well as direct-access media such as computer tapes and discs are included.",
-                "fr": "Comprend tout média accessible à distance par serveur aussi bien que tout média en accès direct tel que des bandes et des disques informatiques."
+                "fr": "Comprend tout m\u00e9dia accessible \u00e0 distance par serveur aussi bien que tout m\u00e9dia en acc\u00e8s direct tel que des bandes et des disques informatiques."
             },
             "status": "Published",
             "ToolkitDefinition": {
@@ -208,14 +208,14 @@
             }
         },
         {
-            "@id": "http://rdaregistry.info/termList/RDAMediaType/1004",
+            "@id": "http:\/\/rdaregistry.info\/termList\/RDAMediaType\/1004",
             "@type": "Concept",
-            "api": "http://api.metadataregistry.org/concepts/478",
+            "api": "http:\/\/api.metadataregistry.org\/concepts\/478",
             "definition": {
                 "en": "A media type used to store minute objects, designed for use with a device such as a microscope to reveal details invisible to the naked eye.",
-                "fr": "Média servant à emmagasiner des objets minuscules et conçu pour une utilisation au moyen d’un dispositif tel qu’un microscope, pour faire apparaître des détails invisibles à l’œil nu."
+                "fr": "M\u00e9dia servant \u00e0 emmagasiner des objets minuscules et con\u00e7u pour une utilisation au moyen d\u2019un dispositif tel qu\u2019un microscope, pour faire appara\u00eetre des d\u00e9tails invisibles \u00e0 l\u2019\u0153il nu."
             },
-            "inScheme": "http://rdaregistry.info/termList/RDAMediaType",
+            "inScheme": "http:\/\/rdaregistry.info\/termList\/RDAMediaType",
             "prefLabel": {
                 "en": "microscopic",
                 "fr": "microscopique"
@@ -230,21 +230,21 @@
             }
         },
         {
-            "@id": "http://rdaregistry.info/termList/RDAMediaType/1005",
+            "@id": "http:\/\/rdaregistry.info\/termList\/RDAMediaType\/1005",
             "@type": "Concept",
-            "api": "http://api.metadataregistry.org/concepts/479",
+            "api": "http:\/\/api.metadataregistry.org\/concepts\/479",
             "definition": {
                 "en": "A media type used to store moving or still images, designed for use with a projection device such as a motion picture film projector, slide projector, or overhead projector.",
-                "fr": "Média servant à emmagasiner des images, animées ou fixes, et conçu pour une utilisation au moyen d’un dispositif de projection tel que : projecteur de film cinématographique, projecteur de diapositives ou rétroprojecteur."
+                "fr": "M\u00e9dia servant \u00e0 emmagasiner des images, anim\u00e9es ou fixes, et con\u00e7u pour une utilisation au moyen d\u2019un dispositif de projection tel que : projecteur de film cin\u00e9matographique, projecteur de diapositives ou r\u00e9troprojecteur."
             },
-            "inScheme": "http://rdaregistry.info/termList/RDAMediaType",
+            "inScheme": "http:\/\/rdaregistry.info\/termList\/RDAMediaType",
             "prefLabel": {
                 "en": "projected",
-                "fr": "projeté"
+                "fr": "projet\u00e9"
             },
             "scopeNote": {
                 "en": "Media designed to project both two-dimensional and three-dimensional images are included.",
-                "fr": "Comprend tout média conçu pour projeter des images bidimensionnelles et tridimensionnelles."
+                "fr": "Comprend tout m\u00e9dia con\u00e7u pour projeter des images bidimensionnelles et tridimensionnelles."
             },
             "status": "Published",
             "ToolkitDefinition": {
@@ -252,21 +252,21 @@
             },
             "ToolkitLabel": {
                 "en": "projected",
-                "fr": "projeté"
+                "fr": "projet\u00e9"
             }
         },
         {
-            "@id": "http://rdaregistry.info/termList/RDAMediaType/1006",
+            "@id": "http:\/\/rdaregistry.info\/termList\/RDAMediaType\/1006",
             "@type": "Concept",
-            "api": "http://api.metadataregistry.org/concepts/480",
+            "api": "http:\/\/api.metadataregistry.org\/concepts\/480",
             "definition": {
                 "en": "A media type used to store pairs of still images, designed for use with a device such as a stereoscope or stereograph viewer to give the effect of three dimensions.",
-                "fr": "Média servant à emmagasiner des paires d’images fixes et conçu pour une utilisation au moyen d’un dispositif tel qu’un stéréoscope ou une visionneuse stéréoscopique pour donner l’impression des trois dimensions."
+                "fr": "M\u00e9dia servant \u00e0 emmagasiner des paires d\u2019images fixes et con\u00e7u pour une utilisation au moyen d\u2019un dispositif tel qu\u2019un st\u00e9r\u00e9oscope ou une visionneuse st\u00e9r\u00e9oscopique pour donner l\u2019impression des trois dimensions."
             },
-            "inScheme": "http://rdaregistry.info/termList/RDAMediaType",
+            "inScheme": "http:\/\/rdaregistry.info\/termList\/RDAMediaType",
             "prefLabel": {
                 "en": "stereographic",
-                "fr": "stéréoscopique"
+                "fr": "st\u00e9r\u00e9oscopique"
             },
             "status": "Published",
             "ToolkitDefinition": {
@@ -274,28 +274,28 @@
             },
             "ToolkitLabel": {
                 "en": "stereographic",
-                "fr": "stéréoscopique"
+                "fr": "st\u00e9r\u00e9oscopique"
             }
         },
         {
-            "@id": "http://rdaregistry.info/termList/RDAMediaType/1007",
+            "@id": "http:\/\/rdaregistry.info\/termList\/RDAMediaType\/1007",
             "@type": "Concept",
-            "api": "http://api.metadataregistry.org/concepts/481",
+            "api": "http:\/\/api.metadataregistry.org\/concepts\/481",
             "definition": {
                 "en": "A media type used to store content designed to be perceived directly through one or more of the human senses without the aid of an intermediating device.",
-                "fr": "Média servant à emmagasiner un contenu conçu pour être perçu directement par un ou plusieurs sens humains sans l’aide d’un dispositif de médiation."
+                "fr": "M\u00e9dia servant \u00e0 emmagasiner un contenu con\u00e7u pour \u00eatre per\u00e7u directement par un ou plusieurs sens humains sans l\u2019aide d\u2019un dispositif de m\u00e9diation."
             },
-            "inScheme": "http://rdaregistry.info/termList/RDAMediaType",
+            "inScheme": "http:\/\/rdaregistry.info\/termList\/RDAMediaType",
             "prefLabel": {
                 "en": "unmediated",
-                "fr": "sans médiation"
+                "fr": "sans m\u00e9diation"
             },
             "scopeNote": {
                 "en": [
-                    "Media containing visual and/or tactile content produced using processes such as printing, engraving, lithography, etc., embossing, texturing, etc., or by means of handwriting, drawing, painting, etc., are included. Media used to convey three-dimensional forms such as sculptures, models, etc., are also included.",
+                    "Media containing visual and\/or tactile content produced using processes such as printing, engraving, lithography, etc., embossing, texturing, etc., or by means of handwriting, drawing, painting, etc., are included. Media used to convey three-dimensional forms such as sculptures, models, etc., are also included.",
                     "Also includes media used to convey three-dimensional forms such as sculptures, models, etc."
                 ],
-                "fr": "Comprend tout média à contenu visuel et/ou tactile produit selon des procédés tels que : impression, gravure, lithographie, etc. ; embossage, texturation, etc. ; ou bien encore au moyen de l’écriture à la main, du dessin, de la peinture, etc. Comprend également tout média servant à communiquer des formes tridimensionnelles telles que : sculptures, maquettes, etc."
+                "fr": "Comprend tout m\u00e9dia \u00e0 contenu visuel et\/ou tactile produit selon des proc\u00e9d\u00e9s tels que : impression, gravure, lithographie, etc. ; embossage, texturation, etc. ; ou bien encore au moyen de l\u2019\u00e9criture \u00e0 la main, du dessin, de la peinture, etc. Comprend \u00e9galement tout m\u00e9dia servant \u00e0 communiquer des formes tridimensionnelles telles que : sculptures, maquettes, etc."
             },
             "status": "Published",
             "ToolkitDefinition": {
@@ -303,25 +303,25 @@
             },
             "ToolkitLabel": {
                 "en": "unmediated",
-                "fr": "sans médiation"
+                "fr": "sans m\u00e9diation"
             }
         },
         {
-            "@id": "http://rdaregistry.info/termList/RDAMediaType/1008",
+            "@id": "http:\/\/rdaregistry.info\/termList\/RDAMediaType\/1008",
             "@type": "Concept",
-            "api": "http://api.metadataregistry.org/concepts/482",
+            "api": "http:\/\/api.metadataregistry.org\/concepts\/482",
             "definition": {
                 "en": "A media type used to store moving or still images, designed for use with a playback device such as a videocassette player or DVD player.",
-                "fr": "Média servant à emmagasiner des images animées ou fixes et conçu pour une utilisation au moyen d’un dispositif de lecture tel qu’un lecteur de cassette vidéo ou de DVD."
+                "fr": "M\u00e9dia servant \u00e0 emmagasiner des images anim\u00e9es ou fixes et con\u00e7u pour une utilisation au moyen d\u2019un dispositif de lecture tel qu\u2019un lecteur de cassette vid\u00e9o ou de DVD."
             },
-            "inScheme": "http://rdaregistry.info/termList/RDAMediaType",
+            "inScheme": "http:\/\/rdaregistry.info\/termList\/RDAMediaType",
             "prefLabel": {
                 "en": "video",
-                "fr": "vidéo"
+                "fr": "vid\u00e9o"
             },
             "scopeNote": {
                 "en": "Media used to store digitally encoded as well as analog images are included.",
-                "fr": "Comprend tout média servant à emmagasiner des images encodées numériquement aussi bien que des images analogiques."
+                "fr": "Comprend tout m\u00e9dia servant \u00e0 emmagasiner des images encod\u00e9es num\u00e9riquement aussi bien que des images analogiques."
             },
             "status": "Published",
             "ToolkitDefinition": {
@@ -329,8 +329,8 @@
             },
             "ToolkitLabel": {
                 "en": "video",
-                "fr": "vidéo"
+                "fr": "vid\u00e9o"
             }
         }
     ]
-}';
+}
