@@ -38,19 +38,25 @@ class RDAMediaTypeSeeder extends Seeder
         Vocabulary::truncate();
         $updateStatement = file_get_contents( __DIR__ . '/sql/RDAMediaTypeVocabulary.sql' );
         DB::statement( $updateStatement );
+        $updateStatement = file_get_contents( __DIR__ . '/sql/OMRStatusVocabulary.sql' );
+        DB::statement( $updateStatement );
 
         Concept::truncate();
         $updateStatement = file_get_contents( __DIR__ . '/sql/RDAMediaType_concepts.sql' );
         DB::statement( $updateStatement );
+        $updateStatement = file_get_contents( __DIR__ . '/sql/OMRStatusConcept.sql' );
+        DB::statement( $updateStatement );
 
         ConceptAttribute::truncate();
-        $updateStatement =
-            file_get_contents( __DIR__ . '/sql/RDAMediaType_concept_propertys_fr_en.sql' );
+        $updateStatement = file_get_contents( __DIR__ . '/sql/RDAMediaType_concept_propertys_fr_en.sql' );
+        DB::statement( $updateStatement );
+        $updateStatement = file_get_contents( __DIR__ . '/sql/OMRStatus_concept_property.sql' );
         DB::statement( $updateStatement );
 
         ConceptAttributeHistory::truncate();
-        $updateStatement =
-            file_get_contents( __DIR__ . '/sql/RDAMediaType_concept_propertys_history_fr_en.sql' );
+        $updateStatement = file_get_contents( __DIR__ . '/sql/RDAMediaType_concept_propertys_history_fr_en.sql' );
+        DB::statement( $updateStatement );
+        $updateStatement = file_get_contents( __DIR__ . '/sql/OMRStatus_concept_property_history.sql' );
         DB::statement( $updateStatement );
 
         $this->enableForeignKeys();
