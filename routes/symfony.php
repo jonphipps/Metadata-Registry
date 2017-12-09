@@ -34,7 +34,7 @@ Route::group([ 'middleware' => 'symfony'],
                 }
 
                 // fire up symfony
-                $sfInstance = initSymfonyEnv();
+                $sfInstance = getSymfonyApp();
 
                 //let symfony handle/render the request
                 $sfInstance->getController()->dispatch();

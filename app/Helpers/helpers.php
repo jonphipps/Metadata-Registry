@@ -109,6 +109,16 @@ if (! function_exists('laravel_link_to_action')) {
             if ( ! defined('SF_ROOT_DIR')) {
                 define('SF_ROOT_DIR', env('SF_ROOT_DIR', app()->basePath()));
             }
+        }
+
+    }   if ( ! function_exists('getSymfonyApp')) {
+        /**
+         * @return sfContext
+         */
+        function getSymfonyApp()
+        {
+            initSymfonyEnv();
+
             /** @noinspection PhpIncludeInspection */
             require_once app()->basePath('apps/frontend/config/config.php');
 
@@ -118,6 +128,20 @@ if (! function_exists('laravel_link_to_action')) {
             }
 
             return sfContext::getInstance();
+        }
+    }
+    if ( ! function_exists('initSymfonyDb')) {
+
+        function initSymfonyDb()
+        {
+            initSymfonyEnv();
+
+            /** @noinspection PhpIncludeInspection */
+            require_once app()->basePath('apps/frontend/config/config.php');
+
+            // initialize database manager
+            $databaseManager = new \sfDatabaseManager();
+            $databaseManager->initialize();
         }
     }
 }
