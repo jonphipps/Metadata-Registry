@@ -13,6 +13,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Storage;
 use sfContext;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 
 class GenerateRdf implements ShouldQueue
 {
@@ -37,15 +39,16 @@ class GenerateRdf implements ShouldQueue
 
     /** @var string $fileName */
     private $fileName;
-
+    private $disk;
 
     /**
      * Create a new job instance.
      *
      * @param $class
      * @param $id
+     * @param $disk
      */
-    public function __construct($class, $id)
+    public function __construct($class, $id, $disk = 'repos')
     {
         $this->id        = $id;
         $this->class     = $class;
@@ -56,6 +59,7 @@ class GenerateRdf implements ShouldQueue
         $basePath        = parse_url($model->base_domain)['path'];
         $this->filePath  = rtrim(parse_url($model->uri)['path'],'/');
         $this->fileName  = str_replace_first($basePath, '', parse_url($model->uri)['path']);
+        $this->disk = $disk;
     }
 
     /**
@@ -63,7 +67,7 @@ class GenerateRdf implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         //make sure we have a repo and create one if we don't
         //get the rdf/xml and store it in the repo
@@ -74,9 +78,14 @@ class GenerateRdf implements ShouldQueue
         //store the jsonld (default) or any other flavour of RDF on the vocabulary
     }
 
-     public function getStoragePath($mimeType)
+    /**
+     * @param $mimeType
+     *
+     * @return string
+     */
+    public function getStoragePath($mimeType): string
     {
-        return storage_path("repos/projects/{$this->projectId}/{$mimeType}{$this->filePath}.$mimeType");
+        return "projects/{$this->projectId}/{$mimeType}{$this->filePath}.$mimeType";
     }
 
     public function saveXml()
@@ -84,7 +93,7 @@ class GenerateRdf implements ShouldQueue
         $storagePath = $this->getStoragePath('xml');
         $client      = new Client();
         $res         = $client->get(url(self::URLARRAY[ $this->class ] . $this->id . '.rdf'));
-        Storage::put($storagePath, $res->getBody());
+        Storage::disk($this->disk)->put($storagePath, $res->getBody());
     }
 
     public function saveJsonLd()
@@ -99,6 +108,28 @@ class GenerateRdf implements ShouldQueue
             $elementset = \SchemaPeer::retrieveByPK($this->id);
             $jsonLdService = new jsonldElementsetService($elementset);
         }
-        Storage::put($storagePath, $jsonLdService->getJsonLd());
+        Storage::disk($this->disk)->put($storagePath, $jsonLdService->getJsonLd());
+    }
+
+    /**
+     * @throws \Symfony\Component\Process\Exception\RuntimeException
+     * @throws \Symfony\Component\Process\Exception\ProcessFailedException
+     * @throws \Symfony\Component\Process\Exception\LogicException
+     */
+    public function saveTtl()
+    {
+        $outputPath = $this->getStoragePath('ttl');
+        //just to make sure the path exists
+        Storage::disk($this->disk)->put($outputPath, ' ');
+        //make sure rapper has the full paths
+        $sourcePath = Storage::disk($this->disk)->path($this->getStoragePath('xml'));
+        $outputPath = Storage::disk($this->disk)->path($this->getStoragePath('ttl'));
+        $process = new Process('rapper -o turtle '. $sourcePath . ' > ' . $outputPath);
+        $process->run();
+
+        // executes after the command finishes
+        if ( ! $process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
     }
 }

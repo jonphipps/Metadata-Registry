@@ -13,7 +13,8 @@ class RDFGeneratorServiceTest extends TestCase
 
     public function setUp(): void
     {
-        self::$setupDatabase = true;
+        //self::$setupDatabase = true;
+        $this->dontSetupDatabase();
 
         parent::setUp();
     }
@@ -25,24 +26,25 @@ class RDFGeneratorServiceTest extends TestCase
         $this->it_creates_a_new_elementset_job_and_stores_xml();
         $this->it_creates_a_new_vocabulary_job_and_stores_jsonld();
         $this->it_creates_a_new_elementset_job_and_stores_jsonld();
+        $this->it_creates_a_new_elementset_job_and_stores_ttl();
+        $this->it_creates_a_new_vocabulary_job_and_stores_ttl();
 
     }
     private function it_creates_a_new_vocabulary_job_and_stores_xml(): void
     {
-        $job = new GenerateRdf(GenerateRdf::VOCABULARY, 37);
+        $job = new GenerateRdf(GenerateRdf::VOCABULARY, 37, 'test');
         dispatch($job);
-        $this->assertSame(storage_path('repos/projects/177/xml/termList/RDAMediaType.xml'),
-            $job->getStoragePath('xml'));
-        $file = Storage::get($job->getStoragePath('xml'));
+        $this->assertSame(storage_path('test/projects/177/xml/termList/RDAMediaType.xml'), Storage::disk('test')->path($job->getStoragePath('xml')));
+        $file = Storage::disk('test')->get($job->getStoragePath('xml'));
         $this->assertMatchesXmlSnapshot($file);
     }
 
     private function it_creates_a_new_elementset_job_and_stores_xml(): void
     {
-        $job = new GenerateRdf(GenerateRdf::ELEMENTSET, 83);
+        $job = new GenerateRdf(GenerateRdf::ELEMENTSET, 83, 'test');
         dispatch($job);
-        $this->assertSame(storage_path('repos/projects/177/xml/Elements/c.xml'), $job->getStoragePath('xml'));
-        $file = Storage::get($job->getStoragePath('xml'));
+        $this->assertSame(storage_path('test/projects/177/xml/Elements/c.xml'), Storage::disk('test')->path($job->getStoragePath('xml')));
+        $file = Storage::disk('test')->get($job->getStoragePath('xml'));
         $this->assertMatchesXmlSnapshot($file);
     }
 
@@ -50,9 +52,9 @@ class RDFGeneratorServiceTest extends TestCase
     {
         $job = new GenerateRdf(GenerateRdf::VOCABULARY, 37);
         $job->saveJsonLd();
-        $this->assertSame(storage_path('repos/projects/177/jsonld/termList/RDAMediaType.jsonld'),
+        $this->assertSame('projects/177/jsonld/termList/RDAMediaType.jsonld',
             $job->getStoragePath('jsonld'));
-        $file = Storage::get($job->getStoragePath('jsonld'));
+        $file = Storage::disk('repos')->get($job->getStoragePath('jsonld'));
         $this->assertMatchesSnapshot($file);
     }
 
@@ -60,9 +62,25 @@ class RDFGeneratorServiceTest extends TestCase
     {
         $job = new GenerateRdf(GenerateRdf::ELEMENTSET, 83);
         $job->saveJsonLd();
-        $this->assertSame(storage_path('repos/projects/177/jsonld/Elements/c.jsonld'),
-            $job->getStoragePath('jsonld'));
-        $file = Storage::get($job->getStoragePath('jsonld'));
+        $this->assertSame('projects/177/jsonld/Elements/c.jsonld', $job->getStoragePath('jsonld'));
+        $file = Storage::disk('repos')->get($job->getStoragePath('jsonld'));
+        $this->assertMatchesSnapshot($file);
+    }
+
+    private function it_creates_a_new_elementset_job_and_stores_ttl(): void
+    {
+        $job = new GenerateRdf(GenerateRdf::ELEMENTSET, 83,'test');
+        $job->saveTtl();
+        $this->assertSame(storage_path('test/projects/177/ttl/Elements/c.ttl'), Storage::disk('test')->path($job->getStoragePath('ttl')));
+        $file = Storage::disk('test')->get($job->getStoragePath('ttl'));
+        $this->assertMatchesSnapshot($file);
+    }
+   private function it_creates_a_new_vocabulary_job_and_stores_ttl(): void
+    {
+        $job = new GenerateRdf(GenerateRdf::VOCABULARY, 37,'test');
+        $job->saveTtl();
+        $this->assertSame(storage_path('test/projects/177/ttl/termList/RDAMediaType.ttl'), Storage::disk('test')->path($job->getStoragePath('ttl')));
+        $file = Storage::disk('test')->get($job->getStoragePath('ttl'));
         $this->assertMatchesSnapshot($file);
     }
 
