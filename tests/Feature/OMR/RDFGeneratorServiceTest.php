@@ -28,6 +28,8 @@ class RDFGeneratorServiceTest extends TestCase
         $this->it_creates_a_new_elementset_job_and_stores_jsonld();
         $this->it_creates_a_new_elementset_job_and_stores_ttl();
         $this->it_creates_a_new_vocabulary_job_and_stores_ttl();
+        $this->it_creates_a_new_elementset_job_and_stores_nt();
+        $this->it_creates_a_new_vocabulary_job_and_stores_nt();
 
     }
     private function it_creates_a_new_vocabulary_job_and_stores_xml(): void
@@ -75,6 +77,7 @@ class RDFGeneratorServiceTest extends TestCase
         $file = Storage::disk('test')->get($job->getStoragePath('ttl'));
         $this->assertMatchesSnapshot($file);
     }
+
    private function it_creates_a_new_vocabulary_job_and_stores_ttl(): void
     {
         $job = new GenerateRdf(GenerateRdf::VOCABULARY, 37,'test');
@@ -84,9 +87,28 @@ class RDFGeneratorServiceTest extends TestCase
         $this->assertMatchesSnapshot($file);
     }
 
-    public function tearDown()
+    private function it_creates_a_new_elementset_job_and_stores_nt(): void
+    {
+        $job = new GenerateRdf(GenerateRdf::ELEMENTSET, 83,'test');
+        $job->saveNt();
+        $this->assertSame(storage_path('test/projects/177/nt/Elements/c.nt'), Storage::disk('test')->path($job->getStoragePath('nt')));
+        $file = Storage::disk('test')->get($job->getStoragePath('nt'));
+        $this->assertMatchesSnapshot($file);
+    }
+
+   private function it_creates_a_new_vocabulary_job_and_stores_nt(): void
+    {
+        $job = new GenerateRdf(GenerateRdf::VOCABULARY, 37,'test');
+        $job->saveNt();
+        $this->assertSame(storage_path('test/projects/177/nt/termList/RDAMediaType.nt'), Storage::disk('test')->path($job->getStoragePath('nt')));
+        $file = Storage::disk('test')->get($job->getStoragePath('nt'));
+        $this->assertMatchesSnapshot($file);
+    }
+
+    public function tearDown(): void
     {
         //if (\function_exists('xdebug_break')) xdebug_break();
+        //this is necessary because the laravel test suite always starts capture
         if (ob_get_level() > 1) {
             ob_end_clean();
         }

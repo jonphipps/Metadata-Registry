@@ -111,20 +111,32 @@ class GenerateRdf implements ShouldQueue
         Storage::disk($this->disk)->put($storagePath, $jsonLdService->getJsonLd());
     }
 
+    public function saveTtl()
+    {
+        $this->runRapper('ttl', 'turtle');
+
+    }
+
+    public function saveNt()
+    {
+        $this->runRapper('nt', 'ntriples');
+
+    }
+
     /**
      * @throws \Symfony\Component\Process\Exception\RuntimeException
      * @throws \Symfony\Component\Process\Exception\ProcessFailedException
      * @throws \Symfony\Component\Process\Exception\LogicException
      */
-    public function saveTtl()
+    private function runRapper($mimeType, $rapperType)
     {
-        $outputPath = $this->getStoragePath('ttl');
+        $outputPath = $this->getStoragePath($mimeType);
         //just to make sure the path exists
         Storage::disk($this->disk)->put($outputPath, ' ');
         //make sure rapper has the full paths
         $sourcePath = Storage::disk($this->disk)->path($this->getStoragePath('xml'));
-        $outputPath = Storage::disk($this->disk)->path($this->getStoragePath('ttl'));
-        $process = new Process('rapper -o turtle '. $sourcePath . ' > ' . $outputPath);
+        $outputPath = Storage::disk($this->disk)->path($this->getStoragePath($mimeType));
+        $process    = new Process("rapper -o {$rapperType} {$sourcePath} > {$outputPath}");
         $process->run();
 
         // executes after the command finishes
