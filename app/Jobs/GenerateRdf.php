@@ -114,13 +114,31 @@ class GenerateRdf implements ShouldQueue
     public function saveTtl()
     {
         $this->runRapper('ttl', 'turtle');
-
     }
 
     public function saveNt()
     {
         $this->runRapper('nt', 'ntriples');
+    }
 
+    public function saveN3()
+    {
+        $this->runCurl('n3');
+    }
+
+    public function saveRdfJson()
+    {
+        $this->runCurl('rdf-json');
+    }
+
+    public function saveMicrodata()
+    {
+        $this->runCurl('microdata');
+    }
+
+    public function saveRdfa()
+    {
+        $this->runCurl('rdfa');
     }
 
     /**
@@ -137,6 +155,23 @@ class GenerateRdf implements ShouldQueue
         $sourcePath = Storage::disk($this->disk)->path($this->getStoragePath('xml'));
         $outputPath = Storage::disk($this->disk)->path($this->getStoragePath($mimeType));
         $process    = new Process("rapper -o {$rapperType} {$sourcePath} > {$outputPath}");
+        $process->run();
+
+        // executes after the command finishes
+        if ( ! $process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
+    }
+
+    public function runCurl($mimeType)
+    {
+        $outputPath = $this->getStoragePath($mimeType);
+        //just to make sure the path exists
+        Storage::disk($this->disk)->put($outputPath, ' ');
+        //make sure we have the full paths
+        $sourcePath = Storage::disk($this->disk)->path($this->getStoragePath('xml'));
+        $outputPath = Storage::disk($this->disk)->path($this->getStoragePath($mimeType));
+        $process    = new Process("curl --data-urlencode content@{$sourcePath} http://rdf-translator.appspot.com/convert/xml/{$mimeType}/content > {$outputPath}");
         $process->run();
 
         // executes after the command finishes
