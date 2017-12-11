@@ -13,8 +13,8 @@ class RDFGeneratorServiceTest extends TestCase
 
     public function setUp(): void
     {
-        //self::$setupDatabase = true;
-        $this->dontSetupDatabase();
+        self::$setupDatabase = true;
+        //$this->dontSetupDatabase();
 
         parent::setUp();
     }
