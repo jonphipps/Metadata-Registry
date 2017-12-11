@@ -32,34 +32,9 @@
                     "version": "WIP"
                 },
                 {
-                    "code": "zh",
-                    "lang": "Chinese",
-                    "version": "WIP"
-                },
-                {
                     "code": "da",
                     "lang": "Danish",
                     "version": "WIP"
-                },
-                {
-                    "code": "nl",
-                    "lang": "Dutch",
-                    "version": "WIP"
-                },
-                {
-                    "code": "en",
-                    "lang": "English",
-                    "version": "v2.7.3"
-                },
-                {
-                    "code": "fi",
-                    "lang": "Finnish",
-                    "version": "WIP"
-                },
-                {
-                    "code": "fr",
-                    "lang": "French",
-                    "version": "v2.7.3"
                 },
                 {
                     "code": "de",
@@ -72,6 +47,26 @@
                     "version": "WIP"
                 },
                 {
+                    "code": "en",
+                    "lang": "English",
+                    "version": "v2.7.3"
+                },
+                {
+                    "code": "es",
+                    "lang": "Spanish",
+                    "version": "WIP"
+                },
+                {
+                    "code": "fi",
+                    "lang": "Finnish",
+                    "version": "WIP"
+                },
+                {
+                    "code": "fr",
+                    "lang": "French",
+                    "version": "v2.7.3"
+                },
+                {
                     "code": "he",
                     "lang": "Hebrew",
                     "version": "WIP"
@@ -79,6 +74,11 @@
                 {
                     "code": "it",
                     "lang": "Italian",
+                    "version": "WIP"
+                },
+                {
+                    "code": "nl",
+                    "lang": "Dutch",
                     "version": "WIP"
                 },
                 {
@@ -102,11 +102,6 @@
                     "version": "WIP"
                 },
                 {
-                    "code": "es",
-                    "lang": "Spanish",
-                    "version": "WIP"
-                },
-                {
                     "code": "sv",
                     "lang": "Swedish",
                     "version": "WIP"
@@ -119,6 +114,11 @@
                 {
                     "code": "vi",
                     "lang": "Vietnamese",
+                    "version": "WIP"
+                },
+                {
+                    "code": "zh",
+                    "lang": "Chinese",
                     "version": "WIP"
                 }
             ],
