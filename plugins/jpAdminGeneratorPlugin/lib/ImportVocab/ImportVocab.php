@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by jonphipps, on 2014-01-10 at 6:16 PM
- * for the registry.dev project
+ * for the registry.test project
  */
 
 namespace ImportVocab;

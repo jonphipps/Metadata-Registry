@@ -1,18 +1,18 @@
 #nginx config
 
 server {
-  server_name          www.registry.dev;
-  return               301 $scheme://registry.dev$request_uri;
+  server_name          www.registry.test;
+  return               301 $scheme://registry.test$request_uri;
 }
 
 server {
   listen                *:80;
 
-  server_name           registry.dev ;
-  root                  /var/www/registry.dev/web;
+  server_name           registry.test ;
+  root                  /var/www/registry.test/web;
 
-  access_log            /var/log/nginx/registry.dev.access.log;
-  error_log             /var/log/nginx/registry.dev.error.log;
+  access_log            /var/log/nginx/registry.test.access.log;
+  error_log             /var/log/nginx/registry.test.error.log;
 
 
   # strip frontend.php/ prefix if it is present

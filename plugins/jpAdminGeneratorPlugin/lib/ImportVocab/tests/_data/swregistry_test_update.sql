@@ -952,7 +952,7 @@ UNLOCK TABLES;
 LOCK TABLES `reg_schema` WRITE;
 ALTER TABLE `reg_schema` DISABLE KEYS;
 INSERT INTO `reg_schema` (`id`, `agent_id`, `created_at`, `updated_at`, `deleted_at`, `created_user_id`, `updated_user_id`, `child_updated_at`, `child_updated_user_id`, `name`, `note`, `uri`, `url`, `base_domain`, `token`, `community`, `last_uri_id`, `status_id`, `language`, `profile_id`, `ns_type`, `prefixes`, `languages`, `repo`) VALUES 
-	(1,3,'2014-12-04 04:11:44','2015-01-20 20:04:41',NULL,2,2,NULL,NULL,'Test Element Set','','http://registry.dev/uri/schema/testelement','','http://registry.dev/uri/schema/','testelement','',100000,1,'en',1,'slash','','a:2:{i:0;s:2:"en";i:1;s:2:"fr";}','');
+	(1,3,'2014-12-04 04:11:44','2015-01-20 20:04:41',NULL,2,2,NULL,NULL,'Test Element Set','','http://registry.test/uri/schema/testelement','','http://registry.test/uri/schema/','testelement','',100000,1,'en',1,'slash','','a:2:{i:0;s:2:"en";i:1;s:2:"fr";}','');
 ALTER TABLE `reg_schema` ENABLE KEYS;
 UNLOCK TABLES;
 
@@ -2845,7 +2845,7 @@ UNLOCK TABLES;
 LOCK TABLES `reg_vocabulary` WRITE;
 ALTER TABLE `reg_vocabulary` DISABLE KEYS;
 INSERT INTO `reg_vocabulary` (`id`, `agent_id`, `created_at`, `deleted_at`, `last_updated`, `created_user_id`, `updated_user_id`, `child_updated_at`, `child_updated_user_id`, `name`, `note`, `uri`, `url`, `base_domain`, `token`, `community`, `last_uri_id`, `status_id`, `language`, `languages`, `profile_id`, `ns_type`) VALUES 
-	(1,3,'2014-12-04 04:14:37',NULL,'2014-12-03 23:14:37',NULL,NULL,NULL,NULL,'Test Vocab','','http://registry.dev/uri/testvocab','','http://registry.dev/uri/','testvocab','',1000,1,'en',NULL,NULL,'slash');
+	(1,3,'2014-12-04 04:14:37',NULL,'2014-12-03 23:14:37',NULL,NULL,NULL,NULL,'Test Vocab','','http://registry.test/uri/testvocab','','http://registry.test/uri/','testvocab','',1000,1,'en',NULL,NULL,'slash');
 ALTER TABLE `reg_vocabulary` ENABLE KEYS;
 UNLOCK TABLES;
 

@@ -10,7 +10,7 @@
   <?php if (has_slot('data')): ?>
     <?php include_slot('data') ?>
   <?php endif; ?>
-<?php if ($_SERVER['SERVER_NAME'] == 'registry.dev' || $_SERVER['SERVER_NAME'] == 'beta.metadataregistry.net' ): ?>
+<?php if ($_SERVER['SERVER_NAME'] == 'registry.test' || $_SERVER['SERVER_NAME'] == 'beta.metadataregistry.net' ): ?>
    <link rel="shortcut icon" href="/registry_favicon_dev.ico" />
 <?php elseif ($_SERVER['SERVER_NAME'] == 'beta.metadataregistry.org' || $_SERVER['SERVER_NAME'] == 'beta-sand.metadataregistry.org' || $_SERVER['SERVER_NAME'] == 'beta-prod.metadataregistry.org'): ?>
    <link rel="shortcut icon" href="/registry_favicon_beta.ico" />
@@ -53,7 +53,7 @@
       <tr><?php include_partial('conceptprop/search', array('searchTerm' => $sf_params->get('term'))) ?></tr>
       <tr><?php include_partial('schemaprop/search', array('searchTerm' => $sf_params->get('term'))) ?></tr>
     </table>
-<?php if ($_SERVER['SERVER_NAME'] == 'registry.dev'): ?>
+<?php if ($_SERVER['SERVER_NAME'] == 'registry.test'): ?>
       <br />
       <a href = "http://<?php echo $_SERVER['HTTP_HOST'] ?>/load_test_db.php">Load test database</a>
 <?php endif; ?>

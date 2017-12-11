@@ -8,13 +8,13 @@ class_name: AcceptanceTester
 modules:
     enabled:
         - PhpBrowser:
-            url: http://metadata-registry.dev
+            url: http://metadata-registry.test
         - \Helper\Acceptance
         - Asserts
         - Filesystem
 
 #        - WebDriver:
-#            url: http://registry.dev
+#            url: http://registry.test
 #            url: http://metadataregistry.org
 #            browser: firefox
 
