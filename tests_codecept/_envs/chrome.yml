@@ -5,5 +5,5 @@ modules:
         - \Helper\Acceptance
     config:
         WebDriver:
-            url: 'http://registry.dev/'
+            url: 'http://registry.test/'
             browser: 'chrome'

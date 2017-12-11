@@ -38,7 +38,7 @@ trait SetsUpTests
      */
     public function setUpTests()
     {
-        $this->baseUrl = config('app.url', 'http://registry.dev');
+        $this->baseUrl = config('app.url', 'http://registry.test');
         // Run the tests in English
         App::setLocale('en');
         if (self::$setupDatabase) {

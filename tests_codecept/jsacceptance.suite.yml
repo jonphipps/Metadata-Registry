@@ -5,7 +5,7 @@ modules:
     enabled:
         - \Helper\Jsacceptance
         - WebDriver:
-            url: http://registry.dev/frontend_dev.php
+            url: http://registry.test/frontend_dev.php
 #            url: http://metadataregistry.org
             browser: firefox
         - Asserts

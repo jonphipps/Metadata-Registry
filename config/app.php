@@ -51,7 +51,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://registry.dev'),
+    'url' => env('APP_URL', 'http://registry.test'),
 
   /*
     |--------------------------------------------------------------------------

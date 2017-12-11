@@ -10,13 +10,13 @@ params:
 modules:
     enabled:
         - PhpBrowser:
-            url: http://registry.dev/frontend_test-empty.php
+            url: http://registry.test/frontend_test-empty.php
         - \Helper\Acceptance
         - Asserts
         - Filesystem
 
 #        - WebDriver:
-#            url: http://registry.dev
+#            url: http://registry.test
 #            url: http://metadataregistry.org
 #            browser: firefox
 

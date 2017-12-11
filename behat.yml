@@ -8,7 +8,7 @@ default:
     Laracasts\Behat:
         env_path: .env.behat
     Behat\MinkExtension:
-        base_url: http://registry.dev
+        base_url: http://registry.test
         default_session: laravel
         laravel: ~
         selenium2:

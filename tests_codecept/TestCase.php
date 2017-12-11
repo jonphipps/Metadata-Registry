@@ -7,7 +7,7 @@ abstract class TestCase extends Illuminate\Foundation\Testing\TestCase
      *
      * @var string
      */
-    protected $baseUrl = 'http://registry.dev';
+    protected $baseUrl = 'http://registry.test';
     protected static $setupDatabase = false;
 
     /**

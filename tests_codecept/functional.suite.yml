@@ -10,7 +10,7 @@ params:
 modules:
     enabled:
         - PhpBrowser:
-            url: http://registry.dev/frontend_test-empty.php
+            url: http://registry.test/frontend_test-empty.php
         - Filesystem
         - \Helper\Functional
         - Asserts

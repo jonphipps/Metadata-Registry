@@ -1144,10 +1144,10 @@ UNLOCK TABLES;
 LOCK TABLES `reg_concept` WRITE;
 ALTER TABLE `reg_concept` DISABLE KEYS;
 INSERT INTO `reg_concept` (`id`, `created_at`, `updated_at`, `deleted_at`, `last_updated`, `created_user_id`, `updated_user_id`, `uri`, `pref_label`, `vocabulary_id`, `is_top_concept`, `pref_label_id`, `status_id`, `language`) VALUES
-	(1,'2016-09-11 16:07:34','2016-09-12 16:24:47',NULL,NULL,40,40,'http://registry.dev/uri/vocabLabel/1001','preferred labels',1,0,1,1,'en'),
-	(2,'2016-09-11 18:50:55','2016-09-12 15:36:01',NULL,NULL,40,40,'http://registry.dev/uri/vocabLabel/1008','Another concept',1,0,2,1,'en'),
-	(3,'2016-09-12 15:41:36','2016-09-12 15:41:36',NULL,NULL,40,40,'http://registry.dev/uri/vocabLabel/1014','Monkeys',1,0,7,1,'en'),
-	(4,'2016-09-12 15:44:38','2016-09-12 15:44:38',NULL,NULL,40,40,'http://registry.dev/uri/vocabLabel/1015','Monkey mind',1,0,8,1,'en');
+	(1,'2016-09-11 16:07:34','2016-09-12 16:24:47',NULL,NULL,40,40,'http://registry.test/uri/vocabLabel/1001','preferred labels',1,0,1,1,'en'),
+	(2,'2016-09-11 18:50:55','2016-09-12 15:36:01',NULL,NULL,40,40,'http://registry.test/uri/vocabLabel/1008','Another concept',1,0,2,1,'en'),
+	(3,'2016-09-12 15:41:36','2016-09-12 15:41:36',NULL,NULL,40,40,'http://registry.test/uri/vocabLabel/1014','Monkeys',1,0,7,1,'en'),
+	(4,'2016-09-12 15:44:38','2016-09-12 15:44:38',NULL,NULL,40,40,'http://registry.test/uri/vocabLabel/1015','Monkey mind',1,0,8,1,'en');
 ALTER TABLE `reg_concept` ENABLE KEYS;
 UNLOCK TABLES;
 
@@ -1159,8 +1159,8 @@ INSERT INTO `reg_concept_property` (`id`, `created_at`, `updated_at`, `deleted_a
 	(2,'2016-09-11 18:50:55','2016-09-12 15:36:01',NULL,NULL,40,40,2,1,19,'Another concept',NULL,NULL,'en',1,0,NULL,0),
 	(3,'2016-09-11 19:48:51','2016-09-12 16:38:31','2016-09-12 16:38:31',NULL,40,40,1,NULL,1,'alternative label',1,NULL,'en',1,0,NULL,0),
 	(4,'2016-09-11 19:49:11','2016-09-12 16:36:48','2016-09-12 16:36:48',NULL,40,40,1,NULL,9,'hidden label',1,NULL,'en',1,0,NULL,0),
-	(5,'2016-09-11 19:49:45','2016-09-11 19:49:45',NULL,NULL,40,40,2,NULL,16,'http://registry.dev/uri/vocabLabel/1001',1,1,'',1,0,NULL,1),
-	(6,'2016-09-11 19:49:45','2016-09-11 19:49:45',NULL,NULL,40,40,1,NULL,3,'http://registry.dev/uri/vocabLabel/1008',1,2,'',1,0,NULL,0),
+	(5,'2016-09-11 19:49:45','2016-09-11 19:49:45',NULL,NULL,40,40,2,NULL,16,'http://registry.test/uri/vocabLabel/1001',1,1,'',1,0,NULL,1),
+	(6,'2016-09-11 19:49:45','2016-09-11 19:49:45',NULL,NULL,40,40,1,NULL,3,'http://registry.test/uri/vocabLabel/1008',1,2,'',1,0,NULL,0),
 	(7,'2016-09-12 15:41:36','2016-09-12 15:41:35',NULL,NULL,40,40,3,1,19,'Monkeys',NULL,NULL,'en',1,0,NULL,0),
 	(8,'2016-09-12 15:44:38','2016-09-12 15:44:38',NULL,NULL,40,40,4,1,19,'Monkey mind',NULL,NULL,'en',1,0,NULL,0),
 	(9,'2016-09-12 16:45:38','2016-09-12 16:45:38',NULL,NULL,40,40,1,NULL,30,'This is a notation',1,NULL,'en',1,0,NULL,0),
@@ -1180,8 +1180,8 @@ INSERT INTO `reg_concept_property_history` (`id`, `created_at`, `action`, `conce
 	(5,'2016-09-11 19:48:00','updated',1,1,1,19,'preferred labels',NULL,NULL,'en',1,40,NULL,NULL),
 	(6,'2016-09-11 19:48:51','added',3,1,1,1,'alternative label',1,NULL,'en',1,40,NULL,NULL),
 	(7,'2016-09-11 19:49:11','added',4,1,1,9,'hidden label',1,NULL,'en',1,40,NULL,NULL),
-	(8,'2016-09-11 19:49:45','added',5,2,1,16,'http://registry.dev/uri/vocabLabel/1001',1,1,'',1,40,NULL,NULL),
-	(9,'2016-09-11 19:49:45','added',6,1,1,3,'http://registry.dev/uri/vocabLabel/1008',1,2,'',1,40,NULL,NULL),
+	(8,'2016-09-11 19:49:45','added',5,2,1,16,'http://registry.test/uri/vocabLabel/1001',1,1,'',1,40,NULL,NULL),
+	(9,'2016-09-11 19:49:45','added',6,1,1,3,'http://registry.test/uri/vocabLabel/1008',1,2,'',1,40,NULL,NULL),
 	(10,'2016-09-12 13:57:17','updated',2,2,1,19,'Another concepty',NULL,NULL,'en',1,40,NULL,NULL),
 	(11,'2016-09-12 14:01:50','updated',2,2,1,19,'Another concept',NULL,NULL,'en',1,40,NULL,NULL),
 	(12,'2016-09-12 14:11:32','updated',2,2,1,19,'Another concept',NULL,NULL,'en',1,40,NULL,NULL),
@@ -3150,8 +3150,8 @@ UNLOCK TABLES;
 LOCK TABLES `reg_schema` WRITE;
 ALTER TABLE `reg_schema` DISABLE KEYS;
 INSERT INTO `reg_schema` (`id`, `agent_id`, `created_at`, `updated_at`, `deleted_at`, `created_user_id`, `updated_user_id`, `deleted_user_id`, `child_updated_at`, `child_updated_user_id`, `name`, `note`, `uri`, `url`, `base_domain`, `token`, `community`, `last_uri_id`, `status_id`, `language`, `profile_id`, `ns_type`, `prefixes`, `languages`, `repo`) VALUES
-	(1,59,'2016-09-12 19:01:28','2016-09-12 19:40:00',NULL,40,40,NULL,NULL,NULL,'A new Schema','','http://uri.registry.dev/schema/newschema','','http://uri.registry.dev/schema/','newschema','',100002,1,'en',1,'slash',NULL,'a:2:{i:0;s:2:"en";i:1;s:5:"fr-BE";}',''),
-	(2,59,'2016-09-12 22:05:11','2016-09-12 22:05:11',NULL,40,40,NULL,NULL,NULL,'Another element set','','http://uri.registry.dev/schema/foobar','','http://uri.registry.dev/schema/','foobar','',100000,1,'en',1,'slash',NULL,'a:1:{i:0;s:2:"en";}','');
+	(1,59,'2016-09-12 19:01:28','2016-09-12 19:40:00',NULL,40,40,NULL,NULL,NULL,'A new Schema','','http://uri.registry.test/schema/newschema','','http://uri.registry.test/schema/','newschema','',100002,1,'en',1,'slash',NULL,'a:2:{i:0;s:2:"en";i:1;s:5:"fr-BE";}',''),
+	(2,59,'2016-09-12 22:05:11','2016-09-12 22:05:11',NULL,40,40,NULL,NULL,NULL,'Another element set','','http://uri.registry.test/schema/foobar','','http://uri.registry.test/schema/','foobar','',100000,1,'en',1,'slash',NULL,'a:1:{i:0;s:2:"en";}','');
 ALTER TABLE `reg_schema` ENABLE KEYS;
 UNLOCK TABLES;
 
@@ -3165,8 +3165,8 @@ UNLOCK TABLES;
 LOCK TABLES `reg_schema_property` WRITE;
 ALTER TABLE `reg_schema_property` DISABLE KEYS;
 INSERT INTO `reg_schema_property` (`id`, `created_at`, `updated_at`, `deleted_at`, `created_user_id`, `updated_user_id`, `schema_id`, `name`, `label`, `definition`, `comment`, `type`, `is_subproperty_of`, `parent_uri`, `uri`, `status_id`, `language`, `note`, `domain`, `orange`, `is_deprecated`, `url`, `lexical_alias`, `hash_id`) VALUES
-	(1,'2016-09-12 19:34:08','2016-09-12 19:39:24',NULL,40,40,1,'ThisAPropertyEdited','This a property edited','','','property',NULL,'','http://uri.registry.dev/schema/newschema/100001',1,'en','','','',NULL,NULL,'http://uri.registry.dev/schema/newschema/ThisAPropertyEdited',''),
-	(2,'2016-09-12 19:40:00','2016-09-12 19:40:00',NULL,40,40,1,'anotherElemnt','another elemnt','','','property',NULL,'','http://uri.registry.dev/schema/newschema/100002',1,'en','','','',NULL,NULL,'http://uri.registry.dev/schema/newschema/anotherElemnt.en','');
+	(1,'2016-09-12 19:34:08','2016-09-12 19:39:24',NULL,40,40,1,'ThisAPropertyEdited','This a property edited','','','property',NULL,'','http://uri.registry.test/schema/newschema/100001',1,'en','','','',NULL,NULL,'http://uri.registry.test/schema/newschema/ThisAPropertyEdited',''),
+	(2,'2016-09-12 19:40:00','2016-09-12 19:40:00',NULL,40,40,1,'anotherElemnt','another elemnt','','','property',NULL,'','http://uri.registry.test/schema/newschema/100002',1,'en','','','',NULL,NULL,'http://uri.registry.test/schema/newschema/anotherElemnt.en','');
 ALTER TABLE `reg_schema_property` ENABLE KEYS;
 UNLOCK TABLES;
 
@@ -3174,18 +3174,18 @@ UNLOCK TABLES;
 LOCK TABLES `reg_schema_property_element` WRITE;
 ALTER TABLE `reg_schema_property_element` DISABLE KEYS;
 INSERT INTO `reg_schema_property_element` (`id`, `created_at`, `updated_at`, `deleted_at`, `created_user_id`, `updated_user_id`, `deleted_user_id`, `schema_property_id`, `profile_property_id`, `is_schema_property`, `object`, `related_schema_property_id`, `language`, `status_id`, `is_generated`) VALUES
-	(1,'2016-09-12 19:34:08','2016-09-12 19:34:08',NULL,40,40,NULL,1,13,1,'http://uri.registry.dev/schema/newschema/100001',NULL,'',1,0),
+	(1,'2016-09-12 19:34:08','2016-09-12 19:34:08',NULL,40,40,NULL,1,13,1,'http://uri.registry.test/schema/newschema/100001',NULL,'',1,0),
 	(2,'2016-09-12 19:34:08','2016-09-12 19:39:24',NULL,40,40,NULL,1,2,1,'This a property edited',NULL,'en',1,0),
 	(3,'2016-09-12 19:34:08','2016-09-12 19:39:24',NULL,40,40,NULL,1,14,1,'1',NULL,'',1,0),
 	(4,'2016-09-12 19:34:08','2016-09-12 19:34:08',NULL,40,40,NULL,1,4,1,'property',NULL,'',1,0),
 	(5,'2016-09-12 19:34:08','2016-09-12 19:39:24',NULL,40,40,NULL,1,1,1,'ThisAPropertyEdited',NULL,'en',1,0),
-	(6,'2016-09-12 19:34:08','2016-09-12 19:39:24',NULL,40,40,NULL,1,27,1,'http://uri.registry.dev/schema/newschema/ThisAPropertyEdited.en',NULL,'en',1,0),
-	(7,'2016-09-12 19:40:00','2016-09-12 19:40:00',NULL,40,40,NULL,2,13,1,'http://uri.registry.dev/schema/newschema/100002',NULL,'',1,0),
+	(6,'2016-09-12 19:34:08','2016-09-12 19:39:24',NULL,40,40,NULL,1,27,1,'http://uri.registry.test/schema/newschema/ThisAPropertyEdited.en',NULL,'en',1,0),
+	(7,'2016-09-12 19:40:00','2016-09-12 19:40:00',NULL,40,40,NULL,2,13,1,'http://uri.registry.test/schema/newschema/100002',NULL,'',1,0),
 	(8,'2016-09-12 19:40:00','2016-09-12 19:40:00',NULL,40,40,NULL,2,2,1,'another elemnt',NULL,'en',1,0),
 	(9,'2016-09-12 19:40:00','2016-09-12 19:40:00',NULL,40,40,NULL,2,14,1,'1',NULL,'',1,0),
 	(10,'2016-09-12 19:40:00','2016-09-12 19:40:00',NULL,40,40,NULL,2,4,1,'property',NULL,'',1,0),
 	(11,'2016-09-12 19:40:00','2016-09-12 19:40:00',NULL,40,40,NULL,2,1,1,'anotherElemnt',NULL,'en',1,0),
-	(12,'2016-09-12 19:40:00','2016-09-12 19:40:00',NULL,40,40,NULL,2,27,1,'http://uri.registry.dev/schema/newschema/anotherElemnt.en',NULL,'en',1,0);
+	(12,'2016-09-12 19:40:00','2016-09-12 19:40:00',NULL,40,40,NULL,2,27,1,'http://uri.registry.test/schema/newschema/anotherElemnt.en',NULL,'en',1,0);
 ALTER TABLE `reg_schema_property_element` ENABLE KEYS;
 UNLOCK TABLES;
 
@@ -3193,26 +3193,26 @@ UNLOCK TABLES;
 LOCK TABLES `reg_schema_property_element_history` WRITE;
 ALTER TABLE `reg_schema_property_element_history` DISABLE KEYS;
 INSERT INTO `reg_schema_property_element_history` (`id`, `created_at`, `created_user_id`, `action`, `schema_property_element_id`, `schema_property_id`, `schema_id`, `profile_property_id`, `object`, `related_schema_property_id`, `language`, `status_id`, `change_note`, `import_id`) VALUES
-	(1,'2016-09-12 19:34:08',40,'added',1,1,1,13,'http://uri.registry.dev/schema/newschema/100001',NULL,'',1,NULL,NULL),
+	(1,'2016-09-12 19:34:08',40,'added',1,1,1,13,'http://uri.registry.test/schema/newschema/100001',NULL,'',1,NULL,NULL),
 	(2,'2016-09-12 19:34:08',40,'added',2,1,1,2,'This a property',NULL,'en',1,NULL,NULL),
 	(3,'2016-09-12 19:34:08',40,'added',3,1,1,14,'1',NULL,'',1,NULL,NULL),
 	(4,'2016-09-12 19:34:08',40,'added',4,1,1,4,'property',NULL,'',1,NULL,NULL),
 	(5,'2016-09-12 19:34:08',40,'updated',2,1,1,2,'This a property',NULL,'en',1,NULL,NULL),
 	(6,'2016-09-12 19:34:08',40,'added',5,1,1,1,'ThisAProperty',NULL,'en',1,NULL,NULL),
-	(7,'2016-09-12 19:34:08',40,'added',6,1,1,27,'http://uri.registry.dev/schema/newschema/ThisAProperty.en',NULL,'en',1,NULL,NULL),
+	(7,'2016-09-12 19:34:08',40,'added',6,1,1,27,'http://uri.registry.test/schema/newschema/ThisAProperty.en',NULL,'en',1,NULL,NULL),
 	(8,'2016-09-12 19:34:08',40,'updated',3,1,1,14,'1',NULL,'',1,NULL,NULL),
 	(9,'2016-09-12 19:39:24',40,'updated',2,1,1,2,'This a property edited',NULL,'en',1,NULL,NULL),
 	(10,'2016-09-12 19:39:24',40,'updated',5,1,1,1,'ThisAPropertyEdited',NULL,'en',1,NULL,NULL),
-	(11,'2016-09-12 19:39:24',40,'updated',6,1,1,27,'http://uri.registry.dev/schema/newschema/ThisAPropertyEdited.en',NULL,'en',1,NULL,NULL),
+	(11,'2016-09-12 19:39:24',40,'updated',6,1,1,27,'http://uri.registry.test/schema/newschema/ThisAPropertyEdited.en',NULL,'en',1,NULL,NULL),
 	(12,'2016-09-12 19:39:24',40,'updated',3,1,1,14,'1',NULL,'',1,NULL,NULL),
-	(13,'2016-09-12 19:40:00',40,'added',7,2,1,13,'http://uri.registry.dev/schema/newschema/100002',NULL,'',1,NULL,NULL),
+	(13,'2016-09-12 19:40:00',40,'added',7,2,1,13,'http://uri.registry.test/schema/newschema/100002',NULL,'',1,NULL,NULL),
 	(14,'2016-09-12 19:40:00',40,'added',8,2,1,2,'another elemnt',NULL,'en',1,NULL,NULL),
 	(15,'2016-09-12 19:40:00',40,'added',9,2,1,14,'1',NULL,'',1,NULL,NULL),
 	(16,'2016-09-12 19:40:00',40,'added',10,2,1,4,'property',NULL,'',1,NULL,NULL),
-	(17,'2016-09-12 19:40:00',40,'updated',7,2,1,13,'http://uri.registry.dev/schema/newschema/100002',NULL,'',1,NULL,NULL),
+	(17,'2016-09-12 19:40:00',40,'updated',7,2,1,13,'http://uri.registry.test/schema/newschema/100002',NULL,'',1,NULL,NULL),
 	(18,'2016-09-12 19:40:00',40,'updated',8,2,1,2,'another elemnt',NULL,'en',1,NULL,NULL),
 	(19,'2016-09-12 19:40:00',40,'added',11,2,1,1,'anotherElemnt',NULL,'en',1,NULL,NULL),
-	(20,'2016-09-12 19:40:00',40,'added',12,2,1,27,'http://uri.registry.dev/schema/newschema/anotherElemnt.en',NULL,'en',1,NULL,NULL),
+	(20,'2016-09-12 19:40:00',40,'added',12,2,1,27,'http://uri.registry.test/schema/newschema/anotherElemnt.en',NULL,'en',1,NULL,NULL),
 	(21,'2016-09-12 19:40:00',40,'updated',9,2,1,14,'1',NULL,'',1,NULL,NULL);
 ALTER TABLE `reg_schema_property_element_history` ENABLE KEYS;
 UNLOCK TABLES;
@@ -3265,7 +3265,7 @@ UNLOCK TABLES;
 LOCK TABLES `reg_vocabulary` WRITE;
 ALTER TABLE `reg_vocabulary` DISABLE KEYS;
 INSERT INTO `reg_vocabulary` (`id`, `agent_id`, `created_at`, `deleted_at`, `last_updated`, `created_user_id`, `updated_user_id`, `deleted_user_id`, `child_updated_at`, `child_updated_user_id`, `name`, `note`, `uri`, `url`, `base_domain`, `token`, `community`, `last_uri_id`, `status_id`, `language`, `languages`, `profile_id`, `ns_type`, `prefixes`, `repo`, `prefix`) VALUES
-	(1,59,'2016-09-10 22:36:26',NULL,'2016-09-10 22:36:26',NULL,NULL,NULL,NULL,NULL,'Vocab label','','http://registry.dev/uri/vocabLabel','','http://registry.dev/uri/','vocabLabel','',1014,1,'en','a:2:{i:0;s:2:"en";i:1;s:2:"fr";}',NULL,'slash',NULL,'','vlabel');
+	(1,59,'2016-09-10 22:36:26',NULL,'2016-09-10 22:36:26',NULL,NULL,NULL,NULL,NULL,'Vocab label','','http://registry.test/uri/vocabLabel','','http://registry.test/uri/','vocabLabel','',1014,1,'en','a:2:{i:0;s:2:"en";i:1;s:2:"fr";}',NULL,'slash',NULL,'','vlabel');
 ALTER TABLE `reg_vocabulary` ENABLE KEYS;
 UNLOCK TABLES;
 
