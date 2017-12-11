@@ -21,6 +21,7 @@ class Publish implements ShouldQueue
     {
         //data:
             //project
+            //release
             //list of vocabularies to publish
             //current user making the request
     }
