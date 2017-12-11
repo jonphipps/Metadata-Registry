@@ -1,4 +1,4 @@
-class_name: ImportTester
+class_name: ImportUpdateTester
 error_level: "E_ALL & ~E_STRICT & ~E_USER_DEPRECATED & ~E_DEPRECATED"
 modules:
     enabled: [Asserts, \Helper\Import, \Helper\ImportUpdate, Db, Filesystem]
