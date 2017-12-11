@@ -97,7 +97,6 @@ class jsonldElementsetService
                         $uselanguageMap,
                         $useLanguage);
                 if ($success) {
-                    ksort($success, SORT_FLAG_CASE | SORT_NATURAL);
                     $this->itemArray['@graph'][] = $success;
                 }
             }
