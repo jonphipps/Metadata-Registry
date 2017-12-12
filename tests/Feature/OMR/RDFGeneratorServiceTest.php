@@ -5,6 +5,7 @@ namespace Tests\Feature\OMR;
 use App\Jobs\GenerateRdf;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Snapshots\MatchesSnapshots;
+use Symfony\Component\Process\Process;
 use Tests\TestCase;
 
 class RDFGeneratorServiceTest extends TestCase
@@ -24,6 +25,11 @@ class RDFGeneratorServiceTest extends TestCase
      */
     public function runGeneratorTests()
     {
+        //start with an empty test directory
+        storage::disk('test')->deleteDirectory('projects');
+
+        $this->it_creates_a_new_project_directory_and_inits_git();
+
         $this->it_creates_a_new_vocabulary_job_and_stores_xml();
         $this->it_creates_a_new_elementset_job_and_stores_xml();
         $this->it_creates_a_new_vocabulary_job_and_stores_jsonld();
@@ -45,6 +51,15 @@ class RDFGeneratorServiceTest extends TestCase
 
     }
 
+    private function it_creates_a_new_project_directory_and_inits_git()
+    {
+        $job = new GenerateRdf(GenerateRdf::VOCABULARY, 37, 'test');
+        Storage::disk('test')->assertExists($job->getProjectPath().'.git');
+        // $dir = Storage::disk('test')->path($job->getProjectPath());
+        // $process = new Process('git status', $dir);
+        // $process->run();
+        // $this->assertTrue($process->isSuccessful());
+    }
     /**
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
@@ -73,11 +88,11 @@ class RDFGeneratorServiceTest extends TestCase
      */
     private function it_creates_a_new_vocabulary_job_and_stores_jsonld(): void
     {
-        $job = new GenerateRdf(GenerateRdf::VOCABULARY, 37);
+        $job = new GenerateRdf(GenerateRdf::VOCABULARY, 37,'test');
         $job->saveJsonLd();
         $this->assertSame('projects/177/jsonld/termList/RDAMediaType.jsonld',
             $job->getStoragePath('jsonld'));
-        $file = Storage::disk('repos')->get($job->getStoragePath('jsonld'));
+        $file = Storage::disk('test')->get($job->getStoragePath('jsonld'));
         $this->assertMatchesSnapshot($file);
     }
 
@@ -86,10 +101,10 @@ class RDFGeneratorServiceTest extends TestCase
      */
     private function it_creates_a_new_elementset_job_and_stores_jsonld(): void
     {
-        $job = new GenerateRdf(GenerateRdf::ELEMENTSET, 83);
+        $job = new GenerateRdf(GenerateRdf::ELEMENTSET, 83, 'test');
         $job->saveJsonLd();
         $this->assertSame('projects/177/jsonld/Elements/c.jsonld', $job->getStoragePath('jsonld'));
-        $file = Storage::disk('repos')->get($job->getStoragePath('jsonld'));
+        $file = Storage::disk('test')->get($job->getStoragePath('jsonld'));
         $this->assertMatchesSnapshot($file);
     }
 

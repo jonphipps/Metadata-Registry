@@ -60,6 +60,7 @@ class GenerateRdf implements ShouldQueue
         $this->filePath  = rtrim(parse_url($model->uri)['path'],'/');
         $this->fileName  = str_replace_first($basePath, '', parse_url($model->uri)['path']);
         $this->disk = $disk;
+        $this->initDir();
     }
 
     /**
@@ -85,7 +86,36 @@ class GenerateRdf implements ShouldQueue
      */
     public function getStoragePath($mimeType): string
     {
-        return "projects/{$this->projectId}/{$mimeType}{$this->filePath}.$mimeType";
+        return "{$this->getProjectPath()}{$mimeType}{$this->filePath}.$mimeType";
+    }
+
+    public function getProjectPath()
+    {
+        return "projects/{$this->projectId}/";
+    }
+
+    /**
+     * @return $this
+     * @throws \Symfony\Component\Process\Exception\LogicException
+     * @throws \Symfony\Component\Process\Exception\RuntimeException
+     * @throws \Symfony\Component\Process\Exception\ProcessFailedException
+     */
+    public function initDir()
+    {
+        if (! Storage::disk($this->disk)->exists($this->getProjectPath())) {
+            Storage::disk($this->disk)->createDir($this->getProjectPath());
+
+            $dir = Storage::disk($this->disk)->path($this->getProjectPath());
+
+            $process = new Process('git init', $dir);
+            $process->run();
+
+            // executes after the command finishes
+            if ( ! $process->isSuccessful()) {
+                throw new ProcessFailedException($process);
+            }
+        }
+        return $this;
     }
 
     public function saveXml()
