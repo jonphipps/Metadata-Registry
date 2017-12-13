@@ -66,6 +66,16 @@ class ProjectReleaseCrudController extends CrudController
         $this->crud->removeFields(['user_id','agent_id','name','body','github_response','tag_name','target_commitish','is_draft','is_prerelease']);
         $this->crud->addFields([
             [
+                'name' => 'user_id',
+                'type' => 'hidden',
+                'default' => request()->user() ? request()->user()->id : null,
+            ],
+            [
+                'name' => 'agent_id',
+                'type' => 'hidden',
+                'default' => $project_id,
+            ],
+            [
                 'name'       => 'name',
                 'label'      => 'Release Title',
                 'type'       => 'text',
