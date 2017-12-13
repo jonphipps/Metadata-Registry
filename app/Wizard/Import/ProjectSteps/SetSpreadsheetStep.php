@@ -77,10 +77,16 @@ class SetSpreadsheetStep extends Step
         ];
     }
 
+    /**
+     * @param Request $request
+     *
+     * @throws \Symfony\Component\Config\Definition\Exception\InvalidConfigurationException
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function validate(Request $request): void
     {
         $selectedSheet = $request->source_file_select ?? $request->source_file_name;
-        if ($selectedSheet <> $request->source_file_name) {
+        if ($selectedSheet !== $request->source_file_name) {
             $request->merge([ 'source_file_name' => $request->source_file_select ]);
         }
 
