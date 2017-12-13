@@ -42,7 +42,7 @@ class ProjectReleaseCrudController extends CrudController
         if ($project_id) {
             $this->crud->setRoute(config('backpack.base.route_prefix'). '/projects/' . $project_id . '/releases');
             $project = Project::findOrFail($project_id);
-        $this->crud->addClause('where', 'agent_id', $project_id);
+            $this->crud->addClause('where', 'agent_id', $project_id);
             Vocabulary::addGlobalScope('project_id', function(Builder $builder) use($project_id){
                 $builder->where('agent_id', $project_id);
             });
@@ -111,41 +111,84 @@ class ProjectReleaseCrudController extends CrudController
                 'hint'  => 'Notify consuming systems that this release is not final',
 
             ],
-            [       // Select2Multiple = n-n relationship (with pivot table)
-                    'label'     => "Value Vocabularies",
-                    'type'      => 'select2_multiple',
-                    'name'      => 'vocabularies', // the method that defines the relationship in your Model
-                    'entity'    => 'vocabularies', // the method that defines the relationship in your Model
-                    'attribute' => 'name', // foreign key attribute that is shown to user
-                    'model'     => Vocabulary::class, // foreign key model
-                    'pivot'     => true, // on create&update, do you need to add/delete pivot table entries?
-                    'morph'=>true,
-            ]
+            [
+                'label'       => 'Value Vocabularies to publish...',
+                'type'        => 'select_multiple',
+                'name'        => 'vocabularies', // the method that defines the relationship in your Model
+                'entity'      => 'vocabularies', // the method that defines the relationship in your Model
+                'attribute'   => 'name', // foreign key attribute that is shown to user
+                'model'       => Vocabulary::class, // foreign key model
+                'pivot'       => true, // on create&update, do you need to add/delete pivot table entries?
+                'pivotFields' => [], // an array of pivot table fields
+                'morph'       => true,
+                'tab'         => 'Detail',
+                'allows_null' => false,
+                'hint' => 'Use ctrl-click (Windows) or cmd-click (mac) to select.',
+            ],
+            [
+                'label'       => 'Element Sets to publish...',
+                'type'        => 'select_multiple',
+                'name'        => 'elementsets', // the method that defines the relationship in your Model
+                'entity'      => 'elementsets', // the method that defines the relationship in your Model
+                'attribute'   => 'name', // foreign key attribute that is shown to user
+                'model'       => Elementset::class, // foreign key model
+                'pivot'       => true, // on create&update, do you need to add/delete pivot table entries?
+                'pivotFields' => [], // an array of pivot table fields
+                'morph'       => true,
+                'tab'         => 'Detail',
+                'allows_null' => false,
+                'hint' => 'Use ctrl-click (Windows) or cmd-click (mac) to select.',
+            ],
         ]);
 
         // ------ CRUD COLUMNS
         // $this->crud->addColumn(); // add a single column, at the end of the stack
         // $this->crud->addColumns(); // add multiple columns, at the end of the stack
         //$this->crud->removeColumn('github_response'); // remove a column from the stack
-        $this->crud->removeColumns(['github_response', 'body', 'tag_name','target_commitish']); // remove an array of columns from the stack
+        $this->crud->removeColumns(['user_id','agent_id', 'github_response', 'target_commitish', 'is_draft']); // remove an array of columns from the stack
         // $this->crud->setColumnDetails('column_name', ['attribute' => 'value']); // adjusts the properties of the passed in column (by name)
-        $this->crud->setColumnDetails('is_draft',
+        $this->crud->addColumns([
             [
-                'type'    => 'boolean',
-                'label'   => 'Draft?',
-                'options' => [
-                    0 => '',
-                    1 => 'Yes',
-                ],
-            ]);
+                // n-n relationship (with pivot table)
+                'label'     => 'Vocabularies', // Table column heading
+                'type'      => 'select_multiple',
+                'name'      => 'vocabularies', // the method that defines the relationship in your Model
+                'entity'    => 'vocabularies', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model'     => Vocabulary::class, // foreign key model
+
+            ],
+            [
+                // n-n relationship (with pivot table)
+                'label'     => 'Element Sets', // Table column heading
+                'type'      => 'select_multiple',
+                'name'      => 'elementsets', // the method that defines the relationship in your Model
+                'entity'    => 'elementsets', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model'     => Elementset::class, // foreign key model
+
+            ],
+            [
+                'label'     => 'Released by', // Table column heading
+                'type'      => 'select',
+                'name'      => 'user', // the method that defines the relationship in your Model
+                'entity'    => 'user', // the method that defines the relationship in your Model
+                'attribute' => 'name', // foreign key attribute that is shown to user
+                'model'     => User::class, // foreign key model
+
+            ],
+        ]);
+
         $this->crud->setColumnDetails('is_prerelease',
             [
-                'type'    => 'boolean',
+                'type'    => 'check',
                 'label'   => 'Pre-release?',
-                'options' => [
-                    0 => '',
-                    1 => 'Yes',
-                ],
+
+            ]);
+
+        $this->crud->setColumnsDetails(['body', 'tag_name'],
+            [
+                'list'    => false,
             ]);
 
         // $this->crud->setColumnsDetails(['column_1', 'column_2'], ['attribute' => 'value']);
