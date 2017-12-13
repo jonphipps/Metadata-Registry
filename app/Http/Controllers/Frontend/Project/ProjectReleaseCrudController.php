@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Frontend\Project;
 
 use App\Helpers\Auth\Auth;
 use App\Http\Traits\UsesPolicies;
+use App\Models\Access\User\User;
+use App\Models\Elementset;
 use App\Models\Project;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 
@@ -11,6 +13,7 @@ use Backpack\CRUD\app\Http\Controllers\CrudController;
 use App\Http\Requests\ReleaseRequest as StoreRequest;
 use App\Http\Requests\ReleaseRequest as UpdateRequest;
 use App\Models\Release;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use App\Models\Vocabulary;
@@ -32,13 +35,21 @@ class ProjectReleaseCrudController extends CrudController
         */
 
         $project_id = Route::current()->parameter('project_id');
-        $project = Project::findOrFail($project_id);
 
         $this->crud->setModel(Release::class);
-        $this->crud->setRoute(config('backpack.base.route_prefix'). '/projects/' . $project_id . '/releases');
         $this->crud->setEntityNameStrings('Release', 'Releases');
 
+        if ($project_id) {
+            $this->crud->setRoute(config('backpack.base.route_prefix'). '/projects/' . $project_id . '/releases');
+            $project = Project::findOrFail($project_id);
         $this->crud->addClause('where', 'agent_id', $project_id);
+            Vocabulary::addGlobalScope('project_id', function(Builder $builder) use($project_id){
+                $builder->where('agent_id', $project_id);
+            });
+            Elementset::addGlobalScope('project_id', function(Builder $builder) use($project_id){
+                $builder->where('agent_id', $project_id);
+            });
+        }
 
         /*
         |--------------------------------------------------------------------------
