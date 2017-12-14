@@ -197,41 +197,11 @@ class ProjectCrudController extends CrudController
         } else{
             $this->crud->setColumnDetails( 'is_private',
                 [
-                    'type'    => 'boolean',
+                    'type'    => 'check',
                     'label'   => 'Private?',
-                    'options' => [
-                        0 => '',
-                        1 => 'Yes',
-                    ],
                 ] ); // adjusts the properties of the passed in column (by name)
         }
-        $this->crud->removeColumns( [
-                                      'base_domain',
-                                      'created_at',
-                                      'created_by',
-                                      'default_language_id',
-                                      'default_language',
-                                      'deleted_at',
-                                      'deleted_by',
-                                      'description',
-                                      'google_sheet_url',
-                                      'label',
-                                      'languages',
-                                      'license_uri',
-                                      'license',
-                                      'name',
-                                      'namespace_type',
-                                      'prefixes',
-                                      'repo',
-                                      'starting_number',
-                                      'updated_at',
-                                      'updated_by',
-                                      'uri_append',
-                                      'uri_prepend',
-                                      'uri_strategy',
-                                      'uri_type',
-                                      'url',
-            ] ); // remove an array of columns from the stack
+        //$this->crud->removeColumns( [column1, column2] ); // remove an array of columns from the stack
         $this->crud->setColumnDetails( 'org_name',
             [
                 'label'         => 'Title',
@@ -239,21 +209,52 @@ class ProjectCrudController extends CrudController
                 'function_name' => 'getTitleLink',
                 'searchLogic' => function($query, $column, $searchTerm) {
                     $query->orWhere('org_name', 'like', '%' . $searchTerm . '%');
-                }
+                },
+                'show' => false,
             ] ); // adjusts the properties of the passed in column (by name)
         $this->crud->addColumn([
             'name'          =>'vocabularies',
             'label'         => "Vocabularies",
             'type'          => "model_function",
             'function_name' => 'getVocabColumn',
+            'show'          => false,
         ] );
         $this->crud->addColumn(  [
             'name'          => 'elementsets',
             'label'         => "Element Sets",
             'type'          => "model_function",
             'function_name' => 'getElementColumn',
+            'show' => false,
         ] );
-        // $this->crud->setColumnsDetails(['column_1', 'column_2'], ['attribute' => 'value']);
+        $this->crud->setColumnDetails('languages',[
+            'type' => 'array',
+        ]);
+        $this->crud->setColumnsDetails([
+            'base_domain',
+            'created_at',
+            'created_by',
+            'default_language_id',
+            'default_language',
+            'deleted_at',
+            'deleted_by',
+            'description',
+            'google_sheet_url',
+            'label',
+            'languages',
+            'license_uri',
+            'license',
+            'name',
+            'namespace_type',
+            'prefixes',
+            'repo',
+            'starting_number',
+            'updated_at',
+            'updated_by',
+            'uri_append',
+            'uri_prepend',
+            'uri_strategy',
+            'uri_type',
+            'url',], ['list' => false]);
 
         // ------ CRUD BUTTONS
         // possible positions: 'beginning' and 'end'; defaults to 'beginning' for the 'line' stack, 'end' for the others;
@@ -316,7 +317,7 @@ class ProjectCrudController extends CrudController
             'elementset' => ElementsetCrudController::class,
             'vocabulary' => VocabularyCrudController::class,
             'import' => ImportCrudController::class,
-            'release' => ReleaseCrudController::class,
+            'release' => ProjectReleaseCrudController::class,
         ];
         foreach ($classArray as $thing => $className) {
             $thingController = new $className;
