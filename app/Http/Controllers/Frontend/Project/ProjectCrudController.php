@@ -226,7 +226,7 @@ class ProjectCrudController extends CrudController
             'function_name' => 'getElementColumn',
             'show' => false,
         ] );
-        $this->crud->setColumnDetails('languages',[
+        $this->crud->setColumnsDetails(['languages', 'prefixes'],[
             'type' => 'array',
         ]);
         $this->crud->setColumnsDetails([
