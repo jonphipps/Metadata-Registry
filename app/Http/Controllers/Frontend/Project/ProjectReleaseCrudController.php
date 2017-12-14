@@ -34,13 +34,13 @@ class ProjectReleaseCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
 
-        $project_id = Route::current()->parameter('project_id');
+        $project_id = Route::current()->parameter('project_id') ?? Route::current()->parameter('project');
 
         $this->crud->setModel(Release::class);
         $this->crud->setEntityNameStrings('Release', 'Releases');
+        $this->crud->setRoute(config('backpack.base.route_prefix'). '/projects/' . $project_id . '/releases');
 
         if ($project_id) {
-            $this->crud->setRoute(config('backpack.base.route_prefix'). '/projects/' . $project_id . '/releases');
             $project = Project::findOrFail($project_id);
             $this->crud->addClause('where', 'agent_id', $project_id);
             Vocabulary::addGlobalScope('project_id', function(Builder $builder) use($project_id){
