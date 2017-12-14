@@ -23,10 +23,7 @@ Route::group([ 'namespace' => 'Project', 'prefix' => 'projects/{project_id}' ],
     function() {
         CRUD::resource('releases', 'ProjectReleaseCrudController');
     });
-Route::group([ 'namespace' => 'Release' ],
-    function() {
-        CRUD::resource('releases', 'ReleaseCrudController');
-    });
+
 /* ----------------------------------------------------------------------- */
 Route::get('projects/{project}/imports/create', 'ImportCrudController@importProject')->name('project.import.create');
 Route::post('projects/{project}/imports/create', 'ImportCrudController@createBatch')->name('project.import.create.post');
