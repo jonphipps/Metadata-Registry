@@ -79,7 +79,6 @@ class ProjectReleaseCrudController extends CrudController
                 'name'       => 'name',
                 'label'      => 'Release Title',
                 'type'       => 'text',
-                'tab'        => 'Detail',
                 'attributes' => [
                     'placeholder' => 'The descriptive title of this release',
                 ],
@@ -88,7 +87,6 @@ class ProjectReleaseCrudController extends CrudController
                 'name'       => 'body',
                 'label'      => 'Release Notes',
                 'type'       => 'textarea',
-                'tab'        => 'Detail',
                 'attributes' => [
                     'placeholder' => 'Add some description of the changes in this release',
                     'rows'        => 10,
@@ -98,7 +96,6 @@ class ProjectReleaseCrudController extends CrudController
                 'name'       => 'tag_name',
                 'label'      => 'Tag Name',
                 'type'       => 'text',
-                'tab'        => 'Detail',
                 'attributes' => [
                     'placeholder' => 'The name of the GIT tag to assign to this release',
                 ],
@@ -107,7 +104,6 @@ class ProjectReleaseCrudController extends CrudController
                 'name'  => 'is_prerelease',
                 'label' => 'Pre-Release',
                 'type'  => 'checkbox',
-                'tab'   => 'Detail',
                 'hint'  => 'Notify consuming systems that this release is not final',
 
             ],
@@ -121,9 +117,8 @@ class ProjectReleaseCrudController extends CrudController
                 'pivot'       => true, // on create&update, do you need to add/delete pivot table entries?
                 'pivotFields' => [], // an array of pivot table fields
                 'morph'       => true,
-                'tab'         => 'Detail',
                 'allows_null' => false,
-                'hint' => 'Use ctrl-click (Windows) or cmd-click (mac) to select.',
+                'hint' => 'Use shift- or ctrl-click (Windows) or cmd-click (mac) to select.',
             ],
             [
                 'label'       => 'Element Sets to publish...',
@@ -135,9 +130,8 @@ class ProjectReleaseCrudController extends CrudController
                 'pivot'       => true, // on create&update, do you need to add/delete pivot table entries?
                 'pivotFields' => [], // an array of pivot table fields
                 'morph'       => true,
-                'tab'         => 'Detail',
                 'allows_null' => false,
-                'hint' => 'Use ctrl-click (Windows) or cmd-click (mac) to select.',
+                'hint' => 'Use shift- or ctrl-click (Windows) or cmd-click (mac) to select.',
             ],
         ]);
 
