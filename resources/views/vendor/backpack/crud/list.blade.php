@@ -164,7 +164,7 @@
               "thousands":      "{{ trans('backpack::crud.thousands') }}",
               "lengthMenu":     "{{ trans('backpack::crud.lengthMenu') }}",
               "loadingRecords": "{{ trans('backpack::crud.loadingRecords') }}",
-              "processing":     "{{ trans('backpack::crud.processing') }}",
+              "processing":     "<img src='{{ asset('vendor/backpack/crud/img/ajax-loader.gif') }}' alt='{{ trans('backpack::crud.processing') }}'>",
               "search":         "{{ trans('backpack::crud.search') }}",
               "zeroRecords":    "{{ trans('backpack::crud.zeroRecords') }}",
               "paginate": {
