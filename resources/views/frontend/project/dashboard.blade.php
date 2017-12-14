@@ -50,16 +50,22 @@
                                     <h3 class="pull-left" style="margin-top: 8px; margin-bottom: 6px">Project Detail</h3>
                                 </div><!--panel-heading-->
                                 <div class="panel-body">
-                                    <div class="list-group">Metadata</div>
-                                    <dl class="dl-horizontal">
-                                        <dt>Created At</dt>
-                                        <dd>{{$project->created_at->toFormattedDateString()}}</dd>
-                                        <dt>Updated At</dt>
-                                        <dd>{{$project->updated_at->toFormattedDateString()}}</dd>
-                                    </dl>
-                                    <div class="list-group">Description</div>
-                                    <table class="table table-striped table-bordered">
+                                    <table class="table table-bordered table-condensed">
                                         <tbody>
+                                            <tr class="warning">
+                                                <td colspan="2"><h4>Metadata</h4></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Created At</strong></td>
+                                                <td>{{$project->created_at->toFormattedDateString()}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Updated At</strong></td>
+                                                <td>{{$project->updated_at->toFormattedDateString()}}</td>
+                                            </tr>
+                                            <tr class="warning">
+                                                <td colspan="2"><h4>Description</h4></td>
+                                            </tr>
                                         @foreach ($crud->columns as $column)
                                             <tr>
                                                 <td>
@@ -80,14 +86,6 @@
                                                 @endif
                                             </tr>
                                         @endforeach
-                                        @if ($crud->buttons->where('stack', 'line')->count())
-                                            <tr>
-                                                <td><strong>{{ trans('backpack::crud.actions') }}</td>
-                                                <td>
-                                                    @include('crud::inc.button_stack', ['stack' => 'line'])
-                                                </td>
-                                            </tr>
-                                        @endif
                                         </tbody>
                                     </table>
                                     @can('edit', $project)
