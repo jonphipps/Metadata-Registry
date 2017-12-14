@@ -5,9 +5,7 @@
 $factory->define(App\Models\Vocabulary::class,
     function(Faker\Generator $faker) {
         return [
-            'agent_id'              => function() {
-                return factory(App\Models\Project::class)->create()->id;
-            },
+            'agent_id'              => getRandomClassId('Project'),
             'created_user_id'       => getRandomClassId('Access\User\User'),
             'updated_user_id'       => getRandomClassId('Access\User\User'),
             'deleted_user_id'       => getRandomClassId('Access\User\User'),
