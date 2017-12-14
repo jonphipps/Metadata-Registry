@@ -58,12 +58,38 @@
                                         <dd>{{$project->updated_at->toFormattedDateString()}}</dd>
                                     </dl>
                                     <div class="list-group">Description</div>
-                                    <dl class="dl-horizontal">
-                                        @foreach($project->toArray() as $property => $value)
-                                            <dt>{{ title_case(str_replace('_',' ',$property))}}</dt>
-                                            <dd>{{ is_array($value) ? 'ARRAY' : $value }}</dd>
+                                    <table class="table table-striped table-bordered">
+                                        <tbody>
+                                        @foreach ($crud->columns as $column)
+                                            <tr>
+                                                <td>
+                                                    <strong>{{ $column['label'] }}</strong>
+                                                </td>
+                                                @if (!isset($column['type']))
+                                                    @include('crud::columns.text')
+                                                @else
+                                                    @if(view()->exists('vendor.backpack.crud.columns.'.$column['type']))
+                                                        @include('vendor.backpack.crud.columns.'.$column['type'])
+                                                    @else
+                                                        @if(view()->exists('crud::columns.'.$column['type']))
+                                                            @include('crud::columns.'.$column['type'])
+                                                        @else
+                                                            @include('crud::columns.text')
+                                                        @endif
+                                                    @endif
+                                                @endif
+                                            </tr>
                                         @endforeach
-                                    </dl>
+                                        @if ($crud->buttons->where('stack', 'line')->count())
+                                            <tr>
+                                                <td><strong>{{ trans('backpack::crud.actions') }}</td>
+                                                <td>
+                                                    @include('crud::inc.button_stack', ['stack' => 'line'])
+                                                </td>
+                                            </tr>
+                                        @endif
+                                        </tbody>
+                                    </table>
                                     @can('edit', $project)
                                         <a class="btn btn-default btn-sm pull-right" href="{{route('frontend.crud.projects.edit', ['id' => $project->id])}}">Edit</a>
                                     @endcan
