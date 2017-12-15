@@ -9,6 +9,7 @@ use App\Models\Access\User\User;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\Process\Process;
 
 trait SetsUpTests
 {
@@ -73,6 +74,14 @@ trait SetsUpTests
     public function dontSetupDatabase()
     {
         self::$setupDatabase = false;
+    }
+
+    public function seedTestData(): void
+    {
+        $this->artisan('db:seed', [ '--class' => 'RDAClassesSeeder' ]);
+        $this->artisan('db:seed', [ '--class' => 'RDAMediaTypeSeeder' ]);
+        $process = new Process('php symfony cc');
+        $process->run();
     }
 
     protected function disableExceptionHandling()

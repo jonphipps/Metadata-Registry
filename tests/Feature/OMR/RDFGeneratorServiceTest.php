@@ -24,8 +24,7 @@ class RDFGeneratorServiceTest extends TestCase
      */
     public function runGeneratorTests()
     {
-        $this->artisan('db:seed', [ '--class' => 'RDAClassesSeeder' ]);
-        $this->artisan('db:seed', [ '--class' => 'RDAMediaTypeSeeder' ]);
+        $this->seedTestData();
 
         //start with an empty test directory
         storage::disk('test')->deleteDirectory('projects');
