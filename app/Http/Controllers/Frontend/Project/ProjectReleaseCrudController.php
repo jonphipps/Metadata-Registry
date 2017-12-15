@@ -189,7 +189,8 @@ class ProjectReleaseCrudController extends CrudController
 
         // ------ CRUD BUTTONS
         // possible positions: 'beginning' and 'end'; defaults to 'beginning' for the 'line' stack, 'end' for the others;
-        // $this->crud->addButton($stack, $name, $type, $content, $position); // add a button; possible types are: view, model_function
+        $this->crud->addButton('line', 'publish', 'view', 'backpack::crud.buttons.publish', 'end'); // add a button; possible types are: view, model_function
+        $this->crud->addButton('top', 'update_production', 'view', 'backpack::crud.buttons.update_prod', 'end'); // add a button; possible types are: view, model_function
         // $this->crud->addButtonFromModelFunction($stack, $name, $model_function_name, $position); // add a button whose HTML is returned by a method in the CRUD model
         // $this->crud->addButtonFromView($stack, $name, $view, $position); // add a button whose HTML is in a view placed at resources\views\vendor\backpack\crud\buttons
         // $this->crud->removeButton($name);
@@ -197,7 +198,7 @@ class ProjectReleaseCrudController extends CrudController
         // $this->crud->removeAllButtons();
         // $this->crud->removeAllButtonsFromStack('line');
 
-        $this->crud->denyAccess([ 'create', 'update', 'delete', 'import' ]);
+        $this->crud->denyAccess([ 'create', 'update', 'delete', 'import', 'publish', 'update_production' ]);
         if ($project->is_private) {
             if (Gate::allows('index', $project)) {
                 $this->crud->allowAccess([ 'index' ]);
@@ -209,7 +210,7 @@ class ProjectReleaseCrudController extends CrudController
             $this->crud->allowAccess([ 'index' ]);
             $this->crud->allowAccess([ 'show' ]);
         }
-        if (Gate::allows('create', Release::class)) {
+        if (Gate::allows('create', $project)) {
             $this->crud->allowAccess([ 'create' ]);
         }
         if (Gate::allows('update', $project)) {
@@ -217,6 +218,12 @@ class ProjectReleaseCrudController extends CrudController
         }
         if (Gate::allows('delete', $project)) {
             $this->crud->allowAccess([ 'delete' ]);
+        }
+        if (Gate::allows('publish', $project)) {
+            $this->crud->allowAccess([ 'publish' ]);
+        }
+        if (Gate::allows('update_production', $project)) {
+            $this->crud->allowAccess([ 'update_production' ]);
         }
         // ------ CRUD ACCESS
         // $this->crud->allowAccess([ 'index', 'show' ]);

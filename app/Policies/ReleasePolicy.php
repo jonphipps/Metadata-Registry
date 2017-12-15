@@ -76,7 +76,7 @@ class ReleasePolicy
     }
 
     /**
-     * Determine whether the user can delete the vocabulary.
+     * Determine whether the user can delete the release.
      *
      * @param  User        $user
      * @param Project|null $project
@@ -87,4 +87,5 @@ class ReleasePolicy
     {
         return ($project && $user->isAdminForProjectId($project->id));
     }
+
 }

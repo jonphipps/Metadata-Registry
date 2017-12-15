@@ -16,12 +16,13 @@ Route::post('contact/send', 'ContactController@send')->name('contact.send');
 Route::group([ 'namespace' => 'Project' ],
     function() {
         CRUD::resource('projects', 'ProjectCrudController');
-        CRUD::resource('releases', 'ProjectReleaseCrudController');
+        //CRUD::resource('releases', 'ProjectReleaseCrudController');
         //Route::get('projects/{project}', 'ProjectController@show')->name('project.show');
     });
 Route::group([ 'namespace' => 'Project', 'prefix' => 'projects/{project_id}' ],
     function() {
         CRUD::resource('releases', 'ProjectReleaseCrudController');
+        Route::get('update_production', 'ProductionController@update')->name('project.production.update');
     });
 
 /* ----------------------------------------------------------------------- */
