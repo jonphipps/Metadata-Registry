@@ -54,6 +54,5 @@ return [
         'save' => 'Save',
         'view' => 'View',
         'publish' => 'Publish',
-        'update_production' => 'Update Production'
     ],
 ];

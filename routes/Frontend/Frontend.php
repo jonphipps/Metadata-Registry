@@ -22,7 +22,6 @@ Route::group([ 'namespace' => 'Project' ],
 Route::group([ 'namespace' => 'Project', 'prefix' => 'projects/{project_id}' ],
     function() {
         CRUD::resource('releases', 'ProjectReleaseCrudController');
-        Route::get('update_production', 'ProductionController@update')->name('project.production.update');
     });
 
 /* ----------------------------------------------------------------------- */

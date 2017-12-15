@@ -71,9 +71,4 @@ class ProjectPolicy
         return ($project && $user->isAdminForProjectId($project->id));
     }
 
-    public function update_production(User $user, Project $project = null): ?bool
-    {
-        //only the site admin can update production
-        return false;
-    }
-}
+ }
