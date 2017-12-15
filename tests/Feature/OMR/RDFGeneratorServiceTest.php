@@ -14,8 +14,7 @@ class RDFGeneratorServiceTest extends TestCase
 
     public function setUp(): void
     {
-        self::$setupDatabase = true;
-        //$this->dontSetupDatabase();
+        $this->dontSetupDatabase();
 
         parent::setUp();
     }
@@ -25,6 +24,9 @@ class RDFGeneratorServiceTest extends TestCase
      */
     public function runGeneratorTests()
     {
+        $this->artisan('db:seed', [ '--class' => 'RDAClassesSeeder' ]);
+        $this->artisan('db:seed', [ '--class' => 'RDAMediaTypeSeeder' ]);
+
         //start with an empty test directory
         storage::disk('test')->deleteDirectory('projects');
 

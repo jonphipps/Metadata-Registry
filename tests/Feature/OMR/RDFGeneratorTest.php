@@ -14,8 +14,7 @@ class RDFGeneratorTest extends TestCase
 
     public function setUp(): void
     {
-        //$this->dontSetupDatabase();
-        self::$setupDatabase = true;
+        $this->dontSetupDatabase();
         parent::setUp();
     }
 
@@ -31,6 +30,9 @@ class RDFGeneratorTest extends TestCase
    /** @test */
     public function it_creates_an_rdf_xml_file_for_download(): void
     {
+        $this->artisan('db:seed', [ '--class' => 'RDAClassesSeeder' ]);
+        $this->artisan('db:seed', [ '--class' => 'RDAMediaTypeSeeder' ]);
+
         $client = new Client();
         $res = $client->get(url('vocabularies/37.rdf'));
         $this->assertMatchesXmlSnapshot((string) $res->getBody());
