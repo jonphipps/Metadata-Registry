@@ -31,11 +31,7 @@ class RDFGeneratorServiceTest extends TestCase
     {
         $this->seedTestData();
         $this->release =
-            factory(Release::class)->create([
-                'created_at' => '2017-10-17 20:58:41',
-                'updated_at' => '2017-10-17 20:58:41',
-                'tag_name'   => 'v2.7.3',
-            ]);
+            factory(Release::class)->states('testing')->create();
 
         //start with an empty test directory
         storage::disk('test')->deleteDirectory('projects');
