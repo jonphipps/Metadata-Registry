@@ -25,7 +25,7 @@ class GenerateRdf implements ShouldQueue
 
     public const VOCABULARY = Vocabulary::class;
     public const ELEMENTSET = Elementset::class;
-    private const REPO_ROOT = 'repos';
+    public const REPO_ROOT = 'repos';
 
     private const URLARRAY = [ self::VOCABULARY => 'vocabularies/', self::ELEMENTSET => 'elementsets/' ];
 
