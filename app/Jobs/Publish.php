@@ -16,20 +16,21 @@ class Publish implements ShouldQueue
      * @var Release
      */
     private $release;
+    /**
+     * @var string
+     */
+    private $disk;
 
     /**
      * Create a new job instance.
      *
      * @param Release $release
+     * @param string  $disk
      */
-    public function __construct(Release $release)
+    public function __construct(Release $release, $disk = GenerateRdf::REPO_ROOT)
     {
-        //data:
-            //project
-            //release
-            //list of vocabularies to publish
-            //current user making the request
         $this->release = $release;
+        $this->disk = $disk;
     }
 
     /**
@@ -56,11 +57,11 @@ class Publish implements ShouldQueue
         //foreach selected vocabulary
         $vocabs = $this->release->vocabularies()->get();
         foreach ($vocabs as $vocab) {
-            dispatch(new GenerateRdf($vocab, $this->release));
+            dispatch(new GenerateRdf($vocab, $this->release, $this->disk));
         }
         $vocabs = $this->release->elementsets()->get();
         foreach ($vocabs as $vocab) {
-            dispatch(new GenerateRdf($vocab, $this->release));
+            dispatch(new GenerateRdf($vocab, $this->release, $this->disk));
         }
         //when the jobs are complete:
         //commit the generated rdf with the version as the commit message
