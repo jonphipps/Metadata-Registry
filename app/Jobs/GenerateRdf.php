@@ -209,4 +209,12 @@ class GenerateRdf implements ShouldQueue
             throw new ProcessFailedException($process);
         }
     }
+
+    /**
+     * @param $vocab
+     */
+    private function updateRelease(VocabsModel $vocab)
+    {
+        $vocab->releases()->updateExistingPivot($this->release->id, [ 'published_at' => Carbon::now()->format('F j, Y') ]);
+    }
 }

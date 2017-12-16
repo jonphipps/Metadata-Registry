@@ -17,6 +17,7 @@ class CreateReleaseablesTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->softDeletes();
+            $table->timestamp('published_at')->nullable();
             $table->unsignedInteger('release_id')->nullable()->index();
             $table->unsignedInteger('releaseable_id')->nullable()->index();
             $table->string('releaseable_type')->nullable();
