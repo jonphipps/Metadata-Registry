@@ -17,6 +17,16 @@ $factory->define(App\Models\Release::class, function (Faker $faker) {
     ];
 });
 
+$factory->state(App\Models\Release::class,
+    'testing',
+    function() {
+        return [
+            'created_at' => '2017-10-17 20:58:41',
+            'updated_at' => '2017-10-17 20:58:41',
+            'tag_name'   => 'v2.7.3',
+        ];
+    });
+
 $factory->define(App\Models\Releasable::class,
     function(Faker $faker) {
         $type = $faker->randomElement([ 'Elementset', 'Vocabulary' ]);
