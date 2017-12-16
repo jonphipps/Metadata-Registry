@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Release;
 use App\Models\VocabsModel;
 use apps\frontend\lib\services\jsonldElementsetService;
 use apps\frontend\lib\services\jsonldVocabularyService;
@@ -11,17 +12,20 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
-use sfContext;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
+use App\Models\Vocabulary;
+use App\Models\Elementset;
 
 class GenerateRdf implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public const VOCABULARY = 'Vocabulary';
-    public const ELEMENTSET = 'Elementset';
+    public const VOCABULARY = Vocabulary::class;
+    public const ELEMENTSET = Elementset::class;
+    private const REPO_ROOT = 'repos';
 
     private const URLARRAY = [ self::VOCABULARY => 'vocabularies/', self::ELEMENTSET => 'elementsets/' ];
 
@@ -40,27 +44,34 @@ class GenerateRdf implements ShouldQueue
     /** @var string $fileName */
     private $fileName;
     private $disk;
+    /**
+     * @var VocabsModel
+     */
+    private $model;
+    /**
+     * @var Release
+     */
+    private $release;
 
     /**
      * Create a new job instance.
      *
-     * @param $class
-     * @param $id
-     * @param $disk
+     * @param VocabsModel $model
+     * @param Release     $release
+     * @param string      $disk
      */
-    public function __construct($class, $id, $disk = 'repos')
+    public function __construct(VocabsModel $model, Release $release, $disk = self::REPO_ROOT)
     {
-        $this->id        = $id;
-        $this->class     = $class;
-        /** @var VocabsModel $vocab */
-        $vocab           = "\\App\\Models\\{$class}";
-        $model           = $vocab::findOrFail($id);
+        $this->id        = $model->id;
+        $this->model     = $model;
+        $this->class     = \get_class($model);
         $this->projectId = $model->project_id;
         $basePath        = parse_url($model->base_domain)['path'];
-        $this->filePath  = rtrim(parse_url($model->uri)['path'],'/');
+        $this->filePath  = rtrim(parse_url($model->uri)['path'], '/');
         $this->fileName  = str_replace_first($basePath, '', parse_url($model->uri)['path']);
-        $this->disk = $disk;
-        $this->initDir();
+        $this->disk      = $disk;
+        self::initDir($this->projectId, $this->disk);
+        $this->release = $release;
     }
 
     /**
@@ -73,10 +84,20 @@ class GenerateRdf implements ShouldQueue
         //make sure we have a repo and create one if we don't
         //get the rdf/xml and store it in the repo
         $this->saveXml();
-
         //get the jsonld and store it in the repo
+        $this->saveJsonLd();
+        //TODO: make the translators that are run user-selectable as part of the project attributes
         //run the translators to generate the other flavours and store in the repo
-        //store the jsonld (default) or any other flavour of RDF on the vocabulary
+        $this->saveTtl();
+        $this->saveNt();
+        //these are the wonky remote translators
+        $this->saveN3();
+        $this->saveRdfJson();
+        $this->saveMicrodata();
+        $this->saveRdfa();
+
+        //update the entry in the releaseables table
+        $this->updateRelease($this->model);
     }
 
     /**
@@ -86,26 +107,30 @@ class GenerateRdf implements ShouldQueue
      */
     public function getStoragePath($mimeType): string
     {
-        return "{$this->getProjectPath()}{$mimeType}{$this->filePath}.$mimeType";
+        return self::getProjectPath($this->projectId)."{$mimeType}{$this->filePath}.$mimeType";
     }
 
-    public function getProjectPath()
+    public static function getProjectPath($projectId)
     {
-        return "projects/{$this->projectId}/";
+        return "projects/{$projectId}/";
     }
 
     /**
-     * @return $this
+     * @param int    $projectId
+     * @param string $disk
+     *
+     * @return void
      * @throws \Symfony\Component\Process\Exception\LogicException
      * @throws \Symfony\Component\Process\Exception\RuntimeException
      * @throws \Symfony\Component\Process\Exception\ProcessFailedException
      */
-    public function initDir()
+    public static function initDir($projectId, $disk = self::REPO_ROOT): void
     {
-        if (! Storage::disk($this->disk)->exists($this->getProjectPath())) {
-            Storage::disk($this->disk)->createDir($this->getProjectPath());
+        $projectPath = self::getProjectPath($projectId);
+        if (! Storage::disk($disk)->exists(self::getProjectPath($projectId))) {
+            Storage::disk($disk)->createDir($projectPath);
 
-            $dir = Storage::disk($this->disk)->path($this->getProjectPath());
+            $dir = Storage::disk($disk)->path($projectPath);
 
             $process = new Process('git init', $dir);
             $process->run();
@@ -115,7 +140,6 @@ class GenerateRdf implements ShouldQueue
                 throw new ProcessFailedException($process);
             }
         }
-        return $this;
     }
 
     public function saveXml()
@@ -129,14 +153,15 @@ class GenerateRdf implements ShouldQueue
     public function saveJsonLd()
     {
         $storagePath = $this->getStoragePath('jsonld');
+        $release = $this->makeReleaseArray();
         initSymfonyDb();
         if ($this->class === self::VOCABULARY) {
             $vocabulary = \VocabularyPeer::retrieveByPK($this->id);
-            $jsonLdService = new jsonldVocabularyService($vocabulary);
+            $jsonLdService = new jsonldVocabularyService($vocabulary, $release);
         }
         if ($this->class === self::ELEMENTSET) {
             $elementset = \SchemaPeer::retrieveByPK($this->id);
-            $jsonLdService = new jsonldElementsetService($elementset);
+            $jsonLdService = new jsonldElementsetService($elementset, $release);
         }
         Storage::disk($this->disk)->put($storagePath, $jsonLdService->getJsonLd());
     }
@@ -169,6 +194,14 @@ class GenerateRdf implements ShouldQueue
     public function saveRdfa()
     {
         $this->runCurl('rdfa');
+    }
+
+    /**
+     * @return array
+     */
+    private function makeReleaseArray(): array
+    {
+        return [ 'tag_name' => $this->release->tag_name, 'published_at' => $this->release->created_at->format('F j, Y') ];
     }
 
     /**
@@ -215,6 +248,7 @@ class GenerateRdf implements ShouldQueue
      */
     private function updateRelease(VocabsModel $vocab)
     {
-        $vocab->releases()->updateExistingPivot($this->release->id, [ 'published_at' => Carbon::now()->format('F j, Y') ]);
+        $release = $this->makeReleaseArray();
+        $vocab->releases()->updateExistingPivot($this->release->id, [ 'published_at' => $release['published_at'] ]);
     }
 }

@@ -9,6 +9,7 @@
 namespace apps\frontend\lib\services;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 
 class jsonldVocabularyService
 {
@@ -26,18 +27,22 @@ class jsonldVocabularyService
      * jsonldVocabularyService constructor.
      *
      * @param \Vocabulary $vocab
+     * @param array       $release
      *
      * @throws \PropelException
      */
-    public function __construct(\Vocabulary $vocab)
+    public function __construct(\Vocabulary $vocab, array $release = [])
     {
         $this->vocab                 = $vocab;
+        $this->release = $release;
 
         ini_set('memory_limit', '640M');
         ini_set('max_execution_time', 600);
 
         $this->itemArray['@context'] = $vocab->getBaseDomain() . 'Contexts/concepts_langmap.jsonld';
-        $this->setReleaseFromGithub();
+        if (empty($this->release)) {
+            $this->setReleaseFromGithub();
+        }
         $this->vocabArray['@id']           = $vocab->getUri();
         $this->vocabArray['@type']         = 'ConceptScheme';
         $this->vocabArray['title']         = [ $vocab->getLanguage() => $vocab->getName() ];
@@ -139,7 +144,7 @@ class jsonldVocabularyService
     private function getReleaseTag(): string
     {
         if ($this->release) {
-            return $this->release->tag_name;
+            return $this->release['tag_name'];
         }
 
         return '';
@@ -153,7 +158,7 @@ class jsonldVocabularyService
     private function getDateOfPublication()
     {
         if ($this->release) {
-            return \DateTime::createFromFormat(\DateTime::W3C, $this->release->published_at)->format('F j, Y');
+            return $this->release['published_at'];
         }
 
         return '';
@@ -173,10 +178,12 @@ class jsonldVocabularyService
             try {
                 $response = $GuzzleClient->request('GET', '/repos/' . $repo . '/releases/latest');
                 if ($response) {
-                    $this->release = json_decode($response->getBody());
+                    $this->release = json_decode($response->getBody(), true);
+                    $this->release['published_at'] =
+                        \DateTime::createFromFormat(\DateTime::W3C, $this->release['published_at'])->format('F j, Y');
                 }
             }
-            catch (\GuzzleHttp\Exception\ClientException $e) {
+            catch (ClientException $e) {
                 $this->release = false;
             }
         }

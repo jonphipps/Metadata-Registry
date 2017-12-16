@@ -22,6 +22,7 @@ Route::group([ 'namespace' => 'Project' ],
 Route::group([ 'namespace' => 'Project', 'prefix' => 'projects/{project_id}' ],
     function() {
         CRUD::resource('releases', 'ProjectReleaseCrudController');
+        Route::get('releases/{release}/publish', 'ProjectReleaseController@publish');
     });
 
 /* ----------------------------------------------------------------------- */
@@ -29,6 +30,8 @@ Route::get('projects/{project}/imports/create', 'ImportCrudController@importProj
 Route::post('projects/{project}/imports/create', 'ImportCrudController@createBatch')->name('project.import.create.post');
 Route::get('projects/{project}/imports/{batch}/{step}', 'ImportCrudController@importProject')->name('project.import');
 Route::post('projects/{project}/imports/{batch}/{step}', 'ImportCrudController@processImportProject')->name('project.import.post');
+
+
 /*
  * These frontend controllers require the user to be logged in
  * All route names are prefixed with 'frontend.'

@@ -9,6 +9,7 @@
 namespace apps\frontend\lib\services;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 
 class jsonldElementsetService
 {
@@ -25,15 +26,17 @@ class jsonldElementsetService
      * jsonldElementsetService constructor.
      *
      * @param \Schema $vocab
+     * @param array   $release
      * @param string  $useLanguage
      * @param bool    $uselanguageMap
      *
-     * @throws \PropelException
      * @throws \Exception
+     * @throws \PropelException
      */
-    public function __construct(\Schema $vocab, $useLanguage = null, $uselanguageMap = true)
+    public function __construct(\Schema $vocab, array $release = [], $useLanguage = null, $uselanguageMap = true)
     {
-        $this->vocab                 = $vocab;
+        $this->vocab   = $vocab;
+        $this->release = $release;
 
         ini_set('memory_limit', '640M');
         ini_set('max_execution_time', 600);
@@ -57,7 +60,9 @@ class jsonldElementsetService
         }
 
         $this->itemArray['@context'] = $contextArray;
-        $this->setReleaseFromGithub();
+        if (empty($this->release)) {
+            $this->setReleaseFromGithub();
+        }
         $this->vocabArray['@id']         = $vocab->getUri();
         $this->vocabArray['@type']       = 'ElementSet';
         $this->vocabArray['title']       = [ $vocab->getLanguage() => $vocab->getName() ];
@@ -164,7 +169,7 @@ class jsonldElementsetService
     private function getReleaseTag(): string
     {
         if ($this->release) {
-            return $this->release->tag_name;
+            return $this->release['tag_name'];
         }
 
         return '';
@@ -178,7 +183,7 @@ class jsonldElementsetService
     private function getDateOfPublication()
     {
         if ($this->release) {
-            return \DateTime::createFromFormat(\DateTime::W3C, $this->release->published_at)->format('F j, Y');
+            return $this->release['published_at'];
         }
 
         return '';
@@ -198,10 +203,12 @@ class jsonldElementsetService
             try {
                 $response = $GuzzleClient->request('GET', '/repos/' . $repo . '/releases/latest');
                 if ($response) {
-                    $this->release = json_decode($response->getBody());
+                    $this->release = json_decode($response->getBody(), true);
+                    $this->release['published_at'] =
+                        \DateTime::createFromFormat(\DateTime::W3C, $this->release['published_at'])->format('F j, Y');
                 }
             }
-            catch (\GuzzleHttp\Exception\ClientException $e) {
+            catch (ClientException $e) {
                 $this->release = false;
             }
         }

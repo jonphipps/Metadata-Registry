@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend\Project;
 
 use App\Helpers\Auth\Auth;
 use App\Http\Traits\UsesPolicies;
+use App\Jobs\Publish;
 use App\Models\Access\User\User;
 use App\Models\Elementset;
 use App\Models\Project;
@@ -314,4 +315,5 @@ class ProjectReleaseCrudController extends CrudController
         // use $this->data['entry'] or $this->crud->entry
         return $redirect_location;
     }
+
 }

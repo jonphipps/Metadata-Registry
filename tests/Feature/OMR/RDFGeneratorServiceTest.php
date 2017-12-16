@@ -3,6 +3,10 @@
 namespace Tests\Feature\OMR;
 
 use App\Jobs\GenerateRdf;
+use App\Models\Elementset;
+use App\Models\Release;
+use App\Models\VocabsModel;
+use App\Models\Vocabulary;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Snapshots\MatchesSnapshots;
 use Symfony\Component\Process\Process;
@@ -11,6 +15,7 @@ use Tests\TestCase;
 class RDFGeneratorServiceTest extends TestCase
 {
     use MatchesSnapshots;
+    private $release;
 
     public function setUp(): void
     {
@@ -25,6 +30,12 @@ class RDFGeneratorServiceTest extends TestCase
     public function runGeneratorTests()
     {
         $this->seedTestData();
+        $this->release =
+            factory(Release::class)->create([
+                'created_at' => '2017-10-17 20:58:41',
+                'updated_at' => '2017-10-17 20:58:41',
+                'tag_name'   => 'v2.7.3',
+            ]);
 
         //start with an empty test directory
         storage::disk('test')->deleteDirectory('projects');
@@ -54,8 +65,10 @@ class RDFGeneratorServiceTest extends TestCase
 
     private function it_creates_a_new_project_directory_and_inits_git()
     {
-        $job = new GenerateRdf(GenerateRdf::VOCABULARY, 37, 'test');
-        Storage::disk('test')->assertExists($job->getProjectPath().'.git');
+        $vocab = Vocabulary::findOrFail(37);
+        $job = new GenerateRdf($vocab, $this->release, 'test');
+
+        Storage::disk('test')->assertExists($job->getProjectPath($vocab->project_id).'.git');
         // $dir = Storage::disk('test')->path($job->getProjectPath());
         // $process = new Process('git status', $dir);
         // $process->run();
@@ -66,7 +79,8 @@ class RDFGeneratorServiceTest extends TestCase
      */
     private function it_creates_a_new_vocabulary_job_and_stores_xml(): void
     {
-        $job = new GenerateRdf(GenerateRdf::VOCABULARY, 37, 'test');
+        $vocab = Vocabulary::findOrFail(37);
+        $job = new GenerateRdf($vocab, $this->release, 'test');
         dispatch($job);
         $this->assertSame(storage_path('test/projects/177/xml/termList/RDAMediaType.xml'), Storage::disk('test')->path($job->getStoragePath('xml')));
         $file = Storage::disk('test')->get($job->getStoragePath('xml'));
@@ -77,7 +91,8 @@ class RDFGeneratorServiceTest extends TestCase
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */    private function it_creates_a_new_elementset_job_and_stores_xml(): void
     {
-        $job = new GenerateRdf(GenerateRdf::ELEMENTSET, 83, 'test');
+        $vocab = Elementset::findOrFail(83);
+        $job   = new GenerateRdf($vocab, $this->release, 'test');
         dispatch($job);
         $this->assertSame(storage_path('test/projects/177/xml/Elements/c.xml'), Storage::disk('test')->path($job->getStoragePath('xml')));
         $file = Storage::disk('test')->get($job->getStoragePath('xml'));
@@ -89,7 +104,8 @@ class RDFGeneratorServiceTest extends TestCase
      */
     private function it_creates_a_new_vocabulary_job_and_stores_jsonld(): void
     {
-        $job = new GenerateRdf(GenerateRdf::VOCABULARY, 37,'test');
+        $vocab = Vocabulary::findOrFail(37);
+        $job   = new GenerateRdf($vocab, $this->release, 'test');
         $job->saveJsonLd();
         $this->assertSame('projects/177/jsonld/termList/RDAMediaType.jsonld',
             $job->getStoragePath('jsonld'));
@@ -102,7 +118,8 @@ class RDFGeneratorServiceTest extends TestCase
      */
     private function it_creates_a_new_elementset_job_and_stores_jsonld(): void
     {
-        $job = new GenerateRdf(GenerateRdf::ELEMENTSET, 83, 'test');
+        $vocab = Elementset::findOrFail(83);
+        $job   = new GenerateRdf($vocab, $this->release, 'test');
         $job->saveJsonLd();
         $this->assertSame('projects/177/jsonld/Elements/c.jsonld', $job->getStoragePath('jsonld'));
         $file = Storage::disk('test')->get($job->getStoragePath('jsonld'));
@@ -114,7 +131,8 @@ class RDFGeneratorServiceTest extends TestCase
      */
     private function it_creates_a_new_elementset_job_and_stores_ttl(): void
     {
-        $job = new GenerateRdf(GenerateRdf::ELEMENTSET, 83,'test');
+        $vocab = Elementset::findOrFail(83);
+        $job   = new GenerateRdf($vocab, $this->release, 'test');
         $job->saveTtl();
         $this->assertSame(storage_path('test/projects/177/ttl/Elements/c.ttl'), Storage::disk('test')->path($job->getStoragePath('ttl')));
         $file = Storage::disk('test')->get($job->getStoragePath('ttl'));
@@ -126,7 +144,8 @@ class RDFGeneratorServiceTest extends TestCase
      */
    private function it_creates_a_new_vocabulary_job_and_stores_ttl(): void
     {
-        $job = new GenerateRdf(GenerateRdf::VOCABULARY, 37,'test');
+        $vocab = Vocabulary::findOrFail(37);
+        $job   = new GenerateRdf($vocab, $this->release, 'test');
         $job->saveTtl();
         $this->assertSame(storage_path('test/projects/177/ttl/termList/RDAMediaType.ttl'), Storage::disk('test')->path($job->getStoragePath('ttl')));
         $file = Storage::disk('test')->get($job->getStoragePath('ttl'));
@@ -138,7 +157,8 @@ class RDFGeneratorServiceTest extends TestCase
      */
     private function it_creates_a_new_elementset_job_and_stores_nt(): void
     {
-        $job = new GenerateRdf(GenerateRdf::ELEMENTSET, 83,'test');
+        $vocab = Elementset::findOrFail(83);
+        $job   = new GenerateRdf($vocab, $this->release, 'test');
         $job->saveNt();
         $this->assertSame(storage_path('test/projects/177/nt/Elements/c.nt'), Storage::disk('test')->path($job->getStoragePath('nt')));
         $file = Storage::disk('test')->get($job->getStoragePath('nt'));
@@ -150,7 +170,8 @@ class RDFGeneratorServiceTest extends TestCase
      */
    private function it_creates_a_new_vocabulary_job_and_stores_nt(): void
     {
-        $job = new GenerateRdf(GenerateRdf::VOCABULARY, 37,'test');
+        $vocab = Vocabulary::findOrFail(37);
+        $job   = new GenerateRdf($vocab, $this->release, 'test');
         $job->saveNt();
         $this->assertSame(storage_path('test/projects/177/nt/termList/RDAMediaType.nt'), Storage::disk('test')->path($job->getStoragePath('nt')));
         $file = Storage::disk('test')->get($job->getStoragePath('nt'));
@@ -162,7 +183,8 @@ class RDFGeneratorServiceTest extends TestCase
      */
     private function it_creates_a_new_elementset_job_and_stores_n3(): void
     {
-        $job = new GenerateRdf(GenerateRdf::ELEMENTSET, 83,'test');
+        $vocab = Elementset::findOrFail(83);
+        $job   = new GenerateRdf($vocab, $this->release, 'test');
         $job->saveN3();
         $this->assertSame(storage_path('test/projects/177/n3/Elements/c.n3'), Storage::disk('test')->path($job->getStoragePath('n3')));
         $file = Storage::disk('test')->get($job->getStoragePath('n3'));
@@ -174,7 +196,8 @@ class RDFGeneratorServiceTest extends TestCase
      */
    private function it_creates_a_new_vocabulary_job_and_stores_n3(): void
     {
-        $job = new GenerateRdf(GenerateRdf::VOCABULARY, 37,'test');
+        $vocab = Vocabulary::findOrFail(37);
+        $job   = new GenerateRdf($vocab, $this->release, 'test');
         $job->saveN3();
         $this->assertSame(storage_path('test/projects/177/n3/termList/RDAMediaType.n3'), Storage::disk('test')->path($job->getStoragePath('n3')));
         $file = Storage::disk('test')->get($job->getStoragePath('n3'));
@@ -183,7 +206,8 @@ class RDFGeneratorServiceTest extends TestCase
 
     private function it_creates_a_new_elementset_job_and_stores_rdf_json(): void
     {
-        $job = new GenerateRdf(GenerateRdf::ELEMENTSET, 83,'test');
+        $vocab = Elementset::findOrFail(83);
+        $job   = new GenerateRdf($vocab, $this->release, 'test');
         $job->saveRdfJson();
         $this->assertSame(storage_path('test/projects/177/rdf-json/Elements/c.rdf-json'), Storage::disk('test')->path($job->getStoragePath('rdf-json')));
         Storage::disk('test')->assertExists($job->getStoragePath('rdf-json'));
@@ -193,7 +217,8 @@ class RDFGeneratorServiceTest extends TestCase
 
    private function it_creates_a_new_vocabulary_job_and_stores_rdf_json(): void
     {
-        $job = new GenerateRdf(GenerateRdf::VOCABULARY, 37,'test');
+        $vocab = Vocabulary::findOrFail(37);
+        $job   = new GenerateRdf($vocab, $this->release, 'test');
         $job->saveRdfJson();
         $this->assertSame(storage_path('test/projects/177/rdf-json/termList/RDAMediaType.rdf-json'), Storage::disk('test')->path($job->getStoragePath('rdf-json')));
         //we can't check the file contents because the results are different everytime
@@ -202,7 +227,8 @@ class RDFGeneratorServiceTest extends TestCase
 
     private function it_creates_a_new_elementset_job_and_stores_microdata(): void
     {
-        $job = new GenerateRdf(GenerateRdf::ELEMENTSET, 83,'test');
+        $vocab = Elementset::findOrFail(83);
+        $job   = new GenerateRdf($vocab, $this->release, 'test');
         $job->saveMicrodata();
         $this->assertSame(storage_path('test/projects/177/microdata/Elements/c.microdata'), Storage::disk('test')->path($job->getStoragePath('microdata')));
         //we can't check the file contents because the results are different everytime
@@ -213,7 +239,8 @@ class RDFGeneratorServiceTest extends TestCase
 
    private function it_creates_a_new_vocabulary_job_and_stores_microdata(): void
     {
-        $job = new GenerateRdf(GenerateRdf::VOCABULARY, 37,'test');
+        $vocab = Vocabulary::findOrFail(37);
+        $job   = new GenerateRdf($vocab, $this->release, 'test');
         $job->saveMicrodata();
         $this->assertSame(storage_path('test/projects/177/microdata/termList/RDAMediaType.microdata'), Storage::disk('test')->path($job->getStoragePath('microdata')));
         Storage::disk('test')->assertExists($job->getStoragePath('microdata'));
@@ -223,7 +250,8 @@ class RDFGeneratorServiceTest extends TestCase
 
     private function it_creates_a_new_elementset_job_and_stores_rdfa(): void
     {
-        $job = new GenerateRdf(GenerateRdf::ELEMENTSET, 83,'test');
+        $vocab = Elementset::findOrFail(83);
+        $job   = new GenerateRdf($vocab, $this->release, 'test');
         $job->saveRdfa();
         $this->assertSame(storage_path('test/projects/177/rdfa/Elements/c.rdfa'), Storage::disk('test')->path($job->getStoragePath('rdfa')));
         //we can't check the file contents because the results are different everytime
@@ -234,7 +262,8 @@ class RDFGeneratorServiceTest extends TestCase
 
    private function it_creates_a_new_vocabulary_job_and_stores_rdfa(): void
     {
-        $job = new GenerateRdf(GenerateRdf::VOCABULARY, 37,'test');
+        $vocab = Vocabulary::findOrFail(37);
+        $job   = new GenerateRdf($vocab, $this->release, 'test');
         $job->saveRdfa();
         $this->assertSame(storage_path('test/projects/177/rdfa/termList/RDAMediaType.rdfa'), Storage::disk('test')->path($job->getStoragePath('rdfa')));
         Storage::disk('test')->assertExists($job->getStoragePath('rdfa'));
