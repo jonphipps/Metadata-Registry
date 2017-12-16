@@ -145,6 +145,11 @@ trait SetsUpTests
 
     public function tearDown()
     {
+        //this is necessary because the laravel test suite always starts session output capture
+        if (ob_get_level() > 1) {
+            ob_end_clean();
+        }
+
         $this->beforeApplicationDestroyed(function() {
             DB::disconnect();
         });
