@@ -226,6 +226,9 @@ class ProjectCrudController extends CrudController
             'function_name' => 'getElementColumn',
             'show' => false,
         ] );
+        $this->crud->setColumnsDetails(['repo_is_valid', ],[
+            'show' => false,
+        ]);
         $this->crud->setColumnsDetails(['languages', 'prefixes'],[
             'type' => 'array',
         ]);
@@ -247,6 +250,7 @@ class ProjectCrudController extends CrudController
             'namespace_type',
             'prefixes',
             'repo',
+            'repo_is_valid',
             'starting_number',
             'updated_at',
             'updated_by',

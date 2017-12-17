@@ -39,6 +39,7 @@ class AddProjectFieldsRegAgentTable extends Migration
                 $table->text('languages')->nullable();
                 $table->text('prefixes')->nullable();
                 $table->string('google_sheet_url')->nullable();
+                $table->boolean('repo_is_valid')->nullable()->default(0);
             });
     }
 
