@@ -15,7 +15,6 @@
 
 <!-- Styles -->
     @yield('before_styles')
-    {{ Html::style('fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}
 
 <!-- Check if the language is set to RTL, so apply the RTL layouts -->
     <!-- Otherwise apply the normal LTR layouts -->
