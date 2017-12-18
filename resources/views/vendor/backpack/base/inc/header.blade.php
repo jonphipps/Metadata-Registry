@@ -26,7 +26,15 @@
     {{ Html::style(mix('css/all.css')) }}
     @yield('after_styles')
 
-<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- Scripts -->
+    <script>
+      window.App = {!! json_encode([
+            'csrfToken' => csrf_token(),
+            'user' => Auth::user(),
+            'signedIn' => Auth::check()
+        ]) !!};
+    </script>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
