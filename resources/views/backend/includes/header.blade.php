@@ -71,18 +71,7 @@
                         </ul>
                     </li><!-- /.messages-menu -->
 
-                    <li class="dropdown notifications-menu">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-bell-o"></i>
-                            <span class="label label-default"></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li class="header">{{ trans_choice('strings.backend.general.you_have.notifications', 0) }}</li>
-                            <li class="footer">
-                                {{ laravel_link_to('#', trans('strings.backend.general.see_all.notifications')) }}
-                            </li>
-                        </ul>
-                    </li><!-- /.notifications-menu -->
+                    <user-notifications></user-notifications>
 
                     <li class="dropdown tasks-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
