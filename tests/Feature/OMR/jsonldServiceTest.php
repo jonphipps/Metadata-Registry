@@ -38,12 +38,4 @@ class jsonldServiceTest extends TestCase
         $this->assertMatchesJsonSnapshot($jsonService->getJsonLd());
     }
 
-    public function tearDown()
-    {
-        //if (\function_exists('xdebug_break')) xdebug_break();
-        if (ob_get_level() > 1) {
-            ob_end_clean();
-        }
-    }
-
 }
