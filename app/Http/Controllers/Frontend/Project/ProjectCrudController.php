@@ -332,25 +332,39 @@ class ProjectCrudController extends CrudController
         return parent::show($id);
     }
 
+    /**
+     * @param UpdateRequest $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function store( StoreRequest $request )
     {
-        if ( Auth::check() ) {
-            $this->crud->allowAccess( 'store' );
-        }
+        $this->policyAuthorize('create', $this->crud->getModel());
+
         // your additional operations before save here
         $redirect_location = parent::storeCrud();
         Auth::user()->projects()->attach( $this->crud->entry,
             [ 'is_registrar_for' => true, 'is_admin_for' => true, ] );
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
-        return $redirect_location;
+        return Redirect::to(config('backpack.base.route_prefix') . "/projects/{$this->crud->entry->id}");
     }
 
+    /**
+     * @param UpdateRequest $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function update( UpdateRequest $request )
     {
         if ( $request && $request->id ) {
             $this->policyAuthorize('update', $this->crud->getModel(), $request->id);
         }
+        $this->crud->setRoute(config('backpack.base.route_prefix') . "/projects/{$request->id}");
 
         // your additional operations before save here
         $redirect_location = parent::updateCrud();
