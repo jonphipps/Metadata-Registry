@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Frontend\Project;
 
 use App\Http\Controllers\Frontend\Elementset\ElementsetCrudController;
 use App\Http\Controllers\Frontend\ImportCrudController;
-use App\Http\Controllers\Frontend\Release\ReleaseCrudController;
 use App\Http\Controllers\Frontend\Vocabulary\VocabularyCrudController;
 use App\Http\Requests\Frontend\Project\ProjectRequest as StoreRequest;
 use App\Http\Requests\Frontend\Project\ProjectRequest as UpdateRequest;
@@ -13,12 +12,17 @@ use App\Http\Traits\UsesPolicies;
 use Auth;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use App\Models\Project;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Redirect;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
 class ProjectCrudController extends CrudController
 {
     use UsesEnums, UsesPolicies;
 
+    /**
+     * @throws \Exception
+     */
     public function setUp()
     {
 
@@ -31,6 +35,7 @@ class ProjectCrudController extends CrudController
         $this->crud->setRoute( config( 'backpack.base.route_prefix' ) . '/projects' );
         $this->crud->setEntityNameStrings( 'Project', 'Projects' );
         $this->crud->setShowView('frontend.project.dashboard');
+        $this->crud->addClause('public');
 
         /*
         |--------------------------------------------------------------------------
@@ -312,8 +317,23 @@ class ProjectCrudController extends CrudController
         // $this->crud->limit();
     }
 
+    /**
+     * @param int $id
+     *
+     * @return \Backpack\CRUD\app\Http\Controllers\Response
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function show($id)
     {
+        //todo: All private project checks should be implemented in middleware
+        if ( ! Auth::check()) {
+            //we abort if the project is private
+            $project = Project::findOrFail($id);
+            if ($project->is_private) {
+                abort(404);
+            }
+        }
         $this->policyAuthorize('show', $this->crud->getModel(), $id);
 
         $this->data['project'] = $this->crud->getEntry($id);

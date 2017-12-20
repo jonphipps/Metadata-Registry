@@ -9,17 +9,11 @@ use App\Http\Requests\Frontend\Project\ProjectUserRequest as StoreRequest;
 use App\Http\Requests\Frontend\Project\ProjectUserRequest as UpdateRequest;
 use App\Models\ProjectUser;
 
-class ProjectUserCrudController extends CrudController
+class ProjectUserCrudController extends ProjectCrudController
 {
     public function setup()
     {
-
-        /*
-        |--------------------------------------------------------------------------
-        | BASIC CRUD INFORMATION
-        |--------------------------------------------------------------------------
-        */
-        $this->crud->setModel(ProjectUser::class);
+        parent::setUp();
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/projectuser');
         $this->crud->setEntityNameStrings('projectuser', 'project_users');
 
