@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Release;
+use App\Notifications\Frontend\ReleaseWasPublished;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -57,17 +58,22 @@ class Publish implements ShouldQueue
         //foreach selected vocabulary
         $vocabs = $this->release->vocabularies()->get();
         foreach ($vocabs as $vocab) {
-            dispatch(new GenerateRdf($vocab, $this->release, $this->disk));
+            $job = new GenerateRdf($vocab, $this->release, $this->disk);
+            $job->handle();
+
         }
         $vocabs = $this->release->elementsets()->get();
         foreach ($vocabs as $vocab) {
-            dispatch(new GenerateRdf($vocab, $this->release, $this->disk));
+            $job = new GenerateRdf($vocab, $this->release, $this->disk);
+            $job->handle();
         }
         //when the jobs are complete:
         //commit the generated rdf with the version as the commit message
         //tag the commit with the version
         //push the repo to github
         //run the GenerateDocs job
+        //notify the user that it's done
+        $this->release->User->notify(new ReleaseWasPublished($this->release));
     }
 
 }
