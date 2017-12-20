@@ -2,37 +2,16 @@
     <li class="dropdown notifications-menu">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
             <i class="fa fa-bell-o"></i>
-            <span class="label label-warning" >10</span>
+            <span class="label label-warning">{{ notifications.length }}</span>
         </a>
         <ul class="dropdown-menu">
-            <li class="header">You have 10 notifications</li>
+            <li class="header">You have {{ notifications.length === 1 ? notifications.length + 'notification' : notifications.length + 'notifications'}}</li>
             <li>
                 <!-- inner menu: contains the actual data -->
                 <ul class="menu">
-                    <li>
+                    <li v-for="notification in notifications">
                         <a href="#">
-                            <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the
-                            page and may cause design problems
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-users text-red"></i> 5 new members joined
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-shopping-cart text-green"></i> 25 sales made
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-user text-red"></i> You changed your username
+                            <i class="fa fa-warning text-yellow"></i> {{ notification }}
                         </a>
                     </li>
                 </ul>
@@ -55,19 +34,27 @@
   export default {
     name: "user-notifications",
     data() {
-      return {notifications: false}
-    },
-
-    created() {
-      axios.get('/users/' + window.App.user.id + '/notifications')
-        .then(response => this.notifications = response.data);
-    },
-
-    methods: {
-      markAsRead(notification) {
-        axios.delete('/profiles/' + window.App.user.name + '/notifications/' + notification.id)
+      return {
+        notifications: [
+          '5 new members joined today',
+          'Very long description here that may not fit into the page and may cause design problems',
+          '5 new members joined',
+          '25 sales made',
+          'You changed your username'
+        ]
       }
-    }
+    },
+
+    // created() {
+    //   axios.get('/users/' + window.App.user.id + '/notifications')
+    //     .then(response => this.notifications = response.data);
+    // },
+    //
+    // methods: {
+    //   markAsRead(notification) {
+    //     axios.delete('/profiles/' + window.App.user.name + '/notifications/' + notification.id)
+    //   }
+    //}
   }
 </script>
 <style scoped></style>

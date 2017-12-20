@@ -2,23 +2,29 @@
 
 namespace App\Notifications\Frontend;
 
+use App\Models\Release;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class PublishSuccessNotification extends Notification implements ShouldQueue
+class ReleaseWasPublished extends Notification implements ShouldQueue
 {
     use Queueable;
+    /**
+     * @var Release
+     */
+    private $release;
 
     /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param Release $release
      */
-    public function __construct()
+    public function __construct(Release $release)
     {
         //
+        $this->release = $release;
     }
 
     /**
@@ -29,7 +35,7 @@ class PublishSuccessNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable): array
     {
-        return ['mail'];
+        return ['database'];
     }
 
     /**
@@ -41,9 +47,9 @@ class PublishSuccessNotification extends Notification implements ShouldQueue
     public function toMail($notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
+                    ->line("Your release has been published as {$this->release->tag_name}. You can view it on GitHub or download a zip file")
                     ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->line('Thank you for using the Open Metadata Registry!');
     }
 
     /**
@@ -55,7 +61,7 @@ class PublishSuccessNotification extends Notification implements ShouldQueue
     public function toArray($notifiable): array
     {
         return [
-            //
+            'message' =>'Your vocabulary has been published',
         ];
     }
 }

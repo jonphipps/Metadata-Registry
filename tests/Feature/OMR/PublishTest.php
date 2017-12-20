@@ -5,6 +5,9 @@ namespace Tests\Feature\OMR;
 use App\Jobs\Publish;
 use App\Models\Releasable;
 use App\Models\Release;
+use Doctrine\DBAL\Schema\Table;
+use Illuminate\Notifications\DatabaseNotification;
+use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -38,6 +41,7 @@ class PublishTest extends TestCase
 
         //start with an empty test directory
         storage::disk('test')->deleteDirectory('projects');
+        DatabaseNotification::truncate();
 
         //when I pass the release to the publish function
         dispatch(new Publish($release, 'test'));
@@ -59,5 +63,7 @@ class PublishTest extends TestCase
         Storage::disk('test')->assertExists('projects/177/microdata/Elements/c.microdata');
         Storage::disk('test')->assertExists('projects/177/jsonld/termList/RDAMediaType.jsonld');
         Storage::disk('test')->assertExists('projects/177/jsonld/Elements/c.jsonld');
+
+        $this->assertCount(1, $release->user->notifications);
     }
 }
