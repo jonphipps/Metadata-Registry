@@ -1,6 +1,8 @@
 <?php
 /** Created by PhpStorm,  User: jonphipps,  Date: 2017-05-27,  Time: 10:54 AM */
 
+use App\Models\Project;
+
 /** @var Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(App\Models\Project::class,
     function(Faker\Generator $faker) {
@@ -41,6 +43,18 @@ $factory->define(App\Models\Project::class,
             // obsolete 'label'            => $faker->word,
         ];
     });
+
+$factory->state(Project::class,
+    'private',
+    [
+        'is_private' => true,
+    ]);
+
+$factory->state(Project::class,
+    'public',
+    [
+        'is_private' => false,
+    ]);
 
 $factory->define(App\Models\ProjectUser::class,
     function(Faker\Generator $faker) {
