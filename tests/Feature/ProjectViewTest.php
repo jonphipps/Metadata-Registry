@@ -24,7 +24,7 @@ class ProjectViewTest extends BrowserKitTestCase
         //given I add a project to the database and I'm logged out
         auth()->logout();
         /** @var Project $project */
-        $project = factory(Project::class)->create();
+        $project = factory(Project::class)->states('public')->create();
         //when I go to the url
         $this->get($this->baseUrl . '/projects/' . $project->id)
             ->see(htmlspecialchars($project->title))
