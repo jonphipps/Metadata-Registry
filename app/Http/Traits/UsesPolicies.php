@@ -12,6 +12,7 @@ trait UsesPolicies
     use AuthorizesRequests;
 
     /**
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function authorizeAll()
@@ -30,6 +31,10 @@ trait UsesPolicies
         }
     }
 
+    /**
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function create()
     {
         $this->policyAuthorize('create', $this->crud->getModel());
@@ -37,6 +42,13 @@ trait UsesPolicies
         return parent::create();
     }
 
+    /**
+     * @param $id
+     *
+     * @return
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function destroy($id)
     {
         $this->policyAuthorize('delete', $this->crud->getModel(), $id);
@@ -44,6 +56,12 @@ trait UsesPolicies
         return parent::destroy($id);
     }
 
+    /**
+     * @param $id
+     *
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function edit($id)
     {
         $this->policyAuthorize('update', $this->crud->getModel(), $id);
@@ -51,6 +69,10 @@ trait UsesPolicies
         return parent::edit($id);
     }
 
+    /**
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function index()
     {
         $this->policyAuthorize('index', $this->crud->getModel());
@@ -63,6 +85,12 @@ trait UsesPolicies
         $this->index();
     }
 
+    /**
+     * @param $id
+     *
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function show($id)
     {
         $this->policyAuthorize('show', $this->crud->getModel(), $id);
@@ -73,9 +101,9 @@ trait UsesPolicies
     /**
      * Determines the access to allow based on policy
      *
-     * @param string   $ability The ability to validate
-     * @param Model    $class   The instance of a Model class to check against
-     * @param int|null $id      The id of the individual to check against
+     * @param string       $ability The ability to validate
+     * @param string|Model $class   The instance of a Model class to check against
+     * @param int|null     $id      The id of the individual to check against
      *
      * @throws \Illuminate\Auth\Access\AuthorizationException
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
@@ -87,7 +115,7 @@ trait UsesPolicies
             return;
         }
 
-        //the 'model' will either be a valid instance or the class
+        //the 'model' will either be a valid instance or the class name
         $model = $id !== null ? $class->findOrFail($id) : $class;
 
         //deny access to the ability by default
