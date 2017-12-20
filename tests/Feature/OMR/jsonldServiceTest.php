@@ -20,6 +20,7 @@ class jsonldServiceTest extends TestCase
         $this->dontSetupDatabase();
         parent::setUp();
         initSymfonyDb();
+        $this->seedTestData();
     }
 
     /** @test */
