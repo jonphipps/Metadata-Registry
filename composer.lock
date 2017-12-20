@@ -409,12 +409,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jonphipps/CRUD.git",
-                "reference": "bb890f083735518dbba85b2fc25c9b71000ce638"
+                "reference": "8a6300d345d99661b27cae24e7d20d1e63cfddc5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jonphipps/CRUD/zipball/bb890f083735518dbba85b2fc25c9b71000ce638",
-                "reference": "bb890f083735518dbba85b2fc25c9b71000ce638",
+                "url": "https://api.github.com/repos/jonphipps/CRUD/zipball/8a6300d345d99661b27cae24e7d20d1e63cfddc5",
+                "reference": "8a6300d345d99661b27cae24e7d20d1e63cfddc5",
                 "shasum": ""
             },
             "require": {
@@ -488,7 +488,7 @@
             "support": {
                 "source": "https://github.com/jonphipps/CRUD/tree/master"
             },
-            "time": "2017-12-15T16:50:53+00:00"
+            "time": "2017-12-19T19:23:05+00:00"
         },
         {
             "name": "barryvdh/elfinder-flysystem-driver",
@@ -2362,16 +2362,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.38",
+            "version": "v0.39",
             "source": {
                 "type": "git",
                 "url": "https://github.com/google/google-api-php-client-services.git",
-                "reference": "b7df3c72e7d7b4d9b7931d48ada036e57600c9de"
+                "reference": "d20b726adcc93f1617e420dc352a3ecb112c458d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/google/google-api-php-client-services/zipball/b7df3c72e7d7b4d9b7931d48ada036e57600c9de",
-                "reference": "b7df3c72e7d7b4d9b7931d48ada036e57600c9de",
+                "url": "https://api.github.com/repos/google/google-api-php-client-services/zipball/d20b726adcc93f1617e420dc352a3ecb112c458d",
+                "reference": "d20b726adcc93f1617e420dc352a3ecb112c458d",
                 "shasum": ""
             },
             "require": {
@@ -2395,7 +2395,7 @@
             "keywords": [
                 "google"
             ],
-            "time": "2017-12-10T00:23:17+00:00"
+            "time": "2017-12-18T00:23:19+00:00"
         },
         {
             "name": "google/auth",
@@ -3677,16 +3677,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.5.25",
+            "version": "v5.5.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "0a5b6112f325c56ae5a6679c08a0a10723153fe0"
+                "reference": "b4fb6eeb227b7327b4ca7f92263b693ec9ac9875"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/0a5b6112f325c56ae5a6679c08a0a10723153fe0",
-                "reference": "0a5b6112f325c56ae5a6679c08a0a10723153fe0",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/b4fb6eeb227b7327b4ca7f92263b693ec9ac9875",
+                "reference": "b4fb6eeb227b7327b4ca7f92263b693ec9ac9875",
                 "shasum": ""
             },
             "require": {
@@ -3807,7 +3807,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-12-11T14:59:28+00:00"
+            "time": "2017-12-20T15:43:48+00:00"
         },
         {
             "name": "laravel/horizon",
@@ -3941,16 +3941,16 @@
         },
         {
             "name": "laravel/tinker",
-            "version": "v1.0.2",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/tinker.git",
-                "reference": "203978fd67f118902acff95925847e70b72e3daf"
+                "reference": "852c2abe0b0991555a403f1c0583e64de6acb4a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/tinker/zipball/203978fd67f118902acff95925847e70b72e3daf",
-                "reference": "203978fd67f118902acff95925847e70b72e3daf",
+                "url": "https://api.github.com/repos/laravel/tinker/zipball/852c2abe0b0991555a403f1c0583e64de6acb4a6",
+                "reference": "852c2abe0b0991555a403f1c0583e64de6acb4a6",
                 "shasum": ""
             },
             "require": {
@@ -3959,7 +3959,7 @@
                 "illuminate/support": "~5.1",
                 "php": ">=5.5.9",
                 "psy/psysh": "0.7.*|0.8.*",
-                "symfony/var-dumper": "~3.0"
+                "symfony/var-dumper": "~3.0|~4.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "~4.0|~5.0"
@@ -4000,7 +4000,7 @@
                 "laravel",
                 "psysh"
             ],
-            "time": "2017-07-13T13:11:05+00:00"
+            "time": "2017-12-18T16:25:11+00:00"
         },
         {
             "name": "laravelcollective/html",
@@ -7943,16 +7943,16 @@
         },
         {
             "name": "symfony/psr-http-message-bridge",
-            "version": "v1.0.1",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/psr-http-message-bridge.git",
-                "reference": "b2098405d8644f6dc4c36febcee6a77c0fdecdff"
+                "reference": "c2b757934f2d9681a287e662efbc27c41fe8ef86"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/psr-http-message-bridge/zipball/b2098405d8644f6dc4c36febcee6a77c0fdecdff",
-                "reference": "b2098405d8644f6dc4c36febcee6a77c0fdecdff",
+                "url": "https://api.github.com/repos/symfony/psr-http-message-bridge/zipball/c2b757934f2d9681a287e662efbc27c41fe8ef86",
+                "reference": "c2b757934f2d9681a287e662efbc27c41fe8ef86",
                 "shasum": ""
             },
             "require": {
@@ -7999,7 +7999,7 @@
                 "http-message",
                 "psr-7"
             ],
-            "time": "2017-07-23T09:13:43+00:00"
+            "time": "2017-12-19T00:31:44+00:00"
         },
         {
             "name": "symfony/routing",
@@ -9594,22 +9594,25 @@
         },
         {
             "name": "nunomaduro/collision",
-            "version": "v1.1.13",
+            "version": "v1.1.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nunomaduro/collision.git",
-                "reference": "39d437a2d0e703336cfbd957588fed51d7e50b3c"
+                "reference": "312f56cf740185ed831301096890a54ea5a02eb9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nunomaduro/collision/zipball/39d437a2d0e703336cfbd957588fed51d7e50b3c",
-                "reference": "39d437a2d0e703336cfbd957588fed51d7e50b3c",
+                "url": "https://api.github.com/repos/nunomaduro/collision/zipball/312f56cf740185ed831301096890a54ea5a02eb9",
+                "reference": "312f56cf740185ed831301096890a54ea5a02eb9",
                 "shasum": ""
             },
             "require": {
                 "filp/whoops": "^2.1.4",
                 "php": "^7.1",
                 "symfony/console": "~2.8|~3.3|~4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.5"
             },
             "type": "library",
             "extra": {
@@ -9647,7 +9650,7 @@
                 "php",
                 "symfony"
             ],
-            "time": "2017-12-11T19:24:08+00:00"
+            "time": "2017-12-19T20:01:32+00:00"
         },
         {
             "name": "orangehill/iseed",
@@ -10276,16 +10279,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "6.5.4",
+            "version": "6.5.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "1b2f933d5775f9237369deaa2d2bfbf9d652be4c"
+                "reference": "83d27937a310f2984fd575686138597147bdc7df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/1b2f933d5775f9237369deaa2d2bfbf9d652be4c",
-                "reference": "1b2f933d5775f9237369deaa2d2bfbf9d652be4c",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/83d27937a310f2984fd575686138597147bdc7df",
+                "reference": "83d27937a310f2984fd575686138597147bdc7df",
                 "shasum": ""
             },
             "require": {
@@ -10356,7 +10359,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2017-12-10T08:06:19+00:00"
+            "time": "2017-12-17T06:31:19+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -10489,16 +10492,16 @@
         },
         {
             "name": "recca0120/terminal",
-            "version": "v1.6.16",
+            "version": "v1.6.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/recca0120/laravel-terminal.git",
-                "reference": "18ccee04e8f7ee4505021f18066f67a1a36b795a"
+                "reference": "ec328426da4956eccc380556a477c1e0a5e5ea92"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/recca0120/laravel-terminal/zipball/18ccee04e8f7ee4505021f18066f67a1a36b795a",
-                "reference": "18ccee04e8f7ee4505021f18066f67a1a36b795a",
+                "url": "https://api.github.com/repos/recca0120/laravel-terminal/zipball/ec328426da4956eccc380556a477c1e0a5e5ea92",
+                "reference": "ec328426da4956eccc380556a477c1e0a5e5ea92",
                 "shasum": ""
             },
             "require": {
@@ -10552,7 +10555,7 @@
                 "web",
                 "web artisan"
             ],
-            "time": "2017-11-21T07:29:17+00:00"
+            "time": "2017-12-18T04:46:34+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
