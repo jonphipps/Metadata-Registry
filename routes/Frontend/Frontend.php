@@ -36,7 +36,10 @@ Route::group([ 'middleware' => 'auth' ], function() {
         Route::patch('profile/update', 'ProfileController@update')->name('profile.update');
     });
 });
-Route::group([ 'namespace' => 'User', 'prefix' => 'user/{user_id}', 'as' => 'user.' ], function() {
-    CRUD::resource('notifications','NotificationCrudController');
+Route::group([ 'namespace' => 'User', 'prefix' => 'users/{user_id}', 'as' => 'user.' ], function() {
+    Route::get('notifications', 'NotificationController@all')->name('notifications.all');
+    Route::get('unread_notifications', 'NotificationController@unread')->name('notifications.index');
 });
+Route::get('notifications/{notification}', 'User\NotificationController@show')->name('notifications.show');
+Route::delete('notifications/{notification}', 'User\NotificationController@delete')->name('notifications.delete');
 

@@ -12,6 +12,6 @@ $factory->define(\Illuminate\Notifications\DatabaseNotification::class,
                 return auth()->id() ?: factory(\App\Models\Access\User\User::class)->create()->id;
             },
             'notifiable_type' => 'user',
-            'data'            => [ 'foo' => 'bar' ]
+            'data'            => [ 'message' => 'foo was barred' ]
         ];
     });
