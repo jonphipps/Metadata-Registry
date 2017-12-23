@@ -4,6 +4,7 @@
 /** @var \App\Http\Controllers\Frontend\Vocabulary\VocabularyCrudController $vocabulary */
 /** @var \App\Models\Import $import */
 /** @var \App\Models\Batch $batch */
+$showReleaseButton = $showImportButton = ($project->vocabularies->count || $project->elementsets->count);
 ?>
 @section('content')
     <div class="row">
@@ -96,7 +97,7 @@
                         </div><!--col-xs-12-->
                         <div class="col-md-6">
                             <div class="panel panel-default">
-                            @include('frontend.partials.panelheader', ['crud' => $release->crud, 'policy_model' => $project, 'permission' =>'edit' ])<!--panel-heading-->
+                            @include('frontend.partials.panelheader', ['crud' => $release->crud, 'policy_model' => $project, 'permission' =>'publish', $showButton = $showReleaseButton ])<!--panel-heading-->
                                 <div class="panel-body">
                                     <ul class="list-unstyled">
                                         @forelse ($project->releases->sortBy('name') as $release)
@@ -123,7 +124,7 @@
                         </div><!--col-md-6-->
                         <div class="col-md-6">
                             <div class="panel panel-default">
-                                @include('frontend.partials.panelheader', ['crud' => $import->crud, 'policy_model' => $project, 'permission' =>'edit' ])<!--panel-heading-->
+                                @include('frontend.partials.panelheader', ['crud' => $import->crud, 'policy_model' => $project, 'permission' =>'edit', $showButton = $showImportButton ])<!--panel-heading-->
                                     <div class="panel-body">
                                         <table class="table table-bordered table-striped table-hover table-condensed table-responsive">
                                             <thead>
