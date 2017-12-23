@@ -28,23 +28,30 @@ class SetSpreadsheetStep extends Step
     {
         $id                = $this->wizard->data()['project_id'];
         $batches           = Project::find($id)->importBatches;
+        $or = $batches->count() ? 'OR... <br>' : '';
         $field_fileName    = [
             'name'  => 'source_file_name',
-            'label' => 'OR... <br>Link to New Google Spreadsheet',
+            'label' => $or . 'Link to New Google Spreadsheet',
             'type'  => 'url',
         ];
         $field_type        = [
             'name'    => 'import_type',
-            'label'   => 'Type of Import',
-            'type'    => 'radio',
-            'options' => [ // the key will be stored in the db, the value will be shown as label;
-                           0 => 'Full -- (Default) Empty cells will be deleted. Empty rows will be deleted, or deprecated if published.',
-                           1 => 'Sparse -- Non-destructive. Empty rows and cells will be ignored.',
-                           2 => 'Partial -- Empty Cells will be deleted. Missing rows will be ignored.',
-            ],
-        ];
+            'type'    => 'hidden',
+            'default' => 0
 
-        if ($batches) {
+        ];
+        // $field_type        = [
+        //     'name'    => 'import_type',
+        //     'label'   => 'Type of Import',
+        //     'type'    => 'radio',
+        //     'options' => [ // the key will be stored in the db, the value will be shown as label;
+        //                    0 => 'Full -- (Default) Empty cells will be deleted. Empty rows will be deleted, or deprecated if published.',
+        //                    1 => 'Sparse -- Non-destructive. Empty rows and cells will be ignored.',
+        //                    2 => 'Partial -- Empty Cells will be deleted. Missing rows will be ignored.',
+        //     ],
+        // ];
+
+        if ($batches->count()) {
             $batches           = $batches->pluck('step_data', 'run_description')->mapWithKeys(function($item, $key) {
                 return [ $item['spreadsheet']['source_file_name'] => $key ];
             })->sort()->toArray();
@@ -53,7 +60,7 @@ class SetSpreadsheetStep extends Step
                 'label'       => 'Select a previous Google Spreadsheet',
                 'type'        => 'select2_from_array',
                 'options'     => $batches,
-                'allows_null' => true,
+                'allows_null' => false,
             ];
 
             return [ $field_sheetSelect, $field_fileName, $field_type ];

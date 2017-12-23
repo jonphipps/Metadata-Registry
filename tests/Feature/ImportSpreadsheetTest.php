@@ -52,10 +52,26 @@ class ImportSpreadsheetTest extends BrowserKitTestCase
         }
     }
 
-        protected function IAmOnTheProjectDashboard() {
+    /** @test */
+    public function IfThereIsNoPreviousImportThereIsNoSelectDropDown()
+    {
+        //given 
+        $this->IAmTheProjectAdministrator();
+        $this->project->importBatches()->first()->update([ 'project_id' => 178]);
+        $this->visit(route('frontend.project.import.create', [ 'project' => $this->project->id ]));
+        $this->IAmOnTheImportCreatePage();
+        //when there is no previous spreadsheet
+        $this->assertCount(0, $this->project->importBatches);
+        //then
+        $this->dontSee('Select a Previous Google Spreadsheet');
+        Batch::first()->update([ 'project_id' => 177 ]);
+        $this->visit(route('frontend.project.import.create', [ 'project' => $this->project->id ]));
+        $this->see('Select a Previous Google Spreadsheet');
+    }
 
+    protected function IAmOnTheProjectDashboard()
+    {
         $this->IAmOnAProjectPage();
-
     }
 
     protected function IPressTheAddImportButton() {
