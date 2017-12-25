@@ -2,7 +2,6 @@
 
 use App\Helpers\Macros\Traits\Languages;
 use App\Models\Traits\BelongsToElementset;
-use App\Models\Traits\HasLanguagesList;
 use Culpa\Traits\Blameable;
 use Culpa\Traits\CreatedBy;
 use Illuminate\Database\Eloquent\Model;
@@ -55,7 +54,7 @@ class ElementsetUser extends Model
         'current_language' => 'max:6',
     ];
     use SoftDeletes, Blameable, CreatedBy;
-    use Languages, HasLanguagesList;
+    use Languages;
     use BelongsToElementset;
     protected $table = self::TABLE;
     protected $blameable = [

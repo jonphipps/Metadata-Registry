@@ -3,7 +3,6 @@
 use App\Helpers\Macros\Traits\Languages;
 use App\Models\Traits\HasElementsets;
 use App\Models\Traits\HasImports;
-use App\Models\Traits\HasLanguagesList;
 use App\Models\Traits\HasMembers;
 use App\Models\Traits\HasPrefixesList;
 use App\Models\Traits\HasProfiles;

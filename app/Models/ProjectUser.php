@@ -3,7 +3,6 @@
 use App\Helpers\Macros\Traits\Languages;
 use App\Models\Traits\BelongsToProject;
 use App\Models\Traits\BelongsToUser;
-use App\Models\Traits\HasLanguagesList;
 use Backpack\CRUD\CrudTrait;
 use Culpa\Traits\Blameable;
 use Culpa\Traits\CreatedBy;

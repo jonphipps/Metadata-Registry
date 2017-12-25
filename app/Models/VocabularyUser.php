@@ -2,7 +2,6 @@
 
 use App\Helpers\Macros\Traits\Languages;
 use App\Models\Traits\BelongsToVocabulary;
-use App\Models\Traits\HasLanguagesList;
 use Culpa\Traits\Blameable;
 use Culpa\Traits\CreatedBy;
 use Illuminate\Database\Eloquent\Model;
@@ -56,7 +55,7 @@ class VocabularyUser extends Model
         'current_language' => 'max:6',
     ];
     use SoftDeletes, Blameable, CreatedBy;
-    use Languages, HasLanguagesList;
+    use Languages;
     use BelongsToVocabulary;
     protected $table = self::TABLE;
     protected $blameable = [
