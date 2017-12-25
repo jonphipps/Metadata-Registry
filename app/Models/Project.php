@@ -61,11 +61,10 @@ use Laracasts\Matryoshka\Cacheable;
  * @property array $languages
  * @property string|null $prefixes
  * @property string|null $google_sheet_url
+ * @property int|null $repo_is_valid
  * @property-read \App\Models\Access\User\User|null $creator
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Elementset[] $elementsets
  * @property-read \App\Models\Access\User\User|null $eraser
- * @property-read mixed $current_language
- * @property-read mixed $language
  * @property string $title
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Batch[] $importBatches
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Import[] $imports
@@ -105,6 +104,7 @@ use Laracasts\Matryoshka\Cacheable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project wherePostalCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project wherePrefixes($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereRepo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereRepoIsValid($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereStartingNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereState($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereType($value)

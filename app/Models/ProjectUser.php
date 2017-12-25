@@ -2,7 +2,9 @@
 
 use App\Helpers\Macros\Traits\Languages;
 use App\Models\Traits\BelongsToProject;
+use App\Models\Traits\BelongsToUser;
 use App\Models\Traits\HasLanguagesList;
+use Backpack\CRUD\CrudTrait;
 use Culpa\Traits\Blameable;
 use Culpa\Traits\CreatedBy;
 use Illuminate\Database\Eloquent\Model;
@@ -23,13 +25,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property array $languages
  * @property string $default_language
  * @property string $current_language
+ * @property int $authorized_as
  * @property-read \App\Models\Access\User\User $creator
- * @property-read mixed $language
+ * @property-read mixed $project_id
  * @property-read \App\Models\Project $project
+ * @property-read \App\Models\Access\User\User $user
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ProjectUser onlyTrashed()
  * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProjectUser whereAgentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProjectUser whereAuthorizedAs($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProjectUser whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProjectUser whereCurrentLanguage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ProjectUser whereDefaultLanguage($value)
@@ -47,18 +52,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class ProjectUser extends Model
 {
-    const TABLE = 'reg_agent_has_user';
+    public const TABLE = 'reg_agent_has_user';
+    public const AUTH_ADMIN = 0;
+    public const AUTH_MAINTAINER = 1;
+    public const AUTH_LANGUAGE_MAINTAINER = 2;
+    public const AUTH_VIEWER = 3;
+
     public static $rules = [
         'updated_at'       => 'required|',
         'user_id'          => 'required|',
         'agent_id'         => 'required|',
-        'languages'        => 'max:65535',
-        'default_language' => 'max:10',
-        'current_language' => 'max:10',
     ];
-    use SoftDeletes, Blameable, CreatedBy;
-    use Languages, HasLanguagesList;
-    use BelongsToProject;
+    use CrudTrait, SoftDeletes, Blameable, CreatedBy;
+    use Languages;
+    use BelongsToProject, BelongsToUser;
     protected $table = self::TABLE;
     protected $blameable = [
         'created' => 'user_id',
@@ -106,5 +113,21 @@ class ProjectUser extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
+
+    public function setAuthorizedAsAttribute($value)
+    {
+        if ($value === self::AUTH_ADMIN) { //project admin
+            $this->attributes['is_admin_for']      = 1;
+            $this->attributes['is_maintainer_for'] = 1;
+        }
+        if ($value === self::AUTH_LANGUAGE_MAINTAINER || $value === self::AUTH_MAINTAINER) { //project maintainer
+            $this->attributes['is_admin_for']      = 0;
+            $this->attributes['is_maintainer_for'] = 1;
+        }
+        if ($value === self::AUTH_VIEWER) { //project member
+            $this->attributes['is_admin_for']      = 0;
+            $this->attributes['is_maintainer_for'] = 0;
+        }
+    }
 
 }

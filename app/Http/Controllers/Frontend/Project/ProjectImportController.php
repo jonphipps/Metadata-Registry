@@ -10,10 +10,19 @@ use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-/** @noinspection LongInheritanceChainInspection */
 class ProjectImportController extends ImportCrudController
 {
     use UsesPolicies;
+
+    /**
+     * @param Request $request
+     * @param Project $project
+     * @param         $type
+     * @param null    $step
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function importStep(Request $request, Project $project, $type, $step = null)
     {
         $this->policyAuthorize('importProject', $project, $project->id );
@@ -30,6 +39,12 @@ class ProjectImportController extends ImportCrudController
         return view($this->crud->getCreateView(), $this->data);
     }
 
+    /**
+     * @param ImportRequest $request
+     * @param Project       $project
+     * @param               $type
+     * @param null          $step
+     */
     public function processImportStep(ImportRequest $request, Project $project, $type, $step = null)
     {
         $id = 1;

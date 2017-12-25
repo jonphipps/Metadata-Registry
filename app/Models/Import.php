@@ -42,7 +42,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int|null $token
  * @property array $instructions
  * @property mixed $errors
- * @property-read \App\Models\Access\User\User|null $User
  * @property-read \App\Models\Batch|null $batch
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConceptAttributeHistory[] $concept_history
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConceptAttribute[] $concept_statements
@@ -52,6 +51,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read \App\Models\Elementset|null $elementset
  * @property-read \App\Models\Export|null $export
  * @property string $worksheet
+ * @property-read \App\Models\Access\User\User|null $user
  * @property-read \App\Models\Vocabulary|null $vocabulary
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Import onlyTrashed()

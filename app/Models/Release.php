@@ -26,8 +26,9 @@ use Laracasts\Matryoshka\Cacheable;
  * @property int|null $is_draft
  * @property int|null $is_prerelease
  * @property mixed|null $github_response
- * @property-read \App\Models\Access\User\User|null $User
+ * @property-read mixed $project_id
  * @property-read \App\Models\Project|null $project
+ * @property-read \App\Models\Access\User\User|null $user
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Release onlyTrashed()
  * @method static bool|null restore()

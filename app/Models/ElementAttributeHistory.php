@@ -36,8 +36,6 @@ use Laracasts\Matryoshka\Cacheable;
  * @property-read \App\Models\Element|null $element
  * @property-read \App\Models\ElementAttribute|null $element_attribute
  * @property-read \App\Models\Elementset|null $elementset
- * @property-read mixed $current_language
- * @property-read mixed $default_language
  * @property-read \App\Models\Import|null $import
  * @property-read \App\Models\ProfileProperty|null $profile_property
  * @property-read \App\Models\Element|null $related_element

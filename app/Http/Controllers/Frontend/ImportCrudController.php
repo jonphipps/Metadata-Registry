@@ -26,14 +26,25 @@ use function method_exists;
 class ImportCrudController extends CrudController
 {
     use UsesPolicies, UsesEnums;
+    /**
+     * @var array
+     */
     public $steps = [
         'spreadsheet' => SetSpreadsheetStep::class,
         'worksheets' => SelectWorksheetsStep::class,
         'approve' => ApproveImportStep::class,
         'report' => DisplayResultsStep::class,
     ];
+    /**
+     * @var Wizard
+     */
     protected $wizard;
 
+    /**
+     * ImportCrudController constructor.
+     *
+     * @throws \Smajti1\Laravel\Exceptions\StepNotFoundException
+     */
     public function __construct() {
         parent::__construct();
         $this->wizard = new Wizard($this->steps, $sessionKeyName = 'project-import');
@@ -42,6 +53,9 @@ class ImportCrudController extends CrudController
 
     }
 
+    /**
+     * @throws \Exception
+     */
     public function setup()
     {
         /*
@@ -52,12 +66,6 @@ class ImportCrudController extends CrudController
         $this->crud->setModel(Import::class);
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/projects/' . request()->project . '/imports');
         $this->crud->setEntityNameStrings('Import', 'Imports');
-
-        /*
-        |--------------------------------------------------------------------------
-        | BASIC CRUD INFORMATION
-        |--------------------------------------------------------------------------
-        */
         $this->addCustomDoctrineColumnTypes();
         //$this->crud->setFromDb();
 
@@ -131,6 +139,14 @@ class ImportCrudController extends CrudController
         // $this->crud->limit();
     }
 
+    /**
+     * @param UpdateRequest $request
+     * @param Project       $project
+     *
+     * @return RedirectResponse
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function createBatch(ImportRequest $request, Project $project)
     {
         $this->policyAuthorize('import', $project, $project->id);
@@ -144,6 +160,16 @@ class ImportCrudController extends CrudController
         return $this->processImportProject($request, $project, $batch, $this->wizard->first()->key);
     }
 
+    /**
+     * @param Request $request
+     * @param Project $project
+     * @param Batch   $batch
+     * @param null    $step
+     *
+     * @return \Backpack\CRUD\app\Http\Controllers\Response
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function importProject(Request $request, Project $project, Batch $batch, $step = null)
     {
         $this->policyAuthorize('import', $project, $project->id);
@@ -207,6 +233,16 @@ class ImportCrudController extends CrudController
         return parent::create();
     }
 
+    /**
+     * @param UpdateRequest $request
+     * @param Project       $project
+     * @param Batch         $batch
+     * @param null          $step
+     *
+     * @return RedirectResponse
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function processImportProject(ImportRequest $request, Project $project, Batch $batch, $step = null): RedirectResponse
     {
         $this->policyAuthorize('import', $project, $project->id);
@@ -243,6 +279,11 @@ class ImportCrudController extends CrudController
             [ 'project' => $project->id, 'batch' => $batch, 'step' => $this->wizard->nextSlug() ]);
     }
 
+    /**
+     * @param UpdateRequest $request
+     *
+     * @return RedirectResponse
+     */
     public function store(StoreRequest $request)
     {
         // your additional operations before save here
@@ -252,6 +293,11 @@ class ImportCrudController extends CrudController
         return $redirect_location;
     }
 
+    /**
+     * @param UpdateRequest $request
+     *
+     * @return RedirectResponse
+     */
     public function update(UpdateRequest $request)
     {
         // your additional operations before save here

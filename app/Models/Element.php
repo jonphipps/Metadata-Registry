@@ -48,8 +48,6 @@ use Laracasts\Matryoshka\Cacheable;
  * @property-read \App\Models\Access\User\User|null $creator
  * @property-read \App\Models\Elementset $elementset
  * @property-read \App\Models\Access\User\User|null $eraser
- * @property-read mixed $current_language
- * @property-read mixed $default_language
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementAttribute[] $statements
  * @property-read \App\Models\Status $status
  * @property-read \App\Models\Access\User\User|null $updater

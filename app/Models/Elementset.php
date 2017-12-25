@@ -40,8 +40,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read \App\Models\Access\User\User|null $creator
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Element[] $elements
  * @property-read \App\Models\Access\User\User|null $eraser
- * @property-read mixed $current_language
- * @property-read mixed $default_language
+ * @property-read mixed $project_id
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Import[] $imports
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\User\User[] $members
  * @property-read \App\Models\Profile|null $profile
@@ -49,9 +48,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Release[] $releases
  * @property-read \App\Models\Status $status
  * @property-read \App\Models\Access\User\User|null $updater
- * @method static bool|null forceDelete()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset onlyTrashed()
- * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereAgentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereBaseDomain($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereChildUpdatedAt($value)
@@ -84,8 +80,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereUri($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereUrl($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Elementset whereWorksheet($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset withTrashed()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Elementset withoutTrashed()
  * @mixin \Eloquent
  */
 class Elementset extends VocabsModel

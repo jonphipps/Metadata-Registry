@@ -24,7 +24,7 @@ abstract class VocabsModel extends Model
 
     use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy;
     use Cacheable;
-    use Languages, HasLanguagesList, HasPrefixesList, HasMembers, HasImports;
+    use Languages, HasPrefixesList, HasMembers, HasImports;
     use BelongsToProject, BelongsToProfile, HasStatus;
 
     protected $blameable = [

@@ -25,7 +25,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $current_language
  * @property-read \App\Models\Access\User\User $creator
  * @property-read \App\Models\Elementset $elementset
- * @property-read mixed $language
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\ElementsetUser onlyTrashed()
  * @method static bool|null restore()

@@ -40,8 +40,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Concept[] $concepts
  * @property-read \App\Models\Access\User\User|null $creator
  * @property-read \App\Models\Access\User\User|null $eraser
- * @property-read mixed $current_language
- * @property-read mixed $default_language
+ * @property-read mixed $project_id
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Import[] $imports
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\User\User[] $members
  * @property-read \App\Models\Profile|null $profile
@@ -49,9 +48,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Release[] $releases
  * @property-read \App\Models\Status $status
  * @property-read \App\Models\Access\User\User|null $updater
- * @method static bool|null forceDelete()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary onlyTrashed()
- * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Vocabulary whereAgentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Vocabulary whereBaseDomain($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Vocabulary whereChildUpdatedAt($value)
@@ -82,8 +78,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Vocabulary whereUpdatedUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Vocabulary whereUri($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Vocabulary whereUrl($value)
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary withTrashed()
- * @method static \Illuminate\Database\Query\Builder|\App\Models\Vocabulary withoutTrashed()
  * @mixin \Eloquent
  */
 class Vocabulary extends VocabsModel

@@ -36,8 +36,6 @@ use Laracasts\Matryoshka\Cacheable;
  * @property int|null $deleted_by
  * @property-read \App\Models\Access\User\User|null $creator
  * @property-read \App\Models\Access\User\User|null $eraser
- * @property-read mixed $current_language
- * @property-read mixed $default_language
  * @property string $label
  * @property string $name
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConceptAttribute[] $statements

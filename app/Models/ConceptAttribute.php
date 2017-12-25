@@ -50,8 +50,6 @@ use Venturecraft\Revisionable\RevisionableTrait;
  * @property-read \App\Models\Concept $concept
  * @property-read \App\Models\Access\User\User|null $creator
  * @property-read \App\Models\Access\User\User|null $eraser
- * @property-read mixed $current_language
- * @property-read mixed $default_language
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConceptAttributeHistory[] $history
  * @property-read \App\Models\ConceptAttribute $inverse
  * @property-read \App\Models\ProfileProperty|null $profile_property

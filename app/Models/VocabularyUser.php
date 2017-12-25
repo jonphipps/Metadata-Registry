@@ -24,7 +24,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $default_language
  * @property string $current_language
  * @property-read \App\Models\Access\User\User $creator
- * @property-read mixed $language
  * @property-read \App\Models\Vocabulary $vocabulary
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\VocabularyUser onlyTrashed()
