@@ -89,28 +89,28 @@ class ProjectUserCrudController extends CrudController
         $this->crud->addField([
             'name'    => 'authorized_as',
             'label'   => 'Authorized as', // the input label
+            'default' => ProjectUser::AUTH_VIEWER,
             'type'    => 'radio',
             'options' => [ // the key will be stored in the db, the value will be shown as label;
-                           ProjectUser::AUTH_ADMIN => 'Project Administrator ...can do anything related to this project',
-                           ProjectUser::AUTH_MAINTAINER => 'Project Maintainer ...can maintain any of this projectʼs languages',
-                           ProjectUser::AUTH_LANGUAGE_MAINTAINER => 'Language Maintainer ...can only maintain the projectʼs languages listed below',
                            ProjectUser::AUTH_VIEWER => 'Viewer ...canʼt maintain any of the projectʼs resources.',
+                           ProjectUser::AUTH_LANGUAGE_MAINTAINER => 'Language Maintainer ...can only maintain the projectʼs languages listed below',
+                           ProjectUser::AUTH_MAINTAINER => 'Project Maintainer ...can maintain any of this projectʼs languages',
+                           ProjectUser::AUTH_ADMIN => 'Project Administrator ...can do anything related to this project',
             ],
         ]);
-        $this->crud->addField(
-            [
+        $this->crud->addField([
                 'name'            => 'languages',
                 'label'           => 'Languages',
                 'type'            => 'select2_from_array',
                 'allows_null'     => false,
+                'default'         => [ config('app.locale') ],
                 'allows_multiple' => true,
                 'options'         => $project->listLanguagesForSelect(),
                 'hint'            => 'All of the languages that this member is authorized to maintain<br />This can be set for each individual resource as well.',
                 'attributes'      => [
                     'placeholder' => 'Select one or more language codes',
                 ],
-            ]
-        );
+            ]);
         $this->crud->addField([
                 'name'        => 'default_language',
                 'label'       => 'Default Language',
