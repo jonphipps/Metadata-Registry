@@ -72,7 +72,7 @@ class ProjectUser extends Model
         'is_registrar_for'  => 'boolean',
         'is_maintainer_for' => 'boolean',
         'is_admin_for'      => 'boolean',
-        'languages'         => 'string',
+        'languages'         => 'text',
         'default_language'  => 'string',
         'current_language'  => 'string',
     ];

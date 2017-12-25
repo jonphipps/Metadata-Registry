@@ -125,7 +125,7 @@ class Project extends Model
     public static $rules = [];
     use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy;
     use CrudTrait, Cacheable;
-    use Languages, HasLanguagesList;
+    use Languages;
     use HasProfiles, HasVocabularies, HasElementsets, HasMembers, HasPrefixesList, HasImports;
     protected $table = self::TABLE;
     protected $blameable = [

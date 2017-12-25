@@ -124,28 +124,29 @@ class ProjectCrudController extends CrudController
                 'tab' => 'Project Defaults',
             ],
             [
-                'name'  => 'default_language',
-                'label' => 'Default Language',
+                'name'            => 'languages',
+                'label'           => 'Languages in use',
                 'type'  => 'select2_from_array',
-                'allows_null'=> true,
-                'options' => $languages,
-                'hint'  => 'The default language for all of your resources.<br />This can be set for each individual resource as well.',
-                'tab' => 'Project Defaults',
-                'attributes' => [
-                    'placeholder' => 'Select a language code. ',
-                ],
-            ],
-            [
-                'name'  => 'languages',
-                'label' => 'Languages in use',
-                'type'  => 'select2_from_array',
-                'allows_null' => true,
+                'allows_null'     => false,
                 'allows_multiple' => true,
                 'options' => $languages,
-                'hint'  => 'All of the languages in which you wish to make your resources available.<br />This can be set for each individual resource as well.',
+                'hint'            => 'All of the languages in which you wish to make your resources available.<br />This can be set for each individual resource as well.',
                 'tab' => 'Project Defaults',
                 'attributes' => [
                     'placeholder' => 'Select one or more language codes',
+                ],
+            ],
+            [
+                'name'        => 'default_language',
+                'label'       => 'Default Language',
+                'type'  => 'select2_from_array',
+                'allows_null' => true,
+                'default'     => 'en',
+                'options' => $languages,
+                'hint'        => 'The default language for all of your resources.<br />This can be set for each individual resource as well.',
+                'tab' => 'Project Defaults',
+                'attributes' => [
+                    'placeholder' => 'Select a language code. ',
                 ],
             ],
             [   // URL
@@ -231,11 +232,18 @@ class ProjectCrudController extends CrudController
             'function_name' => 'getElementColumn',
             'show' => false,
         ] );
-        $this->crud->setColumnsDetails(['repo_is_valid', ],[
+        $this->crud->setColumnsDetails(['repo_is_valid', 'prefixes', ],[
             'show' => false,
         ]);
-        $this->crud->setColumnsDetails(['languages', 'prefixes'],[
-            'type' => 'array',
+        $this->crud->setColumnsDetails([ 'languages' ],
+            [
+                'type'          => 'model_function',
+                'function_name' => 'showLanguagesCommaDelimited'
+            ]);
+        $this->crud->setColumnsDetails([ 'default_language' ],
+            [
+                'type'          => 'model_function',
+                'function_name' => 'showLanguage'
         ]);
         $this->crud->setColumnsDetails([
             'base_domain',
