@@ -2,20 +2,50 @@
 
 namespace App\Http\Controllers\Frontend\Project;
 
+use App\Models\Access\User\User;
+use App\Models\Project;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\Frontend\Project\ProjectUserRequest as StoreRequest;
 use App\Http\Requests\Frontend\Project\ProjectUserRequest as UpdateRequest;
 use App\Models\ProjectUser;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Route;
 
-class ProjectUserCrudController extends ProjectCrudController
+/**
+ * Class ProjectUserCrudController
+ *
+ * @package App\Http\Controllers\Frontend\Project
+ */
+class ProjectUserCrudController extends CrudController
 {
+    /**
+     * @throws \Exception
+     */
     public function setup()
     {
-        parent::setUp();
-        $this->crud->setRoute(config('backpack.base.route_prefix') . '/projectuser');
-        $this->crud->setEntityNameStrings('projectuser', 'project_users');
+        $project_id = Route::current()->parameter('project_id') ?? Route::current()->parameter('project');
+        $id = Route::current()->parameter('member') ?? Route::current()->parameter('member');
+
+        if ($project_id) {
+            $project = Project::findOrFail($project_id);
+            //     $this->crud->addClause('where', 'agent_id', '==', $project_id);
+            // }
+            if (request()->route()->getActionMethod() === 'search') {
+                ProjectUser::addGlobalScope('project_id',
+                    function(Builder $builder) use ($project_id) {
+                        $builder->where('agent_id', $project_id);
+                    });
+            }
+        }
+
+        $this->crud->setModel(ProjectUser::class);
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/projects/' . $project_id . '/members');
+        $this->crud->setEntityNameStrings('Project Member', 'Project Members');
+        if ($id) {
+            $this->crud->getEntry($id);
+        }
 
         /*
         |--------------------------------------------------------------------------
@@ -24,20 +54,113 @@ class ProjectUserCrudController extends ProjectCrudController
         */
 
         $this->crud->setFromDb();
+        $languages = getLanguageListFromSymfony('en');
 
         // ------ CRUD FIELDS
-        // $this->crud->addField($options, 'update/create/both');
+        $this->crud->removeFields(array_keys($this->crud->create_fields), 'both');
+
+        $this->crud->addField([
+            'name' => 'user_id',
+            'type' => 'hidden',
+        ],
+            'update');
+        $this->crud->addField([
+            'name' => 'agent_id',
+            'type' => 'hidden',
+            'default' => $project_id,
+        ]);
+        $userName = $id !== null ? $this->crud->entry->user->name : '';
+        $this->crud->addField([  //plain
+                                 'type'  => 'custom_html',
+                                 'name'  => 'member_name',
+                                 'value' => '<label>Member</label> <div>' . $userName . '</div>',
+        ],
+            'update');
+        $this->crud->addField([  // Select2
+                                 'label'     => "Member",
+                                 'type'      => 'select2',
+                                 'name'      => 'user_id', // the db column for the foreign key
+                                 'entity'    => 'user', // the method that defines the relationship in your Model
+                                 'attribute' => 'name', // foreign key attribute that is shown to user
+                                 'model'     => User::class // foreign key model
+        ],
+            'create');
+
+        $this->crud->addField([
+            'name'    => 'authorized_as',
+            'label'   => 'Authorized as', // the input label
+            'type'    => 'radio',
+            'options' => [ // the key will be stored in the db, the value will be shown as label;
+                           ProjectUser::AUTH_ADMIN => 'Project Administrator ...can do anything related to this project',
+                           ProjectUser::AUTH_MAINTAINER => 'Project Maintainer ...can maintain any of this projectʼs languages',
+                           ProjectUser::AUTH_LANGUAGE_MAINTAINER => 'Language Maintainer ...can only maintain the projectʼs languages listed below',
+                           ProjectUser::AUTH_VIEWER => 'Viewer ...canʼt maintain any of the projectʼs resources.',
+            ],
+        ]);
+        $this->crud->addField(
+            [
+                'name'            => 'languages',
+                'label'           => 'Languages',
+                'type'            => 'select2_from_array',
+                'allows_null'     => false,
+                'allows_multiple' => true,
+                'options'         => $project->listLanguagesForSelect(),
+                'hint'            => 'All of the languages that this member is authorized to maintain<br />This can be set for each individual resource as well.',
+                'attributes'      => [
+                    'placeholder' => 'Select one or more language codes',
+                ],
+            ]
+        );
+        $this->crud->addField([
+                'name'        => 'default_language',
+                'label'       => 'Default Language',
+                'type'        => 'select2_from_array',
+                'allows_null' => false,
+                'default'     => config('app.locale'),
+                'options'     => $project->listLanguagesForSelect(),
+                'hint'        => 'When creating new resources, this will be default language for this maintainer',
+                'attributes'  => [
+                    'placeholder' => 'Select a language code. ',
+                ],
+            ]);
         // $this->crud->addFields($array_of_arrays, 'update/create/both');
         // $this->crud->removeField('name', 'update/create/both');
-        // $this->crud->removeFields($array_of_names, 'update/create/both');
+        $this->crud->removeFields(['is_admin_for', 'is_maintainer_for'], 'update/create/both');
 
         // ------ CRUD COLUMNS
-        // $this->crud->addColumn(); // add a single column, at the end of the stack
+        $this->crud->addColumn([
+            'label'     => 'Member', // Table column heading
+            'type'      => 'select',
+            'name'      => 'user_id', // the column that contains the ID of that connected entity;
+            'entity'    => 'user', // the method that defines the relationship in your Model
+            'attribute' => 'name', // foreign key attribute that is shown to user
+            'model'     => User::class, // foreign key model
+        ]); // add a single column, at the end of the stack
         // $this->crud->addColumns(); // add multiple columns, at the end of the stack
         // $this->crud->removeColumn('column_name'); // remove a column from the stack
-        // $this->crud->removeColumns(['column_name_1', 'column_name_2']); // remove an array of columns from the stack
-        // $this->crud->setColumnDetails('column_name', ['attribute' => 'value']); // adjusts the properties of the passed in column (by name)
-        // $this->crud->setColumnsDetails(['column_1', 'column_2'], ['attribute' => 'value']);
+        $this->crud->removeColumns(['is_admin_for', 'is_maintainer_for', 'current_language',]); // remove an array of columns from the stack
+        $this->crud->setColumnDetails('authorized_as',
+            [   // radio
+                'label'   => 'Authorized as', // the input label
+                'type'    => 'radio',
+                'options' => [ // the key will be stored in the db, the value will be shown as label;
+                               0 => 'Project Administrator',
+                               1 => 'Project Maintainer',
+                               2 => 'Language Maintainer',
+                ],
+            ]);
+        $this->crud->setColumnDetails('languages',
+            [
+                'label' => 'Languages', // Table column heading
+                'type'  => 'model_function',
+                'function_name' => 'showLanguagesCommaDelimited',
+            ]);
+        $this->crud->setColumnDetails('is_registrar_for',
+            [
+                'label' => 'Registrar',
+                'type'  => 'check',
+            ]);
+        $this->crud->setColumnsDetails(['agent_id','default_language'], ['list' => false]);
 
         // ------ CRUD BUTTONS
         // possible positions: 'beginning' and 'end'; defaults to 'beginning' for the 'line' stack, 'end' for the others;
@@ -80,7 +203,7 @@ class ProjectUserCrudController extends ProjectCrudController
 
         // ------ ADVANCED QUERIES
         // $this->crud->addClause('active');
-        // $this->crud->addClause('type', 'car');
+        //$this->crud->addClause('where', 'agent_id', '==', $project_id);
         // $this->crud->addClause('where', 'name', '==', 'car');
         // $this->crud->addClause('whereName', 'car');
         // $this->crud->addClause('whereHas', 'posts', function($query) {
@@ -88,12 +211,17 @@ class ProjectUserCrudController extends ProjectCrudController
         // });
         // $this->crud->addClause('withoutGlobalScopes');
         // $this->crud->addClause('withoutGlobalScope', VisibleScope::class);
-        // $this->crud->with(); // eager load relationships
+        $this->crud->with('user'); // eager load relationships
         // $this->crud->orderBy();
         // $this->crud->groupBy();
         // $this->crud->limit();
     }
 
+    /**
+     * @param UpdateRequest $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(StoreRequest $request)
     {
         // your additional operations before save here
@@ -103,6 +231,11 @@ class ProjectUserCrudController extends ProjectCrudController
         return $redirect_location;
     }
 
+    /**
+     * @param UpdateRequest $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(UpdateRequest $request)
     {
         // your additional operations before save here
