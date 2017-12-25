@@ -21,6 +21,8 @@ Route::group([ 'namespace' => 'Project' ], function() {
 
 Route::group([ 'namespace' => 'Project', 'prefix' => 'projects/{project_id}' ], function() {
     CRUD::resource('releases', 'ProjectReleaseCrudController');
+    CRUD::resource('members', 'ProjectUserCrudController');
+    CRUD::resource('prefixes', 'ProjectPrefixCrudController');
     Route::get('releases/{release}/publish', 'ProjectReleaseController@publish');
 });
 

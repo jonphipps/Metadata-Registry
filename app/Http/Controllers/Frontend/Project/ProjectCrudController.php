@@ -350,6 +350,8 @@ class ProjectCrudController extends CrudController
             'vocabulary' => VocabularyCrudController::class,
             'import' => ImportCrudController::class,
             'release' => ProjectReleaseCrudController::class,
+            'member'     => ProjectUserCrudController::class,
+            'prefix'     => ProjectPrefixCrudController::class,
         ];
         foreach ($classArray as $thing => $className) {
             $thingController = new $className;
