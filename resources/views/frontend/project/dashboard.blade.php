@@ -15,7 +15,7 @@ $showReleaseButton = $showImportButton = (count($project->vocabularies) || count
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-6" id="vocabularies">
                             <div class="panel panel-default">
                                 @include('frontend.partials.panelheader', ['crud' => $vocabulary->crud, 'policy_model' => $project, 'permission' =>'edit' ])<!--panel-heading-->
                                 <div class="panel-body">
@@ -29,7 +29,7 @@ $showReleaseButton = $showImportButton = (count($project->vocabularies) || count
                                 </div><!--panel-body-->
                             </div><!--panel-->
                         </div><!--col-md-6-->
-                        <div class="col-md-6">
+                        <div class="col-md-6" id="elementsets">
                             <div class="panel panel-default">
                             @include('frontend.partials.panelheader', ['crud' => $elementset->crud, 'policy_model' => $project, 'permission' =>'edit' ])<!--panel-heading-->
                                 <div class="panel-body">
@@ -45,7 +45,7 @@ $showReleaseButton = $showImportButton = (count($project->vocabularies) || count
                         </div><!--col-md-6-->
                     </div><!--row-->
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-6" id="detail">
                             <div class="panel panel-default">
                                 <div class="panel-heading clearfix">
                                     <h3 class="pull-left" style="margin-top: 8px; margin-bottom: 6px">Project Detail</h3>
@@ -95,7 +95,7 @@ $showReleaseButton = $showImportButton = (count($project->vocabularies) || count
                                 </div><!--panel-body-->
                             </div><!--panel-->
                         </div><!--col-xs-12-->
-                        <div class="col-md-6">
+                        <div class="col-md-6" id="releases">
                             <div class="panel panel-default">
                             @include('frontend.partials.panelheader', ['crud' => $release->crud, 'policy_model' => $project, 'permission' =>'publish', $showButton = $showReleaseButton ])<!--panel-heading-->
                                 <div class="panel-body">
@@ -111,7 +111,7 @@ $showReleaseButton = $showImportButton = (count($project->vocabularies) || count
                         </div><!--col-md-6-->
                     </div><!--row-->
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-6" id="exports">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h3>Exports</h3>
@@ -122,102 +122,82 @@ $showReleaseButton = $showImportButton = (count($project->vocabularies) || count
                                 </div><!--panel-body-->
                             </div><!--panel-->
                         </div><!--col-md-6-->
-                        <div class="col-md-6">
+                        <div class="col-md-6" id="imports">
                             <div class="panel panel-default">
-                                @include('frontend.partials.panelheader', ['crud' => $import->crud, 'policy_model' => $project, 'permission' =>'edit', $showButton = $showImportButton ])<!--panel-heading-->
-                                    <div class="panel-body">
-                                        <table class="table table-bordered table-striped table-hover table-condensed table-responsive">
-                                            <thead>
+                            @include('frontend.partials.panelheader', ['crud' => $import->crud, 'policy_model' => $project, 'permission' =>'edit', $showButton = $showImportButton ])<!--panel-heading-->
+                                <div class="panel-body">
+                                    <table class="table table-bordered table-striped table-hover table-condensed table-responsive">
+                                        <thead>
+                                        <tr>
+                                            <th>Import</th>
+                                            <th>Started at</th>
+                                            <th>Next step</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @forelse ($project->importBatches->sortBy('created_at') as $batch)
                                             <tr>
-                                                <th>Import</th>
-                                                <th>Started at</th>
-                                                <th>Next step</th>
+                                                <td>
+                                                    @can('edit', $project)
+                                                        {{ laravel_link_to('projects/' . $project->id . '/imports/' . $batch->id . '/'. $batch->next_step , $batch->run_description) }}
+                                                    @else
+                                                        {{$batch->run_description}}
+                                                    @endcan
+                                                </td>
+                                                <td>
+                                                    {{ $batch->created_at }}
+                                                </td>
+                                                <td>
+                                                    {{ laravel_link_to('projects/' . $project->id . '/imports/' . $batch->id . '/'. $batch->next_step , $batch->next_step) }}
+                                                </td>
                                             </tr>
-                                            </thead>
-                                            <tbody>
-                                            @forelse ($project->importBatches->sortBy('created_at') as $batch)
-                                                <tr>
-                                                    <td>
-                                                        @can('edit', $project)
-                                                            {{ laravel_link_to('projects/' . $project->id . '/imports/' . $batch->id . '/'. $batch->next_step , $batch->run_description) }}
-                                                        @else
-                                                            {{$batch->run_description}}
-                                                        @endcan
-                                                    </td>
-                                                    <td>
-                                                        {{ $batch->created_at }}
-                                                    </td>
-                                                    <td>
-                                                        {{ laravel_link_to('projects/' . $project->id . '/imports/' . $batch->id . '/'. $batch->next_step , $batch->next_step) }}
-                                                    </td>
-                                                </tr>
-                                            @empty
-                                                <tr>
-                                                    <td colspan="4">No Project Imports yet</td>
-                                                </tr>
-                                            @endforelse
-                                            </tbody>
-                                        </table>
-                                    </div><!--panel-body-->
+                                        @empty
+                                            <tr>
+                                                <td colspan="4">No Project Imports yet</td>
+                                            </tr>
+                                        @endforelse
+                                        </tbody>
+                                    </table>
+                                </div><!--panel-body-->
                             </div><!--panel-->
                         </div><!--col-md-6-->
                     </div><!--row-->
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-6" id="prefixes">
                             <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3>Languages</h3>
-                                </div><!--panel-heading-->
-                                <div class="panel-body">
-                                    <ul class="list-unstyled">
-                                        @forelse ($project->languages as $language)
-                                            <li>{{ $language }}</li>
-                                        @empty
-                                            No Languages in use
-                                    @endforelse
-                                    </ul>
-                                </div><!--panel-body-->
-                            </div><!--panel-->
-                        </div><!--col-md-6-->
-                        <div class="col-md-3">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3>Prefixes</h3>
-                                </div><!--panel-heading-->
+                            @include('frontend.partials.panelheader', ['crud' => $prefix->crud, 'policy_model' => $project, 'permission' =>'edit', $showButton = true ])<!--panel-heading-->
                                 <div class="panel-body">
                                     <p>This will be a list of prefixes in use by this project</p>
                                 </div><!--panel-body-->
                             </div><!--panel-->
                         </div><!--col-md-6-->
-                        <div class="col-md-3">
+                        <div class="col-md-6" id="members">
                             <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3>Members</h3>
-                                </div><!--panel-heading-->
+                            @include('frontend.partials.panelheader', ['crud' => $member->crud, 'policy_model' => $project, 'permission' =>'edit', $showButton = true ])<!--panel-heading-->
                                 <div class="panel-body">
                                     <p>This will be a list of members of this project</p>
                                 </div><!--panel-body-->
                             </div><!--panel-->
                         </div><!--col-md-6-->
-                        <div class="col-md-3">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h3>Profiles</h3>
-                                </div><!--panel-heading-->
-                                <div class="panel-body">
-                                    <p>This will be a list of Application Profiles used by this project</p>
-                                </div><!--panel-body-->
-                            </div><!--panel-->
-                        </div><!--col-md-6-->
                     </div><!--row-->
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-6" id="maps">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h3>Maps</h3>
                                 </div><!--panel-heading-->
                                 <div class="panel-body">
                                     <p>This will be a list of maps maintained by this project</p>
+                                </div><!--panel-body-->
+                            </div><!--panel-->
+                        </div><!--col-md-6-->
+                        <div class="col-md-6" id="profiles">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3>Profiles</h3>
+                                </div><!--panel-heading-->
+                                <div class="panel-body">
+                                    <p>This will be a list of Application Profiles used by this project</p>
                                 </div><!--panel-body-->
                             </div><!--panel-->
                         </div><!--col-md-6-->
