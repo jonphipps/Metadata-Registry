@@ -15,7 +15,7 @@ trait HasMembers
     public function members(): ?BelongsToMany
     {
         //determine the parent class
-        $class = $this->getMorphClass();
+        $class = static::class;
         $classUser = $class . 'User';
         $className     = $this->get_class_name( $class );
         $foreignKey = ['Vocabulary'=> 'vocabulary_id', 'Elementset' => 'schema_id', 'Project' => 'agent_id'];

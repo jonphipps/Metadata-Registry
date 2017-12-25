@@ -18,9 +18,9 @@ class EloquentServiceProvider extends ServiceProvider
     public function boot()
     {
         Relation::morphMap([
-            'user' => User::class,
-            'vocabulary' => Vocabulary::class,
-            'elementset' => Elementset::class
+            'User' => User::class,
+            'Vocabulary' => Vocabulary::class,
+            'Elementset' => Elementset::class
         ]);
     }
 
