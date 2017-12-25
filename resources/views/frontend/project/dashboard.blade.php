@@ -4,7 +4,7 @@
 /** @var \App\Http\Controllers\Frontend\Vocabulary\VocabularyCrudController $vocabulary */
 /** @var \App\Models\Import $import */
 /** @var \App\Models\Batch $batch */
-$showReleaseButton = $showImportButton = ($project->vocabularies->count || $project->elementsets->count);
+$showReleaseButton = $showImportButton = (count($project->vocabularies) || count($project->elementsets));
 ?>
 @section('content')
     <div class="row">
