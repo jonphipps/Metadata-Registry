@@ -12,7 +12,6 @@ use App\Http\Traits\UsesPolicies;
 use Auth;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use App\Models\Project;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Redirect;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
@@ -35,7 +34,9 @@ class ProjectCrudController extends CrudController
         $this->crud->setRoute( config( 'backpack.base.route_prefix' ) . '/projects' );
         $this->crud->setEntityNameStrings( 'Project', 'Projects' );
         $this->crud->setShowView('frontend.project.dashboard');
-        $this->crud->addClause('public');
+        if (!auth()->user()->is_administrator) {
+            $this->crud->addClause('public');
+        }
 
         /*
         |--------------------------------------------------------------------------
@@ -77,23 +78,23 @@ class ProjectCrudController extends CrudController
         ],
             'create' );
 
-        $this->crud->addFields( [
+        $this->crud->addFields([
             [
                 'name'  => 'is_private',
                 'label' => 'Private Project?',
                 'type'  => 'checkbox',
                 'hint'  => "Make this project and all of it's related resources private. Private project vocabularies and resources won't appear in browse or search results.",
-                'tab' => 'Details',
+                'tab'   => 'Details',
             ],
             [
-                'name'  => 'license_uri',
-                'label' => 'License URL',
-                'type'  => 'url',
-                'hint'  => 'The URL of the license',
+                'name'       => 'license_uri',
+                'label'      => 'License URL',
+                'type'       => 'url',
+                'hint'       => 'The URL of the license',
                 'attributes' => [
                     'placeholder' => 'This will eventually be a drop-down list of GitHub Open Source licenses',
                 ],
-                'tab' => 'Details',
+                'tab'        => 'Details',
             ],
             [
                 'name'  => 'license',
@@ -114,38 +115,38 @@ class ProjectCrudController extends CrudController
                 'label' => 'Google Sheet URL',
                 'type'  => 'url',
                 'hint'  => "If you import the resources for this project from a Google Sheet, this is the URL that we'll use to acquire the worksheet for each set of resources. <br />This can be overridden for any individual import, and can be set for each individual resource as well.",
-                'tab' => 'Project Defaults',
+                'tab'   => 'Project Defaults',
             ],
             [
                 'name'  => 'repo',
                 'label' => 'GitHub Repository',
                 'type'  => 'url',
                 'hint'  => "If you publish your resources using the 'OMR->GitHub->Vocabulary Server' publishing path, this is the GitHub repository to which we'll publish your resources. <br />This can be set for each individual resource as well.",
-                'tab' => 'Project Defaults',
+                'tab'   => 'Project Defaults',
             ],
             [
                 'name'            => 'languages',
                 'label'           => 'Languages in use',
-                'type'  => 'select2_from_array',
+                'type'            => 'select2_from_array',
                 'allows_null'     => false,
                 'allows_multiple' => true,
-                'options' => $languages,
+                'options'         => $languages,
                 'hint'            => 'All of the languages in which you wish to make your resources available.<br />This can be set for each individual resource as well.',
-                'tab' => 'Project Defaults',
-                'attributes' => [
+                'tab'             => 'Project Defaults',
+                'attributes'      => [
                     'placeholder' => 'Select one or more language codes',
                 ],
             ],
             [
                 'name'        => 'default_language',
                 'label'       => 'Default Language',
-                'type'  => 'select2_from_array',
+                'type'        => 'select2_from_array',
                 'allows_null' => true,
                 'default'     => 'en',
-                'options' => $languages,
+                'options'     => $languages,
                 'hint'        => 'The default language for all of your resources.<br />This can be set for each individual resource as well.',
-                'tab' => 'Project Defaults',
-                'attributes' => [
+                'tab'         => 'Project Defaults',
+                'attributes'  => [
                     'placeholder' => 'Select a language code. ',
                 ],
             ],
@@ -154,42 +155,42 @@ class ProjectCrudController extends CrudController
                 'label' => 'Base Domain',
                 'type'  => 'url',
                 'hint'  => 'Here you can set the base domain for the URI template use to generate URIs for your resources. If you always supply the URIs, then this is unnecessary',
-                'tab' => 'URI Generation (optional)',
+                'tab'   => 'URI Generation (optional)',
             ],
             [   // Enum
                 'name'  => 'namespace_type',
                 'label' => 'Namespace Type',
                 'type'  => 'enum',
                 'hint'  => "'Hash' or 'Slash'. We recommend Slash in most cases",
-                'tab' => 'URI Generation (optional)',
+                'tab'   => 'URI Generation (optional)',
             ],
             [   // Enum
                 'name'  => 'uri_strategy',
                 'label' => 'Generator Strategy',
                 'type'  => 'enum',
                 'hint'  => "Choose how you wish the unique portion of the uri to be generated. Most of these choices generate a 'readable slug' from the label in the default language. We recommend Numeric.",
-                'tab' => 'URI Generation (optional)',
+                'tab'   => 'URI Generation (optional)',
             ],
             [
                 'name'  => 'uri_prepend',
                 'label' => 'Prepend to theURI',
                 'type'  => 'text',
                 'hint'  => 'A string that will always be added to the beginning of the unique portion of the uri to be generated.',
-                'tab' => 'URI Generation (optional)',
+                'tab'   => 'URI Generation (optional)',
             ],
             [
                 'name'  => 'uri_append',
                 'label' => 'Append to the URI',
                 'type'  => 'text',
                 'hint'  => 'A string that will always be added to the end of the unique portion of the uri to be generated.',
-                'tab' => 'URI Generation (optional)',
+                'tab'   => 'URI Generation (optional)',
             ],
             [
                 'name'  => 'starting_number',
                 'label' => 'Starting Number',
                 'type'  => 'number',
                 'hint'  => "If the generator strategy is 'Numeric', the unique portion of the generated URI will be incremented starting from this number ",
-                'tab' => 'URI Generation (optional)',
+                'tab'   => 'URI Generation (optional)',
             ],
         ],
             'both' );
@@ -244,7 +245,7 @@ class ProjectCrudController extends CrudController
             [
                 'type'          => 'model_function',
                 'function_name' => 'showLanguage'
-        ]);
+            ]);
         $this->crud->setColumnsDetails([
             'base_domain',
             'created_at',
@@ -348,8 +349,8 @@ class ProjectCrudController extends CrudController
         $classArray = [
             'elementset' => ElementsetCrudController::class,
             'vocabulary' => VocabularyCrudController::class,
-            'import' => ImportCrudController::class,
-            'release' => ProjectReleaseCrudController::class,
+            'import'     => ImportCrudController::class,
+            'release'    => ProjectReleaseCrudController::class,
             'member'     => ProjectUserCrudController::class,
             'prefix'     => ProjectPrefixCrudController::class,
         ];
