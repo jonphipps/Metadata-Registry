@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Batch;
+use App\Models\Project;
 use Tests\BrowserKitTestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\Feature\Traits\ProjectTest;
@@ -57,14 +58,18 @@ class ImportSpreadsheetTest extends BrowserKitTestCase
     {
         //given 
         $this->IAmTheProjectAdministrator();
-        $this->project->importBatches()->first()->update([ 'project_id' => 178]);
-        $this->visit(route('frontend.project.import.create', [ 'project' => $this->project->id ]));
+        $project = create(Project::class);
+        $this->visit(route('frontend.project.import.create', [ 'project' => $project->id ]));
         $this->IAmOnTheImportCreatePage();
         //when there is no previous spreadsheet
-        $this->assertCount(0, $this->project->importBatches);
+        $this->assertCount(0, $project->importBatches()->get());
         //then
         $this->dontSee('Select a Previous Google Spreadsheet');
-        Batch::first()->update([ 'project_id' => 177 ]);
+
+        if (!\count($this->project->importBatches)) {
+            $this->addPreviousBatchData();
+        }
+
         $this->visit(route('frontend.project.import.create', [ 'project' => $this->project->id ]));
         $this->see('Select a Previous Google Spreadsheet');
     }
@@ -117,7 +122,7 @@ class ImportSpreadsheetTest extends BrowserKitTestCase
 
     protected function addPreviousBatchData()
     {
-        $batch = factory(Batch::class)->create([
+        return factory(Batch::class)->create([
             'project_id' => 177,
             'step_data'  => json_decode('{
                 "lastProcessed": 2,
