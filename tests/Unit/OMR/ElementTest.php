@@ -30,7 +30,7 @@ class ElementTest extends TestCase
         $element = Element::first();
         $statements = $element->statements;
         /** @var ElementAttribute $label */
-        $label =$statements->where('profile_property_id', 2)->where('language', 'English')->first();
+        $label =$statements->where('profile_property_id', 2)->where('language', 'en')->first();
         $label->object = 'foobar';
         $label->save();
         //when i update it from existing statements

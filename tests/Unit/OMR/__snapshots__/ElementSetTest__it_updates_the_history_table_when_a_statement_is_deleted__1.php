@@ -10,7 +10,7 @@
   'profile_property_id' => 2,
   'object' => 'work',
   'related_schema_property_id' => NULL,
-  'language' => 'English',
+  'language' => 'en',
   'status_id' => 1,
   'change_note' => NULL,
   'import_id' => NULL,

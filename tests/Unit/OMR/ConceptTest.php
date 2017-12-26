@@ -30,7 +30,7 @@ class ConceptTest extends TestCase
         $concept->pref_label_id = null;
         $statements = $concept->statements;
         /** @var ConceptAttribute $prefLabel */
-        $prefLabel =$statements->where('profile_property_id', 45)->where('language', 'English')->first();
+        $prefLabel =$statements->where('profile_property_id', 45)->where('language', 'en')->first();
         $prefLabel->object = 'foobar';
         $prefLabel->save();
         //when i update it from existing statements
