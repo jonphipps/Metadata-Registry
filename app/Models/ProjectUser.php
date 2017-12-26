@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property bool $is_registrar_for
  * @property bool $is_admin_for
  * @property bool $is_maintainer_for
- * @property array $languages
+ * @property mixed $languages
  * @property string $default_language
  * @property string $current_language
  * @property int $authorized_as

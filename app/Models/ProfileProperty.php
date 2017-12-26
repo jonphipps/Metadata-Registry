@@ -52,6 +52,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $namespce
  * @property-read \App\Models\Access\User\User|null $creator
  * @property-read \App\Models\Access\User\User|null $eraser
+ * @property mixed $languages
  * @property-read \App\Models\Profile $profile
  * @property-read \App\Models\Access\User\User|null $updater
  * @method static bool|null forceDelete()

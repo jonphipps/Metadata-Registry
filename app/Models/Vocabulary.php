@@ -27,7 +27,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $last_uri_id
  * @property int $status_id
  * @property string $language This is the default language for all concept properties
- * @property array $languages
+ * @property string $languages
  * @property int $profile_id
  * @property string $ns_type
  * @property string $prefixes

@@ -37,6 +37,7 @@ use Illuminate\Support\Collection;
  * @property-read \App\Models\Access\User\User|null $creator
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Elementset[] $elementsets
  * @property-read \App\Models\Access\User\User|null $eraser
+ * @property mixed $languages
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ProfileProperty[] $profile_properties
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Project[] $projects
  * @property-read \App\Models\Status $status

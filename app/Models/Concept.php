@@ -37,6 +37,7 @@ use Laracasts\Matryoshka\Cacheable;
  * @property-read \App\Models\Access\User\User|null $creator
  * @property-read \App\Models\Access\User\User|null $eraser
  * @property string $label
+ * @property mixed $languages
  * @property string $name
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConceptAttribute[] $statements
  * @property-read \App\Models\Status $status

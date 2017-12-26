@@ -29,7 +29,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $profile_id
  * @property string $ns_type
  * @property string $prefixes
- * @property array $languages
+ * @property string $languages
  * @property string $repo
  * @property string|null $spreadsheet
  * @property string|null $worksheet

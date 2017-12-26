@@ -46,6 +46,7 @@ use function config;
  * @property-read \App\Models\Access\User\User|null $creator
  * @property-read \App\Models\Element $element
  * @property-read \App\Models\Access\User\User|null $eraser
+ * @property mixed $languages
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ElementAttributeHistory[] $history
  * @property-read \App\Models\ElementAttribute $inverse
  * @property-read \App\Models\ProfileProperty $profile_property
