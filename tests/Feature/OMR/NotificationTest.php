@@ -4,9 +4,10 @@ namespace Tests\Feature\OMR;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Notifications\DatabaseNotification;
+use Tests\BrowserKitTestCase;
 use Tests\TestCase;
 
-class NotificationTest extends TestCase
+class NotificationTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 
@@ -28,9 +29,11 @@ class NotificationTest extends TestCase
     /** @test */
     public function a_user_can_fetch_their_unread_notifications()
     {
-        create(DatabaseNotification::class);
+        $this->actingAs($this->executive);
+        $notification = create(DatabaseNotification::class);
+        $response = $this->get(url("/users/{$this->executive->id}/notifications"));
 
         $this->assertCount(1,
-            $this->getJson("/profiles/" . auth()->user()->name . "/notifications")->json());
+            $this->json('GET', url("/users/{$this->executive->id}/notifications"))->response->getData());
     }
 }
