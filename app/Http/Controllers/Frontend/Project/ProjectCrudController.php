@@ -34,7 +34,7 @@ class ProjectCrudController extends CrudController
         $this->crud->setRoute( config( 'backpack.base.route_prefix' ) . '/projects' );
         $this->crud->setEntityNameStrings( 'Project', 'Projects' );
         $this->crud->setShowView('frontend.project.dashboard');
-        if (!auth()->user()->is_administrator) {
+        if (!auth()->check() || !auth()->user()->is_administrator) {
             $this->crud->addClause('public');
         }
 
