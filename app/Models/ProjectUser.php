@@ -89,6 +89,25 @@ class ProjectUser extends Model
     |--------------------------------------------------------------------------
     */
 
+    /**
+     * @param string $language
+     * @param bool   $strict
+     *
+     * @return bool
+     */
+    public function isMaintainerForLanguage($language, $strict = false): ?bool
+    {
+        /** @noinspection UnserializeExploitsInspection */
+        $languages = unserialize($this->languages);
+        if ($strict) {
+            if ($languages) {
+                return \in_array($language, $languages, false);
+            }
+        } else { //will also return true if $languages is empty
+            return ( ! $languages || \in_array($language, $languages, false));
+        }
+    }
+
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
