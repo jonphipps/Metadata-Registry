@@ -5,6 +5,7 @@
 namespace App\Models\Traits;
 
 use App\Models\Access\User\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 trait HasMembers
@@ -29,6 +30,58 @@ trait HasMembers
             'languages',
             'default_language',
             'current_language' );
+    }
+
+    /**
+     * @return mixed
+     */
+    public function registrar()
+    {
+        return $this->members()->where('is_registrar_for', true);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function administrators()
+    {
+
+        return $this->members()->where('is_admin_for', true);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function languageMaintainers()
+    {
+        return $this->members()->where('is_maintainer_for', true)->whereNotNull('languages');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function maintainersForLanguage($language)
+    {
+        return $this->members()
+            ->where('is_maintainer_for', true)
+            ->whereNotNull('languages')
+            ->whereIn('languages', $language);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function maintainers()
+    {
+        return $this->members()->where('is_maintainer_for', true)->whereNull('languages');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function viewers()
+    {
+        return $this->members()->whereNull('is_admin_for', true)->whereNull('is_maintainer_for');
     }
 
     private function get_class_name( $classname )
