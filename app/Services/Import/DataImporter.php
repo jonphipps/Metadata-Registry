@@ -72,7 +72,6 @@ class DataImporter
                 return;
             }
             $this->errors = new Collection();
-            $this->errors->put('row', collect());
             $this->addRows    = $this->getAddRows(); //only gets data rows with no row_id
             $this->updateRows = $this->getUpdateRows(); //gets data rows with matching map
             $this->deleteRows = $this->getDeleteRows(); //gets map rows with no matching row
@@ -84,6 +83,7 @@ class DataImporter
                 $this->statements = $this->getElementSetStatements();
             }
         }
+
         $this->stats['deleted'] = $this->deleteRows === null ? 0 : $this->deleteRows->count();
         $this->stats['updated'] = $this->updateRows === null ? 0: $this->updateRows->count();
         $this->stats['added']   = $this->addRows === null ? 0: $this->addRows->count();
@@ -234,6 +234,15 @@ class DataImporter
 
     public function getStats(): Collection
     {
+        $errorCount = 0;
+        if ($this->errors !== null) {
+            foreach ($this->errors as $error) {
+                $errorCount += \count($error);
+            }
+        }
+
+        $this->stats['errors'] = $errorCount;
+
         return collect($this->stats);
     }
 
@@ -411,6 +420,11 @@ class DataImporter
      */
     private function logRowError($value, $column, $row, $level): void
     {
+        //if this is the first error, initialize the row errors
+        if(! $this->errors->get('row')){
+            $this->errors->put('row', collect());
+        }
+
         $this->errors->get('row')->push(collect([ $row, $column, $value, $level]));
     }
 

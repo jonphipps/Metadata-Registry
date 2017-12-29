@@ -6322,6 +6322,12 @@ uid-number@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/uid-number/-/uid-number-0.0.6.tgz#0ea10e8035e8eb5b8e4449f06da1c730663baa81"
 
+uiv@^0.15.4:
+  version "0.15.4"
+  resolved "https://registry.yarnpkg.com/uiv/-/uiv-0.15.4.tgz#e0c50f2a6b764433f14272214f6b9b9846f4af8c"
+  dependencies:
+    vue-functional-data-merge "^2.0.3"
+
 uniq@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/uniq/-/uniq-1.0.1.tgz#b31c5ae8254844a3a8281541ce2b04b865a734ff"
@@ -6521,6 +6527,10 @@ vm-browserify@0.0.4:
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-0.0.4.tgz#5d7ea45bbef9e4a6ff65f95438e0a87c357d5a73"
   dependencies:
     indexof "0.0.1"
+
+vue-functional-data-merge@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/vue-functional-data-merge/-/vue-functional-data-merge-2.0.3.tgz#fe79c9f6fab13e047f1e6dcaa4a0fde63fe15587"
 
 vue-hot-reload-api@^2.2.0:
   version "2.2.4"

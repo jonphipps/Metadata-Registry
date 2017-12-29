@@ -10,6 +10,10 @@ require('../bootstrap');
 
 window.Vue = require('vue');
 
+import 'bootstrap/dist/css/bootstrap.min.css'
+import * as uiv from 'uiv'
+Vue.use(uiv)
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -18,6 +22,7 @@ window.Vue = require('vue');
 
 Vue.component('example', require('../components/ExampleComponent.vue'));
 Vue.component('user-notifications', require('../components/UserNotifications.vue'));
+Vue.component('error-modal', require('../components/frontend/ErrorModal'));
 
 const app = new Vue({
     el: '#app'

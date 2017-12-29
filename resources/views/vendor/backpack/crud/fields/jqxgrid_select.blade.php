@@ -6,6 +6,13 @@
         <div id="jqxGrid-{!! $field['name'] !!}"></div>
     </div>
 </div>
+@if (isset($errorTable))
+    <div>
+        <error-modal>
+            <div v-show="open=true">{!! $errorTable !!}</div>
+        </error-modal>
+    </div>
+@endif
 <div>
     {{-- HINT --}}
     @if (isset($field['hint']))
@@ -89,18 +96,19 @@
   }
 --}}
 jqxGrid.jqxGrid('autoresizecolumns');
-//resize the grid
-var gridWidth = 0;
-var startCol = 0;
-if(jqxGrid.jqxGrid('selectionmode') === 'checkbox') {
-  gridWidth = 30;
-  startCol = 2;
-}
-var columns = jqxGrid.jqxGrid('columns');
-for (var i = startCol; i < columns.length(); i++) {
-  gridWidth += columns.records[i].width;
-}
-jqxGrid.jqxGrid({width: gridWidth});
+
+// //resize the grid
+// var gridWidth = 0;
+// var startCol = 0;
+// if(jqxGrid.jqxGrid('selectionmode') === 'checkbox') {
+//   gridWidth = 30;
+//   startCol = 2;
+// }
+// var columns = jqxGrid.jqxGrid('columns');
+// for (var i = startCol; i < columns.length(); i++) {
+//   gridWidth += columns.records[i].width;
+// }
+// jqxGrid.jqxGrid({width: '100%'});
 
 //select the rows
 var gridRows = jqxGrid.jqxGrid('getrows');

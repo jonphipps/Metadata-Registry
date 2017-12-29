@@ -34,6 +34,7 @@ class ApproveImportStep extends Step
         if ($batch->total_count <= $batch->handled_count) {
             $batch->load('imports');
             $data = [];
+            $errors = [];
             //load the stats from each import into an array
             foreach ($batch->imports as $import) {
                 $stats                    = $import->preprocess;
@@ -43,11 +44,15 @@ class ApproveImportStep extends Step
                 $datum['updated']         = $stats['updated'];
                 $datum['deleted']         = $stats['deleted'];
                 $datum['errors']          = $stats['errors'];
-                $datum['errors_detail'] = $import->errors;
+                $datum['errors_detail']   = ($stats['errors'] > 0) ? $import->errors : '';
                 $data[]                   = $datum;
+                if ($stats['errors']) {
+                    $errors[ $import->worksheet ] = json_decode($import->errors, true);
+                }
             }
             $wizardData         = $wizard->data();
-            $wizardData[ 'approve' ] = $data;
+            $wizardData[ 'approve' ]['data'] = $data;
+            $wizardData[ 'approve' ]['errors'] = $errors;
             $wizard->data($wizardData);
         }
     }

@@ -4,10 +4,31 @@
 @if (isset($wizard_data['approve']))
     @php
         /** @var array $worksheets */
-        $data = json_encode($wizard_data['approve']);
+        $data = json_encode($wizard_data['approve']['data']);
+        $wizardErrors = json_encode($wizard_data['approve']['errors']);
+        $errorTable = '';
+        foreach ($wizard_data['approve']['errors'] as $key => $errorType) {
+            $errorTable .= "<table class=\"table table-condensed\"><caption>Worksheet: {$key}</caption>";
+            foreach ( $errorType as $type => $errorRows) {
+                $errorTable .= <<<TAG
+<thead>
+                <tr><th colspan = "4">{$type}</th></tr>
+                <tr><th>ID</th><th>Column</th><th>Error</th><th>Severity</th></tr>
+                </thead>
+TAG;
+                foreach ($errorRows as $errorRow) {
+                    $errorTable .= "<tr>";
+                    foreach ($errorRow as $item) {
+                        $errorTable .= "<td>{$item}</td>";
+                    }
+                    $errorTable .= "</tr>";
+                    }
+                }
+                $errorTable .= "</table>";
+        }
         $selected = $wizard_data['approve']['selected_worksheets'] ?? json_encode([]);
         $props = "{
-        width: 1000,
+        width: '100%',
         autoheight: true,
         source: dataAdapter,
         sortable: true,
@@ -21,13 +42,12 @@
         altrows: true,
         columns: [
         {text: 'id', datafield: 'id', hidden: true},
-        {text: 'Worksheet', datafield: 'worksheet', width: 240},
-        {text: 'Added', datafield: 'added', width: 240, cellsalign: 'center'},
-        {text: 'Deleted', datafield: 'deleted', width: 240, cellsalign: 'center'},
-        {text: 'Changed', datafield: 'updated', width: 240, cellsalign: 'center'},
-        {text: 'Errors', datafield: 'errors', width: 240, cellsalign: 'center'},
-        {text: 'Errors Detail', datafield: 'errors_detail', width: 240, cellsalign: 'left'},
-        ]}";
+        {text: 'Worksheet', datafield: 'worksheet', width: '50%'},
+        {text: 'Added', datafield: 'added', width: '10%', cellsalign: 'center'},
+        {text: 'Deleted', datafield: 'deleted', width: '10%', cellsalign: 'center'},
+        {text: 'Changed', datafield: 'updated', width: '10%', cellsalign: 'center'},
+        {text: 'Errors', datafield: 'errors', width: '10%', cellsalign: 'center'},
+       ]}";
     @endphp
     @include('vendor.backpack.crud.form_content', [ 'fields' => $crud->getFields('create'), 'action' => 'create' ])
 @endif
