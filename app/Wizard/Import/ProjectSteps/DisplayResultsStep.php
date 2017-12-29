@@ -32,7 +32,7 @@ class DisplayResultsStep extends Step
         $imports = $request->batch->imports;
         $data = [];
         foreach ($imports as $import) {
-            $results['results']       = $import->results;
+            $results['results']       = $import->results['timer'][0];
             $results['worksheet']     = $import->source_file_name;
             $results['processed']     = $import->total_processed_count;
             $results['updated']       = $import->updated_count;
