@@ -273,6 +273,7 @@ class DataImporterTest extends TestCase
         $this->assertEquals(1,$importer->getStats()['deleted']);
         $this->assertEquals(7,$importer->getStats()['updated']);
         $this->assertEquals(1,$importer->getStats()['added']);
+        $this->assertEquals(0,$importer->getStats()['errors']);
         //when I store it in the database
         $import = Import::create([ 'results' => $importer->getStats()]);
         $export->addImports($import);
