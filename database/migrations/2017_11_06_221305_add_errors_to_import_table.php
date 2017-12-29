@@ -14,7 +14,7 @@ class AddErrorsToImportTable extends Migration
     public function up()
     {
         Schema::table('reg_file_import_history', function (Blueprint $table) {
-            $table->json('errors');
+            $table->json('errors')->nullable();
         });
     }
 
