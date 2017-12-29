@@ -60,7 +60,7 @@ class SetSpreadsheetStep extends Step
                 'label'       => 'Select a previous Google Spreadsheet',
                 'type'        => 'select2_from_array',
                 'options'     => $batches,
-                'allows_null' => false,
+                'allows_null' => true,
             ];
 
             return [ $field_sheetSelect, $field_fileName, $field_type ];
