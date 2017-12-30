@@ -40,7 +40,7 @@
           @include('crud::inc.filters_navbar')
         @endif
 
-        <table id="crudTable" class="table table-striped table-hover display">
+        <table id="crudTable" class="table table-condensed table-striped table-hover display">
             <thead>
               <tr>
                 @if ($crud->details_row)
