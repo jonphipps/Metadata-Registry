@@ -45,7 +45,7 @@ class ProjectCrudController extends CrudController
         */
 
         $this->addCustomDoctrineColumnTypes();
-        $this->crud->setFromDb();
+        $this->crud->setFromDb(false);
         $languages = getLanguageListFromSymfony('en');
 
         // ------ CRUD ACCESS
@@ -233,6 +233,16 @@ class ProjectCrudController extends CrudController
             'function_name' => 'getElementColumn',
             'show' => false,
         ] );
+        $this->crud->addColumn([
+            'name' => 'created_at',
+            'label'=>'Date Created',
+            'type' => 'datetime',
+        ]);
+        $this->crud->addColumn([
+            'name' => 'updated_at',
+            'label'=>'Last Updated',
+            'type' => 'datetime',
+        ]);
         $this->crud->setColumnsDetails(['repo_is_valid', 'prefixes', ],[
             'show' => false,
         ]);
@@ -248,7 +258,6 @@ class ProjectCrudController extends CrudController
             ]);
         $this->crud->setColumnsDetails([
             'base_domain',
-            'created_at',
             'created_by',
             'default_language_id',
             'default_language',
@@ -266,7 +275,6 @@ class ProjectCrudController extends CrudController
             'repo',
             'repo_is_valid',
             'starting_number',
-            'updated_at',
             'updated_by',
             'uri_append',
             'uri_prepend',
