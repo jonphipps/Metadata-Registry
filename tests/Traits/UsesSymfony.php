@@ -82,10 +82,5 @@ trait UsesSymfony
     {
         $process = new Process('php symfony cc');
         $process->run();
-
-        // executes after the command finishes
-        if ( ! $process->isSuccessful()) {
-            throw new ProcessFailedException($process);
-        }
     }
 }
