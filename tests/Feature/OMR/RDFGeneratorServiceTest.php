@@ -9,18 +9,17 @@ use App\Models\VocabsModel;
 use App\Models\Vocabulary;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Snapshots\MatchesSnapshots;
-use Symfony\Component\Process\Process;
 use Tests\TestCase;
+use Tests\Traits\UsesSymfony;
 
 class RDFGeneratorServiceTest extends TestCase
 {
-    use MatchesSnapshots;
+    use MatchesSnapshots, UsesSymfony;
     private $release;
 
     public function setUp(): void
     {
         $this->dontSetupDatabase();
-
         parent::setUp();
     }
 
@@ -267,12 +266,4 @@ class RDFGeneratorServiceTest extends TestCase
         //$this->assertMatchesSnapshot($file);
     }
 
-    public function tearDown(): void
-    {
-        //if (\function_exists('xdebug_break')) xdebug_break();
-        //this is necessary because the laravel test suite always starts session output capture
-        if (ob_get_level() > 1) {
-            ob_end_clean();
-        }
-    }
 }

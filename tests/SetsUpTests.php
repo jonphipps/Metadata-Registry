@@ -39,6 +39,11 @@ trait SetsUpTests
      */
     public function setUpTests()
     {
+        //this resets the test environment for a Symfony instance that is running independently of the test environment
+        if (method_exists($this, 'setTestEnvironment')) {
+            $this->setTestEnvironment();
+        }
+
         $this->baseUrl = config('app.url', 'http://registry.test');
         // Run the tests in English
         App::setLocale('en');
@@ -80,6 +85,11 @@ trait SetsUpTests
     {
         $this->artisan('db:seed', [ '--class' => 'RDAClassesSeeder' ]);
         $this->artisan('db:seed', [ '--class' => 'RDAMediaTypeSeeder' ]);
+
+        if (method_exists($this, 'clearSymfonyCache')) {
+            $this->clearSymfonyCache();
+        }
+
         $process = new Process('php symfony cc');
         $process->run();
     }
@@ -145,6 +155,9 @@ trait SetsUpTests
 
     public function tearDown()
     {
+        if(method_exists($this, 'resetEnvironment')){
+            $this->resetEnvironment();
+        }
         //this is necessary because the laravel test suite always starts session output capture
         if (ob_get_level() > 1) {
             ob_end_clean();

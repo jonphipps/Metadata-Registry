@@ -7,10 +7,11 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Snapshots\MatchesSnapshots;
 use Tests\TestCase;
+use Tests\Traits\UsesSymfony;
 
 class RDFGeneratorTest extends TestCase
 {
-    use MatchesSnapshots;
+    use MatchesSnapshots, UsesSymfony;
 
     public function setUp(): void
     {
