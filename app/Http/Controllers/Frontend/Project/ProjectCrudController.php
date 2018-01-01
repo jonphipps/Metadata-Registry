@@ -45,7 +45,7 @@ class ProjectCrudController extends CrudController
         */
 
         $this->addCustomDoctrineColumnTypes();
-        $this->crud->setFromDb(false);
+        $this->crud->setFromDb();
         $languages = getLanguageListFromSymfony('en');
 
         // ------ CRUD ACCESS
