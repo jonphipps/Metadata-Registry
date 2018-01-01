@@ -138,7 +138,7 @@ class ProjectUserCrudController extends CrudController
         ]); // add a single column, at the end of the stack
         // $this->crud->addColumns(); // add multiple columns, at the end of the stack
         // $this->crud->removeColumn('column_name'); // remove a column from the stack
-        $this->crud->removeColumns(['is_admin_for', 'is_maintainer_for', 'current_language',]); // remove an array of columns from the stack
+        $this->crud->removeColumns(['is_admin_for', 'is_maintainer_for', 'current_language', 'id', 'created_at', 'deleted_at', 'updated_at']); // remove an array of columns from the stack
         $this->crud->setColumnDetails('authorized_as',
             [   // radio
                 'label'   => 'Authorized as', // the input label
