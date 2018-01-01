@@ -138,8 +138,6 @@ class Project extends Model
     protected $hidden = [
         'id',
         'description',
-        'created_at',
-        'updated_at',
         'deleted_at',
         'created_by',
         'updated_by',
