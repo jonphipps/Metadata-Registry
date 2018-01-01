@@ -4,7 +4,11 @@
 	<section class="content-header">
 	  <h1>
 	    <span class="text-capitalize">{{ $crud->entity_name_plural }}</span>
+          @if(isset($parent))
+	    <small>{{ trans('backpack::crud.of_the') }} <strong>{{$parent}}</strong> {{ trans('backpack::crud.in_the_database') }}.</small>
+          @else
 	    <small>{{ trans('backpack::crud.all') }} <span class="text-lowercase">{{ $crud->entity_name_plural }}</span> {{ trans('backpack::crud.in_the_database') }}.</small>
+          @endif
 	  </h1>
 	  <ol class="breadcrumb">
 @if(Auth::check())

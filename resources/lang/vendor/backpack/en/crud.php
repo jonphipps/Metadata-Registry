@@ -46,7 +46,9 @@ return [
     'language'          => 'Language',
 
     // CRUD table view
-    'all'                       => 'All ',
+    'all'                       => 'All',
+    'for_all'                   => 'For all of the',
+    'of_the'                    => 'of the',
     'in_the_database'           => 'in the database',
     'list'                      => 'List',
     'actions'                   => 'Actions',
