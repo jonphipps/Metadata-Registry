@@ -27,6 +27,7 @@ class ProjectUserCrudController extends CrudController
     {
         $project_id = Route::current()->parameter('project_id') ?? Route::current()->parameter('project');
         $id = Route::current()->parameter('member') ?? Route::current()->parameter('member');
+        $this->crud->setEntityNameStrings('Project Member', 'Project Members');
 
         if ($project_id) {
             $project = Project::findOrFail($project_id);
@@ -38,11 +39,12 @@ class ProjectUserCrudController extends CrudController
                         $builder->where('agent_id', $project_id);
                     });
             }
+            $this->data['parent'] = $project->title . ' Project';
+            $this->crud->setEntityNameStrings('Member', 'Members');
         }
 
         $this->crud->setModel(ProjectUser::class);
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/projects/' . $project_id . '/members');
-        $this->crud->setEntityNameStrings('Project Member', 'Project Members');
         if ($id) {
             $this->crud->getEntry($id);
         }
