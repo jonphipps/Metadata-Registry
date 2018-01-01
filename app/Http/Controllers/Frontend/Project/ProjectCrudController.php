@@ -202,11 +202,11 @@ class ProjectCrudController extends CrudController
         if ( ! ( Auth::check() && Auth::user()->is_administrator ) ) {
             $this->crud->removeColumn( 'is_private' ); // remove a column from the stack
         } else{
-            $this->crud->setColumnDetails( 'is_private',
-                [
-                    'type'    => 'check',
-                    'label'   => 'Private?',
-                ] ); // adjusts the properties of the passed in column (by name)
+            // $this->crud->setColumnDetails( 'is_private',
+            //     [
+            //         'type'    => 'check',
+            //         'label'   => 'Private?',
+            //     ] ); // adjusts the properties of the passed in column (by name)
         }
         //$this->crud->removeColumns( [column1, column2] ); // remove an array of columns from the stack
         $this->crud->setColumnDetails( 'org_name',
@@ -233,17 +233,8 @@ class ProjectCrudController extends CrudController
             'function_name' => 'getElementColumn',
             'show' => false,
         ] );
-        $this->crud->addColumn([
-            'name' => 'created_at',
-            'label'=>'Date Created',
-            'type' => 'datetime',
-        ]);
-        $this->crud->addColumn([
-            'name' => 'updated_at',
-            'label'=>'Last Updated',
-            'type' => 'datetime',
-        ]);
-        $this->crud->setColumnsDetails(['repo_is_valid', 'prefixes', ],[
+
+        $this->crud->setColumnsDetails(['repo_is_valid', 'prefixes', 'created_at', 'updated_at'],[
             'show' => false,
         ]);
         $this->crud->setColumnsDetails([ 'languages' ],
