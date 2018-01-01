@@ -36,6 +36,11 @@ return [
         // $this->crud->setDefaultPageLength(50);
         'default_page_length' => 25,
 
+        //include id, created_at, 'updated_at', 'deleted_at' in lists by default
+        //if this is set to true, metadata for individual models can be excluded by
+        //adding the columns to the 'hidden' property of the model
+        'exclude_metadata_columns' => false,
+
     // PREVIEW
 
     /*
