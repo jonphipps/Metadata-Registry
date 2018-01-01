@@ -32,6 +32,7 @@ class ImportErrorsTest extends TestCase
     /** @test duplicate prefLabel */
     public function a_concept_cannot_have_the_same_preflabel_language_combination_as_another_concept()
     {
+        $this->markTestIncomplete('this needs to be reimplemented');
         $this->expectException(DuplicatePrefLabelException::class);
         $this->actingAs($this->admin);
         $concept1 = factory(Concept::class)->create([ 'vocabulary_id' => 37]);
