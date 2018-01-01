@@ -135,16 +135,16 @@ class ConceptAttribute extends Model
     {
         parent::boot();
 
-        static::creating(function(self $attribute) {
-            self::checkForDuplicatePrefLabel($attribute);
-        });
-
-        static::updating(function(self $attribute) {
-            //make sure the update isn't part of a delete
-            if (! array_key_exists('deleted_by', $attribute->getDirty())) {
-                self::checkForDuplicatePrefLabel($attribute);
-            }
-        });
+        // static::creating(function(self $attribute) {
+        //     self::checkForDuplicatePrefLabel($attribute);
+        // });
+        //
+        // static::updating(function(self $attribute) {
+        //     //make sure the update isn't part of a delete
+        //     if (! array_key_exists('deleted_by', $attribute->getDirty())) {
+        //         self::checkForDuplicatePrefLabel($attribute);
+        //     }
+        // });
 
         static::created(function(self $attribute) {
             //make sure we don't keep making new reciprocals
