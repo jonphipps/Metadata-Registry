@@ -18,4 +18,13 @@ class LanguageController extends Controller
 
         return redirect()->back();
     }
+
+    public static function getLocales()
+    {
+        $locales = config('locales');
+        natsort($locales);
+
+        return $locales;
+    }
+
 }

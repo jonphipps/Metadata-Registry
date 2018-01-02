@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend\Project;
 use App\Http\Controllers\Frontend\Elementset\ElementsetCrudController;
 use App\Http\Controllers\Frontend\ImportCrudController;
 use App\Http\Controllers\Frontend\Vocabulary\VocabularyCrudController;
+use App\Http\Controllers\LanguageController;
 use App\Http\Requests\Frontend\Project\ProjectRequest as StoreRequest;
 use App\Http\Requests\Frontend\Project\ProjectRequest as UpdateRequest;
 use App\Http\Traits\UsesEnums;
@@ -46,7 +47,7 @@ class ProjectCrudController extends CrudController
 
         $this->addCustomDoctrineColumnTypes();
         $this->crud->setFromDb();
-        $languages = getLanguageListFromSymfony('en');
+        $languages = LanguageController::getLocales();
 
         // ------ CRUD ACCESS
         $this->crud->allowAccess([ 'index', 'show' ]);
