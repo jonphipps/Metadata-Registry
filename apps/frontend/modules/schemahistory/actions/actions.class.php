@@ -129,12 +129,19 @@ class schemahistoryActions extends autoSchemahistoryActions
               $this->schema = $schema;
               $schemaId     = $schema->getId();
           }
-          if ($idType == 'schema_property_id') {
+          if ($idType === 'schema_property_id') {
               $property = SchemaPropertyPeer::retrieveByPK($this->getRequestParameter($idType));
           }
-          if ($idType == 'schema_property_element_id') {
-              $property = SchemaPropertyElementPeer::retrieveByPK($this->getRequestParameter($idType))
-                                                   ->getSchemaPropertyRelatedBySchemaPropertyId();
+          if ($idType === 'schema_property_element_id') {
+              $propertyElement = SchemaPropertyElementPeer::retrieveByPK($this->getRequestParameter($idType));
+              /** @var SchemaPropertyElement $propertyElement */
+              if ($propertyElement) {
+                  try {
+                      $property = $propertyElement->getSchemaPropertyRelatedBySchemaPropertyId();
+                  }
+                  catch (PropelException $e) {
+                  }
+              }
           }
           if (isset($property)) {
               $this->property = $property;
