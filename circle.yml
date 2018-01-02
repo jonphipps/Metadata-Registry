@@ -42,7 +42,7 @@ general:
   branches:
     only:
       - beta
-      - staging
+      - stage
 
 deployment:
   production:
