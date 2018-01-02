@@ -2,6 +2,8 @@
 
 return [
 
+    'last_update' => env('LAST_UPDATE', 'mid-December 2017'),
+
   /*
     |--------------------------------------------------------------------------
     | Application Name
