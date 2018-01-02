@@ -39,6 +39,16 @@ general:
     - "tests/Browser/screenshots"
     - "tests/Browser/console"
     - "storage/logs"
+  branches:
+    only:
+      - beta
+      - staging
+
+deployment:
+  production:
+    branch: beta
+    commands:
+      - ./beta_deploy.sh
 
 test:
   pre:
