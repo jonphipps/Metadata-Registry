@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 use App\Helpers\Macros\Traits\Languages;
+use App\Models\Traits\BelongsToUser;
 use App\Models\Traits\BelongsToVocabulary;
 use Culpa\Traits\Blameable;
 use Culpa\Traits\CreatedBy;
@@ -56,7 +57,7 @@ class VocabularyUser extends Model
     ];
     use SoftDeletes, Blameable, CreatedBy;
     use Languages;
-    use BelongsToVocabulary;
+    use BelongsToVocabulary, BelongsToUser;
     protected $table = self::TABLE;
     protected $blameable = [
         'created' => 'user_id',
