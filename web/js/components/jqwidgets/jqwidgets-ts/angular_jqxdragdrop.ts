@@ -1,39 +1,46 @@
+/*
+jQWidgets v4.5.4 (2017-June)
+Copyright (c) 2011-2017 jQWidgets.
+License: http://jqwidgets.com/license/
+*/
 /// <reference path="jqwidgets.d.ts" />
-import { Component, Input, Output, EventEmitter, ElementRef, forwardRef, OnChanges } from '@angular/core';
-declare let $: any;
+import { Component, Input, Output, EventEmitter, ElementRef, forwardRef, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
+declare let JQXLite: any;
 
 @Component({
-    selector: 'angularDragDrop',
+    selector: 'jqxDragDrop',
     template: '<div><ng-content></ng-content></div>'
 })
 
 export class jqxDragDropComponent implements OnChanges
 {
-   @Input('appendTo') attrAppendTo;
-   @Input('disabled') attrDisabled;
-   @Input('distance') attrDistance;
-   @Input('data') attrData;
-   @Input('dropAction') attrDropAction;
-   @Input('dropTarget') attrDropTarget;
-   @Input('dragZIndex') attrDragZIndex;
-   @Input('feedback') attrFeedback;
-   @Input('initFeedback') attrInitFeedback;
-   @Input('opacity') attrOpacity;
-   @Input('onDragEnd') attrOnDragEnd;
-   @Input('onDrag') attrOnDrag;
-   @Input('onDragStart') attrOnDragStart;
-   @Input('onTargetDrop') attrOnTargetDrop;
-   @Input('onDropTargetEnter') attrOnDropTargetEnter;
-   @Input('onDropTargetLeave') attrOnDropTargetLeave;
-   @Input('restricter') attrRestricter;
-   @Input('revert') attrRevert;
-   @Input('revertDuration') attrRevertDuration;
-   @Input('tolerance') attrTolerance;
-   @Input('width') attrWidth;
-   @Input('height') attrHeight;
+   @Input('appendTo') attrAppendTo: any;
+   @Input('disabled') attrDisabled: any;
+   @Input('distance') attrDistance: any;
+   @Input('data') attrData: any;
+   @Input('dropAction') attrDropAction: any;
+   @Input('dropTarget') attrDropTarget: any;
+   @Input('dragZIndex') attrDragZIndex: any;
+   @Input('feedback') attrFeedback: any;
+   @Input('initFeedback') attrInitFeedback: any;
+   @Input('opacity') attrOpacity: any;
+   @Input('onDragEnd') attrOnDragEnd: any;
+   @Input('onDrag') attrOnDrag: any;
+   @Input('onDragStart') attrOnDragStart: any;
+   @Input('onTargetDrop') attrOnTargetDrop: any;
+   @Input('onDropTargetEnter') attrOnDropTargetEnter: any;
+   @Input('onDropTargetLeave') attrOnDropTargetLeave: any;
+   @Input('restricter') attrRestricter: any;
+   @Input('revert') attrRevert: any;
+   @Input('revertDuration') attrRevertDuration: any;
+   @Input('tolerance') attrTolerance: any;
+   @Input('width') attrWidth: any;
+   @Input('height') attrHeight: any;
 
-   properties: Array<string> = ['appendTo','disabled','distance','data','dropAction','dropTarget','dragZIndex','feedback','initFeedback','opacity','onDragEnd','onDrag','onDragStart','onTargetDrop','onDropTargetEnter','onDropTargetLeave','restricter','revert','revertDuration','tolerance'];
-   host;
+   @Input('auto-create') autoCreate: boolean = true;
+
+   properties: string[] = ['appendTo','disabled','distance','data','dropAction','dropTarget','dragZIndex','feedback','initFeedback','opacity','onDragEnd','onDrag','onDragStart','onTargetDrop','onDropTargetEnter','onDropTargetLeave','restricter','revert','revertDuration','tolerance'];
+   host: any;
    elementRef: ElementRef;
    widgetObject:  jqwidgets.jqxDragDrop;
 
@@ -41,13 +48,19 @@ export class jqxDragDropComponent implements OnChanges
       this.elementRef = containerElement;
    }
 
-   ngOnChanges(changes) {
+   ngOnInit() {
+      if (this.autoCreate) {
+         this.createComponent(); 
+      }
+   }; 
+
+   ngOnChanges(changes: SimpleChanges) {
       if (this.host) {
          for (let i = 0; i < this.properties.length; i++) {
             let attrName = 'attr' + this.properties[i].substring(0, 1).toUpperCase() + this.properties[i].substring(1);
             let areEqual: boolean;
 
-            if (this[attrName]) {
+            if (this[attrName] !== undefined) {
                if (typeof this[attrName] === 'object') {
                   if (this[attrName] instanceof Array) {
                      areEqual = this.arraysEqual(this[attrName], this.host.jqxDragDrop(this.properties[i]));
@@ -90,21 +103,27 @@ export class jqxDragDropComponent implements OnChanges
       }
       return options;
    }
-   createWidget(options?: any): void {
+
+   createComponent(options?: any): void {
       if (options) {
-         $.extend(options, this.manageAttributes());
+         JQXLite.extend(options, this.manageAttributes());
       }
       else {
         options = this.manageAttributes();
       }
-      this.host = $(this.elementRef.nativeElement.firstChild);
+      this.host = JQXLite(this.elementRef.nativeElement.firstChild);
       this.__wireEvents__();
       this.widgetObject = jqwidgets.createInstance(this.host, 'jqxDragDrop', options);
+
       this.__updateRect__();
    }
 
+   createWidget(options?: any): void {
+        this.createComponent(options);
+   }
+
    __updateRect__() : void {
-      this.host.css({width: this.attrWidth, height: this.attrHeight});
+      this.host.css({ width: this.attrWidth, height: this.attrHeight });
    }
 
    setOptions(options: any) : void {
@@ -284,11 +303,13 @@ export class jqxDragDropComponent implements OnChanges
    @Output() ondroptargetleave = new EventEmitter();
 
    __wireEvents__(): void {
-      this.host.on('dragStart', (eventData) => { this.ondragstart.emit(eventData); });
-      this.host.on('dragEnd', (eventData) => { this.ondragend.emit(eventData); });
-      this.host.on('dragging', (eventData) => { this.ondragging.emit(eventData); });
-      this.host.on('dropTargetEnter', (eventData) => { this.ondroptargetenter.emit(eventData); });
-      this.host.on('dropTargetLeave', (eventData) => { this.ondroptargetleave.emit(eventData); });
+      this.host.on('dragStart', (eventData: any) => { this.ondragstart.emit(eventData); });
+      this.host.on('dragEnd', (eventData: any) => { this.ondragend.emit(eventData); });
+      this.host.on('dragging', (eventData: any) => { this.ondragging.emit(eventData); });
+      this.host.on('dropTargetEnter', (eventData: any) => { this.ondroptargetenter.emit(eventData); });
+      this.host.on('dropTargetLeave', (eventData: any) => { this.ondroptargetleave.emit(eventData); });
    }
 
 } //jqxDragDropComponent
+
+

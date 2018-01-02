@@ -1,41 +1,48 @@
+/*
+jQWidgets v4.5.4 (2017-June)
+Copyright (c) 2011-2017 jQWidgets.
+License: http://jqwidgets.com/license/
+*/
 /// <reference path="jqwidgets.d.ts" />
-import { Component, Input, Output, EventEmitter, ElementRef, forwardRef, OnChanges } from '@angular/core';
-declare let $: any;
+import { Component, Input, Output, EventEmitter, ElementRef, forwardRef, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
+declare let JQXLite: any;
 
 @Component({
-    selector: 'angularTagCloud',
+    selector: 'jqxTagCloud',
     template: '<div><ng-content></ng-content></div>'
 })
 
 export class jqxTagCloudComponent implements OnChanges
 {
-   @Input('alterTextCase') attrAlterTextCase;
-   @Input('disabled') attrDisabled;
-   @Input('displayLimit') attrDisplayLimit;
-   @Input('displayMember') attrDisplayMember;
-   @Input('displayValue') attrDisplayValue;
-   @Input('fontSizeUnit') attrFontSizeUnit;
-   @Input('maxColor') attrMaxColor;
-   @Input('maxFontSize') attrMaxFontSize;
-   @Input('maxValueToDisplay') attrMaxValueToDisplay;
-   @Input('minColor') attrMinColor;
-   @Input('minFontSize') attrMinFontSize;
-   @Input('minValueToDisplay') attrMinValueToDisplay;
-   @Input('rtl') attrRtl;
-   @Input('sortBy') attrSortBy;
-   @Input('sortOrder') attrSortOrder;
-   @Input('source') attrSource;
-   @Input('tagRenderer') attrTagRenderer;
-   @Input('takeTopWeightedItems') attrTakeTopWeightedItems;
-   @Input('textColor') attrTextColor;
-   @Input('urlBase') attrUrlBase;
-   @Input('urlMember') attrUrlMember;
-   @Input('valueMember') attrValueMember;
-   @Input('width') attrWidth;
-   @Input('height') attrHeight;
+   @Input('alterTextCase') attrAlterTextCase: any;
+   @Input('disabled') attrDisabled: any;
+   @Input('displayLimit') attrDisplayLimit: any;
+   @Input('displayMember') attrDisplayMember: any;
+   @Input('displayValue') attrDisplayValue: any;
+   @Input('fontSizeUnit') attrFontSizeUnit: any;
+   @Input('maxColor') attrMaxColor: any;
+   @Input('maxFontSize') attrMaxFontSize: any;
+   @Input('maxValueToDisplay') attrMaxValueToDisplay: any;
+   @Input('minColor') attrMinColor: any;
+   @Input('minFontSize') attrMinFontSize: any;
+   @Input('minValueToDisplay') attrMinValueToDisplay: any;
+   @Input('rtl') attrRtl: any;
+   @Input('sortBy') attrSortBy: any;
+   @Input('sortOrder') attrSortOrder: any;
+   @Input('source') attrSource: any;
+   @Input('tagRenderer') attrTagRenderer: any;
+   @Input('takeTopWeightedItems') attrTakeTopWeightedItems: any;
+   @Input('textColor') attrTextColor: any;
+   @Input('urlBase') attrUrlBase: any;
+   @Input('urlMember') attrUrlMember: any;
+   @Input('valueMember') attrValueMember: any;
+   @Input('width') attrWidth: any;
+   @Input('height') attrHeight: any;
 
-   properties: Array<string> = ['alterTextCase','disabled','displayLimit','displayMember','displayValue','fontSizeUnit','height','maxColor','maxFontSize','maxValueToDisplay','minColor','minFontSize','minValueToDisplay','rtl','sortBy','sortOrder','source','tagRenderer','takeTopWeightedItems','textColor','urlBase','urlMember','valueMember','width'];
-   host;
+   @Input('auto-create') autoCreate: boolean = true;
+
+   properties: string[] = ['alterTextCase','disabled','displayLimit','displayMember','displayValue','fontSizeUnit','height','maxColor','maxFontSize','maxValueToDisplay','minColor','minFontSize','minValueToDisplay','rtl','sortBy','sortOrder','source','tagRenderer','takeTopWeightedItems','textColor','urlBase','urlMember','valueMember','width'];
+   host: any;
    elementRef: ElementRef;
    widgetObject:  jqwidgets.jqxTagCloud;
 
@@ -43,13 +50,19 @@ export class jqxTagCloudComponent implements OnChanges
       this.elementRef = containerElement;
    }
 
-   ngOnChanges(changes) {
+   ngOnInit() {
+      if (this.autoCreate) {
+         this.createComponent(); 
+      }
+   }; 
+
+   ngOnChanges(changes: SimpleChanges) {
       if (this.host) {
          for (let i = 0; i < this.properties.length; i++) {
             let attrName = 'attr' + this.properties[i].substring(0, 1).toUpperCase() + this.properties[i].substring(1);
             let areEqual: boolean;
 
-            if (this[attrName]) {
+            if (this[attrName] !== undefined) {
                if (typeof this[attrName] === 'object') {
                   if (this[attrName] instanceof Array) {
                      areEqual = this.arraysEqual(this[attrName], this.host.jqxTagCloud(this.properties[i]));
@@ -92,21 +105,27 @@ export class jqxTagCloudComponent implements OnChanges
       }
       return options;
    }
-   createWidget(options?: any): void {
+
+   createComponent(options?: any): void {
       if (options) {
-         $.extend(options, this.manageAttributes());
+         JQXLite.extend(options, this.manageAttributes());
       }
       else {
         options = this.manageAttributes();
       }
-      this.host = $(this.elementRef.nativeElement.firstChild);
+      this.host = JQXLite(this.elementRef.nativeElement.firstChild);
       this.__wireEvents__();
       this.widgetObject = jqwidgets.createInstance(this.host, 'jqxTagCloud', options);
+
       this.__updateRect__();
    }
 
+   createWidget(options?: any): void {
+        this.createComponent(options);
+   }
+
    __updateRect__() : void {
-      this.host.css({width: this.attrWidth, height: this.attrHeight});
+      this.host.css({ width: this.attrWidth, height: this.attrHeight });
    }
 
    setOptions(options: any) : void {
@@ -311,41 +330,53 @@ export class jqxTagCloudComponent implements OnChanges
    destroy(): void {
       this.host.jqxTagCloud('destroy');
    }
+
    findTagIndex(tag: string): number {
       return this.host.jqxTagCloud('findTagIndex', tag);
    }
+
    getHiddenTagsList(): Array<any> {
       return this.host.jqxTagCloud('getHiddenTagsList');
    }
+
    getRenderedTags(): Array<any> {
       return this.host.jqxTagCloud('getRenderedTags');
    }
+
    getTagsList(): Array<any> {
       return this.host.jqxTagCloud('getTagsList');
    }
+
    hideItem(index: number): void {
       this.host.jqxTagCloud('hideItem', index);
    }
+
    insertAt(index: number, item: any): void {
       this.host.jqxTagCloud('insertAt', index, item);
    }
+
    removeAt(index: number): void {
       this.host.jqxTagCloud('removeAt', index);
    }
+
    updateAt(index: number, item: any): void {
       this.host.jqxTagCloud('updateAt', index, item);
    }
+
    showItem(index: number): void {
       this.host.jqxTagCloud('showItem', index);
    }
+
 
    // jqxTagCloudComponent events
    @Output() onBindingComplete = new EventEmitter();
    @Output() onItemClick = new EventEmitter();
 
    __wireEvents__(): void {
-      this.host.on('bindingComplete', (eventData) => { this.onBindingComplete.emit(eventData); });
-      this.host.on('itemClick', (eventData) => { this.onItemClick.emit(eventData); });
+      this.host.on('bindingComplete', (eventData: any) => { this.onBindingComplete.emit(eventData); });
+      this.host.on('itemClick', (eventData: any) => { this.onItemClick.emit(eventData); });
    }
 
 } //jqxTagCloudComponent
+
+

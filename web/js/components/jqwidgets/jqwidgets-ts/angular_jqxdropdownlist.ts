@@ -1,9 +1,14 @@
+/*
+jQWidgets v4.5.4 (2017-June)
+Copyright (c) 2011-2017 jQWidgets.
+License: http://jqwidgets.com/license/
+*/
 /// <reference path="jqwidgets.d.ts" />
-import { Component, Input, Output, EventEmitter, ElementRef, forwardRef, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ElementRef, forwardRef, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 const noop = () => { };
-declare let $: any;
+declare let JQXLite: any;
 
 export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,
@@ -12,50 +17,55 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
 }
 
 @Component({
-    selector: 'angularDropDownList',
+    selector: 'jqxDropDownList',
     template: '<div><ng-content></ng-content></div>',
-    providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR]
+    providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class jqxDropDownListComponent implements ControlValueAccessor, OnChanges 
 {
-   @Input('autoOpen') attrAutoOpen;
-   @Input('autoDropDownHeight') attrAutoDropDownHeight;
-   @Input('animationType') attrAnimationType;
-   @Input('checkboxes') attrCheckboxes;
-   @Input('closeDelay') attrCloseDelay;
-   @Input('disabled') attrDisabled;
-   @Input('displayMember') attrDisplayMember;
-   @Input('dropDownHorizontalAlignment') attrDropDownHorizontalAlignment;
-   @Input('dropDownHeight') attrDropDownHeight;
-   @Input('dropDownWidth') attrDropDownWidth;
-   @Input('enableSelection') attrEnableSelection;
-   @Input('enableBrowserBoundsDetection') attrEnableBrowserBoundsDetection;
-   @Input('enableHover') attrEnableHover;
-   @Input('filterable') attrFilterable;
-   @Input('filterHeight') attrFilterHeight;
-   @Input('filterDelay') attrFilterDelay;
-   @Input('filterPlaceHolder') attrFilterPlaceHolder;
-   @Input('incrementalSearch') attrIncrementalSearch;
-   @Input('incrementalSearchDelay') attrIncrementalSearchDelay;
-   @Input('itemHeight') attrItemHeight;
-   @Input('openDelay') attrOpenDelay;
-   @Input('placeHolder') attrPlaceHolder;
-   @Input('popupZIndex') attrPopupZIndex;
-   @Input('rtl') attrRtl;
-   @Input('renderer') attrRenderer;
-   @Input('selectionRenderer') attrSelectionRenderer;
-   @Input('searchMode') attrSearchMode;
-   @Input('scrollBarSize') attrScrollBarSize;
-   @Input('source') attrSource;
-   @Input('selectedIndex') attrSelectedIndex;
-   @Input('theme') attrTheme;
-   @Input('valueMember') attrValueMember;
-   @Input('width') attrWidth;
-   @Input('height') attrHeight;
+   @Input('autoOpen') attrAutoOpen: any;
+   @Input('autoDropDownHeight') attrAutoDropDownHeight: any;
+   @Input('animationType') attrAnimationType: any;
+   @Input('checkboxes') attrCheckboxes: any;
+   @Input('closeDelay') attrCloseDelay: any;
+   @Input('disabled') attrDisabled: any;
+   @Input('displayMember') attrDisplayMember: any;
+   @Input('dropDownHorizontalAlignment') attrDropDownHorizontalAlignment: any;
+   @Input('dropDownVerticalAlignment') attrDropDownVerticalAlignment: any;
+   @Input('dropDownHeight') attrDropDownHeight: any;
+   @Input('dropDownWidth') attrDropDownWidth: any;
+   @Input('enableSelection') attrEnableSelection: any;
+   @Input('enableBrowserBoundsDetection') attrEnableBrowserBoundsDetection: any;
+   @Input('enableHover') attrEnableHover: any;
+   @Input('filterable') attrFilterable: any;
+   @Input('filterHeight') attrFilterHeight: any;
+   @Input('filterDelay') attrFilterDelay: any;
+   @Input('filterPlaceHolder') attrFilterPlaceHolder: any;
+   @Input('incrementalSearch') attrIncrementalSearch: any;
+   @Input('incrementalSearchDelay') attrIncrementalSearchDelay: any;
+   @Input('itemHeight') attrItemHeight: any;
+   @Input('openDelay') attrOpenDelay: any;
+   @Input('placeHolder') attrPlaceHolder: any;
+   @Input('popupZIndex') attrPopupZIndex: any;
+   @Input('rtl') attrRtl: any;
+   @Input('renderer') attrRenderer: any;
+   @Input('selectionRenderer') attrSelectionRenderer: any;
+   @Input('searchMode') attrSearchMode: any;
+   @Input('scrollBarSize') attrScrollBarSize: any;
+   @Input('source') attrSource: any;
+   @Input('selectedIndex') attrSelectedIndex: any;
+   @Input('theme') attrTheme: any;
+   @Input('template') attrTemplate: any;
+   @Input('valueMember') attrValueMember: any;
+   @Input('width') attrWidth: any;
+   @Input('height') attrHeight: any;
 
-   properties: Array<string> = ['autoOpen','autoDropDownHeight','animationType','checkboxes','closeDelay','disabled','displayMember','dropDownHorizontalAlignment','dropDownHeight','dropDownWidth','enableSelection','enableBrowserBoundsDetection','enableHover','filterable','filterHeight','filterDelay','filterPlaceHolder','height','incrementalSearch','incrementalSearchDelay','itemHeight','openDelay','placeHolder','popupZIndex','rtl','renderer','selectionRenderer','searchMode','scrollBarSize','source','selectedIndex','theme','valueMember','width'];
-   host;
+   @Input('auto-create') autoCreate: boolean = true;
+
+   properties: string[] = ['autoOpen','autoDropDownHeight','animationType','checkboxes','closeDelay','disabled','displayMember','dropDownHorizontalAlignment','dropDownVerticalAlignment','dropDownHeight','dropDownWidth','enableSelection','enableBrowserBoundsDetection','enableHover','filterable','filterHeight','filterDelay','filterPlaceHolder','height','incrementalSearch','incrementalSearchDelay','itemHeight','openDelay','placeHolder','popupZIndex','rtl','renderer','selectionRenderer','searchMode','scrollBarSize','source','selectedIndex','theme','template','valueMember','width'];
+   host: any;
    elementRef: ElementRef;
    widgetObject:  jqwidgets.jqxDropDownList;
 
@@ -66,13 +76,19 @@ export class jqxDropDownListComponent implements ControlValueAccessor, OnChanges
       this.elementRef = containerElement;
    }
 
-   ngOnChanges(changes) {
+   ngOnInit() {
+      if (this.autoCreate) {
+         this.createComponent(); 
+      }
+   }; 
+
+   ngOnChanges(changes: SimpleChanges) {
       if (this.host) {
          for (let i = 0; i < this.properties.length; i++) {
             let attrName = 'attr' + this.properties[i].substring(0, 1).toUpperCase() + this.properties[i].substring(1);
             let areEqual: boolean;
 
-            if (this[attrName]) {
+            if (this[attrName] !== undefined) {
                if (typeof this[attrName] === 'object') {
                   if (this[attrName] instanceof Array) {
                      areEqual = this.arraysEqual(this[attrName], this.host.jqxDropDownList(this.properties[i]));
@@ -115,21 +131,27 @@ export class jqxDropDownListComponent implements ControlValueAccessor, OnChanges
       }
       return options;
    }
-   createWidget(options?: any): void {
+
+   createComponent(options?: any): void {
       if (options) {
-         $.extend(options, this.manageAttributes());
+         JQXLite.extend(options, this.manageAttributes());
       }
       else {
         options = this.manageAttributes();
       }
-      this.host = $(this.elementRef.nativeElement.firstChild);
+      this.host = JQXLite(this.elementRef.nativeElement.firstChild);
       this.__wireEvents__();
       this.widgetObject = jqwidgets.createInstance(this.host, 'jqxDropDownList', options);
+
       this.__updateRect__();
    }
 
+   createWidget(options?: any): void {
+        this.createComponent(options);
+   }
+
    __updateRect__() : void {
-      this.host.css({width: this.attrWidth, height: this.attrHeight});
+      this.host.css({ width: this.attrWidth, height: this.attrHeight });
    }
 
    writeValue(value: any): void {
@@ -215,6 +237,14 @@ export class jqxDropDownListComponent implements ControlValueAccessor, OnChanges
       }
    }
 
+   dropDownVerticalAlignment(arg?: string) : any {
+      if (arg !== undefined) {
+          this.host.jqxDropDownList('dropDownVerticalAlignment', arg);
+      } else {
+          return this.host.jqxDropDownList('dropDownVerticalAlignment');
+      }
+   }
+
    dropDownHeight(arg?: any) : any {
       if (arg !== undefined) {
           this.host.jqxDropDownList('dropDownHeight', arg);
@@ -287,7 +317,7 @@ export class jqxDropDownListComponent implements ControlValueAccessor, OnChanges
       }
    }
 
-   height(arg?: any) : any {
+   height(arg?: Number | String) : any {
       if (arg !== undefined) {
           this.host.jqxDropDownList('height', arg);
       } else {
@@ -407,6 +437,14 @@ export class jqxDropDownListComponent implements ControlValueAccessor, OnChanges
       }
    }
 
+   template(arg?: string) : any {
+      if (arg !== undefined) {
+          this.host.jqxDropDownList('template', arg);
+      } else {
+          return this.host.jqxDropDownList('template');
+      }
+   }
+
    valueMember(arg?: string) : any {
       if (arg !== undefined) {
           this.host.jqxDropDownList('valueMember', arg);
@@ -415,7 +453,7 @@ export class jqxDropDownListComponent implements ControlValueAccessor, OnChanges
       }
    }
 
-   width(arg?: any) : any {
+   width(arg?: Number | String) : any {
       if (arg !== undefined) {
           this.host.jqxDropDownList('width', arg);
       } else {
@@ -428,123 +466,167 @@ export class jqxDropDownListComponent implements ControlValueAccessor, OnChanges
    addItem(item: jqwidgets.DropDownListItem): boolean {
       return this.host.jqxDropDownList('addItem', item);
    }
+
    clearSelection(): void {
       this.host.jqxDropDownList('clearSelection');
    }
+
    clear(): void {
       this.host.jqxDropDownList('clear');
    }
+
    close(): void {
       this.host.jqxDropDownList('close');
    }
+
    checkIndex(index: number): void {
       this.host.jqxDropDownList('checkIndex', index);
    }
+
    checkItem(item: any): void {
       this.host.jqxDropDownList('checkItem', item);
    }
+
    checkAll(): void {
       this.host.jqxDropDownList('checkAll');
    }
+
    clearFilter(): void {
       this.host.jqxDropDownList('clearFilter');
    }
+
    destroy(): void {
       this.host.jqxDropDownList('destroy');
    }
+
    disableItem(item: any): void {
       this.host.jqxDropDownList('disableItem', item);
    }
+
    disableAt(index: number): void {
       this.host.jqxDropDownList('disableAt', index);
    }
+
    enableItem(item: any): void {
       this.host.jqxDropDownList('enableItem', item);
    }
+
    enableAt(index: number): void {
       this.host.jqxDropDownList('enableAt', index);
    }
+
    ensureVisible(index: number): void {
       this.host.jqxDropDownList('ensureVisible', index);
    }
+
    focus(): void {
       this.host.jqxDropDownList('focus');
    }
+
    getItem(index: number): jqwidgets.DropDownListItem {
       return this.host.jqxDropDownList('getItem', index);
    }
+
    getItemByValue(itemValue: string): jqwidgets.DropDownListItem {
       return this.host.jqxDropDownList('getItemByValue', itemValue);
    }
+
    getItems(): Array<jqwidgets.DropDownListItem> {
       return this.host.jqxDropDownList('getItems');
    }
+
    getCheckedItems(): Array<jqwidgets.DropDownListItem> {
       return this.host.jqxDropDownList('getCheckedItems');
    }
+
    getSelectedItem(): jqwidgets.DropDownListItem {
       return this.host.jqxDropDownList('getSelectedItem');
    }
+
    getSelectedIndex(): number {
       return this.host.jqxDropDownList('getSelectedIndex');
    }
+
    insertAt(item: jqwidgets.DropDownListItem, index: number): void {
       this.host.jqxDropDownList('insertAt', item, index);
    }
+
    isOpened(): boolean {
       return this.host.jqxDropDownList('isOpened');
    }
+
    indeterminateIndex(index: number): void {
       this.host.jqxDropDownList('indeterminateIndex', index);
    }
+
    indeterminateItem(item: any): void {
       this.host.jqxDropDownList('indeterminateItem', item);
    }
+
    loadFromSelect(arg: string): void {
       this.host.jqxDropDownList('loadFromSelect', arg);
    }
+
    open(): void {
       this.host.jqxDropDownList('open');
    }
+
    removeItem(item: any): void {
       this.host.jqxDropDownList('removeItem', item);
    }
+
    removeAt(index: number): void {
       this.host.jqxDropDownList('removeAt', index);
    }
+
    selectIndex(index: number): void {
       this.host.jqxDropDownList('selectIndex', index);
    }
+
    selectItem(item: jqwidgets.DropDownListItem): void {
       this.host.jqxDropDownList('selectItem', item);
    }
+
    setContent(content: string): void {
       this.host.jqxDropDownList('setContent', content);
    }
+
    updateItem(newItem: jqwidgets.DropDownListItem, item: any): void {
       this.host.jqxDropDownList('updateItem', newItem, item);
    }
+
    updateAt(item: jqwidgets.DropDownListItem, index: number): void {
       this.host.jqxDropDownList('updateAt', item, index);
    }
+
    unselectIndex(index: number): void {
       this.host.jqxDropDownList('unselectIndex', index);
    }
+
    unselectItem(item: any): void {
       this.host.jqxDropDownList('unselectItem', item);
    }
+
    uncheckIndex(index: number): void {
       this.host.jqxDropDownList('uncheckIndex', index);
    }
+
    uncheckItem(item: any): void {
       this.host.jqxDropDownList('uncheckItem', item);
    }
+
    uncheckAll(): void {
       this.host.jqxDropDownList('uncheckAll');
    }
-   val(value: string): string {
-      return this.host.jqxDropDownList('val', value);
-   }
+
+   val(value?: string): any {
+      if (value !== undefined) {
+         this.host.jqxDropDownList("val", value);
+      } else {
+         return this.host.jqxDropDownList("val");
+      }
+   };
+
 
    // jqxDropDownListComponent events
    @Output() onBindingComplete = new EventEmitter();
@@ -556,13 +638,15 @@ export class jqxDropDownListComponent implements ControlValueAccessor, OnChanges
    @Output() onUnselect = new EventEmitter();
 
    __wireEvents__(): void {
-      this.host.on('bindingComplete', (eventData) => { this.onBindingComplete.emit(eventData); });
-      this.host.on('close', (eventData) => { this.onClose.emit(eventData); });
-      this.host.on('checkChange', (eventData) => { this.onCheckChange.emit(eventData); });
-      this.host.on('change', (eventData) => { this.onChange.emit(eventData); this.onChangeCallback(eventData.args.item.label); });
-      this.host.on('open', (eventData) => { this.onOpen.emit(eventData); });
-      this.host.on('select', (eventData) => { this.onSelect.emit(eventData); });
-      this.host.on('unselect', (eventData) => { this.onUnselect.emit(eventData); });
+      this.host.on('bindingComplete', (eventData: any) => { this.onBindingComplete.emit(eventData); });
+      this.host.on('close', (eventData: any) => { this.onClose.emit(eventData); });
+      this.host.on('checkChange', (eventData: any) => { this.onCheckChange.emit(eventData); });
+      this.host.on('change', (eventData: any) => { this.onChange.emit(eventData); if (eventData.args) this.onChangeCallback(eventData.args.item.label); });
+      this.host.on('open', (eventData: any) => { this.onOpen.emit(eventData); });
+      this.host.on('select', (eventData: any) => { this.onSelect.emit(eventData); });
+      this.host.on('unselect', (eventData: any) => { this.onUnselect.emit(eventData); });
    }
 
 } //jqxDropDownListComponent
+
+

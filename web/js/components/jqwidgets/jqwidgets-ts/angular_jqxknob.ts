@@ -1,56 +1,72 @@
+/*
+jQWidgets v4.5.4 (2017-June)
+Copyright (c) 2011-2017 jQWidgets.
+License: http://jqwidgets.com/license/
+*/
 /// <reference path="jqwidgets.d.ts" />
-import { Component, Input, Output, EventEmitter, ElementRef, forwardRef, OnChanges } from '@angular/core';
-declare let $: any;
+import { Component, Input, Output, EventEmitter, ElementRef, forwardRef, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
+declare let JQXLite: any;
 
 @Component({
-    selector: 'angularKnob',
+    selector: 'jqxKnob',
     template: '<div><ng-content></ng-content></div>'
 })
 
 export class jqxKnobComponent implements OnChanges
 {
-   @Input('allowValueChangeOnClick') attrAllowValueChangeOnClick;
-   @Input('allowValueChangeOnDrag') attrAllowValueChangeOnDrag;
-   @Input('allowValueChangeOnMouseWheel') attrAllowValueChangeOnMouseWheel;
-   @Input('changing') attrChanging;
-   @Input('dragEndAngle') attrDragEndAngle;
-   @Input('dragStartAngle') attrDragStartAngle;
-   @Input('disabled') attrDisabled;
-   @Input('dial') attrDial;
-   @Input('endAngle') attrEndAngle;
-   @Input('labels') attrLabels;
-   @Input('marks') attrMarks;
-   @Input('min') attrMin;
-   @Input('max') attrMax;
-   @Input('progressBar') attrProgressBar;
-   @Input('pointer') attrPointer;
-   @Input('pointerGrabAction') attrPointerGrabAction;
-   @Input('rotation') attrRotation;
-   @Input('startAngle') attrStartAngle;
-   @Input('spinner') attrSpinner;
-   @Input('style') attrStyle;
-   @Input('step') attrStep;
-   @Input('snapToStep') attrSnapToStep;
-   @Input('value') attrValue;
-   @Input('width') attrWidth;
-   @Input('height') attrHeight;
+   @Input('allowValueChangeOnClick') attrAllowValueChangeOnClick: any;
+   @Input('allowValueChangeOnDrag') attrAllowValueChangeOnDrag: any;
+   @Input('allowValueChangeOnMouseWheel') attrAllowValueChangeOnMouseWheel: any;
+   @Input('changing') attrChanging: any;
+   @Input('dragEndAngle') attrDragEndAngle: any;
+   @Input('dragStartAngle') attrDragStartAngle: any;
+   @Input('disabled') attrDisabled: any;
+   @Input('dial') attrDial: any;
+   @Input('endAngle') attrEndAngle: any;
+   @Input('labels') attrLabels: any;
+   @Input('marks') attrMarks: any;
+   @Input('min') attrMin: any;
+   @Input('max') attrMax: any;
+   @Input('progressBar') attrProgressBar: any;
+   @Input('pointer') attrPointer: any;
+   @Input('pointerGrabAction') attrPointerGrabAction: any;
+   @Input('rotation') attrRotation: any;
+   @Input('startAngle') attrStartAngle: any;
+   @Input('spinner') attrSpinner: any;
+   @Input('style') attrStyle: any;
+   @Input('step') attrStep: any;
+   @Input('snapToStep') attrSnapToStep: any;
+   @Input('value') attrValue: any;
+   @Input('width') attrWidth: any;
+   @Input('height') attrHeight: any;
 
-   properties: Array<string> = ['allowValueChangeOnClick','allowValueChangeOnDrag','allowValueChangeOnMouseWheel','changing','dragEndAngle','dragStartAngle','disabled','dial','endAngle','height','labels','marks','min','max','progressBar','pointer','pointerGrabAction','rotation','startAngle','spinner','style','step','snapToStep','value','width'];
-   host;
+   @Input('auto-create') autoCreate: boolean = true;
+
+   properties: string[] = ['allowValueChangeOnClick','allowValueChangeOnDrag','allowValueChangeOnMouseWheel','changing','dragEndAngle','dragStartAngle','disabled','dial','endAngle','height','labels','marks','min','max','progressBar','pointer','pointerGrabAction','rotation','startAngle','spinner','style','step','snapToStep','value','width'];
+   host: any;
    elementRef: ElementRef;
    widgetObject:  jqwidgets.jqxKnob;
 
    constructor(containerElement: ElementRef) {
       this.elementRef = containerElement;
+      JQXLite(window).resize(() => {
+          this.__updateRect__();
+      });
    }
 
-   ngOnChanges(changes) {
+   ngOnInit() {
+      if (this.autoCreate) {
+         this.createComponent(); 
+      }
+   }; 
+
+   ngOnChanges(changes: SimpleChanges) {
       if (this.host) {
          for (let i = 0; i < this.properties.length; i++) {
             let attrName = 'attr' + this.properties[i].substring(0, 1).toUpperCase() + this.properties[i].substring(1);
             let areEqual: boolean;
 
-            if (this[attrName]) {
+            if (this[attrName] !== undefined) {
                if (typeof this[attrName] === 'object') {
                   if (this[attrName] instanceof Array) {
                      areEqual = this.arraysEqual(this[attrName], this.host.jqxKnob(this.properties[i]));
@@ -93,21 +109,27 @@ export class jqxKnobComponent implements OnChanges
       }
       return options;
    }
-   createWidget(options?: any): void {
+
+   createComponent(options?: any): void {
       if (options) {
-         $.extend(options, this.manageAttributes());
+         JQXLite.extend(options, this.manageAttributes());
       }
       else {
         options = this.manageAttributes();
       }
-      this.host = $(this.elementRef.nativeElement.firstChild);
+      this.host = JQXLite(this.elementRef.nativeElement.firstChild);
       this.__wireEvents__();
       this.widgetObject = jqwidgets.createInstance(this.host, 'jqxKnob', options);
+
       this.__updateRect__();
    }
 
+   createWidget(options?: any): void {
+        this.createComponent(options);
+   }
+
    __updateRect__() : void {
-      this.host.css({width: this.attrWidth, height: this.attrHeight});
+      this.host.css({ width: this.attrWidth, height: this.attrHeight });
    }
 
    setOptions(options: any) : void {
@@ -320,15 +342,23 @@ export class jqxKnobComponent implements OnChanges
    destroy(): void {
       this.host.jqxKnob('destroy');
    }
-   val(value: String | Number): number {
-      return this.host.jqxKnob('val', value);
-   }
+
+   val(value?: String | Number): any {
+      if (value !== undefined) {
+         this.host.jqxKnob("val", value);
+      } else {
+         return this.host.jqxKnob("val");
+      }
+   };
+
 
    // jqxKnobComponent events
    @Output() onChange = new EventEmitter();
 
    __wireEvents__(): void {
-      this.host.on('change', (eventData) => { this.onChange.emit(eventData); });
+      this.host.on('change', (eventData: any) => { this.onChange.emit(eventData); });
    }
 
 } //jqxKnobComponent
+
+

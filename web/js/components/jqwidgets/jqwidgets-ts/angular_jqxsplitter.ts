@@ -1,26 +1,33 @@
+/*
+jQWidgets v4.5.4 (2017-June)
+Copyright (c) 2011-2017 jQWidgets.
+License: http://jqwidgets.com/license/
+*/
 /// <reference path="jqwidgets.d.ts" />
-import { Component, Input, Output, EventEmitter, ElementRef, forwardRef, OnChanges } from '@angular/core';
-declare let $: any;
+import { Component, Input, Output, EventEmitter, ElementRef, forwardRef, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
+declare let JQXLite: any;
 
 @Component({
-    selector: 'angularSplitter',
+    selector: 'jqxSplitter',
     template: '<div><ng-content></ng-content></div>'
 })
 
 export class jqxSplitterComponent implements OnChanges
 {
-   @Input('disabled') attrDisabled;
-   @Input('orientation') attrOrientation;
-   @Input('panels') attrPanels;
-   @Input('resizable') attrResizable;
-   @Input('splitBarSize') attrSplitBarSize;
-   @Input('showSplitBar') attrShowSplitBar;
-   @Input('theme') attrTheme;
-   @Input('width') attrWidth;
-   @Input('height') attrHeight;
+   @Input('disabled') attrDisabled: any;
+   @Input('orientation') attrOrientation: any;
+   @Input('panels') attrPanels: any;
+   @Input('resizable') attrResizable: any;
+   @Input('splitBarSize') attrSplitBarSize: any;
+   @Input('showSplitBar') attrShowSplitBar: any;
+   @Input('theme') attrTheme: any;
+   @Input('width') attrWidth: any;
+   @Input('height') attrHeight: any;
 
-   properties: Array<string> = ['disabled','height','orientation','panels','resizable','splitBarSize','showSplitBar','theme','width'];
-   host;
+   @Input('auto-create') autoCreate: boolean = true;
+
+   properties: string[] = ['disabled','height','orientation','panels','resizable','splitBarSize','showSplitBar','theme','width'];
+   host: any;
    elementRef: ElementRef;
    widgetObject:  jqwidgets.jqxSplitter;
 
@@ -28,13 +35,19 @@ export class jqxSplitterComponent implements OnChanges
       this.elementRef = containerElement;
    }
 
-   ngOnChanges(changes) {
+   ngOnInit() {
+      if (this.autoCreate) {
+         this.createComponent(); 
+      }
+   }; 
+
+   ngOnChanges(changes: SimpleChanges) {
       if (this.host) {
          for (let i = 0; i < this.properties.length; i++) {
             let attrName = 'attr' + this.properties[i].substring(0, 1).toUpperCase() + this.properties[i].substring(1);
             let areEqual: boolean;
 
-            if (this[attrName]) {
+            if (this[attrName] !== undefined) {
                if (typeof this[attrName] === 'object') {
                   if (this[attrName] instanceof Array) {
                      areEqual = this.arraysEqual(this[attrName], this.host.jqxSplitter(this.properties[i]));
@@ -77,21 +90,27 @@ export class jqxSplitterComponent implements OnChanges
       }
       return options;
    }
-   createWidget(options?: any): void {
+
+   createComponent(options?: any): void {
       if (options) {
-         $.extend(options, this.manageAttributes());
+         JQXLite.extend(options, this.manageAttributes());
       }
       else {
         options = this.manageAttributes();
       }
-      this.host = $(this.elementRef.nativeElement.firstChild);
+      this.host = JQXLite(this.elementRef.nativeElement.firstChild);
       this.__wireEvents__();
       this.widgetObject = jqwidgets.createInstance(this.host, 'jqxSplitter', options);
+
       this.__updateRect__();
    }
 
+   createWidget(options?: any): void {
+        this.createComponent(options);
+   }
+
    __updateRect__() : void {
-      this.host.css({width: this.attrWidth, height: this.attrHeight});
+      this.host.css({ width: this.attrWidth, height: this.attrHeight });
    }
 
    setOptions(options: any) : void {
@@ -176,24 +195,31 @@ export class jqxSplitterComponent implements OnChanges
    collapse(): void {
       this.host.jqxSplitter('collapse');
    }
+
    destroy(): void {
       this.host.jqxSplitter('destroy');
    }
+
    disable(): void {
       this.host.jqxSplitter('disable');
    }
+
    enable(): void {
       this.host.jqxSplitter('enable');
    }
+
    expand(): void {
       this.host.jqxSplitter('expand');
    }
+
    render(): void {
       this.host.jqxSplitter('render');
    }
+
    refresh(): void {
       this.host.jqxSplitter('refresh');
    }
+
 
    // jqxSplitterComponent events
    @Output() onCollapsed = new EventEmitter();
@@ -202,10 +228,12 @@ export class jqxSplitterComponent implements OnChanges
    @Output() onResizeStart = new EventEmitter();
 
    __wireEvents__(): void {
-      this.host.on('collapsed', (eventData) => { this.onCollapsed.emit(eventData); });
-      this.host.on('expanded', (eventData) => { this.onExpanded.emit(eventData); });
-      this.host.on('resize', (eventData) => { this.onResize.emit(eventData); });
-      this.host.on('resizeStart', (eventData) => { this.onResizeStart.emit(eventData); });
+      this.host.on('collapsed', (eventData: any) => { this.onCollapsed.emit(eventData); });
+      this.host.on('expanded', (eventData: any) => { this.onExpanded.emit(eventData); });
+      this.host.on('resize', (eventData: any) => { this.onResize.emit(eventData); });
+      this.host.on('resizeStart', (eventData: any) => { this.onResizeStart.emit(eventData); });
    }
 
 } //jqxSplitterComponent
+
+

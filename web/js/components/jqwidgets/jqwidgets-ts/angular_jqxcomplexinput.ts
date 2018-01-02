@@ -1,9 +1,14 @@
+/*
+jQWidgets v4.5.4 (2017-June)
+Copyright (c) 2011-2017 jQWidgets.
+License: http://jqwidgets.com/license/
+*/
 /// <reference path="jqwidgets.d.ts" />
-import { Component, Input, Output, EventEmitter, ElementRef, forwardRef, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ElementRef, forwardRef, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 const noop = () => { };
-declare let $: any;
+declare let JQXLite: any;
 
 export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,
@@ -12,28 +17,31 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
 }
 
 @Component({
-    selector: 'angularComplexInput',
-    template: '<div><input [(ngModel)]="ngValue"><div></div></div>',
-    providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR]
+    selector: 'jqxComplexInput',
+    template: '<div style="display: inline-flex"><input [(ngModel)]="ngValue"><div></div></div>',
+    providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class jqxComplexInputComponent implements ControlValueAccessor, OnChanges 
 {
-   @Input('decimalNotation') attrDecimalNotation;
-   @Input('disabled') attrDisabled;
-   @Input('placeHolder') attrPlaceHolder;
-   @Input('roundedCorners') attrRoundedCorners;
-   @Input('rtl') attrRtl;
-   @Input('spinButtons') attrSpinButtons;
-   @Input('spinButtonsStep') attrSpinButtonsStep;
-   @Input('template') attrTemplate;
-   @Input('theme') attrTheme;
-   @Input('value') attrValue;
-   @Input('width') attrWidth;
-   @Input('height') attrHeight;
+   @Input('decimalNotation') attrDecimalNotation: any;
+   @Input('disabled') attrDisabled: any;
+   @Input('placeHolder') attrPlaceHolder: any;
+   @Input('roundedCorners') attrRoundedCorners: any;
+   @Input('rtl') attrRtl: any;
+   @Input('spinButtons') attrSpinButtons: any;
+   @Input('spinButtonsStep') attrSpinButtonsStep: any;
+   @Input('template') attrTemplate: any;
+   @Input('theme') attrTheme: any;
+   @Input('value') attrValue: any;
+   @Input('width') attrWidth: any;
+   @Input('height') attrHeight: any;
 
-   properties: Array<string> = ['decimalNotation','disabled','height','placeHolder','roundedCorners','rtl','spinButtons','spinButtonsStep','template','theme','value','width'];
-   host;
+   @Input('auto-create') autoCreate: boolean = true;
+
+   properties: string[] = ['decimalNotation','disabled','height','placeHolder','roundedCorners','rtl','spinButtons','spinButtonsStep','template','theme','value','width'];
+   host: any;
    elementRef: ElementRef;
    widgetObject:  jqwidgets.jqxComplexInput;
 
@@ -44,13 +52,19 @@ export class jqxComplexInputComponent implements ControlValueAccessor, OnChanges
       this.elementRef = containerElement;
    }
 
-   ngOnChanges(changes) {
+   ngOnInit() {
+      if (this.autoCreate) {
+         this.createComponent(); 
+      }
+   }; 
+
+   ngOnChanges(changes: SimpleChanges) {
       if (this.host) {
          for (let i = 0; i < this.properties.length; i++) {
             let attrName = 'attr' + this.properties[i].substring(0, 1).toUpperCase() + this.properties[i].substring(1);
             let areEqual: boolean;
 
-            if (this[attrName]) {
+            if (this[attrName] !== undefined) {
                if (typeof this[attrName] === 'object') {
                   if (this[attrName] instanceof Array) {
                      areEqual = this.arraysEqual(this[attrName], this.host.jqxComplexInput(this.properties[i]));
@@ -93,25 +107,31 @@ export class jqxComplexInputComponent implements ControlValueAccessor, OnChanges
       }
       return options;
    }
-   createWidget(options?: any): void {
+
+   createComponent(options?: any): void {
       if (options) {
-         $.extend(options, this.manageAttributes());
+         JQXLite.extend(options, this.manageAttributes());
       }
       else {
         options = this.manageAttributes();
       }
-      this.host = $(this.elementRef.nativeElement.firstChild);
+      this.host = JQXLite(this.elementRef.nativeElement.firstChild);
       this.__wireEvents__();
       this.widgetObject = jqwidgets.createInstance(this.host, 'jqxComplexInput', options);
+
       this.__updateRect__();
-      setTimeout(() => {
-         let valueWithWS = ' ' + options.value;
+      setTimeout(_=> {
+         let valueWithWS = `JQXLite{options.value}`;
          this.host.jqxComplexInput({ value: valueWithWS });
-      }, 1);
+      });
+   }
+
+   createWidget(options?: any): void {
+        this.createComponent(options);
    }
 
    __updateRect__() : void {
-      this.host.css({width: this.attrWidth, height: this.attrHeight});
+      this.host.css({ width: this.attrWidth, height: this.attrHeight });
    }
 
    get ngValue(): any {
@@ -247,27 +267,43 @@ export class jqxComplexInputComponent implements ControlValueAccessor, OnChanges
    destroy(): void {
       this.host.jqxComplexInput('destroy');
    }
-   getReal(complexNumber: number): number {
+
+   getReal(complexNumber?: number): number {
       return this.host.jqxComplexInput('getReal', complexNumber);
    }
-   getImaginary(complexNumber: number): number {
+
+   getImaginary(complexNumber?: number): number {
       return this.host.jqxComplexInput('getImaginary', complexNumber);
    }
+
+   getDecimalNotation(part?: string, type?: string): string {
+      return this.host.jqxComplexInput('getDecimalNotation', part, type);
+   }
+
    render(): void {
       this.host.jqxComplexInput('render');
    }
+
    refresh(): void {
       this.host.jqxComplexInput('refresh');
    }
-   val(): string {
-      return this.host.jqxComplexInput('val');
-   }
+
+   val(value?: any): any {
+      if (value !== undefined) {
+         this.host.jqxComplexInput("val", value);
+      } else {
+         return this.host.jqxComplexInput("val");
+      }
+   };
+
 
    // jqxComplexInputComponent events
    @Output() onChange = new EventEmitter();
 
    __wireEvents__(): void {
-      this.host.on('change', (eventData) => { this.onChange.emit(eventData); if (eventData.args) this.onChangeCallback(eventData.args.value); });
+      this.host.on('change', (eventData: any) => { this.onChange.emit(eventData); if (eventData.args) this.onChangeCallback(eventData.args.value); });
    }
 
 } //jqxComplexInputComponent
+
+

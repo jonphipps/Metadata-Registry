@@ -1,9 +1,14 @@
+/*
+jQWidgets v4.5.4 (2017-June)
+Copyright (c) 2011-2017 jQWidgets.
+License: http://jqwidgets.com/license/
+*/
 /// <reference path="jqwidgets.d.ts" />
-import { Component, Input, Output, EventEmitter, ElementRef, forwardRef, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ElementRef, forwardRef, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 const noop = () => { };
-declare let $: any;
+declare let JQXLite: any;
 
 export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,
@@ -12,25 +17,28 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
 }
 
 @Component({
-    selector: 'angularRating',
+    selector: 'jqxRating',
     template: '<div><ng-content></ng-content></div>',
-    providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR]
+    providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class jqxRatingComponent implements ControlValueAccessor, OnChanges 
 {
-   @Input('count') attrCount;
-   @Input('disabled') attrDisabled;
-   @Input('itemHeight') attrItemHeight;
-   @Input('itemWidth') attrItemWidth;
-   @Input('precision') attrPrecision;
-   @Input('singleVote') attrSingleVote;
-   @Input('value') attrValue;
-   @Input('width') attrWidth;
-   @Input('height') attrHeight;
+   @Input('count') attrCount: any;
+   @Input('disabled') attrDisabled: any;
+   @Input('itemHeight') attrItemHeight: any;
+   @Input('itemWidth') attrItemWidth: any;
+   @Input('precision') attrPrecision: any;
+   @Input('singleVote') attrSingleVote: any;
+   @Input('value') attrValue: any;
+   @Input('width') attrWidth: any;
+   @Input('height') attrHeight: any;
 
-   properties: Array<string> = ['count','disabled','height','itemHeight','itemWidth','precision','singleVote','value','width'];
-   host;
+   @Input('auto-create') autoCreate: boolean = true;
+
+   properties: string[] = ['count','disabled','height','itemHeight','itemWidth','precision','singleVote','value','width'];
+   host: any;
    elementRef: ElementRef;
    widgetObject:  jqwidgets.jqxRating;
 
@@ -41,13 +49,19 @@ export class jqxRatingComponent implements ControlValueAccessor, OnChanges
       this.elementRef = containerElement;
    }
 
-   ngOnChanges(changes) {
+   ngOnInit() {
+      if (this.autoCreate) {
+         this.createComponent(); 
+      }
+   }; 
+
+   ngOnChanges(changes: SimpleChanges) {
       if (this.host) {
          for (let i = 0; i < this.properties.length; i++) {
             let attrName = 'attr' + this.properties[i].substring(0, 1).toUpperCase() + this.properties[i].substring(1);
             let areEqual: boolean;
 
-            if (this[attrName]) {
+            if (this[attrName] !== undefined) {
                if (typeof this[attrName] === 'object') {
                   if (this[attrName] instanceof Array) {
                      areEqual = this.arraysEqual(this[attrName], this.host.jqxRating(this.properties[i]));
@@ -90,21 +104,27 @@ export class jqxRatingComponent implements ControlValueAccessor, OnChanges
       }
       return options;
    }
-   createWidget(options?: any): void {
+
+   createComponent(options?: any): void {
       if (options) {
-         $.extend(options, this.manageAttributes());
+         JQXLite.extend(options, this.manageAttributes());
       }
       else {
         options = this.manageAttributes();
       }
-      this.host = $(this.elementRef.nativeElement.firstChild);
+      this.host = JQXLite(this.elementRef.nativeElement.firstChild);
       this.__wireEvents__();
       this.widgetObject = jqwidgets.createInstance(this.host, 'jqxRating', options);
+
       this.__updateRect__();
    }
 
+   createWidget(options?: any): void {
+        this.createComponent(options);
+   }
+
    __updateRect__() : void {
-      this.host.css({width: this.attrWidth, height: this.attrHeight});
+      this.host.css({ width: this.attrWidth, height: this.attrHeight });
    }
 
    writeValue(value: any): void {
@@ -203,24 +223,35 @@ export class jqxRatingComponent implements ControlValueAccessor, OnChanges
    disable(): void {
       this.host.jqxRating('disable');
    }
+
    enable(): void {
       this.host.jqxRating('enable');
    }
+
    getValue(): number {
       return this.host.jqxRating('getValue');
    }
+
    setValue(value: number): void {
       this.host.jqxRating('setValue', value);
    }
-   val(value: number): number {
-      return this.host.jqxRating('val', value);
-   }
+
+   val(value?: number): any {
+      if (value !== undefined) {
+         this.host.jqxRating("val", value);
+      } else {
+         return this.host.jqxRating("val");
+      }
+   };
+
 
    // jqxRatingComponent events
    @Output() onChange = new EventEmitter();
 
    __wireEvents__(): void {
-      this.host.on('change', (eventData) => { this.onChange.emit(eventData); this.onChangeCallback(this.host.val()); });
+      this.host.on('change', (eventData: any) => { this.onChange.emit(eventData); this.onChangeCallback(this.host.val()); });
    }
 
 } //jqxRatingComponent
+
+

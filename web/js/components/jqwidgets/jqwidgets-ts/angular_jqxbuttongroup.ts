@@ -1,25 +1,32 @@
+/*
+jQWidgets v4.5.4 (2017-June)
+Copyright (c) 2011-2017 jQWidgets.
+License: http://jqwidgets.com/license/
+*/
 /// <reference path="jqwidgets.d.ts" />
-import { Component, Input, Output, EventEmitter, ElementRef, forwardRef, OnChanges } from '@angular/core';
-declare let $: any;
+import { Component, Input, Output, EventEmitter, ElementRef, forwardRef, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
+declare let JQXLite: any;
 
 @Component({
-    selector: 'angularButtonGroup',
+    selector: 'jqxButtonGroup',
     template: '<div><ng-content></ng-content></div>'
 })
 
 export class jqxButtonGroupComponent implements OnChanges
 {
-   @Input('disabled') attrDisabled;
-   @Input('enableHover') attrEnableHover;
-   @Input('mode') attrMode;
-   @Input('rtl') attrRtl;
-   @Input('template') attrTemplate;
-   @Input('theme') attrTheme;
-   @Input('width') attrWidth;
-   @Input('height') attrHeight;
+   @Input('disabled') attrDisabled: any;
+   @Input('enableHover') attrEnableHover: any;
+   @Input('mode') attrMode: any;
+   @Input('rtl') attrRtl: any;
+   @Input('template') attrTemplate: any;
+   @Input('theme') attrTheme: any;
+   @Input('width') attrWidth: any;
+   @Input('height') attrHeight: any;
 
-   properties: Array<string> = ['disabled','enableHover','mode','rtl','template','theme'];
-   host;
+   @Input('auto-create') autoCreate: boolean = true;
+
+   properties: string[] = ['disabled','enableHover','mode','rtl','template','theme'];
+   host: any;
    elementRef: ElementRef;
    widgetObject:  jqwidgets.jqxButtonGroup;
 
@@ -27,13 +34,19 @@ export class jqxButtonGroupComponent implements OnChanges
       this.elementRef = containerElement;
    }
 
-   ngOnChanges(changes) {
+   ngOnInit() {
+      if (this.autoCreate) {
+         this.createComponent(); 
+      }
+   }; 
+
+   ngOnChanges(changes: SimpleChanges) {
       if (this.host) {
          for (let i = 0; i < this.properties.length; i++) {
             let attrName = 'attr' + this.properties[i].substring(0, 1).toUpperCase() + this.properties[i].substring(1);
             let areEqual: boolean;
 
-            if (this[attrName]) {
+            if (this[attrName] !== undefined) {
                if (typeof this[attrName] === 'object') {
                   if (this[attrName] instanceof Array) {
                      areEqual = this.arraysEqual(this[attrName], this.host.jqxButtonGroup(this.properties[i]));
@@ -76,22 +89,28 @@ export class jqxButtonGroupComponent implements OnChanges
       }
       return options;
    }
-   createWidget(options?: any): void {
+
+   createComponent(options?: any): void {
       if (options) {
-         $.extend(options, this.manageAttributes());
+         JQXLite.extend(options, this.manageAttributes());
       }
       else {
         options = this.manageAttributes();
       }
-      this.host = $(this.elementRef.nativeElement.firstChild);
+      this.host = JQXLite(this.elementRef.nativeElement.firstChild);
       this.host[0].style.marginLeft = '1px';
       this.__wireEvents__();
       this.widgetObject = jqwidgets.createInstance(this.host, 'jqxButtonGroup', options);
+
       this.__updateRect__();
    }
 
+   createWidget(options?: any): void {
+        this.createComponent(options);
+   }
+
    __updateRect__() : void {
-      this.host.css({width: this.attrWidth, height: this.attrHeight});
+      this.host.css({ width: this.attrWidth, height: this.attrHeight });
    }
 
    setOptions(options: any) : void {
@@ -152,30 +171,39 @@ export class jqxButtonGroupComponent implements OnChanges
    disableAt(index: number): void {
       this.host.jqxButtonGroup('disableAt', index);
    }
+
    disable(): void {
       this.host.jqxButtonGroup('disable');
    }
+
    destroy(): void {
       this.host.jqxButtonGroup('destroy');
    }
+
    enable(): void {
       this.host.jqxButtonGroup('enable');
    }
+
    enableAt(index: number): void {
       this.host.jqxButtonGroup('enableAt', index);
    }
+
    focus(): void {
       this.host.jqxButtonGroup('focus');
    }
+
    getSelection(): any {
       return this.host.jqxButtonGroup('getSelection');
    }
+
    render(): void {
       this.host.jqxButtonGroup('render');
    }
+
    setSelection(index: number): void {
       this.host.jqxButtonGroup('setSelection', index);
    }
+
 
    // jqxButtonGroupComponent events
    @Output() onButtonclick = new EventEmitter();
@@ -183,9 +211,11 @@ export class jqxButtonGroupComponent implements OnChanges
    @Output() onUnselected = new EventEmitter();
 
    __wireEvents__(): void {
-      this.host.on('buttonclick', (eventData) => { this.onButtonclick.emit(eventData); });
-      this.host.on('selected', (eventData) => { this.onSelected.emit(eventData); });
-      this.host.on('unselected', (eventData) => { this.onUnselected.emit(eventData); });
+      this.host.on('buttonclick', (eventData: any) => { this.onButtonclick.emit(eventData); });
+      this.host.on('selected', (eventData: any) => { this.onSelected.emit(eventData); });
+      this.host.on('unselected', (eventData: any) => { this.onUnselected.emit(eventData); });
    }
 
 } //jqxButtonGroupComponent
+
+

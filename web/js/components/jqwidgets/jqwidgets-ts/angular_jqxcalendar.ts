@@ -1,9 +1,14 @@
+/*
+jQWidgets v4.5.4 (2017-June)
+Copyright (c) 2011-2017 jQWidgets.
+License: http://jqwidgets.com/license/
+*/
 /// <reference path="jqwidgets.d.ts" />
-import { Component, Input, Output, EventEmitter, ElementRef, forwardRef, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ElementRef, forwardRef, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 const noop = () => { };
-declare let $: any;
+declare let JQXLite: any;
 
 export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,
@@ -12,52 +17,55 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
 }
 
 @Component({
-    selector: 'angularCalendar',
+    selector: 'jqxCalendar',
     template: '<div><ng-content></ng-content></div>',
-    providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR]
+    providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class jqxCalendarComponent implements ControlValueAccessor, OnChanges 
 {
-   @Input('backText') attrBackText;
-   @Input('columnHeaderHeight') attrColumnHeaderHeight;
-   @Input('clearString') attrClearString;
-   @Input('culture') attrCulture;
-   @Input('dayNameFormat') attrDayNameFormat;
-   @Input('disabled') attrDisabled;
-   @Input('enableWeekend') attrEnableWeekend;
-   @Input('enableViews') attrEnableViews;
-   @Input('enableOtherMonthDays') attrEnableOtherMonthDays;
-   @Input('enableFastNavigation') attrEnableFastNavigation;
-   @Input('enableHover') attrEnableHover;
-   @Input('enableAutoNavigation') attrEnableAutoNavigation;
-   @Input('enableTooltips') attrEnableTooltips;
-   @Input('forwardText') attrForwardText;
-   @Input('firstDayOfWeek') attrFirstDayOfWeek;
-   @Input('min') attrMin;
-   @Input('max') attrMax;
-   @Input('navigationDelay') attrNavigationDelay;
-   @Input('rowHeaderWidth') attrRowHeaderWidth;
-   @Input('readOnly') attrReadOnly;
-   @Input('restrictedDates') attrRestrictedDates;
-   @Input('rtl') attrRtl;
-   @Input('stepMonths') attrStepMonths;
-   @Input('showWeekNumbers') attrShowWeekNumbers;
-   @Input('showDayNames') attrShowDayNames;
-   @Input('showOtherMonthDays') attrShowOtherMonthDays;
-   @Input('showFooter') attrShowFooter;
-   @Input('selectionMode') attrSelectionMode;
-   @Input('specialDates') attrSpecialDates;
-   @Input('theme') attrTheme;
-   @Input('titleHeight') attrTitleHeight;
-   @Input('titleFormat') attrTitleFormat;
-   @Input('todayString') attrTodayString;
-   @Input('value') attrValue;
-   @Input('width') attrWidth;
-   @Input('height') attrHeight;
+   @Input('backText') attrBackText: any;
+   @Input('columnHeaderHeight') attrColumnHeaderHeight: any;
+   @Input('clearString') attrClearString: any;
+   @Input('culture') attrCulture: any;
+   @Input('dayNameFormat') attrDayNameFormat: any;
+   @Input('disabled') attrDisabled: any;
+   @Input('enableWeekend') attrEnableWeekend: any;
+   @Input('enableViews') attrEnableViews: any;
+   @Input('enableOtherMonthDays') attrEnableOtherMonthDays: any;
+   @Input('enableFastNavigation') attrEnableFastNavigation: any;
+   @Input('enableHover') attrEnableHover: any;
+   @Input('enableAutoNavigation') attrEnableAutoNavigation: any;
+   @Input('enableTooltips') attrEnableTooltips: any;
+   @Input('forwardText') attrForwardText: any;
+   @Input('firstDayOfWeek') attrFirstDayOfWeek: any;
+   @Input('min') attrMin: any;
+   @Input('max') attrMax: any;
+   @Input('navigationDelay') attrNavigationDelay: any;
+   @Input('rowHeaderWidth') attrRowHeaderWidth: any;
+   @Input('readOnly') attrReadOnly: any;
+   @Input('restrictedDates') attrRestrictedDates: any;
+   @Input('rtl') attrRtl: any;
+   @Input('stepMonths') attrStepMonths: any;
+   @Input('showWeekNumbers') attrShowWeekNumbers: any;
+   @Input('showDayNames') attrShowDayNames: any;
+   @Input('showOtherMonthDays') attrShowOtherMonthDays: any;
+   @Input('showFooter') attrShowFooter: any;
+   @Input('selectionMode') attrSelectionMode: any;
+   @Input('specialDates') attrSpecialDates: any;
+   @Input('theme') attrTheme: any;
+   @Input('titleHeight') attrTitleHeight: any;
+   @Input('titleFormat') attrTitleFormat: any;
+   @Input('todayString') attrTodayString: any;
+   @Input('value') attrValue: any;
+   @Input('width') attrWidth: any;
+   @Input('height') attrHeight: any;
 
-   properties: Array<string> = ['backText','columnHeaderHeight','clearString','culture','dayNameFormat','disabled','enableWeekend','enableViews','enableOtherMonthDays','enableFastNavigation','enableHover','enableAutoNavigation','enableTooltips','forwardText','firstDayOfWeek','height','min','max','navigationDelay','rowHeaderWidth','readOnly','restrictedDates','rtl','stepMonths','showWeekNumbers','showDayNames','showOtherMonthDays','showFooter','selectionMode','specialDates','theme','titleHeight','titleFormat','todayString','value','width'];
-   host;
+   @Input('auto-create') autoCreate: boolean = true;
+
+   properties: string[] = ['backText','columnHeaderHeight','clearString','culture','dayNameFormat','disabled','enableWeekend','enableViews','enableOtherMonthDays','enableFastNavigation','enableHover','enableAutoNavigation','enableTooltips','forwardText','firstDayOfWeek','height','min','max','navigationDelay','rowHeaderWidth','readOnly','restrictedDates','rtl','stepMonths','showWeekNumbers','showDayNames','showOtherMonthDays','showFooter','selectionMode','specialDates','theme','titleHeight','titleFormat','todayString','value','width'];
+   host: any;
    elementRef: ElementRef;
    widgetObject:  jqwidgets.jqxCalendar;
 
@@ -68,13 +76,19 @@ export class jqxCalendarComponent implements ControlValueAccessor, OnChanges
       this.elementRef = containerElement;
    }
 
-   ngOnChanges(changes) {
+   ngOnInit() {
+      if (this.autoCreate) {
+         this.createComponent(); 
+      }
+   }; 
+
+   ngOnChanges(changes: SimpleChanges) {
       if (this.host) {
          for (let i = 0; i < this.properties.length; i++) {
             let attrName = 'attr' + this.properties[i].substring(0, 1).toUpperCase() + this.properties[i].substring(1);
             let areEqual: boolean;
 
-            if (this[attrName]) {
+            if (this[attrName] !== undefined) {
                if (typeof this[attrName] === 'object') {
                   if (this[attrName] instanceof Array) {
                      areEqual = this.arraysEqual(this[attrName], this.host.jqxCalendar(this.properties[i]));
@@ -117,21 +131,27 @@ export class jqxCalendarComponent implements ControlValueAccessor, OnChanges
       }
       return options;
    }
-   createWidget(options?: any): void {
+
+   createComponent(options?: any): void {
       if (options) {
-         $.extend(options, this.manageAttributes());
+         JQXLite.extend(options, this.manageAttributes());
       }
       else {
         options = this.manageAttributes();
       }
-      this.host = $(this.elementRef.nativeElement.firstChild);
+      this.host = JQXLite(this.elementRef.nativeElement.firstChild);
       this.__wireEvents__();
       this.widgetObject = jqwidgets.createInstance(this.host, 'jqxCalendar', options);
+
       this.__updateRect__();
    }
 
+   createWidget(options?: any): void {
+        this.createComponent(options);
+   }
+
    __updateRect__() : void {
-      this.host.css({width: this.attrWidth, height: this.attrHeight});
+      this.host.css({ width: this.attrWidth, height: this.attrHeight });
    }
 
    writeValue(value: any): void {
@@ -433,7 +453,7 @@ export class jqxCalendarComponent implements ControlValueAccessor, OnChanges
       }
    }
 
-   width(arg?: number) : any {
+   width(arg?: jqwidgets.Size) : any {
       if (arg !== undefined) {
           this.host.jqxCalendar('width', arg);
       } else {
@@ -446,57 +466,79 @@ export class jqxCalendarComponent implements ControlValueAccessor, OnChanges
    clear(): void {
       this.host.jqxCalendar('clear');
    }
+
    destroy(): void {
       this.host.jqxCalendar('destroy');
    }
+
    focus(): void {
       this.host.jqxCalendar('focus');
    }
-   addSpecialDate(date: any, tooltip: any, text: any): void {
+
+   addSpecialDate(date?: any, tooltip?: any, text?: any): void {
       this.host.jqxCalendar('addSpecialDate', date, tooltip, text);
    }
+
    getMinDate(): any {
       return this.host.jqxCalendar('getMinDate');
    }
+
    getMaxDate(): any {
       return this.host.jqxCalendar('getMaxDate');
    }
+
    getDate(): any {
       return this.host.jqxCalendar('getDate');
    }
+
    getRange(): any {
       return this.host.jqxCalendar('getRange');
    }
+
    navigateForward(months: number): void {
       this.host.jqxCalendar('navigateForward', months);
    }
+
    navigateBackward(months: number): void {
       this.host.jqxCalendar('navigateBackward', months);
    }
+
    render(): void {
       this.host.jqxCalendar('render');
    }
+
    refresh(): void {
       this.host.jqxCalendar('refresh');
    }
+
    setMinDate(date: any): void {
       this.host.jqxCalendar('setMinDate', date);
    }
+
    setMaxDate(date: any): void {
       this.host.jqxCalendar('setMaxDate', date);
    }
+
    setDate(date: any): void {
       this.host.jqxCalendar('setDate', date);
    }
+
    setRange(date: any, date2: any): void {
       this.host.jqxCalendar('setRange', date, date2);
    }
+
    today(): void {
       this.host.jqxCalendar('today');
    }
-   val(date: any, date2: any): any {
-      return this.host.jqxCalendar('val', date, date2);
-   }
+
+   val(value?: any, value2?: any): any {
+      if (value !== undefined) {
+         this.host.jqxCalendar("val", value, value2);
+      } else {
+         return this.host.jqxCalendar("val");
+      }
+   };
+
 
    // jqxCalendarComponent events
    @Output() onBackButtonClick = new EventEmitter();
@@ -505,10 +547,12 @@ export class jqxCalendarComponent implements ControlValueAccessor, OnChanges
    @Output() onViewChange = new EventEmitter();
 
    __wireEvents__(): void {
-      this.host.on('backButtonClick', (eventData) => { this.onBackButtonClick.emit(eventData); });
-      this.host.on('change', (eventData) => { this.onChange.emit(eventData); this.onChangeCallback(this.host.val()); });
-      this.host.on('nextButtonClick', (eventData) => { this.onNextButtonClick.emit(eventData); });
-      this.host.on('viewChange', (eventData) => { this.onViewChange.emit(eventData); });
+      this.host.on('backButtonClick', (eventData: any) => { this.onBackButtonClick.emit(eventData); });
+      this.host.on('change', (eventData: any) => { this.onChange.emit(eventData); this.onChangeCallback(this.host.val()); });
+      this.host.on('nextButtonClick', (eventData: any) => { this.onNextButtonClick.emit(eventData); });
+      this.host.on('viewChange', (eventData: any) => { this.onViewChange.emit(eventData); });
    }
 
 } //jqxCalendarComponent
+
+

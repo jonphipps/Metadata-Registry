@@ -1,9 +1,14 @@
+/*
+jQWidgets v4.5.4 (2017-June)
+Copyright (c) 2011-2017 jQWidgets.
+License: http://jqwidgets.com/license/
+*/
 /// <reference path="jqwidgets.d.ts" />
-import { Component, Input, Output, EventEmitter, ElementRef, forwardRef, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ElementRef, forwardRef, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 const noop = () => { };
-declare let $: any;
+declare let JQXLite: any;
 
 export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,
@@ -12,30 +17,33 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
 }
 
 @Component({
-    selector: 'angularPasswordInput',
+    selector: 'jqxPasswordInput',
     template: '<input type="password" [(ngModel)]="ngValue">',
-    providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR]
+    providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class jqxPasswordInputComponent implements ControlValueAccessor, OnChanges 
 {
-   @Input('disabled') attrDisabled;
-   @Input('localization') attrLocalization;
-   @Input('maxLength') attrMaxLength;
-   @Input('placeHolder') attrPlaceHolder;
-   @Input('passwordStrength') attrPasswordStrength;
-   @Input('rtl') attrRtl;
-   @Input('strengthColors') attrStrengthColors;
-   @Input('showStrength') attrShowStrength;
-   @Input('showStrengthPosition') attrShowStrengthPosition;
-   @Input('strengthTypeRenderer') attrStrengthTypeRenderer;
-   @Input('showPasswordIcon') attrShowPasswordIcon;
-   @Input('theme') attrTheme;
-   @Input('width') attrWidth;
-   @Input('height') attrHeight;
+   @Input('disabled') attrDisabled: any;
+   @Input('localization') attrLocalization: any;
+   @Input('maxLength') attrMaxLength: any;
+   @Input('placeHolder') attrPlaceHolder: any;
+   @Input('passwordStrength') attrPasswordStrength: any;
+   @Input('rtl') attrRtl: any;
+   @Input('strengthColors') attrStrengthColors: any;
+   @Input('showStrength') attrShowStrength: any;
+   @Input('showStrengthPosition') attrShowStrengthPosition: any;
+   @Input('strengthTypeRenderer') attrStrengthTypeRenderer: any;
+   @Input('showPasswordIcon') attrShowPasswordIcon: any;
+   @Input('theme') attrTheme: any;
+   @Input('width') attrWidth: any;
+   @Input('height') attrHeight: any;
 
-   properties: Array<string> = ['disabled','height','localization','maxLength','placeHolder','passwordStrength','rtl','strengthColors','showStrength','showStrengthPosition','strengthTypeRenderer','showPasswordIcon','theme','width'];
-   host;
+   @Input('auto-create') autoCreate: boolean = true;
+
+   properties: string[] = ['disabled','height','localization','maxLength','placeHolder','passwordStrength','rtl','strengthColors','showStrength','showStrengthPosition','strengthTypeRenderer','showPasswordIcon','theme','width'];
+   host: any;
    elementRef: ElementRef;
    widgetObject:  jqwidgets.jqxPasswordInput;
 
@@ -46,13 +54,19 @@ export class jqxPasswordInputComponent implements ControlValueAccessor, OnChange
       this.elementRef = containerElement;
    }
 
-   ngOnChanges(changes) {
+   ngOnInit() {
+      if (this.autoCreate) {
+         this.createComponent(); 
+      }
+   }; 
+
+   ngOnChanges(changes: SimpleChanges) {
       if (this.host) {
          for (let i = 0; i < this.properties.length; i++) {
             let attrName = 'attr' + this.properties[i].substring(0, 1).toUpperCase() + this.properties[i].substring(1);
             let areEqual: boolean;
 
-            if (this[attrName]) {
+            if (this[attrName] !== undefined) {
                if (typeof this[attrName] === 'object') {
                   if (this[attrName] instanceof Array) {
                      areEqual = this.arraysEqual(this[attrName], this.host.jqxPasswordInput(this.properties[i]));
@@ -95,21 +109,27 @@ export class jqxPasswordInputComponent implements ControlValueAccessor, OnChange
       }
       return options;
    }
-   createWidget(options?: any): void {
+
+   createComponent(options?: any): void {
       if (options) {
-         $.extend(options, this.manageAttributes());
+         JQXLite.extend(options, this.manageAttributes());
       }
       else {
         options = this.manageAttributes();
       }
-      this.host = $(this.elementRef.nativeElement.firstChild);
+      this.host = JQXLite(this.elementRef.nativeElement.firstChild);
       this.__wireEvents__();
       this.widgetObject = jqwidgets.createInstance(this.host, 'jqxPasswordInput', options);
+
       this.__updateRect__();
    }
 
+   createWidget(options?: any): void {
+        this.createComponent(options);
+   }
+
    __updateRect__() : void {
-      this.host.css({width: this.attrWidth, height: this.attrHeight});
+      this.host.css({ width: this.attrWidth, height: this.attrHeight });
    }
 
    get ngValue(): any {
@@ -260,18 +280,27 @@ export class jqxPasswordInputComponent implements ControlValueAccessor, OnChange
    render(): void {
       this.host.jqxPasswordInput('render');
    }
+
    refresh(): void {
       this.host.jqxPasswordInput('refresh');
    }
-   val(value: string): string {
-      return this.host.jqxPasswordInput('val', value);
-   }
+
+   val(value?: string): any {
+      if (value !== undefined) {
+         this.host.jqxPasswordInput("val", value);
+      } else {
+         return this.host.jqxPasswordInput("val");
+      }
+   };
+
 
    // jqxPasswordInputComponent events
    @Output() onChange = new EventEmitter();
 
    __wireEvents__(): void {
-      this.host.on('change', (eventData) => { this.onChange.emit(eventData); });
+      this.host.on('change', (eventData: any) => { this.onChange.emit(eventData); });
    }
 
 } //jqxPasswordInputComponent
+
+

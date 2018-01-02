@@ -1,33 +1,40 @@
+/*
+jQWidgets v4.5.4 (2017-June)
+Copyright (c) 2011-2017 jQWidgets.
+License: http://jqwidgets.com/license/
+*/
 /// <reference path="jqwidgets.d.ts" />
-import { Component, Input, Output, EventEmitter, ElementRef, forwardRef, OnChanges } from '@angular/core';
-declare let $: any;
+import { Component, Input, Output, EventEmitter, ElementRef, forwardRef, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
+declare let JQXLite: any;
 
 @Component({
-    selector: 'angularButton',
+    selector: 'jqxButton',
     template: '<button><ng-content></ng-content></button>'
 })
 
 export class jqxButtonComponent implements OnChanges
 {
-   @Input('delay') attrDelay;
-   @Input('disabled') attrDisabled;
-   @Input('imgSrc') attrImgSrc;
-   @Input('imgWidth') attrImgWidth;
-   @Input('imgHeight') attrImgHeight;
-   @Input('imgPosition') attrImgPosition;
-   @Input('roundedCorners') attrRoundedCorners;
-   @Input('rtl') attrRtl;
-   @Input('textPosition') attrTextPosition;
-   @Input('textImageRelation') attrTextImageRelation;
-   @Input('theme') attrTheme;
-   @Input('template') attrTemplate;
-   @Input('toggled') attrToggled;
-   @Input('value') attrValue;
-   @Input('width') attrWidth;
-   @Input('height') attrHeight;
+   @Input('delay') attrDelay: any;
+   @Input('disabled') attrDisabled: any;
+   @Input('imgSrc') attrImgSrc: any;
+   @Input('imgWidth') attrImgWidth: any;
+   @Input('imgHeight') attrImgHeight: any;
+   @Input('imgPosition') attrImgPosition: any;
+   @Input('roundedCorners') attrRoundedCorners: any;
+   @Input('rtl') attrRtl: any;
+   @Input('textPosition') attrTextPosition: any;
+   @Input('textImageRelation') attrTextImageRelation: any;
+   @Input('theme') attrTheme: any;
+   @Input('template') attrTemplate: any;
+   @Input('toggled') attrToggled: any;
+   @Input('value') attrValue: any;
+   @Input('width') attrWidth: any;
+   @Input('height') attrHeight: any;
 
-   properties: Array<string> = ['delay','disabled','height','imgSrc','imgWidth','imgHeight','imgPosition','roundedCorners','rtl','textPosition','textImageRelation','theme','template','toggled','width','value'];
-   host;
+   @Input('auto-create') autoCreate: boolean = true;
+
+   properties: string[] = ['delay','disabled','height','imgSrc','imgWidth','imgHeight','imgPosition','roundedCorners','rtl','textPosition','textImageRelation','theme','template','toggled','width','value'];
+   host: any;
    elementRef: ElementRef;
    widgetObject:  jqwidgets.jqxButton;
 
@@ -35,13 +42,19 @@ export class jqxButtonComponent implements OnChanges
       this.elementRef = containerElement;
    }
 
-   ngOnChanges(changes) {
+   ngOnInit() {
+      if (this.autoCreate) {
+         this.createComponent(); 
+      }
+   }; 
+
+   ngOnChanges(changes: SimpleChanges) {
       if (this.host) {
          for (let i = 0; i < this.properties.length; i++) {
             let attrName = 'attr' + this.properties[i].substring(0, 1).toUpperCase() + this.properties[i].substring(1);
             let areEqual: boolean;
 
-            if (this[attrName]) {
+            if (this[attrName] !== undefined) {
                if (typeof this[attrName] === 'object') {
                   if (this[attrName] instanceof Array) {
                      areEqual = this.arraysEqual(this[attrName], this.host.jqxButton(this.properties[i]));
@@ -84,22 +97,28 @@ export class jqxButtonComponent implements OnChanges
       }
       return options;
    }
-   createWidget(options?: any): void {
+
+   createComponent(options?: any): void {
       if (options) {
-         $.extend(options, this.manageAttributes());
+         JQXLite.extend(options, this.manageAttributes());
       }
       else {
         options = this.manageAttributes();
       }
-      this.host = $(this.elementRef.nativeElement.firstChild);
+      this.host = JQXLite(this.elementRef.nativeElement.firstChild);
       this.widgetObject = jqwidgets.createInstance(this.host, 'jqxButton', options);
       this.host = this.widgetObject['host'];
       this.__wireEvents__();
+
       this.__updateRect__();
    }
 
+   createWidget(options?: any): void {
+        this.createComponent(options);
+   }
+
    __updateRect__() : void {
-      this.host.css({width: this.attrWidth, height: this.attrHeight});
+      this.host.css({ width: this.attrWidth, height: this.attrHeight });
    }
 
    setOptions(options: any) : void {
@@ -240,30 +259,43 @@ export class jqxButtonComponent implements OnChanges
    check(): void {
       this.host.jqxButton('check');
    }
+
    destroy(): void {
       this.host.jqxButton('destroy');
    }
+
    focus(): void {
       this.host.jqxButton('focus');
    }
+
    render(): void {
       this.host.jqxButton('render');
    }
+
    toggle(): void {
       this.host.jqxButton('toggle');
    }
+
    unCheck(): void {
       this.host.jqxButton('unCheck');
    }
-   val(value: string): string {
-      return this.host.jqxButton('val', value);
-   }
+
+   val(value?: string): any {
+      if (value !== undefined) {
+         this.host.jqxButton("val", value);
+      } else {
+         return this.host.jqxButton("val");
+      }
+   };
+
 
    // jqxButtonComponent events
    @Output() onClick = new EventEmitter();
 
    __wireEvents__(): void {
-      this.host.on('click', (eventData) => { this.onClick.emit(eventData); });
+      this.host.on('click', (eventData: any) => { this.onClick.emit(eventData); });
    }
 
 } //jqxButtonComponent
+
+

@@ -1,31 +1,38 @@
+/*
+jQWidgets v4.5.4 (2017-June)
+Copyright (c) 2011-2017 jQWidgets.
+License: http://jqwidgets.com/license/
+*/
 /// <reference path="jqwidgets.d.ts" />
-import { Component, Input, Output, EventEmitter, ElementRef, forwardRef, OnChanges } from '@angular/core';
-declare let $: any;
+import { Component, Input, Output, EventEmitter, ElementRef, forwardRef, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
+declare let JQXLite: any;
 
 @Component({
-    selector: 'angularExpander',
+    selector: 'jqxExpander',
     template: '<div><ng-content></ng-content></div>'
 })
 
 export class jqxExpanderComponent implements OnChanges
 {
-   @Input('animationType') attrAnimationType;
-   @Input('arrowPosition') attrArrowPosition;
-   @Input('collapseAnimationDuration') attrCollapseAnimationDuration;
-   @Input('disabled') attrDisabled;
-   @Input('expanded') attrExpanded;
-   @Input('expandAnimationDuration') attrExpandAnimationDuration;
-   @Input('headerPosition') attrHeaderPosition;
-   @Input('initContent') attrInitContent;
-   @Input('rtl') attrRtl;
-   @Input('showArrow') attrShowArrow;
-   @Input('theme') attrTheme;
-   @Input('toggleMode') attrToggleMode;
-   @Input('width') attrWidth;
-   @Input('height') attrHeight;
+   @Input('animationType') attrAnimationType: any;
+   @Input('arrowPosition') attrArrowPosition: any;
+   @Input('collapseAnimationDuration') attrCollapseAnimationDuration: any;
+   @Input('disabled') attrDisabled: any;
+   @Input('expanded') attrExpanded: any;
+   @Input('expandAnimationDuration') attrExpandAnimationDuration: any;
+   @Input('headerPosition') attrHeaderPosition: any;
+   @Input('initContent') attrInitContent: any;
+   @Input('rtl') attrRtl: any;
+   @Input('showArrow') attrShowArrow: any;
+   @Input('theme') attrTheme: any;
+   @Input('toggleMode') attrToggleMode: any;
+   @Input('width') attrWidth: any;
+   @Input('height') attrHeight: any;
 
-   properties: Array<string> = ['animationType','arrowPosition','collapseAnimationDuration','disabled','expanded','expandAnimationDuration','height','headerPosition','initContent','rtl','showArrow','theme','toggleMode','width'];
-   host;
+   @Input('auto-create') autoCreate: boolean = true;
+
+   properties: string[] = ['animationType','arrowPosition','collapseAnimationDuration','disabled','expanded','expandAnimationDuration','height','headerPosition','initContent','rtl','showArrow','theme','toggleMode','width'];
+   host: any;
    elementRef: ElementRef;
    widgetObject:  jqwidgets.jqxExpander;
 
@@ -33,13 +40,19 @@ export class jqxExpanderComponent implements OnChanges
       this.elementRef = containerElement;
    }
 
-   ngOnChanges(changes) {
+   ngOnInit() {
+      if (this.autoCreate) {
+         this.createComponent(); 
+      }
+   }; 
+
+   ngOnChanges(changes: SimpleChanges) {
       if (this.host) {
          for (let i = 0; i < this.properties.length; i++) {
             let attrName = 'attr' + this.properties[i].substring(0, 1).toUpperCase() + this.properties[i].substring(1);
             let areEqual: boolean;
 
-            if (this[attrName]) {
+            if (this[attrName] !== undefined) {
                if (typeof this[attrName] === 'object') {
                   if (this[attrName] instanceof Array) {
                      areEqual = this.arraysEqual(this[attrName], this.host.jqxExpander(this.properties[i]));
@@ -82,21 +95,27 @@ export class jqxExpanderComponent implements OnChanges
       }
       return options;
    }
-   createWidget(options?: any): void {
+
+   createComponent(options?: any): void {
       if (options) {
-         $.extend(options, this.manageAttributes());
+         JQXLite.extend(options, this.manageAttributes());
       }
       else {
         options = this.manageAttributes();
       }
-      this.host = $(this.elementRef.nativeElement.firstChild);
+      this.host = JQXLite(this.elementRef.nativeElement.firstChild);
       this.__wireEvents__();
       this.widgetObject = jqwidgets.createInstance(this.host, 'jqxExpander', options);
+
       this.__updateRect__();
    }
 
+   createWidget(options?: any): void {
+        this.createComponent(options);
+   }
+
    __updateRect__() : void {
-      this.host.css({width: this.attrWidth, height: this.attrHeight});
+      this.host.css({ width: this.attrWidth, height: this.attrHeight });
    }
 
    setOptions(options: any) : void {
@@ -221,42 +240,55 @@ export class jqxExpanderComponent implements OnChanges
    collapse(): void {
       this.host.jqxExpander('collapse');
    }
+
    disable(): void {
       this.host.jqxExpander('disable');
    }
+
    destroy(): void {
       this.host.jqxExpander('destroy');
    }
+
    enable(): void {
       this.host.jqxExpander('enable');
    }
+
    expand(): void {
       this.host.jqxExpander('expand');
    }
+
    focus(): void {
       this.host.jqxExpander('focus');
    }
+
    getContent(): string {
       return this.host.jqxExpander('getContent');
    }
+
    getHeaderContent(): string {
       return this.host.jqxExpander('getHeaderContent');
    }
+
    invalidate(): void {
       this.host.jqxExpander('invalidate');
    }
+
    refresh(): void {
       this.host.jqxExpander('refresh');
    }
+
    render(): void {
       this.host.jqxExpander('render');
    }
+
    setHeaderContent(headerContent: string): void {
       this.host.jqxExpander('setHeaderContent', headerContent);
    }
+
    setContent(content: string): void {
       this.host.jqxExpander('setContent', content);
    }
+
 
    // jqxExpanderComponent events
    @Output() onCollapsing = new EventEmitter();
@@ -265,10 +297,12 @@ export class jqxExpanderComponent implements OnChanges
    @Output() onExpanded = new EventEmitter();
 
    __wireEvents__(): void {
-      this.host.on('collapsing', (eventData) => { this.onCollapsing.emit(eventData); });
-      this.host.on('collapsed', (eventData) => { this.onCollapsed.emit(eventData); });
-      this.host.on('expanding', (eventData) => { this.onExpanding.emit(eventData); });
-      this.host.on('expanded', (eventData) => { this.onExpanded.emit(eventData); });
+      this.host.on('collapsing', (eventData: any) => { this.onCollapsing.emit(eventData); });
+      this.host.on('collapsed', (eventData: any) => { this.onCollapsed.emit(eventData); });
+      this.host.on('expanding', (eventData: any) => { this.onExpanding.emit(eventData); });
+      this.host.on('expanded', (eventData: any) => { this.onExpanded.emit(eventData); });
    }
 
 } //jqxExpanderComponent
+
+

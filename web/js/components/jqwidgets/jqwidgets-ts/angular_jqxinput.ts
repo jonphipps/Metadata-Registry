@@ -1,9 +1,14 @@
+/*
+jQWidgets v4.5.4 (2017-June)
+Copyright (c) 2011-2017 jQWidgets.
+License: http://jqwidgets.com/license/
+*/
 /// <reference path="jqwidgets.d.ts" />
-import { Component, Input, Output, EventEmitter, ElementRef, forwardRef, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ElementRef, forwardRef, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 const noop = () => { };
-declare let $: any;
+declare let JQXLite: any;
 
 export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,
@@ -12,34 +17,38 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
 }
 
 @Component({
-    selector: 'angularInput',
+    selector: 'jqxInput',
     template: '<input type="text" [(ngModel)]="ngValue">',
-    providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR]
+    providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class jqxInputComponent implements ControlValueAccessor, OnChanges 
 {
-   @Input('disabled') attrDisabled;
-   @Input('dropDownWidth') attrDropDownWidth;
-   @Input('displayMember') attrDisplayMember;
-   @Input('items') attrItems;
-   @Input('minLength') attrMinLength;
-   @Input('maxLength') attrMaxLength;
-   @Input('opened') attrOpened;
-   @Input('placeHolder') attrPlaceHolder;
-   @Input('popupZIndex') attrPopupZIndex;
-   @Input('query') attrQuery;
-   @Input('renderer') attrRenderer;
-   @Input('rtl') attrRtl;
-   @Input('searchMode') attrSearchMode;
-   @Input('source') attrSource;
-   @Input('theme') attrTheme;
-   @Input('valueMember') attrValueMember;
-   @Input('width') attrWidth;
-   @Input('height') attrHeight;
+   @Input('disabled') attrDisabled: any;
+   @Input('dropDownWidth') attrDropDownWidth: any;
+   @Input('displayMember') attrDisplayMember: any;
+   @Input('items') attrItems: any;
+   @Input('minLength') attrMinLength: any;
+   @Input('maxLength') attrMaxLength: any;
+   @Input('opened') attrOpened: any;
+   @Input('placeHolder') attrPlaceHolder: any;
+   @Input('popupZIndex') attrPopupZIndex: any;
+   @Input('query') attrQuery: any;
+   @Input('renderer') attrRenderer: any;
+   @Input('rtl') attrRtl: any;
+   @Input('searchMode') attrSearchMode: any;
+   @Input('source') attrSource: any;
+   @Input('theme') attrTheme: any;
+   @Input('valueMember') attrValueMember: any;
+   @Input('value') attrValue: any;
+   @Input('width') attrWidth: any;
+   @Input('height') attrHeight: any;
 
-   properties: Array<string> = ['disabled','dropDownWidth','displayMember','height','items','minLength','maxLength','opened','placeHolder','popupZIndex','query','renderer','rtl','searchMode','source','theme','valueMember','width'];
-   host;
+   @Input('auto-create') autoCreate: boolean = true;
+
+   properties: string[] = ['disabled','dropDownWidth','displayMember','height','items','minLength','maxLength','opened','placeHolder','popupZIndex','query','renderer','rtl','searchMode','source','theme','valueMember','width','value'];
+   host: any;
    elementRef: ElementRef;
    widgetObject:  jqwidgets.jqxInput;
 
@@ -50,13 +59,19 @@ export class jqxInputComponent implements ControlValueAccessor, OnChanges
       this.elementRef = containerElement;
    }
 
-   ngOnChanges(changes) {
+   ngOnInit() {
+      if (this.autoCreate) {
+         this.createComponent(); 
+      }
+   }; 
+
+   ngOnChanges(changes: SimpleChanges) {
       if (this.host) {
          for (let i = 0; i < this.properties.length; i++) {
             let attrName = 'attr' + this.properties[i].substring(0, 1).toUpperCase() + this.properties[i].substring(1);
             let areEqual: boolean;
 
-            if (this[attrName]) {
+            if (this[attrName] !== undefined) {
                if (typeof this[attrName] === 'object') {
                   if (this[attrName] instanceof Array) {
                      areEqual = this.arraysEqual(this[attrName], this.host.jqxInput(this.properties[i]));
@@ -99,21 +114,27 @@ export class jqxInputComponent implements ControlValueAccessor, OnChanges
       }
       return options;
    }
-   createWidget(options?: any): void {
+
+   createComponent(options?: any): void {
       if (options) {
-         $.extend(options, this.manageAttributes());
+         JQXLite.extend(options, this.manageAttributes());
       }
       else {
         options = this.manageAttributes();
       }
-      this.host = $(this.elementRef.nativeElement.firstChild);
+      this.host = JQXLite(this.elementRef.nativeElement.firstChild);
       this.__wireEvents__();
       this.widgetObject = jqwidgets.createInstance(this.host, 'jqxInput', options);
+
       this.__updateRect__();
    }
 
+   createWidget(options?: any): void {
+        this.createComponent(options);
+   }
+
    __updateRect__() : void {
-      this.host.css({width: this.attrWidth, height: this.attrHeight});
+      this.host.css({ width: this.attrWidth, height: this.attrHeight });
    }
 
    get ngValue(): any {
@@ -291,20 +312,36 @@ export class jqxInputComponent implements ControlValueAccessor, OnChanges
       }
    }
 
+   value(arg?: String | Number) : any {
+      if (arg !== undefined) {
+          this.host.jqxInput('value', arg);
+      } else {
+          return this.host.jqxInput('value');
+      }
+   }
+
 
    // jqxInputComponent functions
    destroy(): void {
       this.host.jqxInput('destroy');
    }
+
    focus(): void {
       this.host.jqxInput('focus');
    }
+
    selectAll(): void {
       this.host.jqxInput('selectAll');
    }
-   val(value: String | Number): string {
-      return this.host.jqxInput('val', value);
-   }
+
+   val(value?: String | Number): any {
+      if (value !== undefined) {
+         this.host.jqxInput("val", value);
+      } else {
+         return this.host.jqxInput("val");
+      }
+   };
+
 
    // jqxInputComponent events
    @Output() onChange = new EventEmitter();
@@ -313,10 +350,12 @@ export class jqxInputComponent implements ControlValueAccessor, OnChanges
    @Output() onSelect = new EventEmitter();
 
    __wireEvents__(): void {
-      this.host.on('change', (eventData) => { this.onChange.emit(eventData); });
-      this.host.on('close', (eventData) => { this.onClose.emit(eventData); });
-      this.host.on('open', (eventData) => { this.onOpen.emit(eventData); });
-      this.host.on('select', (eventData) => { this.onSelect.emit(eventData); if (eventData.args) this.onChangeCallback(eventData.args.value); });
+      this.host.on('change', (eventData: any) => { this.onChange.emit(eventData); });
+      this.host.on('close', (eventData: any) => { this.onClose.emit(eventData); });
+      this.host.on('open', (eventData: any) => { this.onOpen.emit(eventData); });
+      this.host.on('select', (eventData: any) => { this.onSelect.emit(eventData); if (eventData.args) this.onChangeCallback(eventData.args.value); });
    }
 
 } //jqxInputComponent
+
+

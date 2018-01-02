@@ -1,27 +1,34 @@
+/*
+jQWidgets v4.5.4 (2017-June)
+Copyright (c) 2011-2017 jQWidgets.
+License: http://jqwidgets.com/license/
+*/
 /// <reference path="jqwidgets.d.ts" />
-import { Component, Input, Output, EventEmitter, ElementRef, forwardRef, OnChanges } from '@angular/core';
-declare let $: any;
+import { Component, Input, Output, EventEmitter, ElementRef, forwardRef, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
+declare let JQXLite: any;
 
 @Component({
-    selector: 'angularLoader',
+    selector: 'jqxLoader',
     template: '<div><ng-content></ng-content></div>'
 })
 
 export class jqxLoaderComponent implements OnChanges
 {
-   @Input('autoOpen') attrAutoOpen;
-   @Input('html') attrHtml;
-   @Input('isModal') attrIsModal;
-   @Input('imagePosition') attrImagePosition;
-   @Input('rtl') attrRtl;
-   @Input('text') attrText;
-   @Input('textPosition') attrTextPosition;
-   @Input('theme') attrTheme;
-   @Input('width') attrWidth;
-   @Input('height') attrHeight;
+   @Input('autoOpen') attrAutoOpen: any;
+   @Input('html') attrHtml: any;
+   @Input('isModal') attrIsModal: any;
+   @Input('imagePosition') attrImagePosition: any;
+   @Input('rtl') attrRtl: any;
+   @Input('text') attrText: any;
+   @Input('textPosition') attrTextPosition: any;
+   @Input('theme') attrTheme: any;
+   @Input('width') attrWidth: any;
+   @Input('height') attrHeight: any;
 
-   properties: Array<string> = ['autoOpen','height','html','isModal','imagePosition','rtl','text','textPosition','theme','width'];
-   host;
+   @Input('auto-create') autoCreate: boolean = true;
+
+   properties: string[] = ['autoOpen','height','html','isModal','imagePosition','rtl','text','textPosition','theme','width'];
+   host: any;
    elementRef: ElementRef;
    widgetObject:  jqwidgets.jqxLoader;
 
@@ -29,13 +36,19 @@ export class jqxLoaderComponent implements OnChanges
       this.elementRef = containerElement;
    }
 
-   ngOnChanges(changes) {
+   ngOnInit() {
+      if (this.autoCreate) {
+         this.createComponent(); 
+      }
+   }; 
+
+   ngOnChanges(changes: SimpleChanges) {
       if (this.host) {
          for (let i = 0; i < this.properties.length; i++) {
             let attrName = 'attr' + this.properties[i].substring(0, 1).toUpperCase() + this.properties[i].substring(1);
             let areEqual: boolean;
 
-            if (this[attrName]) {
+            if (this[attrName] !== undefined) {
                if (typeof this[attrName] === 'object') {
                   if (this[attrName] instanceof Array) {
                      areEqual = this.arraysEqual(this[attrName], this.host.jqxLoader(this.properties[i]));
@@ -78,21 +91,27 @@ export class jqxLoaderComponent implements OnChanges
       }
       return options;
    }
-   createWidget(options?: any): void {
+
+   createComponent(options?: any): void {
       if (options) {
-         $.extend(options, this.manageAttributes());
+         JQXLite.extend(options, this.manageAttributes());
       }
       else {
         options = this.manageAttributes();
       }
-      this.host = $(this.elementRef.nativeElement.firstChild);
+      this.host = JQXLite(this.elementRef.nativeElement.firstChild);
       this.__wireEvents__();
       this.widgetObject = jqwidgets.createInstance(this.host, 'jqxLoader', options);
+
       this.__updateRect__();
    }
 
+   createWidget(options?: any): void {
+        this.createComponent(options);
+   }
+
    __updateRect__() : void {
-      this.host.css({width: this.attrWidth, height: this.attrHeight});
+      this.host.css({ width: this.attrWidth, height: this.attrHeight });
    }
 
    setOptions(options: any) : void {
@@ -185,15 +204,19 @@ export class jqxLoaderComponent implements OnChanges
    close(): void {
       this.host.jqxLoader('close');
    }
+
    open(): void {
       this.host.jqxLoader('open');
    }
+
 
    // jqxLoaderComponent events
    @Output() onCreate = new EventEmitter();
 
    __wireEvents__(): void {
-      this.host.on('create', (eventData) => { this.onCreate.emit(eventData); });
+      this.host.on('create', (eventData: any) => { this.onCreate.emit(eventData); });
    }
 
 } //jqxLoaderComponent
+
+

@@ -1,34 +1,41 @@
+/*
+jQWidgets v4.5.4 (2017-June)
+Copyright (c) 2011-2017 jQWidgets.
+License: http://jqwidgets.com/license/
+*/
 /// <reference path="jqwidgets.d.ts" />
-import { Component, Input, Output, EventEmitter, ElementRef, forwardRef, OnChanges } from '@angular/core';
-declare let $: any;
+import { Component, Input, Output, EventEmitter, ElementRef, forwardRef, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
+declare let JQXLite: any;
 
 @Component({
-    selector: 'angularPopover',
+    selector: 'jqxPopover',
     template: '<div><ng-content></ng-content></div>'
 })
 
 export class jqxPopoverComponent implements OnChanges
 {
-   @Input('arrowOffsetValue') attrArrowOffsetValue;
-   @Input('animationOpenDelay') attrAnimationOpenDelay;
-   @Input('animationCloseDelay') attrAnimationCloseDelay;
-   @Input('autoClose') attrAutoClose;
-   @Input('animationType') attrAnimationType;
-   @Input('initContent') attrInitContent;
-   @Input('isModal') attrIsModal;
-   @Input('offset') attrOffset;
-   @Input('position') attrPosition;
-   @Input('rtl') attrRtl;
-   @Input('selector') attrSelector;
-   @Input('showArrow') attrShowArrow;
-   @Input('showCloseButton') attrShowCloseButton;
-   @Input('title') attrTitle;
-   @Input('theme') attrTheme;
-   @Input('width') attrWidth;
-   @Input('height') attrHeight;
+   @Input('arrowOffsetValue') attrArrowOffsetValue: any;
+   @Input('animationOpenDelay') attrAnimationOpenDelay: any;
+   @Input('animationCloseDelay') attrAnimationCloseDelay: any;
+   @Input('autoClose') attrAutoClose: any;
+   @Input('animationType') attrAnimationType: any;
+   @Input('initContent') attrInitContent: any;
+   @Input('isModal') attrIsModal: any;
+   @Input('offset') attrOffset: any;
+   @Input('position') attrPosition: any;
+   @Input('rtl') attrRtl: any;
+   @Input('selector') attrSelector: any;
+   @Input('showArrow') attrShowArrow: any;
+   @Input('showCloseButton') attrShowCloseButton: any;
+   @Input('title') attrTitle: any;
+   @Input('theme') attrTheme: any;
+   @Input('width') attrWidth: any;
+   @Input('height') attrHeight: any;
 
-   properties: Array<string> = ['arrowOffsetValue','animationOpenDelay','animationCloseDelay','autoClose','animationType','height','initContent','isModal','offset','position','rtl','selector','showArrow','showCloseButton','width','title','theme'];
-   host;
+   @Input('auto-create') autoCreate: boolean = true;
+
+   properties: string[] = ['arrowOffsetValue','animationOpenDelay','animationCloseDelay','autoClose','animationType','height','initContent','isModal','offset','position','rtl','selector','showArrow','showCloseButton','width','title','theme'];
+   host: any;
    elementRef: ElementRef;
    widgetObject:  jqwidgets.jqxPopover;
 
@@ -36,13 +43,19 @@ export class jqxPopoverComponent implements OnChanges
       this.elementRef = containerElement;
    }
 
-   ngOnChanges(changes) {
+   ngOnInit() {
+      if (this.autoCreate) {
+         this.createComponent(); 
+      }
+   }; 
+
+   ngOnChanges(changes: SimpleChanges) {
       if (this.host) {
          for (let i = 0; i < this.properties.length; i++) {
             let attrName = 'attr' + this.properties[i].substring(0, 1).toUpperCase() + this.properties[i].substring(1);
             let areEqual: boolean;
 
-            if (this[attrName]) {
+            if (this[attrName] !== undefined) {
                if (typeof this[attrName] === 'object') {
                   if (this[attrName] instanceof Array) {
                      areEqual = this.arraysEqual(this[attrName], this.host.jqxPopover(this.properties[i]));
@@ -85,21 +98,28 @@ export class jqxPopoverComponent implements OnChanges
       }
       return options;
    }
-   createWidget(options?: any): void {
+
+   createComponent(options?: any): void {
       if (options) {
-         $.extend(options, this.manageAttributes());
+         JQXLite.extend(options, this.manageAttributes());
       }
       else {
         options = this.manageAttributes();
       }
-      this.host = $(this.elementRef.nativeElement.firstChild);
-      this.__wireEvents__();
+      this.host = JQXLite(this.elementRef.nativeElement.firstChild);
       this.widgetObject = jqwidgets.createInstance(this.host, 'jqxPopover', options);
+      this.host = this.widgetObject['host'];
+      this.__wireEvents__();
+
       this.__updateRect__();
    }
 
+   createWidget(options?: any): void {
+        this.createComponent(options);
+   }
+
    __updateRect__() : void {
-      this.host.css({width: this.attrWidth, height: this.attrHeight});
+      this.host.css({ width: this.attrWidth, height: this.attrHeight });
    }
 
    setOptions(options: any) : void {
@@ -248,20 +268,27 @@ export class jqxPopoverComponent implements OnChanges
    close(): void {
       this.host.jqxPopover('close');
    }
+
    destroy(): void {
       this.host.jqxPopover('destroy');
    }
+
    open(): void {
       this.host.jqxPopover('open');
    }
+
 
    // jqxPopoverComponent events
    @Output() onClose = new EventEmitter();
    @Output() onOpen = new EventEmitter();
 
    __wireEvents__(): void {
-      this.host.on('close', (eventData) => { this.onClose.emit(eventData); });
-      this.host.on('open', (eventData) => { this.onOpen.emit(eventData); });
+      setTimeout(() => {
+      this.host.on('close', (eventData: any) => { this.onClose.emit(eventData); });
+      this.host.on('open', (eventData: any) => { this.onOpen.emit(eventData); });
+      });
    }
 
 } //jqxPopoverComponent
+
+

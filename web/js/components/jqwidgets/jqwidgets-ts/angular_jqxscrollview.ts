@@ -1,29 +1,36 @@
+/*
+jQWidgets v4.5.4 (2017-June)
+Copyright (c) 2011-2017 jQWidgets.
+License: http://jqwidgets.com/license/
+*/
 /// <reference path="jqwidgets.d.ts" />
-import { Component, Input, Output, EventEmitter, ElementRef, forwardRef, OnChanges } from '@angular/core';
-declare let $: any;
+import { Component, Input, Output, EventEmitter, ElementRef, forwardRef, OnChanges, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
+declare let JQXLite: any;
 
 @Component({
-    selector: 'angularScrollView',
+    selector: 'jqxScrollView',
     template: '<div><ng-content></ng-content></div>'
 })
 
 export class jqxScrollViewComponent implements OnChanges
 {
-   @Input('animationDuration') attrAnimationDuration;
-   @Input('bounceEnabled') attrBounceEnabled;
-   @Input('buttonsOffset') attrButtonsOffset;
-   @Input('currentPage') attrCurrentPage;
-   @Input('disabled') attrDisabled;
-   @Input('moveThreshold') attrMoveThreshold;
-   @Input('showButtons') attrShowButtons;
-   @Input('slideShow') attrSlideShow;
-   @Input('slideDuration') attrSlideDuration;
-   @Input('theme') attrTheme;
-   @Input('width') attrWidth;
-   @Input('height') attrHeight;
+   @Input('animationDuration') attrAnimationDuration: any;
+   @Input('bounceEnabled') attrBounceEnabled: any;
+   @Input('buttonsOffset') attrButtonsOffset: any;
+   @Input('currentPage') attrCurrentPage: any;
+   @Input('disabled') attrDisabled: any;
+   @Input('moveThreshold') attrMoveThreshold: any;
+   @Input('showButtons') attrShowButtons: any;
+   @Input('slideShow') attrSlideShow: any;
+   @Input('slideDuration') attrSlideDuration: any;
+   @Input('theme') attrTheme: any;
+   @Input('width') attrWidth: any;
+   @Input('height') attrHeight: any;
 
-   properties: Array<string> = ['animationDuration','bounceEnabled','buttonsOffset','currentPage','disabled','height','moveThreshold','showButtons','slideShow','slideDuration','theme','width'];
-   host;
+   @Input('auto-create') autoCreate: boolean = true;
+
+   properties: string[] = ['animationDuration','bounceEnabled','buttonsOffset','currentPage','disabled','height','moveThreshold','showButtons','slideShow','slideDuration','theme','width'];
+   host: any;
    elementRef: ElementRef;
    widgetObject:  jqwidgets.jqxScrollView;
 
@@ -31,13 +38,19 @@ export class jqxScrollViewComponent implements OnChanges
       this.elementRef = containerElement;
    }
 
-   ngOnChanges(changes) {
+   ngOnInit() {
+      if (this.autoCreate) {
+         this.createComponent(); 
+      }
+   }; 
+
+   ngOnChanges(changes: SimpleChanges) {
       if (this.host) {
          for (let i = 0; i < this.properties.length; i++) {
             let attrName = 'attr' + this.properties[i].substring(0, 1).toUpperCase() + this.properties[i].substring(1);
             let areEqual: boolean;
 
-            if (this[attrName]) {
+            if (this[attrName] !== undefined) {
                if (typeof this[attrName] === 'object') {
                   if (this[attrName] instanceof Array) {
                      areEqual = this.arraysEqual(this[attrName], this.host.jqxScrollView(this.properties[i]));
@@ -80,21 +93,27 @@ export class jqxScrollViewComponent implements OnChanges
       }
       return options;
    }
-   createWidget(options?: any): void {
+
+   createComponent(options?: any): void {
       if (options) {
-         $.extend(options, this.manageAttributes());
+         JQXLite.extend(options, this.manageAttributes());
       }
       else {
         options = this.manageAttributes();
       }
-      this.host = $(this.elementRef.nativeElement.firstChild);
+      this.host = JQXLite(this.elementRef.nativeElement.firstChild);
       this.__wireEvents__();
       this.widgetObject = jqwidgets.createInstance(this.host, 'jqxScrollView', options);
+
       this.__updateRect__();
    }
 
+   createWidget(options?: any): void {
+        this.createComponent(options);
+   }
+
    __updateRect__() : void {
-      this.host.css({width: this.attrWidth, height: this.attrHeight});
+      this.host.css({ width: this.attrWidth, height: this.attrHeight });
    }
 
    setOptions(options: any) : void {
@@ -203,21 +222,27 @@ export class jqxScrollViewComponent implements OnChanges
    back(): void {
       this.host.jqxScrollView('back');
    }
+
    changePage(index: number): void {
       this.host.jqxScrollView('changePage', index);
    }
+
    forward(): void {
       this.host.jqxScrollView('forward');
    }
+
    refresh(): void {
       this.host.jqxScrollView('refresh');
    }
+
 
    // jqxScrollViewComponent events
    @Output() onPageChanged = new EventEmitter();
 
    __wireEvents__(): void {
-      this.host.on('pageChanged', (eventData) => { this.onPageChanged.emit(eventData); });
+      this.host.on('pageChanged', (eventData: any) => { this.onPageChanged.emit(eventData); });
    }
 
 } //jqxScrollViewComponent
+
+
