@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "9516a9f8ebcec08c034a451edd8091f4",
+    "content-hash": "dcfad05e036dbd89bfe1cdcc37749fa7",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -409,12 +409,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jonphipps/CRUD.git",
-                "reference": "8a6300d345d99661b27cae24e7d20d1e63cfddc5"
+                "reference": "eb557bd689e7bb53c0b9109e9a824b065fc9ae3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jonphipps/CRUD/zipball/8a6300d345d99661b27cae24e7d20d1e63cfddc5",
-                "reference": "8a6300d345d99661b27cae24e7d20d1e63cfddc5",
+                "url": "https://api.github.com/repos/jonphipps/CRUD/zipball/eb557bd689e7bb53c0b9109e9a824b065fc9ae3e",
+                "reference": "eb557bd689e7bb53c0b9109e9a824b065fc9ae3e",
                 "shasum": ""
             },
             "require": {
@@ -488,7 +488,7 @@
             "support": {
                 "source": "https://github.com/jonphipps/CRUD/tree/master"
             },
-            "time": "2017-12-19T19:23:05+00:00"
+            "time": "2018-01-01T17:11:27+00:00"
         },
         {
             "name": "barryvdh/elfinder-flysystem-driver",
@@ -914,20 +914,20 @@
         },
         {
             "name": "cakephp/chronos",
-            "version": "1.1.2",
+            "version": "1.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/chronos.git",
-                "reference": "0621b191334d8dcb56907688986dd24eb8c38234"
+                "reference": "56d98330d366a469745848b07540373846c40561"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/chronos/zipball/0621b191334d8dcb56907688986dd24eb8c38234",
-                "reference": "0621b191334d8dcb56907688986dd24eb8c38234",
+                "url": "https://api.github.com/repos/cakephp/chronos/zipball/56d98330d366a469745848b07540373846c40561",
+                "reference": "56d98330d366a469745848b07540373846c40561",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.5.9"
+                "php": "^5.5.9|^7"
             },
             "require-dev": {
                 "athletic/athletic": "~0.1",
@@ -967,7 +967,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2017-04-27T01:27:49+00:00"
+            "time": "2017-12-25T22:42:18+00:00"
         },
         {
             "name": "chumper/zipper",
@@ -1249,16 +1249,16 @@
         },
         {
             "name": "composer/installers",
-            "version": "v1.4.0",
+            "version": "v1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/installers.git",
-                "reference": "9ce17fb70e9a38dd8acff0636a29f5cf4d575c1b"
+                "reference": "049797d727261bf27f2690430d935067710049c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/9ce17fb70e9a38dd8acff0636a29f5cf4d575c1b",
-                "reference": "9ce17fb70e9a38dd8acff0636a29f5cf4d575c1b",
+                "url": "https://api.github.com/repos/composer/installers/zipball/049797d727261bf27f2690430d935067710049c2",
+                "reference": "049797d727261bf27f2690430d935067710049c2",
                 "shasum": ""
             },
             "require": {
@@ -1270,7 +1270,7 @@
             },
             "require-dev": {
                 "composer/composer": "1.0.*@dev",
-                "phpunit/phpunit": "4.1.*"
+                "phpunit/phpunit": "^4.8.36"
             },
             "type": "composer-plugin",
             "extra": {
@@ -1341,15 +1341,18 @@
                 "lavalite",
                 "lithium",
                 "magento",
+                "majima",
                 "mako",
                 "mediawiki",
                 "modulework",
+                "modx",
                 "moodle",
                 "osclass",
                 "phpbb",
                 "piwik",
                 "ppi",
                 "puppet",
+                "pxcms",
                 "reindex",
                 "roundcube",
                 "shopware",
@@ -1362,7 +1365,7 @@
                 "zend",
                 "zikula"
             ],
-            "time": "2017-08-09T07:53:48+00:00"
+            "time": "2017-12-29T09:13:20+00:00"
         },
         {
             "name": "creativeorange/gravatar",
@@ -2446,32 +2449,32 @@
         },
         {
             "name": "graham-campbell/github",
-            "version": "v6.1.0",
+            "version": "v6.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrahamCampbell/Laravel-GitHub.git",
-                "reference": "3788cbe5a3d0a05285a16616b2b7221be091e025"
+                "reference": "c8547e4eb202f0843a680f14c6255247af52af3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-GitHub/zipball/3788cbe5a3d0a05285a16616b2b7221be091e025",
-                "reference": "3788cbe5a3d0a05285a16616b2b7221be091e025",
+                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-GitHub/zipball/c8547e4eb202f0843a680f14c6255247af52af3e",
+                "reference": "c8547e4eb202f0843a680f14c6255247af52af3e",
                 "shasum": ""
             },
             "require": {
                 "graham-campbell/manager": "^3.0",
                 "illuminate/contracts": "5.1.*|5.2.*|5.3.*|5.4.*|5.5.*",
                 "illuminate/support": "5.1.*|5.2.*|5.3.*|5.4.*|5.5.*",
-                "knplabs/github-api": "2.5.*|2.6.*",
+                "knplabs/github-api": "2.5.*|2.6.*|2.7.*",
                 "php": "^7.0"
             },
             "require-dev": {
-                "graham-campbell/analyzer": "^1.1",
+                "graham-campbell/analyzer": "^2.0",
                 "graham-campbell/testbench": "^4.0",
                 "madewithlove/illuminate-psr-cache-bridge": "^1.0",
                 "mockery/mockery": "^1.0",
                 "php-http/guzzle6-adapter": "^1.0",
-                "phpunit/phpunit": "^6.1"
+                "phpunit/phpunit": "^6.5"
             },
             "suggest": {
                 "madewithlove/illuminate-psr-cache-bridge": "Allows caching GitHub HTTP requests"
@@ -2479,7 +2482,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "6.1-dev"
+                    "dev-master": "6.2-dev"
                 },
                 "laravel": {
                     "providers": [
@@ -2516,7 +2519,7 @@
                 "laravel",
                 "php-github-api"
             ],
-            "time": "2017-10-07T10:49:17+00:00"
+            "time": "2017-12-28T00:18:10+00:00"
         },
         {
             "name": "graham-campbell/manager",
@@ -3498,20 +3501,20 @@
         },
         {
             "name": "knplabs/github-api",
-            "version": "2.6.0",
+            "version": "2.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/php-github-api.git",
-                "reference": "cacf6f38bf9e6c5242e2b6dc26a67c4791bc7751"
+                "reference": "d445f1eec4788763315c3c96a214db4e149f9deb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/php-github-api/zipball/cacf6f38bf9e6c5242e2b6dc26a67c4791bc7751",
-                "reference": "cacf6f38bf9e6c5242e2b6dc26a67c4791bc7751",
+                "url": "https://api.github.com/repos/KnpLabs/php-github-api/zipball/d445f1eec4788763315c3c96a214db4e149f9deb",
+                "reference": "d445f1eec4788763315c3c96a214db4e149f9deb",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.5 || ^7.0",
+                "php": "^5.6 || ^7.0",
                 "php-http/cache-plugin": "^1.4",
                 "php-http/client-common": "^1.3",
                 "php-http/client-implementation": "^1.0",
@@ -3525,7 +3528,7 @@
                 "guzzlehttp/psr7": "^1.2",
                 "php-http/guzzle6-adapter": "^1.0",
                 "php-http/mock-client": "^1.0",
-                "phpunit/phpunit": "^4.0 || ^5.5",
+                "phpunit/phpunit": "^5.5 || ^6.0",
                 "sllh/php-cs-fixer-styleci-bridge": "^1.3"
             },
             "type": "library",
@@ -3562,7 +3565,7 @@
                 "gist",
                 "github"
             ],
-            "time": "2017-09-30T20:00:06+00:00"
+            "time": "2017-12-12T20:14:04+00:00"
         },
         {
             "name": "knplabs/knp-snappy",
@@ -6109,16 +6112,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.8.16",
+            "version": "v0.8.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "d4c8eab0683dc056f2ca54ca67f5388527c068b1"
+                "reference": "5069b70e8c4ea492c2b5939b6eddc78bfe41cfec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/d4c8eab0683dc056f2ca54ca67f5388527c068b1",
-                "reference": "d4c8eab0683dc056f2ca54ca67f5388527c068b1",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/5069b70e8c4ea492c2b5939b6eddc78bfe41cfec",
+                "reference": "5069b70e8c4ea492c2b5939b6eddc78bfe41cfec",
                 "shasum": ""
             },
             "require": {
@@ -6177,7 +6180,7 @@
                 "interactive",
                 "shell"
             ],
-            "time": "2017-12-10T21:49:27+00:00"
+            "time": "2017-12-28T16:14:16+00:00"
         },
         {
             "name": "pusher/pusher-php-server",
@@ -6312,6 +6315,76 @@
                 "uuid"
             ],
             "time": "2017-09-22T20:46:04+00:00"
+        },
+        {
+            "name": "rinvex/language",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rinvex/language.git",
+                "reference": "455453618a8445939b9e010683a3f182c2e25e60"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rinvex/language/zipball/455453618a8445939b9e010683a3f182c2e25e60",
+                "reference": "455453618a8445939b9e010683a3f182c2e25e60",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Rinvex\\Language\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rinvex LLC",
+                    "email": "help@rinvex.com",
+                    "homepage": "https://rinvex.com"
+                },
+                {
+                    "name": "Abdelrahman Omran",
+                    "email": "me@omranic.com",
+                    "homepage": "https://omranic.com",
+                    "role": "Project Lead"
+                },
+                {
+                    "name": "The Generous Laravel Community",
+                    "homepage": "https://github.com/rinvex/language/contributors"
+                }
+            ],
+            "description": "Rinvex Language is a simple and lightweight package for retrieving language details with flexibility. A whole bunch of data including name, native, iso codes, language family, language script, language cultures, and other attributes for the 180+ known languages worldwide at your fingertips.",
+            "homepage": "https://rinvex.com",
+            "keywords": [
+                "Flexible",
+                "Simple",
+                "family",
+                "language",
+                "lightweight",
+                "locale",
+                "localization",
+                "rinvex",
+                "scripts"
+            ],
+            "time": "2017-03-07T18:16:26+00:00"
         },
         {
             "name": "roave/security-advisories",
@@ -6902,16 +6975,16 @@
         },
         {
             "name": "studio-42/elfinder",
-            "version": "2.1.30",
+            "version": "2.1.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Studio-42/elFinder.git",
-                "reference": "c021aad5ead737bc2ce1d4bfc3a52cd4944fced2"
+                "reference": "4cfb7541c672e06581fcbe34bfaca0e233932d9b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Studio-42/elFinder/zipball/c021aad5ead737bc2ce1d4bfc3a52cd4944fced2",
-                "reference": "c021aad5ead737bc2ce1d4bfc3a52cd4944fced2",
+                "url": "https://api.github.com/repos/Studio-42/elFinder/zipball/4cfb7541c672e06581fcbe34bfaca0e233932d9b",
+                "reference": "4cfb7541c672e06581fcbe34bfaca0e233932d9b",
                 "shasum": ""
             },
             "require": {
@@ -6956,7 +7029,7 @@
             ],
             "description": "File manager for web",
             "homepage": "http://elfinder.org",
-            "time": "2017-11-29T08:31:14+00:00"
+            "time": "2017-12-27T09:38:20+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

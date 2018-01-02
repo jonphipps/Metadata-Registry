@@ -90,6 +90,7 @@
         "prettus/l5-repository": "^2.6",
         "psr/log": "^1.0",
         "pusher/pusher-php-server": "^3.0",
+        "rinvex/language": "^1.1",
         "roave/security-advisories": "dev-master",
         "shiftonelabs/laravel-cascade-deletes": "^1.0",
         "smajti1/laravel-wizard": "^1.0",
