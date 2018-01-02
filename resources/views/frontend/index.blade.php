@@ -23,10 +23,11 @@
                                                 <a href="http://metadataregistry.org">Open Metadata Registry</a> (OMR)
                                                 site. Actually it may be a bit alpha, since we're adding services,
                                                 improving current services, and occasionally making a mess. Still...
-                                                everything works, except
-                                                Import. The Export function on this site uses an entirely new and more
+                                                everything works, except importing individual CSV files.
+                                                The Export function on this site uses an entirely new and more
                                                 sophisticated method of tracking changes to cells and we're still
-                                                rewriting the Import function.</p>
+                                                rewriting the File Import function. You'll have to use the Project-level
+                                                <a href="https://docs.google.com/document/d/1YysQLsuOwiBu4dcc3bmMa_RN5tADcy-Is3uH1F6CZIY/edit?usp=sharing">Google Spreadsheets Import</a> option for now.</p>
                                             <p>If you're familiar with the production OMR, one thing you'll immediately
                                                 notice is that this home page looks very different. We haven't decided
                                                 what to put on it yet, but we do know that we don't want to replicate
@@ -39,7 +40,7 @@
                                                 effect on your password on the production OMR. Feel free to set it to
                                                 the same password on both sites if you wish.</p>
                                             <h4>This is important...</h4>
-                                            <p class="bg-danger">We've ported the OMR data as of mid-December 2016 to this site, but we're
+                                            <p class="bg-danger">We've ported the OMR data as of <strong>{{env('LAST_UPDATE', 'mid-December 2017')}}</strong> to this site, but we're
                                                 going to periodically do it again, which will destroy anything that you
                                                 may create or edit here. We'll do this at random and without
                                                 warning, so poke around if you wish, but PLEASE don't count on any data
