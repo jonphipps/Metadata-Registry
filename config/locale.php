@@ -1,5 +1,8 @@
 <?php
 
+//this is used to display (or not) available languages <-- from laravel5 boilerplate
+//and is different from the one used by laravel backpack
+
 return [
 
     /*

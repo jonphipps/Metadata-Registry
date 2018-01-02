@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend\Project;
 
+use App\Helpers\Macros\Traits\Languages;
 use App\Http\Controllers\Frontend\Elementset\ElementsetCrudController;
 use App\Http\Controllers\Frontend\ImportCrudController;
 use App\Http\Controllers\Frontend\Vocabulary\VocabularyCrudController;
@@ -47,7 +48,11 @@ class ProjectCrudController extends CrudController
 
         $this->addCustomDoctrineColumnTypes();
         $this->crud->setFromDb();
-        $languages = LanguageController::getLocales();
+        //todo: better language list handling. getLocales() has a more extensive list, but is english only
+        //and isn't used anyplace but here
+        //there's also the languages trait that's used by the locale middleware and the Models, which uses a different list
+        //$languages = LanguageController::getLocales();
+        $languages = getLanguageListFromSymfony('en');
 
         // ------ CRUD ACCESS
         $this->crud->allowAccess([ 'index', 'show' ]);

@@ -56,7 +56,6 @@ class ProjectUserCrudController extends CrudController
         */
 
         $this->crud->setFromDb();
-        $languages = getLanguageListFromSymfony('en');
 
         // ------ CRUD FIELDS
         $this->crud->removeFields(array_keys($this->crud->create_fields), 'both');

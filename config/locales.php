@@ -1,5 +1,5 @@
 <?php
-
+//https://stackoverflow.com/a/28357857/634129
 return [
     'af_NA'       => 'Afrikaans (Namibia)',
     'af_ZA'       => 'Afrikaans (South Africa)',
