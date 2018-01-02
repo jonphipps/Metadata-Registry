@@ -38,7 +38,7 @@ return [
 
   'connections' => [
 
-      'main' => [
+      'alternative' => [
           'token'  => 'your-token',
           'method' => 'token',
           // 'backoff'    => false,
@@ -47,9 +47,9 @@ return [
           // 'enterprise' => false,
       ],
 
-      'alternative' => [
-          'clientId'     => 'your-client-id',
-          'clientSecret' => 'your-client-secret',
+      'main' => [
+          'clientId'     => env('GITHUB_CLIENT_ID'),
+          'clientSecret' => env('GITHUB_CLIENT_SECRET'),
           'method'       => 'application',
           // 'backoff'      => false,
           // 'cache'        => false,
