@@ -264,7 +264,7 @@ class ConceptPropertyHistory extends BaseConceptPropertyHistory
   {
       $conceptProperty = $this->getConceptProperty();
 
-      return $conceptProperty ? $conceptProperty->getProfileProperty() : null;
+      return ($conceptProperty !== null) ?  $conceptProperty->getProfileProperty() : null;
   }
 
 
