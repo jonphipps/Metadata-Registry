@@ -274,7 +274,7 @@ class ImportCrudController extends CrudController
         $batch->save();
 
         //and redirect to the next step if valid
-        $request->session()->save();
+        //$request->session()->save();
         return redirect()->route('frontend.project.import',
             [ 'project' => $project->id, 'batch' => $batch, 'step' => $this->wizard->nextSlug() ]);
     }
