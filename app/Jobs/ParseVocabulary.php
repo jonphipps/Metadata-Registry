@@ -7,6 +7,7 @@ use App\Services\Import\DataImporter;
 use App\Services\Import\GoogleSpreadsheet;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use const EXTR_OVERWRITE;
@@ -15,7 +16,7 @@ use function extract;
 
 class ParseVocabulary implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels;
+    use InteractsWithQueue, Queueable, SerializesModels, Dispatchable;
     /**
      * @var Import
      */

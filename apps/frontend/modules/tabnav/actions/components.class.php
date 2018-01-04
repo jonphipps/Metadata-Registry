@@ -270,10 +270,13 @@ class tabnavComponents extends sfComponents
         $statement         = isset( $this->schema_property_element )
             ? $this->schema_property_element
             : SchemaPropertyElementPeer::retrieveByPK($id);
-        $element           = $statement->getSchemaPropertyRelatedBySchemaPropertyId();
-        $breadcrumbs[0]    = Breadcrumb::elementSetFactory($element->getSchema());
-        $breadcrumbs[1]    = Breadcrumb::elementFactory($element);
-        $breadcrumbs[2]    = Breadcrumb::statementFactory($statement, true);
+        if ($statement) {
+            $element        = $statement->getSchemaPropertyRelatedBySchemaPropertyId();
+            $breadcrumbs[0] = Breadcrumb::elementSetFactory($element->getSchema());
+            $breadcrumbs[1] = Breadcrumb::elementFactory($element);
+            $breadcrumbs[2] = Breadcrumb::statementFactory($statement, true);
+        }
+
         $this->breadcrumbs = $breadcrumbs;
     }
 
