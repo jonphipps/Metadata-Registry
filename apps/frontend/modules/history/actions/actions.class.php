@@ -129,7 +129,10 @@ class historyActions extends autoHistoryActions
                 $concept = ConceptPeer::retrieveByPK($this->getRequestParameter($idType));
             }
             if ($idType == 'concept_property_id') {
-                $concept = ConceptPropertyPeer::retrieveByPK($this->getRequestParameter($idType))->getConceptRelatedByConceptId();
+                $conceptProperty = ConceptPropertyPeer::retrieveByPK($this->getRequestParameter($idType));
+                if ($conceptProperty) {
+                    $concept = $conceptProperty->getConceptRelatedByConceptId();
+                }
             }
             if (isset( $concept )) {
                 $this->concept = $concept;
