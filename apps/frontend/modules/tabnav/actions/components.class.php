@@ -119,9 +119,11 @@ class tabnavComponents extends sfComponents
         $this->tabs = self::getModulesForRoutes($topnav);
 
         $property         = isset( $this->concept_property ) ? $this->concept_property : ConceptPropertyPeer::retrieveByPK($id);
-        $breadcrumbs[0]    = Breadcrumb::vocabularyFactory($property->getConceptVocabulary());
-        $breadcrumbs[1]    = Breadcrumb::conceptFactory($property->getConceptRelatedByConceptId());
-        $breadcrumbs[2]    = Breadcrumb::conceptPropertyFactory($property, true);
+        if ($property) {
+            $breadcrumbs[0] = Breadcrumb::vocabularyFactory($property->getConceptVocabulary());
+            $breadcrumbs[1] = Breadcrumb::conceptFactory($property->getConceptRelatedByConceptId());
+            $breadcrumbs[2] = Breadcrumb::conceptPropertyFactory($property, true);
+        }
         $this->breadcrumbs = $breadcrumbs;
     }
 
