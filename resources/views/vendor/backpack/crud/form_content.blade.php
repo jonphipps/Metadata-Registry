@@ -1,4 +1,4 @@
-@if ($crud->model->translationEnabled())
+@if (method_exists($crud->model,'translationEnabled') && $crud->model->translationEnabled())
 <input type="hidden" name="locale" value={{ $crud->request->input('locale')?$crud->request->input('locale'):App::getLocale() }}>
 @endif
 
