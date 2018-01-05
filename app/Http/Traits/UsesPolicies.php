@@ -49,7 +49,7 @@ trait UsesPolicies
      */
     public function create()
     {
-        $this->policyAuthorize('create', $this->crud->getModel());
+        $this->policyAuthorize('create', \get_class($this->crud->getModel()));
 
         return parent::create();
     }
@@ -87,7 +87,7 @@ trait UsesPolicies
      */
     public function index()
     {
-        $this->policyAuthorize('index', $this->crud->getModel());
+        $this->policyAuthorize('index', \get_class($this->crud->getModel()));
 
         return parent::index();
     }
