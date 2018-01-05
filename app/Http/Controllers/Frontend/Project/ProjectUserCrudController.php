@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend\Project;
 
+use App\Http\Traits\UsesPolicies;
 use App\Models\Access\User\User;
 use App\Models\Project;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -20,6 +21,8 @@ use Illuminate\Support\Facades\Route;
  */
 class ProjectUserCrudController extends CrudController
 {
+    use UsesPolicies;
+
     /**
      * @throws \Exception
      */
