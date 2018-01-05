@@ -11,15 +11,16 @@ trait UsesPolicies
 {
     use AuthorizesRequests;
 
-    /**
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+    /** bulk authorize based on policies
      */
-    public function authorizeAll()
+    public function authorizeAll(): void
     {
+        if ( ! auth()->check()) {
+            return;
+        }
+
         $model     = $this->crud->getModel();
         $authArray = [
-            'index'   => 'index',
             'list'    => 'index',
             'create'  => 'create',
             'edit'    => 'update',
@@ -27,7 +28,18 @@ trait UsesPolicies
             'destroy' => 'delete',
         ];
         foreach ($authArray as $key => $ability) {
-            $this->policyAuthorize($ability, $model);
+            $this->crud->denyAccess([ $ability ]);
+
+            //these are based on the model class not the entry
+            if (\in_array($ability, [ 'index', 'create' ], true)) {
+                if (auth()->user()->can($ability, \get_class($this->crud->getModel()))) {
+                    $this->crud->allowAccess([ $ability ]);
+                }
+            } else {
+                if (auth()->user()->can($ability, $this->crud->getModel())) {
+                    $this->crud->allowAccess([ $ability ]);
+                }
+            }
         }
     }
 
