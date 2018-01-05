@@ -133,13 +133,19 @@ class ProjectUserCrudController extends CrudController
 
         // ------ CRUD COLUMNS
         $this->crud->addColumn([
-            'label'     => 'Member', // Table column heading
+            'label'     => 'Member Name',
             'type'      => 'select',
-            'name'      => 'user_id', // the column that contains the ID of that connected entity;
-            'entity'    => 'user', // the method that defines the relationship in your Model
-            'attribute' => 'name', // foreign key attribute that is shown to user
-            'model'     => User::class, // foreign key model
-        ]); // add a single column, at the end of the stack
+            'name'      => 'name',
+            'entity'    => 'user',
+            'attribute' => 'name',
+        ])->afterColumn('user_id');
+        $this->crud->addColumn([
+            'label'     => 'Member Nickname',
+            'type'      => 'select',
+            'name'      => 'nickname',
+            'entity'    => 'user',
+            'attribute' => 'nickname',
+        ])->afterColumn('user_id');
         // $this->crud->addColumns(); // add multiple columns, at the end of the stack
         // $this->crud->removeColumn('column_name'); // remove a column from the stack
         $this->crud->removeColumns(['is_admin_for', 'is_maintainer_for', 'current_language', 'id', 'created_at', 'deleted_at', 'updated_at']); // remove an array of columns from the stack
@@ -162,11 +168,13 @@ class ProjectUserCrudController extends CrudController
         $this->crud->setColumnDetails('is_registrar_for',
             [
                 'label' => 'Registrar',
-                'type'  => 'check',
+                'type'  => 'boolean',
             ]);
         $this->crud->setColumnsDetails(['agent_id','default_language'], ['list' => false]);
+        $this->crud->setColumnsDetails(['agent_id'], ['show' => false]);
 
         // ------ CRUD BUTTONS
+        $this->crud->initButtons();
         // possible positions: 'beginning' and 'end'; defaults to 'beginning' for the 'line' stack, 'end' for the others;
         // $this->crud->addButton($stack, $name, $type, $content, $position); // add a button; possible types are: view, model_function
         // $this->crud->addButtonFromModelFunction($stack, $name, $model_function_name, $position); // add a button whose HTML is returned by a method in the CRUD model
@@ -177,8 +185,9 @@ class ProjectUserCrudController extends CrudController
         // $this->crud->removeAllButtonsFromStack('line');
 
         // ------ CRUD ACCESS
-        // $this->crud->allowAccess(['list', 'create', 'update', 'reorder', 'delete']);
-        // $this->crud->denyAccess(['list', 'create', 'update', 'reorder', 'delete']);
+        $this->authorizeAll();
+        //this authorizes access for not-logged-in users
+        $this->crud->allowAccess([ 'list', 'show' ]);
 
         // ------ CRUD REORDER
         // $this->crud->enableReorder('label_name', MAX_TREE_LEVEL);
