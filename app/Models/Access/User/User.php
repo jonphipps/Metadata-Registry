@@ -174,7 +174,7 @@ class User extends Authenticatable
     public function projects(): ?BelongsToMany
     {
         return $this->belongsToMany( Project::class, ProjectUser::TABLE, 'user_id', 'agent_id' )
-            ->withPivot( 'is_registrar_for', 'is_admin_for' )
+            ->withPivot( 'is_registrar_for', 'is_admin_for', 'is_maintainer_for','authorized_as', 'languages' )
             ->withTimestamps();
     }
 
