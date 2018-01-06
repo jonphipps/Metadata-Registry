@@ -2,6 +2,8 @@
 
 namespace App\Policies;
 
+use App\Exceptions\MissingRequiredAttributeException;
+use App\Http\Requests\Request;
 use App\Models\Access\User\User;
 use App\Models\Project;
 use App\Models\ProjectUser;
@@ -47,10 +49,11 @@ class ProjectUserPolicy
      * @param User $user
      *
      * @return bool|null
+     * @throws MissingRequiredAttributeException
      */
     public function create(User $user): ?bool
     {
-        $project = Project::find(request()->route()->parameter('project_id'));
+        $project = Project::find(self::getProjectIdFromRoute());
 
         return $user->isAdminForProjectId($project->id);
     }
@@ -71,15 +74,27 @@ class ProjectUserPolicy
      * @param ProjectUser $projectUser
      *
      * @return Project|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null|static|static[]
+     * @throws MissingRequiredAttributeException
      */
     private function getProject(ProjectUser $projectUser)
     {
         if ($projectUser->exists) {
             $project = $projectUser->project;
         } else {
-            $project = Project::find(request()->route()->parameter('project_id'));
+            $project = Project::find(self::getProjectIdFromRoute());
         }
 
         return $project;
+    }
+
+    private static function getProjectIdFromRoute()
+    {
+        if(request()->route()->parameter('project')){
+            return request()->route()->parameter('project');
+        }
+        if(request()->route()->parameter('project_id')){
+            return request()->route()->parameter('project_id');
+        }
+        throw new MissingRequiredAttributeException("A project reference is required and can't be found");
     }
 }
