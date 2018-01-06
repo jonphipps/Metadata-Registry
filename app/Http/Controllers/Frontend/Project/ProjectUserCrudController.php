@@ -42,6 +42,7 @@ class ProjectUserCrudController extends CrudController
                     });
             }
             $this->data['parent'] = $project->title . ' Project';
+            $this->data['project'] = $project;
             $this->crud->setEntityNameStrings('Member', 'Members');
         }
 
