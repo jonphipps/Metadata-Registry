@@ -202,17 +202,21 @@ class User extends Authenticatable
     }
 
     /**
-     * @param Collection|null $purge is a collection or array of keys to purge from the list
+     * @param Collection|array $purgeKeys is a collection or array of user ids to purge from the list
      *
-     * @return Collection
+     * @return Collection of id -> nickname (user name) key:value pairs
      */
-    public static function GetUsersForSelect( Collection $purge = null): Collection
+    public static function GetUsersForSelect($purgeKeys = []): Collection
     {
-        $purgeKeys = ($purge !== null) ? $purge->keyBy('id') : null;
         return self::orderBy('nickname')->get([ 'id', 'nickname', 'first_name', 'last_name' ])->mapWithKeys(function($item) {
-            $name = trim($item['first_name'] . ' ' . $item['last_name']);
-
-            return $name ?  [ $item['id'] => $item['nickname'] . ' (' . $name . ')' ] : [ $item['id'] => $item['nickname'] ];
+            return [ $item['id'] => self::getCombinedName($item)];
         })->diffKeys($purgeKeys);
+    }
+
+    public static function getCombinedName($user)
+    {
+        $name = trim($user['first_name'] . ' ' . $user['last_name']);
+
+        return $name ? $user['nickname'] . ' (' . $name . ')' :  $user['nickname'] ;
     }
 }
