@@ -73,14 +73,20 @@ class ProjectUserCrudController extends CrudController
             'type' => 'hidden',
             'default' => $project_id,
         ]);
-        $userName = $id !== null ? $this->crud->entry->user->name : '';
+        $userName    = '';
+        if (isset($this->request->member) && $this->request->isMethod('GET')) {
+            $user = collect(ProjectUser::with('user')->find($this->request->member)->user);
+            if ($user) {
+                $userName = User::getCombinedName($user);
+            }
+        };
         $this->crud->addField([  //plain
                                  'type'  => 'custom_html',
                                  'name'  => 'member_name',
                                  'value' => '<label>Member</label> <div>' . $userName . '</div>',
         ], 'update');
 
-        $projectUsers = isset($project_id) ? ProjectUser::whereAgentId($project_id)->get([ 'id' ]) : [];
+        $projectUsers = isset($project_id) ? ProjectUser::whereAgentId($project_id)->get([ 'user_id' ])->keyBy('user_id') : [];
 
         $this->crud->addField([  // Select2
                                  'label'     => 'Member',
