@@ -9,6 +9,7 @@ use App\Models\ElementAttribute;
 use App\Models\Elementset;
 use App\Models\Import;
 use App\Models\Project;
+use App\Models\ProjectUser;
 use App\Models\Release;
 use App\Models\Vocabulary;
 use App\Policies\ConceptAttributePolicy;
@@ -18,6 +19,7 @@ use App\Policies\ElementPolicy;
 use App\Policies\ElementSetPolicy;
 use App\Policies\ImportPolicy;
 use App\Policies\ProjectPolicy;
+use App\Policies\ProjectUserPolicy;
 use App\Policies\ReleasePolicy;
 use App\Policies\VocabularyPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -42,6 +44,7 @@ class AuthServiceProvider extends ServiceProvider
         Elementset::class       => ElementSetPolicy::class,
         Import::class           => ImportPolicy::class,
         Project::class          => ProjectPolicy::class,
+        ProjectUser::class      => ProjectUserPolicy::class,
         Release::class          => ReleasePolicy::class,
         Vocabulary::class       => VocabularyPolicy::class,
         /** Module policy mapper */

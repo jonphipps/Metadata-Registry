@@ -13,6 +13,7 @@ use App\Models\Project;
 use App\Models\ProjectUser;
 use App\Models\Vocabulary;
 use App\Models\VocabularyUser;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -38,7 +39,7 @@ use Illuminate\Notifications\Notifiable;
  * @property string $name
  * @property int $confirmed
  * @property string|null $remember_token
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Elementset[] $elementsets
+ * @property-read Collection|\App\Models\Elementset[] $elementsets
  * @property-read string $action_buttons
  * @property-read string $change_password_button
  * @property-read string $clear_session_button
@@ -55,11 +56,11 @@ use Illuminate\Notifications\Notifiable;
  * @property-read string $status_button
  * @property-read string $status_label
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Project[] $projects
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\User\SocialLogin[] $providers
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\Role\Role[] $roles
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\System\Session[] $sessions
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vocabulary[] $vocabularies
+ * @property-read Collection|\App\Models\Project[] $projects
+ * @property-read Collection|\App\Models\Access\User\SocialLogin[] $providers
+ * @property-read Collection|\App\Models\Access\Role\Role[] $roles
+ * @property-read Collection|\App\Models\System\Session[] $sessions
+ * @property-read Collection|\App\Models\Vocabulary[] $vocabularies
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\User\User active($status = true)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\User\User confirmed($confirmed = true)
  * @method static bool|null forceDelete()
@@ -198,5 +199,24 @@ class User extends Authenticatable
             'schema_id' )
             ->withPivot( 'is_registrar_for', 'is_admin_for', 'is_maintainer_for' )
             ->withTimestamps();
+    }
+
+    /**
+     * @param Collection|array $purgeKeys is a collection or array of user ids to purge from the list
+     *
+     * @return Collection of id -> nickname (user name) key:value pairs
+     */
+    public static function getUsersForSelect($purgeKeys = []): Collection
+    {
+        return self::orderBy('nickname')->get([ 'id', 'nickname', 'first_name', 'last_name' ])->mapWithKeys(function($item) {
+            return [ $item['id'] => self::getCombinedName($item)];
+        })->diffKeys($purgeKeys);
+    }
+
+    public static function getCombinedName($user)
+    {
+        $name = trim($user['first_name'] . ' ' . $user['last_name']);
+
+        return $name ? $user['nickname'] . ' (' . $name . ')' :  $user['nickname'] ;
     }
 }

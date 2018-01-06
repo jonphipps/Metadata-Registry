@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend\Project;
 
+use App\Http\Traits\UsesPolicies;
 use App\Models\Access\User\User;
 use App\Models\Project;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
@@ -20,13 +21,14 @@ use Illuminate\Support\Facades\Route;
  */
 class ProjectUserCrudController extends CrudController
 {
+    use UsesPolicies;
+
     /**
      * @throws \Exception
      */
     public function setup()
     {
         $project_id = Route::current()->parameter('project_id') ?? Route::current()->parameter('project');
-        $id = Route::current()->parameter('member') ?? Route::current()->parameter('member');
         $this->crud->setEntityNameStrings('Project Member', 'Project Members');
 
         if ($project_id) {
@@ -45,9 +47,6 @@ class ProjectUserCrudController extends CrudController
 
         $this->crud->setModel(ProjectUser::class);
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/projects/' . $project_id . '/members');
-        if ($id) {
-            $this->crud->getEntry($id);
-        }
 
         /*
         |--------------------------------------------------------------------------
@@ -70,22 +69,28 @@ class ProjectUserCrudController extends CrudController
             'type' => 'hidden',
             'default' => $project_id,
         ]);
-        $userName = $id !== null ? $this->crud->entry->user->name : '';
+        $userName    = '';
+        if (isset($this->request->member) && $this->request->isMethod('GET')) {
+            $user = collect(ProjectUser::with('user')->find($this->request->member)->user);
+            if ($user) {
+                $userName = User::getCombinedName($user);
+            }
+        };
         $this->crud->addField([  //plain
                                  'type'  => 'custom_html',
                                  'name'  => 'member_name',
                                  'value' => '<label>Member</label> <div>' . $userName . '</div>',
-        ],
-            'update');
+        ], 'update');
+
+        $projectUsers = isset($project_id) ? ProjectUser::whereAgentId($project_id)->get([ 'user_id' ])->keyBy('user_id') : [];
+
         $this->crud->addField([  // Select2
-                                 'label'     => "Member",
-                                 'type'      => 'select2',
-                                 'name'      => 'user_id', // the db column for the foreign key
-                                 'entity'    => 'user', // the method that defines the relationship in your Model
-                                 'attribute' => 'name', // foreign key attribute that is shown to user
-                                 'model'     => User::class // foreign key model
-        ],
-            'create');
+                                 'label'     => 'Member',
+                                 'type'      => 'select2_from_array',
+                                 'name'      => 'user_id',
+                                 'options'  => User::getUsersForSelect($projectUsers),
+                                 'allows_null' => true,
+        ], 'create');
 
         $this->crud->addField([
             'name'    => 'authorized_as',
@@ -130,13 +135,32 @@ class ProjectUserCrudController extends CrudController
 
         // ------ CRUD COLUMNS
         $this->crud->addColumn([
-            'label'     => 'Member', // Table column heading
+            'label'     => 'Member Name',
             'type'      => 'select',
-            'name'      => 'user_id', // the column that contains the ID of that connected entity;
-            'entity'    => 'user', // the method that defines the relationship in your Model
-            'attribute' => 'name', // foreign key attribute that is shown to user
-            'model'     => User::class, // foreign key model
-        ]); // add a single column, at the end of the stack
+            'name'      => 'name',
+            'entity'    => 'user',
+            'attribute' => 'name',
+            'searchLogic' => function($query, $column, $searchTerm) {
+                $query->orWhereHas('user',
+                    function($q) use ($column, $searchTerm) {
+                        $q->where('first_name', 'like', '%' . $searchTerm . '%')
+                            ->orWhere('last_name', 'like', '%' . $searchTerm . '%');
+                    });
+            },
+            ])->afterColumn('user_id');
+        $this->crud->addColumn([
+            'label'     => 'Member Nickname',
+            'type'      => 'select',
+            'name'      => 'nickname',
+            'entity'    => 'user',
+            'attribute' => 'nickname',
+            'searchLogic' => function($query, $column, $searchTerm) {
+                $query->orWhereHas('user',
+                    function($q) use ($column, $searchTerm) {
+                        $q->where('nickname', 'like', '%' . $searchTerm . '%');
+                    });
+            },
+        ])->afterColumn('user_id');
         // $this->crud->addColumns(); // add multiple columns, at the end of the stack
         // $this->crud->removeColumn('column_name'); // remove a column from the stack
         $this->crud->removeColumns(['is_admin_for', 'is_maintainer_for', 'current_language', 'id', 'created_at', 'deleted_at', 'updated_at']); // remove an array of columns from the stack
@@ -145,9 +169,10 @@ class ProjectUserCrudController extends CrudController
                 'label'   => 'Authorized as', // the input label
                 'type'    => 'radio',
                 'options' => [ // the key will be stored in the db, the value will be shown as label;
-                               0 => 'Project Administrator',
-                               1 => 'Project Maintainer',
-                               2 => 'Language Maintainer',
+                               ProjectUser::AUTH_VIEWER              => 'Viewer',
+                               ProjectUser::AUTH_LANGUAGE_MAINTAINER => 'Language Maintainer',
+                               ProjectUser::AUTH_MAINTAINER          => 'Project Maintainer',
+                               ProjectUser::AUTH_ADMIN               => 'Project Administrator',
                 ],
             ]);
         $this->crud->setColumnDetails('languages',
@@ -159,11 +184,13 @@ class ProjectUserCrudController extends CrudController
         $this->crud->setColumnDetails('is_registrar_for',
             [
                 'label' => 'Registrar',
-                'type'  => 'check',
+                'type'  => 'boolean',
             ]);
         $this->crud->setColumnsDetails(['agent_id','default_language'], ['list' => false]);
+        $this->crud->setColumnsDetails(['agent_id'], ['show' => false]);
 
         // ------ CRUD BUTTONS
+        $this->crud->initButtons();
         // possible positions: 'beginning' and 'end'; defaults to 'beginning' for the 'line' stack, 'end' for the others;
         // $this->crud->addButton($stack, $name, $type, $content, $position); // add a button; possible types are: view, model_function
         // $this->crud->addButtonFromModelFunction($stack, $name, $model_function_name, $position); // add a button whose HTML is returned by a method in the CRUD model
@@ -174,8 +201,9 @@ class ProjectUserCrudController extends CrudController
         // $this->crud->removeAllButtonsFromStack('line');
 
         // ------ CRUD ACCESS
-        // $this->crud->allowAccess(['list', 'create', 'update', 'reorder', 'delete']);
-        // $this->crud->denyAccess(['list', 'create', 'update', 'reorder', 'delete']);
+        $this->authorizeAll();
+        //this authorizes access for not-logged-in users
+        $this->crud->allowAccess([ 'list', 'show' ]);
 
         // ------ CRUD REORDER
         // $this->crud->enableReorder('label_name', MAX_TREE_LEVEL);
@@ -244,5 +272,20 @@ class ProjectUserCrudController extends CrudController
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
         return $redirect_location;
+    }
+
+    public function destroy($id)
+    {
+        return parent::destroy($this->request->member);
+    }
+
+    public function edit($id)
+    {
+        return parent::edit($this->request->member);
+    }
+
+    public function show($id)
+    {
+        return parent::show($this->request->member);
     }
 }

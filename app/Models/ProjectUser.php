@@ -70,6 +70,17 @@ class ProjectUser extends Model
         'created' => 'user_id',
     ];
     protected $dates = [ 'deleted_at' ];
+    protected $fillable = [
+        'user_id',
+        'agent_id',
+        'is_registrar_for',
+        'is_maintainer_for',
+        'is_admin_for',
+        'languages',
+        'default_language',
+        'current_language',
+        'authorized_as'     ,
+    ];
     protected $guarded = [ 'id' ];
     protected $casts = [
         'id'                => 'integer',
@@ -81,6 +92,7 @@ class ProjectUser extends Model
         'languages'         => 'text',
         'default_language'  => 'string',
         'current_language'  => 'string',
+        'authorized_as'     => 'integer',
     ];
 
     /*
@@ -146,6 +158,7 @@ class ProjectUser extends Model
             $this->attributes['is_admin_for']      = 0;
             $this->attributes['is_maintainer_for'] = 0;
         }
+        $this->attributes['authorized_as'] = $value;
     }
 
 }

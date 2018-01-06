@@ -11,23 +11,50 @@ trait UsesPolicies
 {
     use AuthorizesRequests;
 
-    /**
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+    /** bulk authorize based on policies
      */
-    public function authorizeAll()
+    public function authorizeAll(): void
     {
+        if ( ! auth()->check()) {
+            return;
+        }
+
         $model     = $this->crud->getModel();
         $authArray = [
-            'index'   => 'index',
-            'list'    => 'index',
-            'create'  => 'create',
-            'edit'    => 'update',
-            'show'    => 'show',
-            'destroy' => 'delete',
+            'list'        => 'view',
+            'create'      => 'create',
+            'edit'        => 'update',
+            'update'      => 'update',
+            'destroy'     => 'delete',
+            'delete'      => 'delete',
+            'show'        => 'view',
+            'details_row' => 'view',
         ];
+        $done      = [];
         foreach ($authArray as $key => $ability) {
-            $this->policyAuthorize($ability, $model);
+            $this->crud->denyAccess([ $ability ]);
+            if (\in_array($ability, $done, true)) {
+                $this->crud->allowAccess([ $key ]);
+                continue;
+            }
+
+            switch ($ability) {
+                case 'view':
+                    if (auth()->user()->can($ability, $model)) {
+                        $this->crud->allowAccess([ $key ]);
+                    }
+                    break;
+                case 'create':
+                    if (auth()->user()->can($ability, \get_class($model))) {
+                        $this->crud->allowAccess([ $key ]);
+                    }
+                    break;
+                default:
+                    if (auth()->user()->can($ability, $model)) {
+                        $this->crud->allowAccess([ $key ]);
+                    }
+            }
+            $done[] = $ability;
         }
     }
 
@@ -37,7 +64,7 @@ trait UsesPolicies
      */
     public function create()
     {
-        $this->policyAuthorize('create', $this->crud->getModel());
+        $this->policyAuthorize('create', \get_class($this->crud->getModel()));
 
         return parent::create();
     }
@@ -75,7 +102,7 @@ trait UsesPolicies
      */
     public function index()
     {
-        $this->policyAuthorize('index', $this->crud->getModel());
+        $this->policyAuthorize('list', \get_class($this->crud->getModel()));
 
         return parent::index();
     }

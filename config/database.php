@@ -66,7 +66,7 @@ return [
             'host'      => env('DBTEST_HOST', 'localhost'),
             'port'      => env('DBTEST_PORT', '3306'),
             'database'  => env('DBTEST_DATABASE', 'swregistry_test'),
-            'username'  => env('DBTEST_USERNAME', 'root'),
+            'username'  => env('DBTEST_USERNAME', 'forge'),
             'password'  => env('DBTEST_PASSWORD', ''),
             'charset'   => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',

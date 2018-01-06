@@ -76,10 +76,17 @@ class Handler extends ExceptionHandler
             $exception instanceof AccessDeniedException) {
             //todo: do something different for logged in user without sufficient credentials and not-logged-in user
             if (request()->project) {
-                return redirect()->route('frontend.crud.projects.show', [ request()->project])->withFlashDanger(trans('backpack::crud.unauthorized_access'));
-            } else {
-                return redirect()->route('home')->withFlashDanger(trans('backpack::crud.unauthorized_access'));
+                return redirect()
+                    ->route('frontend.crud.projects.show', [ request()->project ])
+                    ->withFlashDanger(trans('backpack::crud.unauthorized_access'));
             }
+            if (request()->project_id) {
+                return redirect()
+                    ->route('frontend.crud.projects.show', [ request()->project_id ])
+                    ->withFlashDanger(trans('backpack::crud.unauthorized_access'));
+            }
+
+            return redirect()->route(homeRoute())->withFlashDanger(trans('backpack::crud.unauthorized_access'));
         }
 
         /*
