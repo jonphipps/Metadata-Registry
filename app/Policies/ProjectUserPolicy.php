@@ -50,7 +50,7 @@ class ProjectUserPolicy
      */
     public function create(User $user): ?bool
     {
-        $project = Project::find(request()->project);
+        $project = Project::find(request()->route()->parameter('project_id'));
 
         return $user->isAdminForProjectId($project->id);
     }
@@ -77,7 +77,7 @@ class ProjectUserPolicy
         if ($projectUser->exists) {
             $project = $projectUser->project;
         } else {
-            $project = Project::find(request()->project);
+            $project = Project::find(request()->route()->parameter('project_id'));
         }
 
         return $project;
