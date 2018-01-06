@@ -42,6 +42,7 @@ class ProjectUserCrudController extends CrudController
                     });
             }
             $this->data['parent'] = $project->title . ' Project';
+            $this->data['project'] = $project;
             $this->crud->setEntityNameStrings('Member', 'Members');
         }
 
@@ -68,6 +69,11 @@ class ProjectUserCrudController extends CrudController
             'name' => 'agent_id',
             'type' => 'hidden',
             'default' => $project_id,
+        ]);
+        $this->crud->addField([
+            'name' => 'is_registrar_for',
+            'type' => 'hidden',
+            'default' => 1,
         ]);
         $userName    = '';
         if (isset($this->request->member) && $this->request->isMethod('GET')) {
@@ -254,6 +260,9 @@ class ProjectUserCrudController extends CrudController
     public function store(StoreRequest $request)
     {
         // your additional operations before save here
+        //registrar is always 0 when project member is created this way
+        $request->merge([ 'is_registrar_for' => '0' ]);
+        $this->request->merge([ 'is_registrar_for' => '0' ]);
         $redirect_location = parent::storeCrud();
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
