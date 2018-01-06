@@ -21,25 +21,40 @@ trait UsesPolicies
 
         $model     = $this->crud->getModel();
         $authArray = [
-            'list'    => 'index',
-            'create'  => 'create',
-            'edit'    => 'update',
-            'show'    => 'show',
-            'destroy' => 'delete',
+            'list'        => 'view',
+            'create'      => 'create',
+            'edit'        => 'update',
+            'update'      => 'update',
+            'destroy'     => 'delete',
+            'delete'      => 'delete',
+            'show'        => 'view',
+            'details_row' => 'view',
         ];
+        $done      = [];
         foreach ($authArray as $key => $ability) {
             $this->crud->denyAccess([ $ability ]);
-
-            //these are based on the model class not the entry
-            if (\in_array($ability, [ 'index', 'create' ], true)) {
-                if (auth()->user()->can($ability, \get_class($this->crud->getModel()))) {
-                    $this->crud->allowAccess([ $ability ]);
-                }
-            } else {
-                if (auth()->user()->can($ability, $this->crud->getModel())) {
-                    $this->crud->allowAccess([ $ability ]);
-                }
+            if (\in_array($ability, $done, true)) {
+                $this->crud->allowAccess([ $key ]);
+                continue;
             }
+
+            switch ($ability) {
+                case 'view':
+                    if (auth()->user()->can($ability, $model)) {
+                        $this->crud->allowAccess([ $key ]);
+                    }
+                    break;
+                case 'create':
+                    if (auth()->user()->can($ability, \get_class($model))) {
+                        $this->crud->allowAccess([ $key ]);
+                    }
+                    break;
+                default:
+                    if (auth()->user()->can($ability, $model)) {
+                        $this->crud->allowAccess([ $key ]);
+                    }
+            }
+            $done[] = $ability;
         }
     }
 
@@ -87,7 +102,7 @@ trait UsesPolicies
      */
     public function index()
     {
-        $this->policyAuthorize('index', \get_class($this->crud->getModel()));
+        $this->policyAuthorize('list', \get_class($this->crud->getModel()));
 
         return parent::index();
     }
