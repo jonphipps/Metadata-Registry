@@ -29,7 +29,6 @@ class ProjectUserCrudController extends CrudController
     public function setup()
     {
         $project_id = Route::current()->parameter('project_id') ?? Route::current()->parameter('project');
-        $id = Route::current()->parameter('member') ?? Route::current()->parameter('member');
         $this->crud->setEntityNameStrings('Project Member', 'Project Members');
 
         if ($project_id) {
@@ -48,9 +47,6 @@ class ProjectUserCrudController extends CrudController
 
         $this->crud->setModel(ProjectUser::class);
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/projects/' . $project_id . '/members');
-        if ($id) {
-            $this->crud->getEntry($id);
-        }
 
         /*
         |--------------------------------------------------------------------------
@@ -276,5 +272,20 @@ class ProjectUserCrudController extends CrudController
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
         return $redirect_location;
+    }
+
+    public function destroy($id)
+    {
+        return parent::destroy($this->request->member);
+    }
+
+    public function edit($id)
+    {
+        return parent::edit($this->request->member);
+    }
+
+    public function show($id)
+    {
+        return parent::show($this->request->member);
     }
 }
