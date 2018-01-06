@@ -144,13 +144,26 @@ class ProjectUserCrudController extends CrudController
             'name'      => 'name',
             'entity'    => 'user',
             'attribute' => 'name',
-        ])->afterColumn('user_id');
+            'searchLogic' => function($query, $column, $searchTerm) {
+                $query->orWhereHas('user',
+                    function($q) use ($column, $searchTerm) {
+                        $q->where('first_name', 'like', '%' . $searchTerm . '%')
+                            ->orWhere('last_name', 'like', '%' . $searchTerm . '%');
+                    });
+            },
+            ])->afterColumn('user_id');
         $this->crud->addColumn([
             'label'     => 'Member Nickname',
             'type'      => 'select',
             'name'      => 'nickname',
             'entity'    => 'user',
             'attribute' => 'nickname',
+            'searchLogic' => function($query, $column, $searchTerm) {
+                $query->orWhereHas('user',
+                    function($q) use ($column, $searchTerm) {
+                        $q->where('nickname', 'like', '%' . $searchTerm . '%');
+                    });
+            },
         ])->afterColumn('user_id');
         // $this->crud->addColumns(); // add multiple columns, at the end of the stack
         // $this->crud->removeColumn('column_name'); // remove a column from the stack
@@ -160,9 +173,10 @@ class ProjectUserCrudController extends CrudController
                 'label'   => 'Authorized as', // the input label
                 'type'    => 'radio',
                 'options' => [ // the key will be stored in the db, the value will be shown as label;
-                               0 => 'Project Administrator',
-                               1 => 'Project Maintainer',
-                               2 => 'Language Maintainer',
+                               ProjectUser::AUTH_VIEWER              => 'Viewer',
+                               ProjectUser::AUTH_LANGUAGE_MAINTAINER => 'Language Maintainer',
+                               ProjectUser::AUTH_MAINTAINER          => 'Project Maintainer',
+                               ProjectUser::AUTH_ADMIN               => 'Project Administrator',
                 ],
             ]);
         $this->crud->setColumnDetails('languages',
