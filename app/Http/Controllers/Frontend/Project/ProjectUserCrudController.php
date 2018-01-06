@@ -88,7 +88,7 @@ class ProjectUserCrudController extends CrudController
                                  'label'     => 'Member',
                                  'type'      => 'select2_from_array',
                                  'name'      => 'user_id',
-                                 'options'  => User::GetUsersForSelect($projectUsers),
+                                 'options'  => User::getUsersForSelect($projectUsers),
                                  'allows_null' => true,
         ], 'create');
 

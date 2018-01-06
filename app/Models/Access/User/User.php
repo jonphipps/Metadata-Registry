@@ -206,7 +206,7 @@ class User extends Authenticatable
      *
      * @return Collection of id -> nickname (user name) key:value pairs
      */
-    public static function GetUsersForSelect($purgeKeys = []): Collection
+    public static function getUsersForSelect($purgeKeys = []): Collection
     {
         return self::orderBy('nickname')->get([ 'id', 'nickname', 'first_name', 'last_name' ])->mapWithKeys(function($item) {
             return [ $item['id'] => self::getCombinedName($item)];
