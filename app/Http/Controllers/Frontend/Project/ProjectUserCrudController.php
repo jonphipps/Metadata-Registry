@@ -78,17 +78,17 @@ class ProjectUserCrudController extends CrudController
                                  'type'  => 'custom_html',
                                  'name'  => 'member_name',
                                  'value' => '<label>Member</label> <div>' . $userName . '</div>',
-        ],
-            'update');
+        ], 'update');
+
+        $projectUsers = isset($project_id) ? ProjectUser::whereAgentId($project_id)->get([ 'id' ]) : [];
+
         $this->crud->addField([  // Select2
-                                 'label'     => "Member",
-                                 'type'      => 'select2',
-                                 'name'      => 'user_id', // the db column for the foreign key
-                                 'entity'    => 'user', // the method that defines the relationship in your Model
-                                 'attribute' => 'name', // foreign key attribute that is shown to user
-                                 'model'     => User::class // foreign key model
-        ],
-            'create');
+                                 'label'     => 'Member',
+                                 'type'      => 'select2_from_array',
+                                 'name'      => 'user_id',
+                                 'options'  => User::GetUsersForSelect($projectUsers),
+                                 'allows_null' => true,
+        ], 'create');
 
         $this->crud->addField([
             'name'    => 'authorized_as',
