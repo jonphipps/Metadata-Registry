@@ -120,6 +120,17 @@ class ProjectUser extends Model
         }
     }
 
+    public static function GetAuthorizedAsString($authId)
+    {
+        $authArray = [
+            self::AUTH_VIEWER              => 'Viewer',
+            self::AUTH_LANGUAGE_MAINTAINER => 'Language Maintainer',
+            self::AUTH_MAINTAINER          => 'Project Maintainer',
+            self::AUTH_ADMIN               => 'Project Administrator',
+        ];
+
+        return $authArray[ $authId ];
+    }
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
