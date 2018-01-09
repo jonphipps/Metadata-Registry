@@ -1,5 +1,6 @@
 <?php namespace App\Models;
 
+use App\Models\Traits\BelongsToUser;
 use Eloquent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -25,12 +26,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property array $step_data
  * @property int $total_count
  * @property int $handled_count
+ * @property mixed|null $handled_array
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Import[] $imports
  * @property-read \App\Models\Project|null $project
+ * @property-read \App\Models\Access\User\User|null $user
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Batch whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Batch whereEventDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Batch whereEventTime($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Batch whereEventType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Batch whereHandledArray($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Batch whereHandledCount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Batch whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Batch whereNextStep($value)
@@ -48,6 +52,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Batch extends Model
 {
+    use BelongsToUser;
+
     const TABLE = 'reg_batch';
     protected $table = self::TABLE;
     protected $dates = [ 'run_time', 'event_time' ];
@@ -61,6 +67,7 @@ class Batch extends Model
         'event_description' => 'string',
         'registry_uri'      => 'string',
         'step_data'         => 'array',
+        'handled_array'     => 'array',
     ];
     public static $rules = [
         'run_description'   => 'max:65535',
