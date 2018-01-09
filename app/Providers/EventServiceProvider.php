@@ -18,8 +18,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        BeforeBarRender::class => [
-            BarRenderListener::class,
+        //laravel Tracy
+        BeforeBarRender::class => [ BarRenderListener::class,
         ],
     ];
     /**
@@ -31,6 +31,7 @@ class EventServiceProvider extends ServiceProvider
         /*
          * Frontend Subscribers
          */
+        \App\Listeners\ImportEventListener::class,
 
         /*
          * Auth Subscribers

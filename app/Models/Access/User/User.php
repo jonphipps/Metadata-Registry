@@ -39,7 +39,7 @@ use Illuminate\Notifications\Notifiable;
  * @property string $name
  * @property int $confirmed
  * @property string|null $remember_token
- * @property-read Collection|\App\Models\Elementset[] $elementsets
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Elementset[] $elementsets
  * @property-read string $action_buttons
  * @property-read string $change_password_button
  * @property-read string $clear_session_button
@@ -56,11 +56,11 @@ use Illuminate\Notifications\Notifiable;
  * @property-read string $status_button
  * @property-read string $status_label
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
- * @property-read Collection|\App\Models\Project[] $projects
- * @property-read Collection|\App\Models\Access\User\SocialLogin[] $providers
- * @property-read Collection|\App\Models\Access\Role\Role[] $roles
- * @property-read Collection|\App\Models\System\Session[] $sessions
- * @property-read Collection|\App\Models\Vocabulary[] $vocabularies
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Project[] $projects
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\User\SocialLogin[] $providers
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\Role\Role[] $roles
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\System\Session[] $sessions
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vocabulary[] $vocabularies
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\User\User active($status = true)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\User\User confirmed($confirmed = true)
  * @method static bool|null forceDelete()
@@ -174,7 +174,7 @@ class User extends Authenticatable
     public function projects(): ?BelongsToMany
     {
         return $this->belongsToMany( Project::class, ProjectUser::TABLE, 'user_id', 'agent_id' )
-            ->withPivot( 'is_registrar_for', 'is_admin_for' )
+            ->withPivot( 'is_registrar_for', 'is_admin_for', 'is_maintainer_for','authorized_as', 'languages' )
             ->withTimestamps();
     }
 

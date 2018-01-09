@@ -70,17 +70,6 @@ class ProjectUser extends Model
         'created' => 'user_id',
     ];
     protected $dates = [ 'deleted_at' ];
-    protected $fillable = [
-        'user_id',
-        'agent_id',
-        'is_registrar_for',
-        'is_maintainer_for',
-        'is_admin_for',
-        'languages',
-        'default_language',
-        'current_language',
-        'authorized_as'     ,
-    ];
     protected $guarded = [ 'id' ];
     protected $casts = [
         'id'                => 'integer',
@@ -120,6 +109,17 @@ class ProjectUser extends Model
         }
     }
 
+    public static function GetAuthorizedAsString($authId)
+    {
+        $authArray = [
+            self::AUTH_VIEWER              => 'Viewer',
+            self::AUTH_LANGUAGE_MAINTAINER => 'Language Maintainer',
+            self::AUTH_MAINTAINER          => 'Project Maintainer',
+            self::AUTH_ADMIN               => 'Project Administrator',
+        ];
+
+        return $authArray[ $authId ];
+    }
     /*
     |--------------------------------------------------------------------------
     | RELATIONS

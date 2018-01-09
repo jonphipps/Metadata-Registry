@@ -76,10 +76,13 @@ class ProjectUserCrudController extends CrudController
             'default' => 1,
         ]);
         $userName    = '';
-        if (isset($this->request->member) && $this->request->isMethod('GET')) {
-            $user = collect(ProjectUser::with('user')->find($this->request->member)->user);
-            if ($user) {
-                $userName = User::getCombinedName($user);
+        if (request()->route()->parameter('member') && $this->request->isMethod('GET')) {
+            $projectUser = ProjectUser::with('user')->find(request()->route()->parameter('member'));
+            if ($projectUser) {
+                $user = $projectUser->user;
+                if ($user) {
+                    $userName = User::getCombinedName($user);
+                }
             }
         };
         $this->crud->addField([  //plain

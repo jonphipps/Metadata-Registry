@@ -175,7 +175,40 @@ $showReleaseButton = $showImportButton = (count($project->vocabularies) || count
                             <div class="panel panel-default">
                             @include('frontend.partials.panelheader', ['crud' => $member->crud, 'policy_model' => $project, 'permission' =>'edit', $showButton = true ])<!--panel-heading-->
                                 <div class="panel-body">
-                                    <p>This will be a list of members of this project</p>
+                                    <table class="table table-bordered table-striped table-hover table-condensed table-responsive">
+                                        <thead>
+                                        <tr>
+                                            <th>Nickname</th>
+                                            <th>Languages</th>
+                                            <th>Authorized As</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @forelse (\App\Models\ProjectUser::with('user')->where('agent_id',$project->id)->get() as $projectUser)
+                                            <tr>
+                                                <td>
+                                                    @if (isset($projectUser->user))
+                                                        @can('edit', $project)
+                                                            {{ laravel_link_to(url('projects/' . $project->id . '/members/' . $projectUser->id) , $projectUser->user->nickname) }}
+                                                        @else
+                                                            {{ $projectUser->user->nickname }}
+                                                        @endif
+                                                @endif
+                                                </td>
+                                                <td>
+                                                    {{ $projectUser->showLanguagesCommaDelimited()}}
+                                                </td>
+                                                <td>
+                                                    {{ $projectUser::GetAuthorizedAsString($projectUser->authorized_as)}}
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="4">No Project Members yet (which is strange)</td>
+                                            </tr>
+                                        @endforelse
+                                        </tbody>
+                                    </table>
                                 </div><!--panel-body-->
                             </div><!--panel-->
                         </div><!--col-md-6-->

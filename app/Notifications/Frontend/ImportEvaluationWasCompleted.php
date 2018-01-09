@@ -8,7 +8,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class ImportWasCompleted extends Notification implements ShouldQueue
+class ImportEvaluationWasCompleted extends Notification implements ShouldQueue
 {
     use Queueable;
     /**
@@ -46,8 +46,8 @@ class ImportWasCompleted extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->line('Your vocabularies have been imported.')
-            ->action('View Report', url("/projects/{$this->batch->project->id}/imports/{$this->batch->id}/results"))
+            ->line('The initial evaluation of your vocabularies for import has been imported and is ready for you to approve.')
+            ->action('View Report', url("/projects/{$this->batch->project->id}/imports/{$this->batch->id}/approve"))
             ->line('Thank you for using the Open Metadata Registry!');
     }
 

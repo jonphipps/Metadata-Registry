@@ -2,6 +2,8 @@
 
 namespace App\Jobs;
 
+use App\Events\ImportFailed;
+use App\Events\ImportFinished;
 use App\Models\Concept;
 use App\Models\ConceptAttribute;
 use App\Models\Element;
@@ -170,11 +172,13 @@ class ImportVocabulary implements ShouldQueue
         $this->import->deleted_count         = $deleted;
         $this->import->imported_at           = new \DateTime();
         $this->import->save();
+
+        event(new ImportFinished($this->import));
     }
 
     public function failed(Exception $exception)
     {
-        //report a failed import
+        event(new ImportFailed($this->import, $exception));
     }
 
     private function addUpdateStatement($statement): void

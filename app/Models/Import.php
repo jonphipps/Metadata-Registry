@@ -41,7 +41,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int|null $export_id
  * @property int|null $token
  * @property array $instructions
- * @property mixed $errors
+ * @property mixed|null $errors
  * @property-read \App\Models\Batch|null $batch
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConceptAttributeHistory[] $concept_history
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ConceptAttribute[] $concept_statements
