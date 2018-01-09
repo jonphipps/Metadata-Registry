@@ -2,6 +2,8 @@
 /** @noinspection ReturnTypeCanBeDeclaredInspection */
 namespace Tests\Feature\OMR;
 
+use App\Events\ImportFinished;
+use App\Events\ImportParseFinished;
 use App\Jobs\ImportVocabulary;
 use App\Models\Batch;
 use App\Models\Concept;
@@ -11,8 +13,14 @@ use App\Models\ElementAttribute;
 use App\Models\Export;
 use App\Models\Import;
 use App\Models\Project;
+use App\Notifications\Frontend\ImportEvaluationWasCompleted;
+use App\Notifications\Frontend\ImportWasCompleted;
 use App\Services\Import\DataImporter;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Queue;
 use Spatie\Snapshots\MatchesSnapshots;
 use Tests\TestCase;
 use function factory;
@@ -27,6 +35,61 @@ class ImportTest extends TestCase
     {
       $this->dontSetupDatabase();
       parent::setUp();
+    }
+
+    /** @test */
+    public function a_notification_is_received_when_an_import_job_is_finished()
+    {
+        Notification::fake();
+
+        $user = $this->admin;
+        $import = factory(Import::class)->create([ 'user_id' => $user->id]);
+        /** @var Batch $batch */
+        $batch = factory(Batch::class)->create([ 'project_id' => 177, 'user_id' => $user->id ]);
+        $batch->addImports([ $import]);
+        event(new ImportFinished($import));
+        Notification::assertSentTo($user, ImportWasCompleted::class, function($notification, $channels) use ($batch) {
+            return $notification->batch->id === $batch->id;
+        });
+        Notification::assertSentTo([ $user ], ImportWasCompleted::class, 1);
+    }
+
+    /** @test */
+    public function a_notification_is_received_when_an_import_parse_job_is_finished()
+    {
+        Notification::fake();
+
+        $user = $this->admin;
+        $import = factory(Import::class)->create([ 'user_id' => $user->id]);
+        /** @var Batch $batch */
+        $batch = factory(Batch::class)->create([ 'project_id' => 177, 'user_id' => $user->id ]);
+        $batch->addImports([ $import]);
+        event(new ImportParseFinished($import));
+        Notification::assertSentTo($user, ImportEvaluationWasCompleted::class, function($notification, $channels) use ($batch) {
+            return $notification->batch->id === $batch->id;
+        });
+        Notification::assertSentTo([ $user ], ImportEvaluationWasCompleted::class, 1);
+    }
+
+    /** @test */
+    public function a_single_notification_is_received_when_two_import_job_are_finished()
+    {
+        Notification::fake();
+
+        $user   = $this->admin;
+        $import = factory(Import::class)->create([ 'user_id' => $user->id ]);
+        $import2 = factory(Import::class)->create([ 'user_id' => $user->id ]);
+        /** @var Batch $batch */
+        $batch = factory(Batch::class)->create([ 'project_id' => 177, 'user_id' => $user->id ]);
+        $batch->addImports([ $import, $import2 ]);
+        event(new ImportFinished($import));
+        event(new ImportFinished($import2));
+        Notification::assertSentTo($user,
+            ImportWasCompleted::class,
+            function($notification, $channels) use ($batch) {
+                return $notification->batch->id === $batch->id;
+            });
+        Notification::assertSentTo([ $user ], ImportWasCompleted::class, 1);
     }
 
     /** @test */
@@ -46,8 +109,8 @@ class ImportTest extends TestCase
         $AllImports     = $export->imports;
         $projectImports = $project->imports;
         //then I can see that there are multiple imports
-        $this->assertCount(2, $projectImports);
-        $this->assertCount(2, $AllImports);
+        $this->assertGreaterThanOrEqual(2, count($projectImports));
+        $this->assertGreaterThanOrEqual(2, count($AllImports));
     }
 
     /** @test */

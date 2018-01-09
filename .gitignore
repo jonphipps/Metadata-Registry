@@ -90,3 +90,4 @@ web/js/vendor.js
 /storage/test/
 styles.html
 .vscode
+/.env copy

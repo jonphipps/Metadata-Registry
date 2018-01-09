@@ -2,6 +2,8 @@
 
 namespace App\Jobs;
 
+use App\Events\BatchImportParseFinished;
+use App\Events\ImportParseFinished;
 use App\Models\Import;
 use App\Services\Import\DataImporter;
 use App\Services\Import\GoogleSpreadsheet;
@@ -56,13 +58,7 @@ class ParseVocabulary implements ShouldQueue
         $this->import->preprocess = $importer->getStats();
         $this->import->errors = $importer->getErrors()->toJson();
         $this->import->save();
-        $batch = $this->import->batch;
-        $batch->handled_count++;
-        $batch->save();
 
-        if ($batch->total_count <= $batch->handled_count) {
-            // we're done
-            //TODO: send a notification
-        }
+        event(new ImportParseFinished($this->import));
     }
 }

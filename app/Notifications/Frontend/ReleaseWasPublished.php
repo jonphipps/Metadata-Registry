@@ -14,8 +14,7 @@ class ReleaseWasPublished extends Notification implements ShouldQueue
     /**
      * @var Release
      */
-    private $release;
-
+public
     /**
      * Create a new notification instance.
      *
@@ -48,7 +47,7 @@ class ReleaseWasPublished extends Notification implements ShouldQueue
     {
         return (new MailMessage)
                     ->line("Your release has been published as {$this->release->tag_name}. You can view it on GitHub or download a zip file")
-                    ->action('Notification Action', url('/'))
+                    ->action('View the Release', url("/projects/{$this->release->project->id}/releases/{$this->release->id}"))
                     ->line('Thank you for using the Open Metadata Registry!');
     }
 
