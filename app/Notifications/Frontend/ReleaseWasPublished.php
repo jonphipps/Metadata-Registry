@@ -14,7 +14,8 @@ class ReleaseWasPublished extends Notification implements ShouldQueue
     /**
      * @var Release
      */
-public
+    public $release;
+
     /**
      * Create a new notification instance.
      *
