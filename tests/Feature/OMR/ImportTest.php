@@ -269,6 +269,7 @@ class ImportTest extends TestCase
             'updated_at'   => null,
         ];
         $import = factory(Import::class)->create([
+            'batch_id' => 6,
             'vocabulary_id' => 37,
             'schema_id'     => null,
             'source'        => 'Google',
