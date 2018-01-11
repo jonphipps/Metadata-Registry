@@ -20,7 +20,7 @@ class UserRepository extends BaseRepository
   /**
      * Associated Repository Model.
      */
-  const MODEL = User::class;
+  public const MODEL = User::class;
 
   /**
      * @var RoleRepository
@@ -43,6 +43,16 @@ class UserRepository extends BaseRepository
   public function findByEmail(string $email): ?User
   {
     return $this->query()->where('email', $email)->first();
+  }
+
+    /**
+     * @param string $name
+     *
+     * @return User|null
+     */
+  public function findByNickname(string $name): ?User
+  {
+    return $this->query()->where('nickname', $name)->first();
   }
 
     /**
@@ -93,11 +103,13 @@ class UserRepository extends BaseRepository
     throw new GeneralException(trans('auth.unknown'));
   }
 
-  /**
+    /**
      * @param array $data
      * @param bool  $provider
      *
      * @return static
+     * @throws \Exception
+     * @throws \Throwable
      */
   public function create(array $data, $provider = false)
   {
@@ -156,12 +168,14 @@ class UserRepository extends BaseRepository
     return $user;
   }
 
-  /**
+    /**
      * @param $data
      * @param $provider
      *
      * @return UserRepository|bool
      * @throws GeneralException
+     * @throws \Exception
+     * @throws \Throwable
      */
   public function findOrCreateSocial($data, $provider)
   {
@@ -214,31 +228,31 @@ class UserRepository extends BaseRepository
     return $user;
   }
 
-  /**
+    /**
      * @param $token
      *
      * @throws GeneralException
-     *
      * @return bool
      */
-  public function confirmAccount($token)
-  {
+    public function confirmAccount($token)
+    {
         $user = $this->findByConfirmationToken($token);
 
-    if ($user->confirmed == 1) {
-      throw new GeneralException(trans('exceptions.frontend.auth.confirmation.already_confirmed'));
+        if ($user) {
+            if ($user->confirmed == 1) {
+                throw new GeneralException(trans('exceptions.frontend.auth.confirmation.already_confirmed'));
+            }
+            if ($user->confirmation_code == $token) {
+                $user->confirmed = 1;
+
+                event(new UserConfirmed($user));
+
+                return $user->save();
+            }
+        }
+
+        throw new GeneralException(trans('exceptions.frontend.auth.confirmation.mismatch'));
     }
-
-    if ($user->confirmation_code == $token) {
-      $user->confirmed = 1;
-
-      event(new UserConfirmed($user));
-
-            return $user->save();
-    }
-
-    throw new GeneralException(trans('exceptions.frontend.auth.confirmation.mismatch'));
-  }
 
   /**
      * @param $id
