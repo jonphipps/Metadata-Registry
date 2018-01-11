@@ -24,10 +24,15 @@ use Laracasts\Matryoshka\Cacheable;
  * @property string|null $body
  * @property string $tag_name
  * @property string $target_commitish
- * @property int|null $is_draft
- * @property int|null $is_prerelease
- * @property mixed|null $github_response
+ * @property bool $is_draft
+ * @property bool $is_prerelease
+ * @property array $github_response
+ * @property-read mixed $github_created_at
+ * @property-read mixed $html_url
  * @property-read mixed $project_id
+ * @property-read mixed $published_at
+ * @property-read mixed $tarball_url
+ * @property-read mixed $zipball_url
  * @property-read \App\Models\Project|null $project
  * @property-read \App\Models\Access\User\User|null $user
  * @method static bool|null forceDelete()

@@ -26,7 +26,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property array $step_data
  * @property int $total_count
  * @property int $handled_count
- * @property mixed|null $handled_array
+ * @property array $handled_array
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Import[] $imports
  * @property-read \App\Models\Project|null $project
  * @property-read \App\Models\Access\User\User|null $user
