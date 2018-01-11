@@ -30,7 +30,7 @@ class Releasable extends Model
      *
      * @var string
      */
-    // protected $table = 'releasables';
+    protected $table = 'releaseables';
 
     /**
      * The primary key for the model.
