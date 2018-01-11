@@ -8,9 +8,25 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * App\Models\Releasable
  *
+ * @property int $id
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property string|null $deleted_at
+ * @property string|null $published_at
+ * @property int|null $release_id
+ * @property int|null $releaseable_id
+ * @property string|null $releaseable_type
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Releasable onlyTrashed()
  * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Releasable whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Releasable whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Releasable whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Releasable wherePublishedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Releasable whereReleaseId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Releasable whereReleaseableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Releasable whereReleaseableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Releasable whereUpdatedAt($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Releasable withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Releasable withoutTrashed()
  * @mixin \Eloquent
@@ -30,7 +46,7 @@ class Releasable extends Model
      *
      * @var string
      */
-    // protected $table = 'releasables';
+    protected $table = 'releaseables';
 
     /**
      * The primary key for the model.

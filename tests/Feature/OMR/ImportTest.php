@@ -198,6 +198,7 @@ class ImportTest extends TestCase
         $export = Export::findByExportFileName('RDAMediaType_en-fr_20170511T172922_569_0');
         //given an import with a changeset
         $import = factory(Import::class)->create([
+            'batch_id' => 6,
             'vocabulary_id' => 37,
             'schema_id'     => null,
             'source'        => 'Google',

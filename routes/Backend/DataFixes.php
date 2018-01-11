@@ -4,9 +4,12 @@
  * All route names are prefixed with 'admin.'.
  */
 
+use App\Models\Elementset;
 use App\Models\Project;
 use App\Models\ProjectUser;
+use App\Models\Release;
 use App\Models\Vocabulary;
+use GrahamCampbell\GitHub\Facades\GitHub;
 
 Route::get('fixprojectlanguages', function(){
     $agents = Project::with('vocabularies', 'elementsets')->get();
@@ -40,5 +43,44 @@ Route::get('update_authorized_as', function(){
     $projectUsers = ProjectUser::get();
 
     return $projectUsers->where('authorized_as',1);
+});
 
+Route::get('update_rda_releases', function(){
+    // return Release::withCount([ 'vocabularies', 'elementsets' ])->get();
+
+    //get rid of bad test data
+    //Release::withTrashed()->find(1)->forceDelete();
+    //Releasable::withTrashed()->where('release_id',1)->forceDelete();
+
+    //get the releases from GitHub
+    $releases = GitHub::repos()->releases()->all('RDARegistry', 'RDA-Vocabularies');
+    $user =\App\Models\Access\User\User::where('nickname','jonphipps')->firstOrFail();
+    foreach ($releases as $release) {
+        Release::create([
+            'user_id' => $user->id,
+            'agent_id' => 177,
+            'name' => empty($release['name']) ? 'Release ' . trim($release['tag_name'],'v'): $release['name'],
+            'body' => $release['body'],
+            'tag_name' => $release['tag_name'],
+            'target_commitish' => $release['target_commitish'],
+            'is_draft' => $release['draft'],
+            'is_prerelease' => $release['prerelease'],
+            'github_response' => $release,
+        ]);
+    }
+
+    //reset the timestamps and set the released vocabularies and elementsets
+    $dbReleases = Release::where('agent_id',177)->get();
+    /** @var Release $dbRelease */
+    foreach ($dbReleases as $dbRelease) {
+        $dbRelease->timestamps = false;
+        $dbRelease->created_at = $dbRelease->github_created_at;
+        $dbRelease->updated_at = $dbRelease->published_at;
+        $vocabularies = Vocabulary::where([['agent_id','=', 177], [ 'created_at', '<=', $dbRelease->updated_at ]])->get(['id'])->pluck('id')->toArray();
+        $elementsets = Elementset::where([['agent_id','=', 177], [ 'created_at', '<=', $dbRelease->updated_at ]])->get(['id'])->pluck('id')->toArray();
+        $dbRelease->vocabularies()->sync($vocabularies);
+        $dbRelease->elementsets()->sync($elementsets);
+        $dbRelease->save();
+    }
+    return Release::withCount(['vocabularies','elementsets'])->get();
 });
