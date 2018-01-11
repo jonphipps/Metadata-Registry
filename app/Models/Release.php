@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 use Laracasts\Matryoshka\Cacheable;
 
 /**
@@ -66,15 +67,34 @@ class Release extends Model
     protected $primaryKey = 'id';
     public $timestamps = true;
     protected $guarded = ['id'];
+    protected $casts= [
+        'github_response' => 'array',
+        'is_draft' => 'bool',
+        'is_prerelease' => 'bool',
+    ];
+    protected $appends = [
+        'tarball_url',
+        'zipball_url',
+        'html_url',
+        'github_created_at',
+        'published_at'
+    ];
     // protected $fillable = [];
-    // protected $hidden = [];
-    // protected $dates = [];
+    protected $hidden = ['github_response'];
+    protected $dates = [
+        'github_created_at',
+        'published_at'
+    ];
 
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
+    public static function findByTagName($tagName)
+    {
+        return static::where('tag_name',$tagName)->firstOrFail();
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -109,4 +129,29 @@ class Release extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
+
+    //these all retrieve data from the json github_response
+    public function getTarballUrlAttribute()
+    {
+        return $this->getAttribute('github_response')['tarball_url'];
+    }
+    public function getHtmlUrlAttribute()
+    {
+        return $this->getAttribute('github_response')['html_url'];
+    }
+    public function getZipballUrlAttribute()
+    {
+        return $this->getAttribute('github_response')['zipball_url'];
+    }
+    public function getGithubCreatedAtAttribute()
+    {
+        return Carbon::createFromTimestamp(strtotime($this->getAttribute('github_response')['created_at']))
+            ->toDateTimeString();
+    }
+    public function getPublishedAtAttribute()
+    {
+        return Carbon::createFromTimestamp(strtotime($this->getAttribute('github_response')['published_at']))
+            ->toDateTimeString();
+    }
+
 }
