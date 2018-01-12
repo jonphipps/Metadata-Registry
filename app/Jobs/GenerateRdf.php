@@ -2,10 +2,14 @@
 
 namespace App\Jobs;
 
+use App\Models\Project;
 use App\Models\Release;
 use App\Models\VocabsModel;
 use apps\frontend\lib\services\jsonldElementsetService;
 use apps\frontend\lib\services\jsonldVocabularyService;
+use GitWrapper\GitCommand;
+use GitWrapper\GitException;
+use GitWrapper\GitWrapper;
 use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -115,11 +119,19 @@ class GenerateRdf implements ShouldQueue
         return "projects/{$projectId}/";
     }
 
+    public static function getProjectRepo($projectId)
+    {
+        $project = Project::find($projectId);
+        $repo = $project ? $project->repo : null;
+        return $repo ? "https://github.com/{$repo}.git" : null;
+    }
+
     /**
      * @param int    $projectId
      * @param string $disk
      *
      * @return void
+     * @throws GitException
      * @throws \Symfony\Component\Process\Exception\LogicException
      * @throws \Symfony\Component\Process\Exception\RuntimeException
      * @throws \Symfony\Component\Process\Exception\ProcessFailedException
@@ -132,12 +144,16 @@ class GenerateRdf implements ShouldQueue
 
             $dir = Storage::disk($disk)->path($projectPath);
 
-            $process = new Process('git init', $dir);
-            $process->run();
-
-            // executes after the command finishes
-            if ( ! $process->isSuccessful()) {
-                throw new ProcessFailedException($process);
+            /** @var GitWrapper $wrapper */
+            $wrapper = new GitWrapper();
+            $repo = self::getProjectRepo($projectId);
+            if ($repo) {
+                $git = $wrapper->cloneRepository($repo, $dir);
+                if ( ! $git->isCloned()) {
+                    throw new GitException($git);
+                }
+            } else {
+                $wrapper->init($dir);
             }
         }
     }
