@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "fc772414b9caba7ce3f6ed7b3a1a6be0",
+    "content-hash": "e25864dd95fde9c581b4f3d813751569",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -2260,6 +2260,50 @@
             "time": "2017-11-14T20:44:03+00:00"
         },
         {
+            "name": "erusev/parsedown-extra",
+            "version": "0.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/erusev/parsedown-extra.git",
+                "reference": "0db5cce7354e4b76f155d092ab5eb3981c21258c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/erusev/parsedown-extra/zipball/0db5cce7354e4b76f155d092ab5eb3981c21258c",
+                "reference": "0db5cce7354e4b76f155d092ab5eb3981c21258c",
+                "shasum": ""
+            },
+            "require": {
+                "erusev/parsedown": "~1.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "ParsedownExtra": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Emanuil Rusev",
+                    "email": "hello@erusev.com",
+                    "homepage": "http://erusev.com"
+                }
+            ],
+            "description": "An extension of Parsedown that adds support for Markdown Extra.",
+            "homepage": "https://github.com/erusev/parsedown-extra",
+            "keywords": [
+                "markdown",
+                "markdown extra",
+                "parsedown",
+                "parser"
+            ],
+            "time": "2015-11-01T10:19:22+00:00"
+        },
+        {
             "name": "fideloper/proxy",
             "version": "3.3.4",
             "source": {
@@ -2640,74 +2684,6 @@
             "time": "2017-08-06T17:54:13+00:00"
         },
         {
-            "name": "graham-campbell/markdown",
-            "version": "v9.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/GrahamCampbell/Laravel-Markdown.git",
-                "reference": "2c62d673869c635de368698d53f78eb7c10b18ce"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Laravel-Markdown/zipball/2c62d673869c635de368698d53f78eb7c10b18ce",
-                "reference": "2c62d673869c635de368698d53f78eb7c10b18ce",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/contracts": "5.1.*|5.2.*|5.3.*|5.4.*|5.5.*",
-                "illuminate/support": "5.1.*|5.2.*|5.3.*|5.4.*|5.5.*",
-                "illuminate/view": "5.1.*|5.2.*|5.3.*|5.4.*|5.5.*",
-                "league/commonmark": "^0.17",
-                "php": "^7.0"
-            },
-            "require-dev": {
-                "graham-campbell/analyzer": "^2.0",
-                "graham-campbell/testbench": "^4.0|^5.0",
-                "league/commonmark-extras": "^0.1.4",
-                "mockery/mockery": "^1.0",
-                "phpunit/phpunit": "^6.5"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "9.0-dev"
-                },
-                "laravel": {
-                    "providers": [
-                        "GrahamCampbell\\Markdown\\MarkdownServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "GrahamCampbell\\Markdown\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Graham Campbell",
-                    "email": "graham@alt-three.com"
-                }
-            ],
-            "description": "Markdown Is A CommonMark Wrapper For Laravel 5",
-            "keywords": [
-                "Graham Campbell",
-                "GrahamCampbell",
-                "Laravel Markdown",
-                "Laravel-Markdown",
-                "common mark",
-                "commonmark",
-                "framework",
-                "laravel",
-                "markdown"
-            ],
-            "time": "2018-01-02T18:18:48+00:00"
-        },
-        {
             "name": "guzzlehttp/guzzle",
             "version": "6.3.0",
             "source": {
@@ -2967,6 +2943,85 @@
                 "wkhtmltopdf"
             ],
             "time": "2016-02-02T19:38:55+00:00"
+        },
+        {
+            "name": "haleks/writedown",
+            "version": "v2.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/haleks/writedown.git",
+                "reference": "4ac100fcad8765bdfb617b350d4af70cfb381a27"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/haleks/writedown/zipball/4ac100fcad8765bdfb617b350d4af70cfb381a27",
+                "reference": "4ac100fcad8765bdfb617b350d4af70cfb381a27",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "5.5.*",
+                "illuminate/support": "5.5.*",
+                "illuminate/view": "5.5.*",
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "erusev/parsedown": "~1.6",
+                "erusev/parsedown-extra": "~0.7",
+                "league/commonmark": "~0.16",
+                "michelf/php-markdown": "~1.7",
+                "mockery/mockery": "~0.9",
+                "orchestra/testbench": "3.5.*",
+                "phpunit/phpunit": "~6.2"
+            },
+            "suggest": {
+                "erusev/parsedown": "Required to use the parsedown driver (~1.6).",
+                "erusev/parsedown-extra": "Required to use the parsedownextra driver (~0.7).",
+                "league/commonmark": "Required to use the commonmark driver (~0.15)",
+                "michelf/php-markdown": "Required to use the markdown driver (~1.6)"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.1-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Haleks\\Writedown\\WritedownServiceProvider"
+                    ],
+                    "aliases": {
+                        "Writedown": "Haleks\\Writedown\\Facades\\Writedown"
+                    }
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Haleks\\Writedown\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexandre Villeneuve",
+                    "email": "haleksviller@gmail.com"
+                }
+            ],
+            "description": "Writedown integrate markdown \"curly\" braces inside the blade template engine, adding view extension and also giving the possibility of extending CommonMark.",
+            "keywords": [
+                "Parsedown Extra",
+                "blade",
+                "commonmark",
+                "laravel",
+                "markdown",
+                "parsedown",
+                "writedown"
+            ],
+            "time": "2017-08-29T23:42:18+00:00"
         },
         {
             "name": "hashids/hashids",
@@ -4195,75 +4250,6 @@
             "description": "HTML and Form Builders for the Laravel Framework",
             "homepage": "http://laravelcollective.com",
             "time": "2017-08-31T14:46:03+00:00"
-        },
-        {
-            "name": "league/commonmark",
-            "version": "0.17.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "3b4c2224524776a584de663c7a04bc8eb2e1544d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/3b4c2224524776a584de663c7a04bc8eb2e1544d",
-                "reference": "3b4c2224524776a584de663c7a04bc8eb2e1544d",
-                "shasum": ""
-            },
-            "require": {
-                "ext-mbstring": "*",
-                "php": ">=5.6.5"
-            },
-            "replace": {
-                "colinodell/commonmark-php": "*"
-            },
-            "require-dev": {
-                "cebe/markdown": "~1.0",
-                "commonmark/commonmark.js": "0.28",
-                "erusev/parsedown": "~1.0",
-                "michelf/php-markdown": "~1.4",
-                "mikehaertl/php-shellcommand": "~1.2.0",
-                "phpunit/phpunit": "~5.7|~6.5",
-                "scrutinizer/ocular": "~1.1",
-                "symfony/finder": "~3.0|~4.0"
-            },
-            "suggest": {
-                "league/commonmark-extras": "Library of useful extensions including smart punctuation"
-            },
-            "bin": [
-                "bin/commonmark"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.18-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "League\\CommonMark\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Colin O'Dell",
-                    "email": "colinodell@gmail.com",
-                    "homepage": "https://www.colinodell.com",
-                    "role": "Lead Developer"
-                }
-            ],
-            "description": "Markdown parser for PHP based on the CommonMark spec",
-            "homepage": "https://github.com/thephpleague/commonmark",
-            "keywords": [
-                "commonmark",
-                "markdown",
-                "parser"
-            ],
-            "time": "2017-12-30T22:08:48+00:00"
         },
         {
             "name": "league/flysystem",
