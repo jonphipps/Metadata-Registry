@@ -140,7 +140,7 @@ class ProjectReleaseCrudController extends CrudController
         // $this->crud->addColumn(); // add a single column, at the end of the stack
         // $this->crud->addColumns(); // add multiple columns, at the end of the stack
         //$this->crud->removeColumn('github_response'); // remove a column from the stack
-        $this->crud->removeColumns(['user_id','agent_id', 'github_response', 'target_commitish', 'is_draft']); // remove an array of columns from the stack
+        $this->crud->removeColumns(['user_id','agent_id', 'github_response', 'target_commitish', 'is_draft', 'deleted_at']); // remove an array of columns from the stack
         // $this->crud->setColumnDetails('column_name', ['attribute' => 'value']); // adjusts the properties of the passed in column (by name)
         $this->crud->addColumns([
             [
