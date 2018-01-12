@@ -91,3 +91,4 @@ web/js/vendor.js
 styles.html
 .vscode
 /.env copy
+/cypress.json
