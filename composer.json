@@ -143,8 +143,7 @@
             "model\\"      : "lib/model/",
             "apps\\"       : "apps/",
             "App\\"        : "app/",
-            "Database\\"   : "database/",
-            "Tests\\"      : "tests/"
+            "Database\\"   : "database/"
         },
         "classmap": [
             "lib/model",
@@ -152,8 +151,7 @@
         ],
         "files": [
             "app/helpers.php",
-            "app/Helpers/helpers.php",
-            "tests/helpers.php"
+            "app/Helpers/helpers.php"
         ]
     },
     "autoload-dev":
