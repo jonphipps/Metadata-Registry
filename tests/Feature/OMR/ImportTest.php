@@ -148,6 +148,7 @@ class ImportTest extends TestCase
         $export = Export::findByExportFileName('rdac_en-fr_20170511T182904_570_0');
         //given an import with a changeset
         $import = factory(Import::class)->create([
+            'batch_id' => 6,
             'vocabulary_id' => null,
             'schema_id'     => 83,
             'source'        => 'Google',
