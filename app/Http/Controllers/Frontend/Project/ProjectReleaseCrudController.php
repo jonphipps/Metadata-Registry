@@ -176,7 +176,7 @@ class ProjectReleaseCrudController extends CrudController
 
         $this->crud->setColumnDetails('is_prerelease',
             [
-                'type'    => 'check',
+                'type'    => 'boolean',
                 'label'   => 'Pre-release?',
 
             ]);
