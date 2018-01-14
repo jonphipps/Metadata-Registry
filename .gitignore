@@ -92,3 +92,4 @@ styles.html
 .vscode
 /.env copy
 /cypress.json
+/vfs:
