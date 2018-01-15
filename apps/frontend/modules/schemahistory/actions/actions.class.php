@@ -111,7 +111,7 @@ class schemahistoryActions extends autoSchemahistoryActions
   }
   public function executeList ()
   {
-        $idType = myActionTools::findIdType($this->getRequest()->getParameterHolder());
+      $idType = myActionTools::findIdType($this->getRequest()->getParameterHolder());
       $id     = $this->getRequestParameter('id', null);
 
       if ( ! $idType) {
@@ -148,7 +148,6 @@ class schemahistoryActions extends autoSchemahistoryActions
               $this->setFlash('hasProperty', true);
               $schemaId = $this->property->getSchemaId();
           }
-
       } else {
           $id     = $this->getRequestParameter('import_id', null);
           $import = FileImportHistoryPeer::retrieveByPK($id);
@@ -166,7 +165,6 @@ class schemahistoryActions extends autoSchemahistoryActions
       $this->setFlash('versions', $versions);
 
       parent::executeList();
-
   }
 
   /**
