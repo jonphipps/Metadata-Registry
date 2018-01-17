@@ -1,4 +1,4 @@
-https://circleci.com/gh/jonphipps/Metadata-Registry/tree/stage.svg?style=shield&circle-token=d34aa938838a61715091521dc01e5b32c4b11d91
+[![Stage Build Status](https://circleci.com/gh/jonphipps/Metadata-Registry/tree/stage.svg?style=shield&circle-token=d34aa938838a61715091521dc01e5b32c4b11d91)](https://circleci.com/gh/jonphipps/Metadata-Registry)
 
 Symfony is a complete framework designed to optimize the development of web applications by way of several key features.
 For starters, it separates a web application's business rules, server logic, and presentation views.
