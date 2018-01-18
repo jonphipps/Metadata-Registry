@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 class SyncProduction implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
     private $firstRun;
 
     /**
@@ -23,7 +24,7 @@ class SyncProduction implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($firstRun)
+    public function __construct ($firstRun)
     {
         //
         $this->firstRun = $firstRun;
@@ -34,7 +35,7 @@ class SyncProduction implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle ()
     {
         ob_implicit_flush (1);
         if (! $this->firstRun) {
@@ -57,13 +58,13 @@ class SyncProduction implements ShouldQueue
          * schema_has_user
          * reg_file_import_history
          */
-        $betaUsers = betaUser::where('updated_at', '>', $lastRunTimestamp)->get();
+        $betaUsers = betaUser::where ('updated_at', '>', $lastRunTimestamp)->get ();
         foreach ($betaUsers as $betaUser) {
-            echo $betaUser->id. ', ';
-            $omrUser = OmrUser::withTrashed()->find($betaUser->id);
+            echo $betaUser->id.', ';
+            $omrUser = OmrUser::withTrashed ()->find ($betaUser->id);
             if ($omrUser) {
                 //if it's the first run, then we always update beta
-                if ($this->firstRun || $omrUser->last_updated->gt($betaUser->updated_at)) {
+                if ($this->firstRun || $omrUser->last_updated->gt ($betaUser->updated_at)) {
                     $betaUser->deleted_at = $omrUser->deleted_at;
                     $betaUser->nickname   = $omrUser->nickname;
                     $betaUser->name       = $omrUser->nickname;
@@ -71,21 +72,21 @@ class SyncProduction implements ShouldQueue
                     $betaUser->first_name = $omrUser->first_name;
                     $betaUser->last_name  = $omrUser->last_name;
                     $betaUser->email      = $omrUser->email;
-                    if ($betaUser->isDirty()) {
+                    if ($betaUser->isDirty ()) {
                         $betaUser->updated_at = $omrUser->last_updated;
-                        $betaUser->save();
+                        $betaUser->save ();
                     }
                 }
-                if (! $this->firstRun && $betaUser->updated_at->gt($omrUser->last_updated)) {
-                    $omrUser->deleted_at   = $betaUser->deleted_at;
-                    $omrUser->nickname     = $betaUser->nickname;
-                    $omrUser->salutation   = $betaUser->salutation;
-                    $omrUser->first_name   = $betaUser->first_name;
-                    $omrUser->last_name    = $betaUser->last_name;
-                    $omrUser->email        = $betaUser->email;
-                    if ($omrUser->isDirty()) {
+                if (! $this->firstRun && $betaUser->updated_at->gt ($omrUser->last_updated)) {
+                    $omrUser->deleted_at = $betaUser->deleted_at;
+                    $omrUser->nickname   = $betaUser->nickname;
+                    $omrUser->salutation = $betaUser->salutation;
+                    $omrUser->first_name = $betaUser->first_name;
+                    $omrUser->last_name  = $betaUser->last_name;
+                    $omrUser->email      = $betaUser->email;
+                    if ($omrUser->isDirty ()) {
                         $omrUser->last_updated = $betaUser->updated_at;
-                        $omrUser->save();
+                        $omrUser->save ();
                     }
                 }
             } else { //we have a betaUser that doesn't exist in the OMR
@@ -99,11 +100,11 @@ class SyncProduction implements ShouldQueue
                 $omrUser->first_name   = $betaUser->first_name;
                 $omrUser->last_name    = $betaUser->last_name;
                 $omrUser->email        = $betaUser->email;
-                $omrUser->save();
+                $omrUser->save ();
             }
         }
-        $betaId   = betaUser::latest()->first()->id;
-        $omrUsers = OmrUser::where('id', '>', $betaId)->get();
+        $betaId   = betaUser::latest ()->first ()->id;
+        $omrUsers = OmrUser::where ('id', '>', $betaId)->get ();
         foreach ($omrUsers as $omrUser) {
             $betaUser             = new betaUser();
             $betaUser->id         = $omrUser->id;
@@ -116,7 +117,7 @@ class SyncProduction implements ShouldQueue
             $betaUser->first_name = $omrUser->first_name;
             $betaUser->last_name  = $omrUser->last_name;
             $betaUser->email      = $omrUser->email;
-            $betaUser->save();
+            $betaUser->save ();
         }
 
         // open the beta table and get the date of last created date
@@ -135,15 +136,9 @@ class SyncProduction implements ShouldQueue
          * reg_concept_property
          * reg_schema_property_element
          */
-        Cache::rememberForever('last_run_timestamp',
-            function() {
-                return now()->toDateTimeString();
+        Cache::rememberForever ('last_run_timestamp',
+            function () {
+                return now ()->toDateTimeString ();
             });
-    }
-
-    public static function getNewerThanBeta($model)
-    {
-        $betaId = \App\Models\Access\User\User::latest()->first()->id;
-        static::where('id', '>', $betaId)->get();
     }
 }
