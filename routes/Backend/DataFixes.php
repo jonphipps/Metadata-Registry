@@ -4,6 +4,7 @@
  * All route names are prefixed with 'admin.'.
  */
 
+use App\Jobs\UpdateBetaFromProduction;
 use App\Models\Elementset;
 use App\Models\Project;
 use App\Models\ProjectUser;
@@ -83,4 +84,8 @@ Route::get('update_rda_releases', function(){
         $dbRelease->save();
     }
     return Release::withCount(['vocabularies','elementsets'])->get();
+});
+
+Route::get('sync_production', function(){
+    dispatch(new UpdateBetaFromProduction());
 });
