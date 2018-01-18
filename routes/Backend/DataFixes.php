@@ -4,7 +4,7 @@
  * All route names are prefixed with 'admin.'.
  */
 
-use App\Jobs\UpdateBetaFromProduction;
+use App\Jobs\SyncProduction;
 use App\Models\Elementset;
 use App\Models\Project;
 use App\Models\ProjectUser;
@@ -87,5 +87,5 @@ Route::get('update_rda_releases', function(){
 });
 
 Route::get('sync_production', function(){
-    dispatch(new UpdateBetaFromProduction());
+    dispatch(new SyncProduction());
 });
