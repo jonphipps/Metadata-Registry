@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Access\User\User as betaUser;
-use App\Models\Omr\User as OmrUser;
+use App\Models\Omr\User as omrUser;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -61,7 +61,7 @@ class SyncProduction implements ShouldQueue
         $betaUsers = betaUser::where ('updated_at', '>', $lastRunTimestamp)->get ();
         foreach ($betaUsers as $betaUser) {
             echo $betaUser->id.', ';
-            $omrUser = OmrUser::withTrashed ()->find ($betaUser->id);
+            $omrUser = omrUser::withTrashed ()->find ($betaUser->id);
             if ($omrUser) {
                 //if it's the first run, then we always update beta
                 if ($this->firstRun || $omrUser->last_updated->gt ($betaUser->updated_at)) {
@@ -90,7 +90,7 @@ class SyncProduction implements ShouldQueue
                     }
                 }
             } else { //we have a betaUser that doesn't exist in the OMR
-                $omrUser               = new OmrUser();
+                $omrUser               = new omrUser();
                 $omrUser->id           = $betaUser->id;
                 $omrUser->created_at   = $betaUser->created_at;
                 $omrUser->last_updated = $betaUser->updated_at;
@@ -104,7 +104,7 @@ class SyncProduction implements ShouldQueue
             }
         }
         $betaId   = betaUser::latest ()->first ()->id;
-        $omrUsers = OmrUser::where ('id', '>', $betaId)->get ();
+        $omrUsers = omrUser::where ('id', '>', $betaId)->get ();
         foreach ($omrUsers as $omrUser) {
             $betaUser             = new betaUser();
             $betaUser->id         = $omrUser->id;
