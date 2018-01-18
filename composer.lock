@@ -409,12 +409,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jonphipps/backpack_CRUD.git",
-                "reference": "7febc9a501d1f530ce835d17be65df17e25a67d5"
+                "reference": "75fc6e25e7016300a260d50a0de463ea9bd54710"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jonphipps/backpack_CRUD/zipball/7febc9a501d1f530ce835d17be65df17e25a67d5",
-                "reference": "7febc9a501d1f530ce835d17be65df17e25a67d5",
+                "url": "https://api.github.com/repos/jonphipps/backpack_CRUD/zipball/75fc6e25e7016300a260d50a0de463ea9bd54710",
+                "reference": "75fc6e25e7016300a260d50a0de463ea9bd54710",
                 "shasum": ""
             },
             "require": {
@@ -439,7 +439,10 @@
                 "laravel": {
                     "providers": [
                         "Backpack\\CRUD\\CrudServiceProvider"
-                    ]
+                    ],
+                    "aliases": {
+                        "CRUD": "Backpack\\CRUD\\CrudServiceProvider"
+                    }
                 }
             },
             "autoload": {
@@ -489,7 +492,7 @@
                 "source": "https://github.com/jonphipps/backpack_CRUD/tree/master",
                 "issues": "https://github.com/jonphipps/backpack_CRUD/issues"
             },
-            "time": "2018-01-06T14:55:17+00:00"
+            "time": "2018-01-16T17:14:30+00:00"
         },
         {
             "name": "barryvdh/elfinder-flysystem-driver",
@@ -917,16 +920,16 @@
         },
         {
             "name": "cakephp/chronos",
-            "version": "1.1.3",
+            "version": "1.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/chronos.git",
-                "reference": "56d98330d366a469745848b07540373846c40561"
+                "reference": "85bcaea6a832684b32ef54b2487b0c14a172e9e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/chronos/zipball/56d98330d366a469745848b07540373846c40561",
-                "reference": "56d98330d366a469745848b07540373846c40561",
+                "url": "https://api.github.com/repos/cakephp/chronos/zipball/85bcaea6a832684b32ef54b2487b0c14a172e9e6",
+                "reference": "85bcaea6a832684b32ef54b2487b0c14a172e9e6",
                 "shasum": ""
             },
             "require": {
@@ -970,7 +973,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2017-12-25T22:42:18+00:00"
+            "time": "2018-01-13T12:19:50+00:00"
         },
         {
             "name": "chumper/zipper",
@@ -2467,16 +2470,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.41",
+            "version": "v0.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/google/google-api-php-client-services.git",
-                "reference": "b3715dfaad3cd91304c84bf3ce36c5cade851b35"
+                "reference": "873421bf7cd0cab613da792124db04e203ff196b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/google/google-api-php-client-services/zipball/b3715dfaad3cd91304c84bf3ce36c5cade851b35",
-                "reference": "b3715dfaad3cd91304c84bf3ce36c5cade851b35",
+                "url": "https://api.github.com/repos/google/google-api-php-client-services/zipball/873421bf7cd0cab613da792124db04e203ff196b",
+                "reference": "873421bf7cd0cab613da792124db04e203ff196b",
                 "shasum": ""
             },
             "require": {
@@ -2500,7 +2503,7 @@
             "keywords": [
                 "google"
             ],
-            "time": "2018-01-06T00:23:20+00:00"
+            "time": "2018-01-13T00:23:28+00:00"
         },
         {
             "name": "google/auth",
@@ -2866,16 +2869,16 @@
         },
         {
             "name": "h4cc/wkhtmltoimage-amd64",
-            "version": "0.12.3",
+            "version": "0.12.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/h4cc/wkhtmltoimage-amd64.git",
-                "reference": "f5d85706fbb41dbfbe62ace2edf0e380fff084ad"
+                "reference": "c4e33f635207af89a704205b8902fb5715ca88be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/h4cc/wkhtmltoimage-amd64/zipball/f5d85706fbb41dbfbe62ace2edf0e380fff084ad",
-                "reference": "f5d85706fbb41dbfbe62ace2edf0e380fff084ad",
+                "url": "https://api.github.com/repos/h4cc/wkhtmltoimage-amd64/zipball/c4e33f635207af89a704205b8902fb5715ca88be",
+                "reference": "c4e33f635207af89a704205b8902fb5715ca88be",
                 "shasum": ""
             },
             "bin": [
@@ -2902,26 +2905,31 @@
                 "thumbnail",
                 "wkhtmltoimage"
             ],
-            "time": "2016-02-02T19:39:01+00:00"
+            "time": "2018-01-15T07:23:40+00:00"
         },
         {
             "name": "h4cc/wkhtmltopdf-amd64",
-            "version": "0.12.3",
+            "version": "0.12.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/h4cc/wkhtmltopdf-amd64.git",
-                "reference": "b80ce6720349e98cebac7e8a19426455805fa7e1"
+                "reference": "4e2ab2d032a5d7fbe2a741de8b10b8989523c95b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/h4cc/wkhtmltopdf-amd64/zipball/b80ce6720349e98cebac7e8a19426455805fa7e1",
-                "reference": "b80ce6720349e98cebac7e8a19426455805fa7e1",
+                "url": "https://api.github.com/repos/h4cc/wkhtmltopdf-amd64/zipball/4e2ab2d032a5d7fbe2a741de8b10b8989523c95b",
+                "reference": "4e2ab2d032a5d7fbe2a741de8b10b8989523c95b",
                 "shasum": ""
             },
             "bin": [
                 "bin/wkhtmltopdf-amd64"
             ],
             "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "h4cc\\WKHTMLToPDF\\": ""
+                }
+            },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "LGPL Version 3"
@@ -2942,7 +2950,7 @@
                 "thumbnail",
                 "wkhtmltopdf"
             ],
-            "time": "2016-02-02T19:38:55+00:00"
+            "time": "2018-01-15T06:57:33+00:00"
         },
         {
             "name": "haleks/writedown",
@@ -3861,16 +3869,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.5.28",
+            "version": "v5.5.32",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "cfafae1f2043208390a7c984e3070696f4969605"
+                "reference": "254e4c3e133f5bc8d6068cdf28ea062abc10adf2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/cfafae1f2043208390a7c984e3070696f4969605",
-                "reference": "cfafae1f2043208390a7c984e3070696f4969605",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/254e4c3e133f5bc8d6068cdf28ea062abc10adf2",
+                "reference": "254e4c3e133f5bc8d6068cdf28ea062abc10adf2",
                 "shasum": ""
             },
             "require": {
@@ -3991,20 +3999,20 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-12-26T16:24:40+00:00"
+            "time": "2018-01-18T13:27:23+00:00"
         },
         {
             "name": "laravel/horizon",
-            "version": "v1.0.9",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/horizon.git",
-                "reference": "0979469b0b8290dc7e01c0207aad7f49c805ee70"
+                "reference": "b8685baf4720565bd79fdf9ba187cd973b6df9c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/horizon/zipball/0979469b0b8290dc7e01c0207aad7f49c805ee70",
-                "reference": "0979469b0b8290dc7e01c0207aad7f49c805ee70",
+                "url": "https://api.github.com/repos/laravel/horizon/zipball/b8685baf4720565bd79fdf9ba187cd973b6df9c2",
+                "reference": "b8685baf4720565bd79fdf9ba187cd973b6df9c2",
                 "shasum": ""
             },
             "require": {
@@ -4059,7 +4067,7 @@
                 "laravel",
                 "queue"
             ],
-            "time": "2018-01-03T18:00:20+00:00"
+            "time": "2018-01-17T14:33:51+00:00"
         },
         {
             "name": "laravel/socialite",
@@ -4589,30 +4597,25 @@
         },
         {
             "name": "michelf/php-markdown",
-            "version": "1.7.0",
+            "version": "1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/michelf/php-markdown.git",
-                "reference": "1f51cc520948f66cd2af8cbc45a5ee175e774220"
+                "reference": "01ab082b355bf188d907b9929cd99b2923053495"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/michelf/php-markdown/zipball/1f51cc520948f66cd2af8cbc45a5ee175e774220",
-                "reference": "1f51cc520948f66cd2af8cbc45a5ee175e774220",
+                "url": "https://api.github.com/repos/michelf/php-markdown/zipball/01ab082b355bf188d907b9929cd99b2923053495",
+                "reference": "01ab082b355bf188d907b9929cd99b2923053495",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-lib": "1.4.x-dev"
-                }
-            },
             "autoload": {
-                "psr-0": {
-                    "Michelf": ""
+                "psr-4": {
+                    "Michelf\\": "Michelf/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -4636,7 +4639,7 @@
             "keywords": [
                 "markdown"
             ],
-            "time": "2016-10-29T18:58:20+00:00"
+            "time": "2018-01-15T00:49:33+00:00"
         },
         {
             "name": "ml/iri",
@@ -5898,16 +5901,16 @@
         },
         {
             "name": "prettus/l5-repository",
-            "version": "2.6.29",
+            "version": "2.6.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/andersao/l5-repository.git",
-                "reference": "201039ad9bc03f722a8d904535bb375812ae267e"
+                "reference": "c328a0a7de4e98716b7bda238a058be1092fbffb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/andersao/l5-repository/zipball/201039ad9bc03f722a8d904535bb375812ae267e",
-                "reference": "201039ad9bc03f722a8d904535bb375812ae267e",
+                "url": "https://api.github.com/repos/andersao/l5-repository/zipball/c328a0a7de4e98716b7bda238a058be1092fbffb",
+                "reference": "c328a0a7de4e98716b7bda238a058be1092fbffb",
                 "shasum": ""
             },
             "require": {
@@ -5922,13 +5925,11 @@
             },
             "suggest": {
                 "league/fractal": "Required to use the Fractal Presenter (0.12.*).",
+                "prettus/laravel-validation": "Required to provide easy validation with the repository (1.1.*)",
                 "robclancy/presenter": "Required to use the Presenter Model (1.3.*)"
             },
             "type": "library",
             "extra": {
-                "branch-alias": {
-                    "dev-develop": "2.2-dev"
-                },
                 "laravel": {
                     "providers": [
                         "Prettus\\Repository\\Providers\\RepositoryServiceProvider"
@@ -5959,7 +5960,7 @@
                 "model",
                 "repository"
             ],
-            "time": "2017-12-14T15:57:36+00:00"
+            "time": "2018-01-16T19:14:01+00:00"
         },
         {
             "name": "prettus/laravel-validation",
@@ -6417,16 +6418,16 @@
         },
         {
             "name": "ramsey/uuid",
-            "version": "3.7.1",
+            "version": "3.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ramsey/uuid.git",
-                "reference": "45cffe822057a09e05f7bd09ec5fb88eeecd2334"
+                "reference": "bba83ad77bb9deb6d3c352a7361b818e415b221d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ramsey/uuid/zipball/45cffe822057a09e05f7bd09ec5fb88eeecd2334",
-                "reference": "45cffe822057a09e05f7bd09ec5fb88eeecd2334",
+                "url": "https://api.github.com/repos/ramsey/uuid/zipball/bba83ad77bb9deb6d3c352a7361b818e415b221d",
+                "reference": "bba83ad77bb9deb6d3c352a7361b818e415b221d",
                 "shasum": ""
             },
             "require": {
@@ -6438,7 +6439,7 @@
             },
             "require-dev": {
                 "apigen/apigen": "^4.1",
-                "codeception/aspect-mock": "^1.0 | ^2.0",
+                "codeception/aspect-mock": "^1.0 | ~2.0.0",
                 "doctrine/annotations": "~1.2.0",
                 "goaop/framework": "1.0.0-alpha.2 | ^1.0 | ^2.1",
                 "ircmaxell/random-lib": "^1.1",
@@ -6446,7 +6447,7 @@
                 "mockery/mockery": "^0.9.4",
                 "moontoast/math": "^1.1",
                 "php-mock/php-mock-phpunit": "^0.3|^1.1",
-                "phpunit/phpunit": "^4.7|>=5.0 <5.4",
+                "phpunit/phpunit": "^4.7|^5.0",
                 "satooshi/php-coveralls": "^0.6.1",
                 "squizlabs/php_codesniffer": "^2.3"
             },
@@ -6495,7 +6496,7 @@
                 "identifier",
                 "uuid"
             ],
-            "time": "2017-09-22T20:46:04+00:00"
+            "time": "2018-01-13T22:22:03+00:00"
         },
         {
             "name": "rinvex/language",
@@ -6573,12 +6574,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "fe89fd2178cabef137b9a76fa91d64925474b956"
+                "reference": "402a514551804df5b4b2150f217e23a15408795a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/fe89fd2178cabef137b9a76fa91d64925474b956",
-                "reference": "fe89fd2178cabef137b9a76fa91d64925474b956",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/402a514551804df5b4b2150f217e23a15408795a",
+                "reference": "402a514551804df5b4b2150f217e23a15408795a",
                 "shasum": ""
             },
             "conflict": {
@@ -6592,9 +6593,10 @@
                 "codeigniter/framework": "<=3.0.6",
                 "composer/composer": "<=1.0.0-alpha11",
                 "contao-components/mediaelement": ">=2.14.2,<2.21.1",
-                "contao/core": ">=2,<3.5.31",
+                "contao/core": ">=2,<3.5.32",
                 "contao/core-bundle": ">=4,<4.4.8",
                 "contao/listing-bundle": ">=4,<4.4.8",
+                "contao/newsletter-bundle": ">=4,<4.1",
                 "doctrine/annotations": ">=1,<1.2.7",
                 "doctrine/cache": ">=1,<1.3.2|>=1.4,<1.4.2",
                 "doctrine/common": ">=2,<2.4.3|>=2.5,<2.5.1",
@@ -6661,7 +6663,7 @@
                 "symfony/web-profiler-bundle": ">=2,<2.3.19|>=2.4,<2.4.9|>=2.5,<2.5.4",
                 "symfony/yaml": ">=2,<2.0.22|>=2.1,<2.1.7",
                 "thelia/backoffice-default-template": ">=2.1,<2.1.2",
-                "thelia/thelia": ">=2.1.0-beta1,<2.1.3|>=2.1,<2.1.2",
+                "thelia/thelia": ">=2.1,<2.1.2|>=2.1.0-beta1,<2.1.3",
                 "twig/twig": "<1.20",
                 "typo3/cms": ">=6.2,<6.2.30|>=7,<7.6.22|>=8,<8.7.5",
                 "typo3/flow": ">=1,<1.0.4|>=1.1,<1.1.1|>=2,<2.0.1|>=2.3,<2.3.16|>=3,<3.0.10|>=3.1,<3.1.7|>=3.2,<3.2.7|>=3.3,<3.3.5",
@@ -6710,7 +6712,7 @@
                 }
             ],
             "description": "Prevents installation of composer packages with known security vulnerabilities: no API, simply require it",
-            "time": "2018-01-07T00:56:33+00:00"
+            "time": "2018-01-18T10:00:53+00:00"
         },
         {
             "name": "sensiolabs/security-checker",
@@ -6912,21 +6914,21 @@
         },
         {
             "name": "spatie/fractalistic",
-            "version": "2.7.0",
+            "version": "2.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/fractalistic.git",
-                "reference": "f9e7fc7a5bbd3ef3dcc611612d656e0aad8b961e"
+                "reference": "83e208ce1e6061aa75d22c4efdab05ccfb99a849"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/fractalistic/zipball/f9e7fc7a5bbd3ef3dcc611612d656e0aad8b961e",
-                "reference": "f9e7fc7a5bbd3ef3dcc611612d656e0aad8b961e",
+                "url": "https://api.github.com/repos/spatie/fractalistic/zipball/83e208ce1e6061aa75d22c4efdab05ccfb99a849",
+                "reference": "83e208ce1e6061aa75d22c4efdab05ccfb99a849",
                 "shasum": ""
             },
             "require": {
                 "league/fractal": "^0.17.0",
-                "php": "^5.6|^7.0"
+                "php": "^7.0"
             },
             "require-dev": {
                 "illuminate/pagination": "~5.3.0|~5.4.0",
@@ -6959,7 +6961,7 @@
                 "spatie",
                 "transform"
             ],
-            "time": "2017-09-08T08:26:54+00:00"
+            "time": "2018-01-15T09:17:52+00:00"
         },
         {
             "name": "spatie/laravel-artisan-dd",
@@ -9523,16 +9525,16 @@
         },
         {
             "name": "laravel/dusk",
-            "version": "v2.0.8",
+            "version": "v2.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/dusk.git",
-                "reference": "a7529e19592879d3a6408728080ba657499890bc"
+                "reference": "c4f216abceaeda75350e4d67e56b67cd4a836922"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/dusk/zipball/a7529e19592879d3a6408728080ba657499890bc",
-                "reference": "a7529e19592879d3a6408728080ba657499890bc",
+                "url": "https://api.github.com/repos/laravel/dusk/zipball/c4f216abceaeda75350e4d67e56b67cd4a836922",
+                "reference": "c4f216abceaeda75350e4d67e56b67cd4a836922",
                 "shasum": ""
             },
             "require": {
@@ -9580,7 +9582,7 @@
                 "testing",
                 "webdriver"
             ],
-            "time": "2017-12-08T14:18:11+00:00"
+            "time": "2018-01-18T19:31:27+00:00"
         },
         {
             "name": "maximebf/debugbar",
