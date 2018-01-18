@@ -61,6 +61,20 @@ return [
             'engine'    => 'InnoDB',
         ],
 
+        'mysql_omr' => [
+            'driver'    => 'mysql',
+            'host'      => env('DB_OMR_HOST', 'localhost'),
+            'port'      => env('DB_OMR_PORT', '3306'),
+            'database'  => env('DB_OMR_DATABASE', 'swregistry'),
+            'username'  => env('DB_OMR_USERNAME', 'forge'),
+            'password'  => env('DB_OMR_PASSWORD', ''),
+            'charset'   => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix'    => '',
+            'strict'    => false,
+            'engine'    => 'InnoDB',
+        ],
+
         'mysql_testing' => [
             'driver'    => 'mysql',
             'host'      => env('DBTEST_HOST', 'localhost'),
