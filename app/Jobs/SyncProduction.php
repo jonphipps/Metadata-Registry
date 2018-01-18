@@ -16,15 +16,17 @@ use Illuminate\Support\Facades\DB;
 class SyncProduction implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    private $firstRun;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($firstRun)
     {
         //
+        $this->firstRun = $firstRun;
     }
 
     /**
@@ -34,12 +36,16 @@ class SyncProduction implements ShouldQueue
      */
     public function handle()
     {
-        ob_implicit_flush(1);
+        ob_implicit_flush (1);
+        if (! $this->firstRun) {
+            Cache::forget ('last_run_timestamp');
+        }
         //set last run to 0 if it wasn't cached
-        $lastRunTimestamp = Cache::get('last_run_timestamp',
-            function() {
-                return Carbon::createFromTimestamp(0)->toDateTimeString();
+        $lastRunTimestamp = Cache::get ('last_run_timestamp',
+            function () {
+                return Carbon::createFromTimestamp (0)->toDateTimeString ();
             });
+
         //for each table in the list:
         /**
          * user
@@ -56,7 +62,8 @@ class SyncProduction implements ShouldQueue
             echo $betaUser->id. ', ';
             $omrUser = OmrUser::withTrashed()->find($betaUser->id);
             if ($omrUser) {
-                if ($omrUser->last_updated->gt($betaUser->updated_at)) {
+                //if it's the first run, then we always update beta
+                if ($this->firstRun || $omrUser->last_updated->gt($betaUser->updated_at)) {
                     $betaUser->deleted_at = $omrUser->deleted_at;
                     $betaUser->nickname   = $omrUser->nickname;
                     $betaUser->name       = $omrUser->nickname;
@@ -69,7 +76,7 @@ class SyncProduction implements ShouldQueue
                         $betaUser->save();
                     }
                 }
-                if ($betaUser->updated_at->gt($omrUser->last_updated)) {
+                if (! $this->firstRun && $betaUser->updated_at->gt($omrUser->last_updated)) {
                     $omrUser->deleted_at   = $betaUser->deleted_at;
                     $omrUser->nickname     = $betaUser->nickname;
                     $omrUser->salutation   = $betaUser->salutation;
