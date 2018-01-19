@@ -25,19 +25,19 @@ class SyncProduction implements ShouldQueue
      *
      * @param $firstRun
      */
-    public function __construct (bool $firstRun)
+    public function __construct(bool $firstRun)
     {
-        ob_implicit_flush (1);
+        ob_implicit_flush(1);
 
         $this->firstRun = $firstRun;
         if (! $this->firstRun) {
-            Cache::forget ('last_run_timestamp');
+            Cache::forget('last_run_timestamp');
         }
 
         //set last run to 0 if it wasn't cached
-        $this->lastRunTimestamp = Cache::get ('last_run_timestamp',
+        $this->lastRunTimestamp = Cache::get('last_run_timestamp',
             function () {
-                return Carbon::createFromTimestamp (0)->toDateTimeString ();
+                return Carbon::createFromTimestamp(0)->toDateTimeString();
             });
     }
 
@@ -46,7 +46,7 @@ class SyncProduction implements ShouldQueue
      *
      * @return void
      */
-    public function handle ()
+    public function handle()
     {
         //for each table in the list:
         /**
@@ -59,8 +59,8 @@ class SyncProduction implements ShouldQueue
          * reg_file_import_history
          * reg_vocabulary
          */
-        $this->updateUsers ();
-        $this->updateAgents ();
+        $this->updateUsers();
+        $this->updateAgents();
 
         // open the beta table and get the date of last created date
         // open the omr table and get everything created newer than the last beta update
@@ -78,21 +78,21 @@ class SyncProduction implements ShouldQueue
          * reg_concept_property
          * reg_schema_property_element
          */
-        Cache::rememberForever ('last_run_timestamp',
+        Cache::rememberForever('last_run_timestamp',
             function () {
-                return now ()->toDateTimeString ();
+                return now()->toDateTimeString();
             });
     }
 
-    private function updateUsers (): void
+    private function updateUsers(): void
     {
-        $betaUsers = betaUser::where ('updated_at', '>', $this->lastRunTimestamp)->get ();
+        $betaUsers = betaUser::where('updated_at', '>', $this->lastRunTimestamp)->get();
         foreach ($betaUsers as $betaUser) {
             echo $betaUser->id.', ';
-            $omrUser = omrUser::withTrashed ()->find ($betaUser->id);
+            $omrUser = omrUser::withTrashed()->find($betaUser->id);
             if ($omrUser) {
                 //if it's the first run, then we always update beta
-                if ($this->firstRun || $omrUser->last_updated->gt ($betaUser->updated_at)) {
+                if ($this->firstRun || $omrUser->last_updated->gt($betaUser->updated_at)) {
                     $betaUser->deleted_at = $omrUser->deleted_at;
                     $betaUser->nickname   = $omrUser->nickname;
                     $betaUser->name       = $omrUser->nickname;
@@ -100,21 +100,21 @@ class SyncProduction implements ShouldQueue
                     $betaUser->first_name = $omrUser->first_name;
                     $betaUser->last_name  = $omrUser->last_name;
                     $betaUser->email      = $omrUser->email;
-                    if ($betaUser->isDirty ()) {
+                    if ($betaUser->isDirty()) {
                         $betaUser->updated_at = $omrUser->last_updated;
-                        $betaUser->save ();
+                        $betaUser->save();
                     }
                 }
-                if (! $this->firstRun && $betaUser->updated_at->gt ($omrUser->last_updated)) {
+                if (! $this->firstRun && $betaUser->updated_at->gt($omrUser->last_updated)) {
                     $omrUser->deleted_at = $betaUser->deleted_at;
                     $omrUser->nickname   = $betaUser->nickname;
                     $omrUser->salutation = $betaUser->salutation;
                     $omrUser->first_name = $betaUser->first_name;
                     $omrUser->last_name  = $betaUser->last_name;
                     $omrUser->email      = $betaUser->email;
-                    if ($omrUser->isDirty ()) {
+                    if ($omrUser->isDirty()) {
                         $omrUser->last_updated = $betaUser->updated_at;
-                        $omrUser->save ();
+                        $omrUser->save();
                     }
                 }
             } else { //we have a betaUser that doesn't exist in the OMR
@@ -128,11 +128,11 @@ class SyncProduction implements ShouldQueue
                 $omrUser->first_name   = $betaUser->first_name;
                 $omrUser->last_name    = $betaUser->last_name;
                 $omrUser->email        = $betaUser->email;
-                $omrUser->save ();
+                $omrUser->save();
             }
         }
-        $betaId   = betaUser::latest ()->first ()->id;
-        $omrUsers = omrUser::where ('id', '>', $betaId)->get ();
+        $betaId   = betaUser::latest()->first()->id;
+        $omrUsers = omrUser::where('id', '>', $betaId)->get();
         foreach ($omrUsers as $omrUser) {
             $betaUser             = new betaUser();
             $betaUser->id         = $omrUser->id;
@@ -145,32 +145,32 @@ class SyncProduction implements ShouldQueue
             $betaUser->first_name = $omrUser->first_name;
             $betaUser->last_name  = $omrUser->last_name;
             $betaUser->email      = $omrUser->email;
-            $betaUser->save ();
+            $betaUser->save();
         }
     }
 
-    private function updateAgents (): void
+    private function updateAgents(): void
     {
-        $betaProjects = Project::where ('updated_at', '>', $this->lastRunTimestamp)->get ();
+        $betaProjects = Project::where('updated_at', '>', $this->lastRunTimestamp)->get();
         foreach ($betaProjects as $betaProject) {
             echo $betaProject->id.', ';
-            $omrAgent = Agent::withTrashed ()->find ($betaProject->id);
+            $omrAgent = Agent::withTrashed()->find($betaProject->id);
             if ($omrAgent) {
                 //if it's the first run, then we always update beta
-                if ($this->firstRun || $omrAgent->last_updated->gt ($betaProject->updated_at)) {
-                    $this->UpdateMatchingAgent ($betaProject, $omrAgent);
+                if ($this->firstRun || $omrAgent->last_updated->gt($betaProject->updated_at)) {
+                    $this->UpdateMatchingAgent($betaProject, $omrAgent);
                 }
-                if (! $this->firstRun && $betaProject->updated_at->gt ($omrAgent->last_updated)) {
-                    $this->UpdateMatchingAgent ($omrAgent, $betaProject);
+                if (! $this->firstRun && $betaProject->updated_at->gt($omrAgent->last_updated)) {
+                    $this->UpdateMatchingAgent($omrAgent, $betaProject);
                 }
             } else { //we have a betaProject that doesn't exist in the OMR
-                $this->UpdateMatchingAgent (new Agent(), $betaProject, true);
+                $this->UpdateMatchingAgent(new Agent(), $betaProject, true);
             }
         }
-        $betaId    = Project::latest ()->first ()->id;
-        $omrAgents = Agent::where ('id', '>', $betaId)->get ();
+        $betaId    = Project::latest()->first()->id;
+        $omrAgents = Agent::where('id', '>', $betaId)->get();
         foreach ($omrAgents as $omrAgent) {
-            $this->UpdateMatchingAgent (new Project(), $omrAgent, true);
+            $this->UpdateMatchingAgent(new Project(), $omrAgent, true);
         }
     }
 
@@ -179,7 +179,7 @@ class SyncProduction implements ShouldQueue
      * @param      $fromModel
      * @param bool $create
      */
-    private function UpdateMatchingAgent ($toModel, $fromModel, $create = false): void
+    private function UpdateMatchingAgent($toModel, $fromModel, $create = false): void
     {
         if ($create) {
             $toModel->id           = $fromModel->id;
@@ -200,13 +200,13 @@ class SyncProduction implements ShouldQueue
         $toModel->phone           = $fromModel->phone;
         $toModel->web_address     = $fromModel->web_address;
         $toModel->type            = $fromModel->type;
-        if ($toModel->isDirty ()) {
+        if ($toModel->isDirty()) {
             if ($toModel instanceof Agent) {
                 $toModel->updated_at = $fromModel->last_updated;
             } else {
                 $toModel->last_updated = $fromModel->updated_at;
             }
-            $toModel->save ();
+            $toModel->save();
         }
     }
 }
