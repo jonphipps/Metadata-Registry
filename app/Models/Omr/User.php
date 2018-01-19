@@ -8,23 +8,23 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * App\Models\Omr\User
  *
- * @property int $id
+ * @property int                 $id
  * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon $last_updated
+ * @property \Carbon\Carbon      $last_updated
  * @property \Carbon\Carbon|null $deleted_at
- * @property string|null $nickname
- * @property string|null $salutation
- * @property string|null $first_name
- * @property string|null $last_name
- * @property string|null $email
- * @property string|null $sha1_password
- * @property string|null $salt
- * @property int|null $want_to_be_moderator
- * @property int|null $is_moderator
- * @property int|null $is_administrator
- * @property int|null $deletions
- * @property string|null $password
- * @property string|null $culture
+ * @property string|null         $nickname
+ * @property string|null         $salutation
+ * @property string|null         $first_name
+ * @property string|null         $last_name
+ * @property string|null         $email
+ * @property string|null         $sha1_password
+ * @property string|null         $salt
+ * @property int|null            $want_to_be_moderator
+ * @property int|null            $is_moderator
+ * @property int|null            $is_administrator
+ * @property int|null            $deletions
+ * @property string|null         $password
+ * @property string|null         $culture
  * @method static bool|null forceDelete()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Omr\User onlyTrashed()
  * @method static bool|null restore()
@@ -52,13 +52,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class User extends Model
 {
     use SoftDeletes;
-
-    protected $connection = 'mysql_omr';
-
-    protected $table = self::TABLE;
-    public const TABLE = 'reg_user';
-
-    protected $dates = ['created_at', 'last_updated','deleted_at'];
     public $timestamps = false;
+    protected $connection = 'mysql_omr';
+    protected $table = self::TABLE;
+    protected $dates = ['created_at', 'last_updated', 'deleted_at'];
 
+    public const TABLE = 'reg_user';
 }
