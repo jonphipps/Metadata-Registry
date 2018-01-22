@@ -38,6 +38,7 @@ class Publish implements ShouldQueue
      * Execute the job.
      *
      * @return void
+     * @throws \GitWrapper\GitException
      * @throws \Symfony\Component\Process\Exception\RuntimeException
      * @throws \Symfony\Component\Process\Exception\ProcessFailedException
      * @throws \Symfony\Component\Process\Exception\LogicException
@@ -48,7 +49,7 @@ class Publish implements ShouldQueue
         $project_id = $this->release->project_id;
         $repo = $this->release->project->repo;
         //todo: rdf generator shouldn't responsible for storage management or git stuff
-        GenerateRdf::initDir($project_id);
+        GenerateRdf::initDir($project_id, $this->disk);
         //if the project has a github repo
         //and it's a valid repo
         //pull the repo
