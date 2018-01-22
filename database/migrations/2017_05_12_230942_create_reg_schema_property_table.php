@@ -39,7 +39,7 @@ class CreateRegSchemaPropertyTable extends Migration
                 $table->boolean('is_deprecated')->nullable()->comment('Boolean. Has this class/property been deprecated');
                 $table->string('url')->nullable();
                 $table->text('lexical_alias')->nullable();
-                $table->char('hash_id')->default('')->index();
+                $table->char('hash_id')->default('')->nullable()->index();
                 $table->unsignedInteger('created_by')->nullable()->index();
                 $table->unsignedInteger('updated_by')->nullable()->index();
                 $table->unsignedInteger('deleted_by')->nullable()->index();
