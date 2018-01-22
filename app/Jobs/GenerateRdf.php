@@ -24,23 +24,19 @@ use Symfony\Component\Process\Process;
 class GenerateRdf implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    public const VOCABULARY   = Vocabulary::class;
-    public const ELEMENTSET   = Elementset::class;
-    public const REPO_ROOT    = 'repos';
-    public const PROJECT_ROOT = 'projects';
-    private const URLARRAY    = [self::VOCABULARY => 'vocabularies/', self::ELEMENTSET => 'elementsets/'];
+    public const  VOCABULARY   = Vocabulary::class;
+    public const  ELEMENTSET   = Elementset::class;
+    public const  REPO_ROOT    = 'repos';
+    public const  PROJECT_ROOT = 'projects';
+    private const URLARRAY     = [self::VOCABULARY => 'vocabularies/', self::ELEMENTSET => 'elementsets/'];
     /** @var int $projectId */
     private $projectId;
-
     /** @var string $class */
     private $class;
-
     /** @var int $id */
     private $id;
-
     /** @var string $filePath */
     private $filePath;
-
     /** @var string $fileName */
     private $fileName;
     private $disk;
@@ -238,6 +234,13 @@ class GenerateRdf implements ShouldQueue
         }
     }
 
+    /**
+     * @param $mimeType
+     *
+     * @throws \Symfony\Component\Process\Exception\ProcessFailedException
+     * @throws \Symfony\Component\Process\Exception\RuntimeException
+     * @throws \Symfony\Component\Process\Exception\LogicException
+     */
     public function runCurl($mimeType)
     {
         $outputPath = $this->getStoragePath($mimeType);
