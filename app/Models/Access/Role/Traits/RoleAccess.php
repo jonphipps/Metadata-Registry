@@ -14,10 +14,10 @@ trait RoleAccess
      *
      * @return void
      */
-    public function savePermissions( $inputPermissions )
+    public function savePermissions($inputPermissions)
     {
-        if ( ! empty( $inputPermissions ) ) {
-            $this->permissions()->sync( $inputPermissions );
+        if (! empty($inputPermissions)) {
+            $this->permissions()->sync($inputPermissions);
         } else {
             $this->permissions()->detach();
         }
@@ -30,17 +30,17 @@ trait RoleAccess
      *
      * @return void
      */
-    public function attachPermission( $permission )
+    public function attachPermission($permission)
     {
-        if ( is_object( $permission ) ) {
+        if (is_object($permission)) {
             $permission = $permission->getKey();
         }
 
-        if ( is_array( $permission ) ) {
+        if (is_array($permission)) {
             $permission = $permission['id'];
         }
 
-        $this->permissions()->attach( $permission );
+        $this->permissions()->attach($permission);
     }
 
     /**
@@ -50,17 +50,17 @@ trait RoleAccess
      *
      * @return void
      */
-    public function detachPermission( $permission )
+    public function detachPermission($permission)
     {
-        if ( is_object( $permission ) ) {
+        if (is_object($permission)) {
             $permission = $permission->getKey();
         }
 
-        if ( is_array( $permission ) ) {
+        if (is_array($permission)) {
             $permission = $permission['id'];
         }
 
-        $this->permissions()->detach( $permission );
+        $this->permissions()->detach($permission);
     }
 
     /**
@@ -70,10 +70,10 @@ trait RoleAccess
      *
      * @return void
      */
-    public function attachPermissions( $permissions )
+    public function attachPermissions($permissions)
     {
-        foreach ( $permissions as $permission ) {
-            $this->attachPermission( $permission );
+        foreach ($permissions as $permission) {
+            $this->attachPermission($permission);
         }
     }
 
@@ -84,10 +84,10 @@ trait RoleAccess
      *
      * @return void
      */
-    public function detachPermissions( $permissions )
+    public function detachPermissions($permissions)
     {
-        foreach ( $permissions as $permission ) {
-            $this->detachPermission( $permission );
+        foreach ($permissions as $permission) {
+            $this->detachPermission($permission);
         }
     }
 }

@@ -1,4 +1,6 @@
-<?php namespace App\Models;
+<?php
+
+namespace App\Models;
 
 use App\Helpers\Macros\Traits\Languages;
 use App\Models\Traits\BelongsToProfile;
@@ -10,7 +12,7 @@ use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\ProfileProperty
+ * App\Models\ProfileProperty.
  *
  * @property int $id
  * @property int $skos_id
@@ -102,7 +104,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class ProfileProperty extends Model
 {
-    const TABLE = 'profile_property';
+    const TABLE      = 'profile_property';
     protected $table = self::TABLE;
     use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy;
     use Languages, BelongsToProfile;
@@ -111,13 +113,13 @@ class ProfileProperty extends Model
         'updated' => 'updated_by',
         'deleted' => 'deleted_by',
     ];
-    protected $dates = [ 'deleted_at' ];
-    protected $guarded = [ 'id' ];
+    protected $dates   = ['deleted_at'];
+    protected $guarded = ['id'];
 
-    public function getNameAttribute( $value )
+    public function getNameAttribute($value)
     {
         //this is necessary to use the legacy database, where range was at one time a reserved word
-        if ( 'orange' === $value ) {
+        if ('orange' === $value) {
             return 'range';
         }
 

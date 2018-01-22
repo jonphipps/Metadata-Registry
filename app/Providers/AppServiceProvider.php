@@ -45,8 +45,8 @@ class AppServiceProvider extends ServiceProvider
          * Set the session variable for whether or not the app is using RTL support
          * For use in the blade directive in BladeServiceProvider
          */
-        if (config('locale.languages')[ config('app.locale') ][2]) {
-            session([ 'lang-rtl' => true ]);
+        if (config('locale.languages')[config('app.locale')][2]) {
+            session(['lang-rtl' => true]);
         } else {
             session()->forget('lang-rtl');
         }
@@ -88,10 +88,10 @@ class AppServiceProvider extends ServiceProvider
         $environment = $this->app->environment();
         if ($environment !== 'production') {
             /**
-             * Loader for registering facades
+             * Loader for registering facades.
              */
             $loader = AliasLoader::getInstance();
-            /**
+            /*
              * Load third party local providers and facades
              */
             //$this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
@@ -108,11 +108,11 @@ class AppServiceProvider extends ServiceProvider
                 $this->app->register(VfsFilesystemServiceProvider::class);
             }
         }
-        if ( ! \in_array($environment, [ 'production', 'testing' ], true)) {
+        if (! \in_array($environment, ['production', 'testing'], true)) {
             $this->app->register(LaravelTracyServiceProvider::class);
         }
         $this->app->bind('path.public',
-            function() {
+            function () {
                 return base_path() . '/web';
             });
         $this->app->alias('bugsnag.multi', \Illuminate\Contracts\Logging\Log::class);

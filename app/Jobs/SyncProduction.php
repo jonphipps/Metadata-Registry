@@ -61,7 +61,7 @@ class SyncProduction implements ShouldQueue
     public function handle()
     {
         //for each table in the list:
-        /**
+        /*
          * user
          * reg_agent
          * reg_agent_has_user
@@ -84,7 +84,7 @@ class SyncProduction implements ShouldQueue
         $this->updateSchemaUsers();
         $this->updateImportHistory();
 
-        /** for each history table
+        /* for each history table
          * reg-concept_property_history
          * reg_schema_property_element_history
          * open the beta table and get the date of last created date
@@ -107,7 +107,7 @@ class SyncProduction implements ShouldQueue
     {
         $betaUsers = betaUser::where('updated_at', '>', $this->lastRunTimestamp)->get();
         foreach ($betaUsers as $betaUser) {
-            echo $betaUser->id.', ';
+            echo $betaUser->id . ', ';
             $omrUser = omrUser::withTrashed()->find($betaUser->id);
             if ($omrUser) {
                 //if it's the first run, then we always update beta
@@ -119,7 +119,7 @@ class SyncProduction implements ShouldQueue
                     $betaUser->first_name        = $omrUser->first_name;
                     $betaUser->last_name         = $omrUser->last_name;
                     $betaUser->email             = $omrUser->email;
-                    $betaUser->confirmation_code = $betaUser->confirmation_code ?? md5($omrUser->sha1_password.$omrUser->salt);
+                    $betaUser->confirmation_code = $betaUser->confirmation_code ?? md5($omrUser->sha1_password . $omrUser->salt);
                     if ($betaUser->isDirty()) {
                         $betaUser->updated_at = $omrUser->last_updated;
                         $betaUser->save();
@@ -165,7 +165,7 @@ class SyncProduction implements ShouldQueue
             $betaUser->first_name        = $omrUser->first_name;
             $betaUser->last_name         = $omrUser->last_name;
             $betaUser->email             = $omrUser->email;
-            $betaUser->confirmation_code = $betaUser->confirmation_code ?? md5($omrUser->sha1_password.$omrUser->salt);
+            $betaUser->confirmation_code = $betaUser->confirmation_code ?? md5($omrUser->sha1_password . $omrUser->salt);
             $betaUser->save();
         }
     }
@@ -174,7 +174,7 @@ class SyncProduction implements ShouldQueue
     {
         $betaProjects = Project::where('updated_at', '>', $this->lastRunTimestamp)->get();
         foreach ($betaProjects as $betaProject) {
-            echo $betaProject->id.', ';
+            echo $betaProject->id . ', ';
             $omrAgent = Agent::withTrashed()->find($betaProject->id);
             if ($omrAgent) {
                 //if it's the first run, then we always update beta
@@ -199,7 +199,7 @@ class SyncProduction implements ShouldQueue
     {
         $betaProjectUsers = ProjectUser::where('updated_at', '>', $this->lastRunTimestamp)->get();
         foreach ($betaProjectUsers as $betaProjectUser) {
-            echo $betaProjectUser->id.', ';
+            echo $betaProjectUser->id . ', ';
             $omrAgentUser = AgentUser::withTrashed()->find($betaProjectUser->id);
             if ($omrAgentUser) {
                 //if it's the first run, then we always update beta
@@ -224,7 +224,7 @@ class SyncProduction implements ShouldQueue
     {
         $betaVocabularies = betaVocabulary::where('updated_at', '>', $this->lastRunTimestamp)->get();
         foreach ($betaVocabularies as $betaVocabulary) {
-            echo $betaVocabulary->id.', ';
+            echo $betaVocabulary->id . ', ';
             $omrVocabulary = omrVocabulary::withTrashed()->find($betaVocabulary->id);
             if ($omrVocabulary) {
                 //if it's the first run, then we always update beta
@@ -249,7 +249,7 @@ class SyncProduction implements ShouldQueue
     {
         $betaVocabularyUsers = betaVocabularyUser::where('updated_at', '>', $this->lastRunTimestamp)->get();
         foreach ($betaVocabularyUsers as $betaVocabularyUser) {
-            echo $betaVocabularyUser->id.', ';
+            echo $betaVocabularyUser->id . ', ';
             $omrVocabularyUser = omrVocabularyUser::withTrashed()->find($betaVocabularyUser->id);
             if ($omrVocabularyUser) {
                 //if it's the first run, then we always update beta
@@ -274,7 +274,7 @@ class SyncProduction implements ShouldQueue
     {
         $elementsets = Elementset::where('updated_at', '>', $this->lastRunTimestamp)->get();
         foreach ($elementsets as $elementset) {
-            echo $elementset->id.', ';
+            echo $elementset->id . ', ';
             $schema = Schema::withTrashed()->find($elementset->id);
             if ($schema) {
                 //if it's the first run, then we always update beta
@@ -299,7 +299,7 @@ class SyncProduction implements ShouldQueue
     {
         $elementsetUsers = ElementsetUser::where('updated_at', '>', $this->lastRunTimestamp)->get();
         foreach ($elementsetUsers as $elementsetUser) {
-            echo $elementsetUser->id.', ';
+            echo $elementsetUser->id . ', ';
             $schemaUser = SchemaUser::withTrashed()->find($elementsetUser->id);
             if ($schemaUser) {
                 //if it's the first run, then we always update beta
@@ -324,7 +324,7 @@ class SyncProduction implements ShouldQueue
     {
         $betaImports = betaImport::where('created_at', '>', $this->lastRunTimestamp)->get();
         foreach ($betaImports as $betaImport) {
-            echo $betaImport->id.', ';
+            echo $betaImport->id . ', ';
             $omrImport = omrImport::withTrashed()->find($betaImport->id);
             if ($omrImport) {
                 //if it's the first run, then we always update beta

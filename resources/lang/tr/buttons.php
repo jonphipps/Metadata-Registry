@@ -16,17 +16,17 @@ return [
     'backend' => [
         'access' => [
             'users' => [
-                'activate'           => 'Etkinleştir',
-                'change_password'    => 'Parolayı Değiştir',
+                'activate'              => 'Etkinleştir',
+                'change_password'       => 'Parolayı Değiştir',
                 'clear_session'         => 'Oturumu Temizle',
-                'confirm'             => 'Confirm',
-                'deactivate'         => 'Devre dışı bırak',
-                'delete_permanently' => 'Kalıcı Olarak Sil',
-                'login_as'           => 'Kullanıcı :user olarak oturum aç',
-                'resend_email'       => 'Onay E-postasını Yeniden Gönder',
-                'restore_user'       => 'Kullanıcıyı Kurtar',
+                'confirm'               => 'Confirm',
+                'deactivate'            => 'Devre dışı bırak',
+                'delete_permanently'    => 'Kalıcı Olarak Sil',
+                'login_as'              => 'Kullanıcı :user olarak oturum aç',
+                'resend_email'          => 'Onay E-postasını Yeniden Gönder',
+                'restore_user'          => 'Kullanıcıyı Kurtar',
                 'unconfirm'             => 'Un-confirm',
-                'unlink' => 'Unlink',
+                'unlink'                => 'Unlink',
             ],
         ],
     ],
@@ -39,7 +39,7 @@ return [
     ],
 
     'general' => [
-        'cancel' => 'Vazgeç',
+        'cancel'   => 'Vazgeç',
         'continue' => 'Devam',
 
         'crud' => [

@@ -23,14 +23,13 @@ use App\Policies\ProjectUserPolicy;
 use App\Policies\ReleasePolicy;
 use App\Policies\VocabularyPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Gate;
 
 /**
  * Class AuthServiceProvider.
  */
 class AuthServiceProvider extends ServiceProvider
 {
-  /**
+    /**
      * The policy mappings for the application.
      *
      * @var array
@@ -47,19 +46,19 @@ class AuthServiceProvider extends ServiceProvider
         ProjectUser::class      => ProjectUserPolicy::class,
         Release::class          => ReleasePolicy::class,
         Vocabulary::class       => VocabularyPolicy::class,
-        /** Module policy mapper */
+        /* Module policy mapper */
         'agent'                 => ProjectPolicy::class,
     ];
 
-  /**
+    /**
      * Register any authentication / authorization services.
      *
      * @return void
      */
-  public function boot()
-  {
-    $this->registerPolicies();
+    public function boot()
+    {
+        $this->registerPolicies();
 
-    //
-  }
+        //
+    }
 }

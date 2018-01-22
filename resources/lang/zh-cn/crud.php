@@ -85,7 +85,7 @@ return [
 
     // global crud - errors
     'unauthorized_access' => '您沒有权限浏览此页面。',
-    'please_fix' => '请修正以下错误：',
+    'please_fix'          => '请修正以下错误：',
 
     // global crud - success / error notification bubbles
     'insert_success' => '插入成功。',
@@ -101,20 +101,20 @@ return [
 
     // CRUD yes/no
     'yes' => 'Yes',
-    'no' => 'No',
+    'no'  => 'No',
 
     // Fields
-    'browse_uploads' => '查看已上传的文档',
-    'clear' => '清除',
-    'page_link' => '页面链接',
-    'page_link_placeholder' => 'http://example.com/your-desired-page',
-    'internal_link' => '内部链接',
+    'browse_uploads'            => '查看已上传的文档',
+    'clear'                     => '清除',
+    'page_link'                 => '页面链接',
+    'page_link_placeholder'     => 'http://example.com/your-desired-page',
+    'internal_link'             => '内部链接',
     'internal_link_placeholder' => '内部链接，例如: \'admin/page\' (no quotes) for \':url\'',
-    'external_link' => '外部链接',
-    'choose_file' => '选择文件',
+    'external_link'             => '外部链接',
+    'choose_file'               => '选择文件',
 
     //Table field
-    'table_cant_add' => '不能再增加 :entity',
+    'table_cant_add'    => '不能再增加 :entity',
     'table_max_reached' => '已达到 :max 条记录的上限',
 
 ];

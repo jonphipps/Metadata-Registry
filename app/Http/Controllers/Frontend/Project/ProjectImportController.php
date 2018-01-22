@@ -4,11 +4,9 @@ namespace App\Http\Controllers\Frontend\Project;
 
 use App\Http\Controllers\Frontend\ImportCrudController;
 use App\Http\Requests\Frontend\ImportRequest;
-use App\Http\Traits\UsesEnums;
 use App\Http\Traits\UsesPolicies;
 use App\Models\Project;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class ProjectImportController extends ImportCrudController
 {
@@ -25,7 +23,7 @@ class ProjectImportController extends ImportCrudController
      */
     public function importStep(Request $request, Project $project, $type, $step = null)
     {
-        $this->policyAuthorize('importProject', $project, $project->id );
+        $this->policyAuthorize('importProject', $project, $project->id);
         $this->crud->setCreateView('frontend.import.project.step-1');
 
         // prepare the fields you need to show

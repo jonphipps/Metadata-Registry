@@ -8,10 +8,10 @@ use App\Models\ConceptAttribute;
 use App\Models\Element;
 use Exception;
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 
 class UpdateRelatedIds implements ShouldQueue
@@ -48,7 +48,7 @@ class UpdateRelatedIds implements ShouldQueue
                     foreach ($statements as $statement) {
                         $concept = Concept::where('uri', $statement->object)->first();
                         if ($concept) {
-                            $statement->update([ 'related_concept_id' => $concept->id ]);
+                            $statement->update(['related_concept_id' => $concept->id]);
                         }
                     }
                 }
@@ -58,15 +58,13 @@ class UpdateRelatedIds implements ShouldQueue
                     foreach ($statements as $statement) {
                         $element = Element::where('uri', $statement->object)->first();
                         if ($element) {
-                            $statement->update([ 'related_schema_property_id' => $element->id ]);
+                            $statement->update(['related_schema_property_id' => $element->id]);
                         }
                     }
                 }
             }
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             Log::error($e->getMessage());
         }
-
     }
 }

@@ -14,9 +14,9 @@ return [
     */
 
     // Forms
-    'save_action_save_and_new' => 'Opslaan en nieuw item toevoegen',
-    'save_action_save_and_edit' => 'Opslaan en item bewerken',
-    'save_action_save_and_back' => 'Opslaan en terug',
+    'save_action_save_and_new'         => 'Opslaan en nieuw item toevoegen',
+    'save_action_save_and_edit'        => 'Opslaan en item bewerken',
+    'save_action_save_and_back'        => 'Opslaan en terug',
     'save_action_changed_notification' => 'Standaard gedrag na opslaan is aangepast.',
 
     // Create form
@@ -30,15 +30,15 @@ return [
     'save'                 => 'Opslaan',
 
     // Revisions
-    'revisions'            => 'Revisies',
-    'no_revisions'         => 'Geen revisies gevonden',
+    'revisions'             => 'Revisies',
+    'no_revisions'          => 'Geen revisies gevonden',
     'created_this'          => 'heeft dit aangemaakt',
-    'changed_the'          => 'heeft aangepast',
-    'restore_this_value'   => 'Herstel deze waarde',
-    'from'                 => 'van',
-    'to'                   => 'naar',
-    'undo'                 => 'Ongedaan maken',
-    'revision_restored'    => 'Revisie succesvol hersteld',
+    'changed_the'           => 'heeft aangepast',
+    'restore_this_value'    => 'Herstel deze waarde',
+    'from'                  => 'van',
+    'to'                    => 'naar',
+    'undo'                  => 'Ongedaan maken',
+    'revision_restored'     => 'Revisie succesvol hersteld',
 
     // CRUD table view
     'all'                       => 'Alles ',
@@ -85,7 +85,7 @@ return [
 
     // global crud - errors
         'unauthorized_access' => 'Geen toegang - je hebt niet de benodigde rechten om deze pagina te bekijken.',
-        'please_fix' => 'Los de volgende fouten op:',
+        'please_fix'          => 'Los de volgende fouten op:',
 
     // global crud - success / error notification bubbles
         'insert_success' => 'Het item is succesvol toegevoegd.',
@@ -101,20 +101,20 @@ return [
 
     // CRUD yes/no
         'yes' => 'Ja',
-        'no' => 'Nee',
+        'no'  => 'Nee',
 
     // Fields
-        'browse_uploads' => 'Blader uploads',
-        'clear' => 'Wissen',
-        'page_link' => 'Pagina link',
-        'page_link_placeholder' => 'http://example.com/your-desired-page',
-        'internal_link' => 'Interne link',
+        'browse_uploads'            => 'Blader uploads',
+        'clear'                     => 'Wissen',
+        'page_link'                 => 'Pagina link',
+        'page_link_placeholder'     => 'http://example.com/your-desired-page',
+        'internal_link'             => 'Interne link',
         'internal_link_placeholder' => 'Interne slug. B.v.: \'admin/page\' (geen quotes) voor \':url\'',
-        'external_link' => 'Externe link',
-        'choose_file' => 'Kies bestand',
+        'external_link'             => 'Externe link',
+        'choose_file'               => 'Kies bestand',
 
     //Table field
-        'table_cant_add' => 'Kan nieuwe :entity niet toevoegen',
+        'table_cant_add'    => 'Kan nieuwe :entity niet toevoegen',
         'table_max_reached' => 'Maximale grootte van :max bereikt',
 
     // File manager

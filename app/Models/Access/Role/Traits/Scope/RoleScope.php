@@ -13,8 +13,8 @@ trait RoleScope
      *
      * @return mixed
      */
-    public function scopeSort( $query, $direction = 'asc' )
+    public function scopeSort($query, $direction = 'asc')
     {
-        return $query->orderBy( 'sort', $direction );
+        return $query->orderBy('sort', $direction);
     }
 }

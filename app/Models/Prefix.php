@@ -1,9 +1,11 @@
-<?php namespace App\Models;
+<?php
+
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model as Model;
 
 /**
- * App\Models\Prefix
+ * App\Models\Prefix.
  *
  * @property string $prefix
  * @property string $uri
@@ -15,12 +17,12 @@ use Illuminate\Database\Eloquent\Model as Model;
  */
 class Prefix extends Model
 {
-    const TABLE = 'reg_prefix';
-    protected $table = self::TABLE;
-    public $primaryKey = 'prefix';
-    public $timestamps = false;
+    const TABLE          = 'reg_prefix';
+    protected $table     = self::TABLE;
+    public $primaryKey   = 'prefix';
+    public $timestamps   = false;
     public $incrementing = false;
-    public $fillable = [
+    public $fillable     = [
         'prefix',
         'uri',
         'rank',

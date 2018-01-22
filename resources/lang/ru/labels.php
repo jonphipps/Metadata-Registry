@@ -51,7 +51,7 @@ return [
                     'no_deactivated'    => 'Нет заблокированных пользователей',
                     'no_deleted'        => 'Нет удаленных пользователей',
                     'roles'             => 'Роль',
-                    'social' => 'Social',
+                    'social'            => 'Social',
                     'total'             => 'пользователей всего|всего пользователей',
                 ],
                 'tabs'                  => [
@@ -88,7 +88,7 @@ return [
 
         'contact' => [
             'box_title' => 'Contact Us',
-            'button' => 'Send Information',
+            'button'    => 'Send Information',
         ],
 
         'macros'    => [

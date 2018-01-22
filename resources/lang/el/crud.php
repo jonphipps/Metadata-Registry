@@ -14,9 +14,9 @@ return [
      */
 
     // Forms
-    'save_action_save_and_new' => 'Αποθήκευση και εισαγωγή νέου',
-    'save_action_save_and_edit' => 'Αποθήκευση και επεξεργασία',
-    'save_action_save_and_back' => 'Αποθήκευση και επιστροφή',
+    'save_action_save_and_new'         => 'Αποθήκευση και εισαγωγή νέου',
+    'save_action_save_and_edit'        => 'Αποθήκευση και επεξεργασία',
+    'save_action_save_and_back'        => 'Αποθήκευση και επιστροφή',
     'save_action_changed_notification' => 'Η προκαθορισμένη συμπεριφορά μετά την αποθήκευση έχει αλλάξει.',
 
     // Create form
@@ -107,7 +107,7 @@ return [
 
     // CRUD yes/no
     'yes' => 'Ναι',
-    'no' => 'Όχι',
+    'no'  => 'Όχι',
 
     // Fields
     'browse_uploads'                          => 'Αναζήτηση μεταφορτωμένων αρχείων',

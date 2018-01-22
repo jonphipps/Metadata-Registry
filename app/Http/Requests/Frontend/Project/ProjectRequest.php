@@ -25,7 +25,7 @@ class ProjectRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
     public function rules()
     {
         return [
-             'title' => 'required|min:5|max:191'
+             'title' => 'required|min:5|max:191',
         ];
     }
 

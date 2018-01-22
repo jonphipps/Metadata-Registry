@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * App\Models\Vocabulary
+ * App\Models\Vocabulary.
  *
  * @property int $id
  * @property \Carbon\Carbon|null $created_at
@@ -83,13 +83,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Vocabulary extends VocabsModel
 {
     public const TABLE = 'reg_vocabulary';
-    public $table = self::TABLE;
+    public $table      = self::TABLE;
 
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
+
     /**
      * @param int $project_id
      *
@@ -108,9 +109,8 @@ class Vocabulary extends VocabsModel
 
     public function concepts(): ?HasMany
     {
-        return $this->hasMany( Concept::class, 'vocabulary_id' );
+        return $this->hasMany(Concept::class, 'vocabulary_id');
     }
-
 
     /*
     |--------------------------------------------------------------------------
@@ -129,5 +129,4 @@ class Vocabulary extends VocabsModel
     | MUTATORS
     |--------------------------------------------------------------------------
     */
-
 }

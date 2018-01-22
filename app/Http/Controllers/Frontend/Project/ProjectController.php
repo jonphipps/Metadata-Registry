@@ -11,13 +11,12 @@ use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
-
     public function __construct()
     {
         //show has to be handled with a query scope in order to exclude private projects
-        $this->authorizeResource( Project::class,
+        $this->authorizeResource(Project::class,
             'project',
-            [ 'except' => [ 'view', 'index', 'show' ] ] );
+            ['except' => ['view', 'index', 'show']]);
     }
 
     /**
@@ -27,7 +26,6 @@ class ProjectController extends Controller
      */
     public function index()
     {
-
     }
 
     /**
@@ -37,8 +35,8 @@ class ProjectController extends Controller
      */
     public function import(Project $project)
     {
-            return view( 'frontend.project.import', \compact( 'project' ) );
-}
+        return view('frontend.project.import', \compact('project'));
+    }
 
     /**
      * Store a newly created resource in storage.

@@ -23,21 +23,20 @@ class GoogleSpreadsheet
      * a google services connection <— built with service
      * a URL <— input in constructor
      * an identifier <— gets from the URL
-     * a collection of worksheets <— gets from service
+     * a collection of worksheets <— gets from service.
      *
      * @param string $sheetUrl
      */
-
     public function __construct(string $sheetUrl)
     {
         putenv('GOOGLE_APPLICATION_CREDENTIALS=' . base_path('client_secret.json'));
 
         $client = new Google_Client;
         $client->useApplicationDefaultCredentials();
-        $client->setApplicationName("Open Metadata Registry Import");
-        $client->setScopes([ 'https://www.googleapis.com/auth/drive', 'https://spreadsheets.google.com/feeds', ]);
+        $client->setApplicationName('Open Metadata Registry Import');
+        $client->setScopes(['https://www.googleapis.com/auth/drive', 'https://spreadsheets.google.com/feeds']);
 
-        $accessToken = $client->fetchAccessTokenWithAssertion()["access_token"];
+        $accessToken = $client->fetchAccessTokenWithAssertion()['access_token'];
         ServiceRequestFactory::setInstance(new DefaultServiceRequest($accessToken));
         $this->service       = new Google_Service_Sheets($client);
         $this->spreadsheetId = $this->getIdFromUrl($sheetUrl);

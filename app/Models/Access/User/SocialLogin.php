@@ -5,7 +5,7 @@ namespace App\Models\Access\User;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * App\Models\Access\User\SocialLogin
+ * App\Models\Access\User\SocialLogin.
  *
  * @property int $id
  * @property int|null $user_id
@@ -33,11 +33,11 @@ class SocialLogin extends Model
      * @var string
      */
     protected $table = self::TABLE;
-    const TABLE = 'social_logins';
+    const TABLE      = 'social_logins';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = [ 'user_id', 'provider', 'provider_id', 'token', 'avatar' ];
+    protected $fillable = ['user_id', 'provider', 'provider_id', 'token', 'avatar'];
 }

@@ -23,7 +23,7 @@ class ProjectUserPolicy
     }
 
     /** Anyone can view a non-private project
-     *  Only project members can view a private project
+     *  Only project members can view a private project.
      *
      * @param User        $user
      * @param ProjectUser $projectUser
@@ -36,10 +36,10 @@ class ProjectUserPolicy
         if ($project) {
             if ($project->is_private && $user->isMemberOfProject($project)) {
                 return true;
-            };
-            if ( ! $project->is_private) {
+            }
+            if (! $project->is_private) {
                 return true;
-            };
+            }
         }
 
         return null;
@@ -89,10 +89,10 @@ class ProjectUserPolicy
 
     private static function getProjectIdFromRoute()
     {
-        if(request()->route()->parameter('project')){
+        if (request()->route()->parameter('project')) {
             return request()->route()->parameter('project');
         }
-        if(request()->route()->parameter('project_id')){
+        if (request()->route()->parameter('project_id')) {
             return request()->route()->parameter('project_id');
         }
         throw new MissingRequiredAttributeException("A project reference is required and can't be found");

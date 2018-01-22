@@ -5,7 +5,6 @@
 namespace App\Wizard\Import\ProjectSteps;
 
 use App\Jobs\ImportVocabulary;
-use App\Models\Batch;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Smajti1\Laravel\Step;
@@ -14,8 +13,8 @@ use Smajti1\Laravel\Wizard;
 class ApproveImportStep extends Step
 {
     public static $label = 'Approve the changes...';
-    public static $slug = 'approve';
-    public static $view = 'frontend.import.project.steps.approve';
+    public static $slug  = 'approve';
+    public static $view  = 'frontend.import.project.steps.approve';
 
     public function fields(): array
     {
@@ -33,7 +32,7 @@ class ApproveImportStep extends Step
         $batch = $request->batch;
         if ($batch->total_count <= $batch->handled_count) {
             $batch->load('imports');
-            $data = [];
+            $data   = [];
             $errors = [];
             //load the stats from each import into an array
             foreach ($batch->imports as $import) {
@@ -47,12 +46,12 @@ class ApproveImportStep extends Step
                 $datum['errors_detail']   = ($stats['errors'] > 0) ? $import->errors : '';
                 $data[]                   = $datum;
                 if ($stats['errors']) {
-                    $errors[ $import->worksheet ] = json_decode($import->errors, true);
+                    $errors[$import->worksheet] = json_decode($import->errors, true);
                 }
             }
-            $wizardData         = $wizard->data();
-            $wizardData[ 'approve' ]['data'] = $data;
-            $wizardData[ 'approve' ]['errors'] = $errors;
+            $wizardData                      = $wizard->data();
+            $wizardData['approve']['data']   = $data;
+            $wizardData['approve']['errors'] = $errors;
             $wizard->data($wizardData);
         }
     }
@@ -68,9 +67,9 @@ class ApproveImportStep extends Step
 
     public function validate(Request $request): void
     {
-        Validator::make([ 'selected_approve' => json_decode($request->selected_approve) ],
-            [ 'selected_approve' => 'required' ],
-            [ 'selected_approve.required' => 'You must select at least one set of changes before you can import the spreadsheet.' ])
+        Validator::make(['selected_approve' => json_decode($request->selected_approve)],
+            ['selected_approve'          => 'required'],
+            ['selected_approve.required' => 'You must select at least one set of changes before you can import the spreadsheet.'])
             ->validate();
     }
 
@@ -78,5 +77,6 @@ class ApproveImportStep extends Step
     {
         return [
             'selected_approve' => 'required',
-        ];    }
+        ];
+    }
 }

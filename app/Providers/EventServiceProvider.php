@@ -19,7 +19,7 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         //laravel Tracy
-        BeforeBarRender::class => [ BarRenderListener::class,
+        BeforeBarRender::class => [BarRenderListener::class,
         ],
     ];
     /**

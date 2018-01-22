@@ -16,17 +16,17 @@ return [
     'backend' => [
         'access' => [
             'users' => [
-                'activate'           => '激活',
-                'change_password'    => '更改密码',
-                'clear_session'      => '清除会话',
-                'confirm'             => 'Confirm',
-                'deactivate'         => '停用',
-                'delete_permanently' => '永久删除',
-                'login_as'           => '登录为 :user',
-                'resend_email'       => '重新发送确认电子邮件',
-                'restore_user'       => '恢复用户',
+                'activate'              => '激活',
+                'change_password'       => '更改密码',
+                'clear_session'         => '清除会话',
+                'confirm'               => 'Confirm',
+                'deactivate'            => '停用',
+                'delete_permanently'    => '永久删除',
+                'login_as'              => '登录为 :user',
+                'resend_email'          => '重新发送确认电子邮件',
+                'restore_user'          => '恢复用户',
                 'unconfirm'             => 'Un-confirm',
-                'unlink' => 'Unlink',
+                'unlink'                => 'Unlink',
             ],
         ],
     ],
@@ -39,7 +39,7 @@ return [
     ],
 
     'general' => [
-        'cancel' => '取消',
+        'cancel'   => '取消',
         'continue' => '继续',
 
         'crud' => [

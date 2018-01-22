@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Frontend\Auth;
 
-use App\Helpers\Auth\Auth;
-use Illuminate\Http\Request;
-use App\Exceptions\GeneralException;
-use App\Http\Controllers\Controller;
-use App\Helpers\Frontend\Auth\Socialite;
 use App\Events\Frontend\Auth\UserLoggedIn;
 use App\Events\Frontend\Auth\UserLoggedOut;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Exceptions\GeneralException;
+use App\Helpers\Auth\Auth;
+use App\Helpers\Frontend\Auth\Socialite;
+use App\Http\Controllers\Controller;
 use App\Repositories\Frontend\Access\User\UserSessionRepository;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 /**
  * Class LoginController.
@@ -146,7 +146,7 @@ class LoginController extends Controller
             app()->make(Auth::class)->flushTempSession();
 
             //Re-login admin
-            access()->loginUsingId((int)$admin_id);
+            access()->loginUsingId((int) $admin_id);
 
             //Redirect to backend user page
             return redirect()->route('admin.access.user.index');

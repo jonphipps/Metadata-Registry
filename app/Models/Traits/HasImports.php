@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 trait HasImports
 {
-
     public function imports(): ?MorphToMany
     {
         return $this->morphToMany(Import::class, 'importable')->withTimestamps();
@@ -33,6 +32,7 @@ trait HasImports
     public function addImport($imports)
     {
         $this->imports()->attach($imports);
+
         return $this;
     }
 }

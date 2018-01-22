@@ -16,17 +16,17 @@ return [
     'backend' => [
         'access' => [
             'users' => [
-                'activate'           => 'Activeren',
-                'change_password'    => 'Verander Wachtwoord',
+                'activate'              => 'Activeren',
+                'change_password'       => 'Verander Wachtwoord',
                 'clear_session'         => 'Clear Session',
-                'confirm'             => 'Confirm',
-                'deactivate'         => 'Deactiveren',
-                'delete_permanently' => 'Permanent verwijderen',
-                'login_as'           => 'Aanmelden als :user',
-                'resend_email'       => 'Bevestigings email nogmaals zenden',
-                'restore_user'       => 'Gebruiker herstellen',
+                'confirm'               => 'Confirm',
+                'deactivate'            => 'Deactiveren',
+                'delete_permanently'    => 'Permanent verwijderen',
+                'login_as'              => 'Aanmelden als :user',
+                'resend_email'          => 'Bevestigings email nogmaals zenden',
+                'restore_user'          => 'Gebruiker herstellen',
                 'unconfirm'             => 'Un-confirm',
-                'unlink' => 'Unlink',
+                'unlink'                => 'Unlink',
             ],
         ],
     ],
@@ -39,7 +39,7 @@ return [
     ],
 
     'general' => [
-        'cancel' => 'Annuleer',
+        'cancel'   => 'Annuleer',
         'continue' => 'Continue',
 
         'crud' => [

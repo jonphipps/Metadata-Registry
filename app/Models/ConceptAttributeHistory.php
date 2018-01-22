@@ -1,4 +1,6 @@
-<?php namespace App\Models;
+<?php
+
+namespace App\Models;
 
 use App\Helpers\Macros\Traits\Languages;
 use App\Models\Traits\BelongsToConcept;
@@ -14,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laracasts\Matryoshka\Cacheable;
 
 /**
- * App\Models\ConceptAttributeHistory
+ * App\Models\ConceptAttributeHistory.
  *
  * @property int $id
  * @property \Carbon\Carbon|null $created_at
@@ -66,7 +68,7 @@ use Laracasts\Matryoshka\Cacheable;
 class ConceptAttributeHistory extends Model
 {
     //TODO: Only store the things that change and get the rest from the related attribute
-    const TABLE = 'reg_concept_property_history';
+    const TABLE      = 'reg_concept_property_history';
     protected $table = self::TABLE;
     use Blameable, CreatedBy;
     use Cacheable;
@@ -74,8 +76,8 @@ class ConceptAttributeHistory extends Model
     protected $blameable = [
         'created' => 'created_user_id',
     ];
-    protected $guarded = [ 'id' ];
-    protected $casts = [
+    protected $guarded = ['id'];
+    protected $casts   = [
         'id'                  => 'integer',
         'action'              => 'string',
         'concept_property_id' => 'integer', //concept_attribute
@@ -101,6 +103,6 @@ class ConceptAttributeHistory extends Model
 
     public function concept_attribute(): ?BelongsTo
     {
-        return $this->belongsTo( ConceptAttribute::class, 'concept_property_id', 'id' );
+        return $this->belongsTo(ConceptAttribute::class, 'concept_property_id', 'id');
     }
 }

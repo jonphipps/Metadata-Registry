@@ -1,7 +1,9 @@
-<?php namespace App\Models;
+<?php
+
+namespace App\Models;
 
 /**
- * App\Models\Lookup
+ * App\Models\Lookup.
  *
  * @property int $id
  * @property int|null $type_id This will be the lookup type and will reference the list of lookup types stored in this very same table
@@ -17,8 +19,8 @@
  */
 class Lookup extends \Illuminate\Database\Eloquent\Model
 {
-    const TABLE = 'reg_lookup';
-    protected $table = self::TABLE;
+    const TABLE        = 'reg_lookup';
+    protected $table   = self::TABLE;
     public $timestamps = false;
-    protected $guarded = [ 'id' ];
+    protected $guarded = ['id'];
 }

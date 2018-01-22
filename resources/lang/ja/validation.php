@@ -13,17 +13,17 @@ return [
     |
     */
 
-    'accepted'   => ':attributeを承認してください。',
-    'active_url' => ':attributeは、有効なURLではありません。',
-    'after'      => ':attributeには、:date以降の日付を指定してください。',
+    'accepted'             => ':attributeを承認してください。',
+    'active_url'           => ':attributeは、有効なURLではありません。',
+    'after'                => ':attributeには、:date以降の日付を指定してください。',
     'after_or_equal'       => 'The :attribute must be a date after or equal to :date.',
-    'alpha'      => ':attributeには、アルファベッドのみ使用できます。',
-    'alpha_dash' => ":attributeには、英数字('A-Z','a-z','0-9')とハイフンと下線('-','_')が使用できます。",
-    'alpha_num'  => ":attributeには、英数字('A-Z','a-z','0-9')が使用できます。",
-    'array'      => ':attributeには、配列を指定してください。',
-    'before'     => ':attributeには、:date以前の日付を指定してください。',
+    'alpha'                => ':attributeには、アルファベッドのみ使用できます。',
+    'alpha_dash'           => ":attributeには、英数字('A-Z','a-z','0-9')とハイフンと下線('-','_')が使用できます。",
+    'alpha_num'            => ":attributeには、英数字('A-Z','a-z','0-9')が使用できます。",
+    'array'                => ':attributeには、配列を指定してください。',
+    'before'               => ':attributeには、:date以前の日付を指定してください。',
     'before_or_equal'      => 'The :attribute must be a date before or equal to :date.',
-    'between'    => [
+    'between'              => [
         'numeric' => ':attributeには、:minから、:maxまでの数字を指定してください。',
         'file'    => ':attributeには、:min KBから:max KBまでのサイズのファイルを指定してください。',
         'string'  => ':attributeは、:min文字から:max文字にしてください。',
@@ -131,14 +131,14 @@ return [
                         'name' => 'Group Name',
                     ],
 
-                    'name' => 'Name',
+                    'name'   => 'Name',
                     'system' => 'System?',
                 ],
 
                 'roles' => [
                     'associated_permissions' => 'Associated Permissions',
-                    'name' => 'Name',
-                    'sort' => 'Sort',
+                    'name'                   => 'Name',
+                    'sort'                   => 'Sort',
                 ],
 
                 'users' => [
@@ -160,8 +160,8 @@ return [
             'name'                      => 'ユーザ名',
             'password'                  => 'パスワード',
             'password_confirmation'     => 'パスワード（確認）',
-            'phone' => 'Phone',
-            'message' => 'Message',
+            'phone'                     => 'Phone',
+            'message'                   => 'Message',
             'old_password'              => '旧パスワード',
             'new_password'              => '新パスワード',
             'new_password_confirmation' => '新パスワード（確認）',

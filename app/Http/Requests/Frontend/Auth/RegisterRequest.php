@@ -10,15 +10,15 @@ use Illuminate\Validation\Rule;
  */
 class RegisterRequest extends Request
 {
-  /**
+    /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-  public function authorize()
-  {
-    return true;
-  }
+    public function authorize()
+    {
+        return true;
+    }
 
     /**
      * Get the validation rules that apply to the request.
@@ -30,9 +30,9 @@ class RegisterRequest extends Request
         return [
             'first_name'           => 'required|string|max:191',
             'last_name'            => 'required|string|max:191',
-            'nickname' => ['required','max:191', Rule::unique('users', 'nickname')],
-            'email' => ['required', 'email', 'max:191'],
-            'password' => 'required|string|min:6|confirmed',
+            'nickname'             => ['required', 'max:191', Rule::unique('users', 'nickname')],
+            'email'                => ['required', 'email', 'max:191'],
+            'password'             => 'required|string|min:6|confirmed',
             'g-recaptcha-response' => 'required_if:captcha_status,true|captcha',
         ];
     }

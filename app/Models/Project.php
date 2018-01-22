@@ -1,4 +1,6 @@
-<?php namespace App\Models;
+<?php
+
+namespace App\Models;
 
 use App\Helpers\Macros\Traits\Languages;
 use App\Models\Traits\HasElementsets;
@@ -20,7 +22,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Matryoshka\Cacheable;
 
 /**
- * App\Models\Project
+ * App\Models\Project.
  *
  * @property int $id
  * @property string|null $description
@@ -120,22 +122,22 @@ use Laracasts\Matryoshka\Cacheable;
  */
 class Project extends Model
 {
-    const TABLE = 'reg_agent';
+    const TABLE          = 'reg_agent';
     public static $rules = [];
     use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy;
     use CrudTrait, Cacheable;
     use Languages;
     use HasProfiles, HasVocabularies, HasElementsets, HasMembers, HasPrefixesList, HasImports;
-    protected $table = self::TABLE;
+    protected $table     = self::TABLE;
     protected $blameable = [
         'created' => 'created_by',
         'updated' => 'updated_by',
         'deleted' => 'deleted_by',
     ];
-    protected $dates = [ 'deleted_at' ];
-    protected $guarded = [ 'id' ];
-    protected $casts = [];
-    protected $hidden = [
+    protected $dates   = ['deleted_at'];
+    protected $guarded = ['id'];
+    protected $casts   = [];
+    protected $hidden  = [
         'id',
         'description',
         'deleted_at',
@@ -165,7 +167,7 @@ class Project extends Model
 
     public function getTitleLink(): string
     {
-        return '<a href="' . route('frontend.crud.projects.show', [ 'id' => $this->id ]) . '">' . $this->title . '</a>';
+        return '<a href="' . route('frontend.crud.projects.show', ['id' => $this->id]) . '">' . $this->title . '</a>';
     }
 
     public static function badge($count): string
@@ -194,7 +196,6 @@ class Project extends Model
         return $this->hasMany(Release::class, 'agent_id', 'id');
     }
 
-
     /*
     |--------------------------------------------------------------------------
     | SCOPES
@@ -220,7 +221,6 @@ class Project extends Model
     {
         return $query->where('is_private', '<>', 1);
     }
-
 
     /*
     |--------------------------------------------------------------------------

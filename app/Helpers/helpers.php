@@ -68,14 +68,14 @@ if (! function_exists('laravel_link_to_action')) {
         return app('html')->linkAction($action, $title, $parameters, $attributes);
     }
 
-    if ( ! function_exists( 'tinker' ) ) {
+    if (! function_exists('tinker')) {
         function tinker()
         {
-            eval( \Psy\sh() );
+            eval(\Psy\sh());
         }
     }
 
-    if ( ! function_exists('getLanguageListFromSymfony')) {
+    if (! function_exists('getLanguageListFromSymfony')) {
         /**
          * @param string $culture
          *
@@ -84,34 +84,34 @@ if (! function_exists('laravel_link_to_action')) {
         function getLanguageListFromSymfony($culture = 'en')
         {
             //we should get the culture to get the correct file, but default to English
-            $c       = unserialize(file_get_contents(base_path("/data/symfony/i18n/{$culture}.dat"), 'r'), [ true ]);
+            $c       = unserialize(file_get_contents(base_path("/data/symfony/i18n/{$culture}.dat"), 'r'), [true]);
             $options = [];
 
             foreach ($c['Languages'] as $key => $value) {
-                $options[ $key ] = $value[0];
+                $options[$key] = $value[0];
             }
 
             return $options;
         }
     }
 
-    if ( ! function_exists('initSymfonyEnv')) {
+    if (! function_exists('initSymfonyEnv')) {
         /**
          * @return sfContext
          */
         function initSymfonyEnv()
         {
-            if ( ! defined('SF_APP')) {
+            if (! defined('SF_APP')) {
                 define('SF_APP', 'frontend');
                 define('SF_ENVIRONMENT', env('SF_ENVIRONMENT', 'prod'));
                 define('SF_DEBUG', env('SF_DEBUG', 'false'));
             }
-            if ( ! defined('SF_ROOT_DIR')) {
+            if (! defined('SF_ROOT_DIR')) {
                 define('SF_ROOT_DIR', env('SF_ROOT_DIR', app()->basePath()));
             }
         }
-
-    }   if ( ! function_exists('getSymfonyApp')) {
+    }
+    if (! function_exists('getSymfonyApp')) {
         /**
          * @return sfContext
          */
@@ -130,8 +130,7 @@ if (! function_exists('laravel_link_to_action')) {
             return sfContext::getInstance();
         }
     }
-    if ( ! function_exists('initSymfonyDb')) {
-
+    if (! function_exists('initSymfonyDb')) {
         function initSymfonyDb()
         {
             initSymfonyEnv();

@@ -17,19 +17,19 @@ class ReleasePolicy
         }
     }
 
-
     /** Anyone can view a non-private project
      *  Only project members can view a private project     */
     public function index(User $user, Project $project): ?bool
     {
         if ($project->is_private && $user->isMemberOfProject($project)) {
             return true;
-        };
-        if ( ! $project->is_private) {
+        }
+        if (! $project->is_private) {
             return true;
-        };
+        }
     }
-        /**
+
+    /**
      * Determine whether the user can view the vocabulary.
      *
      * @param  User   $user
@@ -39,15 +39,14 @@ class ReleasePolicy
      */
     public function view(User $user, Project $project)
     {
-      {
+        {
         if ($project->is_private && $user->isMemberOfProject($project)) {
-          return true;
-        };
-        if ( ! $project->is_private) {
-          return true;
-        };
+            return true;
+        }
+        if (! $project->is_private) {
+            return true;
+        }
       }
-
     }
 
     /** * Determine whether the user can create vocabularies.
@@ -59,9 +58,8 @@ class ReleasePolicy
      */
     public function create(User $user, Project $project = null)
     {
-        return ($project && $user->isAdminForProjectId($project->id));
+        return $project && $user->isAdminForProjectId($project->id);
     }
-
 
     /** update the vocabulary.
      *
@@ -72,7 +70,7 @@ class ReleasePolicy
      */
     public function update(User $user, Project $project = null)
     {
-        return ($project && $user->isAdminForProjectId($project->id));
+        return $project && $user->isAdminForProjectId($project->id);
     }
 
     /**
@@ -85,7 +83,6 @@ class ReleasePolicy
      */
     public function delete(User $user, Project $project = null)
     {
-        return ($project && $user->isAdminForProjectId($project->id));
+        return $project && $user->isAdminForProjectId($project->id);
     }
-
 }

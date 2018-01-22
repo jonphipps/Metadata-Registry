@@ -4,9 +4,9 @@ namespace App\Notifications\Frontend;
 
 use App\Models\Batch;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class ImportWasCompleted extends Notification implements ShouldQueue
 {

@@ -5,7 +5,7 @@ namespace App\Models\Omr;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * App\Models\Omr\Import
+ * App\Models\Omr\Import.
  *
  * @property int $id
  * @property \Carbon\Carbon|null $created_at
@@ -39,10 +39,10 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Import extends Model
 {
-    public $timestamps = false;
+    public $timestamps    = false;
     protected $connection = 'mysql_omr';
-    protected $table = self::TABLE;
-    protected $dates = ['created_at'];
+    protected $table      = self::TABLE;
+    protected $dates      = ['created_at'];
 
     public const TABLE = 'reg_file_import_history';
 }

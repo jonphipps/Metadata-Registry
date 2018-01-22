@@ -71,7 +71,7 @@ return [
                     'no_deactivated' => 'Keine deaktivierten Benutzer',
                     'no_deleted'     => 'Keine gelöschten Benutzer',
                     'roles'          => 'Rollen',
-                    'social' => 'Social',
+                    'social'         => 'Social',
                     'total'          => 'Benutzer|Benutzer',
                 ],
 
@@ -113,7 +113,7 @@ return [
 
         'contact' => [
             'box_title' => 'Contact Us',
-            'button' => 'Send Information',
+            'button'    => 'Send Information',
         ],
 
         'passwords' => [

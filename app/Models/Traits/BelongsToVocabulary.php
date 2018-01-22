@@ -11,6 +11,6 @@ trait BelongsToVocabulary
 {
     public function vocabulary(): ?BelongsTo
     {
-        return $this->belongsTo( Vocabulary::class, 'vocabulary_id', 'id' );
+        return $this->belongsTo(Vocabulary::class, 'vocabulary_id', 'id');
     }
 }

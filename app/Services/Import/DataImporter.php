@@ -17,7 +17,7 @@ use function collect;
 
 class DataImporter
 {
-    /** @var String $exportName */
+    /** @var string $exportName */
     private $exportName;
     /** @var Collection $data */
     private $data;
@@ -38,7 +38,7 @@ class DataImporter
     /** @var DBCollection $statements */
     private $statements;
     private $prefixes = [];
-    private $stats = [];
+    private $stats    = [];
     /** @var Collection $columnProfileMap */
     private $columnProfileMap;
     /** @var string */
@@ -60,18 +60,19 @@ class DataImporter
             }
             //these are all fatal errors
             catch (DuplicateAttributesException $e) {
-                $this->errors = collect([ 'fatal' => $e->getMessage() ]);
-                return;
-            }
-            catch (MissingRequiredAttributeException $e) {
-                $this->errors = collect([ 'fatal' => $e->getMessage() ]);
-                return;
-            }
-            catch (UnknownAttributeException $e) {
                 $this->errors = collect(['fatal' => $e->getMessage()]);
+
+                return;
+            } catch (MissingRequiredAttributeException $e) {
+                $this->errors = collect(['fatal' => $e->getMessage()]);
+
+                return;
+            } catch (UnknownAttributeException $e) {
+                $this->errors = collect(['fatal' => $e->getMessage()]);
+
                 return;
             }
-            $this->errors = new Collection();
+            $this->errors     = new Collection();
             $this->addRows    = $this->getAddRows(); //only gets data rows with no row_id
             $this->updateRows = $this->getUpdateRows(); //gets data rows with matching map
             $this->deleteRows = $this->getDeleteRows(); //gets map rows with no matching row
@@ -85,13 +86,13 @@ class DataImporter
         }
 
         $this->stats['deleted'] = $this->deleteRows === null ? 0 : $this->deleteRows->count();
-        $this->stats['updated'] = $this->updateRows === null ? 0: $this->updateRows->count();
-        $this->stats['added']   = $this->addRows === null ? 0: $this->addRows->count();
-        $this->stats['errors']  = $this->errors === null ? 0: $this->errors->count();
+        $this->stats['updated'] = $this->updateRows === null ? 0 : $this->updateRows->count();
+        $this->stats['added']   = $this->addRows === null ? 0 : $this->addRows->count();
+        $this->stats['errors']  = $this->errors === null ? 0 : $this->errors->count();
     }
 
     /**
-     * return a collection of rows that have no reg_id
+     * return a collection of rows that have no reg_id.
      *
      * @return Collection
      */
@@ -126,7 +127,7 @@ class DataImporter
 
             return $row->map(function ($value, $column) use ($map, $columnMap, $statementRow) {
                 // this is to correct for export maps that have '0' for a statement cell reference, but do have data in the statement row
-                $statementId = ( $map->get($column) !== 0 ) ? $map->get($column) : $column;
+                $statementId = ($map->get($column) !== 0) ? $map->get($column) : $column;
                 $statement   = $statementId ? collect($statementRow->pull($statementId)) : null;
                 $this->currentColumnName = $column;
 
@@ -137,7 +138,7 @@ class DataImporter
                     'language'     => $columnMap[$column]['language'],
                     'property_id'  => $columnMap[$column]['id'],
                     'updated_at'   => $statement ? $statement->get('updated_at') : null,
-                    'required'     => $column[0] ==='*',
+                    'required'     => $column[0] === '*',
                 ];
             })->reject(function ($array) {
                 return empty($array['new value']) && empty($array['statement_id']); //remove all of the items that have been, and continue to be, empty
@@ -158,42 +159,43 @@ class DataImporter
         });
 
         $rows      = $this->addRows;
-        $additions = $rows->map(function(Collection $row, $key) use ($columnMap) {
+        $additions = $rows->map(function (Collection $row, $key) use ($columnMap) {
             $this->currentRowName = 'new row: ' . $key;
-            return $row->map(function($value, $column) use ($columnMap) {
+
+            return $row->map(function ($value, $column) use ($columnMap) {
                 $this->currentColumnName = $column;
                 //reset the URI to be fully qualified
                 if ($column === '*uri') {
                     $value = $this->makeFqn($this->prefixes, $value);
                 }
 
-               return [
+                return [
                    'new value'    => $this->validateRequired($value, $column),
                    'old value'    => null,
                    'statement_id' => null,
-                   'language'     => $columnMap[ $column ]['language'],
-                   'property_id'  => $columnMap[ $column ]['id'],
+                   'language'     => $columnMap[$column]['language'],
+                   'property_id'  => $columnMap[$column]['id'],
                    'updated_at'   => null,
                    'required'     => $column[0] === '*',
                 ];
-            })->reject(function($array) {
+            })->reject(function ($array) {
                 return empty($array['new value']); //remove all of the items that have been, and continue to be, empty
-            })->reject(function($array, $arrayKey) {
+            })->reject(function ($array, $arrayKey) {
                 return $arrayKey === 'reg_id'; //remove all of the reg_id items
             });
-        })->reject(function(Collection $items) {
+        })->reject(function (Collection $items) {
             return $items->count() === 0; //reject every row that no longer has items
         });
 
         $changeset['update'] = $changes;
         $changeset['delete'] = $this->deleteRows;
-        $changeset['add'] = $additions;
+        $changeset['add']    = $additions;
+
         return collect($changeset);
     }
 
-
     /**
-     * Returns an associative array of data based on the data supplied for import
+     * Returns an associative array of data based on the data supplied for import.
      *
      * @return Collection
      */
@@ -203,7 +205,7 @@ class DataImporter
 
         return $this->data->slice(1)->transform(function ($item, $key) use ($h) {
             return collect($item)->mapWithKeys(function ($item, $key) use ($h) {
-                return [ $h[$key] => $item ];
+                return [$h[$key] => $item];
             });
         });
     }
@@ -219,7 +221,6 @@ class DataImporter
         return collect($this->rowMap->reject(function ($row, $key) use ($updateRows) {
             return isset($updateRows[$key]);
         }));
-
     }
 
     /**
@@ -255,9 +256,9 @@ class DataImporter
     {
         $p = self::getHeaderFromMap($map);
 
-        return $map->slice(1)->transform(function($item, $key) use ($p) {
-            return collect($item)->mapWithKeys(function($item, $key) use ($p) {
-                return [ $p[ $key ]['label'] => $item ];
+        return $map->slice(1)->transform(function ($item, $key) use ($p) {
+            return collect($item)->mapWithKeys(function ($item, $key) use ($p) {
+                return [$p[$key]['label'] => $item];
             });
         });
     }
@@ -278,9 +279,9 @@ class DataImporter
         $mapHeaders = self::getHeaderFromMap($map)->keyBy('label');
         $keys       = $mapHeaders->keys()->toArray();
         //get the map for all new columns
-        $newColumns = $columnHeaders->reject(function($value, $key) use ($keys) {
+        $newColumns = $columnHeaders->reject(function ($value, $key) use ($keys) {
             return in_array($value, $keys, false);
-        })->map(function($column) use ($profile) {
+        })->map(function ($column) use ($profile) {
             return $profile->getColumnMapFromHeader($column);
         })->keyBy('label');
 
@@ -288,7 +289,7 @@ class DataImporter
         $headers = [];
         foreach ($columnHeaders as $columnHeader) {
             if (isset($headers[$columnHeader])) {
-                throw new DuplicateAttributesException('"' .$columnHeader .'" is a duplicate attribute column. Columns cannot be duplicated');
+                throw new DuplicateAttributesException('"' . $columnHeader . '" is a duplicate attribute column. Columns cannot be duplicated');
             } else {
                 $headers[$columnHeader] = $columnHeader;
             }
@@ -312,22 +313,23 @@ class DataImporter
         }
 
         //check for missing required columns
-        $missingRequired = collect($keys)->diff($columnHeaders)->filter(function($value, $key) {
+        $missingRequired = collect($keys)->diff($columnHeaders)->filter(function ($value, $key) {
             return $value !== ltrim($value, '*');
         });
         if (count($missingRequired)) {
             if (count($missingRequired) > 1) {
                 $missing = 'columns: ';
                 foreach ($missingRequired as $item) {
-                    $missing .= '"' . $item . '", ';}
+                    $missing .= '"' . $item . '", ';
+                }
                 $missing = rtrim($missing, ', ') . ' ...are';
             } else {
                 $missing = 'column: ';
                 foreach ($missingRequired as $item) {
-                    $missing .= '"'.$item . '" ...is';
+                    $missing .= '"' . $item . '" ...is';
                 }
             }
-            throw new MissingRequiredAttributeException('The required attribute '.$missing .' missing');
+            throw new MissingRequiredAttributeException('The required attribute ' . $missing . ' missing');
         }
 
         return $mapHeaders->merge($newColumns);
@@ -384,20 +386,22 @@ class DataImporter
             $status = $element->status->display_name;
             $thingy = $element->statements->keyBy('id')->map(function ($property) {
                 return [
-                    'old value'  => $property->object,
-                    'updated_at' => $property->updated_at,
+                    'old value'   => $property->object,
+                    'updated_at'  => $property->updated_at,
                     'profile_uri' => $property->profile_property->uri,
                     'is_resource' => (bool) $property->profile_property->is_object_prop,
                 ];
-            })->map(function($item) use ($status){
-                if ($item['profile_uri'] === 'reg:status'){
+            })->map(function ($item) use ($status) {
+                if ($item['profile_uri'] === 'reg:status') {
                     $item['old value'] = $status;
                 }
-                if ($item['is_resource']){
+                if ($item['is_resource']) {
                     $item['old value'] = self::makeCurie($this->prefixes, $item['old value']);
                 }
+
                 return $item;
             });
+
             return $thingy;
         });
     }
@@ -421,11 +425,11 @@ class DataImporter
     private function logRowError($value, $column, $row, $level): void
     {
         //if this is the first error, initialize the row errors
-        if(! $this->errors->get('row')){
+        if (! $this->errors->get('row')) {
             $this->errors->put('row', collect());
         }
 
-        $this->errors->get('row')->push(collect([ $row, $column, $value, $level]));
+        $this->errors->get('row')->push(collect([$row, $column, $value, $level]));
     }
 
     /**
@@ -443,10 +447,10 @@ class DataImporter
                 break;
             }
         }
-        if ($uri === $result && strpos($uri, ':') && !strpos($uri,'://')){
+        if ($uri === $result && strpos($uri, ':') && ! strpos($uri, '://')) {
             //we have an unregistered prefix
             $prefix = str_before($uri, ':');
-            $this->logRowError(self::makeErrorMessage("'$prefix' is an unregistered prefix and cannot be expanded to form a full URI"), $this->currentColumnName, $this->currentRowName,'warning');
+            $this->logRowError(self::makeErrorMessage("'$prefix' is an unregistered prefix and cannot be expanded to form a full URI"), $this->currentColumnName, $this->currentRowName, 'warning');
         }
 
         return $result;
@@ -486,7 +490,4 @@ class DataImporter
 
         return $value;
     }
-
-
-
 }

@@ -72,7 +72,7 @@ return [
 
     'emails' => [
         'auth' => [
-            'account_confirmed' => 'Your account has been confirmed.',
+            'account_confirmed'       => 'Your account has been confirmed.',
             'error'                   => 'Ups!',
             'greeting'                => 'Hola!',
             'regards'                 => 'Saludos,',
@@ -89,7 +89,7 @@ return [
 
         'contact' => [
             'email_body_title' => 'You have a new contact form request: Below are the details:',
-            'subject' => 'A new :app_name contact form submission!',
+            'subject'          => 'A new :app_name contact form submission!',
         ],
     ],
 
@@ -127,10 +127,10 @@ return [
         ],
 
         'user' => [
-            'change_email_notice' => 'If you change your e-mail you will be logged out until you confirm your new e-mail address.',
+            'change_email_notice'  => 'If you change your e-mail you will be logged out until you confirm your new e-mail address.',
             'email_changed_notice' => 'You must confirm your new e-mail address before you can log in again.',
-            'profile_updated'  => 'Perfil actualizado satisfactoriamente.',
-            'password_updated' => 'Contraseña actualizada satisfactoriamente.',
+            'profile_updated'      => 'Perfil actualizado satisfactoriamente.',
+            'password_updated'     => 'Contraseña actualizada satisfactoriamente.',
         ],
 
         'welcome_to' => 'Bienvenido a :place',

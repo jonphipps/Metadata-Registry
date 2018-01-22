@@ -8,13 +8,10 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 /**
- * Class UserNeedsPasswordReset
- *
- * @package App\Notifications\Frontend\Auth
+ * Class UserNeedsPasswordReset.
  */
 class UserNeedsLogin extends Notification
 {
-
     use Queueable;
 
     public $users;
@@ -30,25 +27,24 @@ class UserNeedsLogin extends Notification
     }
 
     /**
-   * Get the notification's channels.
-   *
-   * @param  mixed $notifiable
-   *
-   * @return array|string
-   */
+     * Get the notification's channels.
+     *
+     * @param  mixed $notifiable
+     *
+     * @return array|string
+     */
     public function via($notifiable)
     {
-        return [ 'mail' ];
+        return ['mail'];
     }
 
-
-  /**
-   * Build the mail representation of the notification.
-   *
-   * @param  User|\Collection $notifiable
-   *
-   * @return \Illuminate\Notifications\Messages\MailMessage
-   */
+    /**
+     * Build the mail representation of the notification.
+     *
+     * @param  User|\Collection $notifiable
+     *
+     * @return \Illuminate\Notifications\Messages\MailMessage
+     */
     public function toMail($notifiable)
     {
         $this->users = User::where('email', $notifiable->email)
@@ -61,7 +57,7 @@ class UserNeedsLogin extends Notification
               ->line($notifiable->nickname);
         } else {
             $count = 0;
-            /** @var \Collection $notifiable */
+            /* @var \Collection $notifiable */
             $message->line(trans('strings.emails.auth.login_names_list'));
             foreach ($this->users as $login) {
                 $message->line(++$count . ':   ' . $login->nickname);

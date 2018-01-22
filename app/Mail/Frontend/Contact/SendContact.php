@@ -2,9 +2,9 @@
 
 namespace App\Mail\Frontend\Contact;
 
+use App\Http\Requests\Request;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
-use App\Http\Requests\Request;
 use Illuminate\Queue\SerializesModels;
 
 /**

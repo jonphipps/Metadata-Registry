@@ -13,17 +13,17 @@ return [
     |
     */
 
-    'accepted'   => ':attribute kabul edilmelidir.',
-    'active_url' => ':attribute geçerli bir URL olmalıdır.',
-    'after'      => ':attribute değeri, :date tarihinden daha sonraki bir tarih olmalıdır.',
-    'after_or_equal' => ':attribute değeri, :date tarihinden daha sonraki veya aynı tarih olmalıdır.',
-    'alpha'      => ':attribute sadece harflerden oluşmalıdır.',
-    'alpha_dash' => ':attribute sadece harfler, rakamlar ve tirelerden oluşmalıdır.',
-    'alpha_num'  => ':attribute sadece harfler ve rakamlar içermelidir.',
-    'array'      => ':attribute dizi olmalıdır.',
-    'before'     => ':attribute değeri, :date tarihinden daha önceki bir tarih olmalıdır.',
+    'accepted'        => ':attribute kabul edilmelidir.',
+    'active_url'      => ':attribute geçerli bir URL olmalıdır.',
+    'after'           => ':attribute değeri, :date tarihinden daha sonraki bir tarih olmalıdır.',
+    'after_or_equal'  => ':attribute değeri, :date tarihinden daha sonraki veya aynı tarih olmalıdır.',
+    'alpha'           => ':attribute sadece harflerden oluşmalıdır.',
+    'alpha_dash'      => ':attribute sadece harfler, rakamlar ve tirelerden oluşmalıdır.',
+    'alpha_num'       => ':attribute sadece harfler ve rakamlar içermelidir.',
+    'array'           => ':attribute dizi olmalıdır.',
+    'before'          => ':attribute değeri, :date tarihinden daha önceki bir tarih olmalıdır.',
     'before_or_equal' => ':attribute değeri, :date tarihinden daha önceki veya aynı tarih olmalıdır.',
-    'between'    => [
+    'between'         => [
         'numeric' => ':attribute :min - :max arasında olmalıdır.',
         'file'    => ':attribute :min - :max arasındaki kilobayt değeri olmalıdır.',
         'string'  => ':attribute :min - :max arasında karakterden oluşmalıdır.',
@@ -56,9 +56,9 @@ return [
         'string'  => ':attribute değeri en fazla :max karakter uzunluğunda olmalıdır.',
         'array'   => ':attribute değeri :max adedinden fazla nesneye sahip olmamalıdır.',
     ],
-    'mimes' => ':attribute dosya biçimi :values olmalıdır.',
+    'mimes'      => ':attribute dosya biçimi :values olmalıdır.',
     'mimetypes'  => ':attribute dosya biçimi :values olmalıdır.',
-    'min'   => [
+    'min'        => [
         'numeric' => ':attribute değeri en az :min değerinde olmalıdır.',
         'file'    => ':attribute değeri en az :min kilobayt değerinde olmalıdır.',
         'string'  => ':attribute değeri en az :min karakter uzunluğunda olmalıdır.',
@@ -160,17 +160,17 @@ return [
         ],
 
         'frontend' => [
-            'email'                     => 'E-posta Adresi',
-            'first_name'                => 'Ad',
-            'last_name'                 => 'Soyad',
+            'email'                       => 'E-posta Adresi',
+            'first_name'                  => 'Ad',
+            'last_name'                   => 'Soyad',
             'name'                        => 'Full Name',
-            'password'                  => 'Parola',
-            'password_confirmation'     => 'Parola Onay',
-            'phone' => 'Phone',
-            'message' => 'Message',
-            'old_password'              => 'Eski Parola',
-            'new_password'              => 'Yeni Parola',
-            'new_password_confirmation' => 'Yeni Parola Onay',
+            'password'                    => 'Parola',
+            'password_confirmation'       => 'Parola Onay',
+            'phone'                       => 'Phone',
+            'message'                     => 'Message',
+            'old_password'                => 'Eski Parola',
+            'new_password'                => 'Yeni Parola',
+            'new_password_confirmation'   => 'Yeni Parola Onay',
         ],
     ],
 
