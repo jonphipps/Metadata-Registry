@@ -2,45 +2,41 @@
 
 namespace App\Jobs;
 
+use App\Models\Elementset;
+use App\Models\Project;
 use App\Models\Release;
 use App\Models\VocabsModel;
+use App\Models\Vocabulary;
 use apps\frontend\lib\services\jsonldElementsetService;
 use apps\frontend\lib\services\jsonldVocabularyService;
+use GitWrapper\GitException;
+use GitWrapper\GitWrapper;
 use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Support\Carbon;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
-use App\Models\Vocabulary;
-use App\Models\Elementset;
 
 class GenerateRdf implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
-    public const VOCABULARY = Vocabulary::class;
-    public const ELEMENTSET = Elementset::class;
-    public const REPO_ROOT = 'repos';
-
-    private const URLARRAY = [ self::VOCABULARY => 'vocabularies/', self::ELEMENTSET => 'elementsets/' ];
-
-     /** @var int $projectId */
+    public const  VOCABULARY   = Vocabulary::class;
+    public const  ELEMENTSET   = Elementset::class;
+    public const  REPO_ROOT    = 'repos';
+    public const  PROJECT_ROOT = 'projects';
+    private const URLARRAY     = [self::VOCABULARY => 'vocabularies/', self::ELEMENTSET => 'elementsets/'];
+    /** @var int $projectId */
     private $projectId;
-
     /** @var string $class */
     private $class;
-
     /** @var int $id */
     private $id;
-
     /** @var string $filePath */
     private $filePath;
-
     /** @var string $fileName */
     private $fileName;
     private $disk;
@@ -107,12 +103,20 @@ class GenerateRdf implements ShouldQueue
      */
     public function getStoragePath($mimeType): string
     {
-        return self::getProjectPath($this->projectId)."{$mimeType}{$this->filePath}.$mimeType";
+        return self::getProjectPath($this->projectId) . "{$mimeType}{$this->filePath}.$mimeType";
     }
 
     public static function getProjectPath($projectId)
     {
-        return "projects/{$projectId}/";
+        return self::PROJECT_ROOT . "/{$projectId}/";
+    }
+
+    public static function getProjectRepo($projectId)
+    {
+        $project = Project::find($projectId);
+        $repo    = $project ? $project->repo : null;
+
+        return $repo ? "https://github.com/{$repo}.git" : null;
     }
 
     /**
@@ -120,6 +124,7 @@ class GenerateRdf implements ShouldQueue
      * @param string $disk
      *
      * @return void
+     * @throws GitException
      * @throws \Symfony\Component\Process\Exception\LogicException
      * @throws \Symfony\Component\Process\Exception\RuntimeException
      * @throws \Symfony\Component\Process\Exception\ProcessFailedException
@@ -127,17 +132,20 @@ class GenerateRdf implements ShouldQueue
     public static function initDir($projectId, $disk = self::REPO_ROOT): void
     {
         $projectPath = self::getProjectPath($projectId);
-        if (! Storage::disk($disk)->exists(self::getProjectPath($projectId))) {
-            Storage::disk($disk)->createDir($projectPath);
-
+        if (! Storage::disk($disk)->exists($projectPath)) {
             $dir = Storage::disk($disk)->path($projectPath);
 
-            $process = new Process('git init', $dir);
-            $process->run();
-
-            // executes after the command finishes
-            if ( ! $process->isSuccessful()) {
-                throw new ProcessFailedException($process);
+            /** @var GitWrapper $wrapper */
+            $wrapper = new GitWrapper();
+            $repo    = self::getProjectRepo($projectId);
+            if ($repo) {
+                $git = $wrapper->cloneRepository($repo, $dir);
+                if (! $git->isCloned()) {
+                    throw new GitException($git);
+                }
+            } else {
+                Storage::disk($disk)->createDir($projectPath);
+                $wrapper->init($dir);
             }
         }
     }
@@ -146,21 +154,21 @@ class GenerateRdf implements ShouldQueue
     {
         $storagePath = $this->getStoragePath('xml');
         $client      = new Client();
-        $res         = $client->get(url(self::URLARRAY[ $this->class ] . $this->id . '.rdf'));
+        $res         = $client->get(url(self::URLARRAY[$this->class] . $this->id . '.rdf'));
         Storage::disk($this->disk)->put($storagePath, $res->getBody());
     }
 
     public function saveJsonLd()
     {
         $storagePath = $this->getStoragePath('jsonld');
-        $release = $this->makeReleaseArray();
+        $release     = $this->makeReleaseArray();
         initSymfonyDb();
         if ($this->class === self::VOCABULARY) {
-            $vocabulary = \VocabularyPeer::retrieveByPK($this->id);
+            $vocabulary    = \VocabularyPeer::retrieveByPK($this->id);
             $jsonLdService = new jsonldVocabularyService($vocabulary, $release);
         }
         if ($this->class === self::ELEMENTSET) {
-            $elementset = \SchemaPeer::retrieveByPK($this->id);
+            $elementset    = \SchemaPeer::retrieveByPK($this->id);
             $jsonLdService = new jsonldElementsetService($elementset, $release);
         }
         Storage::disk($this->disk)->put($storagePath, $jsonLdService->getJsonLd());
@@ -201,7 +209,7 @@ class GenerateRdf implements ShouldQueue
      */
     private function makeReleaseArray(): array
     {
-        return [ 'tag_name' => $this->release->tag_name, 'published_at' => $this->release->created_at->format('F j, Y') ];
+        return ['tag_name' => $this->release->tag_name, 'published_at' => $this->release->created_at->format('F j, Y')];
     }
 
     /**
@@ -221,11 +229,18 @@ class GenerateRdf implements ShouldQueue
         $process->run();
 
         // executes after the command finishes
-        if ( ! $process->isSuccessful()) {
+        if (! $process->isSuccessful()) {
             throw new ProcessFailedException($process);
         }
     }
 
+    /**
+     * @param $mimeType
+     *
+     * @throws \Symfony\Component\Process\Exception\ProcessFailedException
+     * @throws \Symfony\Component\Process\Exception\RuntimeException
+     * @throws \Symfony\Component\Process\Exception\LogicException
+     */
     public function runCurl($mimeType)
     {
         $outputPath = $this->getStoragePath($mimeType);
@@ -238,7 +253,7 @@ class GenerateRdf implements ShouldQueue
         $process->run();
 
         // executes after the command finishes
-        if ( ! $process->isSuccessful()) {
+        if (! $process->isSuccessful()) {
             throw new ProcessFailedException($process);
         }
     }
@@ -249,6 +264,6 @@ class GenerateRdf implements ShouldQueue
     private function updateRelease(VocabsModel $vocab)
     {
         $release = $this->makeReleaseArray();
-        $vocab->releases()->updateExistingPivot($this->release->id, [ 'published_at' => $release['published_at'] ]);
+        $vocab->releases()->updateExistingPivot($this->release->id, ['published_at' => $release['published_at']]);
     }
 }

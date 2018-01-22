@@ -1,4 +1,6 @@
-<?php namespace App\Models;
+<?php
+
+namespace App\Models;
 
 use App\Helpers\Macros\Traits\Languages;
 use App\Models\Traits\BelongsToElement;
@@ -14,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laracasts\Matryoshka\Cacheable;
 
 /**
- * App\Models\ElementAttributeHistory
+ * App\Models\ElementAttributeHistory.
  *
  * @property int $id
  * @property \Carbon\Carbon|null $created_at
@@ -62,7 +64,7 @@ use Laracasts\Matryoshka\Cacheable;
 class ElementAttributeHistory extends Model
 {
     //TODO: Only store the things that change and get the rest from the related attribute.
-    const TABLE = 'reg_schema_property_element_history';
+    const TABLE      = 'reg_schema_property_element_history';
     protected $table = self::TABLE;
     use Blameable, CreatedBy;
     use Cacheable;
@@ -70,8 +72,8 @@ class ElementAttributeHistory extends Model
     protected $blameable = [
         'created' => 'created_user_id',
     ];
-    protected $guarded = [ 'id' ];
-    protected $casts = [
+    protected $guarded = ['id'];
+    protected $casts   = [
         'id'                         => 'integer',
         'created_user_id'            => 'integer',  //CreatedBy
         'action'                     => 'string',
@@ -95,9 +97,8 @@ class ElementAttributeHistory extends Model
 
     public function element_attribute(): ?BelongsTo
     {
-        return $this->belongsTo( ElementAttribute::class,
+        return $this->belongsTo(ElementAttribute::class,
             'schema_property_element_id',
-            'id' );
+            'id');
     }
-
 }

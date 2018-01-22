@@ -26,7 +26,7 @@ return [
                 'resend_email'       => 'Renvoyer le mail de confirmation',
                 'restore_user'       => "Réactiver l'utilisateur",
                 'unconfirm'          => 'Infirmer',
-                'unlink' => 'Unlink',
+                'unlink'             => 'Unlink',
             ],
         ],
     ],
@@ -39,7 +39,7 @@ return [
     ],
 
     'general' => [
-        'cancel' => 'Annuler',
+        'cancel'   => 'Annuler',
         'continue' => 'Continuer',
 
         'crud' => [

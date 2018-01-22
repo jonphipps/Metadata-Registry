@@ -11,6 +11,6 @@ trait BelongsToProfileProperty
 {
     public function profile_property(): ?BelongsTo
     {
-        return $this->belongsTo( ProfileProperty::class, 'profile_property_id', 'id' );
+        return $this->belongsTo(ProfileProperty::class, 'profile_property_id', 'id');
     }
 }

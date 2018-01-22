@@ -3,7 +3,7 @@
 return [
 
     'last_update' => env('LAST_UPDATE', 'mid-December 2017'),
-    'fav_icon' => env('FAVICON', 'registry_favicon_prod.ico'),
+    'fav_icon'    => env('FAVICON', 'registry_favicon_prod.ico'),
   /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -66,7 +66,7 @@ return [
     |
     */
 
-    'timezone' => env('APP_TIMEZONE', 'UTC'),
+    'timezone'         => env('APP_TIMEZONE', 'UTC'),
     'timestamp_format' => 'Y-m-d H:i:s',
 
   /*
@@ -204,7 +204,6 @@ return [
         App\Providers\HistoryServiceProvider::class,
         App\Providers\MacroServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
 
       /*
       * Other Service Providers...

@@ -11,9 +11,9 @@ use App\Http\Requests\Frontend\Project\ProjectRequest as StoreRequest;
 use App\Http\Requests\Frontend\Project\ProjectRequest as UpdateRequest;
 use App\Http\Traits\UsesEnums;
 use App\Http\Traits\UsesPolicies;
+use App\Models\Project;
 use Auth;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
-use App\Models\Project;
 use Illuminate\Support\Facades\Redirect;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
@@ -33,10 +33,10 @@ class ProjectCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         $this->crud->setModel(Project::class);
-        $this->crud->setRoute( config( 'backpack.base.route_prefix' ) . '/projects' );
-        $this->crud->setEntityNameStrings( 'Project', 'Projects' );
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/projects');
+        $this->crud->setEntityNameStrings('Project', 'Projects');
         $this->crud->setShowView('frontend.project.dashboard');
-        if (!auth()->check() || !auth()->user()->is_administrator) {
+        if (! auth()->check() || ! auth()->user()->is_administrator) {
             $this->crud->addClause('public');
         }
 
@@ -55,34 +55,34 @@ class ProjectCrudController extends CrudController
         $languages = getLanguageListFromSymfony('en');
 
         // ------ CRUD ACCESS
-        $this->crud->allowAccess([ 'index', 'show' ]);
-        $this->crud->denyAccess([ 'create', 'update', 'delete', 'import' ]);
+        $this->crud->allowAccess(['index', 'show']);
+        $this->crud->denyAccess(['create', 'update', 'delete', 'import']);
 
         // ------ CRUD FIELDS
         // $this->crud->addField($options, 'update/create/both');
         $this->crud->autoFocusOnFirstField;
-        $this->crud->removeFields( array_keys( $this->crud->create_fields ), 'both');
+        $this->crud->removeFields(array_keys($this->crud->create_fields), 'both');
         //$this->crud->addFields( array_keys( $this->crud->columns ), 'create');
-        $this->crud->addFields( [
+        $this->crud->addFields([
             [
                 'name'  => 'title',
                 'label' => 'Title',
                 'type'  => 'text',
                 'hint'  => "This will help identify your project in public lists and to project members that you may invite to join the project. <br />If you're editing this project for the first time since the OMR upgrade, this will initially be the name you chose for your 'Agent'",
-                'tab' => 'Details',
+                'tab'   => 'Details',
             ],
         ],
-            'edit' );
-        $this->crud->addFields( [
+            'edit');
+        $this->crud->addFields([
             [
                 'name'  => 'title',
                 'label' => 'Title',
                 'type'  => 'text',
                 'hint'  => 'This will help identify your project in public lists and to project members that you may invite to join the project. ',
-                'tab' => 'Details',
+                'tab'   => 'Details',
             ],
         ],
-            'create' );
+            'create');
 
         $this->crud->addFields([
             [
@@ -199,15 +199,15 @@ class ProjectCrudController extends CrudController
                 'tab'   => 'URI Generation (optional)',
             ],
         ],
-            'both' );
+            'both');
 
         // ------ CRUD COLUMNS
         // $this->crud->addColumn(); // add a single column, at the end of the stack
         // $this->crud->addColumns(); // add multiple columns, at the end of the stack
 
-        if ( ! ( Auth::check() && Auth::user()->is_administrator ) ) {
-            $this->crud->removeColumn( 'is_private' ); // remove a column from the stack
-        } else{
+        if (! (Auth::check() && Auth::user()->is_administrator)) {
+            $this->crud->removeColumn('is_private'); // remove a column from the stack
+        } else {
             // $this->crud->setColumnDetails( 'is_private',
             //     [
             //         'type'    => 'check',
@@ -215,43 +215,43 @@ class ProjectCrudController extends CrudController
             //     ] ); // adjusts the properties of the passed in column (by name)
         }
         //$this->crud->removeColumns( [column1, column2] ); // remove an array of columns from the stack
-        $this->crud->setColumnDetails( 'org_name',
+        $this->crud->setColumnDetails('org_name',
             [
                 'label'         => 'Title',
                 'type'          => 'model_function',
                 'function_name' => 'getTitleLink',
-                'searchLogic' => function($query, $column, $searchTerm) {
+                'searchLogic'   => function ($query, $column, $searchTerm) {
                     $query->orWhere('org_name', 'like', '%' . $searchTerm . '%');
                 },
                 'show' => false,
-            ] ); // adjusts the properties of the passed in column (by name)
+            ]); // adjusts the properties of the passed in column (by name)
         $this->crud->addColumn([
-            'name'          =>'vocabularies',
-            'label'         => "Vocabularies",
-            'type'          => "model_function",
+            'name'          => 'vocabularies',
+            'label'         => 'Vocabularies',
+            'type'          => 'model_function',
             'function_name' => 'getVocabColumn',
             'show'          => false,
-        ] );
-        $this->crud->addColumn(  [
+        ]);
+        $this->crud->addColumn([
             'name'          => 'elementsets',
-            'label'         => "Element Sets",
-            'type'          => "model_function",
+            'label'         => 'Element Sets',
+            'type'          => 'model_function',
             'function_name' => 'getElementColumn',
-            'show' => false,
-        ] );
+            'show'          => false,
+        ]);
 
-        $this->crud->setColumnsDetails(['repo_is_valid', 'prefixes', 'created_at', 'updated_at'],[
+        $this->crud->setColumnsDetails(['repo_is_valid', 'prefixes', 'created_at', 'updated_at'], [
             'show' => false,
         ]);
-        $this->crud->setColumnsDetails([ 'languages' ],
+        $this->crud->setColumnsDetails(['languages'],
             [
                 'type'          => 'model_function',
-                'function_name' => 'showLanguagesCommaDelimited'
+                'function_name' => 'showLanguagesCommaDelimited',
             ]);
-        $this->crud->setColumnsDetails([ 'default_language' ],
+        $this->crud->setColumnsDetails(['default_language'],
             [
                 'type'          => 'model_function',
-                'function_name' => 'showLanguage'
+                'function_name' => 'showLanguage',
             ]);
         $this->crud->setColumnsDetails([
             'base_domain',
@@ -277,7 +277,7 @@ class ProjectCrudController extends CrudController
             'uri_prepend',
             'uri_strategy',
             'uri_type',
-            'url',], ['list' => false]);
+            'url', ], ['list' => false]);
 
         // ------ CRUD BUTTONS
         // possible positions: 'beginning' and 'end'; defaults to 'beginning' for the 'line' stack, 'end' for the others;
@@ -287,7 +287,7 @@ class ProjectCrudController extends CrudController
         // $this->crud->removeButton($name);
         // $this->crud->removeButtonFromStack($name, $stack);
         // if ( Auth::guest() ) {
-            $this->crud->removeAllButtonsFromStack( 'line' );
+        $this->crud->removeAllButtonsFromStack('line');
         // }
 
         // ------ CRUD REORDER
@@ -341,7 +341,7 @@ class ProjectCrudController extends CrudController
     public function show($id)
     {
         //todo: All private project checks should be implemented in middleware
-        if ( ! Auth::check()) {
+        if (! Auth::check()) {
             //we abort if the project is private
             $project = Project::findOrFail($id);
             if ($project->is_private) {
@@ -351,7 +351,7 @@ class ProjectCrudController extends CrudController
         $this->policyAuthorize('show', $this->crud->getModel(), $id);
 
         $this->data['project'] = $this->crud->getEntry($id);
-        $classArray = [
+        $classArray            = [
             'elementset' => ElementsetCrudController::class,
             'vocabulary' => VocabularyCrudController::class,
             'import'     => ImportCrudController::class,
@@ -361,10 +361,11 @@ class ProjectCrudController extends CrudController
         ];
         foreach ($classArray as $thing => $className) {
             $thingController = new $className;
-            /** @var CrudController $thingController */
+            /* @var CrudController $thingController */
             $thingController->setup();
             $this->data[$thing] = $thingController;
         }
+
         return parent::show($id);
     }
 
@@ -375,14 +376,14 @@ class ProjectCrudController extends CrudController
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function store( StoreRequest $request )
+    public function store(StoreRequest $request)
     {
         $this->policyAuthorize('create', $this->crud->getModel());
 
         // your additional operations before save here
         $redirect_location = parent::storeCrud();
-        Auth::user()->projects()->attach( $this->crud->entry,
-            [ 'is_registrar_for' => true, 'is_admin_for' => true, ] );
+        Auth::user()->projects()->attach($this->crud->entry,
+            ['is_registrar_for' => true, 'is_admin_for' => true]);
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
         return Redirect::to(config('backpack.base.route_prefix') . "/projects/{$this->crud->entry->id}");
@@ -395,9 +396,9 @@ class ProjectCrudController extends CrudController
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function update( UpdateRequest $request )
+    public function update(UpdateRequest $request)
     {
-        if ( $request && $request->id ) {
+        if ($request && $request->id) {
             $this->policyAuthorize('update', $this->crud->getModel(), $request->id);
         }
         $this->crud->setRoute(config('backpack.base.route_prefix') . "/projects/{$request->id}");
@@ -408,5 +409,4 @@ class ProjectCrudController extends CrudController
         // use $this->data['entry'] or $this->crud->entry
         return $redirect_location;
     }
-
 }

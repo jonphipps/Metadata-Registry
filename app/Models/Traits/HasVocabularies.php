@@ -19,13 +19,13 @@ trait HasVocabularies
 
         return $count ?
             '<a href="' .
-            url( 'projects/' . $this->id . '/vocabularies' ) .
+            url('projects/' . $this->id . '/vocabularies') .
             '">' .
-            Project::badge( $count ) : '&nbsp;';
+            Project::badge($count) : '&nbsp;';
     }
 
     public function vocabularies(): ?HasMany
     {
-        return $this->hasMany( Vocabulary::class, 'agent_id', 'id' );
+        return $this->hasMany(Vocabulary::class, 'agent_id', 'id');
     }
 }

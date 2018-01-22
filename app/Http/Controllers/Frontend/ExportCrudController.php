@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use Backpack\CRUD\app\Http\Controllers\CrudController;
-
-// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\Frontend\ExportRequest as StoreRequest;
+// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\Frontend\ExportRequest as UpdateRequest;
 use App\Models\Export;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
 
 class ExportCrudController extends CrudController
 {
-
     public function setUp()
     {
 

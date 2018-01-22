@@ -1,9 +1,11 @@
-<?php namespace App\Models;
+<?php
+
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * App\Models\Elementset
+ * App\Models\Elementset.
  *
  * @property int $id
  * @property \Carbon\Carbon|null $created_at
@@ -85,7 +87,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Elementset extends VocabsModel
 {
     public const TABLE = 'reg_schema';
-    public $table = self::TABLE;
+    public $table      = self::TABLE;
 
     /*
     |--------------------------------------------------------------------------
@@ -121,7 +123,7 @@ class Elementset extends VocabsModel
 
     public function elements(): ?HasMany
     {
-        return $this->hasMany( Element::class, 'schema_id', 'id' );
+        return $this->hasMany(Element::class, 'schema_id', 'id');
     }
 
     /*
@@ -141,5 +143,4 @@ class Elementset extends VocabsModel
     | MUTATORS
     |--------------------------------------------------------------------------
     */
-
 }

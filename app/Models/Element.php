@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Matryoshka\Cacheable;
 
 /**
- * App\Models\Element
+ * App\Models\Element.
  *
  * @property int $id
  * @property \Carbon\Carbon|null $created_at
@@ -89,9 +89,9 @@ use Laracasts\Matryoshka\Cacheable;
  */
 class Element extends Model
 {
-    const TABLE = 'reg_schema_property';
-    const FORM_PROPERTIES = [ 1, 2, 3, 4, 5, 6, 7, 9, 11, 12, 13, 14, 27 ];
-    protected $table = self::TABLE;
+    const TABLE           = 'reg_schema_property';
+    const FORM_PROPERTIES = [1, 2, 3, 4, 5, 6, 7, 9, 11, 12, 13, 14, 27];
+    protected $table      = self::TABLE;
     use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy;
     use Cacheable;
     use Languages, HasStatus, BelongsToElementset;
@@ -100,15 +100,14 @@ class Element extends Model
         'updated' => 'updated_user_id',
         'deleted' => 'deleted_user_id',
     ];
-    protected $dates = [ 'deleted_at' ];
-    protected $guarded = [ 'id' ];
+    protected $dates   = ['deleted_at'];
+    protected $guarded = ['id'];
 
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
-
 
     /**
      * @param int $projectId
@@ -118,27 +117,27 @@ class Element extends Model
     public static function SelectElementsByProject($projectId)
     {
         return \DB::table(ElementAttribute::TABLE)
-            ->join(Element::TABLE,
-                Element::TABLE . '.id',
+            ->join(self::TABLE,
+                self::TABLE . '.id',
                 '=',
                 ElementAttribute::TABLE . '.schema_property_id')
             ->join(Elementset::TABLE,
                 Elementset::TABLE . '.id',
                 '=',
-                Element::TABLE . '.schema_id')
+                self::TABLE . '.schema_id')
             ->select(ElementAttribute::TABLE . '.schema_property_id as id',
                 Elementset::TABLE . '.name as Elementset',
                 ElementAttribute::TABLE . '.language',
                 ElementAttribute::TABLE . '.object as label')
             ->where([
-                [ ElementAttribute::TABLE . '.profile_property_id', 2, ],
-                [ Elementset::TABLE . '.agent_id', $projectId, ],
+                [ElementAttribute::TABLE . '.profile_property_id', 2],
+                [Elementset::TABLE . '.agent_id', $projectId],
             ])
             ->orderBy(Elementset::TABLE . '.name')
             ->orderBy(ElementAttribute::TABLE . '.language')
             ->orderBy(ElementAttribute::TABLE . '.object')
             ->get()
-            ->mapWithKeys(function($item) {
+            ->mapWithKeys(function ($item) {
                 return [
                     $item->id . '_' . $item->language => $item->Elementset .
                         ' - (' .
@@ -153,14 +152,14 @@ class Element extends Model
     public function updateFromStatements(array $statements = null): self
     {
         $language    = $this->language;
-        if (!$statements) {
+        if (! $statements) {
             $s          =
                 collect($this->statements->whereIn('profile_property_id', self::FORM_PROPERTIES)->toArray());
-            $statements = $s->filter(function($item) use ($language) {
+            $statements = $s->filter(function ($item) use ($language) {
                 return $item['language'] === $language || $item['language'] === '';
-            })->keyBy(function($item) {
+            })->keyBy(function ($item) {
                 return $item['profile_property_id'];
-            })->map(function($item) {
+            })->map(function ($item) {
                 return $item['object'];
             });
         }

@@ -6,13 +6,12 @@ namespace App\Wizard\Import\ProjectSteps;
 
 use Illuminate\Http\Request;
 use Smajti1\Laravel\Step;
-use Smajti1\Laravel\Wizard;
 
 class PerformImportStep extends Step
 {
     public static $label = 'Performing Import...';
-    public static $slug = 'import';
-    public static $view = 'frontend.import.project.steps.import';
+    public static $slug  = 'import';
+    public static $view  = 'frontend.import.project.steps.import';
 
     public function fields(): array
     {

@@ -71,7 +71,7 @@ return [
                     'no_deactivated' => 'Tidak Ada Pengguna Dinonaktifkan',
                     'no_deleted'     => 'Tidak Ada Pengguna Dihapus',
                     'roles'          => 'Peran',
-                    'social' => 'Social',
+                    'social'         => 'Social',
                     'total'          => 'total pengguna|total pengguna',
                 ],
 
@@ -113,7 +113,7 @@ return [
 
         'contact' => [
             'box_title' => 'Contact Us',
-            'button' => 'Send Information',
+            'button'    => 'Send Information',
         ],
 
         'passwords' => [

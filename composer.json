@@ -53,17 +53,20 @@
         "bugsnag/bugsnag": "^3.0",
         "bugsnag/bugsnag-laravel": "^2.0",
         "chumper/zipper": "^1.0",
+        "cpliakas/git-wrapper": "^1.7",
         "creativeorange/gravatar": "^1.0",
         "davejamesmiller/laravel-breadcrumbs": "^3.0",
         "ddeboer/data-import": "0.18.*",
         "doctrine/dbal": "^2.6",
         "easyrdf/easyrdf": "^0.9.1",
+        "erusev/parsedown-extra": "^0.7.1",
         "fideloper/proxy": "~3.3",
         "google/apiclient": "^2.1",
         "graham-campbell/github": "^6.0",
         "guzzlehttp/guzzle": "~6.0",
         "h4cc/wkhtmltoimage-amd64": "0.12.x",
         "h4cc/wkhtmltopdf-amd64": "0.12.x",
+        "haleks/writedown": "^2.1",
         "hashids/hashids": "^2.0",
         "hieu-le/active": "~3.0",
         "ixudra/curl": "^6.10",
@@ -141,8 +144,7 @@
             "model\\"      : "lib/model/",
             "apps\\"       : "apps/",
             "App\\"        : "app/",
-            "Database\\"   : "database/",
-            "Tests\\"      : "tests/"
+            "Database\\"   : "database/"
         },
         "classmap": [
             "lib/model",
@@ -150,8 +152,7 @@
         ],
         "files": [
             "app/helpers.php",
-            "app/Helpers/helpers.php",
-            "tests/helpers.php"
+            "app/Helpers/helpers.php"
         ]
     },
     "autoload-dev":

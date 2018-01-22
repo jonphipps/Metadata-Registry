@@ -4,15 +4,15 @@ namespace App\Models;
 
 use App\Models\Traits\BelongsToProject;
 use App\Models\Traits\BelongsToUser;
-use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Laracasts\Matryoshka\Cacheable;
 
 /**
- * App\Models\Release
+ * App\Models\Release.
  *
  * @property int $id
  * @property \Carbon\Carbon|null $created_at
@@ -61,34 +61,34 @@ class Release extends Model
     use CrudTrait;
     use BelongsToProject, BelongsToUser;
 
-     /*
+    /*
     |--------------------------------------------------------------------------
     | GLOBAL VARIABLES
     |--------------------------------------------------------------------------
     */
 
-    public const TABLE = 'releases';
-    protected $table = self::TABLE;
+    public const TABLE    = 'releases';
+    protected $table      = self::TABLE;
     protected $primaryKey = 'id';
-    public $timestamps = true;
-    protected $guarded = ['id'];
-    protected $casts= [
+    public $timestamps    = true;
+    protected $guarded    = ['id'];
+    protected $casts      = [
         'github_response' => 'array',
-        'is_draft' => 'bool',
-        'is_prerelease' => 'bool',
+        'is_draft'        => 'bool',
+        'is_prerelease'   => 'bool',
     ];
     protected $appends = [
         'tarball_url',
         'zipball_url',
         'html_url',
         'github_created_at',
-        'published_at'
+        'published_at',
     ];
     // protected $fillable = [];
     protected $hidden = ['github_response'];
-    protected $dates = [
+    protected $dates  = [
         'github_created_at',
-        'published_at'
+        'published_at',
     ];
 
     /*
@@ -98,7 +98,7 @@ class Release extends Model
     */
     public static function findByTagName($tagName)
     {
-        return static::where('tag_name',$tagName)->firstOrFail();
+        return static::where('tag_name', $tagName)->firstOrFail();
     }
 
     /*
@@ -140,23 +140,26 @@ class Release extends Model
     {
         return $this->getAttribute('github_response')['tarball_url'];
     }
+
     public function getHtmlUrlAttribute()
     {
         return $this->getAttribute('github_response')['html_url'];
     }
+
     public function getZipballUrlAttribute()
     {
         return $this->getAttribute('github_response')['zipball_url'];
     }
+
     public function getGithubCreatedAtAttribute()
     {
         return Carbon::createFromTimestamp(strtotime($this->getAttribute('github_response')['created_at']))
             ->toDateTimeString();
     }
+
     public function getPublishedAtAttribute()
     {
         return Carbon::createFromTimestamp(strtotime($this->getAttribute('github_response')['published_at']))
             ->toDateTimeString();
     }
-
 }

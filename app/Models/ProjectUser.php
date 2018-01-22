@@ -1,4 +1,6 @@
-<?php namespace App\Models;
+<?php
+
+namespace App\Models;
 
 use App\Helpers\Macros\Traits\Languages;
 use App\Models\Traits\BelongsToProject;
@@ -10,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\ProjectUser
+ * App\Models\ProjectUser.
  *
  * @property int $id
  * @property \Carbon\Carbon|null $created_at
@@ -51,11 +53,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class ProjectUser extends Model
 {
-    public const TABLE = 'reg_agent_has_user';
-    public const AUTH_ADMIN = 0;
-    public const AUTH_MAINTAINER = 1;
+    public const TABLE                    = 'reg_agent_has_user';
+    public const AUTH_ADMIN               = 0;
+    public const AUTH_MAINTAINER          = 1;
     public const AUTH_LANGUAGE_MAINTAINER = 2;
-    public const AUTH_VIEWER = 3;
+    public const AUTH_VIEWER              = 3;
 
     public static $rules = [
         'updated_at'       => 'required|',
@@ -65,13 +67,13 @@ class ProjectUser extends Model
     use CrudTrait, SoftDeletes, Blameable, CreatedBy;
     use Languages;
     use BelongsToProject, BelongsToUser;
-    protected $table = self::TABLE;
+    protected $table     = self::TABLE;
     protected $blameable = [
         'created' => 'user_id',
     ];
-    protected $dates = [ 'deleted_at' ];
-    protected $guarded = [ 'id' ];
-    protected $casts = [
+    protected $dates   = ['deleted_at'];
+    protected $guarded = ['id'];
+    protected $casts   = [
         'id'                => 'integer',
         'user_id'           => 'integer',
         'agent_id'          => 'integer',
@@ -105,7 +107,7 @@ class ProjectUser extends Model
                 return \in_array($language, $languages, false);
             }
         } else { //will also return true if $languages is empty
-            return ( ! $languages || \in_array($language, $languages, false));
+            return  ! $languages || \in_array($language, $languages, false);
         }
     }
 
@@ -118,8 +120,9 @@ class ProjectUser extends Model
             self::AUTH_ADMIN               => 'Project Administrator',
         ];
 
-        return $authArray[ $authId ];
+        return $authArray[$authId];
     }
+
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
@@ -160,5 +163,4 @@ class ProjectUser extends Model
         }
         $this->attributes['authorized_as'] = $value;
     }
-
 }

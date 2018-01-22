@@ -71,7 +71,7 @@ return [
                     'no_deactivated' => 'Inga inaktiverade användare',
                     'no_deleted'     => 'Inga raderade användare',
                     'roles'          => 'Roller',
-                    'social' => 'Social',
+                    'social'         => 'Social',
                     'total'          => 'användare totalt|användare totalt',
                 ],
 
@@ -113,7 +113,7 @@ return [
 
         'contact' => [
             'box_title' => 'Contact Us',
-            'button' => 'Send Information',
+            'button'    => 'Send Information',
         ],
 
         'passwords' => [

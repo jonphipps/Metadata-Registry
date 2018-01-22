@@ -14,7 +14,7 @@ use Illuminate\Support\Str;
  */
 class ResetPasswordController extends Controller
 {
-  use ResetsPasswords;
+    use ResetsPasswords;
 
     /**
      * @var UserRepository
@@ -33,25 +33,24 @@ class ResetPasswordController extends Controller
         $this->user = $user;
     }
 
-  /**
+    /**
      * Where to redirect users after resetting password.
      *
      * @return string
      */
-  public function redirectPath()
-  {
-    return route('frontend.user.dashboard');
-  }
+    public function redirectPath()
+    {
+        return route('frontend.user.dashboard');
+    }
 
-
-  /**
-   * Reset the given user's password.
-   *
-   * @param  User $user
-   * @param  string $password
-   *
-   * @return void
-   */
+    /**
+     * Reset the given user's password.
+     *
+     * @param  User $user
+     * @param  string $password
+     *
+     * @return void
+     */
     protected function resetPassword($user, $password)
     {
         $user->forceFill([
@@ -64,7 +63,8 @@ class ResetPasswordController extends Controller
         $this->guard()
          ->login($user);
     }
-  /**
+
+    /**
      * Display the password reset view for the given token.
      *
      * If no token is present, display the link request form.
@@ -75,7 +75,7 @@ class ResetPasswordController extends Controller
      */
     public function showResetForm($token = null)
     {
-        if ( ! $token) {
+        if (! $token) {
             return redirect()->route('frontend.auth.password.email');
         }
 
@@ -93,12 +93,11 @@ class ResetPasswordController extends Controller
             ->withFlashDanger(trans('exceptions.frontend.auth.password.reset_problem'));
     }
 
-
-  /**
-   * Get the password reset validation rules.
-   *
-   * @return array
-   */
+    /**
+     * Get the password reset validation rules.
+     *
+     * @return array
+     */
     protected function rules()
     {
         return [
@@ -108,14 +107,13 @@ class ResetPasswordController extends Controller
         ];
     }
 
-
-  /**
-   * Get the password reset credentials from the request.
-   *
-   * @param  \Illuminate\Http\Request $request
-   *
-   * @return array
-   */
+    /**
+     * Get the password reset credentials from the request.
+     *
+     * @param  \Illuminate\Http\Request $request
+     *
+     * @return array
+     */
     protected function credentials(Request $request)
     {
         return $request->only(
@@ -126,18 +124,17 @@ class ResetPasswordController extends Controller
         );
     }
 
-
-  /**
-   * Get the response for a failed password reset.
-   *
-   * @param  \Illuminate\Http\Request
-   * @param  string $response
-   *
-   * @return \Illuminate\Http\RedirectResponse
-   */
+    /**
+     * Get the response for a failed password reset.
+     *
+     * @param  \Illuminate\Http\Request
+     * @param  string $response
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     protected function sendResetFailedResponse(Request $request, $response)
     {
-        return redirect()->back()->withInput($request->only('nickname'))->withErrors([ 'nickname' => trans($response) ]);
+        return redirect()->back()->withInput($request->only('nickname'))->withErrors(['nickname' => trans($response)]);
     }
 
     /**
@@ -150,5 +147,4 @@ class ResetPasswordController extends Controller
     {
         return redirect()->route(homeRoute())->withFlashSuccess(trans($response));
     }
-
 }

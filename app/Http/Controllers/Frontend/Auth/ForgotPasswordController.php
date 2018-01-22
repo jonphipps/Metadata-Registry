@@ -16,39 +16,35 @@ use Illuminate\Support\Facades\Password;
  */
 class ForgotPasswordController extends Controller
 {
-
     use SendsPasswordResetEmails;
 
-
-  /**
+    /**
      * Display the form to request a password reset link.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function showLinkRequestForm()
     {
         return view('frontend.auth.passwords.email');
     }
 
-
-  /**
-   * Display the form to request a password reset link.
-   *
-   * @return \Illuminate\Http\Response
-   */
+    /**
+     * Display the form to request a password reset link.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function showLinkRequestFormForName()
     {
         return view('frontend.auth.passwords.name');
     }
 
-
     public function sendLoginNameEmail(Request $request)
     {
-        $this->validate($request, [ 'email' => 'required|email|exists:'. User::TABLE ]);
+        $this->validate($request, ['email' => 'required|email|exists:' . User::TABLE]);
 
         //if the email exists, we look up all of the user names associated with it
         $email = $request->get('email');
-        $user = \App\Models\Access\User\User::where('email', $email)->first();
+        $user  = \App\Models\Access\User\User::where('email', $email)->first();
 
         //and send them to the user as an email, with a link back to the login screen
         Notification::send($user, new UserNeedsLogin($user));
@@ -56,17 +52,17 @@ class ForgotPasswordController extends Controller
         return redirect('login')->with('status', 'We have e-mailed your login name(s)!');
     }
 
-  /**
-   * Send a reset link to the given user.
-   *
-   * @param  \Illuminate\Http\Request $request
-   *
-   * @return \Illuminate\Http\RedirectResponse
-   */
+    /**
+     * Send a reset link to the given user.
+     *
+     * @param  \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function sendResetLinkEmailForName(Request $request)
     {
         $table = new User();
-        $this->validate($request, [ 'nickname' => 'required|exists:' . $table->getTable() ]);
+        $this->validate($request, ['nickname' => 'required|exists:' . $table->getTable()]);
 
         //After we validate the user
         //We will get the user for this name and retrieve the email
@@ -74,8 +70,8 @@ class ForgotPasswordController extends Controller
                 ->first();
 
         //We also have to validate the users email here
-        $request->merge([ 'email' => $user->email ]);
-        $this->validate($request, [ 'email' => 'required|email' ]);
+        $request->merge(['email' => $user->email]);
+        $this->validate($request, ['email' => 'required|email']);
 
         // We will send the password reset link to this user. Once we have attempted
         // to send the link, we will examine the response then see the message we
@@ -86,7 +82,7 @@ class ForgotPasswordController extends Controller
         //add the user name to the password tokens table
         DB::table('password_resets')
         ->where('email', $user->email)
-        ->update([ 'name' => $request->nickname ]);
+        ->update(['name' => $request->nickname]);
 
         return $response == Password::RESET_LINK_SENT ? $this->sendResetLinkResponse($response) : $this->sendResetLinkFailedResponse(
             $request,

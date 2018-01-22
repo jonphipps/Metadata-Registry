@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Frontend\Elementset;
 
-use App\Models\ElementAttributeHistory;
-use Backpack\CRUD\app\Http\Controllers\CrudController;
-
-// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\Frontend\Elementset\ElementHistoryRequest as StoreRequest;
 use App\Http\Requests\Frontend\Elementset\ElementHistoryRequest as UpdateRequest;
+// VALIDATION: change the requests to match your own file names if you need form validation
+use App\Models\ElementAttributeHistory;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
 
 class ElementHistoryCrudController extends CrudController
 {

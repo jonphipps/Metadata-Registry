@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Frontend\Elementset;
 
-use Backpack\CRUD\app\Http\Controllers\CrudController;
-
-// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\Frontend\Elementset\ElementsetRequest as StoreRequest;
+// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\Frontend\Elementset\ElementsetRequest as UpdateRequest;
 use App\Models\Elementset;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Request;
 
 class ElementsetCrudController extends CrudController
@@ -21,7 +20,7 @@ class ElementsetCrudController extends CrudController
         |--------------------------------------------------------------------------
         */
         $this->crud->setModel(Elementset::class);
-        $this->crud->setRoute(config('backpack.base.route_prefix'). '/projects/' . request()->project . '/elementsets');
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/projects/' . request()->project . '/elementsets');
         $this->crud->setEntityNameStrings('Element Set', 'Element Sets');
 
         /*

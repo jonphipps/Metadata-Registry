@@ -1,4 +1,6 @@
-<?php namespace App\Models;
+<?php
+
+namespace App\Models;
 
 use App\Helpers\Macros\Traits\Languages;
 use App\Models\Traits\BelongsToUser;
@@ -9,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\VocabularyUser
+ * App\Models\VocabularyUser.
  *
  * @property int $id
  * @property \Carbon\Carbon|null $created_at
@@ -47,7 +49,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class VocabularyUser extends Model
 {
-    const TABLE = 'reg_vocabulary_has_user';
+    const TABLE          = 'reg_vocabulary_has_user';
     public static $rules = [
         'updated_at'       => 'required|',
         'vocabulary_id'    => 'required|',
@@ -59,13 +61,13 @@ class VocabularyUser extends Model
     use SoftDeletes, Blameable, CreatedBy;
     use Languages;
     use BelongsToVocabulary, BelongsToUser;
-    protected $table = self::TABLE;
+    protected $table     = self::TABLE;
     protected $blameable = [
         'created' => 'user_id',
     ];
-    protected $dates = [ 'deleted_at' ];
-    protected $guarded = [ 'id' ];
-    protected $casts = [
+    protected $dates   = ['deleted_at'];
+    protected $guarded = ['id'];
+    protected $casts   = [
         'id'                => 'integer',
         'vocabulary_id'     => 'integer',
         'user_id'           => 'integer',
@@ -93,5 +95,4 @@ class VocabularyUser extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
-
 }

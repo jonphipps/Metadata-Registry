@@ -14,9 +14,9 @@ return [
     */
 
     // Forms
-    'save_action_save_and_new' => 'Запиши и добави нов',
-    'save_action_save_and_edit' => 'Запиши и поправи текущия запис',
-    'save_action_save_and_back' => 'Запиши и се върни назад',
+    'save_action_save_and_new'         => 'Запиши и добави нов',
+    'save_action_save_and_edit'        => 'Запиши и поправи текущия запис',
+    'save_action_save_and_back'        => 'Запиши и се върни назад',
     'save_action_changed_notification' => 'Действието след запис по подразбиране слез запис беше променено.',
 
     // Create form
@@ -36,15 +36,15 @@ return [
     'save'                 => 'Запиши',
 
     // Revisions
-    'revisions'            => 'Версии',
-    'no_revisions'         => 'Не бяха открити версии',
+    'revisions'             => 'Версии',
+    'no_revisions'          => 'Не бяха открити версии',
     'created_this'          => 'създаде това',
-    'changed_the'          => 'смени',
-    'restore_this_value'   => 'Възстанови от ?',
-    'from'                 => 'от',
-    'to'                   => 'до',
-    'undo'                 => 'отмени',
-    'revision_restored'    => 'Версията беше върната успешно.',
+    'changed_the'           => 'смени',
+    'restore_this_value'    => 'Възстанови от ?',
+    'from'                  => 'от',
+    'to'                    => 'до',
+    'undo'                  => 'отмени',
+    'revision_restored'     => 'Версията беше върната успешно.',
 
     // CRUD table view
     'all'                       => 'Всички ',
@@ -91,7 +91,7 @@ return [
 
     // global crud - errors
     'unauthorized_access' => 'Неразрешен достъп - нямате необходимите разрешения, за да видите тази страница.',
-    'please_fix' => 'Моля, поправете следните грешки:',
+    'please_fix'          => 'Моля, поправете следните грешки:',
 
     // global crud - success / error notification bubbles
     'insert_success' => 'Елементът е добавен успешно.',
@@ -107,20 +107,20 @@ return [
 
     // CRUD yes/no
     'yes' => 'Да',
-    'no' => 'Не',
+    'no'  => 'Не',
 
     // Fields
-    'browse_uploads' => 'Browse uploads',
-    'clear' => 'Изчисти',
-    'page_link' => 'Линк на страницата',
-    'page_link_placeholder' => 'http://example.com/your-desired-page',
-    'internal_link' => 'Вътрешен линк',
+    'browse_uploads'            => 'Browse uploads',
+    'clear'                     => 'Изчисти',
+    'page_link'                 => 'Линк на страницата',
+    'page_link_placeholder'     => 'http://example.com/your-desired-page',
+    'internal_link'             => 'Вътрешен линк',
     'internal_link_placeholder' => 'Вътрешен слъг. Пр: \'admin/page\' (без кавички) за \':url\'',
-    'external_link' => 'Външен линк',
-    'choose_file' => 'Избери файл',
+    'external_link'             => 'Външен линк',
+    'choose_file'               => 'Избери файл',
 
     //Table field
-    'table_cant_add' => 'Не може да се добави нов :entity',
+    'table_cant_add'    => 'Не може да се добави нов :entity',
     'table_max_reached' => 'Максимален брой :max достигнат',
 
 ];

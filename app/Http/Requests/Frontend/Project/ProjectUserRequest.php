@@ -25,7 +25,7 @@ class ProjectUserRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
     public function rules()
     {
         return [
-            'user_id' => 'required'
+            'user_id' => 'required',
         ];
     }
 

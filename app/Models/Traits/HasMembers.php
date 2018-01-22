@@ -5,7 +5,6 @@
 namespace App\Models\Traits;
 
 use App\Models\Access\User\User;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 trait HasMembers
@@ -16,20 +15,20 @@ trait HasMembers
     public function members(): ?BelongsToMany
     {
         //determine the parent class
-        $class = static::class;
-        $classUser = $class . 'User';
-        $className     = $this->get_class_name( $class );
-        $foreignKey = ['Vocabulary'=> 'vocabulary_id', 'Elementset' => 'schema_id', 'Project' => 'agent_id'];
+        $class         = static::class;
+        $classUser     = $class . 'User';
+        $className     = $this->get_class_name($class);
+        $foreignKey    = ['Vocabulary'=> 'vocabulary_id', 'Elementset' => 'schema_id', 'Project' => 'agent_id'];
 
-        return $this->belongsToMany( User::class,
+        return $this->belongsToMany(User::class,
             $classUser::TABLE,
             $foreignKey[$className],
-            'user_id' )->withTimestamps()->withPivot( 'is_maintainer_for',
+            'user_id')->withTimestamps()->withPivot('is_maintainer_for',
             'is_registrar_for',
             'is_admin_for',
             'languages',
             'default_language',
-            'current_language' );
+            'current_language');
     }
 
     /**
@@ -45,7 +44,6 @@ trait HasMembers
      */
     public function administrators()
     {
-
         return $this->members()->where('is_admin_for', true);
     }
 
@@ -84,10 +82,10 @@ trait HasMembers
         return $this->members()->whereNull('is_admin_for', true)->whereNull('is_maintainer_for');
     }
 
-    private function get_class_name( $classname )
+    private function get_class_name($classname)
     {
-        if ( $pos = strrpos( $classname, '\\' ) ) {
-            return substr( $classname, $pos + 1 );
+        if ($pos = strrpos($classname, '\\')) {
+            return substr($classname, $pos + 1);
         }
 
         return $pos;

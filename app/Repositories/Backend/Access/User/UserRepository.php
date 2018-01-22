@@ -2,24 +2,24 @@
 
 namespace App\Repositories\Backend\Access\User;
 
-use App\Models\Access\User\User;
-use Illuminate\Support\Facades\DB;
+use App\Events\Backend\Access\User\UserConfirmed;
+use App\Events\Backend\Access\User\UserCreated;
+use App\Events\Backend\Access\User\UserDeactivated;
+use App\Events\Backend\Access\User\UserDeleted;
+use App\Events\Backend\Access\User\UserPasswordChanged;
+use App\Events\Backend\Access\User\UserPermanentlyDeleted;
+use App\Events\Backend\Access\User\UserReactivated;
+use App\Events\Backend\Access\User\UserRestored;
+use App\Events\Backend\Access\User\UserUnconfirmed;
+use App\Events\Backend\Access\User\UserUpdated;
 use App\Exceptions\GeneralException;
+use App\Models\Access\User\User;
+use App\Notifications\Backend\Access\UserAccountActive;
+use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
+use App\Repositories\Backend\Access\Role\RoleRepository;
 use App\Repositories\BaseRepository;
 use Illuminate\Database\Eloquent\Model;
-use App\Events\Backend\Access\User\UserCreated;
-use App\Events\Backend\Access\User\UserDeleted;
-use App\Events\Backend\Access\User\UserUpdated;
-use App\Events\Backend\Access\User\UserRestored;
-use App\Events\Backend\Access\User\UserConfirmed;
-use App\Events\Backend\Access\User\UserDeactivated;
-use App\Events\Backend\Access\User\UserReactivated;
-use App\Events\Backend\Access\User\UserUnconfirmed;
-use App\Events\Backend\Access\User\UserPasswordChanged;
-use App\Notifications\Backend\Access\UserAccountActive;
-use App\Repositories\Backend\Access\Role\RoleRepository;
-use App\Events\Backend\Access\User\UserPermanentlyDeleted;
-use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class UserRepository.
@@ -57,7 +57,7 @@ class UserRepository extends BaseRepository
         }
 
         return $this->query()->whereHas('roles.permissions', function ($query) use ($permissions, $by) {
-            $query->whereIn('permissions.'.$by, $permissions);
+            $query->whereIn('permissions.' . $by, $permissions);
         })->get();
     }
 
@@ -74,7 +74,7 @@ class UserRepository extends BaseRepository
         }
 
         return $this->query()->whereHas('roles', function ($query) use ($roles, $by) {
-            $query->whereIn('roles.'.$by, $roles);
+            $query->whereIn('roles.' . $by, $roles);
         })->get();
     }
 
@@ -93,16 +93,16 @@ class UserRepository extends BaseRepository
         $dataTableQuery = $this->query()
             ->with('roles')
             ->select([
-                config('access.users_table').'.id',
-                config('access.users_table').'.first_name',
-                config('access.users_table').'.last_name',
-                config('access.users_table').'.nickname',
-                config('access.users_table').'.email',
-                config('access.users_table').'.status',
-                config('access.users_table').'.confirmed',
-                config('access.users_table').'.created_at',
-                config('access.users_table').'.updated_at',
-                config('access.users_table').'.deleted_at',
+                config('access.users_table') . '.id',
+                config('access.users_table') . '.first_name',
+                config('access.users_table') . '.last_name',
+                config('access.users_table') . '.nickname',
+                config('access.users_table') . '.email',
+                config('access.users_table') . '.status',
+                config('access.users_table') . '.confirmed',
+                config('access.users_table') . '.created_at',
+                config('access.users_table') . '.updated_at',
+                config('access.users_table') . '.deleted_at',
             ]);
 
         if ($trashed == 'true') {
@@ -126,7 +126,7 @@ class UserRepository extends BaseRepository
      */
     public function create($input)
     {
-        $data = $input['data'];
+        $data  = $input['data'];
         $roles = $input['roles'];
 
         $user = $this->createUserStub($data);
@@ -165,16 +165,16 @@ class UserRepository extends BaseRepository
      */
     public function update(Model $user, array $input)
     {
-        $data = $input['data'];
+        $data  = $input['data'];
         $roles = $input['roles'];
 
         $this->checkUserByEmail($data, $user);
 
         $user->first_name = $data['first_name'];
-        $user->last_name = $data['last_name'];
-        $user->nickname = $data['nickname'];
-        $user->email = $data['email'];
-        $user->status = isset($data['status']) ? 1 : 0;
+        $user->last_name  = $data['last_name'];
+        $user->nickname   = $data['nickname'];
+        $user->email      = $data['email'];
+        $user->status     = isset($data['status']) ? 1 : 0;
 
         DB::transaction(function () use ($user, $data, $roles) {
             if ($user->save()) {
@@ -327,7 +327,7 @@ class UserRepository extends BaseRepository
         }
 
         $user->confirmed = 1;
-        $confirmed = $user->save();
+        $confirmed       = $user->save();
 
         if ($confirmed) {
             event(new UserConfirmed($user));
@@ -366,7 +366,7 @@ class UserRepository extends BaseRepository
         }
 
         $user->confirmed = 0;
-        $unconfirmed = $user->save();
+        $unconfirmed     = $user->save();
 
         if ($unconfirmed) {
             event(new UserUnconfirmed($user));
@@ -426,16 +426,16 @@ class UserRepository extends BaseRepository
      */
     protected function createUserStub($input)
     {
-        $user = self::MODEL;
-        $user = new $user;
-        $user->first_name = $input['first_name'];
-        $user->last_name = $input['last_name'];
-        $user->nickname = $input['nickname'];
-        $user->email = $input['email'];
-        $user->password = bcrypt($input['password']);
-        $user->status = isset($input['status']) ? 1 : 0;
+        $user                    = self::MODEL;
+        $user                    = new $user;
+        $user->first_name        = $input['first_name'];
+        $user->last_name         = $input['last_name'];
+        $user->nickname          = $input['nickname'];
+        $user->email             = $input['email'];
+        $user->password          = bcrypt($input['password']);
+        $user->status            = isset($input['status']) ? 1 : 0;
         $user->confirmation_code = md5(uniqid(mt_rand(), true));
-        $user->confirmed = isset($input['confirmed']) ? 1 : 0;
+        $user->confirmed         = isset($input['confirmed']) ? 1 : 0;
 
         return $user;
     }

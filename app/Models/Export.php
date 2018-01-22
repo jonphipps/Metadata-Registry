@@ -20,7 +20,7 @@ use function is_iterable;
 use function unserialize;
 
 /**
- * App\Models\Export
+ * App\Models\Export.
  *
  * @property int $id
  * @property \Carbon\Carbon|null $created_at
@@ -69,7 +69,7 @@ use function unserialize;
  */
 class Export extends Model
 {
-    const TABLE = 'reg_export_history';
+    const TABLE   = 'reg_export_history';
     public $table = self::TABLE;
     use CrudTrait;
     use Blameable, CreatedBy;
@@ -80,8 +80,8 @@ class Export extends Model
     protected $dates = [
         'last_vocab_update',
     ];
-    protected $guarded = [ 'id' ];
-    protected $casts = [
+    protected $guarded = ['id'];
+    protected $casts   = [
         'user_id'              => 'int',
         'vocabulary_id'        => 'int',
         'schema_id'            => 'int',
@@ -101,7 +101,7 @@ class Export extends Model
 
     public static function findByExportFileName(string $name, $extension = 'csv'): ?self
     {
-        return self::whereFile( $name . '.' . $extension )->first();
+        return self::whereFile($name . '.' . $extension)->first();
     }
 
     /**
@@ -116,8 +116,8 @@ class Export extends Model
         } else {
             $this->imports()->save($imports);
         }
-        return $this;
 
+        return $this;
     }
 
     /**
@@ -156,7 +156,7 @@ class Export extends Model
      */
     public function getMapAttribute($value)
     {
-        return $value? collect(unserialize($value, [ true ])): null;
+        return $value ? collect(unserialize($value, [true])) : null;
     }
 
     public function getWorksheetAttribute(): ?string
@@ -176,9 +176,9 @@ class Export extends Model
     /**
      * @return \Illuminate\Support\Collection|null
      */
-    public function getSelectedColumnsAttribute( $value )
+    public function getSelectedColumnsAttribute($value)
     {
-        return $value ? collect( unserialize( $value, [ true ] ) ) : null;
+        return $value ? collect(unserialize($value, [true])) : null;
     }
 
     /*
@@ -186,19 +186,20 @@ class Export extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
+
     /**
      * @param $value
      */
-    public function setMapAttribute( $value ): void
+    public function setMapAttribute($value): void
     {
-        $value ? $this->attributes['map'] = serialize( $value ) : null;
+        $value ? $this->attributes['map'] = serialize($value) : null;
     }
 
     /**
      * @param $value
      */
-    public function setSelectedColumnsAttribute( $value ): void
+    public function setSelectedColumnsAttribute($value): void
     {
-        $value ? $this->attributes['selected_columns'] = serialize( $value ) : null;
+        $value ? $this->attributes['selected_columns'] = serialize($value) : null;
     }
 }

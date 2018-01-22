@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Backend\Access\Role;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\Backend\Access\Role\RoleRepository;
 use App\Http\Requests\Backend\Access\Role\ManageRoleRequest;
+use App\Repositories\Backend\Access\Role\RoleRepository;
 use Yajra\DataTables\Facades\DataTables;
 
 /**
@@ -36,12 +36,12 @@ class RoleTableController extends Controller
             ->escapeColumns(['name', 'sort'])
             ->addColumn('permissions', function ($role) {
                 if ($role->all) {
-                    return '<span class="label label-success">'.trans('labels.general.all').'</span>';
+                    return '<span class="label label-success">' . trans('labels.general.all') . '</span>';
                 }
 
                 return $role->permissions->count() ?
                     implode('<br/>', $role->permissions->pluck('display_name')->toArray()) :
-                    '<span class="label label-danger">'.trans('labels.general.none').'</span>';
+                    '<span class="label label-danger">' . trans('labels.general.none') . '</span>';
             })
             ->addColumn('users', function ($role) {
                 return $role->users->count();

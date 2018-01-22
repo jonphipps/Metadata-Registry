@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Events\BatchImportParseFinished;
 use App\Events\ImportParseFinished;
 use App\Models\Import;
 use App\Services\Import\DataImporter;
@@ -41,22 +40,21 @@ class ParseVocabulary implements ShouldQueue
 
     /**
      * Execute the job.
-     *
      */
     public function handle()
     {
         $source_file_name = '';
-        $import_type = 0;
+        $import_type      = 0;
         extract($this->spreadsheet, EXTR_OVERWRITE);
-        $sheet = new GoogleSpreadsheet($source_file_name);
+        $sheet    = new GoogleSpreadsheet($source_file_name);
         $data     = collect($sheet->getWorksheetData($this->worksheet_id)->toArray());
         //TODO: Handle $import_type in the importer
         $importer = new DataImporter($data, $this->import->export);
         //then we pass them to the importer
-        $changeSet = $importer->getChangeset();
+        $changeSet                  = $importer->getChangeset();
         $this->import->instructions = $changeSet;
-        $this->import->preprocess = $importer->getStats();
-        $this->import->errors = $importer->getErrors()->toJson();
+        $this->import->preprocess   = $importer->getStats();
+        $this->import->errors       = $importer->getErrors()->toJson();
         $this->import->save();
 
         event(new ImportParseFinished($this->import));

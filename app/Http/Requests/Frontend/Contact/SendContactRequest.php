@@ -28,8 +28,8 @@ class SendContactRequest extends Request
     {
         return [
             'nickname' => 'required',
-            'email' => 'required',
-            'message' => 'required',
+            'email'    => 'required',
+            'message'  => 'required',
         ];
     }
 }

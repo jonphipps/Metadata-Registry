@@ -12,8 +12,8 @@ use Smajti1\Laravel\Wizard;
 class DisplayResultsStep extends Step
 {
     public static $label = 'Here are your results...';
-    public static $slug = 'results';
-    public static $view = 'frontend.import.project.steps.results';
+    public static $slug  = 'results';
+    public static $view  = 'frontend.import.project.steps.results';
 
     public function fields(): array
     {
@@ -30,7 +30,7 @@ class DisplayResultsStep extends Step
     {
         /** @var Import[] $imports */
         $imports = $request->batch->imports;
-        $data = [];
+        $data    = [];
         foreach ($imports as $import) {
             $results['results']       = $import->results['timer'][0];
             $results['worksheet']     = $import->source_file_name;
@@ -41,7 +41,7 @@ class DisplayResultsStep extends Step
             $results['errors']        = $import->error_count;
             $data[]                   = $results;
         }
-        $wizardData =   $wizard->data();
+        $wizardData            =   $wizard->data();
         $wizardData['results'] = $data;
         $wizard->data($wizardData);
     }

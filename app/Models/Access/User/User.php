@@ -20,7 +20,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 /**
- * App\Models\Access\User\User
+ * App\Models\Access\User\User.
  *
  * @property int $id
  * @property \Carbon\Carbon|null $created_at
@@ -95,109 +95,104 @@ class User extends Authenticatable
      *
      * @var string
      */
-    protected $table = self::TABLE;
+    protected $table   = self::TABLE;
     public const TABLE = 'users';
 
-    protected $guarded = [ 'id', 'is_administrator' ];
+    protected $guarded = ['id', 'is_administrator'];
 
     /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
      */
-    protected $hidden = [ 'password', 'remember_token' ];
+    protected $hidden = ['password', 'remember_token'];
     /**
      * @var array
      */
-    protected $dates = [ 'deleted_at' ];
+    protected $dates = ['deleted_at'];
 
     /**
      * @param array $attributes
      */
-    public function __construct( array $attributes = [] )
+    public function __construct(array $attributes = [])
     {
-        parent::__construct( $attributes );
-        $this->table = config( 'access.users_table' );
+        parent::__construct($attributes);
+        $this->table = config('access.users_table');
     }
 
-
-    public function isAdminForProjectId( int $project_id ): bool
+    public function isAdminForProjectId(int $project_id): bool
     {
-        return (bool) ProjectUser::where( [
-            [ 'user_id', '=', $this->id ],
-            [ 'agent_id', '=', $project_id ],
-            [ 'is_admin_for', '=', true ],
-        ] )->count();
+        return (bool) ProjectUser::where([
+            ['user_id', '=', $this->id],
+            ['agent_id', '=', $project_id],
+            ['is_admin_for', '=', true],
+        ])->count();
     }
 
-
-    public function isAdminForVocabulary( Vocabulary $vocabulary ): bool
+    public function isAdminForVocabulary(Vocabulary $vocabulary): bool
     {
-        return (bool) VocabularyUser::where( [
-                [ 'user_id', '=', $this->id ],
-                [ 'is_admin_for', '=', true ],
-            ] )->count() or $this->isAdminForProjectId( $vocabulary->agent_id );
+        return (bool) VocabularyUser::where([
+                ['user_id', '=', $this->id],
+                ['is_admin_for', '=', true],
+            ])->count() or $this->isAdminForProjectId($vocabulary->agent_id);
     }
 
-
-    public function isMaintainerForVocabulary( Vocabulary $vocabulary ): bool
+    public function isMaintainerForVocabulary(Vocabulary $vocabulary): bool
     {
-        return (bool) VocabularyUser::where( [
-                [ 'user_id', '=', $this->id ],
-                [ 'is_maintainer_for', '=', true ],
-            ] )->count() or $this->isAdminForVocabulary( $vocabulary );
+        return (bool) VocabularyUser::where([
+                ['user_id', '=', $this->id],
+                ['is_maintainer_for', '=', true],
+            ])->count() or $this->isAdminForVocabulary($vocabulary);
     }
 
-
-    public function isAdminForElementSet( Elementset $elementset ): bool
+    public function isAdminForElementSet(Elementset $elementset): bool
     {
-        return (bool) ElementsetUser::where( [
-                [ 'user_id', '=', $this->id ],
-                [ 'is_admin_for', '=', true ],
-            ] )->count() or $this->isAdminForProjectId( $elementset->agent_id );
+        return (bool) ElementsetUser::where([
+                ['user_id', '=', $this->id],
+                ['is_admin_for', '=', true],
+            ])->count() or $this->isAdminForProjectId($elementset->agent_id);
     }
 
-
-    public function isMaintainerForElementSet( Elementset $elementset ): bool
+    public function isMaintainerForElementSet(Elementset $elementset): bool
     {
-        return (bool) ElementsetUser::where( [
-                [ 'user_id', '=', $this->id ],
-                [ 'is_maintainer_for', '=', true ],
-            ] )->count() or $this->isAdminForElementSet( $elementset );
+        return (bool) ElementsetUser::where([
+                ['user_id', '=', $this->id],
+                ['is_maintainer_for', '=', true],
+            ])->count() or $this->isAdminForElementSet($elementset);
     }
 
-    public function isMemberOfProject( Project $project ): bool
+    public function isMemberOfProject(Project $project): bool
     {
-        return (bool) $this->projects()->wherePivot( 'agent_id', $project->id )->count();
+        return (bool) $this->projects()->wherePivot('agent_id', $project->id)->count();
     }
 
     public function projects(): ?BelongsToMany
     {
-        return $this->belongsToMany( Project::class, ProjectUser::TABLE, 'user_id', 'agent_id' )
-            ->withPivot( 'is_registrar_for', 'is_admin_for', 'is_maintainer_for','authorized_as', 'languages' )
+        return $this->belongsToMany(Project::class, ProjectUser::TABLE, 'user_id', 'agent_id')
+            ->withPivot('is_registrar_for', 'is_admin_for', 'is_maintainer_for', 'authorized_as', 'languages')
             ->withTimestamps();
     }
 
     public function vocabularies(): ?BelongsToMany
     {
-        return $this->belongsToMany( Vocabulary::class,
+        return $this->belongsToMany(Vocabulary::class,
             VocabularyUser::TABLE,
             'user_id',
-            'vocabulary_id' )->withPivot( 'is_maintainer_for',
+            'vocabulary_id')->withPivot('is_maintainer_for',
             'is_registrar_for',
             'is_admin_for',
             'languages',
             'default_language',
-            'current_language' )->withTimestamps();
+            'current_language')->withTimestamps();
     }
 
     public function elementsets(): ?BelongsToMany
     {
-        return $this->belongsToMany( Elementset::class,
+        return $this->belongsToMany(Elementset::class,
             ElementsetUser::TABLE,
             'user_id',
-            'schema_id' )
-            ->withPivot( 'is_registrar_for', 'is_admin_for', 'is_maintainer_for' )
+            'schema_id')
+            ->withPivot('is_registrar_for', 'is_admin_for', 'is_maintainer_for')
             ->withTimestamps();
     }
 
@@ -208,8 +203,8 @@ class User extends Authenticatable
      */
     public static function getUsersForSelect($purgeKeys = []): Collection
     {
-        return self::orderBy('nickname')->get([ 'id', 'nickname', 'first_name', 'last_name' ])->mapWithKeys(function($item) {
-            return [ $item['id'] => self::getCombinedName($item)];
+        return self::orderBy('nickname')->get(['id', 'nickname', 'first_name', 'last_name'])->mapWithKeys(function ($item) {
+            return [$item['id'] => self::getCombinedName($item)];
         })->diffKeys($purgeKeys);
     }
 
@@ -217,6 +212,6 @@ class User extends Authenticatable
     {
         $name = trim($user['first_name'] . ' ' . $user['last_name']);
 
-        return $name ? $user['nickname'] . ' (' . $name . ')' :  $user['nickname'] ;
+        return $name ? $user['nickname'] . ' (' . $name . ')' : $user['nickname'];
     }
 }

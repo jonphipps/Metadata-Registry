@@ -72,7 +72,7 @@ return [
 
     'emails' => [
         'auth' => [
-            'account_confirmed' => 'Votre compte a été confirmé.',
+            'account_confirmed'       => 'Votre compte a été confirmé.',
             'error'                   => 'Oups !',
             'greeting'                => 'Bonjour !',
             'regards'                 => 'Salutations,',
@@ -89,7 +89,7 @@ return [
 
         'contact' => [
             'email_body_title' => 'Vous avez une nouvelle prise de contact dont voici les détails :',
-            'subject' => 'Nouvelle soumission du formulaire de contact sur :app_name !',
+            'subject'          => 'Nouvelle soumission du formulaire de contact sur :app_name !',
         ],
     ],
 
@@ -127,10 +127,10 @@ return [
         ],
 
         'user' => [
-            'change_email_notice' => "Si vous changez votre adresse email vous serez déconnecté jusqu'à que vous confirmiez votre nouvelle adresse email.",
+            'change_email_notice'  => "Si vous changez votre adresse email vous serez déconnecté jusqu'à que vous confirmiez votre nouvelle adresse email.",
             'email_changed_notice' => 'Vous devez confirmer votre nouvelle adresse email avant de pouvoir vous connecter de nouveau.',
-            'profile_updated'  => 'Profil modifié avec succès.',
-            'password_updated' => 'Mot de passe modifié avec succès.',
+            'profile_updated'      => 'Profil modifié avec succès.',
+            'password_updated'     => 'Mot de passe modifié avec succès.',
         ],
 
         'welcome_to' => 'Bienvenue sur :place',

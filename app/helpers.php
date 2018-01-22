@@ -57,6 +57,7 @@ if (! function_exists('includeRouteFiles')) {
     {
         try {
             $rdi = new recursiveDirectoryIterator($folder);
+            /** @var DirectoryIterator $it */
             $it = new recursiveIteratorIterator($rdi);
 
             while ($it->valid()) {
@@ -85,12 +86,12 @@ if (! function_exists('getRtlCss')) {
      */
     function getRtlCss($path)
     {
-        $path = explode('/', $path);
+        $path     = explode('/', $path);
         $filename = end($path);
         array_pop($path);
         $filename = rtrim($filename, '.css');
 
-        return implode('/', $path).'/'.$filename.'.rtl.css';
+        return implode('/', $path) . '/' . $filename . '.rtl.css';
     }
 }
 

@@ -2,22 +2,20 @@
 
 namespace App\Http\Controllers\Frontend\Project;
 
-use App\Helpers\Auth\Auth;
+use App\Http\Requests\ReleaseRequest as StoreRequest;
+use App\Http\Requests\ReleaseRequest as UpdateRequest;
 use App\Http\Traits\UsesPolicies;
 use App\Jobs\Publish;
 use App\Models\Access\User\User;
 use App\Models\Elementset;
-use App\Models\Project;
-use Backpack\CRUD\app\Http\Controllers\CrudController;
-
 // VALIDATION: change the requests to match your own file names if you need form validation
-use App\Http\Requests\ReleaseRequest as StoreRequest;
-use App\Http\Requests\ReleaseRequest as UpdateRequest;
+use App\Models\Project;
 use App\Models\Release;
+use App\Models\Vocabulary;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
-use App\Models\Vocabulary;
 
 class ProjectReleaseCrudController extends CrudController
 {
@@ -39,15 +37,15 @@ class ProjectReleaseCrudController extends CrudController
 
         $this->crud->setModel(Release::class);
         $this->crud->setEntityNameStrings('Release', 'Releases');
-        $this->crud->setRoute(config('backpack.base.route_prefix'). '/projects/' . $project_id . '/releases');
+        $this->crud->setRoute(config('backpack.base.route_prefix') . '/projects/' . $project_id . '/releases');
 
         if ($project_id) {
             $project = Project::findOrFail($project_id);
             $this->crud->addClause('where', 'agent_id', $project_id);
-            Vocabulary::addGlobalScope('project_id', function(Builder $builder) use($project_id){
+            Vocabulary::addGlobalScope('project_id', function (Builder $builder) use ($project_id) {
                 $builder->where('agent_id', $project_id);
             });
-            Elementset::addGlobalScope('project_id', function(Builder $builder) use($project_id){
+            Elementset::addGlobalScope('project_id', function (Builder $builder) use ($project_id) {
                 $builder->where('agent_id', $project_id);
             });
         }
@@ -64,16 +62,16 @@ class ProjectReleaseCrudController extends CrudController
         // $this->crud->addField($options, 'update/create/both');
         // $this->crud->addFields($array_of_arrays, 'update/create/both');
         // $this->crud->removeField('name', 'update/create/both');
-        $this->crud->removeFields(['user_id','agent_id','name','body','github_response','tag_name','target_commitish','is_draft','is_prerelease']);
+        $this->crud->removeFields(['user_id', 'agent_id', 'name', 'body', 'github_response', 'tag_name', 'target_commitish', 'is_draft', 'is_prerelease']);
         $this->crud->addFields([
             [
-                'name' => 'user_id',
-                'type' => 'hidden',
+                'name'    => 'user_id',
+                'type'    => 'hidden',
                 'default' => request()->user() ? request()->user()->id : null,
             ],
             [
-                'name' => 'agent_id',
-                'type' => 'hidden',
+                'name'    => 'agent_id',
+                'type'    => 'hidden',
                 'default' => $project_id,
             ],
             [
@@ -119,7 +117,7 @@ class ProjectReleaseCrudController extends CrudController
                 'pivotFields' => [], // an array of pivot table fields
                 'morph'       => true,
                 'allows_null' => false,
-                'hint' => 'Use shift- or ctrl-click (Windows) or cmd-click (mac) to select.',
+                'hint'        => 'Use shift- or ctrl-click (Windows) or cmd-click (mac) to select.',
             ],
             [
                 'label'       => 'Element Sets to publish...',
@@ -132,7 +130,7 @@ class ProjectReleaseCrudController extends CrudController
                 'pivotFields' => [], // an array of pivot table fields
                 'morph'       => true,
                 'allows_null' => false,
-                'hint' => 'Use shift- or ctrl-click (Windows) or cmd-click (mac) to select.',
+                'hint'        => 'Use shift- or ctrl-click (Windows) or cmd-click (mac) to select.',
             ],
         ]);
 
@@ -140,7 +138,7 @@ class ProjectReleaseCrudController extends CrudController
         // $this->crud->addColumn(); // add a single column, at the end of the stack
         // $this->crud->addColumns(); // add multiple columns, at the end of the stack
         //$this->crud->removeColumn('github_response'); // remove a column from the stack
-        $this->crud->removeColumns(['user_id','agent_id', 'github_response', 'target_commitish', 'is_draft']); // remove an array of columns from the stack
+        $this->crud->removeColumns(['user_id', 'agent_id', 'github_response', 'target_commitish', 'is_draft', 'deleted_at']); // remove an array of columns from the stack
         // $this->crud->setColumnDetails('column_name', ['attribute' => 'value']); // adjusts the properties of the passed in column (by name)
         $this->crud->addColumns([
             [
@@ -176,9 +174,13 @@ class ProjectReleaseCrudController extends CrudController
 
         $this->crud->setColumnDetails('is_prerelease',
             [
-                'type'    => 'check',
-                'label'   => 'Pre-release?',
+                'type'  => 'boolean',
+                'label' => 'Pre-release?',
 
+            ]);
+        $this->crud->setColumnDetails('body',
+            [
+                'type'  => 'markdown',
             ]);
 
         $this->crud->setColumnsDetails(['body', 'tag_name'],
@@ -198,29 +200,29 @@ class ProjectReleaseCrudController extends CrudController
         // $this->crud->removeAllButtons();
         // $this->crud->removeAllButtonsFromStack('line');
 
-        $this->crud->denyAccess([ 'create', 'update', 'delete', 'import', 'publish', ]);
+        $this->crud->denyAccess(['create', 'update', 'delete', 'import', 'publish']);
         if ($project->is_private) {
             if (Gate::allows('index', $project)) {
-                $this->crud->allowAccess([ 'index' ]);
+                $this->crud->allowAccess(['index']);
             }
             if (Gate::allows('view', $project)) {
-                $this->crud->allowAccess([ 'show' ]);
+                $this->crud->allowAccess(['show']);
             }
         } else {
-            $this->crud->allowAccess([ 'index' ]);
-            $this->crud->allowAccess([ 'show' ]);
+            $this->crud->allowAccess(['index']);
+            $this->crud->allowAccess(['show']);
         }
         if (Gate::allows('create', $project)) {
-            $this->crud->allowAccess([ 'create' ]);
+            $this->crud->allowAccess(['create']);
         }
         if (Gate::allows('update', $project)) {
-            $this->crud->allowAccess([ 'update' ]);
+            $this->crud->allowAccess(['update']);
         }
         if (Gate::allows('delete', $project)) {
-            $this->crud->allowAccess([ 'delete' ]);
+            $this->crud->allowAccess(['delete']);
         }
         if (Gate::allows('publish', $project)) {
-            $this->crud->allowAccess([ 'publish' ]);
+            $this->crud->allowAccess(['publish']);
         }
         // ------ CRUD ACCESS
         // $this->crud->allowAccess([ 'index', 'show' ]);
@@ -315,5 +317,4 @@ class ProjectReleaseCrudController extends CrudController
         // use $this->data['entry'] or $this->crud->entry
         return $redirect_location;
     }
-
 }

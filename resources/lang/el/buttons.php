@@ -16,17 +16,17 @@ return [
     'backend' => [
         'access' => [
             'users' => [
-                'activate'           => 'Ενεργοποίησε',
-                'change_password'    => 'Άλλαξε κωδικό',
+                'activate'              => 'Ενεργοποίησε',
+                'change_password'       => 'Άλλαξε κωδικό',
                 'clear_session'         => 'Clear Session',
-                'confirm'             => 'Confirm',
-                'deactivate'         => 'Απενεργοποίησε',
-                'delete_permanently' => 'Διέγραψε μόνιμα',
-                'login_as'           => 'Συνδέσου σαν :user',
-                'resend_email'       => 'Ξαναστείλε email επιβεβαίωσης',
-                'restore_user'       => 'Επαναφορά χρήστη',
+                'confirm'               => 'Confirm',
+                'deactivate'            => 'Απενεργοποίησε',
+                'delete_permanently'    => 'Διέγραψε μόνιμα',
+                'login_as'              => 'Συνδέσου σαν :user',
+                'resend_email'          => 'Ξαναστείλε email επιβεβαίωσης',
+                'restore_user'          => 'Επαναφορά χρήστη',
                 'unconfirm'             => 'Un-confirm',
-                'unlink' => 'Unlink',
+                'unlink'                => 'Unlink',
             ],
         ],
     ],
@@ -39,7 +39,7 @@ return [
     ],
 
     'general' => [
-        'cancel' => 'Άκυρο',
+        'cancel'   => 'Άκυρο',
         'continue' => 'Continue',
 
         'crud' => [

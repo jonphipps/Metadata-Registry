@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Frontend\Auth;
 
-use Illuminate\Http\Request;
 use App\Exceptions\GeneralException;
-use App\Http\Controllers\Controller;
-use Laravel\Socialite\Facades\Socialite;
-use App\Repositories\Frontend\Access\User\UserRepository;
 use App\Helpers\Frontend\Auth\Socialite as SocialiteHelper;
+use App\Http\Controllers\Controller;
+use App\Repositories\Frontend\Access\User\UserRepository;
+use Illuminate\Http\Request;
+use Laravel\Socialite\Facades\Socialite;
 
 /**
  * Class SocialLoginController.
@@ -32,7 +32,7 @@ class SocialLoginController extends Controller
      */
     public function __construct(UserRepository $user, SocialiteHelper $helper)
     {
-        $this->user = $user;
+        $this->user   = $user;
         $this->helper = $helper;
     }
 
@@ -102,9 +102,9 @@ class SocialLoginController extends Controller
     private function getAuthorizationFirst($provider)
     {
         $socialite = Socialite::driver($provider);
-        $scopes = count(config("services.{$provider}.scopes")) ? config("services.{$provider}.scopes") : false;
-        $with = count(config("services.{$provider}.with")) ? config("services.{$provider}.with") : false;
-        $fields = count(config("services.{$provider}.fields")) ? config("services.{$provider}.fields") : false;
+        $scopes    = count(config("services.{$provider}.scopes")) ? config("services.{$provider}.scopes") : false;
+        $with      = count(config("services.{$provider}.with")) ? config("services.{$provider}.with") : false;
+        $fields    = count(config("services.{$provider}.fields")) ? config("services.{$provider}.fields") : false;
 
         if ($scopes) {
             $socialite->scopes($scopes);

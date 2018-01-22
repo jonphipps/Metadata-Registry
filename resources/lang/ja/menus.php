@@ -18,35 +18,35 @@ return [
             'title' => 'アクセス管理',
 
             'roles' => [
-                'all' => '全ロール',
-                'create' => 'ロール作成',
-                'edit' => 'ロール編集',
+                'all'        => '全ロール',
+                'create'     => 'ロール作成',
+                'edit'       => 'ロール編集',
                 'management' => 'ロール管理',
-                'main' => 'ロール',
+                'main'       => 'ロール',
             ],
 
             'users' => [
-                'all' => '全ユーザ',
+                'all'             => '全ユーザ',
                 'change-password' => 'パスワード変更',
-                'create' => 'ユーザ作成',
-                'deactivated' => 'ユーザ非アクティブ',
-                'deleted' => '削除済のユーザ',
-                'edit' => 'ユーザ編集',
-                'main' => 'ユーザ',
-                'view' => 'ユーザ表示',
+                'create'          => 'ユーザ作成',
+                'deactivated'     => 'ユーザ非アクティブ',
+                'deleted'         => '削除済のユーザ',
+                'edit'            => 'ユーザ編集',
+                'main'            => 'ユーザ',
+                'view'            => 'ユーザ表示',
             ],
         ],
 
         'log-viewer' => [
-            'main' => 'Log Viewer',
+            'main'      => 'Log Viewer',
             'dashboard' => 'Dashboard',
-            'logs' => 'Logs',
+            'logs'      => 'Logs',
         ],
 
         'sidebar' => [
             'dashboard' => 'Dashboard',
-            'general' => '一般',
-            'system' => 'システム',
+            'general'   => '一般',
+            'system'    => 'システム',
         ],
     ],
 

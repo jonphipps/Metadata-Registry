@@ -14,9 +14,9 @@ return [
     */
 
     // Forms
-    'save_action_save_and_new' => 'Enregistrer et créer un nouveau',
-    'save_action_save_and_edit' => 'Enregistrer et éditer',
-    'save_action_save_and_back' => 'Enregistrer et retour',
+    'save_action_save_and_new'         => 'Enregistrer et créer un nouveau',
+    'save_action_save_and_edit'        => 'Enregistrer et éditer',
+    'save_action_save_and_back'        => 'Enregistrer et retour',
     'save_action_changed_notification' => 'Action par defaut changée',
 
     // Create form
@@ -30,15 +30,15 @@ return [
     'save'                 => 'Enregistrer',
 
     // Revisions
-    'revisions'            => 'Révisions',
-    'no_revisions'         => 'Pas de révisions',
+    'revisions'             => 'Révisions',
+    'no_revisions'          => 'Pas de révisions',
     'created_this'          => 'Créé Cette',
-    'changed_the'          => 'Modifié le',
-    'restore_this_value'   => 'Restaurer Cette valeur',
-    'from'                 => 'De',
-    'to'                   => 'À',
-    'undo'                 => 'annuler',
-    'revision_restored'    => 'révision Restauré',
+    'changed_the'           => 'Modifié le',
+    'restore_this_value'    => 'Restaurer Cette valeur',
+    'from'                  => 'De',
+    'to'                    => 'À',
+    'undo'                  => 'annuler',
+    'revision_restored'     => 'révision Restauré',
 
     // CRUD table view
     'all'                       => 'Tous les ',
@@ -85,7 +85,7 @@ return [
 
     // global crud - errors
         'unauthorized_access' => 'Accès non autorisé - vous n’avez pas les droits nécessaires à la consultation de cette page.',
-        'please_fix' => 'Veuillez corriger les erreurs suivantes:',
+        'please_fix'          => 'Veuillez corriger les erreurs suivantes:',
 
     // global crud - success / error notification bubbles
         'insert_success' => 'L’élément a été ajouté avec succès.',
@@ -101,16 +101,16 @@ return [
 
     // CRUD yes/no
         'yes' => 'Oui',
-        'no' => 'Non',
+        'no'  => 'Non',
 
     // Fields
-        'browse_uploads' => 'Parcourir les fichier chargés',
-        'clear' => 'Effacer',
-        'page_link' => 'Lien de la page',
-        'page_link_placeholder' => 'http://example.com/votre-page',
-        'internal_link' => 'Lien interne',
+        'browse_uploads'            => 'Parcourir les fichier chargés',
+        'clear'                     => 'Effacer',
+        'page_link'                 => 'Lien de la page',
+        'page_link_placeholder'     => 'http://example.com/votre-page',
+        'internal_link'             => 'Lien interne',
         'internal_link_placeholder' => 'Identifiant de lien interne. Ex: \'admin/page\' (sans guillemets) pour \':url\'',
-        'external_link' => 'Lien externe',
-        'choose_file' => 'Choisissez un fichier',
+        'external_link'             => 'Lien externe',
+        'choose_file'               => 'Choisissez un fichier',
 
 ];

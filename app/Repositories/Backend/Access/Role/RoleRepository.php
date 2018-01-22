@@ -2,14 +2,14 @@
 
 namespace App\Repositories\Backend\Access\Role;
 
-use App\Models\Access\Role\Role;
-use Illuminate\Support\Facades\DB;
-use App\Exceptions\GeneralException;
-use App\Repositories\BaseRepository;
-use Illuminate\Database\Eloquent\Model;
 use App\Events\Backend\Access\Role\RoleCreated;
 use App\Events\Backend\Access\Role\RoleDeleted;
 use App\Events\Backend\Access\Role\RoleUpdated;
+use App\Exceptions\GeneralException;
+use App\Models\Access\Role\Role;
+use App\Repositories\BaseRepository;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class RoleRepository.
@@ -43,10 +43,10 @@ class RoleRepository extends BaseRepository
         return $this->query()
             ->with('users', 'permissions')
             ->select([
-                config('access.roles_table').'.id',
-                config('access.roles_table').'.name',
-                config('access.roles_table').'.all',
-                config('access.roles_table').'.sort',
+                config('access.roles_table') . '.id',
+                config('access.roles_table') . '.name',
+                config('access.roles_table') . '.all',
+                config('access.roles_table') . '.sort',
             ]);
     }
 

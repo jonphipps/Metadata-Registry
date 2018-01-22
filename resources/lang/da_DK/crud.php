@@ -13,9 +13,9 @@ return [
     */
 
     // Forms
-    'save_action_save_and_new' => 'Gem og nyt emne',
-    'save_action_save_and_edit' => 'Gem og rediger dette emne',
-    'save_action_save_and_back' => 'Gem og tilbage til listevisning',
+    'save_action_save_and_new'         => 'Gem og nyt emne',
+    'save_action_save_and_edit'        => 'Gem og rediger dette emne',
+    'save_action_save_and_back'        => 'Gem og tilbage til listevisning',
     'save_action_changed_notification' => 'standard handling efter gem er blevet ændret.',
 
     // Create form
@@ -89,7 +89,7 @@ return [
 
     // global crud - errors
         'unauthorized_access' => 'Ingen adgang - Du har ikke de nødvendige rettigheder for at se denne side.',
-        'please_fix' => 'Ret venligst følgende fejl:',
+        'please_fix'          => 'Ret venligst følgende fejl:',
 
     // global crud - success / error notification bubbles
         'insert_success' => 'emnet er tilføjet.',
@@ -105,25 +105,25 @@ return [
 
     // CRUD yes/no
         'yes' => 'Ja',
-        'no' => 'Nej',
+        'no'  => 'Nej',
 
     // CRUD filters navbar view
-        'filters' => 'Filtre',
+        'filters'        => 'Filtre',
         'toggle_filters' => 'vis/skjul filtre',
         'remove_filters' => 'fjern filtre',
 
     // Fields
-        'browse_uploads' => 'Se uploadede filer',
-        'clear' => 'fjern',
-        'page_link' => 'Side link',
-        'page_link_placeholder' => 'http://eksempel.dk/din-oenskede-side',
-        'internal_link' => 'Internt link',
+        'browse_uploads'            => 'Se uploadede filer',
+        'clear'                     => 'fjern',
+        'page_link'                 => 'Side link',
+        'page_link_placeholder'     => 'http://eksempel.dk/din-oenskede-side',
+        'internal_link'             => 'Internt link',
         'internal_link_placeholder' => 'Interne slug. Ex: \'admin/side\' (no quotes) for \':url\'',
-        'external_link' => 'Eksternt link',
-        'choose_file' => 'Vælg fil',
+        'external_link'             => 'Eksternt link',
+        'choose_file'               => 'Vælg fil',
 
     //Table field
-        'table_cant_add' => 'Kan ikke tilføje ny :entity',
+        'table_cant_add'    => 'Kan ikke tilføje ny :entity',
         'table_max_reached' => 'Maximum antal :max er nået',
 
     // File manager

@@ -14,9 +14,9 @@ return [
     */
 
     // Forms
-    'save_action_save_and_new' => 'Guardar e adicionar item',
-    'save_action_save_and_edit' => 'Guardar e editar este item',
-    'save_action_save_and_back' => 'Guardar e voltar',
+    'save_action_save_and_new'         => 'Guardar e adicionar item',
+    'save_action_save_and_edit'        => 'Guardar e editar este item',
+    'save_action_save_and_back'        => 'Guardar e voltar',
     'save_action_changed_notification' => 'Comportamento predefinido depois de gravar.',
 
     // Create form
@@ -90,7 +90,7 @@ return [
 
     // global crud - errors
     'unauthorized_access' => 'Acesso não autorizado - não tem as permissões necessárias para ver esta página.',
-    'please_fix' => 'Por favor corrija os seguintes erros:',
+    'please_fix'          => 'Por favor corrija os seguintes erros:',
 
     // global crud - success / error notification bubbles
     'insert_success' => 'O item foi adicionado com sucesso.',
@@ -106,25 +106,25 @@ return [
 
     // CRUD yes/no
     'yes' => 'Sim',
-    'no' => 'Não',
+    'no'  => 'Não',
 
     // CRUD filters navbar view
-    'filters' => 'Filtros',
+    'filters'        => 'Filtros',
     'toggle_filters' => 'Alternar filtros',
     'remove_filters' => 'Remover filtros',
 
     // Fields
-    'browse_uploads' => 'Procurar uploads',
-    'clear' => 'Limpar',
-    'page_link' => 'Page link',
-    'page_link_placeholder' => 'http://example.com/a-sua-pagina',
-    'internal_link' => 'Link interno',
+    'browse_uploads'            => 'Procurar uploads',
+    'clear'                     => 'Limpar',
+    'page_link'                 => 'Page link',
+    'page_link_placeholder'     => 'http://example.com/a-sua-pagina',
+    'internal_link'             => 'Link interno',
     'internal_link_placeholder' => 'Slug interno. Ex: \'admin/page\' (sem aspas) para \':url\'',
-    'external_link' => 'Link externo',
-    'choose_file' => 'Escolher ficheiro',
+    'external_link'             => 'Link externo',
+    'choose_file'               => 'Escolher ficheiro',
 
     //Table field
-    'table_cant_add' => 'Não é possível adicionar :entity',
+    'table_cant_add'    => 'Não é possível adicionar :entity',
     'table_max_reached' => 'O número máximo de :max foi atingido',
 
     // File manager

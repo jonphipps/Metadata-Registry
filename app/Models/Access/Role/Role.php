@@ -9,7 +9,7 @@ use App\Models\Access\Role\Traits\Scope\RoleScope;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * App\Models\Access\Role\Role
+ * App\Models\Access\Role\Role.
  *
  * @property int $id
  * @property string $name
@@ -47,14 +47,14 @@ class Role extends Model
      *
      * @var array
      */
-    protected $fillable = [ 'name', 'display_name', 'all', 'sort' ];
+    protected $fillable = ['name', 'display_name', 'all', 'sort'];
 
     /**
      * @param array $attributes
      */
-    public function __construct( array $attributes = [] )
+    public function __construct(array $attributes = [])
     {
-        parent::__construct( $attributes );
-        $this->table = config( 'access.roles_table' );
+        parent::__construct($attributes);
+        $this->table = config('access.roles_table');
     }
 }

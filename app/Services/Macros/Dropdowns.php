@@ -3,37 +3,34 @@
 namespace App\Services\Macros;
 
 /**
- * Class Dropdowns
- *
- * @package App\Services\Macros
+ * Class Dropdowns.
  */
 trait Dropdowns
 {
-  /**
-   * Use this to set the default country state type for the shorthand method
-   *
-   * @param  $name
-   * @param  null $selected
-   * @param  array $options
-   *
-   * @return string
-   */
-  public function selectState($name, $selected = null, $options = [])
-  {
-    return $this->selectStateUS($name, $selected, $options);
-  }
+    /**
+     * Use this to set the default country state type for the shorthand method.
+     *
+     * @param  $name
+     * @param  null $selected
+     * @param  array $options
+     *
+     * @return string
+     */
+    public function selectState($name, $selected = null, $options = [])
+    {
+        return $this->selectStateUS($name, $selected, $options);
+    }
 
-
-  /**
-   * @param  $name
-   * @param  null $selected
-   * @param  array $options
-   *
-   * @return string
-   */
-  public function selectStateUS($name, $selected = null, $options = [])
-  {
-    $list = [
+    /**
+     * @param  $name
+     * @param  null $selected
+     * @param  array $options
+     *
+     * @return string
+     */
+    public function selectStateUS($name, $selected = null, $options = [])
+    {
+        $list = [
         ''   => 'Select One...',
         'AL' => 'Alabama',
         'AK' => 'Alaska',
@@ -88,20 +85,19 @@ trait Dropdowns
         'WY' => 'Wyoming',
     ];
 
-    return $this->select($name, $list, $selected, $options);
-  }
+        return $this->select($name, $list, $selected, $options);
+    }
 
-
-  /**
-   * @param  $name
-   * @param  null $selected
-   * @param  array $options
-   *
-   * @return mixed
-   */
-  public function selectStateUSOutlyingTerritories($name, $selected = null, $options = [])
-  {
-    $list = [
+    /**
+     * @param  $name
+     * @param  null $selected
+     * @param  array $options
+     *
+     * @return mixed
+     */
+    public function selectStateUSOutlyingTerritories($name, $selected = null, $options = [])
+    {
+        $list = [
         ''   => 'Select One...',
         'AS' => 'American Samoa',
         'GU' => 'Guam',
@@ -111,40 +107,38 @@ trait Dropdowns
         'VI' => 'Virgin Islands',
     ];
 
-    return $this->select($name, $list, $selected, $options);
-  }
+        return $this->select($name, $list, $selected, $options);
+    }
 
-
-  /**
-   * @param  $name
-   * @param  null $selected
-   * @param  array $options
-   *
-   * @return mixed
-   */
-  public function selectStateUSArmedForces($name, $selected = null, $options = [])
-  {
-    $list = [
+    /**
+     * @param  $name
+     * @param  null $selected
+     * @param  array $options
+     *
+     * @return mixed
+     */
+    public function selectStateUSArmedForces($name, $selected = null, $options = [])
+    {
+        $list = [
         ''   => 'Select One...',
         'AA' => 'Armed Forces Americas',
         'AP' => 'Armed Forces Pacific',
         'AE' => 'Armed Forces Others',
     ];
 
-    return $this->select($name, $list, $selected, $options);
-  }
+        return $this->select($name, $list, $selected, $options);
+    }
 
-
-  /**
-   * @param  $name
-   * @param  null $selected
-   * @param  array $options
-   *
-   * @return mixed
-   */
-  public function selectCanadaTerritories($name, $selected = null, $options = [])
-  {
-    $list = [
+    /**
+     * @param  $name
+     * @param  null $selected
+     * @param  array $options
+     *
+     * @return mixed
+     */
+    public function selectCanadaTerritories($name, $selected = null, $options = [])
+    {
+        $list = [
         ''   => 'Select One...',
         'AB' => 'Alberta',
         'BC' => 'British Columbia',
@@ -161,20 +155,19 @@ trait Dropdowns
         'YT' => 'Yukon',
     ];
 
-    return $this->select($name, $list, $selected, $options);
-  }
+        return $this->select($name, $list, $selected, $options);
+    }
 
-
-  /**
-   * @param  $name
-   * @param  null $selected
-   * @param  array $options
-   *
-   * @return mixed
-   */
-  public function selectStateMexico($name, $selected = null, $options = [])
-  {
-    $list = [
+    /**
+     * @param  $name
+     * @param  null $selected
+     * @param  array $options
+     *
+     * @return mixed
+     */
+    public function selectStateMexico($name, $selected = null, $options = [])
+    {
+        $list = [
         ''    => 'Select One...',
         'DIF' => 'Distrito Federal',
         'AGS' => 'Aguascalientes',
@@ -210,35 +203,33 @@ trait Dropdowns
         'ZAC' => 'Zacatecas',
     ];
 
-    return $this->select($name, $list, $selected, $options);
-  }
+        return $this->select($name, $list, $selected, $options);
+    }
 
+    /**
+     * Use this to set the default country dropdown type for the shorthand method.
+     *
+     * @param  $name
+     * @param  null $selected
+     * @param  array $options
+     *
+     * @return string
+     */
+    public function selectCountry($name, $selected = null, $options = [])
+    {
+        return $this->selectCountryAlpha2($name, $selected, $options);
+    }
 
-  /**
-   * Use this to set the default country dropdown type for the shorthand method
-   *
-   * @param  $name
-   * @param  null $selected
-   * @param  array $options
-   *
-   * @return string
-   */
-  public function selectCountry($name, $selected = null, $options = [])
-  {
-    return $this->selectCountryAlpha2($name, $selected, $options);
-  }
-
-
-  /**
-   * @param  $name
-   * @param  null $selected
-   * @param  array $options
-   *
-   * @return mixed
-   */
-  public function selectCountryAlpha($name, $selected = null, $options = [])
-  {
-    $list = [
+    /**
+     * @param  $name
+     * @param  null $selected
+     * @param  array $options
+     *
+     * @return mixed
+     */
+    public function selectCountryAlpha($name, $selected = null, $options = [])
+    {
+        $list = [
         ''              => 'Select One...',
         'ISO 3166-2:AF' => 'Afghanistan',
         'ISO 3166-2:AX' => 'Åland Islands',
@@ -491,20 +482,19 @@ trait Dropdowns
         'ISO 3166-2:ZW' => 'Zimbabwe',
     ];
 
-    return $this->select($name, $list, $selected, $options);
-  }
+        return $this->select($name, $list, $selected, $options);
+    }
 
-
-  /**
-   * @param  $name
-   * @param  null $selected
-   * @param  array $options
-   *
-   * @return string
-   */
-  public function selectCountryAlpha2($name, $selected = null, $options = [])
-  {
-    $list = [
+    /**
+     * @param  $name
+     * @param  null $selected
+     * @param  array $options
+     *
+     * @return string
+     */
+    public function selectCountryAlpha2($name, $selected = null, $options = [])
+    {
+        $list = [
         ''   => 'Select One...',
         'AF' => 'Afghanistan',
         'AX' => 'Aland Islands',
@@ -752,20 +742,19 @@ trait Dropdowns
         'ZW' => 'Zimbabwe',
     ];
 
-    return $this->select($name, $list, $selected, $options);
-  }
+        return $this->select($name, $list, $selected, $options);
+    }
 
-
-  /**
-   * @param  $name
-   * @param  null $selected
-   * @param  array $options
-   *
-   * @return string
-   */
-  public function selectCountryAlpha3($name, $selected = null, $options = [])
-  {
-    $list = [
+    /**
+     * @param  $name
+     * @param  null $selected
+     * @param  array $options
+     *
+     * @return string
+     */
+    public function selectCountryAlpha3($name, $selected = null, $options = [])
+    {
+        $list = [
         ''    => 'Select One...',
         'AFG' => 'Afghanistan',
         'ALA' => 'Åland Islands',
@@ -1018,20 +1007,19 @@ trait Dropdowns
         'ZWE' => 'Zimbabwe',
     ];
 
-    return $this->select($name, $list, $selected, $options);
-  }
+        return $this->select($name, $list, $selected, $options);
+    }
 
-
-  /**
-   * @param  $name
-   * @param  null $selected
-   * @param  array $options
-   *
-   * @return string
-   */
-  public function selectCountryNumeric($name, $selected = null, $options = [])
-  {
-    $list = [
+    /**
+     * @param  $name
+     * @param  null $selected
+     * @param  array $options
+     *
+     * @return string
+     */
+    public function selectCountryNumeric($name, $selected = null, $options = [])
+    {
+        $list = [
         ''    => 'Select One...',
         '4'   => 'Afghanistan',
         '248' => 'Åland Islands',
@@ -1284,53 +1272,51 @@ trait Dropdowns
         '716' => 'Zimbabwe',
     ];
 
-    return $this->select($name, $list, $selected, $options);
-  }
-
-
-  /**
-   * @param  $name
-   * @param  null $selected
-   * @param  array $options
-   *
-   * @return mixed
-   */
-  public function selectTimezone($name, $selected = null, $options = [])
-  {
-    $list = [];
-    $utc  = new \DateTimeZone('UTC');
-    $dt   = new \DateTime('now', $utc);
-
-    foreach (\DateTimeZone::listIdentifiers() as $tz) {
-      $current_tz = new \DateTimeZone($tz);
-      $offset     = $current_tz->getOffset($dt);
-      $transition = $current_tz->getTransitions($dt->getTimestamp(), $dt->getTimestamp());
-      $abbr       = $transition[0]['abbr'];
-
-      $list[$tz] = $tz . ' [' . $abbr . ' ' . $this->formatOffset($offset) . ']';
+        return $this->select($name, $list, $selected, $options);
     }
 
-    return $this->select($name, $list, $selected, $options);
-  }
+    /**
+     * @param  $name
+     * @param  null $selected
+     * @param  array $options
+     *
+     * @return mixed
+     */
+    public function selectTimezone($name, $selected = null, $options = [])
+    {
+        $list = [];
+        $utc  = new \DateTimeZone('UTC');
+        $dt   = new \DateTime('now', $utc);
 
+        foreach (\DateTimeZone::listIdentifiers() as $tz) {
+            $current_tz = new \DateTimeZone($tz);
+            $offset     = $current_tz->getOffset($dt);
+            $transition = $current_tz->getTransitions($dt->getTimestamp(), $dt->getTimestamp());
+            $abbr       = $transition[0]['abbr'];
 
-  /**
-   * @param  $offset
-   *
-   * @return string
-   */
-  private function formatOffset($offset)
-  {
-    $hours     = $offset / 3600;
-    $remainder = $offset % 3600;
-    $sign      = $hours > 0 ? '+' : '-';
-    $hour      = (int) abs($hours);
-    $minutes   = (int) abs($remainder / 60);
+            $list[$tz] = $tz . ' [' . $abbr . ' ' . $this->formatOffset($offset) . ']';
+        }
 
-    if ($hour == 0 && $minutes == 0) {
-      $sign = ' ';
+        return $this->select($name, $list, $selected, $options);
     }
 
-    return $sign . str_pad($hour, 2, '0', STR_PAD_LEFT) . ':' . str_pad($minutes, 2, '0');
-  }
+    /**
+     * @param  $offset
+     *
+     * @return string
+     */
+    private function formatOffset($offset)
+    {
+        $hours     = $offset / 3600;
+        $remainder = $offset % 3600;
+        $sign      = $hours > 0 ? '+' : '-';
+        $hour      = (int) abs($hours);
+        $minutes   = (int) abs($remainder / 60);
+
+        if ($hour == 0 && $minutes == 0) {
+            $sign = ' ';
+        }
+
+        return $sign . str_pad($hour, 2, '0', STR_PAD_LEFT) . ':' . str_pad($minutes, 2, '0');
+    }
 }

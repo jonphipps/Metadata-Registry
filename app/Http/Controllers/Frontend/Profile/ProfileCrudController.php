@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Frontend\Profile;
 
-use Backpack\CRUD\app\Http\Controllers\CrudController;
-
-// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\Frontend\Profile\ProfileRequest as StoreRequest;
+// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\Frontend\Profile\ProfileRequest as UpdateRequest;
 use App\Models\Profile;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
 
 class ProfileCrudController extends CrudController
 {

@@ -29,7 +29,7 @@ class UserSocialDeleted
      */
     public function __construct($user, $social)
     {
-        $this->user = $user;
+        $this->user   = $user;
         $this->social = $social;
     }
 }

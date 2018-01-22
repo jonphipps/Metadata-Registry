@@ -8,11 +8,11 @@ use App\Models\Elementset;
 use App\Models\Project;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-trait HasElementsets
+trait HasElementSets
 {
     public function elementsets(): ?HasMany
     {
-        return $this->hasMany( Elementset::class, 'agent_id', 'id' );
+        return $this->hasMany(Elementset::class, 'agent_id', 'id');
     }
 
     /**
@@ -24,8 +24,8 @@ trait HasElementsets
 
         return $count ?
             '<a href="' .
-            url( 'projects/' . $this->id . '/elementsets' ) .
+            url('projects/' . $this->id . '/elementsets') .
             '">' .
-            Project::badge( $count ) : '&nbsp;';
+            Project::badge($count) : '&nbsp;';
     }
 }

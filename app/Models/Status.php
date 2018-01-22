@@ -1,9 +1,11 @@
-<?php namespace App\Models;
+<?php
+
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model as Model;
 
 /**
- * App\Models\Status
+ * App\Models\Status.
  *
  * @property int $id
  * @property int|null $display_order
@@ -17,7 +19,7 @@ use Illuminate\Database\Eloquent\Model as Model;
  */
 class Status extends Model
 {
-    const TABLE = 'reg_status';
+    const TABLE      = 'reg_status';
     protected $table = self::TABLE;
 
     /*
@@ -54,5 +56,4 @@ class Status extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
-
 }

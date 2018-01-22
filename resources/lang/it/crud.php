@@ -15,9 +15,9 @@ return [
     */
 
     // Forms
-    'save_action_save_and_new' => 'Salva ed aggiungi un nuovo elemento',
-    'save_action_save_and_edit' => 'Salva e modifica questo elemento',
-    'save_action_save_and_back' => 'Salva e torna indietro',
+    'save_action_save_and_new'         => 'Salva ed aggiungi un nuovo elemento',
+    'save_action_save_and_edit'        => 'Salva e modifica questo elemento',
+    'save_action_save_and_back'        => 'Salva e torna indietro',
     'save_action_changed_notification' => 'Azione predefinita cambiata',
 
     // Create form
@@ -31,16 +31,16 @@ return [
     'save'                 => 'Salva',
 
     // Revisions
-    'revisions'            => 'Revisioni',
-    'no_revisions'         => 'Nessuna revisione Trovato',
+    'revisions'             => 'Revisioni',
+    'no_revisions'          => 'Nessuna revisione Trovato',
     'created_this'          => 'ha creato questo',
-    'changed_the'          => 'cambiato il',
-    'restore_this_value'   => 'ripristinare questo valore',
-    'from'                 => 'de parte di',
-    'to'                   => 'a',
-    'undo'                 => 'Disfare',
-    'revision_restored'    => 'Revisione successo restaurato',
-    'guest_user'           => 'Utente Ospite',
+    'changed_the'           => 'cambiato il',
+    'restore_this_value'    => 'ripristinare questo valore',
+    'from'                  => 'de parte di',
+    'to'                    => 'a',
+    'undo'                  => 'Disfare',
+    'revision_restored'     => 'Revisione successo restaurato',
+    'guest_user'            => 'Utente Ospite',
 
     // Translatable models
     'edit_translations' => 'MODIFICA TRADUZIONI',
@@ -96,7 +96,7 @@ return [
 
     // global crud - errors
     'unauthorized_access' => 'Accesso non autorizzato - non hai i permessi necessari per vedere questa pagina.',
-    'please_fix' => 'Per favore correggi i seguenti errori:',
+    'please_fix'          => 'Per favore correggi i seguenti errori:',
 
     // global crud - success / error notification bubbles
     'insert_success' => "L'elemento è stato aggiunto correttamente.",
@@ -112,24 +112,24 @@ return [
 
     // CRUD yes/no
     'yes' => 'Sì',
-    'no' => 'No',
+    'no'  => 'No',
 
     // CRUD filters navbar view
-    'filters' => 'Filtri',
+    'filters'        => 'Filtri',
     'toggle_filters' => 'Attiva/disattiva filtri',
     'remove_filters' => 'Rimuovi filtri',
 
     // Fields
-    'browse_uploads' => 'Sfoglia file caricati',
-    'clear' => 'Pulisci',
-    'page_link' => 'Link Pagina',
-    'page_link_placeholder' => 'http://esempio.com/pagina-desiderata',
-    'internal_link' => 'Link Interno',
+    'browse_uploads'            => 'Sfoglia file caricati',
+    'clear'                     => 'Pulisci',
+    'page_link'                 => 'Link Pagina',
+    'page_link_placeholder'     => 'http://esempio.com/pagina-desiderata',
+    'internal_link'             => 'Link Interno',
     'internal_link_placeholder' => 'Slug interno. Es: \'admin/page\' (no quotes) for \':url\'',
-    'external_link' => 'Link Esterno',
-    'choose_file' => 'Scegli file',
+    'external_link'             => 'Link Esterno',
+    'choose_file'               => 'Scegli file',
 
     //Table field
-    'table_cant_add' => 'Impossibile aggiungere una nuova :entity',
+    'table_cant_add'    => 'Impossibile aggiungere una nuova :entity',
     'table_max_reached' => 'Numero massimo di :max raggiunto',
 ];

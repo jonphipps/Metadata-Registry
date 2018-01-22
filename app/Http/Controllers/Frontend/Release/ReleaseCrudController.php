@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Frontend\Release;
 
-use Backpack\CRUD\app\Http\Controllers\CrudController;
-
-// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\ReleaseRequest as StoreRequest;
+// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\ReleaseRequest as UpdateRequest;
 use App\Models\Release;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
 
 class ReleaseCrudController extends CrudController
 {
@@ -44,7 +43,7 @@ class ReleaseCrudController extends CrudController
         // $this->crud->addColumn(); // add a single column, at the end of the stack
         // $this->crud->addColumns(); // add multiple columns, at the end of the stack
         //$this->crud->removeColumn('github_response'); // remove a column from the stack
-        $this->crud->removeColumns(['github_response', 'body', 'tag_name','tag_commitish']); // remove an array of columns from the stack
+        $this->crud->removeColumns(['github_response', 'body', 'tag_name', 'tag_commitish']); // remove an array of columns from the stack
         // $this->crud->setColumnDetails('column_name', ['attribute' => 'value']); // adjusts the properties of the passed in column (by name)
         $this->crud->setColumnDetails('is_draft',
             [

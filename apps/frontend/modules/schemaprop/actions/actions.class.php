@@ -20,14 +20,13 @@
  */
 class schemapropActions extends autoSchemapropActions
 {
-  public function preExecute ()
-  {
-      if ('search' != $this->getRequestParameter('action'))
+    public function preExecute()
     {
-      $this->getCurrentSchema();
+        if ('search' != $this->getRequestParameter('action')) {
+            $this->getCurrentSchema();
+        }
+        parent::preExecute();
     }
-    parent::preExecute();
-  }
 
     /**
 * Set defaults

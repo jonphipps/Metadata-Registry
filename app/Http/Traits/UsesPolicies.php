@@ -15,7 +15,7 @@ trait UsesPolicies
      */
     public function authorizeAll(): void
     {
-        if ( ! auth()->check()) {
+        if (! auth()->check()) {
             return;
         }
 
@@ -32,26 +32,26 @@ trait UsesPolicies
         ];
         $done      = [];
         foreach ($authArray as $key => $ability) {
-            $this->crud->denyAccess([ $ability ]);
+            $this->crud->denyAccess([$ability]);
             if (\in_array($ability, $done, true)) {
-                $this->crud->allowAccess([ $key ]);
+                $this->crud->allowAccess([$key]);
                 continue;
             }
 
             switch ($ability) {
                 case 'view':
                     if (auth()->user()->can($ability, $model)) {
-                        $this->crud->allowAccess([ $key ]);
+                        $this->crud->allowAccess([$key]);
                     }
                     break;
                 case 'create':
                     if (auth()->user()->can($ability, \get_class($model))) {
-                        $this->crud->allowAccess([ $key ]);
+                        $this->crud->allowAccess([$key]);
                     }
                     break;
                 default:
                     if (auth()->user()->can($ability, $model)) {
-                        $this->crud->allowAccess([ $key ]);
+                        $this->crud->allowAccess([$key]);
                     }
             }
             $done[] = $ability;
@@ -126,7 +126,7 @@ trait UsesPolicies
     }
 
     /**
-     * Determines the access to allow based on policy
+     * Determines the access to allow based on policy.
      *
      * @param string       $ability The ability to validate
      * @param string|Model $class   The instance of a Model class to check against
@@ -146,10 +146,10 @@ trait UsesPolicies
         $model = $id !== null ? $class->findOrFail($id) : $class;
 
         //deny access to the ability by default
-        $this->crud->denyAccess([ $ability ]);
+        $this->crud->denyAccess([$ability]);
         //let the gate decide -- if there's a user and the user is authorized
         $this->authorize($ability, $model);
         //if we get this far, then the gate has allowed access and we pass the authorization on to backpack
-        $this->crud->allowAccess([ $ability ]);
+        $this->crud->allowAccess([$ability]);
     }
 }

@@ -14,9 +14,9 @@ return [
     */
 
     // Forms
-    'save_action_save_and_new' => 'Saglabāt un jauns ieraksts',
-    'save_action_save_and_edit' => 'Saglabāt un rediģēt šo ierakstu',
-    'save_action_save_and_back' => 'Saglabāt un atpakaļ',
+    'save_action_save_and_new'         => 'Saglabāt un jauns ieraksts',
+    'save_action_save_and_edit'        => 'Saglabāt un rediģēt šo ierakstu',
+    'save_action_save_and_back'        => 'Saglabāt un atpakaļ',
     'save_action_changed_notification' => 'Uzvedība pēc noklusējuma pēc izmaiņu saglabāšanas.',
 
     // Create form
@@ -30,15 +30,15 @@ return [
     'save'                 => 'Saglabāt',
 
     // Revisions
-    'revisions'            => 'Revīzijas',
-    'no_revisions'         => 'Revīzijas nav atrastas',
+    'revisions'             => 'Revīzijas',
+    'no_revisions'          => 'Revīzijas nav atrastas',
     'created_this'          => 'izveidoja',
-    'changed_the'          => 'izmainīja',
-    'restore_this_value'   => 'Atjaunot vērtību',
-    'from'                 => 'no',
-    'to'                   => 'līdz',
-    'undo'                 => 'Atgriezt atpakaļ',
-    'revision_restored'    => 'Revīzija veiksmīgi atjaunota',
+    'changed_the'           => 'izmainīja',
+    'restore_this_value'    => 'Atjaunot vērtību',
+    'from'                  => 'no',
+    'to'                    => 'līdz',
+    'undo'                  => 'Atgriezt atpakaļ',
+    'revision_restored'     => 'Revīzija veiksmīgi atjaunota',
 
     // CRUD table view
     'all'                       => 'Visi ',
@@ -85,7 +85,7 @@ return [
 
     // global crud - errors
         'unauthorized_access' => 'Neautorizēta pieeja - jums nav nepieciešamo tiesību lai apskatītu šo lapu.',
-        'please_fix' => 'Lūdzu izlabojiet sekojošas kļūdas:',
+        'please_fix'          => 'Lūdzu izlabojiet sekojošas kļūdas:',
 
     // global crud - success / error notification bubbles
         'insert_success' => 'Ieraksts tika veiksmīgi pievienots.',
@@ -101,20 +101,20 @@ return [
 
     // CRUD yes/no
         'yes' => 'Jā',
-        'no' => 'Nē',
+        'no'  => 'Nē',
 
     // Fields
-        'browse_uploads' => 'Pārlūkot failus',
-        'clear' => 'Notīrīt',
-        'page_link' => 'Lapas saite',
-        'page_link_placeholder' => 'http://example.com/your-desired-page',
-        'internal_link' => 'Iekšējā saite',
+        'browse_uploads'            => 'Pārlūkot failus',
+        'clear'                     => 'Notīrīt',
+        'page_link'                 => 'Lapas saite',
+        'page_link_placeholder'     => 'http://example.com/your-desired-page',
+        'internal_link'             => 'Iekšējā saite',
         'internal_link_placeholder' => 'Iekšējās saites vārds. Piemēram: \'admin/page\' (no quotes) for \':url\'',
-        'external_link' => 'Ārējā saite',
-        'choose_file' => 'Izvēlaties failu',
+        'external_link'             => 'Ārējā saite',
+        'choose_file'               => 'Izvēlaties failu',
 
     //Table field
-        'table_cant_add' => 'Nevar pievienot jaunu :entity',
+        'table_cant_add'    => 'Nevar pievienot jaunu :entity',
         'table_max_reached' => 'Sasniegts maksimālais skaits no :max',
 
     // File manager

@@ -4,9 +4,9 @@ namespace App\Notifications\Frontend;
 
 use App\Models\Release;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class ReleaseWasPublished extends Notification implements ShouldQueue
 {
@@ -61,7 +61,7 @@ class ReleaseWasPublished extends Notification implements ShouldQueue
     public function toArray($notifiable): array
     {
         return [
-            'message' =>'Your vocabulary has been published',
+            'message' => 'Your vocabulary has been published',
         ];
     }
 }

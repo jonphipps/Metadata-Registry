@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Backend\Access\User;
 
-use App\Models\Access\User\User;
 use App\Http\Controllers\Controller;
-use App\Repositories\Backend\Access\User\UserRepository;
-use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
 use App\Http\Requests\Backend\Access\User\ManageUserRequest;
+use App\Models\Access\User\User;
+use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
+use App\Repositories\Backend\Access\User\UserRepository;
 
 /**
  * Class UserConfirmationController.
@@ -17,6 +17,7 @@ class UserConfirmationController extends Controller
      * @var UserRepository
      */
     protected $users;
+
     /**
      * @param UserRepository $users
      */

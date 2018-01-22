@@ -26,5 +26,4 @@ class LanguageController extends Controller
 
         return $locales;
     }
-
 }

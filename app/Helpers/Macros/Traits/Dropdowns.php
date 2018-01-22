@@ -10,25 +10,25 @@ trait Dropdowns
     /**
      * Use this to set the default country state type for the shorthand method.
      *
-     * @param  $name
-     * @param null  $selected
-     * @param array $options
+     * @param string $name
+     * @param bool   $selected
+     * @param array  $options
      *
      * @return string
      */
-    public function selectState($name, $selected = null, $options = [])
+    public function selectState(string $name, bool $selected = null, $options = [])
     {
         return $this->selectStateUS($name, $selected, $options);
     }
 
     /**
-     * @param  $name
-     * @param null  $selected
-     * @param array $options
+     * @param string $name
+     * @param bool   $selected
+     * @param array  $options
      *
      * @return string
      */
-    public function selectStateUS($name, $selected = null, $options = [])
+    public function selectStateUS(string $name, bool $selected = null, $options = [])
     {
         $list = [
             ''   => 'Select One...',
@@ -89,13 +89,13 @@ trait Dropdowns
     }
 
     /**
-     * @param  $name
-     * @param null  $selected
-     * @param array $options
+     * @param string $name
+     * @param bool   $selected
+     * @param array  $options
      *
      * @return mixed
      */
-    public function selectStateUSOutlyingTerritories($name, $selected = null, $options = [])
+    public function selectStateUSOutlyingTerritories(string $name, bool $selected = null, $options = [])
     {
         $list = [
             ''   => 'Select One...',
@@ -111,13 +111,13 @@ trait Dropdowns
     }
 
     /**
-     * @param  $name
-     * @param null  $selected
-     * @param array $options
+     * @param string $name
+     * @param bool   $selected
+     * @param array  $options
      *
      * @return mixed
      */
-    public function selectStateUSArmedForces($name, $selected = null, $options = [])
+    public function selectStateUSArmedForces(string $name, bool $selected = null, $options = [])
     {
         $list = [
             ''   => 'Select One...',
@@ -130,13 +130,13 @@ trait Dropdowns
     }
 
     /**
-     * @param  $name
-     * @param null  $selected
-     * @param array $options
+     * @param string $name
+     * @param bool   $selected
+     * @param array  $options
      *
      * @return mixed
      */
-    public function selectCanadaTerritories($name, $selected = null, $options = [])
+    public function selectCanadaTerritories(string $name, bool $selected = null, $options = [])
     {
         $list = [
             ''   => 'Select One...',
@@ -159,13 +159,13 @@ trait Dropdowns
     }
 
     /**
-     * @param  $name
-     * @param null  $selected
-     * @param array $options
+     * @param string $name
+     * @param bool   $selected
+     * @param array  $options
      *
      * @return mixed
      */
-    public function selectStateMexico($name, $selected = null, $options = [])
+    public function selectStateMexico(string $name, bool $selected = null, $options = [])
     {
         $list = [
             ''    => 'Select One...',
@@ -209,25 +209,25 @@ trait Dropdowns
     /**
      * Use this to set the default country dropdown type for the shorthand method.
      *
-     * @param  $name
-     * @param null  $selected
-     * @param array $options
+     * @param string $name
+     * @param bool   $selected
+     * @param array  $options
      *
      * @return string
      */
-    public function selectCountry($name, $selected = null, $options = [])
+    public function selectCountry(string $name, bool $selected = null, $options = [])
     {
         return $this->selectCountryAlpha2($name, $selected, $options);
     }
 
     /**
-     * @param  $name
-     * @param null  $selected
-     * @param array $options
+     * @param string $name
+     * @param bool   $selected
+     * @param array  $options
      *
      * @return mixed
      */
-    public function selectCountryAlpha($name, $selected = null, $options = [])
+    public function selectCountryAlpha(string $name, bool $selected = null, $options = [])
     {
         $list = [
             ''              => 'Select One...',
@@ -486,13 +486,13 @@ trait Dropdowns
     }
 
     /**
-     * @param  $name
-     * @param null  $selected
-     * @param array $options
+     * @param string $name
+     * @param bool   $selected
+     * @param array  $options
      *
      * @return string
      */
-    public function selectCountryAlpha2($name, $selected = null, $options = [])
+    public function selectCountryAlpha2(string $name, bool $selected = null, $options = [])
     {
         $list = [
             ''   => 'Select One...',
@@ -746,13 +746,13 @@ trait Dropdowns
     }
 
     /**
-     * @param  $name
-     * @param null  $selected
-     * @param array $options
+     * @param string $name
+     * @param bool   $selected
+     * @param array  $options
      *
      * @return string
      */
-    public function selectCountryAlpha3($name, $selected = null, $options = [])
+    public function selectCountryAlpha3(string $name, bool $selected = null, $options = [])
     {
         $list = [
             ''    => 'Select One...',
@@ -1011,13 +1011,13 @@ trait Dropdowns
     }
 
     /**
-     * @param  $name
-     * @param null  $selected
-     * @param array $options
+     * @param string $name
+     * @param bool   $selected
+     * @param array  $options
      *
      * @return string
      */
-    public function selectCountryNumeric($name, $selected = null, $options = [])
+    public function selectCountryNumeric(string $name, bool $selected = null, $options = [])
     {
         $list = [
             ''    => 'Select One...',
@@ -1276,13 +1276,13 @@ trait Dropdowns
     }
 
     /**
-     * @param  $name
-     * @param null  $selected
-     * @param array $options
+     * @param string $name
+     * @param bool   $selected
+     * @param array  $options
      *
      * @return mixed
      */
-    public function selectTimezone($name, $selected = null, $options = [])
+    public function selectTimezone(string $name, bool $selected = null, $options = [])
     {
         $list = [];
         $utc  = new \DateTimeZone('UTC');
@@ -1316,6 +1316,7 @@ trait Dropdowns
         if ($hour == 0 && $minutes == 0) {
             $sign = ' ';
         }
+
         return $sign . str_pad($hour, 2, '0', STR_PAD_LEFT) . ':' . str_pad($minutes, 2, '0');
     }
 }

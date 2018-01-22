@@ -13,9 +13,9 @@ trait UserScope
      *
      * @return mixed
      */
-    public function scopeConfirmed( $query, $confirmed = true )
+    public function scopeConfirmed($query, $confirmed = true)
     {
-        return $query->where( 'confirmed', $confirmed );
+        return $query->where('confirmed', $confirmed);
     }
 
     /**
@@ -24,8 +24,8 @@ trait UserScope
      *
      * @return mixed
      */
-    public function scopeActive( $query, $status = true )
+    public function scopeActive($query, $status = true)
     {
-        return $query->where( 'status', $status );
+        return $query->where('status', $status);
     }
 }

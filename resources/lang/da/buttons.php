@@ -16,17 +16,17 @@ return [
     'backend' => [
         'access' => [
             'users' => [
-                'activate'           => 'Aktivér',
-                'change_password'    => 'Skift adgangskode',
+                'activate'              => 'Aktivér',
+                'change_password'       => 'Skift adgangskode',
                 'clear_session'         => 'Clear Session',
-                'confirm'             => 'Confirm',
-                'deactivate'         => 'Deaktiver',
-                'delete_permanently' => 'Slet permanent',
-                'login_as'           => 'Log ind som :user',
-                'resend_email'       => 'Gensend bekræftelsesmail',
-                'restore_user'       => 'Genskab bruger',
+                'confirm'               => 'Confirm',
+                'deactivate'            => 'Deaktiver',
+                'delete_permanently'    => 'Slet permanent',
+                'login_as'              => 'Log ind som :user',
+                'resend_email'          => 'Gensend bekræftelsesmail',
+                'restore_user'          => 'Genskab bruger',
                 'unconfirm'             => 'Un-confirm',
-                'unlink' => 'Unlink',
+                'unlink'                => 'Unlink',
             ],
         ],
     ],
@@ -39,7 +39,7 @@ return [
     ],
 
     'general' => [
-        'cancel' => 'Fortryd',
+        'cancel'   => 'Fortryd',
         'continue' => 'Continue',
 
         'crud' => [

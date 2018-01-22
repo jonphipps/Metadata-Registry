@@ -2,10 +2,10 @@
 
 namespace App\Repositories\Backend\Access\User;
 
-use App\Models\Access\User\User;
+use App\Events\Backend\Access\User\UserSocialDeleted;
 use App\Exceptions\GeneralException;
 use App\Models\Access\User\SocialLogin;
-use App\Events\Backend\Access\User\UserSocialDeleted;
+use App\Models\Access\User\User;
 
 /**
  * Class UserSocialRepository.

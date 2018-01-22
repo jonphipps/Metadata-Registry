@@ -4,7 +4,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ExportHistory;
+use App\Models\Export as ExportHistory;
 use Illuminate\Http\Request;
 
 class ExportHistoryController extends Controller
@@ -43,8 +43,9 @@ class ExportHistoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ExportHistory  $exportHistory
-     * @return \Illuminate\Http\Response
+     * @param \App\Models\Export $exportHistory
+     *
+     * @return void
      */
     public function show(ExportHistory $exportHistory)
     {

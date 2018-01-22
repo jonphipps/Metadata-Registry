@@ -22,7 +22,7 @@ use Laracasts\Matryoshka\Cacheable;
 use Venturecraft\Revisionable\RevisionableTrait;
 
 /**
- * App\Models\ConceptAttribute
+ * App\Models\ConceptAttribute.
  *
  * @property int $id
  * @property \Carbon\Carbon|null $created_at
@@ -91,7 +91,7 @@ use Venturecraft\Revisionable\RevisionableTrait;
  */
 class ConceptAttribute extends Model
 {
-    const TABLE = 'reg_concept_property';
+    const TABLE      = 'reg_concept_property';
     protected $table = self::TABLE;
     use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy;
     use RevisionableTrait;
@@ -102,11 +102,11 @@ class ConceptAttribute extends Model
         'updated' => 'updated_user_id',
         'deleted' => 'deleted_by',
     ];
-    protected $dates = [ 'deleted_at' ];
-    protected $guarded = [ 'id' ];
-    protected $touches = [ 'concept' ];
+    protected $dates                    = ['deleted_at'];
+    protected $guarded                  = ['id'];
+    protected $touches                  = ['concept'];
     protected $revisionCreationsEnabled = true;
-    protected $casts = [
+    protected $casts                    = [
         'id'                  => 'integer',
         'created_user_id'     => 'integer',
         'updated_user_id'     => 'integer',
@@ -129,7 +129,6 @@ class ConceptAttribute extends Model
      * Create the event listeners for the saving and saved events
      * This lets us save revisions whenever a save is made, no matter the
      * http method.
-     *
      */
     protected static function boot()
     {
@@ -146,7 +145,7 @@ class ConceptAttribute extends Model
         //     }
         // });
 
-        static::created(function(self $attribute) {
+        static::created(function (self $attribute) {
             //make sure we don't keep making new reciprocals
             if ($attribute->reciprocal_concept_property_id) {
                 return;
@@ -159,13 +158,14 @@ class ConceptAttribute extends Model
             }
         });
 
-        static::updated(function(self $attribute) {
+        static::updated(function (self $attribute) {
             if (count($attribute->dirtyData) === 1) {
                 if ($attribute->isDirty('deleted_user_id') || $attribute->isDirty('deleted_by')) {
                     return;
                 }
                 if ($attribute->isDirty('related_concept_id')) {
                     $attribute->updateHistory();
+
                     return;
                 }
                 if ($attribute->isDirty('object')) {
@@ -174,13 +174,14 @@ class ConceptAttribute extends Model
                         $attribute->reciprocal()->delete();
                     }
                     $attribute->createReciprocal();
+
                     return;
                 }
             }
             $attribute->createHistory('updated');
         });
 
-        static::deleted(function(self $attribute) {
+        static::deleted(function (self $attribute) {
             $attribute->createHistory('deleted');
             if ($attribute->reciprocal_concept_property_id) {
                 $reciprocal = self::find($attribute->reciprocal_concept_property_id);
@@ -197,9 +198,11 @@ class ConceptAttribute extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function isPrefLabel(){
+    public function isPrefLabel()
+    {
         return $this->profile_property->uri === 'skos:prefLabel';
     }
+
     /**
      * @param $vocabulary_id
      *
@@ -212,11 +215,10 @@ class ConceptAttribute extends Model
         $updated_at = self::getLatest($vocabulary_id, 'updated_at');
         $deleted_at = self::getLatest($vocabulary_id, 'deleted_at');
 
-        $date = collect([ $created_at, $updated_at, $deleted_at ])->max();
+        $date = collect([$created_at, $updated_at, $deleted_at])->max();
         try {
             return Carbon::createFromFormat(config('app.timestamp_format'), $date);
-        }
-        catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             return null;
         }
     }
@@ -229,11 +231,11 @@ class ConceptAttribute extends Model
      */
     private static function getLatest($vocabulary_id, $field)
     {
-        return \DB::table(ConceptAttribute::TABLE)
-            ->join(Concept::TABLE, Concept::TABLE . '.id', '=', ConceptAttribute::TABLE . '.concept_id')
-            ->select(ConceptAttribute::TABLE . '.' . $field)
+        return \DB::table(self::TABLE)
+            ->join(Concept::TABLE, Concept::TABLE . '.id', '=', self::TABLE . '.concept_id')
+            ->select(self::TABLE . '.' . $field)
             ->where(Concept::TABLE . '.vocabulary_id', $vocabulary_id)
-            ->max(ConceptAttribute::TABLE . '.' . $field);
+            ->max(self::TABLE . '.' . $field);
     }
 
     public function createHistory(string $action): ConceptAttributeHistory
@@ -261,19 +263,19 @@ class ConceptAttribute extends Model
     {
         $history = $this->history()->where('import_id', $this->last_import_id)->first();
         if ($history) {
-            $history->update([ 'related_concept_id' => $this->related_concept_id ]);
+            $history->update(['related_concept_id' => $this->related_concept_id]);
         }
     }
 
     public function createReciprocal()
     {
         //is the object a uri?
-        if ( ! filter_var($this->object, FILTER_VALIDATE_URL)) {
+        if (! filter_var($this->object, FILTER_VALIDATE_URL)) {
             return false;
         }
 
         //does the profile_property have a reciprocal?
-        if ( ! $this->profile_property->is_reciprocal && $this->profile_property->inverse_profile_property_id === null ) {
+        if (! $this->profile_property->is_reciprocal && $this->profile_property->inverse_profile_property_id === null) {
             return false;
         }
 
@@ -281,8 +283,9 @@ class ConceptAttribute extends Model
 
         //does it reference a known URI in a vocabulary I 'own'? (tricky -- what if it hasn't been created yet?)
         $relatedConcept = Concept::whereUri($this->object)->first();
-        if ( ! $relatedConcept) {
-            $this->update([ 'review_reciprocal' => true ]);
+        if (! $relatedConcept) {
+            $this->update(['review_reciprocal' => true]);
+
             return true;
         }
         if (auth()->user()->cant('update', $relatedConcept)) {
@@ -302,7 +305,7 @@ class ConceptAttribute extends Model
             'reciprocal_concept_property_id' => $this->id,
             'language'                       => null,
         ]);
-        $this->update([ 'reciprocal_concept_property_id' => $attribute->id]);
+        $this->update(['reciprocal_concept_property_id' => $attribute->id]);
     }
 
     /**
@@ -322,9 +325,9 @@ class ConceptAttribute extends Model
                 self::TABLE . '.concept_id',
                 '=',
                 Concept::TABLE . '.id')->where([
-                [ 'object', '=', $attribute->object ],
-                [ self::TABLE . '.language', '=', $attribute->getAttributeFromArray('language') ],
-                [ Concept::TABLE . '.vocabulary_id', '=', $vocabId ],
+                ['object', '=', $attribute->object],
+                [self::TABLE . '.language', '=', $attribute->getAttributeFromArray('language')],
+                [Concept::TABLE . '.vocabulary_id', '=', $vocabId],
             ])->count();
             //check the vocabulary Ids and see if any of them are the same
             //if they are, then throw a DuplicatePrefLabel exception
@@ -349,14 +352,14 @@ class ConceptAttribute extends Model
         return $this->hasMany(ConceptAttributeHistory::class, 'concept_property_id', 'id');
     }
 
-     public function reciprocal(): ?HasOne
+    public function reciprocal(): ?HasOne
     {
-        return $this->hasOne(ConceptAttribute::class, 'reciprocal_concept_property_id', 'id');
+        return $this->hasOne(self::class, 'reciprocal_concept_property_id', 'id');
     }
 
     public function inverse(): ?HasOne
     {
-        return $this->hasOne(ConceptAttribute::class, 'reciprocal_concept_property_id', 'id');
+        return $this->hasOne(self::class, 'reciprocal_concept_property_id', 'id');
     }
 
     /*
@@ -376,5 +379,4 @@ class ConceptAttribute extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
-
 }

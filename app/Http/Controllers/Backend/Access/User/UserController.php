@@ -63,7 +63,7 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $this->users->create([ 'data'  => $request->only('first_name', 'last_name', 'nickname', 'email', 'password', 'status', 'confirmed', 'confirmation_email'),
+        $this->users->create(['data'   => $request->only('first_name', 'last_name', 'nickname', 'email', 'password', 'status', 'confirmed', 'confirmation_email'),
                                'roles' => $request->only('assignees_roles'),
         ]);
 

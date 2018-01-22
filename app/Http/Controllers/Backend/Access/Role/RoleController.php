@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Backend\Access\Role;
 
-use App\Models\Access\Role\Role;
 use App\Http\Controllers\Controller;
-use App\Repositories\Backend\Access\Role\RoleRepository;
-use App\Http\Requests\Backend\Access\Role\StoreRoleRequest;
 use App\Http\Requests\Backend\Access\Role\ManageRoleRequest;
+use App\Http\Requests\Backend\Access\Role\StoreRoleRequest;
 use App\Http\Requests\Backend\Access\Role\UpdateRoleRequest;
+use App\Models\Access\Role\Role;
 use App\Repositories\Backend\Access\Permission\PermissionRepository;
+use App\Repositories\Backend\Access\Role\RoleRepository;
 
 /**
  * Class RoleController.
@@ -31,7 +31,7 @@ class RoleController extends Controller
      */
     public function __construct(RoleRepository $roles, PermissionRepository $permissions)
     {
-        $this->roles = $roles;
+        $this->roles       = $roles;
         $this->permissions = $permissions;
     }
 

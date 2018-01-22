@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Frontend\Vocabulary;
 
-use Backpack\CRUD\app\Http\Controllers\CrudController;
-
-// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\Frontend\Vocabulary\ConceptAttributeRequest as StoreRequest;
+// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\Frontend\Vocabulary\ConceptAttributeRequest as UpdateRequest;
 use App\Models\ConceptAttribute;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
 
 class ConceptAttributeCrudController extends CrudController
 {

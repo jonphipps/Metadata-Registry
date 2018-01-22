@@ -1,4 +1,6 @@
-<?php namespace App\Models;
+<?php
+
+namespace App\Models;
 
 use App\Helpers\Macros\Traits\Languages;
 use App\Models\Traits\BelongsToProfile;
@@ -19,7 +21,7 @@ use Laracasts\Matryoshka\Cacheable;
 abstract class VocabsModel extends Model
 {
     public const TABLE ='';
-    public $table = self::TABLE;
+    public $table      = self::TABLE;
 
     use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy;
     use Cacheable;
@@ -31,9 +33,9 @@ abstract class VocabsModel extends Model
         'updated' => 'updated_user_id',
         'deleted' => 'deleted_user_id',
     ];
-    protected $dates = [ 'deleted_at' ];
-    protected $guarded = [ 'id' ];
-    protected $casts = [
+    protected $dates   = ['deleted_at'];
+    protected $guarded = ['id'];
+    protected $casts   = [
         'id'                    => 'integer',
         'agent_id'              => 'integer',
         'created_user_id'       => 'integer',
@@ -83,15 +85,15 @@ abstract class VocabsModel extends Model
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public static function selectByProject( $projectId )
+    public static function selectByProject($projectId)
     {
-        return self::select( [ 'id', 'name', ] )
-            ->where( 'agent_id', $projectId )
-            ->orderBy( 'name' )
+        return self::select(['id', 'name'])
+            ->where('agent_id', $projectId)
+            ->orderBy('name')
             ->get()
-            ->mapWithKeys( function( $item ) {
-                return [ $item['id'] => $item['name'] ];
-            } );
+            ->mapWithKeys(function ($item) {
+                return [$item['id'] => $item['name']];
+            });
     }
 
     /**
@@ -99,20 +101,20 @@ abstract class VocabsModel extends Model
      *
      * @return string
      */
-    public static function create_route(int $project_id): string {}
-    
+    public static function create_route(int $project_id): string
+    {
+    }
+
     /*
     |--------------------------------------------------------------------------
     | RELATIONS
     |--------------------------------------------------------------------------
     */
 
-
     public function releases(): ?MorphToMany
     {
         return $this->morphToMany(Release::class, 'releaseable');
     }
-
 
     /*
     |--------------------------------------------------------------------------
@@ -128,7 +130,7 @@ abstract class VocabsModel extends Model
 
     public function getPrefixesAttribute($value)
     {
-        return unserialize($value, [ true ]);
+        return unserialize($value, [true]);
     }
 
     /*
@@ -137,8 +139,8 @@ abstract class VocabsModel extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function setPrefixesAttribute( $value )
+    public function setPrefixesAttribute($value)
     {
-        $this->attributes['prefixes'] = serialize( $value );
+        $this->attributes['prefixes'] = serialize($value);
     }
 }

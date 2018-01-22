@@ -1,4 +1,6 @@
-<?php namespace App\Models;
+<?php
+
+namespace App\Models;
 
 use App\Helpers\Macros\Traits\Languages;
 use App\Models\Traits\BelongsToElement;
@@ -20,7 +22,7 @@ use Venturecraft\Revisionable\RevisionableTrait;
 use function config;
 
 /**
- * App\Models\ElementAttribute
+ * App\Models\ElementAttribute.
  *
  * @property int $id
  * @property \Carbon\Carbon|null $created_at
@@ -86,7 +88,7 @@ use function config;
 class ElementAttribute extends Model
 {
     protected $table = self::TABLE;
-    const TABLE = 'reg_schema_property_element';
+    const TABLE      = 'reg_schema_property_element';
     use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy;
     use RevisionableTrait;
     use Cacheable;
@@ -96,11 +98,11 @@ class ElementAttribute extends Model
         'updated' => 'updated_user_id',
         'deleted' => 'deleted_user_id',
     ];
-    protected $dates = [ 'deleted_at' ];
-    protected $touches = [ 'element' ];
-    protected $guarded = [ 'id' ];
+    protected $dates                    = ['deleted_at'];
+    protected $touches                  = ['element'];
+    protected $guarded                  = ['id'];
     protected $revisionCreationsEnabled = true;
-    protected $casts = [
+    protected $casts                    = [
         'id'                             => 'integer',
         'created_user_id'                => 'integer',
         'updated_user_id'                => 'integer',
@@ -127,7 +129,7 @@ class ElementAttribute extends Model
     {
         parent::boot();
 
-        static::created(function(ElementAttribute $attribute) {
+        static::created(function (ElementAttribute $attribute) {
             //make sure we don't keep making new reciprocals
             if ($attribute->reciprocal_property_element_id) {
                 return;
@@ -139,13 +141,14 @@ class ElementAttribute extends Model
                 $attribute->history()->latest()->first()->delete();
             }
         });
-        static::updated(function(ElementAttribute $attribute) {
+        static::updated(function (ElementAttribute $attribute) {
             if (count($attribute->dirtyData) === 1) {
                 if ($attribute->isDirty('deleted_user_id') || $attribute->isDirty('deleted_by')) {
                     return;
                 }
                 if ($attribute->isDirty('related_schema_property_id')) {
                     $attribute->updateHistory();
+
                     return;
                 }
                 if ($attribute->isDirty('object')) {
@@ -154,13 +157,14 @@ class ElementAttribute extends Model
                         $attribute->reciprocal()->delete();
                     }
                     $attribute->createReciprocal();
+
                     return;
                 }
             }
             $attribute->createHistory('updated');
         });
 
-        static::deleted(function(ElementAttribute $attribute) {
+        static::deleted(function (ElementAttribute $attribute) {
             $attribute->createHistory('deleted');
             if ($attribute->reciprocal_property_element_id) {
                 $reciprocal = self::find($attribute->reciprocal_property_element_id);
@@ -201,7 +205,7 @@ class ElementAttribute extends Model
     {
         $history = $this->history()->where('import_id', $this->last_import_id)->first();
         if ($history) {
-            $history->update([ 'related_schema_property_id' => $this->related_schema_property_id ]);
+            $history->update(['related_schema_property_id' => $this->related_schema_property_id]);
         }
     }
 
@@ -217,11 +221,10 @@ class ElementAttribute extends Model
         $updated_at = self::getLatest($elementset_id, 'updated_at');
         $deleted_at = self::getLatest($elementset_id, 'deleted_at');
 
-        $date = collect([ $created_at, $updated_at, $deleted_at ])->max();
+        $date = collect([$created_at, $updated_at, $deleted_at])->max();
         try {
             return Carbon::createFromFormat(config('app.timestamp_format'), $date);
-        }
-        catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             return null;
         }
     }
@@ -234,22 +237,22 @@ class ElementAttribute extends Model
      */
     private static function getLatest($elementset_id, $field)
     {
-        return \DB::table(ElementAttribute::TABLE)
-            ->join(Element::TABLE, Element::TABLE . '.id', '=', ElementAttribute::TABLE . '.schema_property_id')
-            ->select(ElementAttribute::TABLE . '.' . $field)
+        return \DB::table(self::TABLE)
+            ->join(Element::TABLE, Element::TABLE . '.id', '=', self::TABLE . '.schema_property_id')
+            ->select(self::TABLE . '.' . $field)
             ->where(Element::TABLE . '.schema_id', $elementset_id)
-            ->max(ElementAttribute::TABLE . '.' . $field);
+            ->max(self::TABLE . '.' . $field);
     }
 
     public function createReciprocal()
     {
         //is the object a uri?
-        if ( ! filter_var($this->object, FILTER_VALIDATE_URL)) {
+        if (! filter_var($this->object, FILTER_VALIDATE_URL)) {
             return false;
         }
 
         //does the profile_property have a reciprocal?
-        if ( ! $this->profile_property->is_reciprocal && $this->profile_property->inverse_profile_property_id === null ) {
+        if (! $this->profile_property->is_reciprocal && $this->profile_property->inverse_profile_property_id === null) {
             return false;
         }
 
@@ -257,8 +260,9 @@ class ElementAttribute extends Model
 
         //does it reference a known URI in a vocabulary I 'own'? (tricky -- what if it hasn't been created yet?)
         $relatedElement = Element::whereUri($this->object)->first();
-        if ( ! $relatedElement) {
-            $this->update([ 'review_reciprocal' => true ]);
+        if (! $relatedElement) {
+            $this->update(['review_reciprocal' => true]);
+
             return true;
         }
         if (auth()->user()->cant('update', $relatedElement)) {
@@ -277,7 +281,7 @@ class ElementAttribute extends Model
             'reciprocal_property_element_id' => $this->id,
             'language'                       => null,
         ]);
-        $this->update([ 'reciprocal_property_element_id' => $attribute->id]);
+        $this->update(['reciprocal_property_element_id' => $attribute->id]);
     }
 
     /*
@@ -291,14 +295,14 @@ class ElementAttribute extends Model
         return $this->hasMany(ElementAttributeHistory::class, 'schema_property_element_id', 'id');
     }
 
-     public function reciprocal(): ?HasOne
+    public function reciprocal(): ?HasOne
     {
-        return $this->hasOne(ElementAttribute::class, 'reciprocal_property_element_id', 'id');
+        return $this->hasOne(self::class, 'reciprocal_property_element_id', 'id');
     }
 
     public function inverse(): ?HasOne
     {
-        return $this->hasOne(ElementAttribute::class, 'reciprocal_property_element_id', 'id');
+        return $this->hasOne(self::class, 'reciprocal_property_element_id', 'id');
     }
 
     /*
@@ -318,5 +322,4 @@ class ElementAttribute extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
-
 }

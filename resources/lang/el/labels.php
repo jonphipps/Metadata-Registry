@@ -71,7 +71,7 @@ return [
                     'no_deactivated' => 'Δεν υπάρχουν ανενεργοί χρήστες',
                     'no_deleted'     => 'Δεν υπάρχουν διεγραμμένοι χρήστες',
                     'roles'          => '΄Ρόλοι',
-                    'social' => 'Social',
+                    'social'         => 'Social',
                     'total'          => 'user total|users total',
                 ],
 
@@ -113,7 +113,7 @@ return [
 
         'contact' => [
             'box_title' => 'Contact Us',
-            'button' => 'Send Information',
+            'button'    => 'Send Information',
         ],
 
         'passwords' => [
