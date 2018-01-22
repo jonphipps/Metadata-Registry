@@ -2,38 +2,34 @@
 
 namespace App\Jobs;
 
+use App\Models\Elementset;
 use App\Models\Project;
 use App\Models\Release;
 use App\Models\VocabsModel;
+use App\Models\Vocabulary;
 use apps\frontend\lib\services\jsonldElementsetService;
 use apps\frontend\lib\services\jsonldVocabularyService;
-use GitWrapper\GitCommand;
 use GitWrapper\GitException;
 use GitWrapper\GitWrapper;
 use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Support\Carbon;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
-use App\Models\Vocabulary;
-use App\Models\Elementset;
 
 class GenerateRdf implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
-    public const VOCABULARY = Vocabulary::class;
-    public const ELEMENTSET = Elementset::class;
-    public const REPO_ROOT = 'repos';
-
-    private const URLARRAY = [ self::VOCABULARY => 'vocabularies/', self::ELEMENTSET => 'elementsets/' ];
-
-     /** @var int $projectId */
+    public const VOCABULARY   = Vocabulary::class;
+    public const ELEMENTSET   = Elementset::class;
+    public const REPO_ROOT    = 'repos';
+    public const PROJECT_ROOT = 'projects';
+    private const URLARRAY = [self::VOCABULARY => 'vocabularies/', self::ELEMENTSET => 'elementsets/'];
+    /** @var int $projectId */
     private $projectId;
 
     /** @var string $class */
@@ -116,7 +112,7 @@ class GenerateRdf implements ShouldQueue
 
     public static function getProjectPath($projectId)
     {
-        return "projects/{$projectId}/";
+        return self::PROJECT_ROOT . "/{$projectId}/";
     }
 
     public static function getProjectRepo($projectId)
@@ -139,20 +135,19 @@ class GenerateRdf implements ShouldQueue
     public static function initDir($projectId, $disk = self::REPO_ROOT): void
     {
         $projectPath = self::getProjectPath($projectId);
-        if (! Storage::disk($disk)->exists(self::getProjectPath($projectId))) {
-            Storage::disk($disk)->createDir($projectPath);
-
+        if (! Storage::disk($disk)->exists($projectPath)) {
             $dir = Storage::disk($disk)->path($projectPath);
 
             /** @var GitWrapper $wrapper */
             $wrapper = new GitWrapper();
-            $repo = self::getProjectRepo($projectId);
+            $repo    = self::getProjectRepo($projectId);
             if ($repo) {
                 $git = $wrapper->cloneRepository($repo, $dir);
-                if ( ! $git->isCloned()) {
+                if (! $git->isCloned()) {
                     throw new GitException($git);
                 }
             } else {
+                Storage::disk($disk)->createDir($projectPath);
                 $wrapper->init($dir);
             }
         }
@@ -267,4 +262,5 @@ class GenerateRdf implements ShouldQueue
         $release = $this->makeReleaseArray();
         $vocab->releases()->updateExistingPivot($this->release->id, [ 'published_at' => $release['published_at'] ]);
     }
+
 }
