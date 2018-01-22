@@ -1,4 +1,6 @@
-<?php namespace App\Models;
+<?php
+
+namespace App\Models;
 
 use App\Helpers\Macros\Traits\Languages;
 use App\Models\Traits\BelongsToElementset;
@@ -8,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\ElementsetUser
+ * App\Models\ElementsetUser.
  *
  * @property int $id
  * @property \Carbon\Carbon|null $created_at
@@ -45,7 +47,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class ElementsetUser extends Model
 {
-    const TABLE = 'schema_has_user';
+    const TABLE          = 'schema_has_user';
     public static $rules = [
         'schema_id'        => 'required|',
         'user_id'          => 'required|',
@@ -56,13 +58,13 @@ class ElementsetUser extends Model
     use SoftDeletes, Blameable, CreatedBy;
     use Languages;
     use BelongsToElementset;
-    protected $table = self::TABLE;
+    protected $table     = self::TABLE;
     protected $blameable = [
         'created' => 'user_id',
     ];
-    protected $dates = [ 'deleted_at' ];
-    protected $guarded = [ 'id' ];
-    protected $casts = [
+    protected $dates   = ['deleted_at'];
+    protected $guarded = ['id'];
+    protected $casts   = [
         'id'                => 'integer',
         'schema_id'         => 'integer',
         'user_id'           => 'integer',

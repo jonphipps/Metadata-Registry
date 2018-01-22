@@ -23,7 +23,7 @@ class RouteNeedsRole
          * Roles array
          */
         if (strpos($role, ';') !== false) {
-            $roles = explode(';', $role);
+            $roles  = explode(';', $role);
             $access = access()->hasRoles($roles, ($needsAll === 'true' ? true : false));
         } else {
             /**

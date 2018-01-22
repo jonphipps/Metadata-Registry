@@ -11,6 +11,6 @@ trait HasStatus
 {
     public function status(): ?BelongsTo
     {
-        return $this->belongsTo( Status::class, 'status_id', 'id' );
+        return $this->belongsTo(Status::class, 'status_id', 'id');
     }
 }

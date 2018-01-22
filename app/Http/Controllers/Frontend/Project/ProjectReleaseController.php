@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers\Frontend\Project;
 
-use App\Jobs\Publish;
-use App\Models\Project;
-use App\Models\Release;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Jobs\Publish;
+use App\Models\Release;
 
 class ProjectReleaseController extends Controller
 {

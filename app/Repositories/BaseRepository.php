@@ -38,6 +38,6 @@ class BaseRepository
      */
     public function query()
     {
-        return call_user_func(static::MODEL.'::query');
+        return call_user_func(static::MODEL . '::query');
     }
 }

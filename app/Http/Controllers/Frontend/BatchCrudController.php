@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Models\Batch;
-use Backpack\CRUD\app\Http\Controllers\CrudController;
-
-// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\Frontend\BatchRequest as StoreRequest;
 use App\Http\Requests\Frontend\BatchRequest as UpdateRequest;
+// VALIDATION: change the requests to match your own file names if you need form validation
+use App\Models\Batch;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
 
 class BatchCrudController extends CrudController
 {

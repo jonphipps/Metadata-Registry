@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\Omr\Agent
+ * App\Models\Omr\Agent.
  *
  * @property int $id
  * @property \Carbon\Carbon|null $created_at
@@ -52,10 +52,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Agent extends Model
 {
     use SoftDeletes;
-    public $timestamps = false;
+    public $timestamps    = false;
     protected $connection = 'mysql_omr';
-    protected $table = self::TABLE;
-    protected $dates = ['created_at', 'last_updated', 'deleted_at'];
+    protected $table      = self::TABLE;
+    protected $dates      = ['created_at', 'last_updated', 'deleted_at'];
 
     public const TABLE = 'reg_agent';
 }

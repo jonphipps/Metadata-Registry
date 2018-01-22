@@ -16,16 +16,15 @@ use App\Notifications\Frontend\ImportWasCompleted;
  */
 class ImportEventListener
 {
-
     /**
      * @param $event
      */
     public function onImportFinished($event)
     {
         /** @var Batch $batch */
-        $batch = $event->import->batch;
-        $handled = $batch->handled_array;
-        $handled['import'] = $handled['import'] === null ? 1 : ++$handled['import'];
+        $batch                = $event->import->batch;
+        $handled              = $batch->handled_array;
+        $handled['import']    = $handled['import'] === null ? 1 : ++$handled['import'];
         $batch->handled_array = $handled;
         $batch->save();
 
@@ -45,7 +44,7 @@ class ImportEventListener
     {
         /** @var Batch $batch */
         $batch = $event->batch;
-        if($batch->user){
+        if ($batch->user) {
             $batch->user->notify(new ImportWasCompleted($batch));
         }
         \Log::info('Import Parse Batch Finished: ' . $batch->run_description);
@@ -57,9 +56,9 @@ class ImportEventListener
     public function onImportParseFinished($event)
     {
         /** @var Batch $batch */
-        $batch             = $event->import->batch;
-        $handled           = $batch->handled_array;
-        $handled['parse'] = $handled['parse'] === null ? 1 : ++$handled['parse'];
+        $batch                = $event->import->batch;
+        $handled              = $batch->handled_array;
+        $handled['parse']     = $handled['parse'] === null ? 1 : ++$handled['parse'];
         $batch->handled_array = $handled;
         $batch->save();
 

@@ -131,10 +131,10 @@ return [
                         'name' => 'Nom du groupe',
                     ],
 
-                    'name'   => 'Nom complet',
+                    'name'       => 'Nom complet',
                     'first_name' => 'Prénom',
                     'last_name'  => 'Nom',
-                    'system' => 'Système',
+                    'system'     => 'Système',
                 ],
 
                 'roles' => [
@@ -166,8 +166,8 @@ return [
             'name'                      => 'Nom complet',
             'password'                  => 'Mot de passe',
             'password_confirmation'     => 'Confirmation',
-            'phone' => 'Téléphone',
-            'message' => 'Message',
+            'phone'                     => 'Téléphone',
+            'message'                   => 'Message',
             'new_password'              => 'Nouveau mot de passe',
             'new_password_confirmation' => 'Confirmation du nouveau mot de passe',
             'old_password'              => 'Ancien mot de passe',

@@ -11,6 +11,6 @@ trait BelongsToImport
 {
     public function import(): BelongsTo
     {
-        return $this->belongsTo( Import::class, 'import_id', 'id' );
+        return $this->belongsTo(Import::class, 'import_id', 'id');
     }
 }

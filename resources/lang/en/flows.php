@@ -1,38 +1,38 @@
 <?php
 
 
-    return array(
+    return [
 
         'next'                              => 'next step',
         'finish'                            => 'finish',
         'back'                              => 'back',
 
-        'exampleFlow' => array(
+        'exampleFlow' => [
             'title'      => 'Example flow',
-            'firstStep'  => array(
+            'firstStep'  => [
                 'breadcrumb' => 'Step 1',
                 'title'      => 'First step',
-            ),
-            'secondStep' => array(
+            ],
+            'secondStep' => [
                 'breadcrumb' => 'Step 2',
                 'title'      => 'Second step',
-            ),
-        ),
-        'gsimport' => array(
-            'title'      => 'Example flow',
-            'spreadsheet'  => array(
+            ],
+        ],
+        'gsimport' => [
+            'title'        => 'Example flow',
+            'spreadsheet'  => [
                 'breadcrumb' => 'Step 1',
                 'title'      => 'Supply a Google Spreadsheet URL',
-            ),
-            'secondStep' => array(
+            ],
+            'secondStep' => [
                 'breadcrumb' => 'Step 2',
                 'title'      => 'Second step',
-            ),
-        ),
+            ],
+        ],
 
-        'errors'                            => array(
+        'errors'                            => [
             'general'                           => 'Something has gone wrong while processing the flow step',
             'notAllowed'                        => 'You are not allowed to access this flow step',
-        ),
+        ],
 
-    );
+    ];

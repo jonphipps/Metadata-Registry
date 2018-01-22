@@ -4,13 +4,6 @@
  * Global Routes
  * Routes that are used between both frontend and backend.
  */
-
-use App\Models\Elementset;
-use App\Models\ElementsetUser;
-use App\Models\Project;
-use App\Models\ProjectUser;
-use App\Models\Vocabulary;
-use App\Models\VocabularyUser;
 use Illuminate\Support\Facades\Route;
 
 // Switch between the included languages

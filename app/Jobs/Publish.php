@@ -5,10 +5,10 @@ namespace App\Jobs;
 use App\Models\Release;
 use App\Notifications\Frontend\ReleaseWasPublished;
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class Publish implements ShouldQueue
 {
@@ -31,7 +31,7 @@ class Publish implements ShouldQueue
     public function __construct(Release $release, $disk = GenerateRdf::REPO_ROOT)
     {
         $this->release = $release;
-        $this->disk = $disk;
+        $this->disk    = $disk;
     }
 
     /**
@@ -47,7 +47,7 @@ class Publish implements ShouldQueue
     {
         //todo:lot's more try/catch here
         $project_id = $this->release->project_id;
-        $repo = $this->release->project->repo;
+        $repo       = $this->release->project->repo;
         //todo: rdf generator shouldn't responsible for storage management or git stuff
         GenerateRdf::initDir($project_id, $this->disk);
         //if the project has a github repo
@@ -61,7 +61,6 @@ class Publish implements ShouldQueue
         foreach ($vocabs as $vocab) {
             $job = new GenerateRdf($vocab, $this->release, $this->disk);
             $job->handle();
-
         }
         $vocabs = $this->release->elementsets()->get();
         foreach ($vocabs as $vocab) {
@@ -76,5 +75,4 @@ class Publish implements ShouldQueue
         //notify the user that it's done
         $this->release->User->notify(new ReleaseWasPublished($this->release));
     }
-
 }

@@ -6,16 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * App\Models\Importable
+ * App\Models\Importable.
  *
  * @mixin \Eloquent
  */
 class Importable extends Model
 {
-    const TABLE = 'importable';
+    const TABLE   = 'importable';
     public $table = self::TABLE;
 
-     /*
+    /*
     |--------------------------------------------------------------------------
     | FUNCTIONS
     |--------------------------------------------------------------------------
@@ -59,5 +59,4 @@ class Importable extends Model
     | MUTATORS
     |--------------------------------------------------------------------------
     */
-
 }

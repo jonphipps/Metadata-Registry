@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\Omr\Vocabulary
+ * App\Models\Omr\Vocabulary.
  *
  * @property int $id
  * @property int $agent_id
@@ -70,10 +70,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Vocabulary extends Model
 {
     use SoftDeletes;
-    public $timestamps = false;
+    public $timestamps    = false;
     protected $connection = 'mysql_omr';
-    protected $table = self::TABLE;
-    protected $dates = ['created_at', 'last_updated', 'deleted_at'];
+    protected $table      = self::TABLE;
+    protected $dates      = ['created_at', 'last_updated', 'deleted_at'];
 
     public const TABLE = 'reg_vocabulary';
 }

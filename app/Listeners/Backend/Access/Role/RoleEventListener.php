@@ -19,7 +19,7 @@ class RoleEventListener
     {
         history()->withType($this->history_slug)
             ->withEntity($event->role->id)
-            ->withText('trans("history.backend.roles.created") <strong>'.$event->role->name.'</strong>')
+            ->withText('trans("history.backend.roles.created") <strong>' . $event->role->name . '</strong>')
             ->withIcon('plus')
             ->withClass('bg-green')
             ->log();
@@ -32,7 +32,7 @@ class RoleEventListener
     {
         history()->withType($this->history_slug)
             ->withEntity($event->role->id)
-            ->withText('trans("history.backend.roles.updated") <strong>'.$event->role->name.'</strong>')
+            ->withText('trans("history.backend.roles.updated") <strong>' . $event->role->name . '</strong>')
             ->withIcon('save')
             ->withClass('bg-aqua')
             ->log();
@@ -45,7 +45,7 @@ class RoleEventListener
     {
         history()->withType($this->history_slug)
             ->withEntity($event->role->id)
-            ->withText('trans("history.backend.roles.deleted") <strong>'.$event->role->name.'</strong>')
+            ->withText('trans("history.backend.roles.deleted") <strong>' . $event->role->name . '</strong>')
             ->withIcon('trash')
             ->withClass('bg-maroon')
             ->log();

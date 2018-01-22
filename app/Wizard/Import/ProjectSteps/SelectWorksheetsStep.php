@@ -20,8 +20,8 @@ use function explode;
 class SelectWorksheetsStep extends Step
 {
     public static $label = 'Choose the Worksheets...';
-    public static $slug = 'worksheets';
-    public static $view = 'frontend.import.project.steps.worksheets';
+    public static $slug  = 'worksheets';
+    public static $view  = 'frontend.import.project.steps.worksheets';
 
     public function fields(): array
     {
@@ -37,9 +37,9 @@ class SelectWorksheetsStep extends Step
     public function PreProcess(Request $request, Wizard $wizard)
     {
         $worksheets = [];
-        $sheets = $wizard->data()['googlesheets'];
+        $sheets     = $wizard->data()['googlesheets'];
         //it's already in the correct form
-        if( is_array($sheets) && isset($sheets[0])){
+        if (is_array($sheets) && isset($sheets[0])) {
             return;
         }
         foreach ($sheets as $key => $worksheet) {
@@ -80,7 +80,7 @@ class SelectWorksheetsStep extends Step
         /** @var Batch $batch */
         $batch                = Batch::findOrFail($batch_id);
         $batch->total_count   = count($worksheets[0]);
-        $unfinishedImports = $batch->imports()->whereNull('imported_at');
+        $unfinishedImports    = $batch->imports()->whereNull('imported_at');
         if ($unfinishedImports) {
             $unfinishedImports->delete();
         }
@@ -89,8 +89,8 @@ class SelectWorksheetsStep extends Step
         // setup a job for each worksheet
         foreach ($worksheets[0] as $worksheet) {
             [ $export_id, $worksheet_id ] = explode('::', $worksheet);
-            $export = Export::find($export_id);
-            $import =
+            $export                       = Export::find($export_id);
+            $import                       =
                 Import::create([
                     'worksheet'     => $worksheet_id,
                     'source'        => 'Google',
@@ -109,14 +109,14 @@ class SelectWorksheetsStep extends Step
         }
 
         // save progress to session
-        $this->saveProgress($request, [ 'googlesheets' => $this->wizard->dataGet('googlesheets') ]);
+        $this->saveProgress($request, ['googlesheets' => $this->wizard->dataGet('googlesheets')]);
     }
 
     public function validate(Request $request)
     {
-        Validator::make([ 'selected_worksheets' => json_decode($request->selected_worksheets) ],
-            [ 'selected_worksheets' => 'required' ],
-            [ 'selected_worksheets.required' => 'You must select at least one worksheet before you can move to the next step.' ])
+        Validator::make(['selected_worksheets' => json_decode($request->selected_worksheets)],
+            ['selected_worksheets'          => 'required'],
+            ['selected_worksheets.required' => 'You must select at least one worksheet before you can move to the next step.'])
             ->validate();
     }
 

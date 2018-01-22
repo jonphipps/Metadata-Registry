@@ -9,7 +9,7 @@ use Illuminate\Foundation\Http\Kernel as HttpKernel;
  */
 class Kernel extends HttpKernel
 {
-  /**
+    /**
      * The application's global HTTP middleware stack.
      *
      * These middleware are run during every request to your application.
@@ -24,7 +24,7 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrustProxies::class,
     ];
 
-  /**
+    /**
      * The application's route middleware groups.
      *
      * @var array
@@ -56,14 +56,13 @@ class Kernel extends HttpKernel
           'timeout',
       ],
 
-
       'api' => [
           'throttle:60,1',
           'bindings',
       ],
     ];
 
-  /**
+    /**
      * The application's route middleware.
      *
      * These middleware may be assigned to groups or used individually.

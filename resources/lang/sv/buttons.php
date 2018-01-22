@@ -16,17 +16,17 @@ return [
     'backend' => [
         'access' => [
             'users' => [
-                'activate'           => 'Aktivera',
-                'change_password'    => 'Byt lösenord',
+                'activate'              => 'Aktivera',
+                'change_password'       => 'Byt lösenord',
                 'clear_session'         => 'Clear Session',
-                'confirm'             => 'Confirm',
-                'deactivate'         => 'Inaktivera',
-                'resend_email'       => 'Skicka bekräftelsemail igen.',
-                'delete_permanently' => 'Radera permanent',
-                'login_as'           => 'Login As :user',
-                'restore_user'       => 'Återställ',
+                'confirm'               => 'Confirm',
+                'deactivate'            => 'Inaktivera',
+                'resend_email'          => 'Skicka bekräftelsemail igen.',
+                'delete_permanently'    => 'Radera permanent',
+                'login_as'              => 'Login As :user',
+                'restore_user'          => 'Återställ',
                 'unconfirm'             => 'Un-confirm',
-                'unlink' => 'Unlink',
+                'unlink'                => 'Unlink',
             ],
         ],
     ],
@@ -39,7 +39,7 @@ return [
     ],
 
     'general' => [
-        'cancel' => 'Avbryt',
+        'cancel'   => 'Avbryt',
         'continue' => 'Continue',
 
         'crud' => [

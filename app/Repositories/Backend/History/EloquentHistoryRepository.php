@@ -2,9 +2,9 @@
 
 namespace App\Repositories\Backend\History;
 
+use App\Exceptions\GeneralException;
 use App\Models\History\History;
 use App\Models\History\HistoryType;
-use App\Exceptions\GeneralException;
 
 /**
  * Class EloquentHistoryRepository.
@@ -69,7 +69,7 @@ class EloquentHistoryRepository implements HistoryContract
             return $this;
         }
 
-        throw new GeneralException('An invalid history type was supplied: '.$type.'.');
+        throw new GeneralException('An invalid history type was supplied: ' . $type . '.');
     }
 
     /**
@@ -232,13 +232,13 @@ class EloquentHistoryRepository implements HistoryContract
      */
     public function renderDescription($text, $assets = false)
     {
-        $assets = json_decode($assets, true);
-        $count = 1;
+        $assets      = json_decode($assets, true);
+        $count       = 1;
         $asset_count = count($assets) + 1;
 
         if (count($assets)) {
             foreach ($assets as $name => $values) {
-                $key = explode('_', $name)[0];
+                $key  = explode('_', $name)[0];
                 $type = explode('_', $name)[1];
 
                 switch ($type) {
@@ -246,30 +246,30 @@ class EloquentHistoryRepository implements HistoryContract
                         if (is_array($values)) {
                             switch (count($values)) {
                                 case 1:
-                                    $text = str_replace('{'.$key.'}', link_to_route($values[0], $values[0]), $text);
+                                    $text = str_replace('{' . $key . '}', link_to_route($values[0], $values[0]), $text);
                                 break;
 
                                 case 2:
-                                    $text = str_replace('{'.$key.'}', link_to_route($values[0], $values[1]), $text);
+                                    $text = str_replace('{' . $key . '}', link_to_route($values[0], $values[1]), $text);
                                 break;
 
                                 case 3:
-                                    $text = str_replace('{'.$key.'}', link_to_route($values[0], $values[1], $values[2]), $text);
+                                    $text = str_replace('{' . $key . '}', link_to_route($values[0], $values[1], $values[2]), $text);
                                 break;
 
                                 case 4:
-                                    $text = str_replace('{'.$key.'}', link_to_route($values[0], $values[1], $values[2], $values[3]), $text);
+                                    $text = str_replace('{' . $key . '}', link_to_route($values[0], $values[1], $values[2], $values[3]), $text);
                                 break;
                             }
                         } else {
                             //Normal url
-                            $text = str_replace('{'.$key.'}', link_to($values, $values), $text);
+                            $text = str_replace('{' . $key . '}', link_to($values, $values), $text);
                         }
 
                     break;
 
                     case 'string':
-                        $text = str_replace('{'.$key.'}', $values, $text);
+                        $text = str_replace('{' . $key . '}', $values, $text);
                     break;
                 }
 

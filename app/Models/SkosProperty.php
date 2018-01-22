@@ -1,10 +1,12 @@
-<?php namespace App\Models;
+<?php
+
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * App\Models\SkosProperty
+ * App\Models\SkosProperty.
  *
  * @property int $id
  * @property string|null $created_at
@@ -49,15 +51,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class SkosProperty extends Model
 {
-    const TABLE = 'reg_skos_property';
-    protected $table = self::TABLE;
+    const TABLE        = 'reg_skos_property';
+    protected $table   = self::TABLE;
     public $timestamps = false;
-    protected $guarded = [ 'id' ];
+    protected $guarded = ['id'];
 
     public function concept_attribute_history(): ?HasMany
     {
-        return $this->hasMany( ConceptAttributeHistory::class,
+        return $this->hasMany(ConceptAttributeHistory::class,
             'skos_property_id',
-            'id' );
+            'id');
     }
 }

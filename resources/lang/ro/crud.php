@@ -14,9 +14,9 @@ return [
     */
 
     // Forms
-    'save_action_save_and_new' => 'Salvează și adaugă o nouă intrare',
-    'save_action_save_and_edit' => 'Salvează și editează intrarea',
-    'save_action_save_and_back' => 'Salvează și mergi înapoi',
+    'save_action_save_and_new'         => 'Salvează și adaugă o nouă intrare',
+    'save_action_save_and_edit'        => 'Salvează și editează intrarea',
+    'save_action_save_and_back'        => 'Salvează și mergi înapoi',
     'save_action_changed_notification' => 'A fost salvată preferința redirectării după salvare.',
 
     // Create form
@@ -30,15 +30,15 @@ return [
     'save'                 => 'Salvează',
 
     // Revisions
-    'revisions'            => 'Reviziile',
-    'no_revisions'         => 'Reviziile Determinat',
+    'revisions'             => 'Reviziile',
+    'no_revisions'          => 'Reviziile Determinat',
     'created_this'          => 'creatd acest lucru',
-    'changed_the'          => 'schimbat',
-    'restore_this_value'   => 'a restabili această valoare',
-    'from'                 => 'din',
-    'to'                   => 'la',
-    'undo'                 => 'Anula',
-    'revision_restored'    => 'Revizia restaurat cu succes',
+    'changed_the'           => 'schimbat',
+    'restore_this_value'    => 'a restabili această valoare',
+    'from'                  => 'din',
+    'to'                    => 'la',
+    'undo'                  => 'Anula',
+    'revision_restored'     => 'Revizia restaurat cu succes',
 
     // CRUD table view
     'all'                  => 'Toate ',
@@ -82,7 +82,7 @@ return [
 
     // global crud - errors
         'unauthorized_access' => 'Acces neautorizat - Nu ai permisiunea necesară pentru a accesa pagina.',
-        'please_fix' => 'Va rugăm să reparați următoarele erori:',
+        'please_fix'          => 'Va rugăm să reparați următoarele erori:',
 
     // global crud - success / error notification bubbles
         'insert_success' => 'Intrarea a fost adăugată cu succes.',
@@ -98,15 +98,15 @@ return [
 
     // CRUD yes/no
         'yes' => 'Da',
-        'no' => 'Nu',
+        'no'  => 'Nu',
 
     // Fields
-        'browse_uploads' => 'Alege din fișierele urcate',
-        'clear' => 'Curăță',
-        'page_link' => 'Link către pagină',
-        'page_link_placeholder' => 'http://example.com/pagina-dorita-de-tine',
-        'internal_link' => 'Link intern',
+        'browse_uploads'            => 'Alege din fișierele urcate',
+        'clear'                     => 'Curăță',
+        'page_link'                 => 'Link către pagină',
+        'page_link_placeholder'     => 'http://example.com/pagina-dorita-de-tine',
+        'internal_link'             => 'Link intern',
         'internal_link_placeholder' => 'Rută internă. De ex: \'admin/page\' (fără ghilimele) pentru \':url\'',
-        'external_link' => 'Link extern',
-        'choose_file' => 'Alege fișier',
+        'external_link'             => 'Link extern',
+        'choose_file'               => 'Alege fișier',
 ];

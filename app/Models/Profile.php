@@ -1,4 +1,6 @@
-<?php namespace App\Models;
+<?php
+
+namespace App\Models;
 
 use App\Helpers\Macros\Traits\Languages;
 use App\Models\Traits\HasStatus;
@@ -13,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 
 /**
- * App\Models\Profile
+ * App\Models\Profile.
  *
  * @property int $id
  * @property \Carbon\Carbon|null $created_at
@@ -71,7 +73,7 @@ use Illuminate\Support\Collection;
  */
 class Profile extends Model
 {
-    const TABLE = 'profile';
+    const TABLE      = 'profile';
     protected $table = self::TABLE;
     use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy;
     use Languages, HasStatus;
@@ -80,8 +82,8 @@ class Profile extends Model
         'updated' => 'updated_by',
         'deleted' => 'deleted_by',
     ];
-    protected $dates = [ 'deleted_at' ];
-    protected $guarded = [ 'id' ];
+    protected $dates   = ['deleted_at'];
+    protected $guarded = ['id'];
 
     /*********************************
      * relationships
@@ -89,22 +91,22 @@ class Profile extends Model
 
     public function profile_properties(): ?HasMany
     {
-        return $this->hasMany( \App\Models\ProfileProperty::class, 'profile_id', 'id' );
+        return $this->hasMany(\App\Models\ProfileProperty::class, 'profile_id', 'id');
     }
 
     public function elementsets(): ?HasMany
     {
-        return $this->hasMany( \App\Models\Elementset::class, 'profile_id', 'id' );
+        return $this->hasMany(\App\Models\Elementset::class, 'profile_id', 'id');
     }
 
     public function vocabularies(): ?HasMany
     {
-        return $this->hasMany( \App\Models\Vocabulary::class, 'profile_id', 'id' );
+        return $this->hasMany(\App\Models\Vocabulary::class, 'profile_id', 'id');
     }
 
     public function projects(): ?BelongsToMany
     {
-        return $this->belongsToMany( Project::class );
+        return $this->belongsToMany(Project::class);
     }
 
     /*********************************
@@ -113,7 +115,7 @@ class Profile extends Model
 
     public function required_properties(): ?Collection
     {
-        return $this->profile_properties()->whereIsRequired( true )->get();
+        return $this->profile_properties()->whereIsRequired(true)->get();
     }
 
     public function getColumnMapFromHeader(string $header): array
@@ -127,6 +129,6 @@ class Profile extends Model
         $profile = $this->profile_properties()->where('label', $label)->first();
 
         //return the property id, the label, and the language
-        return [ 'id' => $profile? $profile->id: '', 'label' => $header, 'language' => $language ];
+        return ['id' => $profile ? $profile->id : '', 'label' => $header, 'language' => $language];
     }
 }

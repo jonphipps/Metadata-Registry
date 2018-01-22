@@ -2,8 +2,8 @@
 
 namespace App\Http\Composers\Backend;
 
-use Illuminate\View\View;
 use App\Repositories\Backend\Access\User\UserRepository;
+use Illuminate\View\View;
 
 /**
  * Class SidebarComposer.

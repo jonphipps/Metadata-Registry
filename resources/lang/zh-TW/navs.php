@@ -14,23 +14,23 @@ return [
     */
 
     'general' => [
-        'home' => '首頁',
+        'home'   => '首頁',
         'logout' => '退出',
     ],
 
     'frontend' => [
-        'contact' => 'Contact',
+        'contact'   => 'Contact',
         'dashboard' => '儀表板',
-        'login' => '登錄',
-        'macros' => '宏',
-        'register' => '註冊',
+        'login'     => '登錄',
+        'macros'    => '宏',
+        'register'  => '註冊',
 
         'user' => [
-            'account' => '我的帳戶',
-            'administration' => '管理',
+            'account'         => '我的帳戶',
+            'administration'  => '管理',
             'change_password' => '更改密碼',
-            'my_information' => '我的信息',
-            'profile' => '個人資料',
+            'my_information'  => '我的信息',
+            'profile'         => '個人資料',
         ],
     ],
 ];

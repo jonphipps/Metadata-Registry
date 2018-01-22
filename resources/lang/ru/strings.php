@@ -70,7 +70,7 @@ TEXT
     ],
     'emails'   => [
         'auth' => [
-            'account_confirmed' => 'Your account has been confirmed.',
+            'account_confirmed'         => 'Your account has been confirmed.',
             'click_to_confirm'          => 'Щелкните здесь, чтобы подтвердить вашу учетную запись:',
             'error'                     => 'Упс!',
             'greeting'                  => 'Здравствуйте!',
@@ -85,7 +85,7 @@ TEXT
 
         'contact' => [
             'email_body_title' => 'You have a new contact form request: Below are the details:',
-            'subject' => 'A new :app_name contact form submission!',
+            'subject'          => 'A new :app_name contact form submission!',
         ],
     ],
     'frontend' => [

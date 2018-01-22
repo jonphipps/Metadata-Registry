@@ -67,7 +67,7 @@ return [
 
     'emails' => [
         'auth' => [
-            'account_confirmed' => 'Your account has been confirmed.',
+            'account_confirmed'       => 'Your account has been confirmed.',
             'error'                   => 'HATA!',
             'greeting'                => 'Merhaba!',
             'regards'                 => 'Saygılarımızla,',
@@ -84,7 +84,7 @@ return [
 
         'contact' => [
             'email_body_title' => 'You have a new contact form request: Below are the details:',
-            'subject' => 'A new :app_name contact form submission!',
+            'subject'          => 'A new :app_name contact form submission!',
         ],
     ],
 
@@ -122,10 +122,10 @@ return [
         ],
 
         'user' => [
-            'change_email_notice' => 'E-postanızı değiştirirseniz, yeni e-posta adresinizi teyit edene kadar oturumunuz kapatılır.',
+            'change_email_notice'  => 'E-postanızı değiştirirseniz, yeni e-posta adresinizi teyit edene kadar oturumunuz kapatılır.',
             'email_changed_notice' => 'Tekrar tekrar oturum açabilmeniz için yeni e-posta adresinizi onaylamanız gerekir.',
-            'profile_updated'  => 'Profil başarıyla güncellendi.',
-            'password_updated' => 'Şifre başarıyla güncellendi.',
+            'profile_updated'      => 'Profil başarıyla güncellendi.',
+            'password_updated'     => 'Şifre başarıyla güncellendi.',
         ],
 
         'welcome_to' => ':place \'e Hoşgeldiniz',

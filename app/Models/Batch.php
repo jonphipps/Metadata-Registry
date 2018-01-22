@@ -1,13 +1,14 @@
-<?php namespace App\Models;
+<?php
+
+namespace App\Models;
 
 use App\Models\Traits\BelongsToUser;
-use Eloquent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * App\Models\Batch
+ * App\Models\Batch.
  *
  * @property int $id
  * @property \Carbon\Carbon|null $run_time
@@ -54,11 +55,11 @@ class Batch extends Model
 {
     use BelongsToUser;
 
-    const TABLE = 'reg_batch';
-    protected $table = self::TABLE;
-    protected $dates = [ 'run_time', 'event_time' ];
-    protected $guarded = [ 'id' ];
-    protected $casts = [
+    const TABLE        = 'reg_batch';
+    protected $table   = self::TABLE;
+    protected $dates   = ['run_time', 'event_time'];
+    protected $guarded = ['id'];
+    protected $casts   = [
         'id'                => 'integer',
         'run_description'   => 'string',
         'object_type'       => 'string',
@@ -90,10 +91,10 @@ class Batch extends Model
     public function addImports($imports)
     {
         if (is_iterable($imports)) {
-            /** @noinspection NullPointerExceptionInspection */
+            /* @noinspection NullPointerExceptionInspection */
             $this->imports()->saveMany($imports);
         } else {
-            /** @noinspection NullPointerExceptionInspection */
+            /* @noinspection NullPointerExceptionInspection */
             $this->imports()->save($imports);
         }
 
@@ -109,7 +110,7 @@ class Batch extends Model
     {
         $data = $this->step_data;
 
-        return isset($data[ $key ]);
+        return isset($data[$key]);
     }
 
     /**
@@ -121,7 +122,7 @@ class Batch extends Model
     {
         $data = $this->step_data;
 
-        return $data[ $key ] ?? null;
+        return $data[$key] ?? null;
     }
 
     /*
@@ -155,12 +156,11 @@ class Batch extends Model
     public function getNextStepAttribute($value): string
     {
         return $value ?? 'spreadsheet';
-
     }
+
     /*
     |--------------------------------------------------------------------------
     | MUTATORS
     |--------------------------------------------------------------------------
     */
-
 }

@@ -185,7 +185,7 @@ class UserEventListener
     {
         history()->withType($this->history_slug)
             ->withEntity($event->user->id)
-            ->withText('trans("history.backend.users.deleted_social") <strong>'.$event->social->provider.'</strong> for <strong>{user}</strong>')
+            ->withText('trans("history.backend.users.deleted_social") <strong>' . $event->social->provider . '</strong> for <strong>{user}</strong>')
             ->withIcon('times')
             ->withClass('bg-red')
             ->withAssets([

@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Frontend\Vocabulary;
 
-use Backpack\CRUD\app\Http\Controllers\CrudController;
-
-// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\Frontend\Vocabulary\VocabularyUserRequest as StoreRequest;
+// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\Frontend\Vocabulary\VocabularyUserRequest as UpdateRequest;
 use App\Models\VocabularyUser;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
 
 class VocabularyUserCrudController extends CrudController
 {

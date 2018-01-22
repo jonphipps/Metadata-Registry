@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Matryoshka\Cacheable;
 
 /**
- * App\Models\Concept
+ * App\Models\Concept.
  *
  * @property int $id
  * @property \Carbon\Carbon|null $created_at
@@ -69,9 +69,9 @@ use Laracasts\Matryoshka\Cacheable;
  */
 class Concept extends Model
 {
-    const TABLE = 'reg_concept';
-    const FORM_PROPERTIES = [ 45, 49, 59, 62, 74 ];
-    protected $table = self::TABLE;
+    const TABLE           = 'reg_concept';
+    const FORM_PROPERTIES = [45, 49, 59, 62, 74];
+    protected $table      = self::TABLE;
     use SoftDeletes, Blameable, CreatedBy, UpdatedBy, DeletedBy;
     use Cacheable;
     use Languages, BelongsToVocabulary, HasStatus;
@@ -80,8 +80,8 @@ class Concept extends Model
         'updated' => 'updated_user_id',
         'deleted' => 'deleted_by',
     ];
-    protected $dates = [ 'deleted_at' ];
-    protected $guarded = [ 'id' ];
+    protected $dates   = ['deleted_at'];
+    protected $guarded = ['id'];
 
     /*
     |--------------------------------------------------------------------------
@@ -97,27 +97,27 @@ class Concept extends Model
     public static function selectConceptsByProject($projectId): array
     {
         return \DB::table(ConceptAttribute::TABLE)
-            ->join(Concept::TABLE,
-                Concept::TABLE . '.id',
+            ->join(self::TABLE,
+                self::TABLE . '.id',
                 '=',
                 ConceptAttribute::TABLE . '.concept_id')
             ->join(Vocabulary::TABLE,
                 Vocabulary::TABLE . '.id',
                 '=',
-                Concept::TABLE . '.vocabulary_id')
+                self::TABLE . '.vocabulary_id')
             ->select(ConceptAttribute::TABLE . '.concept_id as id',
                 Vocabulary::TABLE . '.name as vocabulary',
                 ConceptAttribute::TABLE . '.language',
                 ConceptAttribute::TABLE . '.object as label')
             ->where([
-                [ ConceptAttribute::TABLE . '.profile_property_id', 45, ],
-                [ Vocabulary::TABLE . '.agent_id', $projectId, ],
+                [ConceptAttribute::TABLE . '.profile_property_id', 45],
+                [Vocabulary::TABLE . '.agent_id', $projectId],
             ])
             ->orderBy(Vocabulary::TABLE . '.name')
             ->orderBy(ConceptAttribute::TABLE . '.language')
             ->orderBy(ConceptAttribute::TABLE . '.object')
             ->get()
-            ->mapWithKeys(function($item) {
+            ->mapWithKeys(function ($item) {
                 return [
                     $item->id . '_' . $item->language => $item->vocabulary .
                         ' - (' .
@@ -132,15 +132,15 @@ class Concept extends Model
     public function updateFromStatements(array $statements = null): self
     {
         $language   = $this->language;
-        if ( ! $statements) {
+        if (! $statements) {
             $s          = collect($this->statements->whereIn('profile_property_id', self::FORM_PROPERTIES)->toArray());
-            $s = $s->filter(function($item) use ($language) {
+            $s          = $s->filter(function ($item) use ($language) {
                 return $item['language'] === $language || $item['language'] === '';
-            })->keyBy(function($item) {
+            })->keyBy(function ($item) {
                 return $item['profile_property_id'];
             });
             $prefLabelId = $s->where('profile_property_id', 45)->first()['id'];
-            $statements = $s->map(function($item) {
+            $statements  = $s->map(function ($item) {
                 return $item['object'];
             });
             $statements['45-id'] = $prefLabelId;
@@ -160,7 +160,7 @@ class Concept extends Model
         }
         if (isset($statements['59'])) {
             $this->status_id =
-                is_numeric($statements['59'])? $statements['59']:
+                is_numeric($statements['59']) ? $statements['59'] :
                     Status::getByName($statements['59'])->id;
         }
 
@@ -207,6 +207,7 @@ class Concept extends Model
     {
         return $this->pref_label;
     }
+
     /*
     |--------------------------------------------------------------------------
     | MUTATORS

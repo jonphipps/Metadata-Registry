@@ -11,6 +11,6 @@ trait BelongsToRelatedElement
 {
     public function related_element(): ?BelongsTo
     {
-        return $this->belongsTo( Element::class, 'related_schema_property_id', 'id' );
+        return $this->belongsTo(Element::class, 'related_schema_property_id', 'id');
     }
 }

@@ -15,6 +15,7 @@ class ProjectPolicy
         if ($user->is_administrator) {
             return true;
         }
+
         return null;
     }
 
@@ -30,10 +31,10 @@ class ProjectPolicy
     {
         if ($project->is_private && $user->isMemberOfProject($project)) {
             return true;
-        };
-        if ( ! $project->is_private) {
+        }
+        if (! $project->is_private) {
             return true;
-        };
+        }
 
         return null;
     }
@@ -49,12 +50,10 @@ class ProjectPolicy
         return $user->isAdminForProjectId($project->id);
     }
 
-
     public function edit(User $user, Project $project): ?bool
     {
         return $this->update($user, $project);
     }
-
 
     public function delete(User $user, Project $project): ?bool
     {
@@ -68,7 +67,6 @@ class ProjectPolicy
 
     public function publish(User $user, Project $project = null): ?bool
     {
-        return ($project && $user->isAdminForProjectId($project->id));
+        return $project && $user->isAdminForProjectId($project->id);
     }
-
- }
+}

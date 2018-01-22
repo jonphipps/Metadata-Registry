@@ -30,15 +30,15 @@ return [
     'save'                 => '儲存',
 
     // Revisions
-    'revisions'            => '修訂版本',
-    'no_revisions'         => '找不到修訂版本',
+    'revisions'             => '修訂版本',
+    'no_revisions'          => '找不到修訂版本',
     'created_this'          => '建立的',
-    'changed_the'          => '更改了',
-    'restore_this_value'   => '回復這個值',
-    'from'                 => '由',
-    'to'                   => '到',
-    'undo'                 => '回復',
-    'revision_restored'    => '成功回復修訂版本',
+    'changed_the'           => '更改了',
+    'restore_this_value'    => '回復這個值',
+    'from'                  => '由',
+    'to'                    => '到',
+    'undo'                  => '回復',
+    'revision_restored'     => '成功回復修訂版本',
 
     // CRUD table view
     'all'                       => '全部 ',
@@ -85,7 +85,7 @@ return [
 
     // global crud - errors
     'unauthorized_access' => '未經授權的存取 - 您沒有權限瀏覽此頁面。',
-    'please_fix' => '請修正以下的錯誤：',
+    'please_fix'          => '請修正以下的錯誤：',
 
     // global crud - success / error notification bubbles
     'insert_success' => '這項紀錄已成功被新增。',
@@ -101,20 +101,20 @@ return [
 
     // CRUD yes/no
     'yes' => 'Yes',
-    'no' => 'No',
+    'no'  => 'No',
 
     // Fields
-    'browse_uploads' => '檢視已上傳的檔案',
-    'clear' => '清除',
-    'page_link' => '頁面連結',
-    'page_link_placeholder' => 'http://example.com/your-desired-page',
-    'internal_link' => '內部連結',
+    'browse_uploads'            => '檢視已上傳的檔案',
+    'clear'                     => '清除',
+    'page_link'                 => '頁面連結',
+    'page_link_placeholder'     => 'http://example.com/your-desired-page',
+    'internal_link'             => '內部連結',
     'internal_link_placeholder' => '內部連結短碼，例如: \'admin/page\' (no quotes) for \':url\'',
-    'external_link' => '外部連結',
-    'choose_file' => '選擇檔案',
+    'external_link'             => '外部連結',
+    'choose_file'               => '選擇檔案',
 
     //Table field
-    'table_cant_add' => '不能再增加 :entity',
+    'table_cant_add'    => '不能再增加 :entity',
     'table_max_reached' => '已達到 :max 項紀錄的上限',
 
 ];

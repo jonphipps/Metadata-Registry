@@ -14,9 +14,9 @@ return [
     */
 
     // Forms
-    'save_action_save_and_new' => 'Save and new item',
-    'save_action_save_and_edit' => 'Save and edit this item',
-    'save_action_save_and_back' => 'Save and back',
+    'save_action_save_and_new'         => 'Save and new item',
+    'save_action_save_and_edit'        => 'Save and edit this item',
+    'save_action_save_and_back'        => 'Save and back',
     'save_action_changed_notification' => 'Default behaviour after saving has been changed.',
 
     // Create form
@@ -98,7 +98,7 @@ return [
 
     // global crud - errors
         'unauthorized_access' => 'Unauthorized access - you do not have the necessary permissions to see that page.',
-        'please_fix' => 'Please fix the following errors:',
+        'please_fix'          => 'Please fix the following errors:',
 
     // global crud - success / error notification bubbles
         'insert_success' => 'The item has been added successfully.',
@@ -114,25 +114,25 @@ return [
 
     // CRUD yes/no
         'yes' => 'Yes',
-        'no' => 'No',
+        'no'  => 'No',
 
     // CRUD filters navbar view
-        'filters' => 'Filters',
+        'filters'        => 'Filters',
         'toggle_filters' => 'Toggle filters',
         'remove_filters' => 'Remove filters',
 
     // Fields
-        'browse_uploads' => 'Browse uploads',
-        'clear' => 'Clear',
-        'page_link' => 'Page link',
-        'page_link_placeholder' => 'http://example.com/your-desired-page',
-        'internal_link' => 'Internal link',
+        'browse_uploads'            => 'Browse uploads',
+        'clear'                     => 'Clear',
+        'page_link'                 => 'Page link',
+        'page_link_placeholder'     => 'http://example.com/your-desired-page',
+        'internal_link'             => 'Internal link',
         'internal_link_placeholder' => 'Internal slug. Ex: \'admin/page\' (no quotes) for \':url\'',
-        'external_link' => 'External link',
-        'choose_file' => 'Choose file',
+        'external_link'             => 'External link',
+        'choose_file'               => 'Choose file',
 
     //Table field
-        'table_cant_add' => 'Cannot add new :entity',
+        'table_cant_add'    => 'Cannot add new :entity',
         'table_max_reached' => 'Maximum number of :max reached',
 
     // File manager

@@ -6,7 +6,7 @@ use App\Models\Access\Permission\Traits\Relationship\PermissionRelationship;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * App\Models\Access\Permission\Permission
+ * App\Models\Access\Permission\Permission.
  *
  * @property int $id
  * @property string $name
@@ -37,14 +37,14 @@ class Permission extends Model
      *
      * @var array
      */
-    protected $fillable = [ 'name', 'display_name', 'sort' ];
+    protected $fillable = ['name', 'display_name', 'sort'];
 
     /**
      * @param array $attributes
      */
-    public function __construct( array $attributes = [] )
+    public function __construct(array $attributes = [])
     {
-        parent::__construct( $attributes );
-        $this->table = config( 'access.permissions_table' );
+        parent::__construct($attributes);
+        $this->table = config('access.permissions_table');
     }
 }

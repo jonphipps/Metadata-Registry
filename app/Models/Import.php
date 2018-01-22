@@ -1,4 +1,6 @@
-<?php namespace App\Models;
+<?php
+
+namespace App\Models;
 
 use App\Models\Traits\BelongsToElementset;
 use App\Models\Traits\BelongsToUser;
@@ -14,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\Import
+ * App\Models\Import.
  *
  * @property int $id
  * @property \Carbon\Carbon|null $created_at
@@ -88,7 +90,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Import extends Model
 {
-    const TABLE = 'reg_file_import_history';
+    const TABLE      = 'reg_file_import_history';
     protected $table = self::TABLE;
     use SoftDeletes, Blameable, CreatedBy;
     use CrudTrait;
@@ -100,8 +102,8 @@ class Import extends Model
         'deleted_at',
         'imported_at',
     ];
-    protected $guarded = [ 'id' ];
-    protected $casts = [
+    protected $guarded = ['id'];
+    protected $casts   = [
         'id'                    => 'integer',
         'map'                   => 'string',
         'user_id'               => 'integer',

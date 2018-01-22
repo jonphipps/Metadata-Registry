@@ -6,13 +6,13 @@ namespace App\Models\Traits;
 
 trait HasPrefixesList
 {
-    public function getPrefixesAttribute( $value )
+    public function getPrefixesAttribute($value)
     {
-        return unserialize( $value, [ true ] );
+        return unserialize($value, [true]);
     }
 
-    public function setPrefixesAttribute( $value )
+    public function setPrefixesAttribute($value)
     {
-        $this->attributes['prefixes'] = serialize( $value );
+        $this->attributes['prefixes'] = serialize($value);
     }
 }

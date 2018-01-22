@@ -31,9 +31,9 @@ class ImportCrudController extends CrudController
      */
     public $steps = [
         'spreadsheet' => SetSpreadsheetStep::class,
-        'worksheets' => SelectWorksheetsStep::class,
-        'approve' => ApproveImportStep::class,
-        'report' => DisplayResultsStep::class,
+        'worksheets'  => SelectWorksheetsStep::class,
+        'approve'     => ApproveImportStep::class,
+        'report'      => DisplayResultsStep::class,
     ];
     /**
      * @var Wizard
@@ -45,12 +45,12 @@ class ImportCrudController extends CrudController
      *
      * @throws \Smajti1\Laravel\Exceptions\StepNotFoundException
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->wizard = new Wizard($this->steps, $sessionKeyName = 'project-import');
 
-        view()->share([ 'wizard' => $this->wizard ]);
-
+        view()->share(['wizard' => $this->wizard]);
     }
 
     /**
@@ -95,8 +95,8 @@ class ImportCrudController extends CrudController
         // $this->crud->removeAllButtonsFromStack('line');
 
         // ------ CRUD ACCESS
-        $this->crud->allowAccess([ 'list', 'show' ]);
-        $this->crud->denyAccess([ 'create', 'update', 'delete', 'importProject' ]);
+        $this->crud->allowAccess(['list', 'show']);
+        $this->crud->denyAccess(['create', 'update', 'delete', 'importProject']);
 
         // ------ CRUD REORDER
         // $this->crud->enableReorder('label_name', MAX_TREE_LEVEL);
@@ -150,13 +150,14 @@ class ImportCrudController extends CrudController
     public function createBatch(ImportRequest $request, Project $project)
     {
         $this->policyAuthorize('import', $project, $project->id);
-        /** @var Batch $batch */
+        /* @var Batch $batch */
         if ($this->wizard->dataHas('batch_id')) {
             $batch = Batch::findOrFail($this->wizard->dataGet('batch_id'));
         } else {
-            $batch = Batch::make([ 'project_id' => $project->id ]);
+            $batch = Batch::make(['project_id' => $project->id]);
             $this->setWizardData('batch_id', $batch->id);
         }
+
         return $this->processImportProject($request, $project, $batch, $this->wizard->first()->key);
     }
 
@@ -174,7 +175,7 @@ class ImportCrudController extends CrudController
     {
         $this->policyAuthorize('import', $project, $project->id);
         //if we get to here we're authorized to import a project, so we authorize create
-        $this->crud->allowAccess([ 'create','edit' ]);
+        $this->crud->allowAccess(['create', 'edit']);
         try {
             if (null === $step) {
                 if (null === $batch->id) {
@@ -186,10 +187,8 @@ class ImportCrudController extends CrudController
             } else {
                 $step = $this->wizard->getBySlug($step);
             }
-        }
-        catch (StepNotFoundException $e) {
+        } catch (StepNotFoundException $e) {
             abort(404);
-
         }
         //we've jumped into a middle step of the sequence (we should always have worksheets after step 1)
         if ($step->number > 1 && ! $batch->dataHas('googlesheets')) {
@@ -208,19 +207,18 @@ class ImportCrudController extends CrudController
             $step->preProcess($request, $this->wizard);
         }
 
-
         $this->crud->setCreateView('frontend.import.project.wizard');
-        $this->crud->setRoute(config('backpack.base.route_prefix') . 'projects/' . $project->id );
-        $this->crud->addFields($step->fields(),'create');
-        $this->data['step']  = $step;
-        $this->data['project'] = $project;
-        $this->data['batch'] = $batch;
+        $this->crud->setRoute(config('backpack.base.route_prefix') . 'projects/' . $project->id);
+        $this->crud->addFields($step->fields(), 'create');
+        $this->data['step']        = $step;
+        $this->data['project']     = $project;
+        $this->data['batch']       = $batch;
         $this->data['wizard_data'] = $this->wizard->data();
-        if (isset( $this->wizard->data()[ $step->key ])){
-            $data = $this->wizard->data()[ $step->key ];
+        if (isset($this->wizard->data()[$step->key])) {
+            $data = $this->wizard->data()[$step->key];
             if ($step->key === 'spreadsheet') {
                 foreach ($data as $key => $datum) {
-                    $this->crud->create_fields[ $key ]['value'] = $datum;
+                    $this->crud->create_fields[$key]['value'] = $datum;
                 }
             }
             if ($step->key === 'worksheets') {
@@ -230,6 +228,7 @@ class ImportCrudController extends CrudController
                 $this->crud->create_fields['approve']['value'] = $data;
             }
         }
+
         return parent::create();
     }
 
@@ -247,11 +246,10 @@ class ImportCrudController extends CrudController
     {
         $this->policyAuthorize('import', $project, $project->id);
         //if we get to here we're authorized to import a project, so we authorize create
-        $this->crud->allowAccess([ 'create' ]);
+        $this->crud->allowAccess(['create']);
         try {
             $step = $this->wizard->getBySlug($step);
-        }
-        catch (StepNotFoundException $e) {
+        } catch (StepNotFoundException $e) {
             abort(404);
         }
 
@@ -268,15 +266,15 @@ class ImportCrudController extends CrudController
         //handle the next/last step
         $step->process($request);
 
-        $batch->step_data = $this->wizard->data();
-        $batch->next_step = $this->wizard->nextSlug();
+        $batch->step_data       = $this->wizard->data();
+        $batch->next_step       = $this->wizard->nextSlug();
         $batch->run_description = $batch->run_description ?? $this->wizard->dataGet('title');
         $batch->save();
 
         //and redirect to the next step if valid
         //$request->session()->save();
         return redirect()->route('frontend.project.import',
-            [ 'project' => $project->id, 'batch' => $batch, 'step' => $this->wizard->nextSlug() ]);
+            ['project' => $project->id, 'batch' => $batch, 'step' => $this->wizard->nextSlug()]);
     }
 
     /**
@@ -344,9 +342,9 @@ class ImportCrudController extends CrudController
         if ($key === false) {
             abort(404, 'Invalid Step');
         }
-        $steps[ $key ]['next'] = ($key < count($steps)) ? $steps[ $key + 1 ]['name'] : false;
+        $steps[$key]['next'] = ($key < count($steps)) ? $steps[$key + 1]['name'] : false;
 
-        return $steps[ $key ];
+        return $steps[$key];
     }
 
     /**
@@ -356,7 +354,7 @@ class ImportCrudController extends CrudController
     private function setWizardData($key, $value): void
     {
         $data         = $this->wizard->data();
-        $data[ $key ] = $value;
+        $data[$key]   = $value;
         $this->wizard->data($data);
     }
 }

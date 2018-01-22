@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\Omr\VocabularyUser
+ * App\Models\Omr\VocabularyUser.
  *
  * @property int $id
  * @property \Carbon\Carbon|null $created_at
@@ -43,8 +43,8 @@ class VocabularyUser extends Model
 {
     use SoftDeletes;
     protected $connection = 'mysql_omr';
-    protected $table = self::TABLE;
-    protected $dates = ['deleted_at'];
+    protected $table      = self::TABLE;
+    protected $dates      = ['deleted_at'];
 
     public const TABLE = 'reg_vocabulary_has_user';
 }

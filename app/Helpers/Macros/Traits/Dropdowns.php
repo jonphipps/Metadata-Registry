@@ -1316,6 +1316,7 @@ trait Dropdowns
         if ($hour == 0 && $minutes == 0) {
             $sign = ' ';
         }
+
         return $sign . str_pad($hour, 2, '0', STR_PAD_LEFT) . ':' . str_pad($minutes, 2, '0');
     }
 }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\Omr\Schema
+ * App\Models\Omr\Schema.
  *
  * @property int $id
  * @property int $agent_id
@@ -67,8 +67,8 @@ class Schema extends Model
 {
     use SoftDeletes;
     protected $connection = 'mysql_omr';
-    protected $table = self::TABLE;
-    protected $dates = ['deleted_at'];
+    protected $table      = self::TABLE;
+    protected $dates      = ['deleted_at'];
 
     public const TABLE = 'reg_schema';
 }

@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Frontend\Elementset;
 
-use Backpack\CRUD\app\Http\Controllers\CrudController;
-
-// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\Frontend\Elementset\ElementsetUserRequest as StoreRequest;
+// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\Frontend\Elementset\ElementsetUserRequest as UpdateRequest;
 use App\Models\ElementsetUser;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
 
 class ElementsetUserCrudController extends CrudController
 {

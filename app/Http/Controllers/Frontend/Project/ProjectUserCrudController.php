@@ -2,22 +2,19 @@
 
 namespace App\Http\Controllers\Frontend\Project;
 
-use App\Http\Traits\UsesPolicies;
-use App\Models\Access\User\User;
-use App\Models\Project;
-use Backpack\CRUD\app\Http\Controllers\CrudController;
-
-// VALIDATION: change the requests to match your own file names if you need form validation
 use App\Http\Requests\Frontend\Project\ProjectUserRequest as StoreRequest;
 use App\Http\Requests\Frontend\Project\ProjectUserRequest as UpdateRequest;
+use App\Http\Traits\UsesPolicies;
+use App\Models\Access\User\User;
+// VALIDATION: change the requests to match your own file names if you need form validation
+use App\Models\Project;
 use App\Models\ProjectUser;
+use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Route;
 
 /**
- * Class ProjectUserCrudController
- *
- * @package App\Http\Controllers\Frontend\Project
+ * Class ProjectUserCrudController.
  */
 class ProjectUserCrudController extends CrudController
 {
@@ -37,11 +34,11 @@ class ProjectUserCrudController extends CrudController
             // }
             if (request()->route()->getActionMethod() === 'search') {
                 ProjectUser::addGlobalScope('project_id',
-                    function(Builder $builder) use ($project_id) {
+                    function (Builder $builder) use ($project_id) {
                         $builder->where('agent_id', $project_id);
                     });
             }
-            $this->data['parent'] = $project->title . ' Project';
+            $this->data['parent']  = $project->title . ' Project';
             $this->data['project'] = $project;
             $this->crud->setEntityNameStrings('Member', 'Members');
         }
@@ -66,13 +63,13 @@ class ProjectUserCrudController extends CrudController
         ],
             'update');
         $this->crud->addField([
-            'name' => 'agent_id',
-            'type' => 'hidden',
+            'name'    => 'agent_id',
+            'type'    => 'hidden',
             'default' => $project_id,
         ]);
         $this->crud->addField([
-            'name' => 'is_registrar_for',
-            'type' => 'hidden',
+            'name'    => 'is_registrar_for',
+            'type'    => 'hidden',
             'default' => 1,
         ]);
         $userName    = '';
@@ -84,20 +81,20 @@ class ProjectUserCrudController extends CrudController
                     $userName = User::getCombinedName($user);
                 }
             }
-        };
+        }
         $this->crud->addField([  //plain
                                  'type'  => 'custom_html',
                                  'name'  => 'member_name',
                                  'value' => '<label>Member</label> <div>' . $userName . '</div>',
         ], 'update');
 
-        $projectUsers = isset($project_id) ? ProjectUser::whereAgentId($project_id)->get([ 'user_id' ])->keyBy('user_id') : [];
+        $projectUsers = isset($project_id) ? ProjectUser::whereAgentId($project_id)->get(['user_id'])->keyBy('user_id') : [];
 
         $this->crud->addField([  // Select2
-                                 'label'     => 'Member',
-                                 'type'      => 'select2_from_array',
-                                 'name'      => 'user_id',
-                                 'options'  => User::getUsersForSelect($projectUsers),
+                                 'label'       => 'Member',
+                                 'type'        => 'select2_from_array',
+                                 'name'        => 'user_id',
+                                 'options'     => User::getUsersForSelect($projectUsers),
                                  'allows_null' => true,
         ], 'create');
 
@@ -107,10 +104,10 @@ class ProjectUserCrudController extends CrudController
             'default' => ProjectUser::AUTH_VIEWER,
             'type'    => 'radio',
             'options' => [ // the key will be stored in the db, the value will be shown as label;
-                           ProjectUser::AUTH_VIEWER => 'Viewer ...canʼt maintain any of the projectʼs resources.',
+                           ProjectUser::AUTH_VIEWER              => 'Viewer ...canʼt maintain any of the projectʼs resources.',
                            ProjectUser::AUTH_LANGUAGE_MAINTAINER => 'Language Maintainer ...can only maintain the projectʼs languages listed below',
-                           ProjectUser::AUTH_MAINTAINER => 'Project Maintainer ...can maintain any of this projectʼs languages',
-                           ProjectUser::AUTH_ADMIN => 'Project Administrator ...can do anything related to this project',
+                           ProjectUser::AUTH_MAINTAINER          => 'Project Maintainer ...can maintain any of this projectʼs languages',
+                           ProjectUser::AUTH_ADMIN               => 'Project Administrator ...can do anything related to this project',
             ],
         ]);
         $this->crud->addField([
@@ -118,7 +115,7 @@ class ProjectUserCrudController extends CrudController
                 'label'           => 'Languages',
                 'type'            => 'select2_from_array',
                 'allows_null'     => false,
-                'default'         => [ config('app.locale') ],
+                'default'         => [config('app.locale')],
                 'allows_multiple' => true,
                 'options'         => $project->listLanguagesForSelect(),
                 'hint'            => 'All of the languages that this member is authorized to maintain<br />This can be set for each individual resource as well.',
@@ -144,28 +141,28 @@ class ProjectUserCrudController extends CrudController
 
         // ------ CRUD COLUMNS
         $this->crud->addColumn([
-            'label'     => 'Member Name',
-            'type'      => 'select',
-            'name'      => 'name',
-            'entity'    => 'user',
-            'attribute' => 'name',
-            'searchLogic' => function($query, $column, $searchTerm) {
+            'label'       => 'Member Name',
+            'type'        => 'select',
+            'name'        => 'name',
+            'entity'      => 'user',
+            'attribute'   => 'name',
+            'searchLogic' => function ($query, $column, $searchTerm) {
                 $query->orWhereHas('user',
-                    function($q) use ($column, $searchTerm) {
+                    function ($q) use ($column, $searchTerm) {
                         $q->where('first_name', 'like', '%' . $searchTerm . '%')
                             ->orWhere('last_name', 'like', '%' . $searchTerm . '%');
                     });
             },
             ])->afterColumn('user_id');
         $this->crud->addColumn([
-            'label'     => 'Member Nickname',
-            'type'      => 'select',
-            'name'      => 'nickname',
-            'entity'    => 'user',
-            'attribute' => 'nickname',
-            'searchLogic' => function($query, $column, $searchTerm) {
+            'label'       => 'Member Nickname',
+            'type'        => 'select',
+            'name'        => 'nickname',
+            'entity'      => 'user',
+            'attribute'   => 'nickname',
+            'searchLogic' => function ($query, $column, $searchTerm) {
                 $query->orWhereHas('user',
-                    function($q) use ($column, $searchTerm) {
+                    function ($q) use ($column, $searchTerm) {
                         $q->where('nickname', 'like', '%' . $searchTerm . '%');
                     });
             },
@@ -186,8 +183,8 @@ class ProjectUserCrudController extends CrudController
             ]);
         $this->crud->setColumnDetails('languages',
             [
-                'label' => 'Languages', // Table column heading
-                'type'  => 'model_function',
+                'label'         => 'Languages', // Table column heading
+                'type'          => 'model_function',
                 'function_name' => 'showLanguagesCommaDelimited',
             ]);
         $this->crud->setColumnDetails('is_registrar_for',
@@ -195,7 +192,7 @@ class ProjectUserCrudController extends CrudController
                 'label' => 'Registrar',
                 'type'  => 'boolean',
             ]);
-        $this->crud->setColumnsDetails(['agent_id','default_language'], ['list' => false]);
+        $this->crud->setColumnsDetails(['agent_id', 'default_language'], ['list' => false]);
         $this->crud->setColumnsDetails(['agent_id'], ['show' => false]);
 
         // ------ CRUD BUTTONS
@@ -212,7 +209,7 @@ class ProjectUserCrudController extends CrudController
         // ------ CRUD ACCESS
         $this->authorizeAll();
         //this authorizes access for not-logged-in users
-        $this->crud->allowAccess([ 'list', 'show' ]);
+        $this->crud->allowAccess(['list', 'show']);
 
         // ------ CRUD REORDER
         // $this->crud->enableReorder('label_name', MAX_TREE_LEVEL);
@@ -264,8 +261,8 @@ class ProjectUserCrudController extends CrudController
     {
         // your additional operations before save here
         //registrar is always 0 when project member is created this way
-        $request->merge([ 'is_registrar_for' => '0' ]);
-        $this->request->merge([ 'is_registrar_for' => '0' ]);
+        $request->merge(['is_registrar_for' => '0']);
+        $this->request->merge(['is_registrar_for' => '0']);
         $redirect_location = parent::storeCrud();
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry

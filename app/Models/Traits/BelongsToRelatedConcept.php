@@ -11,6 +11,6 @@ trait BelongsToRelatedConcept
 {
     public function related_concept(): BelongsTo
     {
-        return $this->belongsTo( Concept::class, 'related_concept_id', 'id' );
+        return $this->belongsTo(Concept::class, 'related_concept_id', 'id');
     }
 }

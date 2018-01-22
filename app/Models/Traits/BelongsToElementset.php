@@ -11,6 +11,6 @@ trait BelongsToElementset
 {
     public function elementset(): BelongsTo
     {
-        return $this->belongsTo( Elementset::class, 'schema_id', 'id' );
+        return $this->belongsTo(Elementset::class, 'schema_id', 'id');
     }
 }

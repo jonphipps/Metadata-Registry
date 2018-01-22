@@ -16,17 +16,17 @@ return [
     'backend' => [
         'access' => [
             'users' => [
-                'activate'           => 'تفعيل',
-                'change_password'    => 'تغيير كلمة المرور',
+                'activate'              => 'تفعيل',
+                'change_password'       => 'تغيير كلمة المرور',
                 'clear_session'         => 'Clear Session',
-                'confirm'             => 'Confirm',
-                'deactivate'         => 'تعطيل',
-                'delete_permanently' => 'حذف نهائي',
-                'login_as'           => 'تسجيل الدخول كـ :user',
-                'resend_email'       => 'إعادة إرسالة بريد التفعيل',
-                'restore_user'       => 'إستعادة المستخدم',
+                'confirm'               => 'Confirm',
+                'deactivate'            => 'تعطيل',
+                'delete_permanently'    => 'حذف نهائي',
+                'login_as'              => 'تسجيل الدخول كـ :user',
+                'resend_email'          => 'إعادة إرسالة بريد التفعيل',
+                'restore_user'          => 'إستعادة المستخدم',
                 'unconfirm'             => 'Un-confirm',
-                'unlink' => 'Unlink',
+                'unlink'                => 'Unlink',
             ],
         ],
     ],
@@ -39,7 +39,7 @@ return [
     ],
 
     'general' => [
-        'cancel' => 'إلغاء',
+        'cancel'   => 'إلغاء',
         'continue' => 'Continue',
 
         'crud' => [

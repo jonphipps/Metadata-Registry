@@ -2,8 +2,6 @@
 
 namespace App\Rules;
 
-use App\Services\Import\GoogleSpreadsheet;
-use Arcanedev\NoCaptcha\Exceptions\InvalidUrlException;
 use Illuminate\Validation\Validator;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 
@@ -20,6 +18,6 @@ class ValidateGoogleUrl
      */
     public function validateSheet($attribute, $sheetUrl, $parameters, $validator)
     {
-        return strpos($sheetUrl, "https://docs.google.com/spreadsheets") !== false;
+        return strpos($sheetUrl, 'https://docs.google.com/spreadsheets') !== false;
     }
 }

@@ -11,6 +11,6 @@ trait HasProfiles
 {
     public function profiles(): ?HasMany
     {
-        return $this->hasMany( Profile::class );
+        return $this->hasMany(Profile::class);
     }
 }

@@ -7,8 +7,8 @@ use Bugsnag;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Session\TokenMismatchException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Session\TokenMismatchException;
 use Illuminate\Support\Arr;
 use Whoops\Handler\PrettyPageHandler;
 
@@ -77,12 +77,12 @@ class Handler extends ExceptionHandler
             //todo: do something different for logged in user without sufficient credentials and not-logged-in user
             if (request()->project) {
                 return redirect()
-                    ->route('frontend.crud.projects.show', [ request()->project ])
+                    ->route('frontend.crud.projects.show', [request()->project])
                     ->withFlashDanger(trans('backpack::crud.unauthorized_access'));
             }
             if (request()->project_id) {
                 return redirect()
-                    ->route('frontend.crud.projects.show', [ request()->project_id ])
+                    ->route('frontend.crud.projects.show', [request()->project_id])
                     ->withFlashDanger(trans('backpack::crud.unauthorized_access'));
             }
 
@@ -123,12 +123,12 @@ class Handler extends ExceptionHandler
     protected function whoopsHandler()
     {
         return tap(new PrettyPageHandler,
-            function(PrettyPageHandler $handler) {
+            function (PrettyPageHandler $handler) {
                 $files = new Filesystem;
                 $handler->setEditor('phpstorm');
                 $handler->handleUnconditionally(true);
                 $handler->setApplicationPaths(array_flip(Arr::except(array_flip($files->directories(base_path())),
-                        [ base_path('vendor') ])));
+                        [base_path('vendor')])));
             });
     }
 }

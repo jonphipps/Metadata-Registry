@@ -12,14 +12,13 @@ use Google_Service_Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Smajti1\Laravel\Step;
-use Smajti1\Laravel\Wizard;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 
 class SetSpreadsheetStep extends Step
 {
     public static $label = 'Start with a Spreadsheet URL...';
-    public static $slug = 'spreadsheet';
-    public static $view = 'frontend.import.project.steps.spreadsheet';
+    public static $slug  = 'spreadsheet';
+    public static $view  = 'frontend.import.project.steps.spreadsheet';
     private $sheet;
     private $worksheets;
     private $title;
@@ -28,7 +27,7 @@ class SetSpreadsheetStep extends Step
     {
         $id                = $this->wizard->data()['project_id'];
         $batches           = Project::find($id)->importBatches;
-        $or = $batches->count() ? 'OR... <br>' : '';
+        $or                = $batches->count() ? 'OR... <br>' : '';
         $field_fileName    = [
             'name'  => 'source_file_name',
             'label' => $or . 'Link to New Google Spreadsheet',
@@ -37,7 +36,7 @@ class SetSpreadsheetStep extends Step
         $field_type        = [
             'name'    => 'import_type',
             'type'    => 'hidden',
-            'default' => 0
+            'default' => 0,
 
         ];
         // $field_type        = [
@@ -52,8 +51,8 @@ class SetSpreadsheetStep extends Step
         // ];
 
         if ($batches->count()) {
-            $batches           = $batches->pluck('step_data', 'run_description')->mapWithKeys(function($item, $key) {
-                return [ $item['spreadsheet']['source_file_name'] => $key ];
+            $batches           = $batches->pluck('step_data', 'run_description')->mapWithKeys(function ($item, $key) {
+                return [$item['spreadsheet']['source_file_name'] => $key];
             })->sort()->toArray();
             $field_sheetSelect = [
                 'name'        => 'source_file_select',
@@ -63,10 +62,10 @@ class SetSpreadsheetStep extends Step
                 'allows_null' => true,
             ];
 
-            return [ $field_sheetSelect, $field_fileName, $field_type ];
+            return [$field_sheetSelect, $field_fileName, $field_type];
         }
 
-        return [ $field_fileName, $field_type ];
+        return [$field_fileName, $field_type];
     }
 
     public function process(Request $request): void
@@ -74,7 +73,7 @@ class SetSpreadsheetStep extends Step
         //check to see if we have a batch
         //if no batch, create one and save the id to the session
         // save progress to session
-        $this->saveProgress($request, [ 'googlesheets' => $this->worksheets, 'title' => $this->title ]);
+        $this->saveProgress($request, ['googlesheets' => $this->worksheets, 'title' => $this->title]);
     }
 
     public function rules(Request $request = null): array
@@ -94,24 +93,23 @@ class SetSpreadsheetStep extends Step
     {
         $selectedSheet = $request->source_file_select ?? $request->source_file_name;
         if ($selectedSheet !== $request->source_file_name) {
-            $request->merge([ 'source_file_name' => $request->source_file_select ]);
+            $request->merge(['source_file_name' => $request->source_file_select]);
         }
 
         //here we validate the input from the step
         Validator::make($request->all(), $this->rules($request))->validate();
-        if ( ! is_readable(base_path('client_secret.json'))) {
+        if (! is_readable(base_path('client_secret.json'))) {
             throw new InvalidConfigurationException('The Google Spreadsheet Reader Service is not configured correctly');
         }
         $spread_worksheets = [];
         $spread_sheet      = new GoogleSpreadsheet($selectedSheet);
         try {
             $spread_worksheets = $spread_sheet->getWorksheets()->toArray();
-        }
-        catch (Google_Service_Exception $e) {
+        } catch (Google_Service_Exception $e) {
             //we know this is a 403 already, but we're doing this to take advantage of the validate() method's instant redirect
-            Validator::make([ 'code' => $e->getCode() ],
-                [ 'code' => 'not_in:403' ],
-                [ 'code.not_in' => 'The import service has not been authorized to read data from this spreadsheet' ])
+            Validator::make(['code' => $e->getCode()],
+                ['code'        => 'not_in:403'],
+                ['code.not_in' => 'The import service has not been authorized to read data from this spreadsheet'])
                 ->validate();
         }
         $this->sheet = $spread_sheet;
@@ -121,15 +119,15 @@ class SetSpreadsheetStep extends Step
         foreach ($spread_worksheets as $worksheet) {
             $sheet = Export::findByExportFileName($worksheet);
             if ($sheet) {
-                $worksheets[ $worksheet] = $sheet;
+                $worksheets[$worksheet] = $sheet;
             }
         }
 
         // run the worksheet reader
         // compare with known exports and generate a report
-        Validator::make([ 'worksheets' => $worksheets ],
-            [ 'worksheets' => 'required' ],
-            [ 'worksheets.required' => 'The supplied spreadsheet has no valid worksheets' ])->validate();
+        Validator::make(['worksheets' => $worksheets],
+            ['worksheets'          => 'required'],
+            ['worksheets.required' => 'The supplied spreadsheet has no valid worksheets'])->validate();
 
         $this->worksheets = $worksheets;
     }

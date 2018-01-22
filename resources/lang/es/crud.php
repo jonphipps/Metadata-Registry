@@ -14,9 +14,9 @@ return [
     */
 
     // Forms
-    'save_action_save_and_new' => 'Guardar y crear nuevo',
-    'save_action_save_and_edit' => 'Guardar y continuar editando',
-    'save_action_save_and_back' => 'Guardar y regresar',
+    'save_action_save_and_new'         => 'Guardar y crear nuevo',
+    'save_action_save_and_edit'        => 'Guardar y continuar editando',
+    'save_action_save_and_back'        => 'Guardar y regresar',
     'save_action_changed_notification' => 'La acción por defecto del botón guardar ha sido modificada.',
 
     // Create form
@@ -89,7 +89,7 @@ return [
 
     // global crud - errors
     'unauthorized_access' => 'Acceso denegado - usted no tiene los permisos necesarios para ver esta página.',
-    'please_fix' => 'Por favor corrija los siguientes errores:',
+    'please_fix'          => 'Por favor corrija los siguientes errores:',
 
     // global crud - success / error notification bubbles
     'insert_success' => 'El elemento ha sido añadido de manera correcta.',
@@ -105,15 +105,15 @@ return [
 
     // CRUD yes/no
     'yes' => 'Sí',
-    'no' => 'No',
+    'no'  => 'No',
 
     // Fields
-    'browse_uploads' => 'Subir archivos',
-    'clear' => 'Limpiar',
-    'page_link' => 'Enlace',
-    'page_link_placeholder' => 'http://example.com/su-pagina',
-    'internal_link' => 'Enlace interno',
+    'browse_uploads'            => 'Subir archivos',
+    'clear'                     => 'Limpiar',
+    'page_link'                 => 'Enlace',
+    'page_link_placeholder'     => 'http://example.com/su-pagina',
+    'internal_link'             => 'Enlace interno',
     'internal_link_placeholder' => 'Slug interno. Ejplo: \'admin/page\' (sin comillas) para \':url\'',
-    'external_link' => 'Enlace externo',
+    'external_link'             => 'Enlace externo',
 
 ];

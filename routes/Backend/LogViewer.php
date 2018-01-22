@@ -6,41 +6,41 @@
  */
 Route::prefix('log-viewer')
      ->group(function () {
-       Route::get('/',
+         Route::get('/',
            [
                'as'   => 'log-viewer::dashboard',
                'uses' => '\Arcanedev\LogViewer\Http\Controllers\LogViewerController@index',
            ]);
-       Route::prefix('logs')
+         Route::prefix('logs')
             ->group(function () {
-              Route::get('/',
+                Route::get('/',
                   [
                       'as'   => 'log-viewer::logs.list',
                       'uses' => '\Arcanedev\LogViewer\Http\Controllers\LogViewerController@listLogs',
                   ]);
-              Route::delete('delete',
+                Route::delete('delete',
                   [
                       'as'   => 'log-viewer::logs.delete',
                       'uses' => '\Arcanedev\LogViewer\Http\Controllers\LogViewerController@delete',
                   ]);
             });
-       Route::prefix('{date}')
+         Route::prefix('{date}')
             ->group(function () {
-              Route::get('/',
+                Route::get('/',
                   [
                       'as'   => 'log-viewer::logs.show',
                       'uses' => '\Arcanedev\LogViewer\Http\Controllers\LogViewerController@show',
                   ]);
-              Route::get('/all',
+                Route::get('/all',
                   function ($date) {
-                    return redirect()->route('admin.log-viewer::logs.show', [ $date ]);
+                      return redirect()->route('admin.log-viewer::logs.show', [$date]);
                   });
-              Route::get('download',
+                Route::get('download',
                   [
                       'as'   => 'log-viewer::logs.download',
                       'uses' => '\Arcanedev\LogViewer\Http\Controllers\LogViewerController@download',
                   ]);
-              Route::get('{level}',
+                Route::get('{level}',
                   [
                       'as'   => 'log-viewer::logs.filter',
                       'uses' => '\Arcanedev\LogViewer\Http\Controllers\LogViewerController@showByLevel',
