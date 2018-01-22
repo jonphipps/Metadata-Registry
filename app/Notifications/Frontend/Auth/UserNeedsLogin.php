@@ -19,8 +19,17 @@ class UserNeedsLogin extends Notification
 
     public $users;
 
+    /**
+     * UserNeedsLogin constructor.
+     *
+     * @param $users
+     */
+    public function __construct($users)
+    {
+        $this->users = $users;
+    }
 
-  /**
+    /**
    * Get the notification's channels.
    *
    * @param  mixed $notifiable

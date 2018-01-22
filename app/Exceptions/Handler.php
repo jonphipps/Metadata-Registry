@@ -102,9 +102,10 @@ class Handler extends ExceptionHandler
     /**
      * Convert an authentication exception into an unauthenticated response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Auth\AuthenticationException  $exception
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request                 $request
+     * @param  \Illuminate\Auth\AuthenticationException $exception
+     *
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
      */
     protected function unauthenticated($request, AuthenticationException $exception)
     {
@@ -115,6 +116,10 @@ class Handler extends ExceptionHandler
         return redirect()->guest(route('frontend.auth.login'));
     }
 
+    /**
+     * @return mixed|\Whoops\Handler\Handler
+     * @throws \InvalidArgumentException
+     */
     protected function whoopsHandler()
     {
         return tap(new PrettyPageHandler,

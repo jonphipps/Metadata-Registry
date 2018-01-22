@@ -57,6 +57,7 @@ if (! function_exists('includeRouteFiles')) {
     {
         try {
             $rdi = new recursiveDirectoryIterator($folder);
+            /** @var DirectoryIterator $it */
             $it = new recursiveIteratorIterator($rdi);
 
             while ($it->valid()) {

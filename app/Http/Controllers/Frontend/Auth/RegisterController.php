@@ -19,6 +19,7 @@ class RegisterController extends Controller
      * @var UserRepository
      */
     protected $user;
+    protected $redirectTo;
 
     /**
      * RegisterController constructor.
@@ -36,7 +37,7 @@ class RegisterController extends Controller
     /**
      * Show the application registration form.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function showRegistrationForm()
     {
@@ -47,6 +48,8 @@ class RegisterController extends Controller
      * @param RegisterRequest $request
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Exception
+     * @throws \Throwable
      */
     public function register(RegisterRequest $request)
     {

@@ -11,7 +11,7 @@ trait Languages
     {
         //todo: cache all of the ??.dat language files and check relative speed of retrieval
         $languages =
-            unserialize( file_get_contents( base_path( 'data/symfony/i18n/en.dat' ), "r" ),
+            unserialize( file_get_contents( base_path( 'data/symfony/i18n/en.dat' )),
                 [ true ] )['Languages'];
         foreach ( $languages as $key => $value ) {
             Cache::forever( 'language_' . $key, $value[0] );
