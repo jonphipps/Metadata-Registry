@@ -165,10 +165,9 @@ class ImportCrudController extends CrudController
      * @param Request $request
      * @param Project $project
      * @param Batch   $batch
-     * @param null    $step
+     * @param int|null     $step
      *
-     * @return \Backpack\CRUD\app\Http\Controllers\Response
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function importProject(Request $request, Project $project, Batch $batch, $step = null)
@@ -177,8 +176,8 @@ class ImportCrudController extends CrudController
         //if we get to here we're authorized to import a project, so we authorize create
         $this->crud->allowAccess(['create', 'edit']);
         try {
-            if (null === $step) {
-                if (null === $batch->id) {
+            if ($step === null) {
+                if ($batch->id === null) {
                     $step = $this->wizard->first();
                     $this->wizard->data([]);
                 } else {

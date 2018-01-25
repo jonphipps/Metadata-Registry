@@ -84,7 +84,7 @@ if (! function_exists('laravel_link_to_action')) {
         function getLanguageListFromSymfony($culture = 'en')
         {
             //we should get the culture to get the correct file, but default to English
-            $c       = unserialize(file_get_contents(base_path("/data/symfony/i18n/{$culture}.dat"), 'r'), [true]);
+            $c       = unserialize(file_get_contents(base_path("/data/symfony/i18n/{$culture}.dat")), [true]);
             $options = [];
 
             foreach ($c['Languages'] as $key => $value) {
@@ -97,7 +97,7 @@ if (! function_exists('laravel_link_to_action')) {
 
     if (! function_exists('initSymfonyEnv')) {
         /**
-         * @return sfContext
+         * @return void
          */
         function initSymfonyEnv()
         {
@@ -107,7 +107,7 @@ if (! function_exists('laravel_link_to_action')) {
                 define('SF_DEBUG', env('SF_DEBUG', 'false'));
             }
             if (! defined('SF_ROOT_DIR')) {
-                define('SF_ROOT_DIR', env('SF_ROOT_DIR', app()->basePath()));
+                define('SF_ROOT_DIR', env('SF_ROOT_DIR', base_path()));
             }
         }
     }
