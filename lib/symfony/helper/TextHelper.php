@@ -196,22 +196,18 @@ if (!defined('SF_AUTO_LINK_RE'))
 /**
  * Turns all urls into clickable links.
  */
-function _auto_link_urls($text, $href_options = array())
+function _auto_link_urls($text, $href_options = [])
 {
-  $href_options = _tag_options($href_options);
-  return preg_replace_callback(
-    SF_AUTO_LINK_RE,
-    create_function('$matches', '
-      if (preg_match("/<a\s/i", $matches[1]))
-      {
-        return $matches[0];
-      }
-      else
-      {
-        return $matches[1].\'<a href="\'.($matches[2] == "www." ? "http://www." : $matches[2]).$matches[3].\'"'.$href_options.'>\'.$matches[2].$matches[3].\'</a>\'.$matches[4];
-      }
-    ')
-  , $text);
+    $href_options = _tag_options($href_options);
+
+    return preg_replace_callback(SF_AUTO_LINK_RE,
+        function ($matches) use ($href_options) {
+            if (preg_match("/<a\s/i", $matches[1])) {
+                return $matches[0];
+            }
+            return $matches[1] . '<a href="' . ($matches[2] === 'www.' ? 'http://www.' : $matches[2]) . $matches[3] . '" ' . $href_options . '>' . $matches[2] . $matches[3] . '</a>' . $matches[4];
+        },
+        $text);
 }
 
 /**

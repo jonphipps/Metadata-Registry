@@ -192,7 +192,9 @@ function _get_propel_object_list($object, $method, $options)
 
   $objects = sfPropelManyToMany::getAllObjects($object, $through_class);
   $objects_associated = sfPropelManyToMany::getRelatedObjects($object, $through_class);
-  $ids = array_map(create_function('$o', 'return $o->getPrimaryKey();'), $objects_associated);
+    $ids = array_map(function ($o) {
+        return $o->getPrimaryKey();
+    }, $objects_associated);
 
   return array($objects, $objects_associated, $ids);
 }
