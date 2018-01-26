@@ -184,6 +184,10 @@ class Breadcrumb
      */
     public static function conceptPropertyFactory($conceptProperty, $show = false)
     {
+        if($conceptProperty === null){
+            return '';
+        }
+
         $breadcrumb = new Breadcrumb('Statements',
                                      '@concept_conceptprop_list?concept_id=' . $conceptProperty->getConceptId(),
                                      $conceptProperty->getProfileProperty()->getLabel(),
@@ -205,6 +209,9 @@ class Breadcrumb
      */
     public static function conceptFactory($concept, $show = false)
     {
+        if ($concept === null) {
+            return '';
+        }
         $breadcrumb = new Breadcrumb('Concepts',
                                      '@vocabulary_concept_list?vocabulary_id=' . $concept->getVocabularyId(),
                                      $concept->getPrefLabel(),

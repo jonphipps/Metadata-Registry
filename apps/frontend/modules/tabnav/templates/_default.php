@@ -1,12 +1,15 @@
 <?php
 //get the current module/action
 /** @var sfParameterHolder $sf_params */
-$module = $sf_params->get('module');
-$action = $sf_params->get('action');
-$route  = sfRouting::getInstance()->getCurrentInternalUri(true);
+
+use apps\frontend\lib\Breadcrumb;
+
+$module           = $sf_params->get('module');
+$action           = $sf_params->get('action');
+$route            = sfRouting::getInstance()->getCurrentInternalUri(true);
 $breadcrumbPrefix = '';
-$metaAction = '';
-$title = '';
+$metaAction       = '';
+$title            = '';
 
 //which tab are we showing?
 if (isset( $tabs )) {
@@ -34,37 +37,39 @@ if (isset( $breadcrumbs) && count( $breadcrumbs )): ?>
         for ($i = 0; $i <= count($breadcrumbs)-1; $i++) {
             /** @var \apps\frontend\lib\Breadcrumb $breadcrumb */
             $breadcrumb = $breadcrumbs[$i];
-            if ($breadcrumb->getEntityTypeUrl()) {
-                $url = $breadcrumb->getEntityTypeUrl();
-                $html .= $spaces;
-                $filterParam = '';
+            if ($breadcrumb instanceof Breadcrumb) {
+                if ($breadcrumb->getEntityTypeUrl()) {
+                    $url         = $breadcrumb->getEntityTypeUrl();
+                    $html        .= $spaces;
+                    $filterParam = '';
 
-                $namespace = $breadcrumb->getNamespace();
-                if ($namespace) {
-                    $filters = $sf_user->getAttributeHolder()->getAll('sf_admin/' . $namespace . '/filters');
-                    if (count($filters)) {
-                        foreach ($filters as $index => $item) {
-                            if ($item) {
-                                if (isset( $breadcrumb->getFilters()[$index] )) {
-                                    $url = $breadcrumb->getFilters()[$index] . $item;
-                                } else {
-                                    $filterParam .= "$index=$item";
+                    $namespace = $breadcrumb->getNamespace();
+                    if ($namespace) {
+                        $filters = $sf_user->getAttributeHolder()->getAll('sf_admin/' . $namespace . '/filters');
+                        if (count($filters)) {
+                            foreach ($filters as $index => $item) {
+                                if ($item) {
+                                    if (isset($breadcrumb->getFilters()[$index])) {
+                                        $url = $breadcrumb->getFilters()[$index] . $item;
+                                    } else {
+                                        $filterParam .= "$index=$item";
+                                    }
                                 }
                             }
                         }
                     }
+
+                    $options = empty($filterParam) ? '' : ['query_string' => $filterParam];
+
+                    $html  .= sf_link_to(__s($breadcrumb->getEntityTypeLabel()) . ':&nbsp;', $url, $options);
+                    $html  =
+                        empty($breadcrumb->getEntityUrl()) ? $html . $breadcrumbPrefix . '"' . __s($breadcrumb->getEntityLabel() . '"') :
+                            $html . sf_link_to('"' . __s($breadcrumb->getEntityLabel() . '"'), $breadcrumb->getEntityUrl());
+                    $title = __s($breadcrumb->getEntityLabel());
+                } else { //There's just a top level list
+                    $title = __s($breadcrumb->getEntityTypeLabel());
+                    $html  .= $title;
                 }
-
-                $options = empty($filterParam) ? '' : [ 'query_string' => $filterParam ];
-
-                $html .= sf_link_to(__s($breadcrumb->getEntityTypeLabel()) . ':&nbsp;', $url, $options);
-                $html = empty( $breadcrumb->getEntityUrl() )
-                    ? $html . $breadcrumbPrefix . '"' . __s($breadcrumb->getEntityLabel() . '"')
-                    : $html . sf_link_to('"' . __s($breadcrumb->getEntityLabel() . '"'), $breadcrumb->getEntityUrl());
-                $title = __s($breadcrumb->getEntityLabel());
-            } else { //There's just a top level list
-                $title = __s($breadcrumb->getEntityTypeLabel());
-                $html .= $title;
             }
             $html .= "<br>\n";
             $spaces .= "&nbsp;&nbsp;";
