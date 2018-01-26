@@ -75,6 +75,7 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
   {
     if (!$this-><?php echo $this->getSingularName() ?>)
     {
+      \sfPropelParanoidBehavior::disable();
 <?php $showPeer = $this->getParameterValue('show.peer_method'); ?>
 <?php if ($showPeer): ?>
       $c = new Criteria();
