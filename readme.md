@@ -1,3 +1,7 @@
+[![Build Status](https://circleci.com/gh/jonphipps/Metadata-Registry/tree/stage.svg?style=shield&circle-token=d34aa938838a61715091521dc01e5b32c4b11d91)](https://circleci.com/gh/jonphipps/Metadata-Registry)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jonphipps/Metadata-Registry/badges/quality-score.png?b=beta)](https://scrutinizer-ci.com/g/jonphipps/Metadata-Registry/?branch=beta)
+[![Waffle.io - Columns and their card count](https://badge.waffle.io/jonphipps/Metadata-Registry.svg?columns=all)](https://waffle.io/jonphipps/Metadata-Registry)
+
 Symfony is a complete framework designed to optimize the development of web applications by way of several key features.
 For starters, it separates a web application's business rules, server logic, and presentation views.
 It contains numerous tools and classes aimed at shortening the development time of a complex web application.
@@ -12,7 +16,7 @@ It runs on *nix and Windows platforms.
 LICENSE
 -------
 
-see LICENSE file
+MIT -- see LICENSE file
 
 INSTALLATION
 ------------

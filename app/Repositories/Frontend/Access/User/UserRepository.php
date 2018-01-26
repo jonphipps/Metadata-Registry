@@ -21,7 +21,6 @@ class UserRepository extends BaseRepository
      * Associated Repository Model.
      */
     public const MODEL = User::class;
-
     /**
      * @var RoleRepository
      */
@@ -59,7 +58,6 @@ class UserRepository extends BaseRepository
      * @param $token
      *
      * @return User|null
-     * @throws GeneralException
      */
     public function findByConfirmationToken($token): ?User
     {
@@ -86,7 +84,6 @@ class UserRepository extends BaseRepository
      * @param $token
      *
      * @throws GeneralException
-     *
      * @return mixed
      */
     public function getEmailForPasswordToken($token)
@@ -107,13 +104,14 @@ class UserRepository extends BaseRepository
      * @param array $data
      * @param bool  $provider
      *
-     * @return static
+     * @return \App\Models\Access\User\User
      * @throws \Exception
      * @throws \Throwable
      */
     public function create(array $data, $provider = false)
     {
         $user                    = self::MODEL;
+        /** @var User $user */
         $user                    = new $user();
         $user->first_name        = $data['first_name'];
         $user->last_name         = $data['last_name'];
@@ -122,7 +120,7 @@ class UserRepository extends BaseRepository
         $user->confirmation_code = md5(uniqid(mt_rand(), true));
         $user->status            = 1;
         $user->password          = $provider ? null : bcrypt($data['password']);
-        $confirm             = false; // Whether or not they get an e-mail to confirm their account
+        $confirm                 = false; // Whether or not they get an e-mail to confirm their account
 
         // If users require approval, confirmed is false regardless of account type
         if (config('access.users.requires_approval')) {
@@ -165,6 +163,7 @@ class UserRepository extends BaseRepository
         /*
          * Return the user object
          */
+
         return $user;
     }
 
@@ -172,8 +171,8 @@ class UserRepository extends BaseRepository
      * @param $data
      * @param $provider
      *
-     * @return UserRepository|bool
-     * @throws GeneralException
+     * @return \App\Models\Access\User\User|null
+     * @throws \App\Exceptions\GeneralException
      * @throws \Exception
      * @throws \Throwable
      */
@@ -200,28 +199,29 @@ class UserRepository extends BaseRepository
             $nameParts = $this->getNameParts($data->getName());
 
             $user = $this->create([
-          'first_name'  => $nameParts['first_name'],
-          'last_name'   => $nameParts['last_name'],
-          'nickname'    => $data->nickname,
-          'email'       => $user_email,
-            ], true);
+                'first_name' => $nameParts['first_name'],
+                'last_name'  => $nameParts['last_name'],
+                'nickname'   => $data->nickname,
+                'email'      => $user_email,
+            ],
+                true);
         }
 
         // See if the user has logged in with this social account before
         if (! $user->hasProvider($provider)) {
             // Gather the provider data for saving and associate it with the user
             $user->providers()->save(new SocialLogin([
-          'provider'    => $provider,
-          'provider_id' => $data->id,
-          'token'       => $data->token,
-          'avatar'      => $data->avatar,
-      ]));
+                'provider'    => $provider,
+                'provider_id' => $data->id,
+                'token'       => $data->token,
+                'avatar'      => $data->avatar,
+            ]));
         } else {
             // Update the users information, token and avatar can be updated.
             $user->providers()->update([
-          'token'  => $data->token,
-          'avatar' => $data->avatar,
-      ]);
+                'token'  => $data->token,
+                'avatar' => $data->avatar,
+            ]);
         }
 
         // Return the user object
@@ -259,7 +259,6 @@ class UserRepository extends BaseRepository
      * @param $input
      *
      * @throws GeneralException
-     *
      * @return mixed
      */
     public function updateProfile($id, $input)
@@ -280,7 +279,7 @@ class UserRepository extends BaseRepository
                 // Force the user to re-verify his email address
                 $user->confirmation_code = md5(uniqid(mt_rand(), true));
                 $user->confirmed         = 0;
-                $user->email                     = $input['email'];
+                $user->email             = $input['email'];
                 $updated                 = $user->save();
 
                 // Send the new confirmation e-mail
@@ -300,7 +299,6 @@ class UserRepository extends BaseRepository
      * @param $input
      *
      * @throws GeneralException
-     *
      * @return mixed
      */
     public function changePassword($input)
@@ -325,7 +323,7 @@ class UserRepository extends BaseRepository
     {
         $parts = array_values(array_filter(explode(' ', $fullName)));
 
-        $size = count($parts);
+        $size = \count($parts);
 
         $result = [];
 

@@ -183,13 +183,15 @@ class conceptpropActions extends autoConceptpropActions
     return $this->concept->getVocabulary()->getId();
   }
 
-  /**
-  * gets the current vocabulary object
-  *
-  * @return vocabulary current vocabulary object
-  */
+    /**
+     * gets the current vocabulary object
+     *
+     * @return vocabulary current vocabulary object
+     * @throws \PropelException
+     */
   public function getCurrentConcept()
   {
+      \sfPropelParanoidBehavior::disable();
     //TODO: Redo this temporary fix to retrieving the current concept and vocabulary
     //$concept = myActionTools::findCurrentConcept();
 

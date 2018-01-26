@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Export as ExportHistory;
 use Illuminate\Bus\Queueable;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -19,7 +20,7 @@ class Export implements ShouldQueue
      *
      * @throws \PropelException
      */
-    public function __construct(\ExportHistory $export)
+    public function __construct(ExportHistory $export)
     {
         //new up a laravel container
         Container::setInstance(new Container);
