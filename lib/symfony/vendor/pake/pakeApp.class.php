@@ -381,13 +381,15 @@ class pakeApp
       throw new pakeException('Wrong argument type (must be a list, a string or a pakeFinder object).');
     }
 
-    if ($relative && $target_dir)
-    {
-      $files = preg_replace('/^'.preg_quote(realpath($target_dir), '/').'/', '', $files);
+      if ($relative && $target_dir) {
+          $files = preg_replace('/^' . preg_quote(realpath($target_dir), '/') . '/', '', $files);
 
-      // remove leading /
-      $files = array_map(create_function('$f', 'return 0 === strpos($f, DIRECTORY_SEPARATOR) ? substr($f, 1) : $f;'), $files);
-    }
+          // remove leading /
+          $files = array_map(function ($f) {
+              return strpos($f, DIRECTORY_SEPARATOR) === 0 ? substr($f, 1) : $f;
+          },
+              $files);
+      }
 
     return $files;
   }

@@ -375,10 +375,14 @@ class sfToolkit
    * @param string $value the value to perform the replacement on
    * @return string the value with substitutions made
    */
-  public static function replaceConstants($value)
-  {
-    return is_string($value) ? preg_replace_callback('/%(.+?)%/', create_function('$v', 'return sfConfig::has(strtolower($v[1])) ? sfConfig::get(strtolower($v[1])) : "%{$v[1]}%";'), $value) : $value;
-  }
+    public static function replaceConstants($value)
+    {
+        return is_string($value) ? preg_replace_callback('/%(.+?)%/',
+            function ($v) {
+                return sfConfig::has(strtolower($v[1])) ? sfConfig::get(strtolower($v[1])) : "%{$v[1]}%";
+            },
+            $value) : $value;
+    }
 
   /**
    * Returns subject replaced with regular expression matches
