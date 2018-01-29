@@ -10,13 +10,14 @@
  */
 class conceptpropActions extends autoConceptpropActions
 {
-  /**
-  * extends parent preExecute method
-  *
-  */
+    /**
+     * extends parent preExecute method
+     *
+     * @throws \PropelException
+     */
   public function preExecute ()
   {
-    if ('search' != $this->getRequestParameter('action'))
+    if ($this->getRequestParameter('action') !== 'search')
     {
       $this->getCurrentConcept();
     }

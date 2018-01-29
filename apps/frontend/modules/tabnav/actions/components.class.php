@@ -172,6 +172,9 @@ class tabnavComponents extends sfComponents
   {
     $id            = $this->getRequestParameter('id');
     $schemaHasUser = $this->schema_has_user;
+    if(!$schemaHasUser){
+        $schemaHasUser = SchemaHasUserPeer::retrieveByPK($id);
+    }
     $schema        = $schemaHasUser->getSchema();
     $member        = $schemaHasUser->getUser();
     $requestStack  = $this->getUser()->getAttribute('request_stack', '', 'sfRefererPlugin');
