@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 
 /**
- * App\Models\Profile.
+ * App\Models\Profile
  *
  * @property int $id
  * @property \Carbon\Carbon|null $created_at

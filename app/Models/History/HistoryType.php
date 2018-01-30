@@ -5,7 +5,7 @@ namespace App\Models\History;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * App\Models\History\HistoryType.
+ * App\Models\History\HistoryType
  *
  * @property int $id
  * @property string $name

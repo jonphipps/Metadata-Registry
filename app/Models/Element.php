@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Matryoshka\Cacheable;
 
 /**
- * App\Models\Element.
+ * App\Models\Element
  *
  * @property int $id
  * @property \Carbon\Carbon|null $created_at

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * App\Models\Batch.
+ * App\Models\Batch
  *
  * @property int $id
  * @property \Carbon\Carbon|null $run_time

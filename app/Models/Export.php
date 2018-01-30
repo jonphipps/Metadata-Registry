@@ -20,7 +20,7 @@ use function is_iterable;
 use function unserialize;
 
 /**
- * App\Models\Export.
+ * App\Models\Export
  *
  * @property int $id
  * @property \Carbon\Carbon|null $created_at

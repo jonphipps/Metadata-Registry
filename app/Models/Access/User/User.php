@@ -20,7 +20,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 /**
- * App\Models\Access\User\User.
+ * App\Models\Access\User\User
  *
  * @property int $id
  * @property \Carbon\Carbon|null $created_at

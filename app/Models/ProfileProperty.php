@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\ProfileProperty.
+ * App\Models\ProfileProperty
  *
  * @property int $id
  * @property int $skos_id

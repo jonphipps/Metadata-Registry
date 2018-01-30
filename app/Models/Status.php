@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model as Model;
 
 /**
- * App\Models\Status.
+ * App\Models\Status
  *
  * @property int $id
  * @property int|null $display_order

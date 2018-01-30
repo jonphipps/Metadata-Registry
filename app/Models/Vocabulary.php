@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * App\Models\Vocabulary.
+ * App\Models\Vocabulary
  *
  * @property int $id
  * @property \Carbon\Carbon|null $created_at

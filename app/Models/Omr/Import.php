@@ -5,7 +5,7 @@ namespace App\Models\Omr;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * App\Models\Omr\Import.
+ * App\Models\Omr\Import
  *
  * @property int $id
  * @property \Carbon\Carbon|null $created_at

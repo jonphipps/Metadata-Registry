@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\Releasable.
+ * App\Models\Releasable
  *
  * @property int $id
  * @property \Carbon\Carbon|null $created_at

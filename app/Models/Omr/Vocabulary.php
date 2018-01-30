@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\Omr\Vocabulary.
+ * App\Models\Omr\Vocabulary
  *
  * @property int $id
  * @property int $agent_id

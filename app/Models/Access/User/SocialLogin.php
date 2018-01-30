@@ -5,7 +5,7 @@ namespace App\Models\Access\User;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * App\Models\Access\User\SocialLogin.
+ * App\Models\Access\User\SocialLogin
  *
  * @property int $id
  * @property int|null $user_id

@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\VocabularyUser.
+ * App\Models\VocabularyUser
  *
  * @property int $id
  * @property \Carbon\Carbon|null $created_at

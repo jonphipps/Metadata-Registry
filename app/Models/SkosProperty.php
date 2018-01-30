@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * App\Models\SkosProperty.
+ * App\Models\SkosProperty
  *
  * @property int $id
  * @property string|null $created_at
