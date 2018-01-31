@@ -349,7 +349,7 @@ abstract class sfAdminGenerator extends sfCrudGenerator
     }
     else if ($column->isPartial())
     {
-      return "get_partial('".$column->getName()."', array('type' => 'edit', '{$this->getSingularName()}' => \${$this->getSingularName()}))";
+      return "get_partial('".$column->getName()."', array('mode' => \$mode, 'type' => 'edit', '{$this->getSingularName()}' => \${$this->getSingularName()}))";
     }
 
     // default control name
