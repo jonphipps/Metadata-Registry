@@ -54,6 +54,9 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
     // pager
     $this->pager = new sfPropelPager('<?php echo $this->getClassName() ?>', <?php echo $this->getParameterValue('list.max_per_page', 20) ?>);
     $c = new Criteria();
+    if(defined ('<?php echo $this->getClassName() ?>Peer::DELETED_AT')) {
+        $c->add(<?php echo $this->getClassName() ?>Peer::DELETED_AT, null, Criteria::ISNULL);
+    }
     $this->addSortCriteria($c);
     $this->addFiltersCriteria($c);
     $this->pager->setCriteria($c);
