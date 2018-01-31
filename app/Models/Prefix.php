@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model as Model;
 
 /**
- * App\Models\Prefix.
+ * App\Models\Prefix
  *
  * @property string $prefix
  * @property string $uri

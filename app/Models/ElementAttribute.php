@@ -22,7 +22,7 @@ use Venturecraft\Revisionable\RevisionableTrait;
 use function config;
 
 /**
- * App\Models\ElementAttribute.
+ * App\Models\ElementAttribute
  *
  * @property int $id
  * @property \Carbon\Carbon|null $created_at

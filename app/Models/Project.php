@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Laracasts\Matryoshka\Cacheable;
 
 /**
- * App\Models\Project.
+ * App\Models\Project
  *
  * @property int $id
  * @property string|null $description

@@ -9,7 +9,7 @@ use App\Models\Access\Role\Traits\Scope\RoleScope;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * App\Models\Access\Role\Role.
+ * App\Models\Access\Role\Role
  *
  * @property int $id
  * @property string $name

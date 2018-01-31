@@ -6,7 +6,7 @@ use App\Models\History\Traits\Relationship\HistoryRelationship;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * App\Models\History\History.
+ * App\Models\History\History
  *
  * @property int $id
  * @property int|null $type_id

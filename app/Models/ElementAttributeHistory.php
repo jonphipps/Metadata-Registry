@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laracasts\Matryoshka\Cacheable;
 
 /**
- * App\Models\ElementAttributeHistory.
+ * App\Models\ElementAttributeHistory
  *
  * @property int $id
  * @property \Carbon\Carbon|null $created_at

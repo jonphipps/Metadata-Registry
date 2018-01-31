@@ -5,7 +5,7 @@ namespace App\Models\Access\User;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * App\Models\Access\User\SocialLogin.
+ * App\Models\Access\User\SocialLogin
  *
  * @property int $id
  * @property int|null $user_id
@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $avatar
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
+ * @property-read \App\Models\Access\User\User|null $user
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\User\SocialLogin whereAvatar($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\User\SocialLogin whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\User\SocialLogin whereId($value)
@@ -40,4 +41,9 @@ class SocialLogin extends Model
      * @var array
      */
     protected $fillable = ['user_id', 'provider', 'provider_id', 'token', 'avatar'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\Import.
+ * App\Models\Import
  *
  * @property int $id
  * @property \Carbon\Carbon|null $created_at

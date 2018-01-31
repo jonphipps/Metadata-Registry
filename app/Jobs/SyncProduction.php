@@ -37,7 +37,7 @@ class SyncProduction implements ShouldQueue
      *
      * @param $firstRun
      */
-    public function __construct(bool $firstRun)
+    public function __construct(bool $firstRun = false)
     {
         ob_implicit_flush(1);
 

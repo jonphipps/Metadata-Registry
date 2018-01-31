@@ -12,7 +12,7 @@ use Illuminate\Support\Carbon;
 use Laracasts\Matryoshka\Cacheable;
 
 /**
- * App\Models\Release.
+ * App\Models\Release
  *
  * @property int $id
  * @property \Carbon\Carbon|null $created_at

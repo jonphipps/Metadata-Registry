@@ -10,6 +10,7 @@ use App\Models\ProjectUser;
 use App\Models\Release;
 use App\Models\Vocabulary;
 use GrahamCampbell\GitHub\Facades\GitHub;
+use GrahamCampbell\GitHub\GitHubFactory;
 
 Route::get('fixprojectlanguages', function () {
     $agents = Project::with('vocabularies', 'elementsets')->get();
@@ -89,4 +90,23 @@ Route::get('update_rda_releases', function () {
 
 Route::get('sync_production', function () {
     dispatch(new SyncProduction());
+});
+
+Route::get('check_github', function () {
+    try {
+        // these don't work...
+        //$releases = GitHub::repos()->releases()->all('jonphipps','Metadata-Registry');
+        //$release = GitHub::repos()->releases()->create('jonphipps', 'Metadata-Registry', ['tag_name' => 'v2.0.1']);
+
+        // token authentication requires an authenticated client
+        // after which we are using the knplabs interface, rather than the laravel_github facade
+        $client = app(GitHubFactory::class)->make(['token' => Auth::user()->githubToken, 'method' => 'token', 'cache' => true]);
+        $releases = $client->api('repo')->releases()->all('jonphipps', 'Metadata-Registry');
+        $release = $client->api('repo')->releases()->create('jonphipps', 'Metadata-Registry', ['tag_name' => 'v1.1']);
+
+        return $release;
+    }
+    catch (Exception $e) {
+        return '<table>'.$e->xdebug_message. '</table>';
+    }
 });

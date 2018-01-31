@@ -22,7 +22,7 @@ use Laracasts\Matryoshka\Cacheable;
 use Venturecraft\Revisionable\RevisionableTrait;
 
 /**
- * App\Models\ConceptAttribute.
+ * App\Models\ConceptAttribute
  *
  * @property int $id
  * @property \Carbon\Carbon|null $created_at

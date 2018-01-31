@@ -6,7 +6,7 @@ use App\Models\Access\Permission\Traits\Relationship\PermissionRelationship;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * App\Models\Access\Permission\Permission.
+ * App\Models\Access\Permission\Permission
  *
  * @property int $id
  * @property string $name

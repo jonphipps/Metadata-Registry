@@ -20,7 +20,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 /**
- * App\Models\Access\User\User.
+ * App\Models\Access\User\User
  *
  * @property int $id
  * @property \Carbon\Carbon|null $created_at
@@ -49,6 +49,7 @@ use Illuminate\Notifications\Notifiable;
  * @property-read string $delete_permanently_button
  * @property-read string $edit_button
  * @property-read string $full_name
+ * @property-read mixed $github_token
  * @property-read string $login_as_button
  * @property-read mixed $picture
  * @property-read string $restore_button
@@ -60,6 +61,7 @@ use Illuminate\Notifications\Notifiable;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\User\SocialLogin[] $providers
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\Role\Role[] $roles
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\System\Session[] $sessions
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\User\SocialLogin[] $socialLogins
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vocabulary[] $vocabularies
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\User\User active($status = true)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\User\User confirmed($confirmed = true)
@@ -194,6 +196,19 @@ class User extends Authenticatable
             'schema_id')
             ->withPivot('is_registrar_for', 'is_admin_for', 'is_maintainer_for')
             ->withTimestamps();
+    }
+    
+    public function getGithubTokenAttribute(){
+        return $this->githubLogin()->token;
+    }
+
+    public function githubLogin(){
+        return $this->socialLogins()->where( 'provider', '=', 'github')->first();
+    }
+
+    public function socialLogins()
+    {
+        return $this->hasMany(SocialLogin::class, 'user_id');
     }
 
     /**

@@ -6,7 +6,12 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3>Welcome to the Open Metadata Registry
-                        <strong>BETA</strong>!!</h3>
+                        @if (config('app.url') === 'https://rda.metadataregistry.org')
+                            for <strong><em>{{"RDA"}}</em></strong>
+                        @else
+                            <strong><em>{{"BETA"}}</em></strong>
+                        @endif
+                        !!</h3>
                 </div>
                 <div class="panel-body">
                     <div class="row">

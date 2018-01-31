@@ -3,7 +3,7 @@
 namespace App\Models;
 
 /**
- * App\Models\Lookup.
+ * App\Models\Lookup
  *
  * @property int $id
  * @property int|null $type_id This will be the lookup type and will reference the list of lookup types stored in this very same table

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * App\Models\Omr\Agent.
+ * App\Models\Omr\Agent
  *
  * @property int $id
  * @property \Carbon\Carbon|null $created_at
