@@ -26,7 +26,7 @@ test:
     # E_ALL | E_STRICT & ~E_NOTICE = 2047
     error_reporting:        15
     cache:                  off
-    web_debug:              on
+    web_debug:              off
     no_script_name:         off
     etag:                   on
 test-empty:
@@ -35,16 +35,25 @@ test-empty:
     # E_ALL | E_STRICT & ~E_NOTICE = 2047
     error_reporting:        15
     cache:                  off
-    web_debug:              on
+    web_debug:              off
     no_script_name:         off
     etag:                   on
-test-update:
+test-empty-dev:
   .settings:
     timeout:                 31536000
     # E_ALL | E_STRICT & ~E_NOTICE = 2047
     error_reporting:        15
     cache:                  off
     web_debug:              on
+    no_script_name:         off
+    etag:                   off
+test-update:
+  .settings:
+    timeout:                 31536000
+    # E_ALL | E_STRICT & ~E_NOTICE = 2047
+    error_reporting:        15
+    cache:                  off
+    web_debug:              off
     no_script_name:         off
     etag:                   on
 
