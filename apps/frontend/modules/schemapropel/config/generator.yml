@@ -72,8 +72,8 @@ generator:
       fields:
         id:                         { credentials: [administrator], mode: edit }
         object:                     { name: Value }
-        profile_property_id:        { name: Profile property, mode: create, params: peer_method=getProfilePropertiesForCreate include_blank=false onchange=swapOptions() text_method=getUri}
-        profile_property:           { name: Profile property, type: plain, mode: edit }
+#        profile_property_id:        { name: Profile property, mode: create, params: peer_method=getProfilePropertiesForCreate include_blank=false onchange=swapOptions() text_method=getUri}
+#        profile_property:           { name: Profile property, type: plain, mode: edit }
         related_schema_property_id:
           params:                   related_class=SchemaProperty peer_method=getPropertiesByCurrentSchemaID include_blank=true
           condition:                "$sf_flash->get('showList') || 'create' == $mode"
@@ -86,7 +86,7 @@ generator:
 
       display:
         "-Metadata":        { mode: edit, fields: [id, created_at, created_user, updated_at, updated_user] }
-        "Detail":            [profile_property_id, profile_property, related_schema_property_id, related_schema_class_id, object, _language, status_id]
+        "Detail":            [_profile_property_id, related_schema_property_id, related_schema_class_id, object, _language, status_id]
 #        "Other Properties":  [_listproperties]
       actions:
         # You can add a string literal to the query string like this: foo: "'bar'" which will add foo=bar
