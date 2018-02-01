@@ -20,29 +20,24 @@ function swapOptions()
     showSelect[25] = true;
     showSelect[26] = true;
 
-  if($F('id') && document.getElementById("schema_property_element_profile_property"))
-  {
-    var selectedName = $F('schema_property_element_profile_property');
-    if(selectedName == 'isSubpropertyOf')
-    {
-      selectedId = 6;
+  var selectedId = $F('schema_property_element_profile_property_id');
+  if($F('id') && document.getElementById("schema_property_element_profile_property")){
+    switch ($F('schema_property_element_profile_property')) {
+      case 'isSubpropertyOf':
+        selectedId = 6;
+        break;
+      case 'hasSubproperty':
+        selectedId = 8;
+        break;
+      case 'isSubclassOf':
+        selectedId = 9;
+        break;
+      case 'hasSubclass':
+        selectedId = 10;
+        break;
+      default:
+        selectedId = $F('schema_property_element_profile_property_id');
     }
-    if(selectedName == 'hasSubproperty')
-    {
-      selectedId = 8;
-    }
-    if(selectedName == 'isSubclassOf')
-    {
-      selectedId = 9;
-    }
-    if(selectedName == 'hasSubclass')
-    {
-      selectedId = 10;
-    }
-  }
-  else
-  {
-    var selectedId = $F('schema_property_element_profile_property_id');
   }
 
   if(selectedId)
