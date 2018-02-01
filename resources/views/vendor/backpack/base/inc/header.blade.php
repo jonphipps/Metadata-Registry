@@ -7,7 +7,7 @@
     <title>
         {{ isset($title) ? ' The Registry! :: ' . $title: 'The Registry!'}}
     </title>
-    <link rel="icon" href="{{ config('app.fav_icon', 'registry_favicon_prod.ico') }}"/>
+    <link rel="icon" href="/{!! config('app.fav_icon', 'registry_favicon_prod.ico') !!}"/>
     <!-- Meta -->
     <meta name="description" content="@yield('meta_description', 'Open Metadata Registry')">
     <meta name="author" content="@yield('meta_author', 'Jon Phipps')">

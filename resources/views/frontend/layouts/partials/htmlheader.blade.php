@@ -4,7 +4,7 @@
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    	  <link rel="icon" href="{{ config('app.fav_icon', 'registry_favicon_prod.ico') }}"/>
+    	  <link rel="icon" href="/{!! config('app.fav_icon', 'registry_favicon_prod.ico') !!}"/>
 
         <title>@yield('title', app_name())</title>
 
