@@ -20,7 +20,7 @@ function swapOptions()
     showSelect[25] = true;
     showSelect[26] = true;
 
-  if($F('id'))
+  if($F('id') && document.getElementById("schema_property_element_profile_property"))
   {
     var selectedName = $F('schema_property_element_profile_property');
     if(selectedName == 'isSubpropertyOf')
@@ -54,8 +54,12 @@ function swapOptions()
 
       if(6 == selectedId || 8 == selectedId || 17 == selectedId || 19 == selectedId)
       {
-        Element.hide('form_row_schema_property_element_related_schema_class_id');
-        Element.show('form_row_schema_property_element_related_schema_property_id');
+        if (document.getElementById("form_row_schema_property_element_related_schema_class_id")) {
+          Element.hide('form_row_schema_property_element_related_schema_class_id');
+        }
+        if (document.getElementById("form_row_schema_property_element_related_schema_property_id")) {
+          Element.show('form_row_schema_property_element_related_schema_property_id');
+        }
 
         if(6 == selectedId)
         {
@@ -72,8 +76,12 @@ function swapOptions()
       }
       else
       {
-        Element.hide('form_row_schema_property_element_related_schema_property_id');
-        Element.show('form_row_schema_property_element_related_schema_class_id');
+        if (document.getElementById("form_row_schema_property_element_related_schema_property_id")) {
+          Element.hide('form_row_schema_property_element_related_schema_property_id');
+        }
+        if (document.getElementById("form_row_schema_property_element_related_schema_class_id")) {
+          Element.show('form_row_schema_property_element_related_schema_class_id');
+        }
 
         if(9 == selectedId)
         {
