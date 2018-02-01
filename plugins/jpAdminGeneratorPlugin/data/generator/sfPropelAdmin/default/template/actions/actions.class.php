@@ -53,6 +53,9 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
     // pager
     $this->pager = new sfPropelPager('<?php echo $this->getClassName() ?>', <?php echo $this->getParameterValue('list.max_per_page', 20) ?>);
     $c = new Criteria();
+    if(defined ('<?php echo $this->getClassName() ?>Peer::DELETED_AT')) {
+        $c->add(<?php echo $this->getClassName() ?>Peer::DELETED_AT, null, Criteria::ISNULL);
+    }
     $this->addSortCriteria($c);
     $this->addFiltersCriteria($c);
     $this->pager->setCriteria($c);
@@ -74,6 +77,7 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
   {
     if (!$this-><?php echo $this->getSingularName() ?>)
     {
+      \sfPropelParanoidBehavior::disable();
 <?php $showPeer = $this->getParameterValue('show.peer_method'); ?>
 <?php if ($showPeer): ?>
       $c = new Criteria();
@@ -88,7 +92,7 @@ class <?php echo $this->getGeneratedModuleName() ?>Actions extends sfActions
         $this-><?php echo $this->getSingularName() ?> = $<?php echo $this->getSingularName() ?>;
       }
 <?php else: ?>
-      $this-><?php echo $this->getSingularName() ?> = <?php echo $this->getClassName() ?>Peer::retrieveByPk(<?php echo $this->getRetrieveByPkParamsForAction(49) ?>);
+      $this-><?php echo $this->getSingularName() ?> = <?php echo $this->getClassName() ?>Peer::retrieveByPK(<?php echo $this->getRetrieveByPkParamsForAction(49) ?>);
 <?php endif ?>
     }
     $this->labels = $this->getLabels('show');
