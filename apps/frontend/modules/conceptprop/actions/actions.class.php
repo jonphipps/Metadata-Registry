@@ -190,6 +190,7 @@ class conceptpropActions extends autoconceptpropActions
   */
   public function getCurrentConcept()
   {
+      \sfPropelParanoidBehavior::disable();
     //TODO: Redo this temporary fix to retrieving the current concept and vocabulary
     //$concept = myActionTools::findCurrentConcept();
 
