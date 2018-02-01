@@ -72,7 +72,7 @@ generator:
           condition:                "$sf_flash->get('showList') || 'create' == $mode"
         related_schema_class_id:
           type:                     select_tag
-          params:                   related_class=SchemaProperty peer_method=getClassesByCurrentSchemaID include_blank=true
+          params:                   related_class=SchemaProperty peer_method=getClassesByCurrentProjectID include_blank=true
           condition:                "$sf_flash->get('showList') || 'create' == $mode"
         language:                   { type: select_language_tag }
 #          condition:                "!$schema_property_element->isNew() and $schema_property_element->getProfileProperty()->getHasLanguage()"

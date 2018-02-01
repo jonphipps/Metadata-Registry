@@ -70,6 +70,36 @@ class SchemaPropertyPeer extends BaseSchemaPropertyPeer
     }
     return $classes;
   }
+  /**
+     * returns classes for the current project
+     *
+     * @return SchemaProperty[]
+     * @throws PropelException
+     */
+  public static function getClassesByCurrentProjectID()
+  {
+    $schema = self::getSchema();
+    $c = new Criteria();
+    $c->add(self::TYPE,'class');
+    $c->addOr(self::TYPE,'subclass');
+    $c->addJoin(self::SCHEMA_ID, SchemaPeer::ID);
+    $c->add(SchemaPeer::AGENT_ID, $schema->getAgentId());
+    $c->addAscendingOrderByColumn(self::LABEL);
+    $classes = self::doSelect($c);
+
+    $request = sfContext::getInstance()->getRequest();
+    $currentPropertyId = $request->getParameter('id');
+    if ('schemaprop' === $request->getParameter('module') && 'edit' === $request->getParameter('action')) {
+      /** @var $property SchemaProperty */
+      foreach ($classes as $id => $property) {
+        if ($property->getId() == $currentPropertyId) {
+          unset($classes[$id]);
+          break;
+        }
+      }
+    }
+    return $classes;
+  }
 
   /**
    * @return array
