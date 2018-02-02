@@ -95,3 +95,5 @@ styles.html
 /vfs:
 /web/*.ico
 /web/favicon.gif
+/web/manifest.json
+/web/browserconfig.xml
