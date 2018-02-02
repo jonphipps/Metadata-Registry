@@ -8,7 +8,7 @@
     }
   ],
   "require-dev": {
-    "raveren/kint": "^1.0",
+    "kint-php/kint": "^2.2",
     "phpspec/phpspec": "^2.1.0",
     "henrikbjorn/phpspec-code-coverage": "^1.0",
     "codeception/specify": "^0.4.3",
@@ -33,25 +33,25 @@
   "minimum-stability": "beta",
   "require": {
     "bgcc/sf-select2-widgets-plugin": "~1.0",
-    "league/plates": "2.*",
-    "league/flysystem": "0.5.*",
-    "vlucas/phpdotenv": "^2.0",
     "ddeboer/data-import": "0.18.*",
-    "google/apiclient": "^1.1",
-    "semsol/arc2": "^2.2",
     "easyrdf/easyrdf": "^0.9.1",
-    "ml/json-ld": "^1.0",
-    "symfony/property-access": "^2.7.0",
-    "phpoffice/phpexcel": "^1.8",
-    "symfony/validator": "^2.7.0",
-    "symfony/intl": "^2.7.0",
-    "psr/log": "^1.0",
-    "symfony/http-foundation": "^2.7.0",
-    "neitanod/forceutf8": "^2.0",
+    "google/apiclient": "^1.1",
+    "guzzlehttp/guzzle": "^6.3",
+    "league/flysystem": "0.5.*",
+    "league/plates": "2.*",
     "mjphaynes/php-resque": "^1.2",
+    "ml/json-ld": "^1.0",
+    "neitanod/forceutf8": "^2.0",
+    "phpoffice/phpspreadsheet": "^1.1",
+    "psr/log": "^1.0",
     "robmorgan/phinx": "^0.5.0",
+    "semsol/arc2": "^2.2",
+    "symfony/http-foundation": "^2.7.0",
+    "symfony/intl": "^2.7.0",
+    "symfony/property-access": "^2.7.0",
+    "symfony/validator": "^2.7.0",
     "symfony/var-dumper": "^2.8.0",
-    "knplabs/github-api": "1.7.*"
+    "vlucas/phpdotenv": "^2.0"
   },
 
   "autoload": {
