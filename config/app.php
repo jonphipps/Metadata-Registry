@@ -3,7 +3,6 @@
 return [
 
     'last_update' => env('LAST_UPDATE', 'mid-December 2017'),
-    'fav_icon'    => env('FAVICON', 'registry_favicon_prod.ico'),
   /*
     |--------------------------------------------------------------------------
     | Application Name

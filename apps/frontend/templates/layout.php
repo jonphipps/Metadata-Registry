@@ -10,7 +10,13 @@
 
     <?php if (has_slot('data')): ?><?php include_slot('data') ?><?php endif; ?>
 
-    <link rel="icon" href="/<?php echo config('app.fav_icon', 'registry_favicon_prod.ico') ?>"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#00aba9">
+    <meta name="theme-color" content="#ffffff">
 
     <?php if (has_slot('feeds')): ?><?php include_slot('feeds') ?><?php endif; ?>
     <script src="//d2wy8f7a9ursnm.cloudfront.net/bugsnag-3.min.js" data-apikey="abb0b2a18c75a33583c907a7adc925a8" data-notifyReleaseStages=["beta","production"] data-releasestage="<?php echo env('BUGSNAG_RELEASE_STAGE', '') ?>"></script>
