@@ -93,3 +93,5 @@ styles.html
 /.env copy
 /cypress.json
 /vfs:
+/web/*.ico
+/web/favicon.gif
