@@ -17,7 +17,7 @@ Route::get('fixprojectlanguages', function () {
     $languages =[];
     /** @var Project $agent */
     foreach ($agents as $agent) {
-        $languages[$agent->id]['languages'] = $agent->languages;
+        $languages[$agent->id]['languages'] = $agent->languages ?? [];
         /** @var Vocabulary $vocabulary */
         foreach ($agent->vocabularies as $vocabulary) {
             if ($vocabulary->languages) {
@@ -89,10 +89,12 @@ Route::get('update_rda_releases', function () {
 });
 
 Route::get('sync_production', function () {
+    //FOR TESTING!!
     dispatch(new SyncProduction());
 });
 
 Route::get('check_github', function () {
+    //FOR TESTING!!
     try {
         // these don't work...
         //$releases = GitHub::repos()->releases()->all('jonphipps','Metadata-Registry');
