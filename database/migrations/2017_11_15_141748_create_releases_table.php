@@ -18,6 +18,7 @@ class CreateReleasesTable extends Migration
                 $table->increments('id');
                 $table->timestamps();
                 $table->softDeletes();
+                $table->timestamp('published_at')->nullable();
                 $table->unsignedInteger('user_id')->nullable()->index();
                 $table->foreign('user_id')
                     ->references('id')
