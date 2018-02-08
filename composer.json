@@ -128,6 +128,7 @@
         "mpociot/laravel-test-factory-helper": "^0.5.0",
         "nunomaduro/collision": "^1.1",
         "orangehill/iseed": "^2.3",
+        "pbmedia/laravel-browser-kit-macro": "^1.0",
         "phpunit/phpunit": "~6.0",
         "recca0120/laravel-tracy": "^1.8",
         "spatie/laravel-db-snapshots": "^1.0",
