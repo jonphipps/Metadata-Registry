@@ -96,6 +96,12 @@ class Release extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
+    /**
+     * @param $tagName
+     *
+     * @return \Illuminate\Database\Eloquent\Model|static
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
+     */
     public static function findByTagName($tagName)
     {
         return static::where('tag_name', $tagName)->firstOrFail();
@@ -157,9 +163,4 @@ class Release extends Model
             ->toDateTimeString();
     }
 
-    public function getPublishedAtAttribute()
-    {
-        return Carbon::createFromTimestamp(strtotime($this->getAttribute('github_response')['published_at']))
-            ->toDateTimeString();
-    }
 }

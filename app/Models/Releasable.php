@@ -34,6 +34,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Releasable extends Model
 {
     use SoftDeletes;
+    protected $dates = ['published_at'];
 
     /*
     |--------------------------------------------------------------------------
