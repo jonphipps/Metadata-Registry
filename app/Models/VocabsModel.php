@@ -113,7 +113,7 @@ abstract class VocabsModel extends Model
 
     public function releases(): ?MorphToMany
     {
-        return $this->morphToMany(Release::class, 'releaseable');
+        return $this->morphToMany(Release::class, 'releaseable')->withTimestamps();
     }
 
     /*
