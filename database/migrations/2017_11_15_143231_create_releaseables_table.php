@@ -16,7 +16,6 @@ class CreateReleaseablesTable extends Migration
         Schema::create('releaseables', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->softDeletes();
             $table->timestamp('published_at')->nullable();
             $table->unsignedInteger('release_id')->nullable()->index();
             $table->unsignedInteger('releaseable_id')->nullable()->index();
