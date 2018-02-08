@@ -11,5 +11,6 @@ class ProjectReleaseController extends Controller
     public function publish($project_id, Release $release)
     {
         $this->dispatch(new Publish($release));
+        return back();
     }
 }
