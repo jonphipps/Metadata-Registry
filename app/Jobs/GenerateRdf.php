@@ -17,6 +17,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
@@ -260,10 +261,13 @@ class GenerateRdf implements ShouldQueue
 
     /**
      * @param $vocab
+     *
+     * @throws \InvalidArgumentException
      */
     private function updateRelease(VocabsModel $vocab)
     {
         $release = $this->makeReleaseArray();
-        $vocab->releases()->updateExistingPivot($this->release->id, ['published_at' => $release['published_at']]);
+        $publishedAt = Carbon::createFromFormat('F j, Y', $release['published_at'])->toDateTimeString();
+        $vocab->releases()->save($this->release, ['published_at' => $publishedAt]);
     }
 }
