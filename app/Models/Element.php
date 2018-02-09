@@ -41,7 +41,7 @@ use Laracasts\Matryoshka\Cacheable;
  * @property int|null $is_deprecated Boolean. Has this class/property been deprecated
  * @property string|null $url
  * @property string|null $lexical_alias
- * @property string $hash_id
+ * @property string|null $hash_id
  * @property int|null $created_by
  * @property int|null $updated_by
  * @property int|null $deleted_by
