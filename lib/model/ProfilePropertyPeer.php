@@ -186,18 +186,9 @@ class ProfilePropertyPeer extends BaseProfilePropertyPeer
   public static function getProfilePropertiesForExport($profileId)
   {
     $objectList = [];
-    $lastColumns = [];
-    $userId = sfContext::getInstance()->getUser()->getSubscriberId();
 
-    if ($userId) {
-      $lastExportForUser = ExportHistoryPeer::getLastExportForUser($userId, $profileId);
-      if ($lastExportForUser) {
-        $lastColumns = $lastExportForUser->getSelectedColumns();
-      }
-    }
-
-    $objectList['DataType Properties (translatable)'] = self::buildProfilePropertyListForExport($profileId, true, $lastColumns);
-    $objectList['Object Properties (resources)'] = self::buildProfilePropertyListForExport($profileId, false, $lastColumns);
+    $objectList['DataType Properties (translatable)'] = self::buildProfilePropertyListForExport($profileId, true);
+    $objectList['Object Properties (resources)'] = self::buildProfilePropertyListForExport($profileId, false);
     return $objectList;
   }
 
@@ -210,37 +201,24 @@ class ProfilePropertyPeer extends BaseProfilePropertyPeer
    * @return array
    * @throws PropelException
    */
-  private static function buildProfilePropertyListForExport($profileId, $hasLanguage, $lastColumns)
+  private static function buildProfilePropertyListForExport($profileId, $hasLanguage)
   {
     $objectList = [];
     $objects=[];
 
     $criteria = new Criteria();
-    $criteria->add(ProfilePropertyPeer::PROFILE_ID, $profileId);
-    $criteria->add(ProfilePropertyPeer::IS_IN_EXPORT, true);
-    $criteria->add(ProfilePropertyPeer::HAS_LANGUAGE, $hasLanguage);
-    $criteria->addAscendingOrderByColumn(ProfilePropertyPeer::EXPORT_ORDER);
+    $criteria->add(self::PROFILE_ID, $profileId);
+    $criteria->add(self::IS_IN_EXPORT, true);
+    $criteria->add(self::HAS_LANGUAGE, $hasLanguage);
+    $criteria->addAscendingOrderByColumn(self::EXPORT_ORDER);
 
     $properties = self::doSelect($criteria);
     /** @var ProfileProperty[] $properties */
     foreach ($properties as $property) {
-      $objects[$property->getId()] = $property->getIsRequired() ? "*" . $property->getLabel() : $property->getLabel();
-    }
-    if (!empty($lastColumns)) {
-      foreach ($lastColumns as $index => $lastColumn) {
-        if (isset( $objects[$lastColumn] )) {
-          $objectList[$lastColumn] = $objects[$lastColumn];
-          unset( $objects[$index] );
-        }
-      }
-      foreach ($objects as $index => $object) {
-        $objectList[$index] = $object;
-      }
-    } else {
-      $objectList = $objects;
+      $objects[$property->getId()] = $property->getIsRequired() ? '*' . $property->getLabel() : $property->getLabel();
     }
 
-    return $objectList;
+    return $objects;
   }
 
 
