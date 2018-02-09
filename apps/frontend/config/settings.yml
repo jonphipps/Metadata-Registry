@@ -133,6 +133,8 @@ all:
 #    calendar_web_dir:       /sf/calendar
 #    jqwidgets_web_dir:      /js/components/jqwidgets/jqwidgets
 #    jquery_web_dir:         /js/components/jquery/dist
+    select2_web_dir:        /js/components/select2
+
 #
 #    # Helpers included in all templates by default
 #    standard_helpers:       [Partial, Cache, Form]
