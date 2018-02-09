@@ -1015,7 +1015,7 @@ SQL
 
     $languageSQL   = '';
     if (count($languages)) {
-      $languageSQL = "and (reg_schema_property_element.language = ''";
+      $languageSQL = "and (reg_schema_property_element.language = '' or reg_schema_property_element.language is null";
       foreach ($languages as $language) {
         $languageSQL .= " or reg_schema_property_element.language = '$language'";
       }
