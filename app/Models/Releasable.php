@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Models\Releasable
@@ -12,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property string|null $deleted_at
- * @property string|null $published_at
+ * @property \Carbon\Carbon|null $published_at
  * @property int|null $release_id
  * @property int|null $releaseable_id
  * @property string|null $releaseable_type

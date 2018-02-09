@@ -18,6 +18,7 @@ use Laracasts\Matryoshka\Cacheable;
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @property string|null $deleted_at
+ * @property \Carbon\Carbon|null $published_at
  * @property int|null $user_id
  * @property int|null $agent_id
  * @property string $name
@@ -30,7 +31,6 @@ use Laracasts\Matryoshka\Cacheable;
  * @property-read mixed $github_created_at
  * @property-read mixed $html_url
  * @property-read mixed $project_id
- * @property-read mixed $published_at
  * @property-read mixed $tarball_url
  * @property-read mixed $zipball_url
  * @property-read \App\Models\Project|null $project
@@ -47,6 +47,7 @@ use Laracasts\Matryoshka\Cacheable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Release whereIsDraft($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Release whereIsPrerelease($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Release whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Release wherePublishedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Release whereTagName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Release whereTargetCommitish($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Release whereUpdatedAt($value)
