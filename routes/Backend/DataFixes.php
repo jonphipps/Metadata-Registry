@@ -7,10 +7,12 @@ use App\Jobs\SyncProduction;
 use App\Models\Elementset;
 use App\Models\Project;
 use App\Models\ProjectUser;
+use App\Models\Releasable;
 use App\Models\Release;
 use App\Models\Vocabulary;
 use GrahamCampbell\GitHub\Facades\GitHub;
 use GrahamCampbell\GitHub\GitHubFactory;
+use Illuminate\Support\Carbon;
 
 Route::get('fixprojectlanguages', function () {
     $agents = Project::with('vocabularies', 'elementsets')->get();
@@ -53,6 +55,8 @@ Route::get('update_rda_releases', function () {
     //get rid of bad test data
     //Release::withTrashed()->find(1)->forceDelete();
     //Releasable::withTrashed()->where('release_id',1)->forceDelete();
+    Releasable::truncate();
+    Release::truncate();
 
     //get the releases from GitHub
     $releases = GitHub::repos()->releases()->all('RDARegistry', 'RDA-Vocabularies');
@@ -67,6 +71,7 @@ Route::get('update_rda_releases', function () {
             'target_commitish' => $release['target_commitish'],
             'is_draft'         => $release['draft'],
             'is_prerelease'    => $release['prerelease'],
+            'published_at'     => Carbon::parse($release['published_at']),
             'github_response'  => $release,
         ]);
     }
@@ -77,11 +82,16 @@ Route::get('update_rda_releases', function () {
     foreach ($dbReleases as $dbRelease) {
         $dbRelease->timestamps = false;
         $dbRelease->created_at = $dbRelease->github_created_at;
+        $publishedAt = $dbRelease->published_at;
         $dbRelease->updated_at = $dbRelease->published_at;
         $vocabularies = Vocabulary::where([['agent_id', '=', 177], ['created_at', '<=', $dbRelease->updated_at]])->get(['id'])->pluck('id')->toArray();
+        foreach ($vocabularies as $vocabulary) {
+            $dbRelease->vocabularies()->attach([$vocabulary => ['created_at' => $dbRelease->created_at, 'updated_at' => $publishedAt, 'published_at'=> $publishedAt]]);
+        }
         $elementsets = Elementset::where([['agent_id', '=', 177], ['created_at', '<=', $dbRelease->updated_at]])->get(['id'])->pluck('id')->toArray();
-        $dbRelease->vocabularies()->sync($vocabularies);
-        $dbRelease->elementsets()->sync($elementsets);
+        foreach ($elementsets as $elementset) {
+            $dbRelease->elementsets()->attach([$elementset => ['created_at' => $dbRelease->created_at, 'updated_at' => $publishedAt, 'published_at' => $publishedAt]]);
+        }
         $dbRelease->save();
     }
 
