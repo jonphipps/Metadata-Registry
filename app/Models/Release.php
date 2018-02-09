@@ -160,8 +160,7 @@ class Release extends Model
 
     public function getGithubCreatedAtAttribute()
     {
-        return Carbon::createFromTimestamp(strtotime($this->getAttribute('github_response')['created_at']))
-            ->toDateTimeString();
+        return Carbon::parse($this->getAttribute('github_response')['created_at'])->toDateTimeString();
     }
 
 }
