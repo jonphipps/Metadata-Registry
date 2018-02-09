@@ -83,7 +83,6 @@ class Release extends Model
         'zipball_url',
         'html_url',
         'github_created_at',
-        'published_at',
     ];
     // protected $fillable = [];
     protected $hidden = ['github_response'];
