@@ -19,7 +19,15 @@
     <meta name="theme-color" content="#ffffff">
 
     <?php if (has_slot('feeds')): ?><?php include_slot('feeds') ?><?php endif; ?>
-    <script src="//d2wy8f7a9ursnm.cloudfront.net/bugsnag-3.min.js" data-apikey="abb0b2a18c75a33583c907a7adc925a8" data-notifyReleaseStages=["beta","production"] data-releasestage="<?php echo env('BUGSNAG_RELEASE_STAGE', '') ?>"></script>
+    <script src="//d2wy8f7a9ursnm.cloudfront.net/v4/bugsnag.min.js"></script>
+    <script>window.bugsnagClient = bugsnag('<?php echo config('bugsnag.api_key') ?>')</script>
+    <script>bugsnag({
+        apiKey: '<?php echo config('bugsnag.api_key') ?>',
+        notifyReleaseStages: <?php echo json_encode(config('bugsnag.notify_release_stages')) ?>,
+        releaseStage: "<?php echo config('bugsnag.release_stage') ?>",
+        hostName: "<?php echo config('bugsnag.hostname') ?>"
+      })
+    </script>
 </head>
 <body>
 <?php use_helper('Javascript') ?>
