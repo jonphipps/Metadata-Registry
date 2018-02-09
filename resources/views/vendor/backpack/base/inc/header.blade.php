@@ -41,6 +41,15 @@
             'signedIn' => Auth::check()
         ]) !!};
     </script>
+    <script src="//d2wy8f7a9ursnm.cloudfront.net/v4/bugsnag.min.js"></script>
+    <script>window.bugsnagClient = bugsnag('<?php echo config('bugsnag.api_key') ?>')</script>
+    <script>bugsnag({
+        apiKey: '<?php echo config('bugsnag.api_key') ?>',
+        notifyReleaseStages: <?php echo json_encode(config('bugsnag.notify_release_stages')) ?>,
+        releaseStage: "<?php echo config('bugsnag.release_stage') ?>",
+        hostName: "<?php echo config('bugsnag.hostname') ?>"
+      })
+    </script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
