@@ -16,7 +16,7 @@ It runs on *nix and Windows platforms.
 LICENSE
 -------
 
-MIT -- see LICENSE file
+see LICENSE file
 
 INSTALLATION
 ------------
