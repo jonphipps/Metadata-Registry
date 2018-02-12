@@ -67,7 +67,7 @@ class AppServiceProvider extends ServiceProvider
 
         if (app()->resolved('bugsnag')) {
             $bugsnag = app('bugsnag');
-            $bugsnag->setReleaseStage(env('BUGSNAG_RELEASE_STAGE', ''));
+            $bugsnag->setReleaseStage(config('bugsnag.release_stage'));
             $bugsnag->setErrorReportingLevel(E_ALL & ~E_NOTICE);
         }
 
