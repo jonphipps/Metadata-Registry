@@ -62,7 +62,7 @@ class ProjectReleaseCrudController extends CrudController
         // $this->crud->addField($options, 'update/create/both');
         // $this->crud->addFields($array_of_arrays, 'update/create/both');
         // $this->crud->removeField('name', 'update/create/both');
-        $this->crud->removeFields(['user_id', 'agent_id', 'name', 'body', 'github_response', 'tag_name', 'target_commitish', 'is_draft', 'is_prerelease']);
+        $this->crud->removeFields(['user_id', 'agent_id', 'name', 'body', 'github_response', 'tag_name', 'target_commitish', 'is_draft', 'is_prerelease', 'published_at']);
         $this->crud->addFields([
             [
                 'name'    => 'user_id',
