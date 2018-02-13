@@ -400,7 +400,7 @@ class ProjectCrudController extends CrudController
         );
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
-        return Redirect::to(config('backpack.base.route_prefix') . "/projects/{$this->crud->entry->id}");
+        return redirect(config('backpack.base.route_prefix') . "/projects/{$this->crud->entry->id}");
     }
 
     /**
