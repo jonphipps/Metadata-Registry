@@ -14,8 +14,9 @@ class CreateSchemaHasUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('schema_has_user',
-            function(Blueprint $table) {
+        Schema::create(
+            'schema_has_user',
+            function (Blueprint $table) {
                 $table->increments('id');
                 $table->timestamps();
                 $table->softDeletes();
@@ -28,7 +29,8 @@ class CreateSchemaHasUserTable extends Migration
                 $table->char('default_language', 6)->default('en');
                 $table->char('current_language', 6)->nullable();
                 $table->unique([ 'schema_id', 'user_id' ], 'schema_user');
-            });
+            }
+        );
     }
 
     /**

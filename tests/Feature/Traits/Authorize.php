@@ -30,15 +30,33 @@ trait Authorize
         $this->actingAs($user);
     }
 
-    protected function andIAmLoggedIn() { $this->IAmLoggedIn(); }
+    protected function andIAmLoggedIn()
+    {
+        $this->IAmLoggedIn();
+    }
 
-    protected function andIAmTheProjectAdministrator() { $this->IAmTheProjectAdministrator(); }
+    protected function andIAmTheProjectAdministrator()
+    {
+        $this->IAmTheProjectAdministrator();
+    }
 
-    protected function givenIAmLoggedIn() { $this->IAmLoggedIn(); }
+    protected function givenIAmLoggedIn()
+    {
+        $this->IAmLoggedIn();
+    }
 
-    protected function givenIAmTheProjectAdministrator() { $this->IAmTheProjectAdministrator(); }
+    protected function givenIAmTheProjectAdministrator()
+    {
+        $this->IAmTheProjectAdministrator();
+    }
 
-    protected function whenIAmLoggedIn() { $this->IAmLoggedIn(); }
+    protected function whenIAmLoggedIn()
+    {
+        $this->IAmLoggedIn();
+    }
 
-    protected function whenIAmTheProjectAdministrator() { $this->IAmTheProjectAdministrator(); }
+    protected function whenIAmTheProjectAdministrator()
+    {
+        $this->IAmTheProjectAdministrator();
+    }
 }

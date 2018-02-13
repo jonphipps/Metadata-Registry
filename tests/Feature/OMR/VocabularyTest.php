@@ -11,8 +11,8 @@ class VocabularyTest extends BrowserKitTestCase
 
     public function setUp()
     {
-      $this->dontSetupDatabase();
-      parent::setUp();
+        $this->dontSetupDatabase();
+        parent::setUp();
     }
 
     /** @test */

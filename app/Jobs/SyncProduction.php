@@ -47,10 +47,12 @@ class SyncProduction implements ShouldQueue
         }
 
         //set last run to 0 if it wasn't cached
-        $this->lastRunTimestamp = Cache::get('last_run_timestamp',
+        $this->lastRunTimestamp = Cache::get(
+            'last_run_timestamp',
             function () {
                 return Carbon::createFromTimestamp(0)->toDateTimeString();
-            });
+            }
+        );
     }
 
     /**
@@ -97,10 +99,12 @@ class SyncProduction implements ShouldQueue
          * reg_concept_property
          * reg_schema_property_element
          */
-        Cache::rememberForever('last_run_timestamp',
+        Cache::rememberForever(
+            'last_run_timestamp',
             function () {
                 return now()->toDateTimeString();
-            });
+            }
+        );
     }
 
     private function updateUsers(): void

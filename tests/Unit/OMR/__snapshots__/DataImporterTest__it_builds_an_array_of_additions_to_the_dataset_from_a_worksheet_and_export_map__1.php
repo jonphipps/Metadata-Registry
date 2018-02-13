@@ -1,5 +1,5 @@
 <?php return array (
-  0 => 
+  0 =>
   array (
     'reg_id' => '',
     '*preferred label[0]_en' => 'foobar',
@@ -19,7 +19,7 @@
     '*uri' => 'RDAMediaType:1009',
     '*status' => 'Published',
   ),
-  1 => 
+  1 =>
   array (
     'reg_id' => '',
     '*preferred label[0]_en' => 'New Video Row',

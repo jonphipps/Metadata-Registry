@@ -117,18 +117,24 @@ class Element extends Model
     public static function SelectElementsByProject($projectId)
     {
         return \DB::table(ElementAttribute::TABLE)
-            ->join(self::TABLE,
+            ->join(
+                self::TABLE,
                 self::TABLE . '.id',
                 '=',
-                ElementAttribute::TABLE . '.schema_property_id')
-            ->join(Elementset::TABLE,
+                ElementAttribute::TABLE . '.schema_property_id'
+            )
+            ->join(
+                Elementset::TABLE,
                 Elementset::TABLE . '.id',
                 '=',
-                self::TABLE . '.schema_id')
-            ->select(ElementAttribute::TABLE . '.schema_property_id as id',
+                self::TABLE . '.schema_id'
+            )
+            ->select(
+                ElementAttribute::TABLE . '.schema_property_id as id',
                 Elementset::TABLE . '.name as Elementset',
                 ElementAttribute::TABLE . '.language',
-                ElementAttribute::TABLE . '.object as label')
+                ElementAttribute::TABLE . '.object as label'
+            )
             ->where([
                 [ElementAttribute::TABLE . '.profile_property_id', 2],
                 [Elementset::TABLE . '.agent_id', $projectId],

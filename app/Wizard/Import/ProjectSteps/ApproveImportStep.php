@@ -67,9 +67,11 @@ class ApproveImportStep extends Step
 
     public function validate(Request $request): void
     {
-        Validator::make(['selected_approve' => json_decode($request->selected_approve)],
+        Validator::make(
+            ['selected_approve' => json_decode($request->selected_approve)],
             ['selected_approve'          => 'required'],
-            ['selected_approve.required' => 'You must select at least one set of changes before you can import the spreadsheet.'])
+            ['selected_approve.required' => 'You must select at least one set of changes before you can import the spreadsheet.']
+        )
             ->validate();
     }
 

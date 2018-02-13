@@ -58,8 +58,10 @@ class SkosProperty extends Model
 
     public function concept_attribute_history(): ?HasMany
     {
-        return $this->hasMany(ConceptAttributeHistory::class,
+        return $this->hasMany(
+            ConceptAttributeHistory::class,
             'skos_property_id',
-            'id');
+            'id'
+        );
     }
 }

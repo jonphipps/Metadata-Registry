@@ -14,8 +14,9 @@ class CreateRegSchemaTable extends Migration
      */
     public function up()
     {
-        Schema::create('reg_schema',
-            function(Blueprint $table) {
+        Schema::create(
+            'reg_schema',
+            function (Blueprint $table) {
                 $table->increments('id');
                 $table->timestamps();
                 $table->softDeletes();
@@ -47,7 +48,8 @@ class CreateRegSchemaTable extends Migration
                 $table->unsignedInteger('created_by')->nullable()->index();
                 $table->unsignedInteger('updated_by')->nullable()->index();
                 $table->unsignedInteger('deleted_by')->nullable()->index();
-            });
+            }
+        );
     }
 
     /**

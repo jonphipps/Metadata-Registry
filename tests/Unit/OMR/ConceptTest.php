@@ -51,5 +51,4 @@ class ConceptTest extends TestCase
         $related = $statement->related_concept;
         $this->assertEquals($related->id, $statement->related_concept_id);
     }
-
 }

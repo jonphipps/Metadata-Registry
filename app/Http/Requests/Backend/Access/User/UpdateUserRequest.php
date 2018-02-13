@@ -31,6 +31,6 @@ class UpdateUserRequest extends Request
             'first_name'  => 'required|max:191',
             'last_name'   => 'required|max:191',
             'nickname'    => 'required|max:191',
-    ];
+        ];
     }
 }

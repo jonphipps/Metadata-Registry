@@ -14,8 +14,9 @@ class AddForeignKeysToRegSchemaTable extends Migration
      */
     public function up()
     {
-        Schema::table('reg_schema',
-            function(Blueprint $table) {
+        Schema::table(
+            'reg_schema',
+            function (Blueprint $table) {
                 $table->foreign('created_user_id', 'reg_schema_ibfk_1')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('SET NULL');
                 $table->foreign('updated_user_id', 'reg_schema_ibfk_2')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('SET NULL');
                 $table->foreign('agent_id', 'reg_schema_ibfk_3')->references('id')->on('reg_agent')->onUpdate('NO ACTION')->onDelete('RESTRICT');
@@ -25,7 +26,8 @@ class AddForeignKeysToRegSchemaTable extends Migration
                 $table->foreign('created_by', 'reg_schema_ibfk_7')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('SET NULL');
                 $table->foreign('updated_by', 'reg_schema_ibfk_8')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('SET NULL');
                 $table->foreign('deleted_by', 'reg_schema_ibfk_9')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            });
+            }
+        );
     }
 
     /**
@@ -35,8 +37,9 @@ class AddForeignKeysToRegSchemaTable extends Migration
      */
     public function down()
     {
-        Schema::table('reg_schema',
-            function(Blueprint $table) {
+        Schema::table(
+            'reg_schema',
+            function (Blueprint $table) {
                 $table->dropForeign('reg_schema_ibfk_1');
                 $table->dropForeign('reg_schema_ibfk_2');
                 $table->dropForeign('reg_schema_ibfk_3');
@@ -46,6 +49,7 @@ class AddForeignKeysToRegSchemaTable extends Migration
                 $table->dropForeign('reg_schema_ibfk_7');
                 $table->dropForeign('reg_schema_ibfk_8');
                 $table->dropForeign('reg_schema_ibfk_9');
-            });
+            }
+        );
     }
 }

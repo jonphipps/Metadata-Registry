@@ -14,8 +14,9 @@ class CreateRegSkosPropertyTable extends Migration
      */
     public function up()
     {
-        Schema::create('reg_skos_property',
-            function(Blueprint $table) {
+        Schema::create(
+            'reg_skos_property',
+            function (Blueprint $table) {
                 $table->increments('id');
                 $table->timestamps();
                 $table->unsignedInteger('parent_id')->nullable();
@@ -34,7 +35,8 @@ class CreateRegSkosPropertyTable extends Migration
                 $table->boolean('is_singleton')->default(0)->comment('boolean -- is this property allowed to repeat for a concept');
                 $table->boolean('is_scheme')->default(0)->comment('boolean - is in conceptScheme domain');
                 $table->boolean('is_in_picklist')->default(1)->comment('boolean - is in the property picklist');
-            });
+            }
+        );
     }
 
     /**

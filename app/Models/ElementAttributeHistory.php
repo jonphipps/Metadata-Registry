@@ -97,8 +97,10 @@ class ElementAttributeHistory extends Model
 
     public function element_attribute(): ?BelongsTo
     {
-        return $this->belongsTo(ElementAttribute::class,
+        return $this->belongsTo(
+            ElementAttribute::class,
             'schema_property_element_id',
-            'id');
+            'id'
+        );
     }
 }

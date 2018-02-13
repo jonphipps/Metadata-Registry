@@ -9,10 +9,10 @@
   'schema_id' => 83,
   'profile_property_id' => 2,
   'object' => 'angobango',
-  'related_schema_property_id' => NULL,
+  'related_schema_property_id' => null,
   'language' => 'en',
   'status_id' => 1,
-  'change_note' => NULL,
+  'change_note' => null,
   'import_id' => 29,
-  'created_by' => NULL,
+  'created_by' => null,
 );

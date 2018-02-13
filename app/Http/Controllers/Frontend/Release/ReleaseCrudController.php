@@ -45,7 +45,8 @@ class ReleaseCrudController extends CrudController
         //$this->crud->removeColumn('github_response'); // remove a column from the stack
         $this->crud->removeColumns(['github_response', 'body', 'tag_name', 'tag_commitish']); // remove an array of columns from the stack
         // $this->crud->setColumnDetails('column_name', ['attribute' => 'value']); // adjusts the properties of the passed in column (by name)
-        $this->crud->setColumnDetails('is_draft',
+        $this->crud->setColumnDetails(
+            'is_draft',
             [
                 'type'    => 'boolean',
                 'label'   => 'Draft?',
@@ -53,8 +54,10 @@ class ReleaseCrudController extends CrudController
                     0 => '',
                     1 => 'Yes',
                 ],
-            ]); // adjusts the properties of the passed in column (by name)
-        $this->crud->setColumnDetails('is_prerelease',
+            ]
+        ); // adjusts the properties of the passed in column (by name)
+        $this->crud->setColumnDetails(
+            'is_prerelease',
             [
                 'type'    => 'boolean',
                 'label'   => 'Pre-release?',
@@ -62,7 +65,8 @@ class ReleaseCrudController extends CrudController
                     0 => '',
                     1 => 'Yes',
                 ],
-            ]); // adjusts the properties of the passed in column (by name)
+            ]
+        ); // adjusts the properties of the passed in column (by name)
 
         // $this->crud->setColumnsDetails(['column_1', 'column_2'], ['attribute' => 'value']);
 

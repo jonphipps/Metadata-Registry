@@ -14,8 +14,9 @@ class AddForeignKeysToRegConceptPropertyTable extends Migration
      */
     public function up()
     {
-        Schema::table('reg_concept_property',
-            function(Blueprint $table) {
+        Schema::table(
+            'reg_concept_property',
+            function (Blueprint $table) {
                 $table->foreign('created_user_id', 'reg_concept_property_ibfk_1')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('SET NULL');
                 $table->foreign('profile_property_id', 'reg_concept_property_ibfk_10')->references('id')->on('profile_property')->onUpdate('NO ACTION')->onDelete('NO ACTION');
                 $table->foreign('created_by', 'reg_concept_property_ibfk_11')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('SET NULL');
@@ -27,7 +28,8 @@ class AddForeignKeysToRegConceptPropertyTable extends Migration
                 $table->foreign('scheme_id', 'reg_concept_property_ibfk_5')->references('id')->on('reg_vocabulary')->onUpdate('NO ACTION')->onDelete('SET NULL');
                 $table->foreign('status_id', 'reg_concept_property_ibfk_6')->references('id')->on('reg_status')->onUpdate('NO ACTION')->onDelete('NO ACTION');
                 $table->foreign('related_concept_id', 'reg_concept_property_ibfk_7')->references('id')->on('reg_concept')->onUpdate('NO ACTION')->onDelete('SET NULL');
-            });
+            }
+        );
     }
 
     /**
@@ -37,8 +39,9 @@ class AddForeignKeysToRegConceptPropertyTable extends Migration
      */
     public function down()
     {
-        Schema::table('reg_concept_property',
-            function(Blueprint $table) {
+        Schema::table(
+            'reg_concept_property',
+            function (Blueprint $table) {
                 $table->dropForeign('reg_concept_property_ibfk_1');
                 $table->dropForeign('reg_concept_property_ibfk_10');
                 $table->dropForeign('reg_concept_property_ibfk_11');
@@ -50,6 +53,7 @@ class AddForeignKeysToRegConceptPropertyTable extends Migration
                 $table->dropForeign('reg_concept_property_ibfk_5');
                 $table->dropForeign('reg_concept_property_ibfk_6');
                 $table->dropForeign('reg_concept_property_ibfk_7');
-            });
+            }
+        );
     }
 }

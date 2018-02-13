@@ -1,5 +1,5 @@
 <?php return array (
-  0 => 
+  0 =>
   array (
     0 => 'reg_id',
     1 => '*preferred label[0]_en',
@@ -19,7 +19,7 @@
     15 => '*uri',
     16 => '*status',
   ),
-  1 => 
+  1 =>
   array (
     0 => '475',
     1 => 'audio',
@@ -39,7 +39,7 @@
     15 => 'RDAMediaType:1001',
     16 => 'Published',
   ),
-  2 => 
+  2 =>
   array (
     0 => '476',
     1 => 'microform',
@@ -59,7 +59,7 @@
     15 => 'RDAMediaType:1002',
     16 => 'Published',
   ),
-  3 => 
+  3 =>
   array (
     0 => '477',
     1 => 'computer',
@@ -79,7 +79,7 @@
     15 => 'RDAMediaType:1003',
     16 => 'Published',
   ),
-  4 => 
+  4 =>
   array (
     0 => '478',
     1 => 'microscopic',
@@ -99,7 +99,7 @@
     15 => 'RDAMediaType:1004',
     16 => 'Published',
   ),
-  5 => 
+  5 =>
   array (
     0 => '479',
     1 => 'projected',
@@ -119,7 +119,7 @@
     15 => 'RDAMediaType:1005',
     16 => 'Published',
   ),
-  6 => 
+  6 =>
   array (
     0 => '480',
     1 => 'stereographic',
@@ -139,7 +139,7 @@
     15 => 'RDAMediaType:1006',
     16 => 'Published',
   ),
-  7 => 
+  7 =>
   array (
     0 => '481',
     1 => 'unmediated',
@@ -159,7 +159,7 @@
     15 => 'RDAMediaType:1007',
     16 => 'Published',
   ),
-  8 => 
+  8 =>
   array (
     0 => '482',
     1 => 'video',
@@ -179,7 +179,7 @@
     15 => 'RDAMediaType:1008',
     16 => 'Published',
   ),
-  9 => 
+  9 =>
   array (
     0 => '',
     1 => 'foobar',

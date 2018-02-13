@@ -14,8 +14,9 @@ class CreateProfileTable extends Migration
      */
     public function up()
     {
-        Schema::create('profile',
-            function(Blueprint $table) {
+        Schema::create(
+            'profile',
+            function (Blueprint $table) {
                 $table->increments('id');
                 $table->timestamps();
                 $table->softDeletes();
@@ -34,7 +35,8 @@ class CreateProfileTable extends Migration
                 $table->unsignedInteger('last_uri_id')->nullable()->default(100000);
                 $table->unsignedInteger('status_id')->default(1)->index();
                 $table->char('language', 12)->default('en');
-            });
+            }
+        );
     }
 
     /**

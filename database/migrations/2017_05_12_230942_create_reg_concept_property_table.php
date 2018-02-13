@@ -14,8 +14,9 @@ class CreateRegConceptPropertyTable extends Migration
      */
     public function up()
     {
-        Schema::create('reg_concept_property',
-            function(Blueprint $table) {
+        Schema::create(
+            'reg_concept_property',
+            function (Blueprint $table) {
                 $table->increments('id');
                 $table->timestamps();
                 $table->softDeletes();
@@ -36,7 +37,8 @@ class CreateRegConceptPropertyTable extends Migration
                 $table->unsignedInteger('created_by')->nullable()->index();
                 $table->unsignedInteger('updated_by')->nullable()->index();
                 $table->unsignedInteger('deleted_by')->nullable()->index();
-            });
+            }
+        );
         if (DB::getDriverName() === 'mysql') {
             DB::statement('ALTER TABLE reg_concept_property ADD FULLTEXT full( `object`)');
         }

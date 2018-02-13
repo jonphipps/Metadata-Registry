@@ -42,8 +42,10 @@ trait UserAttribute
     {
         if ($this->isConfirmed()) {
             if ($this->id != 1 && $this->id != access()->id()) {
-                return '<a href="' . route('admin.access.user.unconfirm',
-                        $this) . '" data-toggle="tooltip" data-placement="top" title="' . trans('buttons.backend.access.users.unconfirm') . '" name="confirm_item"><label class="label label-success" style="cursor:pointer">' . trans('labels.general.yes') . '</label></a>';
+                return '<a href="' . route(
+                    'admin.access.user.unconfirm',
+                    $this
+                ) . '" data-toggle="tooltip" data-placement="top" title="' . trans('buttons.backend.access.users.unconfirm') . '" name="confirm_item"><label class="label label-success" style="cursor:pointer">' . trans('labels.general.yes') . '</label></a>';
             } else {
                 return '<label class="label label-success">' . trans('labels.general.yes') . '</label>';
             }
@@ -242,9 +244,13 @@ trait UserAttribute
         if (! session()->has('admin_user_id') || ! session()->has('temp_user_id')) {
             //Won't break, but don't let them "Login As" themselves
             if ($this->id != access()->id()) {
-                return '<a href="' . route('admin.access.user.login-as',
-                    $this) . '" class="btn btn-xs btn-success"><i class="fa fa-lock" data-toggle="tooltip" data-placement="top" title="' . trans('buttons.backend.access.users.login_as',
-                    ['user' => $this->full_name]) . '"></i></a> ';
+                return '<a href="' . route(
+                    'admin.access.user.login-as',
+                    $this
+                ) . '" class="btn btn-xs btn-success"><i class="fa fa-lock" data-toggle="tooltip" data-placement="top" title="' . trans(
+                    'buttons.backend.access.users.login_as',
+                    ['user' => $this->full_name]
+                ) . '"></i></a> ';
             }
         }
 

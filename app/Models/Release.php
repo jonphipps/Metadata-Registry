@@ -161,5 +161,4 @@ class Release extends Model
     {
         return Carbon::parse($this->getAttribute('github_response')['created_at'])->toDateTimeString();
     }
-
 }

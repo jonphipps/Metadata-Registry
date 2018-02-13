@@ -14,8 +14,9 @@ class CreateRegConceptPropertyHistoryTable extends Migration
      */
     public function up()
     {
-        Schema::create('reg_concept_property_history',
-            function(Blueprint $table) {
+        Schema::create(
+            'reg_concept_property_history',
+            function (Blueprint $table) {
                 $table->increments('id');
                 $table->timestamps();
                 $table->enum('action', [ 'updated', 'added', 'deleted', 'force_deleted' ])->nullable();
@@ -33,7 +34,8 @@ class CreateRegConceptPropertyHistoryTable extends Migration
                 $table->unsignedInteger('import_id')->nullable()->index();
                 $table->unsignedInteger('profile_property_id')->nullable()->index();
                 $table->unsignedInteger('created_by')->nullable()->index();
-            });
+            }
+        );
     }
 
     /**

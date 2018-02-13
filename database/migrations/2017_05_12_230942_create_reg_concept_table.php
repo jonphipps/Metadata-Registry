@@ -14,8 +14,9 @@ class CreateRegConceptTable extends Migration
      */
     public function up()
     {
-        Schema::create('reg_concept',
-            function(Blueprint $table) {
+        Schema::create(
+            'reg_concept',
+            function (Blueprint $table) {
                 $table->increments('id');
                 $table->timestamps();
                 $table->softDeletes();
@@ -33,7 +34,8 @@ class CreateRegConceptTable extends Migration
                 $table->unsignedInteger('updated_by')->nullable()->index();
                 $table->unsignedInteger('deleted_by')->nullable()->index();
                 $table->unique([ 'vocabulary_id', 'pref_label', 'language' ], 'vocabulary_id_pref_label');
-            });
+            }
+        );
     }
 
     /**
