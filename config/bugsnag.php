@@ -77,8 +77,10 @@ return [
   |
   */
 
-  'filters' => empty(env('BUGSNAG_FILTERS')) ? [ 'password' ] : explode(',',
-      str_replace(' ', '', env('BUGSNAG_FILTERS'))),
+  'filters' => empty(env('BUGSNAG_FILTERS')) ? [ 'password' ] : explode(
+      ',',
+      str_replace(' ', '', env('BUGSNAG_FILTERS'))
+  ),
 
   /*
   |--------------------------------------------------------------------------
@@ -169,8 +171,10 @@ return [
   |
   */
 
-  'notify_release_stages' => empty(env('BUGSNAG_NOTIFY_RELEASE_STAGES')) ? null : explode(',',
-      str_replace(' ', '', env('BUGSNAG_NOTIFY_RELEASE_STAGES'))),
+  'notify_release_stages' => empty(env('BUGSNAG_NOTIFY_RELEASE_STAGES')) ? null : explode(
+      ',',
+      str_replace(' ', '', env('BUGSNAG_NOTIFY_RELEASE_STAGES'))
+  ),
 
   /*
   |--------------------------------------------------------------------------

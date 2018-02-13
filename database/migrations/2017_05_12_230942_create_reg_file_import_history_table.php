@@ -14,8 +14,9 @@ class CreateRegFileImportHistoryTable extends Migration
      */
     public function up()
     {
-        Schema::create('reg_file_import_history',
-            function(Blueprint $table) {
+        Schema::create(
+            'reg_file_import_history',
+            function (Blueprint $table) {
                 $table->increments('id');
                 $table->timestamps();
                 $table->softDeletes();
@@ -40,7 +41,8 @@ class CreateRegFileImportHistoryTable extends Migration
                 $table->unsignedInteger('export_id')->nullable()->index();
                 $table->integer('token')->nullable();
                 $table->longText('instructions')->nullable();
-            });
+            }
+        );
     }
 
     /**

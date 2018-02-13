@@ -28,7 +28,7 @@ INSERT INTO `reg_status` (`id`, `display_order`, `display_name`, `uri`) VALUES
 ";
         $this->disableForeignKeys();
         Status::truncate();
-        DB::statement( $updateStatement );
+        DB::statement($updateStatement);
         $this->enableForeignKeys();
     }
 }

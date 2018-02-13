@@ -10,7 +10,7 @@ use Tests\BrowserKitTestCase;
  */
 class AccessRepositoryTest extends BrowserKitTestCase
 {
-  use DatabaseTransactions;
+    use DatabaseTransactions;
 
     public function testGetUsersByPermissionUsingName()
     {

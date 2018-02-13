@@ -40,7 +40,6 @@ class ImportAuthorizationTest extends BrowserKitTestCase
         $this->actingAs($user);
         $this->visit(url("/projects/177/imports/{$batch->id}/worksheets"));
         $this->see('RDAMediaType');
-
     }
 
     private function createBatch()

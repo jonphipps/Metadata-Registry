@@ -33,10 +33,12 @@ class ProjectUserCrudController extends CrudController
             //     $this->crud->addClause('where', 'agent_id', '==', $project_id);
             // }
             if (request()->route()->getActionMethod() === 'search') {
-                ProjectUser::addGlobalScope('project_id',
+                ProjectUser::addGlobalScope(
+                    'project_id',
                     function (Builder $builder) use ($project_id) {
                         $builder->where('agent_id', $project_id);
-                    });
+                    }
+                );
             }
             $this->data['parent']  = $project->title . ' Project';
             $this->data['project'] = $project;
@@ -57,11 +59,13 @@ class ProjectUserCrudController extends CrudController
         // ------ CRUD FIELDS
         $this->crud->removeFields(array_keys($this->crud->create_fields), 'both');
 
-        $this->crud->addField([
+        $this->crud->addField(
+            [
             'name' => 'user_id',
             'type' => 'hidden',
-        ],
-            'update');
+            ],
+            'update'
+        );
         $this->crud->addField([
             'name'    => 'agent_id',
             'type'    => 'hidden',
@@ -147,11 +151,13 @@ class ProjectUserCrudController extends CrudController
             'entity'      => 'user',
             'attribute'   => 'name',
             'searchLogic' => function ($query, $column, $searchTerm) {
-                $query->orWhereHas('user',
+                $query->orWhereHas(
+                    'user',
                     function ($q) use ($column, $searchTerm) {
                         $q->where('first_name', 'like', '%' . $searchTerm . '%')
                             ->orWhere('last_name', 'like', '%' . $searchTerm . '%');
-                    });
+                    }
+                );
             },
             ])->afterColumn('user_id');
         $this->crud->addColumn([
@@ -161,16 +167,19 @@ class ProjectUserCrudController extends CrudController
             'entity'      => 'user',
             'attribute'   => 'nickname',
             'searchLogic' => function ($query, $column, $searchTerm) {
-                $query->orWhereHas('user',
+                $query->orWhereHas(
+                    'user',
                     function ($q) use ($column, $searchTerm) {
                         $q->where('nickname', 'like', '%' . $searchTerm . '%');
-                    });
+                    }
+                );
             },
         ])->afterColumn('user_id');
         // $this->crud->addColumns(); // add multiple columns, at the end of the stack
         // $this->crud->removeColumn('column_name'); // remove a column from the stack
         $this->crud->removeColumns(['is_admin_for', 'is_maintainer_for', 'current_language', 'id', 'created_at', 'deleted_at', 'updated_at']); // remove an array of columns from the stack
-        $this->crud->setColumnDetails('authorized_as',
+        $this->crud->setColumnDetails(
+            'authorized_as',
             [   // radio
                 'label'   => 'Authorized as', // the input label
                 'type'    => 'radio',
@@ -180,18 +189,23 @@ class ProjectUserCrudController extends CrudController
                                ProjectUser::AUTH_MAINTAINER          => 'Project Maintainer',
                                ProjectUser::AUTH_ADMIN               => 'Project Administrator',
                 ],
-            ]);
-        $this->crud->setColumnDetails('languages',
+            ]
+        );
+        $this->crud->setColumnDetails(
+            'languages',
             [
                 'label'         => 'Languages', // Table column heading
                 'type'          => 'model_function',
                 'function_name' => 'showLanguagesCommaDelimited',
-            ]);
-        $this->crud->setColumnDetails('is_registrar_for',
+            ]
+        );
+        $this->crud->setColumnDetails(
+            'is_registrar_for',
             [
                 'label' => 'Registrar',
                 'type'  => 'boolean',
-            ]);
+            ]
+        );
         $this->crud->setColumnsDetails(['agent_id', 'default_language'], ['list' => false]);
         $this->crud->setColumnsDetails(['agent_id'], ['show' => false]);
 

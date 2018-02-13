@@ -2,8 +2,9 @@
 /** Created by PhpStorm,  User: jonphipps,  Date: 2017-05-27,  Time: 10:54 AM */
 
 /** @var Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(App\Models\Export::class,
-    function(Faker\Generator $faker) {
+$factory->define(
+    App\Models\Export::class,
+    function (Faker\Generator $faker) {
         return [
             'user_id'                    => getRandomClassId('Access\User\User'),
             'vocabulary_id'              => getRandomClassId('Vocabulary'),
@@ -21,10 +22,12 @@ $factory->define(App\Models\Export::class,
             'file'                       => $faker->word,
             'map'                        => serialize([ $faker->randomDigit, $faker->randomDigit, ]),
         ];
-    });
+    }
+);
 
-$factory->define(App\Models\Import::class,
-    function(Faker\Generator $faker) {
+$factory->define(
+    App\Models\Import::class,
+    function (Faker\Generator $faker) {
         return [
             'source_file_name' => $faker->word,
             'source'           => $faker->randomElement(['Google', 'upload']),
@@ -41,4 +44,5 @@ $factory->define(App\Models\Import::class,
             'schema_id'        => getRandomClassId('Elementset'),
             'token'            => $faker->randomNumber(),
         ];
-    });
+    }
+);

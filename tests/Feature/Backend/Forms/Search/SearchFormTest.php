@@ -10,9 +10,9 @@ use Tests\BrowserKitTestCase;
  */
 class SearchFormTest extends BrowserKitTestCase
 {
-  use DatabaseTransactions;
+    use DatabaseTransactions;
 
-  public function testSearchPageWithNoQuery()
+    public function testSearchPageWithNoQuery()
     {
         $this->actingAs($this->admin)
              ->visit('/admin/search')

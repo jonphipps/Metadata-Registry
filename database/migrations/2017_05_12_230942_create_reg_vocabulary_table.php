@@ -14,8 +14,9 @@ class CreateRegVocabularyTable extends Migration
      */
     public function up()
     {
-        Schema::create('reg_vocabulary',
-            function(Blueprint $table) {
+        Schema::create(
+            'reg_vocabulary',
+            function (Blueprint $table) {
                 $table->increments('id');
                 $table->timestamps();
                 $table->softDeletes();
@@ -45,7 +46,8 @@ class CreateRegVocabularyTable extends Migration
                 $table->unsignedInteger('updated_by')->nullable()->index();
                 $table->unsignedInteger('deleted_by')->nullable()->index();
                 $table->unsignedInteger('child_updated_by')->nullable()->index();
-            });
+            }
+        );
     }
 
     /**

@@ -66,7 +66,7 @@ class LoggedOutFormTest extends BrowserKitTestCase
         $faker = Factory::create();
          $firstName = $faker->firstName;
         $lastName = $faker->lastName;
-       $name     = $faker->userName;
+        $name     = $faker->userName;
         $email    = $faker->safeEmail;
         $password = $faker->password(8);
 
@@ -79,14 +79,16 @@ class LoggedOutFormTest extends BrowserKitTestCase
              ->type($password, 'password_confirmation')
              ->press('Register')
              ->seePageIs('/')
-            ->seeInDatabase(config('access.users_table'),
-                 [
+            ->seeInDatabase(
+                config('access.users_table'),
+                [
                      'email' => $email,
                      'first_name' => $firstName,
                      'last_name' => $lastName,
                      'nickname' => $name,
                      'confirmed' => 1,
-                 ]);
+                ]
+            );
 
         Event::assertDispatched(UserRegistered::class);
     }
@@ -107,7 +109,7 @@ class LoggedOutFormTest extends BrowserKitTestCase
         $faker =  Factory::create();
          $firstName = $faker->firstName;
         $lastName = $faker->lastName;
-       $name  = $faker->userName;
+        $name  = $faker->userName;
         $email = $faker->safeEmail;
         $password = $faker->password(8);
 
@@ -122,14 +124,16 @@ class LoggedOutFormTest extends BrowserKitTestCase
             ->see('Your account was successfully created. We have sent you an e-mail to confirm your account.')
             ->see('Login')
             ->seePageIs('/')
-            ->seeInDatabase(config('access.users_table'),
+            ->seeInDatabase(
+                config('access.users_table'),
                 [
                     'email' => $email,
                      'first_name' => $firstName,
                     'last_name' => $lastName,
                    'nickname' => $name,
                     'confirmed' => 0,
-                ]);
+                ]
+            );
 
         // Get the user that was inserted into the database
         $user = User::where('nickname', $name)->first();
@@ -170,14 +174,16 @@ class LoggedOutFormTest extends BrowserKitTestCase
             ->see('Your account was successfully created and is pending approval. An e-mail will be sent when your account is approved.')
             ->see('Login')
             ->seePageIs('/')
-            ->seeInDatabase(config('access.users_table'),
+            ->seeInDatabase(
+                config('access.users_table'),
                 [
                     'email' => $email,
                     'first_name' => $firstName,
                     'last_name' => $lastName,
                     'nickname' => $name,
                     'confirmed' => 0,
-                ]);
+                ]
+            );
 
         // Get the user that was inserted into the database
         $user = User::where('nickname', $name)->first();
@@ -329,12 +335,12 @@ class LoggedOutFormTest extends BrowserKitTestCase
      */
     public function testResetPasswordRequiredFields()
     {
-      $token = $this->app->make('auth.password.broker')->createToken($this->user);
+        $token = $this->app->make('auth.password.broker')->createToken($this->user);
 
       //add the user name to the password tokens table
-      DB::table('password_resets')->where('email', $this->user->email)->update([ 'name' => $this->user->nickname ]);
+        DB::table('password_resets')->where('email', $this->user->email)->update([ 'name' => $this->user->nickname ]);
 
-      $this->visit('password/reset/' . $token)
+        $this->visit('password/reset/' . $token)
          ->see($this->user->email)
          ->see($this->user->nickname)
          ->type('', 'password')

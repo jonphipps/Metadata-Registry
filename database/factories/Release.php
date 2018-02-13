@@ -17,18 +17,21 @@ $factory->define(App\Models\Release::class, function (Faker $faker) {
     ];
 });
 
-$factory->state(App\Models\Release::class,
+$factory->state(
+    App\Models\Release::class,
     'testing',
-    function() {
+    function () {
         return [
             'created_at' => '2017-10-17 20:58:41',
             'updated_at' => '2017-10-17 20:58:41',
             'tag_name'   => 'v2.7.3',
         ];
-    });
+    }
+);
 
-$factory->define(App\Models\Releasable::class,
-    function(Faker $faker) {
+$factory->define(
+    App\Models\Releasable::class,
+    function (Faker $faker) {
         $type = $faker->randomElement([ 'Elementset', 'Vocabulary' ]);
 
         return [
@@ -36,29 +39,34 @@ $factory->define(App\Models\Releasable::class,
             'releaseable_id' => getRandomClassId($type),
             'releasable_type' => "App\Models\{$type}",
         ];
-    });
+    }
+);
 
-$factory->state(App\Models\Releasable::class,
+$factory->state(
+    App\Models\Releasable::class,
     'vocabulary',
-    function() {
+    function () {
         return [
             'release_id'      => getRandomClassId('Release'),
             'releaseable_id'  => getRandomClassId('Vocabulary'),
-            'releasable_type' => 'App\Models\Vocabulary',
+            'releasable_type' => \App\Models\Vocabulary::class,
         ];
-    });
+    }
+);
 
-$factory->state(App\Models\Releasable::class,
+$factory->state(
+    App\Models\Releasable::class,
     'elementset',
-    function() {
+    function () {
         return [
             'release_id'      => getRandomClassId('Release'),
             'releaseable_id'  => getRandomClassId('ElementSet'),
-            'releasable_type' => 'App\Models\Elementset',
+            'releasable_type' => \App\Models\Elementset::class,
         ];
-    });
+    }
+);
 
-if ( ! function_exists('getGitHubResponse')) {
+if (! function_exists('getGitHubResponse')) {
     function getGitHubResponse()
     {
         return '{

@@ -176,8 +176,8 @@ class UserRouteTest extends BrowserKitTestCase
 
     public function testUserIsDeletedBeforeBeingPermanentlyDeleted()
     {
-      $this->actingAs($this->admin);
-      $this->user = $this->admin;
+        $this->actingAs($this->admin);
+        $this->user = $this->admin;
              $this->seeInDatabase(config('access.users_table'), ['id' => $this->user->id, 'deleted_at' => null])
             ->visit('/admin/access/user')
             ->visit('/admin/access/user/'.$this->user->id.'/delete')

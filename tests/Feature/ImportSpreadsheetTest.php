@@ -56,7 +56,7 @@ class ImportSpreadsheetTest extends BrowserKitTestCase
     /** @test */
     public function IfThereIsNoPreviousImportThereIsNoSelectDropDown()
     {
-        //given 
+        //given
         $this->IAmTheProjectAdministrator();
         $project = create(Project::class);
         $this->visit(route('frontend.project.import.create', [ 'project' => $project->id ]));
@@ -79,45 +79,46 @@ class ImportSpreadsheetTest extends BrowserKitTestCase
         $this->IAmOnAProjectPage();
     }
 
-    protected function IPressTheAddImportButton() {
+    protected function IPressTheAddImportButton()
+    {
 
         $this->click('Add Import');
-
     }
 
-    protected function IAmOnTheImportCreatePage() {
+    protected function IAmOnTheImportCreatePage()
+    {
 
-        $this->assertPageLoaded(route('frontend.project.import.create',['project' => $this->project->id]));
-
+        $this->assertPageLoaded(route('frontend.project.import.create', ['project' => $this->project->id]));
     }
 
-    protected function IEnterAProcessableURL() {
+    protected function IEnterAProcessableURL()
+    {
 
-        $this->type( TestData::getTestData()['import']['validSpreadsheetUri'], 'source_file_name');
-
+        $this->type(TestData::getTestData()['import']['validSpreadsheetUri'], 'source_file_name');
     }
 
-    protected function ISelectAProcessableURL() {
+    protected function ISelectAProcessableURL()
+    {
 
         $this->select(TestData::getTestData()['import']['validSpreadsheetName'], 'source_file_name');
-
     }
 
-    protected function IPressTheNextButton() {
+    protected function IPressTheNextButton()
+    {
 
         $this->press('Next');
-
     }
 
-    protected function IAmOnTheWorksheetPage() {
+    protected function IAmOnTheWorksheetPage()
+    {
 
         $this->assertPageLoaded(route('frontend.project.import.create', [ 'project' => $this->project->id, 'batch'=> '1', 'step' => 'worksheet']));
     }
 
-    protected function ISeeANewBatchEntryInTheDatabase() {
+    protected function ISeeANewBatchEntryInTheDatabase()
+    {
 
         //$this->markTestIncomplete('Time to code');
-
     }
 
     protected function addPreviousBatchData()

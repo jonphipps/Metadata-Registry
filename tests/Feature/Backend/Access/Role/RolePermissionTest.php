@@ -8,7 +8,7 @@ use Tests\BrowserKitTestCase;
 
 class RolePermissionTest extends BrowserKitTestCase
 {
-  use DatabaseTransactions;
+    use DatabaseTransactions;
 
     public function testSavePermissionsToRole()
     {

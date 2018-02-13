@@ -14,8 +14,9 @@ class CreateRegBatchTable extends Migration
      */
     public function up()
     {
-        Schema::create('reg_batch',
-            function(Blueprint $table) {
+        Schema::create(
+            'reg_batch',
+            function (Blueprint $table) {
                 $table->increments('id');
                 $table->dateTime('run_time')->nullable();
                 $table->text('run_description')->nullable();
@@ -25,7 +26,8 @@ class CreateRegBatchTable extends Migration
                 $table->string('event_type', 20)->nullable();
                 $table->text('event_description')->nullable();
                 $table->string('registry_uri')->nullable();
-            });
+            }
+        );
     }
 
     /**

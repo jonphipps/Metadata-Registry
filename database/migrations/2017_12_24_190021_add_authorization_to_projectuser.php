@@ -14,7 +14,7 @@ class AddAuthorizationToProjectuser extends Migration
     public function up()
     {
         Schema::table('reg_agent_has_user', function (Blueprint $table) {
-            $table->tinyInteger( 'authorized_as')->default(0);
+            $table->tinyInteger('authorized_as')->default(0);
         });
     }
 

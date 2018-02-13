@@ -2,27 +2,32 @@
 /** Created by PhpStorm,  User: jonphipps,  Date: 2017-05-27,  Time: 11:52 AM */
 
 /** @var Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(App\Models\Lookup::class,
-    function(Faker\Generator $faker) {
+$factory->define(
+    App\Models\Lookup::class,
+    function (Faker\Generator $faker) {
         return [
             'type_id'       => $faker->randomNumber(),
             'short_value'   => $faker->word,
             'long_value'    => $faker->word,
             'display_order' => $faker->randomNumber(),
         ];
-    });
+    }
+);
 
-$factory->define(App\Models\Prefix::class,
-    function(Faker\Generator $faker) {
+$factory->define(
+    App\Models\Prefix::class,
+    function (Faker\Generator $faker) {
         return [
             'prefix' => $faker->word,
             'uri'    => $faker->url,
             'rank'   => $faker->randomNumber(),
         ];
-    });
+    }
+);
 
-$factory->define(App\Models\Profile::class,
-    function(Faker\Generator $faker) {
+$factory->define(
+    App\Models\Profile::class,
+    function (Faker\Generator $faker) {
         return [
             'created_by'       => getRandomClassId('Access\User\User'),
             'updated_by'       => getRandomClassId('Access\User\User'),
@@ -40,10 +45,12 @@ $factory->define(App\Models\Profile::class,
             'status_id'        => getRandomClassId('Status'),
             'language'         => $faker->languageCode,
         ];
-    });
+    }
+);
 
-$factory->define(App\Models\ProfileProperty::class,
-    function(Faker\Generator $faker) {
+$factory->define(
+    App\Models\ProfileProperty::class,
+    function (Faker\Generator $faker) {
         return [
             'created_by'                  => getRandomClassId('Access\User\User'),
             'updated_by'                  => getRandomClassId('Access\User\User'),
@@ -80,4 +87,5 @@ $factory->define(App\Models\ProfileProperty::class,
             // obsolete 'skos_id'                     => $faker->randomNumber(),
             // obsolete 'skos_parent_id'              => $faker->randomNumber(),
         ];
-    });
+    }
+);

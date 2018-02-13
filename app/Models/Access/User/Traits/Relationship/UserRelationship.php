@@ -14,10 +14,12 @@ trait UserRelationship
 {
     public function roles(): ?BelongsToMany
     {
-        return $this->belongsToMany(config('access.role'),
+        return $this->belongsToMany(
+            config('access.role'),
             config('access.role_user_table'),
             'user_id',
-            'role_id');
+            'role_id'
+        );
     }
 
     public function providers(): ?HasMany

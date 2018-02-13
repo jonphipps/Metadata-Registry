@@ -15,21 +15,21 @@ use Illuminate\Database\Eloquent\Model;
 */
 
 /** @var Illuminate\Database\Eloquent\Factory $factory */
-if ( ! function_exists('getRandomConceptProfilePropertyId')) {
+if (! function_exists('getRandomConceptProfilePropertyId')) {
     function getRandomConceptProfilePropertyId(array $except = [])
     {
         return getRandomClassId('ProfileProperty', [ 'profile_id', '=', 2 ], $except);
     }
 }
 
-if ( ! function_exists('getRandomElementProfilePropertyId')) {
+if (! function_exists('getRandomElementProfilePropertyId')) {
     function getRandomElementProfilePropertyId(array $except = [])
     {
         return getRandomClassId('ProfileProperty', [ 'profile_id', '=', 1 ], $except);
     }
 }
 
-if ( ! function_exists( 'getRandomClassId' ) ) {
+if (! function_exists('getRandomClassId')) {
     /**
      * @param string $classFqn  The fully qualified Model class
      * @param array  $where     Add a where query example: ['profile_id','=', 1]
@@ -58,7 +58,7 @@ if ( ! function_exists( 'getRandomClassId' ) ) {
     }
 }
 
-if ( ! function_exists('getRandomAction')) {
+if (! function_exists('getRandomAction')) {
     function getRandomAction(Faker\Generator $faker)
     {
         return $faker->randomElement(['Added', 'Updated', 'Deleted']);

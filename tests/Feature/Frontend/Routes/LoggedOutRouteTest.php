@@ -16,7 +16,7 @@ use App\Notifications\Frontend\Auth\UserNeedsConfirmation;
  */
 class LoggedOutRouteTest extends BrowserKitTestCase
 {
-  use DatabaseTransactions;
+    use DatabaseTransactions;
 
   /**
      * User Logged Out Frontend.
@@ -119,8 +119,10 @@ class LoggedOutRouteTest extends BrowserKitTestCase
          ->seePageIs('/login')
          ->see('A new confirmation e-mail has been sent to the address on file.');
 
-        Notification::assertSentTo([$this->user],
-            UserNeedsConfirmation::class);
+        Notification::assertSentTo(
+            [$this->user],
+            UserNeedsConfirmation::class
+        );
     }
 
   /**

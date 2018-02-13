@@ -22,9 +22,9 @@ class ProjectList extends BasePage
      *
      * @return void
      */
-    public function assert( Browser $browser )
+    public function assert(Browser $browser)
     {
-        $browser->assertPathIs( $this->url() );
+        $browser->assertPathIs($this->url());
     }
 
     /**
@@ -38,5 +38,4 @@ class ProjectList extends BasePage
             '@element' => '#selector',
         ];
     }
-
 }

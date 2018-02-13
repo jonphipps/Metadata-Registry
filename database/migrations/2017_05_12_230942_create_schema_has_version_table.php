@@ -14,8 +14,9 @@ class CreateSchemaHasVersionTable extends Migration
      */
     public function up()
     {
-        Schema::create('schema_has_version',
-            function(Blueprint $table) {
+        Schema::create(
+            'schema_has_version',
+            function (Blueprint $table) {
                 $table->increments('id');
                 $table->string('name')->default('');
                 $table->timestamps();
@@ -24,7 +25,8 @@ class CreateSchemaHasVersionTable extends Migration
                 $table->unsignedInteger('schema_id')->nullable()->index();
                 $table->dateTime('timeslice')->nullable();
                 $table->unsignedInteger('created_by')->nullable()->index();
-            });
+            }
+        );
     }
 
     /**
