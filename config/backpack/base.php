@@ -78,7 +78,7 @@ return [
     */
 
     // Fully qualified namespace of the User model
-    'user_model_fqn' => '\App\Models\Access\User\User',
+    'user_model_fqn' => \App\Models\Access\User\User::class,
 
     // What kind of avatar will you like to show to the user?
     // Default: gravatar (automatically use the gravatar for his email)
