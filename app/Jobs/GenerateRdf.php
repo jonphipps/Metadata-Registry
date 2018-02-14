@@ -210,7 +210,7 @@ class GenerateRdf implements ShouldQueue
      */
     private function makeReleaseArray(): array
     {
-        return ['tag_name' => $this->release->tag_name, 'published_at' => $this->release->created_at->format('F j, Y')];
+        return ['tag_name' => $this->release->tag_name, 'published_at' => $this->release->published_at->format('F j, Y')];
     }
 
     /**
@@ -264,10 +264,8 @@ class GenerateRdf implements ShouldQueue
      *
      * @throws \InvalidArgumentException
      */
-    private function updateRelease(VocabsModel $vocab)
+    private function updateRelease(VocabsModel $vocab): void
     {
-        $release = $this->makeReleaseArray();
-        $publishedAt = Carbon::createFromFormat('F j, Y', $release['published_at'])->toDateTimeString();
-        $vocab->releases()->save($this->release, ['published_at' => $publishedAt]);
+        $vocab->releases()->updateExistingPivot($this->release->id, ['published_at' => $this->release->published_at]);
     }
 }
