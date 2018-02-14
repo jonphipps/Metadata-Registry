@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Carbon;
 
 class Publish implements ShouldQueue
 {
@@ -56,6 +57,9 @@ class Publish implements ShouldQueue
 
         //now we're ready to go...
 
+        //todo: this section should be in a transaction
+        $this->release->published_at = Carbon::now();
+        $this->release->save();
         //foreach selected vocabulary
         $vocabs = $this->release->vocabularies()->get();
         foreach ($vocabs as $vocab) {
