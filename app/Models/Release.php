@@ -6,6 +6,7 @@ use App\Models\Traits\BelongsToProject;
 use App\Models\Traits\BelongsToUser;
 use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
@@ -113,14 +114,14 @@ class Release extends Model
     |--------------------------------------------------------------------------
     */
 
-    public function vocabularies(): ?MorphToMany
+    public function vocabularies(): ?BelongsToMany
     {
-        return $this->morphedByMany(Vocabulary::class, 'releaseable');
+        return $this->morphedByMany(Vocabulary::class, 'releaseable')->withTimestamps();
     }
 
-    public function elementsets(): ?MorphToMany
+    public function elementsets(): ?BelongsToMany
     {
-        return $this->morphedByMany(Elementset::class, 'releaseable');
+        return $this->morphedByMany(Elementset::class, 'releaseable')->withTimestamps();
     }
 
     /*
