@@ -23,6 +23,7 @@ $factory->state(App\Models\Release::class,
         return [
             'created_at' => '2017-10-17 20:58:41',
             'updated_at' => '2017-10-17 20:58:41',
+            'published_at' => '2017-10-17 20:58:41',
             'tag_name'   => 'v2.7.3',
         ];
     });
