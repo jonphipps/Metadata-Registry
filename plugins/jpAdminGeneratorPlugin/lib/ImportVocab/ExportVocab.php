@@ -183,18 +183,26 @@ class ExportVocab {
       $writer->writeItem($row);
 
       //get the data
-        if ( $this->populate ) {
-          $prefixes          = $this->getPrefixes();
-          $prefixPattern     = [];
-          $prefixReplacement = [];
-          foreach ($prefixes as $prefix => $namespace) {
-            if (trim($prefix)) {
-              if ( ! is_int($prefix)) {
-                $prefixPattern[]     = "|" . $namespace . "|";
-                $prefixReplacement[] = $prefix . ":";
-              }
+        if ($this->populate) {
+            $prefixes          = $this->getPrefixes();
+            $prefixPattern     = [];
+            $prefixReplacement = [];
+            $prefixCount       = [];
+            foreach ($this->prefixes as $prefix => $namespace) {
+                $prefixCount[substr_count($namespace, '/')][$prefix] = $namespace;
             }
-          }
+            $iMax           = max(array_keys($prefixCount));
+            $this->prefixes = [];
+            for ($i = $iMax; $i > 0; $i--) {
+                foreach ($prefixCount[$i] as $prefix => $namespace) {
+                    if (trim($prefix)) {
+                        if (! is_int($prefix)) {
+                            $prefixPattern[]     = "|" . $namespace . "|";
+                            $prefixReplacement[] = $prefix . ":";
+                        }
+                    }
+                }
+            }
 
           $dataArray = $this->schema->getDataForExport($this->excludeDeprecated,
               $this->includeGenerated,
