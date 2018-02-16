@@ -10,7 +10,7 @@ trait UserAccess
     /**
      * Checks if the user has a Role by its name or id.
      *
-     * @param string $nameOrId Role name or id.
+     * @param string $nameOrId role name or id
      *
      * @return bool
      */
@@ -81,7 +81,7 @@ trait UserAccess
     /**
      * Check if user has a permission by its name or id.
      *
-     * @param string $nameOrId Permission name or id.
+     * @param string $nameOrId permission name or id
      *
      * @return bool
      */

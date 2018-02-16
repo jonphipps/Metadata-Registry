@@ -77,7 +77,7 @@ class Access
     /**
      * Checks if the current user has a Role by its name or id.
      *
-     * @param string $role Role name.
+     * @param string $role role name
      *
      * @return bool
      */
@@ -110,7 +110,7 @@ class Access
     /**
      * Check if the current user has a permission by its name or id.
      *
-     * @param string $permission Permission name or id.
+     * @param string $permission permission name or id
      *
      * @return bool
      */
