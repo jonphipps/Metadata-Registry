@@ -54,13 +54,13 @@ class Git
 
     /**
      * @param \App\Models\Project $project
-     * @param string              $disk
      * @param                     $message
+     * @param string              $disk
      *
      * @return void
      * @throws \GitWrapper\GitException
      */
-    public static function commitDir(Project $project, $disk = GenerateRdf::REPO_ROOT, $message): void
+    public static function commitDir(Project $project, $message, $disk = GenerateRdf::REPO_ROOT): void
     {
         $projectPath = self::getProjectPath($project->id);
         $dir         = Storage::disk($disk)->path($projectPath);

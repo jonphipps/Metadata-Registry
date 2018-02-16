@@ -75,7 +75,7 @@ class Publish implements ShouldQueue
         }
         //when the jobs are complete:
         //commit the generated rdf with the version as the commit message
-        Git::commitDir($project, $this->disk, $this->release->tag_name);
+        Git::commitDir($project, $this->release->tag_name, $this->disk);
         //tag the commit with the version
         //push the repo to github
         //run the GenerateDocs job
