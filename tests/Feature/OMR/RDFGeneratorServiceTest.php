@@ -5,8 +5,8 @@ namespace Tests\Feature\OMR;
 use App\Jobs\GenerateRdf;
 use App\Models\Elementset;
 use App\Models\Release;
-use App\Models\VocabsModel;
 use App\Models\Vocabulary;
+use App\Services\Publish\Git;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Snapshots\MatchesSnapshots;
 use Tests\TestCase;
@@ -64,8 +64,8 @@ class RDFGeneratorServiceTest extends TestCase
         $vocab = Vocabulary::findOrFail(37);
         $job = new GenerateRdf($vocab, $this->release, 'test');
 
-        Storage::disk('test')->assertExists($job->getProjectPath($vocab->project_id).'.git');
-        Storage::disk('test')->assertExists($job->getProjectPath($vocab->project_id).'termList');
+        Storage::disk('test')->assertExists(Git::getProjectPath($vocab->project_id) .'.git');
+        Storage::disk('test')->assertExists(Git::getProjectPath($vocab->project_id) .'termList');
         // $dir = Storage::disk('test')->path($job->getProjectPath());
         // $process = new Process('git status', $dir);
         // $process->run();
@@ -78,7 +78,7 @@ class RDFGeneratorServiceTest extends TestCase
         $vocab = Vocabulary::findOrFail(31);
         $job = new GenerateRdf($vocab, $this->release, 'test');
 
-        Storage::disk('test')->assertExists($job->getProjectPath($vocab->project_id).'.git');
+        Storage::disk('test')->assertExists(Git::getProjectPath($vocab->project_id) .'.git');
         // $dir = Storage::disk('test')->path($job->getProjectPath());
         // $process = new Process('git status', $dir);
         // $process->run();

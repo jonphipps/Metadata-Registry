@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\Release;
 use App\Notifications\Frontend\ReleaseWasPublished;
+use App\Services\Publish\Git;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -39,6 +40,7 @@ class Publish implements ShouldQueue
      * Execute the job.
      *
      * @return void
+     * @throws \InvalidArgumentException
      * @throws \GitWrapper\GitException
      * @throws \Symfony\Component\Process\Exception\RuntimeException
      * @throws \Symfony\Component\Process\Exception\ProcessFailedException
@@ -47,10 +49,10 @@ class Publish implements ShouldQueue
     public function handle()
     {
         //todo:lot's more try/catch here
-        $project_id = $this->release->project_id;
-        $repo       = $this->release->project->repo;
+        $project = $this->release->project;
+        $repo       = $project->repo;
         //todo: rdf generator shouldn't responsible for storage management or git stuff
-        GenerateRdf::initDir($project_id, $this->disk);
+        Git::initDir($project, $this->disk);
         //if the project has a github repo
         //and it's a valid repo
         //pull the repo

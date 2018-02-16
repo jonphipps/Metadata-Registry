@@ -3,21 +3,18 @@
 namespace App\Jobs;
 
 use App\Models\Elementset;
-use App\Models\Project;
 use App\Models\Release;
 use App\Models\VocabsModel;
 use App\Models\Vocabulary;
+use App\Services\Publish\Git;
 use apps\frontend\lib\services\jsonldElementsetService;
 use apps\frontend\lib\services\jsonldVocabularyService;
-use GitWrapper\GitException;
-use GitWrapper\GitWrapper;
 use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
@@ -56,6 +53,8 @@ class GenerateRdf implements ShouldQueue
      * @param VocabsModel $model
      * @param Release     $release
      * @param string      $disk
+     *
+     * @throws \GitWrapper\GitException
      */
     public function __construct(VocabsModel $model, Release $release, $disk = self::REPO_ROOT)
     {
@@ -67,7 +66,7 @@ class GenerateRdf implements ShouldQueue
         $this->filePath  = rtrim(parse_url($model->uri)['path'], '/');
         $this->fileName  = str_replace_first($basePath, '', parse_url($model->uri)['path']);
         $this->disk      = $disk;
-        self::initDir($this->projectId, $this->disk);
+        Git::initDir($model->project, $this->disk);
         $this->release = $release;
     }
 
@@ -75,6 +74,7 @@ class GenerateRdf implements ShouldQueue
      * Execute the job.
      *
      * @return void
+     * @throws \InvalidArgumentException
      */
     public function handle(): void
     {
@@ -104,51 +104,7 @@ class GenerateRdf implements ShouldQueue
      */
     public function getStoragePath($mimeType): string
     {
-        return self::getProjectPath($this->projectId) . "{$mimeType}{$this->filePath}.$mimeType";
-    }
-
-    public static function getProjectPath($projectId)
-    {
-        return self::PROJECT_ROOT . "/{$projectId}/";
-    }
-
-    public static function getProjectRepo($projectId)
-    {
-        $project = Project::find($projectId);
-        $repo    = $project ? $project->repo : null;
-
-        return $repo ? "https://github.com/{$repo}.git" : null;
-    }
-
-    /**
-     * @param int    $projectId
-     * @param string $disk
-     *
-     * @return void
-     * @throws GitException
-     * @throws \Symfony\Component\Process\Exception\LogicException
-     * @throws \Symfony\Component\Process\Exception\RuntimeException
-     * @throws \Symfony\Component\Process\Exception\ProcessFailedException
-     */
-    public static function initDir($projectId, $disk = self::REPO_ROOT): void
-    {
-        $projectPath = self::getProjectPath($projectId);
-        if (! Storage::disk($disk)->exists($projectPath)) {
-            $dir = Storage::disk($disk)->path($projectPath);
-
-            /** @var GitWrapper $wrapper */
-            $wrapper = new GitWrapper();
-            $repo    = self::getProjectRepo($projectId);
-            if ($repo) {
-                $git = $wrapper->cloneRepository($repo, $dir);
-                if (! $git->isCloned()) {
-                    throw new GitException($git);
-                }
-            } else {
-                Storage::disk($disk)->createDir($projectPath);
-                $wrapper->init($dir);
-            }
-        }
+        return Git::getProjectPath($this->projectId) . "{$mimeType}{$this->filePath}.$mimeType";
     }
 
     public function saveXml()
