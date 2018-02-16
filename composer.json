@@ -115,7 +115,7 @@
     "require-dev":
     {
         "backpack/generators": "^1.1",
-        "barryvdh/laravel-debugbar": "^2.1",
+        "barryvdh/laravel-debugbar": "^3.0",
         "barryvdh/laravel-ide-helper": "^2.3",
         "filp/whoops": "~2.0",
         "flow/jsonpath": "^0.3.4",

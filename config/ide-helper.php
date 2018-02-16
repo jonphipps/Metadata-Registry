@@ -14,6 +14,8 @@ return [
     'filename'  => '_ide_helper',
     'format'    => 'php',
 
+    'meta_filename' => '.phpstorm.meta.php',
+
     /*
     |--------------------------------------------------------------------------
     | Fluent helpers
@@ -24,6 +26,17 @@ return [
     */
 
     'include_fluent' => true,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Write Model Magic methods
+    |--------------------------------------------------------------------------
+    |
+    | Set to false to disable write magic methods of model
+    |
+    */
+
+    'write_model_magic_where' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -52,7 +65,8 @@ return [
     */
 
     'model_locations' => [
-        'app', 'app/Models',
+        'app',
+        'app/Models',
         'app/Models/Access/Permission',
         'app/Models/Access/Role',
         'app/Models/Access/User',
