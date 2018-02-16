@@ -53,6 +53,29 @@ class Git
     }
 
     /**
+     * @param \App\Models\Project $project
+     * @param string              $disk
+     * @param                     $message
+     *
+     * @return void
+     * @throws \GitWrapper\GitException
+     */
+    public static function commitDir(Project $project, $disk = GenerateRdf::REPO_ROOT, $message): void
+    {
+        $projectPath = self::getProjectPath($project->id);
+        $dir         = Storage::disk($disk)->path($projectPath);
+
+        /** @var GitWrapper $wrapper */
+        $wrapper = static::getWrapper();
+        $git = $wrapper->workingCopy($dir);
+
+        if ($git->hasChanges()) {
+            $git->add('.');
+            $git->commit($message);
+        }
+    }
+
+    /**
      * @return \GitWrapper\GitWrapper
      * @throws \GitWrapper\GitException
      */

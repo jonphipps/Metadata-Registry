@@ -51,7 +51,7 @@ class Publish implements ShouldQueue
         //todo:lot's more try/catch here
         $project = $this->release->project;
         $repo       = $project->repo;
-        //todo: rdf generator shouldn't responsible for storage management or git stuff
+        //todo: rdf generator shouldn't responsible for storage management
         Git::initDir($project, $this->disk);
         //if the project has a github repo
         //and it's a valid repo
@@ -75,6 +75,7 @@ class Publish implements ShouldQueue
         }
         //when the jobs are complete:
         //commit the generated rdf with the version as the commit message
+        Git::commitDir($project, $this->disk, $this->release->tag_name);
         //tag the commit with the version
         //push the repo to github
         //run the GenerateDocs job
