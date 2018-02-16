@@ -139,6 +139,10 @@ return [
             'password_updated'     => 'Password successfully updated.',
         ],
 
+        'publish' => [
+            'queued' => 'Your request to Publish has been queued. You will receive a notification when it\'s finished',
+        ],
+
         'welcome_to' => 'Welcome to :place',
     ],
 ];
