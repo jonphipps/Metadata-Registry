@@ -37,13 +37,13 @@ class Role extends Model
 {
     use RoleScope, RoleAccess, RoleAttribute, RoleRelationship;
     /**
-     * The database table used by the model.
+     * The database table used by the model
      *
      * @var string
      */
     protected $table;
     /**
-     * The attributes that are mass assignable.
+     * The attributes that are mass assignable
      *
      * @var array
      */
