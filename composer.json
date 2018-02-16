@@ -29,8 +29,12 @@
     {
         "type": "vcs",
         "url": "git@github.com:jonphipps/laravel-wizard.git"
+    },
+    {
+        "type": "vcs",
+        "url": "git@github.com:jonphipps/laravel-ide-helper.git"
     }],
-    "license": "Apache-2.0",
+    "license": "GNU AFFERO GENERAL PUBLIC LICENSE",
     "authors": [
     {
         "name": "Jon Phipps",
@@ -116,7 +120,7 @@
     {
         "backpack/generators": "^1.1",
         "barryvdh/laravel-debugbar": "^3.0",
-        "barryvdh/laravel-ide-helper": "^2.3",
+        "barryvdh/laravel-ide-helper": "dev-Make-Model-Helper-Optional as 2.4.2",
         "filp/whoops": "~2.0",
         "flow/jsonpath": "^0.3.4",
         "fzaninotto/faker": "^1.6",
@@ -130,7 +134,6 @@
         "orangehill/iseed": "^2.3",
         "pbmedia/laravel-browser-kit-macro": "^1.0",
         "phpunit/phpunit": "~6.0",
-        "recca0120/laravel-tracy": "^1.8",
         "spatie/laravel-db-snapshots": "^1.0",
         "spatie/phpunit-snapshot-assertions": "^1.0",
         "stechstudio/laravel-vfs-adapter": "^2.0",
@@ -172,7 +175,6 @@
         {
             "dont-discover": [
                 "backpack/generators",
-                "barryvdh/laravel-debugbar",
                 "laravel/dusk"
             ]
         }
