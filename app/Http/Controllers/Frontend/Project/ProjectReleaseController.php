@@ -13,6 +13,7 @@ class ProjectReleaseController extends Controller
     {
         $this->dispatch(new Publish($release));
         Alert::success(trans('strings.frontend.publish.queued'))->flash();
+
         return back();
     }
 }

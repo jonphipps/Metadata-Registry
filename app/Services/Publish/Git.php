@@ -60,14 +60,14 @@ class Git
      * @return void
      * @throws \GitWrapper\GitException
      */
-    public static function commitDir(Project $project, $disk = GenerateRdf::REPO_ROOT, $message): void
+    public static function commitDir(Project $project, $disk, $message): void
     {
         $projectPath = self::getProjectPath($project->id);
         $dir         = Storage::disk($disk)->path($projectPath);
 
         /** @var GitWrapper $wrapper */
         $wrapper = static::getWrapper();
-        $git = $wrapper->workingCopy($dir);
+        $git     = $wrapper->workingCopy($dir);
 
         if ($git->hasChanges()) {
             $git->add('.');

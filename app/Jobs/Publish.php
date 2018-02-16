@@ -49,7 +49,7 @@ class Publish implements ShouldQueue
     public function handle()
     {
         //todo:lot's more try/catch here
-        $project = $this->release->project;
+        $project    = $this->release->project;
         $repo       = $project->repo;
         //todo: rdf generator shouldn't responsible for storage management
         Git::initDir($project, $this->disk);

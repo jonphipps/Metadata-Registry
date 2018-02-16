@@ -197,13 +197,15 @@ class User extends Authenticatable
             ->withPivot('is_registrar_for', 'is_admin_for', 'is_maintainer_for')
             ->withTimestamps();
     }
-    
-    public function getGithubTokenAttribute(){
+
+    public function getGithubTokenAttribute()
+    {
         return $this->githubLogin()->token;
     }
 
-    public function githubLogin(){
-        return $this->socialLogins()->where( 'provider', '=', 'github')->first();
+    public function githubLogin()
+    {
+        return $this->socialLogins()->where('provider', '=', 'github')->first();
     }
 
     public function socialLogins()
