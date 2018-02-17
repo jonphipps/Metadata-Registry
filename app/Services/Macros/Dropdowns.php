@@ -83,7 +83,7 @@ trait Dropdowns
         'WV' => 'West Virginia',
         'WI' => 'Wisconsin',
         'WY' => 'Wyoming',
-    ];
+        ];
 
         return $this->select($name, $list, $selected, $options);
     }
@@ -105,7 +105,7 @@ trait Dropdowns
         'PR' => 'Puerto Rico',
         'UM' => 'United States Minor Outlying Islands',
         'VI' => 'Virgin Islands',
-    ];
+        ];
 
         return $this->select($name, $list, $selected, $options);
     }
@@ -124,7 +124,7 @@ trait Dropdowns
         'AA' => 'Armed Forces Americas',
         'AP' => 'Armed Forces Pacific',
         'AE' => 'Armed Forces Others',
-    ];
+        ];
 
         return $this->select($name, $list, $selected, $options);
     }
@@ -153,7 +153,7 @@ trait Dropdowns
         'NT' => 'Northwest Territories',
         'NU' => 'Nunavut',
         'YT' => 'Yukon',
-    ];
+        ];
 
         return $this->select($name, $list, $selected, $options);
     }
@@ -201,7 +201,7 @@ trait Dropdowns
         'VER' => 'Veracruz',
         'YUC' => 'Yucatan',
         'ZAC' => 'Zacatecas',
-    ];
+        ];
 
         return $this->select($name, $list, $selected, $options);
     }
@@ -480,7 +480,7 @@ trait Dropdowns
         'ISO 3166-2:YE' => 'Yemen',
         'ISO 3166-2:ZM' => 'Zambia',
         'ISO 3166-2:ZW' => 'Zimbabwe',
-    ];
+        ];
 
         return $this->select($name, $list, $selected, $options);
     }
@@ -740,7 +740,7 @@ trait Dropdowns
         'YE' => 'Yemen',
         'ZM' => 'Zambia',
         'ZW' => 'Zimbabwe',
-    ];
+        ];
 
         return $this->select($name, $list, $selected, $options);
     }
@@ -1005,7 +1005,7 @@ trait Dropdowns
         'YEM' => 'Yemen',
         'ZMB' => 'Zambia',
         'ZWE' => 'Zimbabwe',
-    ];
+        ];
 
         return $this->select($name, $list, $selected, $options);
     }
@@ -1270,7 +1270,7 @@ trait Dropdowns
         '887' => 'Yemen',
         '894' => 'Zambia',
         '716' => 'Zimbabwe',
-    ];
+        ];
 
         return $this->select($name, $list, $selected, $options);
     }

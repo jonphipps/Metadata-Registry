@@ -29,6 +29,6 @@ class ChangePasswordRequest extends Request
         return [
         'old_password' => 'required',
         'password'     => 'required|min:6|confirmed',
-    ];
+        ];
     }
 }

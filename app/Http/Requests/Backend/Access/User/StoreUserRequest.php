@@ -33,6 +33,6 @@ class StoreUserRequest extends Request
         'nickname'       => ['required', 'max:191', Rule::unique('users', 'nickname')],
         'email'          => ['required', 'email', 'max:191'],
         'password'       => 'required|min:6|confirmed',
-    ];
+        ];
     }
 }

@@ -12,8 +12,10 @@ trait Languages
     {
         //todo: cache all of the ??.dat language files and check relative speed of retrieval
         $languages =
-            unserialize(file_get_contents(base_path('data/symfony/i18n/en.dat')),
-                [true])['Languages'];
+            unserialize(
+                file_get_contents(base_path('data/symfony/i18n/en.dat')),
+                [true]
+            )['Languages'];
         foreach ($languages as $key => $value) {
             Cache::forever('language_' . $key, $value[0]);
         }
@@ -25,10 +27,12 @@ trait Languages
     {
         $value = $value ?? config('app.locale');
 
-        return Cache::get('language_' . $value,
+        return Cache::get(
+            'language_' . $value,
             function () use ($value) {
                 return self::listLanguages($value);
-            });
+            }
+        );
     }
 
     public function showLanguagesCommaDelimited(): string
@@ -40,10 +44,12 @@ trait Languages
         ksort($keys);
         $string = '';
         foreach ($keys as $key) {
-            $string .= Cache::get('language_' . $key,
-                    function () use ($key) {
+            $string .= Cache::get(
+                'language_' . $key,
+                function () use ($key) {
                         return self::listLanguages($key);
-                    }) . ', ';
+                }
+            ) . ', ';
         }
 
         return rtrim($string, ', ');
@@ -56,10 +62,12 @@ trait Languages
         ksort($keys);
         $array = [];
         foreach ($keys as $key) {
-            $array[$key] = Cache::get('language_' . $key,
+            $array[$key] = Cache::get(
+                'language_' . $key,
                 function () use ($key) {
                     return self::listLanguages($key);
-                });
+                }
+            );
         }
 
         return $array;

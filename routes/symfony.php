@@ -3,15 +3,19 @@
 /** Created by PhpStorm,  User: jonphipps,  Date: 2017-01-08,  Time: 5:39 PM */
 use Illuminate\Support\Facades\Route;
 
-Route::group(['middleware' => 'symfony'],
+Route::group(
+    ['middleware' => 'symfony'],
     function () {
-        Route::group(['middleware' => 'passthru'],
+        Route::group(
+            ['middleware' => 'passthru'],
             function () {
                 Route::any('vocabularies/{id}/exports/save');
                 Route::any('elementsets/{id}/exports/save');
-            });
+            }
+        );
 
-        Route::any('{all}',
+        Route::any(
+            '{all}',
             function () {
 
                 //set the global server headers that symfony needs
@@ -42,5 +46,7 @@ Route::group(['middleware' => 'symfony'],
                 $html = ob_get_clean();
 
                 return $html === false ? '' : $html;
-            })->where('all', '.*');
-    });
+            }
+        )->where('all', '.*');
+    }
+);

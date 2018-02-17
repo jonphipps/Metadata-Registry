@@ -20,15 +20,19 @@ trait HasMembers
         $className     = $this->get_class_name($class);
         $foreignKey    = ['Vocabulary'=> 'vocabulary_id', 'Elementset' => 'schema_id', 'Project' => 'agent_id'];
 
-        return $this->belongsToMany(User::class,
+        return $this->belongsToMany(
+            User::class,
             $classUser::TABLE,
             $foreignKey[$className],
-            'user_id')->withTimestamps()->withPivot('is_maintainer_for',
+            'user_id'
+        )->withTimestamps()->withPivot(
+            'is_maintainer_for',
             'is_registrar_for',
             'is_admin_for',
             'languages',
             'default_language',
-            'current_language');
+            'current_language'
+        );
     }
 
     /**

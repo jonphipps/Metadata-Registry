@@ -14,8 +14,9 @@ class CreateRegSchemaPropertyElementHistoryTable extends Migration
      */
     public function up()
     {
-        Schema::create('reg_schema_property_element_history',
-            function(Blueprint $table) {
+        Schema::create(
+            'reg_schema_property_element_history',
+            function (Blueprint $table) {
                 $table->increments('id');
                 $table->timestamps();
                 $table->unsignedInteger('created_user_id')->nullable()->index();
@@ -31,7 +32,8 @@ class CreateRegSchemaPropertyElementHistoryTable extends Migration
                 $table->text('change_note')->nullable();
                 $table->unsignedInteger('import_id')->nullable()->index();
                 $table->unsignedInteger('created_by')->nullable()->index();
-            });
+            }
+        );
     }
 
     /**

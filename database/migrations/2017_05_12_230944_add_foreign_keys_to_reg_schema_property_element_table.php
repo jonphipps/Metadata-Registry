@@ -14,8 +14,9 @@ class AddForeignKeysToRegSchemaPropertyElementTable extends Migration
      */
     public function up()
     {
-        Schema::table('reg_schema_property_element',
-            function(Blueprint $table) {
+        Schema::table(
+            'reg_schema_property_element',
+            function (Blueprint $table) {
                 $table->foreign('profile_property_id', 'reg_schema_property_element_ibfk_1')->references('id')->on('profile_property')->onUpdate('NO ACTION')->onDelete('NO ACTION');
                 $table->foreign('deleted_by', 'reg_schema_property_element_ibfk_10')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
                 $table->foreign('created_user_id', 'reg_schema_property_element_ibfk_2')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
@@ -26,7 +27,8 @@ class AddForeignKeysToRegSchemaPropertyElementTable extends Migration
                 $table->foreign('deleted_user_id', 'reg_schema_property_element_ibfk_7')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
                 $table->foreign('created_by', 'reg_schema_property_element_ibfk_8')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
                 $table->foreign('updated_by', 'reg_schema_property_element_ibfk_9')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            });
+            }
+        );
     }
 
     /**
@@ -36,8 +38,9 @@ class AddForeignKeysToRegSchemaPropertyElementTable extends Migration
      */
     public function down()
     {
-        Schema::table('reg_schema_property_element',
-            function(Blueprint $table) {
+        Schema::table(
+            'reg_schema_property_element',
+            function (Blueprint $table) {
                 $table->dropForeign('reg_schema_property_element_ibfk_1');
                 $table->dropForeign('reg_schema_property_element_ibfk_10');
                 $table->dropForeign('reg_schema_property_element_ibfk_2');
@@ -48,6 +51,7 @@ class AddForeignKeysToRegSchemaPropertyElementTable extends Migration
                 $table->dropForeign('reg_schema_property_element_ibfk_7');
                 $table->dropForeign('reg_schema_property_element_ibfk_8');
                 $table->dropForeign('reg_schema_property_element_ibfk_9');
-            });
+            }
+        );
     }
 }

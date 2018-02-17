@@ -1,5 +1,5 @@
 <?php return array (
-  475 => 
+  475 =>
   array (
     'reg_id' => '475',
     '*preferred label[0]_en' => 'audio',
@@ -19,7 +19,7 @@
     '*uri' => 'RDAMediaType:1001',
     '*status' => 'Published',
   ),
-  476 => 
+  476 =>
   array (
     'reg_id' => '476',
     '*preferred label[0]_en' => 'microform',
@@ -39,7 +39,7 @@
     '*uri' => 'RDAMediaType:1002',
     '*status' => 'Published',
   ),
-  477 => 
+  477 =>
   array (
     'reg_id' => '477',
     '*preferred label[0]_en' => 'computer',
@@ -59,7 +59,7 @@
     '*uri' => 'RDAMediaType:1003',
     '*status' => 'Published',
   ),
-  479 => 
+  479 =>
   array (
     'reg_id' => '479',
     '*preferred label[0]_en' => 'projected',
@@ -79,7 +79,7 @@
     '*uri' => 'RDAMediaType:1005',
     '*status' => 'Published',
   ),
-  480 => 
+  480 =>
   array (
     'reg_id' => '480',
     '*preferred label[0]_en' => 'stereographic',
@@ -99,7 +99,7 @@
     '*uri' => 'RDAMediaType:1006',
     '*status' => 'Published',
   ),
-  481 => 
+  481 =>
   array (
     'reg_id' => '481',
     '*preferred label[0]_en' => 'unmediated',
@@ -119,7 +119,7 @@
     '*uri' => 'RDAMediaType:1007',
     '*status' => 'Published',
   ),
-  482 => 
+  482 =>
   array (
     'reg_id' => '482',
     '*preferred label[0]_en' => 'video',

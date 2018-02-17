@@ -38,7 +38,7 @@ class GoogleSpreadsheetTest extends TestCase
             ];
             $this->assertArraySubset($expected, $worksheets);
         } else {
-            $this->assertTrue(true,'no client secret file available');
+            $this->assertTrue(true, 'no client secret file available');
         }
     }
 
@@ -54,7 +54,7 @@ class GoogleSpreadsheetTest extends TestCase
             //then i get the data back
             $this->assertMatchesSnapshot($data);
         } else {
-            $this->assertTrue(true,'no client secret file available');
+            $this->assertTrue(true, 'no client secret file available');
         }
     }
 
@@ -70,7 +70,7 @@ class GoogleSpreadsheetTest extends TestCase
             //then i get the data back
             $this->assertMatchesSnapshot($data);
         } else {
-            $this->assertTrue(true,'no client secret file available');
+            $this->assertTrue(true, 'no client secret file available');
         }
     }
 

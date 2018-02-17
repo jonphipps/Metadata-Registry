@@ -122,13 +122,17 @@ class Handler extends ExceptionHandler
      */
     protected function whoopsHandler()
     {
-        return tap(new PrettyPageHandler,
+        return tap(
+            new PrettyPageHandler,
             function (PrettyPageHandler $handler) {
                 $files = new Filesystem;
                 $handler->setEditor('phpstorm');
                 $handler->handleUnconditionally(true);
-                $handler->setApplicationPaths(array_flip(Arr::except(array_flip($files->directories(base_path())),
-                        [base_path('vendor')])));
-            });
+                $handler->setApplicationPaths(array_flip(Arr::except(
+                    array_flip($files->directories(base_path())),
+                    [base_path('vendor')]
+                )));
+            }
+        );
     }
 }

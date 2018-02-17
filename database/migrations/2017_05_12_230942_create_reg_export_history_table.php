@@ -14,8 +14,9 @@ class CreateRegExportHistoryTable extends Migration
      */
     public function up()
     {
-        Schema::create('reg_export_history',
-            function(Blueprint $table) {
+        Schema::create(
+            'reg_export_history',
+            function (Blueprint $table) {
                 $table->increments('id');
                 $table->timestamps();
                 $table->unsignedInteger('user_id')->nullable()->index();
@@ -33,7 +34,8 @@ class CreateRegExportHistoryTable extends Migration
                 $table->unsignedInteger('profile_id')->nullable()->index();
                 $table->string('file')->nullable();
                 $table->mediumText('map')->nullable();
-            });
+            }
+        );
     }
 
     /**

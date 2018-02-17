@@ -46,7 +46,7 @@ class ReleasePolicy
         if (! $project->is_private) {
             return true;
         }
-      }
+        }
     }
 
     /** * Determine whether the user can create vocabularies.

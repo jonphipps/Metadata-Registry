@@ -48,7 +48,7 @@ return [
      |
      */
 
-  'include_vendors' => true,
+    'include_vendors' => true,
 
   /*
      |--------------------------------------------------------------------------
@@ -61,7 +61,7 @@ return [
      | Optionally, you can also send ServerTiming headers on ajax requests for the Chrome DevTools.
      */
 
-  'capture_ajax' => true,
+    'capture_ajax' => true,
     'add_ajax_timing' => false,
 
   /*
@@ -84,7 +84,7 @@ return [
      | Extension, without the server-side code. It uses Debugbar collectors instead.
      |
      */
-  'clockwork'    => false,
+    'clockwork'    => false,
 
   /*
      |--------------------------------------------------------------------------
@@ -95,7 +95,7 @@ return [
      |
      */
 
-  'collectors' => [
+    'collectors' => [
       'phpinfo'         => true,  // Php version
       'messages'        => true,  // Messages
       'time'            => true,  // Time Datalogger
@@ -116,7 +116,7 @@ return [
       'logs'            => false, // Add the latest log messages
       'files'           => false, // Show the included files
       'config'          => false, // Display config settings
-  ],
+    ],
 
   /*
      |--------------------------------------------------------------------------
@@ -127,7 +127,7 @@ return [
      |
      */
 
-  'options' => [
+    'options' => [
       'auth'  => [
             'show_name' => true,   // Also show the users name/email in the debugbar
       ],
@@ -138,7 +138,7 @@ return [
             'explain' => [                 // Show EXPLAIN output on queries
                 'enabled' => true,
                 'types' => ['SELECT'],     // ['SELECT', 'INSERT', 'UPDATE', 'DELETE']; for MySQL 5.6.3+
-          ],
+            ],
           'hints'       => true,    // Show hints for common mistakes
       ],
       'mail'  => [
@@ -153,7 +153,7 @@ return [
       'logs'  => [
           'file' => null,
       ],
-  ],
+    ],
 
   /*
      |--------------------------------------------------------------------------
@@ -166,7 +166,7 @@ return [
      |
      */
 
-  'inject'       => true,
+    'inject'       => true,
 
   /*
      |--------------------------------------------------------------------------
@@ -178,7 +178,7 @@ return [
      | from trying to overcome bugs like this: http://trac.nginx.org/nginx/ticket/97
      |
      */
-  'route_prefix' => '_debugbar',
+    'route_prefix' => '_debugbar',
 
     /*
      |--------------------------------------------------------------------------

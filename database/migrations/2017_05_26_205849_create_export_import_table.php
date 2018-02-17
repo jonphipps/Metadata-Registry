@@ -14,15 +14,17 @@ class CreateExportImportTable extends Migration
      */
     public function up()
     {
-        Schema::create('export_import',
-            function(Blueprint $table) {
+        Schema::create(
+            'export_import',
+            function (Blueprint $table) {
                 $table->increments('id');
                 $table->timestamps();
                 $table->unsignedInteger('import_id')->index();
                 $table->foreign('import_id')->references('id')->on('reg_file_import_history')->onUpdate('NO ACTION')->onDelete('CASCADE');
                 $table->unsignedInteger('export_id')->index();
                 $table->foreign('export_id')->references('id')->on('reg_export_history')->onUpdate('NO ACTION')->onDelete('CASCADE');
-            });
+            }
+        );
     }
 
     /**
@@ -32,11 +34,13 @@ class CreateExportImportTable extends Migration
      */
     public function down()
     {
-        Schema::table('export_import',
-            function(Blueprint $table) {
+        Schema::table(
+            'export_import',
+            function (Blueprint $table) {
                 $table->dropForeign('export_import_import_id_foreign');
                 $table->dropForeign('export_import_export_id_foreign');
-            });
+            }
+        );
         Schema::dropIfExists('export_import');
     }
 }

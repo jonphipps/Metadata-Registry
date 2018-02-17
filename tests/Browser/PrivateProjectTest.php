@@ -24,7 +24,7 @@ class PrivateProjectTest extends DuskTestCase
         /** @var Project $publicProject */
         $publicProject = factory(Project::class)->states('public')->create();
 
-        $this->browse(function(Browser $browser) use ($privateProject, $publicProject) {
+        $this->browse(function (Browser $browser) use ($privateProject, $publicProject) {
             $browser->visit('/projects')
                 ->assertSee('Projects')
                 ->pause(1000)
