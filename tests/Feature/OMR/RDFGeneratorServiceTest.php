@@ -35,7 +35,7 @@ class RDFGeneratorServiceTest extends TestCase
         //start with an empty test directory
         storage::disk('test')->deleteDirectory('projects');
         $this->it_creates_a_new_project_directory_and_clones_a_repo();
-        $this->it_creates_a_new_project_directory_and_inits_git();
+        $this->it_creates_a_new_project_directory_and_inits_git_when_no_repo();
 
         $this->it_creates_a_new_vocabulary_job_and_stores_xml();
         $this->it_creates_a_new_elementset_job_and_stores_xml();
@@ -68,7 +68,7 @@ class RDFGeneratorServiceTest extends TestCase
         Storage::disk('test')->assertExists($projectPath .'termList');
     }
 
-    private function it_creates_a_new_project_directory_and_inits_git()
+    private function it_creates_a_new_project_directory_and_inits_git_when_no_repo()
     {
         //31 project (67) has no project repo
         $vocab = Vocabulary::findOrFail(31);
