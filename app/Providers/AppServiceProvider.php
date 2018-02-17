@@ -117,7 +117,7 @@ class AppServiceProvider extends ServiceProvider
                 return base_path() . '/web';
             }
         );
-        $this->app->alias('bugsnag.multi', \Illuminate\Contracts\Logging\Log::class);
+        $this->app->alias('bugsnag.multi', \Psr\Log\LoggerInterface::class);
         $this->app->alias('bugsnag.multi', \Psr\Log\LoggerInterface::class);
     }
 }
