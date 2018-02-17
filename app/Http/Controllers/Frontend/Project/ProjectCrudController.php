@@ -15,6 +15,7 @@ use App\Models\Project;
 use Auth;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Illuminate\Support\Facades\Redirect;
+use Symfony\Component\Intl\Intl;
 
 // VALIDATION: change the requests to match your own file names if you need form validation
 class ProjectCrudController extends CrudController
@@ -48,11 +49,7 @@ class ProjectCrudController extends CrudController
 
         $this->addCustomDoctrineColumnTypes();
         $this->crud->setFromDb();
-        //todo: better language list handling. getLocales() has a more extensive list, but is english only
-        //and isn't used anyplace but here
-        //there's also the languages trait that's used by the locale middleware and the Models, which uses a different list
-        //$languages = LanguageController::getLocales();
-        $languages = getLanguageListFromSymfony('en');
+        $languages = Intl::getLocaleBundle()->getLocaleNames();
 
         // ------ CRUD ACCESS
         $this->crud->allowAccess(['index', 'show']);

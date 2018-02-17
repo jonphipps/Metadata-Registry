@@ -5,20 +5,16 @@
 namespace App\Helpers\Macros\Traits;
 
 use Cache;
+use Symfony\Component\Intl\Intl;
 
 trait Languages
 {
     public static function listLanguages($language = '')
     {
-        //todo: cache all of the ??.dat language files and check relative speed of retrieval
-        $languages =
-            unserialize(file_get_contents(base_path('data/symfony/i18n/en.dat')),
-                [true])['Languages'];
-        foreach ($languages as $key => $value) {
-            Cache::forever('language_' . $key, $value[0]);
+        if ($language) {
+            return Intl::getLocaleBundle()->getLocaleName($language);
         }
-
-        return $language ? Cache::get('language_' . $language) : '';
+            return Intl::getLocaleBundle()->getLocaleNames();
     }
 
     public function showLanguage($value = null)
@@ -40,10 +36,7 @@ trait Languages
         ksort($keys);
         $string = '';
         foreach ($keys as $key) {
-            $string .= Cache::get('language_' . $key,
-                    function () use ($key) {
-                        return self::listLanguages($key);
-                    }) . ', ';
+            $string .= Intl::getLocaleBundle()->getLocaleName($key) . ', ';
         }
 
         return rtrim($string, ', ');
@@ -51,18 +44,7 @@ trait Languages
 
     public function listLanguagesForSelect(): array
     {
-        $keys = $this->decodeLanguageArray();
-        $keys = $keys ?? ['en'];
-        ksort($keys);
-        $array = [];
-        foreach ($keys as $key) {
-            $array[$key] = Cache::get('language_' . $key,
-                function () use ($key) {
-                    return self::listLanguages($key);
-                });
-        }
-
-        return $array;
+        return Intl::getLocaleBundle()->getLocaleNames();
     }
 
     private function decodeLanguageArray()
