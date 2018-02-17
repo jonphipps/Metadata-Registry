@@ -34,7 +34,6 @@ class RDFGeneratorServiceTest extends TestCase
 
         //start with an empty test directory
         storage::disk('test')->deleteDirectory('projects');
-
         $this->it_creates_a_new_project_directory_and_clones_a_repo();
         $this->it_creates_a_new_project_directory_and_inits_git();
 
@@ -64,12 +63,9 @@ class RDFGeneratorServiceTest extends TestCase
         $vocab = Vocabulary::findOrFail(37);
         $job = new GenerateRdf($vocab, $this->release, 'test');
 
-        Storage::disk('test')->assertExists(Git::getProjectPath($vocab->project_id) .'.git');
-        Storage::disk('test')->assertExists(Git::getProjectPath($vocab->project_id) .'termList');
-        // $dir = Storage::disk('test')->path($job->getProjectPath());
-        // $process = new Process('git status', $dir);
-        // $process->run();
-        // $this->assertTrue($process->isSuccessful());
+        $projectPath = Git::getProjectPath($vocab->project_id);
+        Storage::disk('test')->assertExists($projectPath . '.git');
+        Storage::disk('test')->assertExists($projectPath .'termList');
     }
 
     private function it_creates_a_new_project_directory_and_inits_git()
@@ -78,11 +74,8 @@ class RDFGeneratorServiceTest extends TestCase
         $vocab = Vocabulary::findOrFail(31);
         $job = new GenerateRdf($vocab, $this->release, 'test');
 
-        Storage::disk('test')->assertExists(Git::getProjectPath($vocab->project_id) .'.git');
-        // $dir = Storage::disk('test')->path($job->getProjectPath());
-        // $process = new Process('git status', $dir);
-        // $process->run();
-        // $this->assertTrue($process->isSuccessful());
+        $projectPath = Git::getProjectPath($vocab->project_id);
+        Storage::disk('test')->assertExists($projectPath . '.git');
     }
 
     /**

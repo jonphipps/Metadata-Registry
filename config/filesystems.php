@@ -74,8 +74,8 @@ return [
         ],
 
         'test' => [
-            'driver'   => 'local',
-            'root'     => storage_path('test'),
+            'driver' => env('STORAGE_DATA_DRIVER', 'local'),
+            'root'   => storage_path('test'),
         ],
 
     ],
