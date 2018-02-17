@@ -3,6 +3,7 @@
 return [
 
     'last_update' => env('LAST_UPDATE', 'mid-December 2017'),
+    'git_executable' => env('GIT_EXECUTABLE', '/usr/bin/git'),
   /*
     |--------------------------------------------------------------------------
     | Application Name

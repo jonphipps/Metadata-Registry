@@ -29,7 +29,7 @@ class Git
      * @param string              $disk
      *
      * @return void
-     * @throws \GitWrapper\GitException
+     * @throws GitException
      */
     public static function initDir(Project $project, $disk = GenerateRdf::REPO_ROOT): void
     {
@@ -58,7 +58,7 @@ class Git
      * @param string              $disk
      *
      * @return void
-     * @throws \GitWrapper\GitException
+     * @throws GitException
      */
     public static function commitDir(Project $project, $message, $disk = GenerateRdf::REPO_ROOT): void
     {
@@ -67,7 +67,7 @@ class Git
 
         /** @var GitWrapper $wrapper */
         $wrapper = static::getWrapper();
-        $git = $wrapper->workingCopy($dir);
+        $git     = $wrapper->workingCopy($dir);
 
         if ($git->hasChanges()) {
             $git->add('.');
@@ -76,11 +76,17 @@ class Git
     }
 
     /**
-     * @return \GitWrapper\GitWrapper
-     * @throws \GitWrapper\GitException
+     * @return GitWrapper
+     * @throws GitException
      */
-    private static function getWrapper(): GitWrapper
+    public static function getWrapper(): GitWrapper
     {
-        return new GitWrapper('/usr/bin/git');
+        try {
+            return new GitWrapper();
+        }
+        catch (GitException $e) {
+            //we couldn't find the default and have to use the config
+            return new GitWrapper(config('app.git_executable'));
+        }
     }
 }
