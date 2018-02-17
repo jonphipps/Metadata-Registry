@@ -2,8 +2,9 @@
 /** Created by PhpStorm,  User: jonphipps,  Date: 2017-05-27,  Time: 10:52 AM */
 /** @var Illuminate\Database\Eloquent\Factory $factory */
 
-$factory->define(App\Models\ElementAttributeHistory::class,
-    function(Faker\Generator $faker) {
+$factory->define(
+    App\Models\ElementAttributeHistory::class,
+    function (Faker\Generator $faker) {
         return [
             'created_user_id'            => getRandomClassId('Access\User\User'),
             'action'                     => $faker->word,
@@ -18,4 +19,5 @@ $factory->define(App\Models\ElementAttributeHistory::class,
             // obsolete 'change_note'                => $faker->text,
             'import_id'                  => getRandomClassId('Import'),
         ];
-    });
+    }
+);

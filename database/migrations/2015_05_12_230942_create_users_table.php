@@ -16,8 +16,9 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users',
-            function(Blueprint $table) {
+        Schema::create(
+            'users',
+            function (Blueprint $table) {
                 $table->increments('id');
                 $table->timestamps();
                 $table->softDeletes();
@@ -34,7 +35,8 @@ class CreateUsersTable extends Migration
                 $table->string('name')->default('');
                 $table->boolean('confirmed')->default(config('access.users.confirm_email') ? false : true);
                 $table->string('remember_token', 100)->nullable();
-            });
+            }
+        );
     }
 
     /**

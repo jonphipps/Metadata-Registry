@@ -14,15 +14,17 @@ class CreateRegLookupTable extends Migration
      */
     public function up()
     {
-        Schema::create('reg_lookup',
-            function(Blueprint $table) {
+        Schema::create(
+            'reg_lookup',
+            function (Blueprint $table) {
                 $table->increments('id');
                 $table->unsignedInteger('type_id')->nullable()->comment('This will be the lookup type and will reference the list of lookup types stored in this very same table');
                 $table->char('short_value', 20)->nullable();
                 $table->string('long_value')->nullable();
                 $table->integer('display_order')->nullable();
                 $table->index([ 'type_id', 'display_order' ], 'display_order');
-            });
+            }
+        );
     }
 
     /**

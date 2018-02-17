@@ -13,8 +13,8 @@ class NotificationTest extends BrowserKitTestCase
 
     public function setUp()
     {
-      $this->dontSetupDatabase();
-      parent::setUp();
+        $this->dontSetupDatabase();
+        parent::setUp();
     }
 
     /** @test */
@@ -33,7 +33,9 @@ class NotificationTest extends BrowserKitTestCase
         $notification = create(DatabaseNotification::class);
         $response = $this->get(url("/users/{$this->executive->id}/notifications"));
 
-        $this->assertCount(1,
-            $this->json('GET', url("/users/{$this->executive->id}/notifications"))->response->getData());
+        $this->assertCount(
+            1,
+            $this->json('GET', url("/users/{$this->executive->id}/notifications"))->response->getData()
+        );
     }
 }

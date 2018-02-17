@@ -14,8 +14,9 @@ class CreateRegVocabularyHasUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('reg_vocabulary_has_user',
-            function(Blueprint $table) {
+        Schema::create(
+            'reg_vocabulary_has_user',
+            function (Blueprint $table) {
                 $table->increments('id');
                 $table->timestamps();
                 $table->softDeletes();
@@ -29,7 +30,8 @@ class CreateRegVocabularyHasUserTable extends Migration
                 $table->char('current_language', 6)->nullable()->default('en');
                 $table->unique([ 'vocabulary_id', 'user_id' ], 'resource_user_id');
                 $table->unique([ 'user_id', 'vocabulary_id' ], 'user_resource_id');
-            });
+            }
+        );
     }
 
     /**

@@ -4,8 +4,9 @@
 //TODO: Nearly all of the attributes will be described by Concept Attributes
 
 /** @var Illuminate\Database\Eloquent\Factory $factory */
-$factory->define( App\Models\Concept::class,
-    function( Faker\Generator $faker ) {
+$factory->define(
+    App\Models\Concept::class,
+    function (Faker\Generator $faker) {
         return [
             'created_user_id' => getRandomClassId('Access\User\User'),
             'updated_user_id' => getRandomClassId('Access\User\User'),
@@ -19,5 +20,5 @@ $factory->define( App\Models\Concept::class,
             'is_top_concept'  => $faker->boolean, //attribute
             // obsolete 'language'        => $faker->languageCode,
         ];
-    } );
-
+    }
+);

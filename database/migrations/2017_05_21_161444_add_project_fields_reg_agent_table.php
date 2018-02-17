@@ -14,15 +14,17 @@ class AddProjectFieldsRegAgentTable extends Migration
      */
     public function up()
     {
-        Schema::table('reg_agent',
-            function(Blueprint $table) {
+        Schema::table(
+            'reg_agent',
+            function (Blueprint $table) {
                 $table->string('name')->nullable();
                 $table->string('label')->nullable();
                 $table->string('url')->nullable();
                 $table->string('license_uri')->nullable();
                 $table->string('base_domain')->nullable();
                 $table->enum('namespace_type', [ 'Hash', 'Slash' ])->nullable();
-                $table->enum('uri_strategy',
+                $table->enum(
+                    'uri_strategy',
                     [
                         'Numeric',
                         'snake_case',
@@ -31,7 +33,8 @@ class AddProjectFieldsRegAgentTable extends Migration
                         'dot.case',
                         'camelCase',
                         'PascalCase',
-                    ])->nullable();
+                    ]
+                )->nullable();
                 $table->string('uri_prepend')->nullable();
                 $table->string('uri_append')->nullable();
                 $table->unsignedInteger('starting_number')->nullable();
@@ -40,7 +43,8 @@ class AddProjectFieldsRegAgentTable extends Migration
                 $table->text('prefixes')->nullable();
                 $table->string('google_sheet_url')->nullable();
                 $table->boolean('repo_is_valid')->nullable()->default(0);
-            });
+            }
+        );
     }
 
     /**

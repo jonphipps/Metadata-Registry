@@ -100,18 +100,24 @@ trait SetsUpTests
         $this->oldExceptionHandler = $this->app->make(ExceptionHandler::class);
         /**  @formatter:off */
         /** @noinspection PhpMissingParentConstructorInspection */
-        $this->app->instance(ExceptionHandler::class,
+        $this->app->instance(
+            ExceptionHandler::class,
             new class extends Handler
             {
-                public function __construct() { }
+                public function __construct()
+                {
+                }
 
-                public function report(\Exception $e) { }
+                public function report(\Exception $e)
+                {
+                }
 
                 public function render($request, \Exception $e)
                 {
                     throw $e;
                 }
-            });
+            }
+        );
         /**  @formatter:on */
     }
 
@@ -155,7 +161,7 @@ trait SetsUpTests
 
     public function tearDown()
     {
-        if(method_exists($this, 'resetEnvironment')){
+        if (method_exists($this, 'resetEnvironment')) {
             $this->resetEnvironment();
         }
         //this is necessary because the laravel test suite always starts session output capture
@@ -163,7 +169,7 @@ trait SetsUpTests
             ob_end_clean();
         }
 
-        $this->beforeApplicationDestroyed(function() {
+        $this->beforeApplicationDestroyed(function () {
             DB::disconnect();
         });
 

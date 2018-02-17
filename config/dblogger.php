@@ -8,7 +8,7 @@ return [
     'log_queries' => env('DB_LOG_QUERIES', true),
 
     /**
-     * Whether artisan queries should be logged to separate files 
+     * Whether artisan queries should be logged to separate files
      */
     'log_console_to_separate_file' => env('DB_LOG_SEPARATE_ARTISAN', false),
 
@@ -38,7 +38,7 @@ return [
     'directory' => storage_path(env('DB_LOG_DIRECTORY', 'logs/db')),
 
     /**
-     * Whether execution time in log file should be displayed in seconds 
+     * Whether execution time in log file should be displayed in seconds
      * (by default it's in milliseconds)
      */
     'convert_to_seconds' => env('DB_CONVERT_TIME_TO_SECONDS', false),

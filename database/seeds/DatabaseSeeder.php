@@ -21,15 +21,15 @@ class DatabaseSeeder extends Seeder
         Model::unguard();
 
         $this->truncateMultiple(['sessions']);
-        $this->call( AdminSeeder::class );
+        $this->call(AdminSeeder::class);
 
-        $this->call( SkosPropertySeeder::class );
-        $this->call( StatusSeeder::class );
-        $this->call( ProfileSeeder::class );
-        $this->call( ProfilePropertySeeder::class );
-        if ( 'testing' === app()->environment() ) {
-            $this->call( DatabaseTestSeeder::class );
-        Model::reguard();
+        $this->call(SkosPropertySeeder::class);
+        $this->call(StatusSeeder::class);
+        $this->call(ProfileSeeder::class);
+        $this->call(ProfilePropertySeeder::class);
+        if ('testing' === app()->environment()) {
+            $this->call(DatabaseTestSeeder::class);
+            Model::reguard();
         }
     }
 }

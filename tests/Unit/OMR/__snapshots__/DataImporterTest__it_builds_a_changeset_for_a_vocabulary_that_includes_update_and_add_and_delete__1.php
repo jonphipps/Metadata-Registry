@@ -1,43 +1,43 @@
 <?php return array (
-  'update' => 
+  'update' =>
   array (
-    482 => 
+    482 =>
     array (
-      'alternative label[0]_fr' => 
+      'alternative label[0]_fr' =>
       array (
         'new value' => 'bingo',
-        'old value' => NULL,
-        'statement_id' => NULL,
+        'old value' => null,
+        'statement_id' => null,
         'language' => 'fr',
         'property_id' => '34',
-        'updated_at' => NULL,
+        'updated_at' => null,
         'required' => false,
       ),
-      'ToolkitLabel_en' => 
+      'ToolkitLabel_en' =>
       array (
         'new value' => 'foobar',
         'old value' => 'video',
         'statement_id' => 24411,
         'language' => 'en',
         'property_id' => '61',
-        'updated_at' => NULL,
+        'updated_at' => null,
         'required' => false,
       ),
-      'ToolkitLabel_fr' => 
+      'ToolkitLabel_fr' =>
       array (
         'new value' => '',
         'old value' => 'vidéo',
         'statement_id' => 24412,
         'language' => 'fr',
         'property_id' => '61',
-        'updated_at' => NULL,
+        'updated_at' => null,
         'required' => false,
       ),
     ),
   ),
-  'delete' => 
+  'delete' =>
   array (
-    478 => 
+    478 =>
     array (
       '*preferred label[0]_en' => 1284,
       '*preferred label[0]_fr' => 21448,
@@ -50,148 +50,148 @@
       '*status' => 0,
     ),
   ),
-  'add' => 
+  'add' =>
   array (
-    0 => 
+    0 =>
     array (
-      '*preferred label[0]_en' => 
+      '*preferred label[0]_en' =>
       array (
         'new value' => 'foobar',
-        'old value' => NULL,
-        'statement_id' => NULL,
+        'old value' => null,
+        'statement_id' => null,
         'language' => 'en',
         'property_id' => '45',
-        'updated_at' => NULL,
+        'updated_at' => null,
         'required' => true,
       ),
-      '*preferred label[0]_fr' => 
+      '*preferred label[0]_fr' =>
       array (
         'new value' => 'fubaire',
-        'old value' => NULL,
-        'statement_id' => NULL,
+        'old value' => null,
+        'statement_id' => null,
         'language' => 'fr',
         'property_id' => '45',
-        'updated_at' => NULL,
+        'updated_at' => null,
         'required' => true,
       ),
-      'ToolkitLabel_en' => 
+      'ToolkitLabel_en' =>
       array (
         'new value' => 'foobar',
-        'old value' => NULL,
-        'statement_id' => NULL,
+        'old value' => null,
+        'statement_id' => null,
         'language' => 'en',
         'property_id' => '61',
-        'updated_at' => NULL,
+        'updated_at' => null,
         'required' => false,
       ),
-      'ToolkitLabel_fr' => 
+      'ToolkitLabel_fr' =>
       array (
         'new value' => 'fubaire',
-        'old value' => NULL,
-        'statement_id' => NULL,
+        'old value' => null,
+        'statement_id' => null,
         'language' => 'fr',
         'property_id' => '61',
-        'updated_at' => NULL,
+        'updated_at' => null,
         'required' => false,
       ),
-      'definition[0]_en' => 
+      'definition[0]_en' =>
       array (
         'new value' => 'English definition',
-        'old value' => NULL,
-        'statement_id' => NULL,
+        'old value' => null,
+        'statement_id' => null,
         'language' => 'en',
         'property_id' => '37',
-        'updated_at' => NULL,
+        'updated_at' => null,
         'required' => false,
       ),
-      'definition[0]_fr' => 
+      'definition[0]_fr' =>
       array (
         'new value' => 'French definition',
-        'old value' => NULL,
-        'statement_id' => NULL,
+        'old value' => null,
+        'statement_id' => null,
         'language' => 'fr',
         'property_id' => '37',
-        'updated_at' => NULL,
+        'updated_at' => null,
         'required' => false,
       ),
-      'ToolkitDefinition_en' => 
+      'ToolkitDefinition_en' =>
       array (
         'new value' => 'English Toolkit Definition',
-        'old value' => NULL,
-        'statement_id' => NULL,
+        'old value' => null,
+        'statement_id' => null,
         'language' => 'en',
         'property_id' => '60',
-        'updated_at' => NULL,
+        'updated_at' => null,
         'required' => false,
       ),
-      'ToolkitDefinition_fr' => 
+      'ToolkitDefinition_fr' =>
       array (
         'new value' => 'French Toolkit definition',
-        'old value' => NULL,
-        'statement_id' => NULL,
+        'old value' => null,
+        'statement_id' => null,
         'language' => 'fr',
         'property_id' => '60',
-        'updated_at' => NULL,
+        'updated_at' => null,
         'required' => false,
       ),
-      'scope note[0]_en' => 
+      'scope note[0]_en' =>
       array (
         'new value' => 'First English Scope Note',
-        'old value' => NULL,
-        'statement_id' => NULL,
+        'old value' => null,
+        'statement_id' => null,
         'language' => 'en',
         'property_id' => '47',
-        'updated_at' => NULL,
+        'updated_at' => null,
         'required' => false,
       ),
-      'scope note[1]_en' => 
+      'scope note[1]_en' =>
       array (
         'new value' => 'Second English Scope Note',
-        'old value' => NULL,
-        'statement_id' => NULL,
+        'old value' => null,
+        'statement_id' => null,
         'language' => 'en',
         'property_id' => '47',
-        'updated_at' => NULL,
+        'updated_at' => null,
         'required' => false,
       ),
-      'scope note[0]_fr' => 
+      'scope note[0]_fr' =>
       array (
         'new value' => 'First French Scope Note',
-        'old value' => NULL,
-        'statement_id' => NULL,
+        'old value' => null,
+        'statement_id' => null,
         'language' => 'fr',
         'property_id' => '47',
-        'updated_at' => NULL,
+        'updated_at' => null,
         'required' => false,
       ),
-      'scope note[1]_fr' => 
+      'scope note[1]_fr' =>
       array (
         'new value' => 'Second French Scope Note',
-        'old value' => NULL,
-        'statement_id' => NULL,
+        'old value' => null,
+        'statement_id' => null,
         'language' => 'fr',
         'property_id' => '47',
-        'updated_at' => NULL,
+        'updated_at' => null,
         'required' => false,
       ),
-      '*uri' => 
+      '*uri' =>
       array (
         'new value' => 'http://rdaregistry.info/termList/RDAMediaType/1009',
-        'old value' => NULL,
-        'statement_id' => NULL,
+        'old value' => null,
+        'statement_id' => null,
         'language' => '',
         'property_id' => '62',
-        'updated_at' => NULL,
+        'updated_at' => null,
         'required' => true,
       ),
-      '*status' => 
+      '*status' =>
       array (
         'new value' => 'Published',
-        'old value' => NULL,
-        'statement_id' => NULL,
+        'old value' => null,
+        'statement_id' => null,
         'language' => '',
         'property_id' => '59',
-        'updated_at' => NULL,
+        'updated_at' => null,
         'required' => true,
       ),
     ),

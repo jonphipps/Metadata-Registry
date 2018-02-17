@@ -63,7 +63,8 @@ class ProjectCrudController extends CrudController
         $this->crud->autoFocusOnFirstField;
         $this->crud->removeFields(array_keys($this->crud->create_fields), 'both');
         //$this->crud->addFields( array_keys( $this->crud->columns ), 'create');
-        $this->crud->addFields([
+        $this->crud->addFields(
+            [
             [
                 'name'  => 'title',
                 'label' => 'Title',
@@ -71,9 +72,11 @@ class ProjectCrudController extends CrudController
                 'hint'  => "This will help identify your project in public lists and to project members that you may invite to join the project. <br />If you're editing this project for the first time since the OMR upgrade, this will initially be the name you chose for your 'Agent'",
                 'tab'   => 'Details',
             ],
-        ],
-            'edit');
-        $this->crud->addFields([
+            ],
+            'edit'
+        );
+        $this->crud->addFields(
+            [
             [
                 'name'  => 'title',
                 'label' => 'Title',
@@ -81,10 +84,12 @@ class ProjectCrudController extends CrudController
                 'hint'  => 'This will help identify your project in public lists and to project members that you may invite to join the project. ',
                 'tab'   => 'Details',
             ],
-        ],
-            'create');
+            ],
+            'create'
+        );
 
-        $this->crud->addFields([
+        $this->crud->addFields(
+            [
             [
                 'name'  => 'is_private',
                 'label' => 'Private Project?',
@@ -198,8 +203,9 @@ class ProjectCrudController extends CrudController
                 'hint'  => "If the generator strategy is 'Numeric', the unique portion of the generated URI will be incremented starting from this number ",
                 'tab'   => 'URI Generation (optional)',
             ],
-        ],
-            'both');
+            ],
+            'both'
+        );
 
         // ------ CRUD COLUMNS
         // $this->crud->addColumn(); // add a single column, at the end of the stack
@@ -215,7 +221,8 @@ class ProjectCrudController extends CrudController
             //     ] ); // adjusts the properties of the passed in column (by name)
         }
         //$this->crud->removeColumns( [column1, column2] ); // remove an array of columns from the stack
-        $this->crud->setColumnDetails('org_name',
+        $this->crud->setColumnDetails(
+            'org_name',
             [
                 'label'         => 'Title',
                 'type'          => 'model_function',
@@ -224,7 +231,8 @@ class ProjectCrudController extends CrudController
                     $query->orWhere('org_name', 'like', '%' . $searchTerm . '%');
                 },
                 'show' => false,
-            ]); // adjusts the properties of the passed in column (by name)
+            ]
+        ); // adjusts the properties of the passed in column (by name)
         $this->crud->addColumn([
             'name'          => 'vocabularies',
             'label'         => 'Vocabularies',
@@ -243,16 +251,20 @@ class ProjectCrudController extends CrudController
         $this->crud->setColumnsDetails(['repo_is_valid', 'prefixes', 'created_at', 'updated_at'], [
             'show' => false,
         ]);
-        $this->crud->setColumnsDetails(['languages'],
+        $this->crud->setColumnsDetails(
+            ['languages'],
             [
                 'type'          => 'model_function',
                 'function_name' => 'showLanguagesCommaDelimited',
-            ]);
-        $this->crud->setColumnsDetails(['default_language'],
+            ]
+        );
+        $this->crud->setColumnsDetails(
+            ['default_language'],
             [
                 'type'          => 'model_function',
                 'function_name' => 'showLanguage',
-            ]);
+            ]
+        );
         $this->crud->setColumnsDetails([
             'base_domain',
             'created_by',
@@ -382,8 +394,10 @@ class ProjectCrudController extends CrudController
 
         // your additional operations before save here
         $redirect_location = parent::storeCrud();
-        Auth::user()->projects()->attach($this->crud->entry,
-            ['is_registrar_for' => true, 'is_admin_for' => true]);
+        Auth::user()->projects()->attach(
+            $this->crud->entry,
+            ['is_registrar_for' => true, 'is_admin_for' => true]
+        );
         // your additional operations after save here
         // use $this->data['entry'] or $this->crud->entry
         return Redirect::to(config('backpack.base.route_prefix') . "/projects/{$this->crud->entry->id}");

@@ -14,8 +14,9 @@ class CreateSocialLoginsTable extends Migration
      */
     public function up()
     {
-        Schema::create('social_logins',
-            function(Blueprint $table) {
+        Schema::create(
+            'social_logins',
+            function (Blueprint $table) {
                 $table->increments('id');
                 $table->unsignedInteger('user_id')->nullable()->index();
                 $table->string('provider', 32);
@@ -23,7 +24,8 @@ class CreateSocialLoginsTable extends Migration
                 $table->string('token')->nullable();
                 $table->string('avatar')->nullable();
                 $table->timestamps();
-            });
+            }
+        );
     }
 
     /**

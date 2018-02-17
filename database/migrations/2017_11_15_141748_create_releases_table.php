@@ -13,8 +13,9 @@ class CreateReleasesTable extends Migration
      */
     public function up()
     {
-        Schema::create('releases',
-            function(Blueprint $table) {
+        Schema::create(
+            'releases',
+            function (Blueprint $table) {
                 $table->increments('id');
                 $table->timestamps();
                 $table->softDeletes();
@@ -38,7 +39,8 @@ class CreateReleasesTable extends Migration
                 $table->boolean('is_draft')->nullable();
                 $table->boolean('is_prerelease')->nullable();
                 $table->json('github_response')->nullable();
-            });
+            }
+        );
     }
 
     /**

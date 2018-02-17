@@ -118,12 +118,12 @@ Route::get('check_github', function () {
         $release = $client->api('repo')->releases()->create('jonphipps', 'Metadata-Registry', ['tag_name' => 'v1.1']);
 
         return $release;
-    }
-    catch (Exception $e) {
+    } catch (Exception $e) {
         return '<table>'.$e->xdebug_message. '</table>';
     }
 });
-Route::get('hack_rda_prefix',
+Route::get(
+    'hack_rda_prefix',
     function () {
         $rdaPrefixes   = [
             'rdaar'   => 'http://rdaregistry.info/termList/AspectRatio/',
@@ -207,4 +207,5 @@ Route::get('hack_rda_prefix',
             $element->prefixes = $rdaPrefixes;
             $element->save();
         }
-    });
+    }
+);

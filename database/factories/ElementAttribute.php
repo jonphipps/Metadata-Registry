@@ -5,8 +5,9 @@ use App\Models\Element;
 use App\Models\ElementAttribute;
 
 /** @var Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(App\Models\ElementAttribute::class,
-    function(Faker\Generator $faker) {
+$factory->define(
+    App\Models\ElementAttribute::class,
+    function (Faker\Generator $faker) {
         return [
             'created_user_id'            => getRandomClassId('Access\User\User'),
             'updated_user_id'            => getRandomClassId('Access\User\User'),
@@ -20,11 +21,13 @@ $factory->define(App\Models\ElementAttribute::class,
             'is_generated'               => $faker->boolean,
             // obsolete 'is_schema_property'         => $faker->boolean,
         ];
-    });
+    }
+);
 
-$factory->state(App\Models\ElementAttribute::class,
+$factory->state(
+    App\Models\ElementAttribute::class,
     'resource',
-    function() {
+    function () {
         $id = getRandomClassId('Element');
         /** @var Element $element */
         $element = Element::find($id);
@@ -35,18 +38,23 @@ $factory->state(App\Models\ElementAttribute::class,
             'object'             => $element->uri,
             'is_generated'       => false,
         ];
-    });
-$factory->state(ElementAttribute::class,
+    }
+);
+$factory->state(
+    ElementAttribute::class,
     'has_reciprocal',
-    function() {
+    function () {
         return [
             'profile_property_id' => 16,
         ];
-    });
-$factory->state(ElementAttribute::class,
+    }
+);
+$factory->state(
+    ElementAttribute::class,
     'has_inverse',
-    function() {
+    function () {
         return [
             'profile_property_id' => 6,
         ];
-    });
+    }
+);

@@ -14,12 +14,14 @@ class AddForeignKeysToRegAgentTable extends Migration
      */
     public function up()
     {
-        Schema::table('reg_agent',
-            function(Blueprint $table) {
+        Schema::table(
+            'reg_agent',
+            function (Blueprint $table) {
                 $table->foreign('created_by', 'reg_agent_ibfk_1')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('SET NULL');
                 $table->foreign('updated_by', 'reg_agent_ibfk_2')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('SET NULL');
                 $table->foreign('deleted_by', 'reg_agent_ibfk_3')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('SET NULL');
-            });
+            }
+        );
     }
 
     /**
@@ -29,11 +31,13 @@ class AddForeignKeysToRegAgentTable extends Migration
      */
     public function down()
     {
-        Schema::table('reg_agent',
-            function(Blueprint $table) {
+        Schema::table(
+            'reg_agent',
+            function (Blueprint $table) {
                 $table->dropForeign('reg_agent_ibfk_1');
                 $table->dropForeign('reg_agent_ibfk_2');
                 $table->dropForeign('reg_agent_ibfk_3');
-            });
+            }
+        );
     }
 }

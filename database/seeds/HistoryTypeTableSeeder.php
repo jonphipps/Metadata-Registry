@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
  */
 class HistoryTypeTableSeeder extends Seeder
 {
-  use DisablesForeignKeys, TruncateTable;
+    use DisablesForeignKeys, TruncateTable;
 
   /**
      * Run the database seed.

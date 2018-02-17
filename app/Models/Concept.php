@@ -97,18 +97,24 @@ class Concept extends Model
     public static function selectConceptsByProject($projectId): array
     {
         return \DB::table(ConceptAttribute::TABLE)
-            ->join(self::TABLE,
+            ->join(
+                self::TABLE,
                 self::TABLE . '.id',
                 '=',
-                ConceptAttribute::TABLE . '.concept_id')
-            ->join(Vocabulary::TABLE,
+                ConceptAttribute::TABLE . '.concept_id'
+            )
+            ->join(
+                Vocabulary::TABLE,
                 Vocabulary::TABLE . '.id',
                 '=',
-                self::TABLE . '.vocabulary_id')
-            ->select(ConceptAttribute::TABLE . '.concept_id as id',
+                self::TABLE . '.vocabulary_id'
+            )
+            ->select(
+                ConceptAttribute::TABLE . '.concept_id as id',
                 Vocabulary::TABLE . '.name as vocabulary',
                 ConceptAttribute::TABLE . '.language',
-                ConceptAttribute::TABLE . '.object as label')
+                ConceptAttribute::TABLE . '.object as label'
+            )
             ->where([
                 [ConceptAttribute::TABLE . '.profile_property_id', 45],
                 [Vocabulary::TABLE . '.agent_id', $projectId],

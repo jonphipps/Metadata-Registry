@@ -12,7 +12,7 @@ use App\Events\Frontend\Auth\UserLoggedOut;
  */
 class LoggedInRouteTest extends BrowserKitTestCase
 {
-  use DatabaseTransactions;
+    use DatabaseTransactions;
     /**
      * Test the homepage works and the dashboard button appears.
      */

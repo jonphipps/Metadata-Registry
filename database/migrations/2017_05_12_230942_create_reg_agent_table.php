@@ -14,14 +14,15 @@ class CreateRegAgentTable extends Migration
      */
     public function up()
     {
-        Schema::create('reg_agent',
-            function(Blueprint $table) {
+        Schema::create(
+            'reg_agent',
+            function (Blueprint $table) {
                 $table->increments('id');
                 $table->text('description')->nullable();
                 $table->boolean('is_private')->nullable()->default(0);
                 $table->string('repo')->nullable();
                 $table->text('license')->nullable();
-//legacy
+            //legacy
                 $table->string('org_email', 100)->default('');
                 $table->string('org_name')->default('');
                 $table->string('ind_affiliation')->nullable();
@@ -35,13 +36,14 @@ class CreateRegAgentTable extends Migration
                 $table->string('phone', 45)->nullable();
                 $table->string('web_address')->nullable();
                 $table->char('type', 15)->nullable();
-//users
+            //users
                 $table->unsignedInteger('created_by')->nullable()->index();
                 $table->unsignedInteger('updated_by')->nullable()->index();
                 $table->unsignedInteger('deleted_by')->nullable()->index();
                 $table->timestamps();
                 $table->softDeletes();
-            });
+            }
+        );
     }
 
     /**
