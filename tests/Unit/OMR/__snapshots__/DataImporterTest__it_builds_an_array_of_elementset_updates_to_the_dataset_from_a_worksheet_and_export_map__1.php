@@ -10,8 +10,8 @@
       'property_id' => '1',
       'updated_at' => null,
       'required' => true,
-    ],
-    '*label_fr' =>
+     ],
+     '*label_fr' =>
      [
       'new value' => 'foobar',
       'old value' => 'Famille',
@@ -25,8 +25,8 @@
          'timezone' => 'UTC',
       ]),
       'required' => true,
-    ],
-    'lexicalAlias_en' =>
+     ],
+     'lexicalAlias_en' =>
      [
       'new value' => '',
       'old value' => 'rdac:Family.en',
@@ -40,6 +40,6 @@
          'timezone' => 'UTC',
       ]),
       'required' => false,
-    ],
-  ],
+     ],
+   ],
 ];
