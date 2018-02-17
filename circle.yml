@@ -1,13 +1,14 @@
 machine:
   pre:
-    - sudo apt-get update; USE_PRECOMPILE=true sudo -E circleci-install php 7.1.3
+    - sudo apt-get update; USE_PRECOMPILE=true sudo -E circleci-install php 7.1.9
+    - sudo apt-get install php7.1-intl
     - sudo apt-get install raptor-utils
     - curl -L -o google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
     - sudo dpkg -i google-chrome.deb
     - sudo sed -i 's|HERE/chrome\"|HERE/chrome\" --disable-setuid-sandbox|g' /opt/google/chrome/google-chrome
     - rm google-chrome.deb
   php:
-    version: 7.1.3
+    version: 7.1.9
   node:
     version: 7.6
   services:
