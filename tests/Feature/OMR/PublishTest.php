@@ -3,6 +3,7 @@
 namespace Tests\Feature\OMR;
 
 use App\Jobs\Publish;
+use App\Models\Access\User\User;
 use App\Models\Releasable;
 use App\Models\Release;
 use Doctrine\DBAL\Schema\Table;
@@ -65,5 +66,17 @@ class PublishTest extends TestCase
         Storage::disk('test')->assertExists('projects/177/jsonld/Elements/c.jsonld');
 
         $this->assertCount(1, $release->user->notifications);
+    }
+
+    /** @test */
+    public function service_can_get_list_of_user_repos_from_github(): void
+    {
+        $this->markTestIncomplete();
+        //given I have a github account)
+        $user = User::findOrFail(36);
+        $this->actingAs($user);
+        //when I request a list of my repos
+        //GitHub::getRepoList();
+        //then I get the list
     }
 }
