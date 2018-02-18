@@ -1,6 +1,7 @@
 machine:
   pre:
-    - sudo apt-get update; USE_PRECOMPILE=true sudo -E circleci-install php 7.1.9
+    - sudo LC_ALL=en_US.UTF-8 add-apt-repository -y ppa:ondrej/php
+    - sudo apt-get update;
     - sudo apt-get install php7.1-intl
     - sudo apt-get install raptor-utils
     - curl -L -o google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
