@@ -142,7 +142,7 @@ return [
             'backtrace'         => true,   // Use a backtrace to find the origin of the query in your files.
             'timeline'          => false,  // Add the queries to the timeline
             'explain' => [                 // Show EXPLAIN output on queries
-                'enabled' => true,
+                'enabled' => false,
                 'types' => ['SELECT'],     // ['SELECT', 'INSERT', 'UPDATE', 'DELETE']; for MySQL 5.6.3+
             ],
             'hints'             => true,    // Show hints for common mistakes
@@ -151,7 +151,8 @@ return [
             'full_log' => false
         ],
         'views' => [
-            'data' => false,    //Note: Can slow down the application, because the data can be quite large..
+            'data'      => false,  //Note: Can slow down the application, because the data can be quite large..
+            'full_path' => true,   //use the full path for links rather than the default path relative to the app root
         ],
         'route' => [
             'label' => true  // show complete route on bar
