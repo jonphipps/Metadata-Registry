@@ -123,7 +123,7 @@ class ProjectCrudController extends CrudController
             [
                 'name'  => 'repo',
                 'label' => 'GitHub Repository',
-                'type'  => 'url',
+                'type'  => 'text',
                 'hint'  => "If you publish your resources using the 'OMR->GitHub->Vocabulary Server' publishing path, this is the GitHub repository to which we'll publish your resources. <br />This can be set for each individual resource as well.",
                 'tab'   => 'Project Defaults',
             ],

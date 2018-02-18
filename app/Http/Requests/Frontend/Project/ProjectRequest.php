@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests\Frontend\Project;
 
-use App\Http\Requests\Request;
+use App\Rules\ValidatesGithubRepo;
+use Backpack\CRUD\app\Http\Requests\CrudRequest;
 
-class ProjectRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
+class ProjectRequest extends CrudRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +26,8 @@ class ProjectRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
     public function rules()
     {
         return [
-             'title' => 'required|min:5|max:191',
+            'title' => 'required|min:5|max:191',
+            'repo'  => new ValidatesGithubRepo,
         ];
     }
 
@@ -36,8 +38,7 @@ class ProjectRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
      */
     public function attributes()
     {
-        return [
-            //
+        return [//
         ];
     }
 
@@ -48,8 +49,7 @@ class ProjectRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
      */
     public function messages()
     {
-        return [
-            //
+        return [//
         ];
     }
 }
