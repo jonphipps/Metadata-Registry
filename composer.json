@@ -136,6 +136,7 @@
         "orangehill/iseed": "^2.3",
         "pbmedia/laravel-browser-kit-macro": "^1.0",
         "phpunit/phpunit": "~6.0",
+        "recca0120/laravel-tracy": "^1.8",
         "spatie/laravel-db-snapshots": "^1.0",
         "spatie/phpunit-snapshot-assertions": "^1.0",
         "stechstudio/laravel-vfs-adapter": "^2.0",

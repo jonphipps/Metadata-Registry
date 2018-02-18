@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Dusk\DuskServiceProvider;
 use Mpociot\LaravelTestFactoryHelper\TestFactoryHelperServiceProvider;
+use Recca0120\LaravelTracy\LaravelTracyServiceProvider;
 use STS\Filesystem\VfsFilesystemServiceProvider;
 use Way\Generators\GeneratorsServiceProvider;
 
@@ -107,7 +108,9 @@ class AppServiceProvider extends ServiceProvider
                 $this->app->register(VfsFilesystemServiceProvider::class);
             }
         }
-
+        if (! \in_array($environment, ['production', 'testing'], true)) {
+            $this->app->register(LaravelTracyServiceProvider::class);
+        }
         $this->app->bind('path.public',
             function () {
                 return base_path() . '/web';
