@@ -30,7 +30,7 @@ class ApproveImportStep extends Step
     public function preProcess(Request $request, Wizard $wizard)
     {
         $batch = $request->batch;
-        if ($batch->total_count <= $batch->handled_count) {
+        if ($batch->total_count >= $batch->handled_count) {
             $batch->load('imports');
             $data   = [];
             $errors = [];
