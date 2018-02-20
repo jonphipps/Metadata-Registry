@@ -16,12 +16,15 @@
                 <tr><th>ID</th><th>Column</th><th>Error</th><th>Severity</th></tr>
                 </thead>
 TAG;
+                if (is_array($errorRows)){
                 foreach ($errorRows as $errorRow) {
                     $errorTable .= "<tr>";
                     foreach ($errorRow as $item) {
                         $errorTable .= "<td>{$item}</td>";
                     }
                     $errorTable .= "</tr>";
+                    }}else{
+                    $errorTable .= "<tr><td colspan=\"4\">{$errorRows}</td></tr>";
                     }
                 }
                 $errorTable .= "</table>";

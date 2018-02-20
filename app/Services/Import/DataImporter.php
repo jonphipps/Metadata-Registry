@@ -61,14 +61,17 @@ class DataImporter
             //these are all fatal errors
             catch (DuplicateAttributesException $e) {
                 $this->errors = collect(['fatal' => $e->getMessage()]);
+                $this->setStats();
 
                 return;
             } catch (MissingRequiredAttributeException $e) {
                 $this->errors = collect(['fatal' => $e->getMessage()]);
+                $this->setStats();
 
                 return;
             } catch (UnknownAttributeException $e) {
                 $this->errors = collect(['fatal' => $e->getMessage()]);
+                $this->setStats();
 
                 return;
             }
@@ -85,12 +88,16 @@ class DataImporter
             }
         }
 
+        $this->setStats();
+    }
+
+    public function setStats()
+    {
         $this->stats['deleted'] = $this->deleteRows === null ? 0 : $this->deleteRows->count();
         $this->stats['updated'] = $this->updateRows === null ? 0 : $this->updateRows->count();
         $this->stats['added']   = $this->addRows === null ? 0 : $this->addRows->count();
         $this->stats['errors']  = $this->errors === null ? 0 : $this->errors->count();
     }
-
     /**
      * return a collection of rows that have no reg_id.
      *
