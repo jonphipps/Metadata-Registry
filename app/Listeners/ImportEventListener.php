@@ -24,7 +24,7 @@ class ImportEventListener
         /** @var Batch $batch */
         $batch                = $event->import->batch;
         $handled              = $batch->handled_array;
-        $handled['import']    = $handled['import'] === null ? 1 : ++$handled['import'];
+        $handled['import']    = empty($handled['import']) ? 1 : ++$handled['import'];
         $batch->handled_array = $handled;
         $batch->save();
 

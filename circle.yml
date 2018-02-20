@@ -11,7 +11,7 @@ machine:
   php:
     version: 7.1.9
   node:
-    version: 7.6
+    version: 8.2
   services:
     - redis
     - memcached
@@ -29,8 +29,6 @@ dependencies:
     - ~/.composer
     - ~/.cache/yarn
   override:
-    - npm update vue
-    - npm update vue-template-compiler
     - yarn
     - sudo composer self-update && composer --version
     - sudo chown ubuntu ~/.composer -R
