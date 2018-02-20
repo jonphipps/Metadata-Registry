@@ -127,7 +127,7 @@ class SetSpreadsheetStep extends Step
         // compare with known exports and generate a report
         Validator::make(['worksheets' => $worksheets],
             ['worksheets'          => 'required'],
-            ['worksheets.required' => 'The supplied spreadsheet has no valid worksheets'])->validate();
+            ['worksheets.required' => 'The supplied spreadsheet has no worksheets that can be matched to an export.'])->validate();
 
         $this->worksheets = $worksheets;
     }
