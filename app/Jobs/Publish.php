@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Models\Release;
 use App\Notifications\Frontend\ReleaseWasPublished;
 use App\Services\Publish\Git;
+use App\Services\Publish\GitHubService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -50,14 +51,10 @@ class Publish implements ShouldQueue
     {
         //todo:lot's more try/catch here
         $project = $this->release->project;
-        $repo       = $project->repo;
+        $repo    = $project->repo;
+
         //todo: rdf generator shouldn't responsible for storage management
         Git::initDir($project, $this->disk);
-        //if the project has a github repo
-        //and it's a valid repo
-        //pull the repo
-
-        //now we're ready to go...
 
         //todo: this section should be in a transaction
         $this->release->published_at = Carbon::now();
@@ -75,9 +72,18 @@ class Publish implements ShouldQueue
         }
         //when the jobs are complete:
         //commit the generated rdf with the version as the commit message
-        Git::commitDir($project, $this->release->tag_name, $this->disk);
-        //tag the commit with the version
-        //push the repo to github
+        Git::commitDir($project, $this->release->name, $this->disk);
+
+        if ($project->repo) { //push the repo to github
+            Git::updateRemote($this->release, $this->disk);
+            //push the release to GitHub
+            $gitHub = new GitHubService($this->release);
+            $gitHub->setRelease();
+        }
+        else{
+            //tag the commit with the version
+            Git::tagDir($project, $this->release->tag_name, $this->disk);
+        }
         //run the GenerateDocs job
         //notify the user that it's done
         $this->release->User->notify(new ReleaseWasPublished($this->release));
