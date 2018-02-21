@@ -22,47 +22,47 @@ use Illuminate\Notifications\Notifiable;
 /**
  * App\Models\Access\User\User
  *
- * @property int $id
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
- * @property \Carbon\Carbon|null $deleted_at
- * @property string|null $nickname
- * @property string|null $salutation
- * @property string|null $first_name
- * @property string|null $last_name
- * @property string|null $email
- * @property int|null $is_administrator
- * @property string|null $password
- * @property int $status
- * @property string|null $culture
- * @property string|null $confirmation_code
- * @property string $name
- * @property int $confirmed
- * @property string|null $remember_token
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Elementset[] $elementsets
- * @property-read string $action_buttons
- * @property-read string $change_password_button
- * @property-read string $clear_session_button
- * @property-read string $confirmed_button
- * @property-read string $confirmed_label
- * @property-read string $delete_button
- * @property-read string $delete_permanently_button
- * @property-read string $edit_button
- * @property-read string $full_name
- * @property-read mixed $github_token
- * @property-read string $login_as_button
- * @property-read mixed $picture
- * @property-read string $restore_button
- * @property-read string $show_button
- * @property-read string $status_button
- * @property-read string $status_label
+ * @property int                                                                                                            $id
+ * @property \Carbon\Carbon|null                                                                                            $created_at
+ * @property \Carbon\Carbon|null                                                                                            $updated_at
+ * @property \Carbon\Carbon|null                                                                                            $deleted_at
+ * @property string|null                                                                                                    $nickname
+ * @property string|null                                                                                                    $salutation
+ * @property string|null                                                                                                    $first_name
+ * @property string|null                                                                                                    $last_name
+ * @property string|null                                                                                                    $email
+ * @property int|null                                                                                                       $is_administrator
+ * @property string|null                                                                                                    $password
+ * @property int                                                                                                            $status
+ * @property string|null                                                                                                    $culture
+ * @property string|null                                                                                                    $confirmation_code
+ * @property string                                                                                                         $name
+ * @property int                                                                                                            $confirmed
+ * @property string|null                                                                                                    $remember_token
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Elementset[]                                         $elementsets
+ * @property-read string                                                                                                    $action_buttons
+ * @property-read string                                                                                                    $change_password_button
+ * @property-read string                                                                                                    $clear_session_button
+ * @property-read string                                                                                                    $confirmed_button
+ * @property-read string                                                                                                    $confirmed_label
+ * @property-read string                                                                                                    $delete_button
+ * @property-read string                                                                                                    $delete_permanently_button
+ * @property-read string                                                                                                    $edit_button
+ * @property-read string                                                                                                    $full_name
+ * @property-read mixed                                                                                                     $github_token
+ * @property-read string                                                                                                    $login_as_button
+ * @property-read mixed                                                                                                     $picture
+ * @property-read string                                                                                                    $restore_button
+ * @property-read string                                                                                                    $show_button
+ * @property-read string                                                                                                    $status_button
+ * @property-read string                                                                                                    $status_label
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Project[] $projects
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\User\SocialLogin[] $providers
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\Role\Role[] $roles
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\System\Session[] $sessions
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\User\SocialLogin[] $socialLogins
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vocabulary[] $vocabularies
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Project[]                                            $projects
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\User\SocialLogin[]                            $providers
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\Role\Role[]                                   $roles
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\System\Session[]                                     $sessions
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Access\User\SocialLogin[]                            $socialLogins
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Vocabulary[]                                         $vocabularies
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\User\User active($status = true)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Access\User\User confirmed($confirmed = true)
  * @method static bool|null forceDelete()
@@ -97,11 +97,9 @@ class User extends Authenticatable
      *
      * @var string
      */
-    protected $table   = self::TABLE;
+    protected $table = self::TABLE;
     public const TABLE = 'users';
-
     protected $guarded = ['id', 'is_administrator'];
-
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -193,17 +191,21 @@ class User extends Authenticatable
         return $this->belongsToMany(Elementset::class,
             ElementsetUser::TABLE,
             'user_id',
-            'schema_id')
-            ->withPivot('is_registrar_for', 'is_admin_for', 'is_maintainer_for')
-            ->withTimestamps();
-    }
-    
-    public function getGithubTokenAttribute(){
-        return $this->githubLogin()->token;
+            'schema_id')->withPivot('is_registrar_for', 'is_admin_for', 'is_maintainer_for')->withTimestamps();
     }
 
-    public function githubLogin(){
-        return $this->socialLogins()->where( 'provider', '=', 'github')->first();
+    public function getGithubTokenAttribute()
+    {
+        if ($this->githubLogin()) {
+            return $this->githubLogin()->token;
+        }
+
+        return null;
+    }
+
+    public function githubLogin()
+    {
+        return $this->socialLogins()->where('provider', '=', 'github')->first();
     }
 
     public function socialLogins()
