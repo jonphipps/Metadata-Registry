@@ -82,15 +82,19 @@ class Git
 
     public static function getProjectRepo(Project $project): ?string
     {
-        $repo = $project->repo;
+        $repo   = $project->repo;
+        $access = '';
 
         if ($repo) {
-            $token    = auth()->user()->githubToken;
-            $nickname = auth()->user()->nickname;
-                        //https://{$githubUserName}:{$githubAuthToken}@github.com:{$repo}.git
+            if (auth()->user()->githubToken) {
+                $token    = auth()->user()->githubToken;
+                $nickname = auth()->user()->nickname;
+                $access   = "{$nickname}:{$token}@";
+            }
 
-            return "https://{$nickname}:$token@github.com/{$repo}.git";
+            return "https://{$access}github.com/{$repo}.git";
         }
+
         return null;
     }
 
@@ -105,8 +109,9 @@ class Git
         }
         catch (GitException $e) {
             //we couldn't find the default and have to use the config
-            $wrapper =  new GitWrapper(config('app.git_executable'));
+            $wrapper = new GitWrapper(config('app.git_executable'));
         }
+
         //$wrapper->setEnvVar('GIT_SSH_COMMAND', 'ssh -o StrictHostKeyChecking=no');
         return $wrapper;
     }
@@ -176,6 +181,6 @@ class Git
      */
     private static function pushToGitHub(GitWorkingCopy $git): void
     {
-            $git->push('origin', 'master');
+        $git->push('origin', 'master');
     }
 }

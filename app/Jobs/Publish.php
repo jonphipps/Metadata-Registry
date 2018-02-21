@@ -74,7 +74,8 @@ class Publish implements ShouldQueue
         //commit the generated rdf with the version as the commit message
         Git::commitDir($project, $this->release->name, $this->disk);
 
-        if ($project->repo) { //push the repo to github
+        if ($project->repo) { 
+            //push the repo to github
             Git::updateRemote($this->release, $this->disk);
             //push the release to GitHub
             $gitHub = new GitHubService($this->release);
