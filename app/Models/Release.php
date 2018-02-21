@@ -29,6 +29,7 @@ use Laracasts\Matryoshka\Cacheable;
  * @property bool $is_draft
  * @property bool $is_prerelease
  * @property array $github_response
+ * @property int|null $github_id
  * @property-read mixed $github_created_at
  * @property-read mixed $html_url
  * @property-read mixed $project_id
@@ -43,6 +44,7 @@ use Laracasts\Matryoshka\Cacheable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Release whereBody($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Release whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Release whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Release whereGithubId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Release whereGithubResponse($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Release whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Release whereIsDraft($value)
