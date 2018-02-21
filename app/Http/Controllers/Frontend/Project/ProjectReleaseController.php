@@ -13,6 +13,6 @@ class ProjectReleaseController extends Controller
     {
         $this->dispatch(new Publish($release));
         Alert::success(trans('strings.frontend.publish.queued'))->flash();
-        return back();
+        return redirect(route('frontend.crud.projects.show', ['id' => $project_id]));
     }
 }

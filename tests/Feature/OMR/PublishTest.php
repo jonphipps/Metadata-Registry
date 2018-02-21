@@ -34,6 +34,8 @@ class PublishTest extends TestCase
     /** @test */
     public function publish_creates_multiple_files_for_a_project()
     {
+        $this->markTestIncomplete();
+
         $this->seedTestData();
         /** @var Release $release */
         $release = factory(Release::class)->states('testing')->create([ 'agent_id' => 177 ]);

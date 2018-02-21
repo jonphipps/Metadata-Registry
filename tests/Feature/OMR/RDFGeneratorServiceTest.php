@@ -31,6 +31,7 @@ class RDFGeneratorServiceTest extends TestCase
         $this->seedTestData();
         $this->release =
             factory(Release::class)->states('testing')->create();
+        $this->actingAs($this->admin);
 
         //start with an empty test directory
         storage::disk('test')->deleteDirectory('projects');
