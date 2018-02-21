@@ -62,7 +62,7 @@ class ProjectReleaseCrudController extends CrudController
         // $this->crud->addField($options, 'update/create/both');
         // $this->crud->addFields($array_of_arrays, 'update/create/both');
         // $this->crud->removeField('name', 'update/create/both');
-        $this->crud->removeFields(['user_id', 'agent_id', 'name', 'body', 'github_response', 'tag_name', 'target_commitish', 'is_draft', 'is_prerelease', 'published_at']);
+        $this->crud->removeFields(['user_id', 'agent_id', 'name', 'body', 'github_response', 'github_id', 'tag_name', 'target_commitish', 'is_draft', 'is_prerelease', 'published_at']);
         $this->crud->addFields([
             [
                 'name'    => 'user_id',
@@ -138,7 +138,7 @@ class ProjectReleaseCrudController extends CrudController
         // $this->crud->addColumn(); // add a single column, at the end of the stack
         // $this->crud->addColumns(); // add multiple columns, at the end of the stack
         //$this->crud->removeColumn('github_response'); // remove a column from the stack
-        $this->crud->removeColumns(['user_id', 'agent_id', 'github_response', 'target_commitish', 'is_draft', 'deleted_at']); // remove an array of columns from the stack
+        $this->crud->removeColumns(['user_id', 'agent_id', 'github_response', 'github_id', 'target_commitish', 'is_draft', 'deleted_at']); // remove an array of columns from the stack
         // $this->crud->setColumnDetails('column_name', ['attribute' => 'value']); // adjusts the properties of the passed in column (by name)
         $this->crud->addColumns([
             [
