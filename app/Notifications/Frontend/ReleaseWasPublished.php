@@ -61,7 +61,7 @@ class ReleaseWasPublished extends Notification implements ShouldQueue
     public function toArray($notifiable): array
     {
         return [
-            'message' => 'Your vocabulary has been published',
+            'message' => "Your release has been published as {$this->release->tag_name}.",
         ];
     }
 }
