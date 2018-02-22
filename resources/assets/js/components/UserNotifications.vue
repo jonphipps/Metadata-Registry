@@ -10,13 +10,13 @@
                 <!-- inner menu: contains the actual data -->
                 <ul class="menu">
                     <li v-for="notification in notifications">
-                        <a v-bind:href="'notifications/'+notification.id">
+                        <a v-bind:href="'/notifications/'+notification.id">
                             <i class="fa fa-warning text-yellow"></i> {{ notification.data['message'] }}
                         </a>
                     </li>
                 </ul>
             </li>
-            <li class="footer"><a href="dashboard#notifications">View all</a></li>
+            <li class="footer"><a href="/dashboard#notifications">View all</a></li>
         </ul>
     </li>
     <!--<li class="dropdown" v-if="notifications.length">-->
