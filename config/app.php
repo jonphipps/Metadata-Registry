@@ -186,6 +186,7 @@ return [
         Creativeorange\Gravatar\GravatarServiceProvider::class,
         Culpa\CulpaServiceProvider::class,
         DaveJamesMiller\Breadcrumbs\ServiceProvider::class,
+        InfyOm\Generator\InfyOmGeneratorServiceProvider::class,
         Laracasts\Matryoshka\MatryoshkaServiceProvider::class,
         Prologue\Alerts\AlertsServiceProvider::class,
         Thedevsaddam\LaravelSchema\LaravelSchemaServiceProvider::class,
