@@ -10,6 +10,7 @@ use App\Exceptions\UnknownAttributeException;
 use App\Models\Concept;
 use App\Models\Element;
 use App\Models\Export;
+use App\Models\ProfileProperty;
 use Illuminate\Database\Eloquent\Collection as DBCollection;
 use Illuminate\Support\Collection;
 use const null;
@@ -50,13 +51,15 @@ class DataImporter
     {
         $this->data    = $data;
         $columnHeaders = collect($data[0]);
+
         $this->rows    = $this->getDataForImport();
 
         $this->export = $export;
         if ($export) {
-            $this->rowMap     = self::getRowMap($export->map);
+            $props = ProfileProperty::whereProfileId($export->profile_id)->get()->keyBy('id');
+            $this->rowMap     = self::getRowMap($export->map,$props);
             try {
-                $this->columnProfileMap = self::getColumnProfileMap($export, $columnHeaders);
+                $this->columnProfileMap = self::getColumnProfileMap($export, $columnHeaders, $props);
             }
             //these are all fatal errors
             catch (DuplicateAttributesException $e) {
@@ -139,7 +142,7 @@ class DataImporter
                 $this->currentColumnName = $column;
 
                 return [
-                    'new value'    => $this->validateRequired($value, $column),
+                    'new value'    => $this->validateRequired($value, $columnMap[$column]),
                     'old value'    => $statement ? $statement->get('old value') : null,
                     'statement_id' => $statementId,
                     'language'     => $columnMap[$column]['language'],
@@ -177,7 +180,7 @@ class DataImporter
                 }
 
                 return [
-                   'new value'    => $this->validateRequired($value, $column),
+                   'new value'    => $this->validateRequired($value, $columnMap[$column]),
                    'old value'    => null,
                    'statement_id' => null,
                    'language'     => $columnMap[$column]['language'],
@@ -231,14 +234,21 @@ class DataImporter
     }
 
     /**
-     * @param Collection $map
+     * @param Collection                     $map
+     * @param \Illuminate\Support\Collection $props
      *
      * @return Collection
      */
-    public static function getHeaderFromMap(Collection $map): Collection
+    public static function getHeaderFromMap(Collection $map, Collection $props): Collection
     {
-        return collect($map->first());
+        //add the latest required attribute from the profile
+        return collect($map->first())->map(function ($item, $key) use ($props) {
+            $item['required'] = $item['id'] ? $props[$item['id']]->is_required : null;
+
+            return $item;
+        });
     }
+
 
     public function getStats(): Collection
     {
@@ -255,13 +265,14 @@ class DataImporter
     }
 
     /**
-     * @param Collection $map
+     * @param Collection                     $map
+     * @param \Illuminate\Support\Collection $props
      *
      * @return Collection
      */
-    public static function getRowMap(Collection $map): Collection
+    public static function getRowMap(Collection $map, Collection $props): Collection
     {
-        $p = self::getHeaderFromMap($map);
+        $p = self::getHeaderFromMap($map, $props);
 
         return $map->slice(1)->transform(function ($item, $key) use ($p) {
             return collect($item)->mapWithKeys(function ($item, $key) use ($p) {
@@ -271,23 +282,24 @@ class DataImporter
     }
 
     /**
-     * @param Export     $export
-     * @param Collection $columnHeaders
+     * @param Export                         $export
+     * @param Collection                     $columnHeaders
+     * @param \Illuminate\Support\Collection $props
      *
      * @return Collection
-     * @throws DuplicateAttributesException
-     * @throws MissingRequiredAttributeException
-     * @throws UnknownAttributeException
+     * @throws \App\Exceptions\DuplicateAttributesException
+     * @throws \App\Exceptions\MissingRequiredAttributeException
+     * @throws \App\Exceptions\UnknownAttributeException
      */
-    public static function getColumnProfileMap(Export $export, Collection $columnHeaders): Collection
+    public static function getColumnProfileMap(Export $export, Collection $columnHeaders, Collection $props): Collection
     {
         $map        = $export->map;
         $profile    = $export->profile;
-        $mapHeaders = self::getHeaderFromMap($map)->keyBy('label');
+        $mapHeaders = self::getHeaderFromMap($map, $props)->keyBy('label');
         $keys       = $mapHeaders->keys()->toArray();
         //get the map for all new columns
         $newColumns = $columnHeaders->reject(function ($value, $key) use ($keys) {
-            return in_array($value, $keys, false);
+            return \in_array($value, $keys, false);
         })->map(function ($column) use ($profile) {
             return $profile->getColumnMapFromHeader($column);
         })->keyBy('label');
@@ -297,9 +309,9 @@ class DataImporter
         foreach ($columnHeaders as $columnHeader) {
             if (isset($headers[$columnHeader])) {
                 throw new DuplicateAttributesException('"' . $columnHeader . '" is a duplicate attribute column. Columns cannot be duplicated');
-            } else {
-                $headers[$columnHeader] = $columnHeader;
             }
+
+            $headers[$columnHeader] = $columnHeader;
         }
 
         //check for unknown columns
@@ -320,9 +332,13 @@ class DataImporter
         }
 
         //check for missing required columns
-        $missingRequired = collect($keys)->diff($columnHeaders)->filter(function ($value, $key) {
-            return $value !== ltrim($value, '*');
+
+        $missingRequired = $mapHeaders->filter(function ($value, $key) use ($columnHeaders) {
+            return $value['required'] && ! $columnHeaders->contains($key);
+        })->map(function ($item, $key) {
+            return $key;
         });
+
         if (count($missingRequired)) {
             if (count($missingRequired) > 1) {
                 $missing = 'columns: ';
@@ -488,11 +504,11 @@ class DataImporter
      *
      * @return string
      */
-    private function validateRequired($value, $column): string
+    private function validateRequired($value, array $column): string
     {
-        if (empty($value) && $column[0] === '*') {
-            $value = self::makeErrorMessage('Empty required attribute');
-            $this->logRowError($value, $column, $this->currentRowName, 'fatal');
+        if (empty($value) && $column['required']) {
+            $error = self::makeErrorMessage('Empty required attribute');
+            $this->logRowError($error, $column['label'], $this->currentRowName, 'Row Fatal');
         }
 
         return $value;

@@ -6,6 +6,7 @@ namespace Tests\Unit\OMR;
 
 use App\Models\Export;
 use App\Models\Import;
+use App\Models\ProfileProperty;
 use App\Services\Import\DataImporter;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Spatie\Snapshots\MatchesSnapshots;
@@ -19,7 +20,7 @@ class DataImporterTest extends TestCase
 
     public function setUp()
     {
-        $this->dontSetupDatabase();
+        //$this->dontSetupDatabase();
         parent::setUp();
     }
 
@@ -157,6 +158,7 @@ class DataImporterTest extends TestCase
         $export = factory(Export::class)->make([
             'map'              => $map,
             'selected_columns' => $this->getColumns(),
+            'profile_id' => 2,
         ]);
         //and an export map
         $importer = new DataImporter($data, $export);
@@ -180,6 +182,7 @@ class DataImporterTest extends TestCase
         $export     = factory(Export::class)->make([
             'map'              => $map,
             'selected_columns' => $this->getColumns(),
+            'profile_id' => 2,
         ]);
         //and an export map
         $importer = new DataImporter($data, $export);
@@ -263,6 +266,7 @@ class DataImporterTest extends TestCase
         $export     = factory(Export::class)->make([
             'map'              => $map,
             'selected_columns' => $this->getColumns(),
+            'profile_id' => 2,
         ]);
         //and an export map
         $importer = new DataImporter($data, $export);
@@ -291,8 +295,10 @@ class DataImporterTest extends TestCase
     {
         //given a deserialized export map
         $map = $this->getMap();
+        $props = ProfileProperty::whereProfileId(2)->get()->keyBy('id');
+
         //when i pass it to the datafromMap function
-        $data = DataImporter::getRowMap($map)->toArray();
+        $data = DataImporter::getRowMap($map,$props)->toArray();
         //then it returns a proper set of exported statements
         $this->assertMatchesSnapshot($data);
     }
@@ -302,8 +308,9 @@ class DataImporterTest extends TestCase
     {
         //given a deserialized export map
         $map = $this->getMap();
+        $props = ProfileProperty::whereProfileId(2)->get()->keyBy('id');
         //when i pass it to the MapHeader function
-        $header = DataImporter::getHeaderFromMap($map);
+        $header = DataImporter::getHeaderFromMap($map,$props);
         //then it returns a proper header/profile
         $this->assertMatchesSnapshot($this->getMap()->toArray()[0]);
     }
@@ -316,7 +323,8 @@ class DataImporterTest extends TestCase
         //when i pass it to the MapHeader function
         /** @var Export $export */
         $export  = factory(Export::class)->make([ 'map' => $map, 'profile_id' => 2]);
-        $profile = DataImporter::getColumnProfileMap($export, collect([ "*preferred label[0]_en", "*preferred label[0]_fr", "*uri", "*status", ]));
+        $props = ProfileProperty::whereProfileId($export->profile_id)->get()->keyBy('id');
+        $profile = DataImporter::getColumnProfileMap($export, collect(["*preferred label[0]_en", "*preferred label[0]_fr", "*uri", "*status",]),$props);
         //then it returns a proper header/profile
         $this->assertMatchesSnapshot($profile->toArray());
     }
