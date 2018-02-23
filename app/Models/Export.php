@@ -99,9 +99,13 @@ class Export extends Model
     |--------------------------------------------------------------------------
     */
 
-    public static function findByExportFileName(string $name, $extension = 'csv'): ?self
+    public static function findByExportFileName(string $name, $extension = '.csv'): ?self
     {
-        return self::whereFile($name . '.' . $extension)->first();
+        //strip the csv before searching
+        if(ends_with($name, $extension)){
+            $name = str_before($name, $extension);
+        }
+        return self::whereFile($name  . $extension)->first();
     }
 
     /**
