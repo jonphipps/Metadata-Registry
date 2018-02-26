@@ -112,7 +112,7 @@ class ImportVocabulary implements ShouldQueue
                         }
                     }
                 }
-                if (count($this->updatedStatements)) {
+                if (\count($this->updatedStatements)) {
                     try {
                         $this->resource->updateFromStatements($this->updatedStatements);
                     } catch (Exception $e) {

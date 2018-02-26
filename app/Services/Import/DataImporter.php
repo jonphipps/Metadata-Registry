@@ -315,8 +315,8 @@ class DataImporter
         }
 
         //check for unknown columns
-        if (count($newColumns)) {
-            if (count($newColumns) > 1) {
+        if (\count($newColumns)) {
+            if (\count($newColumns) > 1) {
                 $unknown = 'columns: ';
                 foreach ($newColumns as $item) {
                     $unknown .= '"' . $item['label'] . '", ';
@@ -339,8 +339,8 @@ class DataImporter
             return $key;
         });
 
-        if (count($missingRequired)) {
-            if (count($missingRequired) > 1) {
+        if (\count($missingRequired)) {
+            if (\count($missingRequired) > 1) {
                 $missing = 'columns: ';
                 foreach ($missingRequired as $item) {
                     $missing .= '"' . $item . '", ';
