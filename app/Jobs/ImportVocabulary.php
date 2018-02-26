@@ -163,7 +163,7 @@ class ImportVocabulary implements ShouldQueue
         }
         $this->setResults('timer', $timer->diff(new \DateTime())->format('%h hours; %i minutes; %s seconds'));
         $this->import->results = $this->results;
-        $this->import->batch->increment('handled_count');
+        //$this->import->batch->increment('handled_count');
         $this->import->total_processed_count = $total_processed;
         $this->import->added_count           = $added;
         $this->import->updated_count         = $updated;

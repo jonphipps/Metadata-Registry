@@ -19,56 +19,59 @@ class ImportEventListener
     /**
      * @param $event
      */
-    public function onImportFinished($event)
+    public function onImportFinished($event): void
     {
         /** @var Batch $batch */
         $batch                = $event->import->batch;
-        $handled              = $batch->handled_array;
+        $handled              = $batch->handled_array ?? [];
         $handled['import']    = empty($handled['import']) ? 1 : ++$handled['import'];
         $batch->handled_array = $handled;
         $batch->save();
+
+        /** @var Import $import */
+        $import = $event->import;
+        \Log::info('Import Finished: ' . $import->source_file_name);
 
         if ($batch->imports->count() <= $handled['import']) {
             // we're done
             event(new BatchImportFinished($batch));
         }
-        /** @var Import $import */
-        $import = $event->import;
-        \Log::info('Import Finished: ' . $import->source_file_name);
     }
 
     /**
      * @param $event
      */
-    public function onBatchImportFinished($event)
+    public function onBatchImportFinished($event): void
     {
         /** @var Batch $batch */
         $batch = $event->batch;
+        \Log::info('Import Parse Batch Finished: ' . $batch->run_description);
+
         if ($batch->user) {
             $batch->user->notify(new ImportWasCompleted($batch));
         }
-        \Log::info('Import Parse Batch Finished: ' . $batch->run_description);
     }
 
     /**
      * @param $event
      */
-    public function onImportParseFinished($event)
+    public function onImportParseFinished($event): void
     {
         /** @var Batch $batch */
         $batch                = $event->import->batch;
-        $handled              = $batch->handled_array;
-        $handled['parse']     = $handled['parse'] === null ? 1 : ++$handled['parse'];
+        $handled              = $batch->handled_array ?? [];
+        $handled['parse']     = empty($handled['parse']) ? 1 : ++$handled['parse'];
         $batch->handled_array = $handled;
         $batch->save();
+
+        /** @var Import $import */
+        $import = $event->import;
+        \Log::info('Import Parse Finished: ' . $import->source_file_name);
 
         if ($batch->imports->count() <= $handled['parse']) {
             // we're done
             event(new BatchImportParseFinished($batch));
         }
-        /** @var Import $import */
-        $import = $event->import;
-        \Log::info('Import Parse Finished: ' . $import->source_file_name);
     }
 
     /**
@@ -78,10 +81,11 @@ class ImportEventListener
     {
         /** @var Batch $batch */
         $batch = $event->batch;
+        \Log::info('Import Parse Batch Finished: ' . $batch->run_description);
+
         if ($batch->user) {
             $batch->user->notify(new ImportEvaluationWasCompleted($batch));
         }
-        \Log::info('Import Parse Batch Finished: ' . $batch->run_description);
     }
 
     /**
