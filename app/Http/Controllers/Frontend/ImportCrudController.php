@@ -154,7 +154,7 @@ class ImportCrudController extends CrudController
         if ($this->wizard->dataHas('batch_id')) {
             $batch = Batch::findOrFail($this->wizard->dataGet('batch_id'));
         } else {
-            $batch = Batch::make(['project_id' => $project->id]);
+            $batch = Batch::make(['project_id' => $project->id, 'user_id' => auth()->id()]);
             $this->setWizardData('batch_id', $batch->id);
         }
 
