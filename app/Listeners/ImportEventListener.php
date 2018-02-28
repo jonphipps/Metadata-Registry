@@ -32,7 +32,7 @@ class ImportEventListener
         $import = $event->import;
         \Log::info('Import Finished: ' . $import->source_file_name);
 
-        if ($batch->imports->count() <= $handled['import']) {
+        if ($batch->total_count <= $handled['import']) {
             // we're done
             event(new BatchImportFinished($batch));
         }
@@ -68,7 +68,7 @@ class ImportEventListener
         $import = $event->import;
         \Log::info('Import Parse Finished: ' . $import->source_file_name);
 
-        if ($batch->imports->count() <= $handled['parse']) {
+        if ($batch->total_count <= $handled['parse']) {
             // we're done
             event(new BatchImportParseFinished($batch));
         }
@@ -77,7 +77,7 @@ class ImportEventListener
     /**
      * @param $event
      */
-    public function onBatchImportParseFinished($event)
+    public function onBatchImportParseFinished($event): void
     {
         /** @var Batch $batch */
         $batch = $event->batch;

@@ -80,7 +80,7 @@ class ImportTest extends TestCase
         $import = factory(Import::class)->create([ 'user_id' => $user->id ]);
         $import2 = factory(Import::class)->create([ 'user_id' => $user->id ]);
         /** @var Batch $batch */
-        $batch = factory(Batch::class)->create([ 'project_id' => 177, 'user_id' => $user->id ]);
+        $batch = factory(Batch::class)->create([ 'project_id' => 177, 'user_id' => $user->id, 'total_count' => 2 ]);
         $batch->addImports([ $import, $import2 ]);
         event(new ImportFinished($import));
         event(new ImportFinished($import2));
