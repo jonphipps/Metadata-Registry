@@ -39,7 +39,7 @@ class SelectWorksheetsStep extends Step
         $worksheets = [];
         $sheets     = $wizard->data()['googlesheets'];
         //it's already in the correct form
-        if (is_array($sheets) && isset($sheets[0])) {
+        if (\is_array($sheets) && isset($sheets[0])) {
             return;
         }
         foreach ($sheets as $key => $worksheet) {
@@ -79,7 +79,8 @@ class SelectWorksheetsStep extends Step
         $batch_id     = $this->wizard->dataGet('batch_id');
         /** @var Batch $batch */
         $batch                = Batch::findOrFail($batch_id);
-        $batch->total_count   = count($worksheets[0]);
+        $batch->total_count   = \count($worksheets[0]);
+        $batch->handled_array = ['parse' => 0, 'import' => 0];
         $unfinishedImports    = $batch->imports()->whereNull('imported_at');
         if ($unfinishedImports) {
             $unfinishedImports->delete();
