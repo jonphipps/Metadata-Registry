@@ -106,8 +106,7 @@ class Git
     {
         try {
             $wrapper = new GitWrapper();
-        }
-        catch (GitException $e) {
+        } catch (GitException $e) {
             //we couldn't find the default and have to use the config
             $wrapper = new GitWrapper(config('app.git_executable'));
         }
@@ -134,8 +133,7 @@ class Git
 
         try {
             $git->tag($tag, '-f');
-        }
-        catch (GitException $e) {
+        } catch (GitException $e) {
         }
     }
 
@@ -161,8 +159,7 @@ class Git
             if ($git->hasRemote('origin')) {
                 self::pushToGitHub($git);
             }
-        }
-        catch (GitException $e) {
+        } catch (GitException $e) {
             if (str_contains($e->getMessage(), 'fatal: No such remote')) {
                 $repo = $release->project->repo;
                 if ($repo) {

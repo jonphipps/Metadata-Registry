@@ -56,8 +56,8 @@ class DataImporter
 
         $this->export = $export;
         if ($export) {
-            $props = ProfileProperty::whereProfileId($export->profile_id)->get()->keyBy('id');
-            $this->rowMap     = self::getRowMap($export->map,$props);
+            $props            = ProfileProperty::whereProfileId($export->profile_id)->get()->keyBy('id');
+            $this->rowMap     = self::getRowMap($export->map, $props);
             try {
                 $this->columnProfileMap = self::getColumnProfileMap($export, $columnHeaders, $props);
             }
@@ -101,6 +101,7 @@ class DataImporter
         $this->stats['added']   = $this->addRows === null ? 0 : $this->addRows->count();
         $this->stats['errors']  = $this->errors === null ? 0 : $this->errors->count();
     }
+
     /**
      * return a collection of rows that have no reg_id.
      *
@@ -246,7 +247,6 @@ class DataImporter
             return $item;
         });
     }
-
 
     public function getStats(): Collection
     {

@@ -3,7 +3,6 @@
 /**
  * All route names are prefixed with 'admin.'.
  */
-
 use App\Jobs\SyncProduction;
 use App\Models\Elementset;
 use App\Models\Project;
@@ -118,9 +117,8 @@ Route::get('check_github', function () {
         $release = $client->api('repo')->releases()->create('jonphipps', 'Metadata-Registry', ['tag_name' => 'v1.1']);
 
         return $release;
-    }
-    catch (Exception $e) {
-        return '<table>'.$e->xdebug_message. '</table>';
+    } catch (Exception $e) {
+        return '<table>' . $e->xdebug_message . '</table>';
     }
 });
 Route::get('hack_rda_prefix',

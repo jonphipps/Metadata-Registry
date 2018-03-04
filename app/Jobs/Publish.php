@@ -80,8 +80,7 @@ class Publish implements ShouldQueue
             //push the release to GitHub
             $gitHub = new GitHubService($this->release);
             $gitHub->setRelease();
-        }
-        else{
+        } else {
             //tag the commit with the version
             Git::tagDir($project, $this->release->tag_name, $this->disk);
         }
