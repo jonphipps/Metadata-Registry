@@ -46,8 +46,7 @@ class GitHubService
         $repo  = str_after($path, '/');
         try {
             return GitHub::repo()->show($owner, $repo);
-        }
-        catch (RuntimeException $e) {
+        } catch (RuntimeException $e) {
             return false;
         }
     }
@@ -56,8 +55,7 @@ class GitHubService
     {
         try {
             return GitHub::repo()->releases()->show($this->owner, $this->repo, $this->github_id);
-        }
-        catch (RuntimeException $e) {
+        } catch (RuntimeException $e) {
             return false;
         }
     }
@@ -79,10 +77,9 @@ class GitHubService
             'prerelease'       => $this->release->is_prerelease ?? false,
         ];
 
-        $client = new GitHubClient();
-        $token = auth()->user()->githubToken;
+        $client   = new GitHubClient();
+        $token    = auth()->user()->githubToken;
         $nickname = auth()->user()->nickname;
-
 
         $client->authenticate($nickname, $token, GitHubClient::AUTH_HTTP_PASSWORD);
 

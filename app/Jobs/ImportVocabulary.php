@@ -37,7 +37,7 @@ class ImportVocabulary implements ShouldQueue
     private $updatedStatements;
     /** @var array */
     private $results;
-    /** @var integer */
+    /** @var int */
     private $userId;
 
     /**

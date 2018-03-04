@@ -97,7 +97,7 @@ class User extends Authenticatable
      *
      * @var string
      */
-    protected $table = self::TABLE;
+    protected $table   = self::TABLE;
     public const TABLE = 'users';
     protected $guarded = ['id', 'is_administrator'];
     /**
@@ -199,8 +199,6 @@ class User extends Authenticatable
         if ($this->githubLogin()) {
             return $this->githubLogin()->token;
         }
-
-        return null;
     }
 
     public function githubLogin()
