@@ -185,6 +185,7 @@ class ElementAttribute extends Model
     {
         return ElementAttributeHistory::create([
             'action'                     => $action,
+            'created_user_id'            => $this->updated_user_id,
             'schema_property_element_id' => $this->id,
             'schema_property_id'         => $this->schema_property_id,
             'schema_id'                  => $this->element->schema_id,
