@@ -15,16 +15,12 @@ use App\Models\Import;
 use App\Models\Project;
 use App\Notifications\Frontend\ImportEvaluationWasCompleted;
 use App\Notifications\Frontend\ImportWasCompleted;
-use App\Services\Import\DataImporter;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Support\Facades\Queue;
 use Spatie\Snapshots\MatchesSnapshots;
 use Tests\TestCase;
-use function factory;
 use Tests\Unit\Traits\UsesWorksheetData;
+use function factory;
 
 class ImportTest extends TestCase
 {
@@ -148,7 +144,8 @@ class ImportTest extends TestCase
         $export = Export::findByExportFileName('rdac_en-fr_20170511T182904_570_0');
         //given an import with a changeset
         $import = factory(Import::class)->create([
-            'batch_id' => 6,
+            'batch_id'      => 6,
+            'user_id'       => 36,
             'vocabulary_id' => null,
             'schema_id'     => 83,
             'source'        => 'Google',
@@ -174,8 +171,8 @@ class ImportTest extends TestCase
                 'language'            => 'fr',
                 'schema_property_id'  => 14335,
                 'profile_property_id' => 1,
-                'created_user_id'     => 1,
-                'updated_user_id'     => 1,
+                'created_user_id'     => $import->user_id,
+                'updated_user_id'     => $import->user_id,
                 'last_import_id' => $import->id,
             ]);
         //this is the add part
@@ -199,7 +196,8 @@ class ImportTest extends TestCase
         $export = Export::findByExportFileName('RDAMediaType_en-fr_20170511T172922_569_0');
         //given an import with a changeset
         $import = factory(Import::class)->create([
-            'batch_id' => 6,
+            'batch_id'      => 6,
+            'user_id'       => 36,
             'vocabulary_id' => 37,
             'schema_id'     => null,
             'source'        => 'Google',
@@ -224,8 +222,8 @@ class ImportTest extends TestCase
                 'language'            => 'fr',
                 'concept_id'          => 482,
                 'profile_property_id' => 34,
-                'created_user_id'     => 1,
-                'updated_user_id'     => 1,
+                'created_user_id'     => 36,
+                'updated_user_id'     => 36,
             ]);
     }
 
@@ -270,7 +268,8 @@ class ImportTest extends TestCase
             'updated_at'   => null,
         ];
         $import = factory(Import::class)->create([
-            'batch_id' => 6,
+            'batch_id'      => 6,
+            'user_id'       => 36,
             'vocabulary_id' => 37,
             'schema_id'     => null,
             'source'        => 'Google',

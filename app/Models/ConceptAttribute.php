@@ -242,6 +242,7 @@ class ConceptAttribute extends Model
     {
         return ConceptAttributeHistory::create([
             'action'              => $action,
+            'created_user_id'     => $this->updated_user_id,
             'concept_property_id' => $this->id,
             'concept_id'          => $this->concept_id,
             'vocabulary_id'       => $this->concept->vocabulary_id,

@@ -37,6 +37,8 @@ class ImportVocabulary implements ShouldQueue
     private $updatedStatements;
     /** @var array */
     private $results;
+    /** @var int */
+    private $userId;
 
     /**
      * Create a new job instance.
@@ -67,6 +69,7 @@ class ImportVocabulary implements ShouldQueue
         $timer           = new \DateTime();
         $this->setFormproperties();
         $this->setLanguage();
+        $this->userId    = $this->import->user_id;
         $vocabId         = $this->isElementSet() ? $this->import->schema_id : $this->import->vocabulary_id;
         $changeset       = $this->import->instructions;
         $total_processed = 0;
@@ -245,6 +248,8 @@ class ImportVocabulary implements ShouldQueue
             'language'            => $statement['language'],
             'profile_property_id' => $statement['property_id'],
             'last_import_id'      => $this->import->id,
+            'created_user_id'     => $this->userId,
+            'updated_user_id'     => $this->userId,
         ];
         if ($this->isElementSet()) {
             $values['status_id'] = $this->import->elementset->status_id;

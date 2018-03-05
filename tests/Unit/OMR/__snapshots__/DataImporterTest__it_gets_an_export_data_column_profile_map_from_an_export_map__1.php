@@ -5,6 +5,7 @@
     'id' => NULL,
     'language' => '',
     'required' => NULL,
+    'object' => NULL,
   ),
   '*preferred label[0]_en' => 
   array (
@@ -12,6 +13,7 @@
     'id' => '45',
     'language' => 'en',
     'required' => 1,
+    'object' => 0,
   ),
   '*preferred label[0]_fr' => 
   array (
@@ -19,6 +21,7 @@
     'id' => '45',
     'language' => 'fr',
     'required' => 1,
+    'object' => 0,
   ),
   'alternative label[0]_en' => 
   array (
@@ -26,6 +29,7 @@
     'id' => '34',
     'language' => 'en',
     'required' => 0,
+    'object' => 0,
   ),
   'alternative label[0]_fr' => 
   array (
@@ -33,6 +37,7 @@
     'id' => '34',
     'language' => 'fr',
     'required' => 0,
+    'object' => 0,
   ),
   'ToolkitLabel_en' => 
   array (
@@ -40,6 +45,7 @@
     'id' => '61',
     'language' => 'en',
     'required' => 0,
+    'object' => 0,
   ),
   'ToolkitLabel_fr' => 
   array (
@@ -47,6 +53,7 @@
     'id' => '61',
     'language' => 'fr',
     'required' => 0,
+    'object' => 0,
   ),
   'definition[0]_en' => 
   array (
@@ -54,6 +61,7 @@
     'id' => '37',
     'language' => 'en',
     'required' => 0,
+    'object' => 0,
   ),
   'definition[0]_fr' => 
   array (
@@ -61,6 +69,7 @@
     'id' => '37',
     'language' => 'fr',
     'required' => 0,
+    'object' => 0,
   ),
   'ToolkitDefinition_en' => 
   array (
@@ -68,6 +77,7 @@
     'id' => '60',
     'language' => 'en',
     'required' => 0,
+    'object' => 0,
   ),
   'ToolkitDefinition_fr' => 
   array (
@@ -75,6 +85,7 @@
     'id' => '60',
     'language' => 'fr',
     'required' => 0,
+    'object' => 0,
   ),
   'scope note[0]_en' => 
   array (
@@ -82,6 +93,7 @@
     'id' => '47',
     'language' => 'en',
     'required' => 0,
+    'object' => 0,
   ),
   'scope note[1]_en' => 
   array (
@@ -89,6 +101,7 @@
     'id' => '47',
     'language' => 'en',
     'required' => 0,
+    'object' => 0,
   ),
   'scope note[0]_fr' => 
   array (
@@ -96,6 +109,7 @@
     'id' => '47',
     'language' => 'fr',
     'required' => 0,
+    'object' => 0,
   ),
   'scope note[1]_fr' => 
   array (
@@ -103,6 +117,7 @@
     'id' => '47',
     'language' => 'fr',
     'required' => 0,
+    'object' => 0,
   ),
   '*uri' => 
   array (
@@ -110,6 +125,7 @@
     'id' => '62',
     'language' => '',
     'required' => 1,
+    'object' => 1,
   ),
   '*status' => 
   array (
@@ -117,5 +133,6 @@
     'id' => '59',
     'language' => '',
     'required' => 1,
+    'object' => 1,
   ),
 );

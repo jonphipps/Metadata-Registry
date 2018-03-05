@@ -56,8 +56,8 @@ class DataImporter
 
         $this->export = $export;
         if ($export) {
-            $props = ProfileProperty::whereProfileId($export->profile_id)->get()->keyBy('id');
-            $this->rowMap     = self::getRowMap($export->map,$props);
+            $props            = ProfileProperty::whereProfileId($export->profile_id)->get()->keyBy('id');
+            $this->rowMap     = self::getRowMap($export->map, $props);
             try {
                 $this->columnProfileMap = self::getColumnProfileMap($export, $columnHeaders, $props);
             }
@@ -101,6 +101,7 @@ class DataImporter
         $this->stats['added']   = $this->addRows === null ? 0 : $this->addRows->count();
         $this->stats['errors']  = $this->errors === null ? 0 : $this->errors->count();
     }
+
     /**
      * return a collection of rows that have no reg_id.
      *
@@ -141,6 +142,10 @@ class DataImporter
                 $statement   = $statementId ? collect($statementRow->pull($statementId)) : null;
                 $this->currentColumnName = $column;
 
+                if ($value && $columnMap[$column]['object']) {
+                    $value = $this->makeFqn($this->prefixes, $value);
+                }
+
                 return [
                     'new value'    => $this->validateRequired($value, $columnMap[$column]),
                     'old value'    => $statement ? $statement->get('old value') : null,
@@ -148,7 +153,7 @@ class DataImporter
                     'language'     => $columnMap[$column]['language'],
                     'property_id'  => $columnMap[$column]['id'],
                     'updated_at'   => $statement ? $statement->get('updated_at') : null,
-                    'required'     => $column[0] === '*',
+                    'required'     => $columnMap[$column]['required'],
                 ];
             })->reject(function ($array) {
                 return empty($array['new value']) && empty($array['statement_id']); //remove all of the items that have been, and continue to be, empty
@@ -156,13 +161,6 @@ class DataImporter
                 return $arrayKey === 'reg_id'; //remove all of the reg_id items
             })->reject(function ($array) {
                 return $array['new value'] === $array['old value']; //reject every item that has no changes
-            })->reject(function ($array) {
-                //reset the URI to be fully qualified
-                if ($array['statement_id'] === '*uri') {
-                    $array['new value'] = $this->makeFqn($this->prefixes, $array['new value']);
-                }
-
-                return $array['new value'] === $array['old value']; //reject if the URIs match
             });
         })->reject(function (Collection $items) {
             return $items->count() === 0; //reject every row that no longer has items
@@ -175,7 +173,7 @@ class DataImporter
             return $row->map(function ($value, $column) use ($columnMap) {
                 $this->currentColumnName = $column;
                 //reset the URI to be fully qualified
-                if ($column === '*uri') {
+                if ($value && $columnMap[$column]['object']) {
                     $value = $this->makeFqn($this->prefixes, $value);
                 }
 
@@ -186,7 +184,7 @@ class DataImporter
                    'language'     => $columnMap[$column]['language'],
                    'property_id'  => $columnMap[$column]['id'],
                    'updated_at'   => null,
-                   'required'     => $column[0] === '*',
+                   'required'     => $columnMap[$column]['required'],
                 ];
             })->reject(function ($array) {
                 return empty($array['new value']); //remove all of the items that have been, and continue to be, empty
@@ -244,11 +242,11 @@ class DataImporter
         //add the latest required attribute from the profile
         return collect($map->first())->map(function ($item, $key) use ($props) {
             $item['required'] = $item['id'] ? $props[$item['id']]->is_required : null;
+            $item['object']   = $item['id'] ? $props[$item['id']]->is_object_prop : null;
 
             return $item;
         });
     }
-
 
     public function getStats(): Collection
     {

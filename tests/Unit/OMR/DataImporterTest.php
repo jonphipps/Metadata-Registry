@@ -139,7 +139,7 @@ class DataImporterTest extends TestCase
         });
         $changeSet->put('update', $updates);
         //then i get back a list of fields that will change, none in this case
-        $this->assertEquals(1, $changeSet['update']->count());
+        $this->assertEquals(13, $changeSet['update']->count());
         $this->assertMatchesSnapshot($changeSet['update']->toArray());
     }
 
@@ -249,7 +249,7 @@ class DataImporterTest extends TestCase
         //reject the errors
         $updates = collect($changeset['update']);
         $updateArray = $updates->reject(function($value, $key) {
-            return $value['*name_fr']['new value'] === '[ERROR: Empty required attribute]';
+            return isset($value['*name_fr']['new value']) && $value['*name_fr']['new value'] === '[ERROR: Empty required attribute]';
         })->toArray();
         $changeset['update'] = $updateArray;
         $this->assertMatchesSnapshot($changeset);

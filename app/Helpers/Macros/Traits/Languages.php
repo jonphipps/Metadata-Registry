@@ -14,7 +14,8 @@ trait Languages
         if ($language) {
             return Intl::getLocaleBundle()->getLocaleName($language);
         }
-            return Intl::getLocaleBundle()->getLocaleNames();
+
+        return Intl::getLocaleBundle()->getLocaleNames();
     }
 
     public function showLanguage($value = null)

@@ -46,7 +46,7 @@ class ImportEvaluationWasCompleted extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->line('The initial evaluation of your vocabularies for import has been imported and is ready for you to approve.')
+            ->line('The initial evaluation of your vocabularies for import has been completed and is ready for you to approve.')
             ->action('View Report', url("/projects/{$this->batch->project->id}/imports/{$this->batch->id}/approve"))
             ->line('Thank you for using the Open Metadata Registry!');
     }

@@ -7,7 +7,6 @@ use App\Models\Traits\BelongsToUser;
 use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Laracasts\Matryoshka\Cacheable;
@@ -99,6 +98,7 @@ class Release extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
+
     /**
      * @param $tagName
      *
@@ -164,5 +164,4 @@ class Release extends Model
     {
         return Carbon::parse($this->getAttribute('github_response')['created_at'])->toDateTimeString();
     }
-
 }
