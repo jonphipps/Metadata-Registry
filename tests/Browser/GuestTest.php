@@ -45,7 +45,7 @@ class GuestTest extends DuskTestCase
 
                 //vocabulary tabs
                 ->clickLink( 'Details' )
-                ->assertPathIs( "/vocabularies/{$testData['vocabulary']['id']}" )
+                ->assertPathIs( "/projects/{$testData['vocabulary']['projectId']}/vocabularies/{$testData['vocabulary']['id']}" )
                 ->assertDontSee( 'The server returned a 404 response.' )
                 ->assertDontSee( '[sfException]' )
                 ->clickLink( 'History' )
@@ -143,7 +143,7 @@ class GuestTest extends DuskTestCase
 
                 //elementsettabs
                 ->clickLink( 'Details' )
-                ->assertPathIs( "/elementsets/{$testData['elementSet']['id']}" )
+                ->assertPathIs( "/projects/{$testData['elementSet']['projectId']}/elementsets/{$testData['elementSet']['id']}" )
                 ->assertDontSee( 'The server returned a 404 response.' )
                 ->assertDontSee( '[sfException]' )
                 ->clickLink( 'History' )
