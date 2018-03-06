@@ -53,7 +53,10 @@ class ReciprocalConceptTest extends TestCase
         $historyCount   = ConceptAttributeHistory::count();
         //given a new statement with a reciprocal property (has broader)
         /** @var ConceptAttribute $statement */
-        $statement = factory(ConceptAttribute::class)->states('resource', 'has_inverse')->create();
+        $statement = factory(ConceptAttribute::class)->states('resource', 'has_inverse')->create([
+            'created_user_id' => $this->admin->id,
+            'updated_user_id' => $this->admin->id,
+        ]);
         $profileProperty = $statement->profile_property;
         //then then a new reciprocal is added to the database
         /** @var ConceptAttribute $reciprocal */
