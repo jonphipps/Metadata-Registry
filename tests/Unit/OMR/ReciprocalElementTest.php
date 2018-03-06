@@ -28,7 +28,10 @@ class ReciprocalElementTest extends TestCase
         $historyCount = ElementAttributeHistory::count();
         //given a new statement with a reciprocal property (has broader)
         /** @var ElementAttribute $statement */
-        $statement = factory(ElementAttribute::class)->states('resource', 'has_reciprocal')->create();
+        $statement = factory(ElementAttribute::class)->states('resource', 'has_reciprocal')->create([
+            'created_user_id' => $this->admin->id,
+            'updated_user_id' => $this->admin->id,
+        ]);
         //then then a new reciprocal is added to the database
         /** @var ElementAttribute $reciprocal */
         $reciprocal = $statement->reciprocal;
@@ -50,7 +53,10 @@ class ReciprocalElementTest extends TestCase
         $historyCount   = ElementAttributeHistory::count();
         //given a new statement with a reciprocal property (has broader)
         /** @var ElementAttribute $statement */
-        $statement = factory(ElementAttribute::class)->states('resource', 'has_inverse')->create();
+        $statement = factory(ElementAttribute::class)->states('resource', 'has_inverse')->create([
+            'created_user_id' => $this->admin->id,
+            'updated_user_id' => $this->admin->id,
+        ]);
         $profileProperty = $statement->profile_property;
         //then then a new reciprocal is added to the database
         /** @var ElementAttribute $reciprocal */
@@ -73,7 +79,10 @@ class ReciprocalElementTest extends TestCase
         $historyCount   = ElementAttributeHistory::count();
         //given a new statement with a reciprocal property (has broader)
         /** @var ElementAttribute $statement */
-        $statement       = factory(ElementAttribute::class)->states('resource', 'has_inverse')->create();
+        $statement       = factory(ElementAttribute::class)->states('resource', 'has_inverse')->create([
+            'created_user_id' => $this->user->id,
+            'updated_user_id' => $this->user->id,
+        ]);
         //then then a new reciprocal is added to the database
         /** @var ElementAttribute $reciprocal */
         $reciprocal = $statement->reciprocal;
@@ -112,7 +121,10 @@ class ReciprocalElementTest extends TestCase
         $historyCount   = ElementAttributeHistory::count();
         //given a new statement with a reciprocal property (has broader)
         /** @var ElementAttribute $statement */
-        $statement = factory(ElementAttribute::class)->states('resource', 'has_reciprocal')->create();
+        $statement = factory(ElementAttribute::class)->states('resource', 'has_reciprocal')->create([
+            'created_user_id' => $this->admin->id,
+            'updated_user_id' => $this->admin->id,
+        ]);
         //then then a new reciprocal is added to the database
         /** @var ElementAttribute $reciprocal */
         $reciprocal = ElementAttribute::find($statement->reciprocal_property_element_id);
@@ -137,8 +149,10 @@ class ReciprocalElementTest extends TestCase
         //given a new statement with a reciprocal property (has broader)
         /** @var ElementAttribute $statement */
         $statement = factory(ElementAttribute::class)->states('resource', 'has_inverse')->create([
-            'object'             => 'http://rdaregistry.info/Elements/c/C10001',
+            'object'                     => 'http://rdaregistry.info/Elements/c/C10001',
             'related_schema_property_id' => 14328,
+            'created_user_id'            => $this->admin->id,
+            'updated_user_id'            => $this->admin->id,
         ]);
         $profileProperty = $statement->profile_property;
         //then a new reciprocal is added to the database
