@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Helpers\Macros\Traits\Languages;
+use App\Models\Access\User\User;
 use App\Models\Traits\BelongsToElement;
 use App\Models\Traits\BelongsToProfileProperty;
 use App\Models\Traits\BelongsToRelatedElement;
@@ -142,7 +143,7 @@ class ElementAttribute extends Model
             }
         });
         static::updated(function (ElementAttribute $attribute) {
-            if (count($attribute->dirtyData) === 1) {
+            if (\count($attribute->dirtyData) === 1) {
                 if ($attribute->isDirty('deleted_user_id') || $attribute->isDirty('deleted_by')) {
                     return;
                 }
@@ -266,10 +267,17 @@ class ElementAttribute extends Model
 
             return true;
         }
-        if (auth()->user()->cant('update', $relatedElement)) {
+        //todo: this should probably be findOrFail(), the error caught and added to error log
+        $user = User::find($this->updated_user_id);
+        if (!$user) {
             return false;
         }
-        //gonna need a review reciprocals job
+
+        if ($user->cant('update', $relatedElement)) {
+            return false;
+        }
+
+        //todo: gonna need a review reciprocals job
         //create the reciprocal
         $attribute = self::create([
             'related_schema_property_id'     => $this->element->id,
@@ -281,6 +289,8 @@ class ElementAttribute extends Model
             'is_generated'                   => true,
             'reciprocal_property_element_id' => $this->id,
             'language'                       => null,
+            'created_user_id'                => $this->updated_user_id,
+            'updated_user_id'                => $this->updated_user_id,
         ]);
         $this->update(['reciprocal_property_element_id' => $attribute->id]);
     }
