@@ -1,4 +1,5 @@
 <?php
+
 use apps\frontend\lib\Breadcrumb;
 use Bugsnag\Breadcrumbs\Breadcrumb as Bugsnag_Breadcrumb;
 
@@ -61,25 +62,28 @@ class tabnavComponents extends sfComponents
 
   }
 
-
-  public function executeVocabulary()
+    public function executeVocabulary()
     {
         $id = $this->getRequestParameter('vocabulary_id');
-        if ( ! $id) {
+        if (! $id) {
             $id = $this->getRequestParameter('id');
         }
         if ($id) {
-            $topnav[] = [ 'title' => 'Details', 'link' => '@vocabulary_show?id=' . $id ];
-            $topnav[] = [ 'title' => 'Concepts', 'link' => '@vocabulary_concept_list?vocabulary_id=' . $id ];
+            $agentId = $this->getRequestParameter('agent_id');
+            $vocabulary     = $this->vocabulary ?? VocabularyPeer::retrieveByPK($id);
+            if (! $agentId && $vocabulary) {
+                $agentId = $vocabulary->getAgentId();
+            }
+            $topnav[] = ['title' => 'Details', 'link' => "@agent_vocabulary_show?agent_id={$agentId}&id={$id}"];
+            $topnav[] = ['title' => 'Concepts', 'link' => '@vocabulary_concept_list?vocabulary_id=' . $id];
             //$topnav[2]    = [ 'title' => 'Namespaces', 'link' => '/namespace/list?vocabulary_id=' . $id ];
-            $topnav[]   = [ 'title' => 'History', 'link' => '@vocabulary_history_list?vocabulary_id=' . $id ];
-            $topnav[]   = [ 'title' => 'Versions', 'link' => '@vocabulary_version_list?vocabulary_id=' . $id ];
-            $topnav[]   = [ 'title' => 'Maintainers', 'link' => '@vocabulary_vocabuser_list?vocabulary_id=' . $id ];
-            $topnav[]   = [ 'title' => 'Exports', 'link' => '@vocabulary_export_list?vocabulary_id=' . $id ];
-            $topnav[]   = [ 'title' => 'Imports', 'link' => '@vocabulary_import_list?vocabulary_id=' . $id ];
+            $topnav[]   = ['title' => 'History', 'link' => '@vocabulary_history_list?vocabulary_id=' . $id];
+            $topnav[]   = ['title' => 'Versions', 'link' => '@vocabulary_version_list?vocabulary_id=' . $id];
+            $topnav[]   = ['title' => 'Maintainers', 'link' => '@vocabulary_vocabuser_list?vocabulary_id=' . $id];
+            $topnav[]   = ['title' => 'Exports', 'link' => '@vocabulary_export_list?vocabulary_id=' . $id];
+            $topnav[]   = ['title' => 'Imports', 'link' => '@vocabulary_import_list?vocabulary_id=' . $id];
             $this->tabs = self::getModulesForRoutes($topnav);
 
-            $vocabulary         = isset( $this->vocabulary ) ? $this->vocabulary : VocabularyPeer::retrieveByPK($id);
             $breadcrumbs[0] = Breadcrumb::vocabularyFactory($vocabulary, true);
         } else { //there's no id so it's a list of everything
             $breadcrumbs[0] = Breadcrumb::listFactory('Vocabularies');
@@ -135,7 +139,12 @@ class tabnavComponents extends sfComponents
             $id = $this->getRequestParameter('id');
         }
         if ($id) {
-            $topnav[] = [ 'title' => 'Details', 'link' => '@schema_show?id=' . $id ];
+            $agentId    = $this->getRequestParameter('agent_id');
+            $schema         = $this->schema ?? SchemaPeer::retrieveByPK($id);
+            if (! $agentId && $schema) {
+                $agentId = $schema->getAgentId();
+            }
+            $topnav[] = [ 'title' => 'Details', 'link' => "@agent_schema_show?agent_id={$agentId}&id={$id}"];
             $topnav[] = [ 'title' => 'Elements', 'link' => '@schema_schemaprop_list?schema_id=' . $id ];
             //$topnav[2]    = [ 'title' => 'Namespaces', 'link' => '/namespace/list?schema_id=' . $id ];
             $topnav[] = [ 'title' => 'History', 'link' => '@schema_schemahistory_list?schema_id=' . $id ];
@@ -145,7 +154,6 @@ class tabnavComponents extends sfComponents
             $topnav[]   = [ 'title' => 'Imports', 'link' => '@schema_import_list?schema_id=' . $id ];
             $this->tabs = self::getModulesForRoutes($topnav);
 
-            $schema         = isset( $this->schema ) ? $this->schema : SchemaPeer::retrieveByPK($id);
             $breadcrumbs[0] = Breadcrumb::elementSetFactory($schema, true);
         } else { //there's no id so it's a list of everything
             $breadcrumbs[0] = Breadcrumb::listFactory('Element Sets');
