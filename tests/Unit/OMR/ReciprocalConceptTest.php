@@ -3,7 +3,6 @@
 
 namespace Tests\Unit\OMR;
 
-use App\Models\Concept;
 use App\Models\ConceptAttribute;
 use App\Models\ConceptAttributeHistory;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -29,7 +28,10 @@ class ReciprocalConceptTest extends TestCase
         $historyCount = ConceptAttributeHistory::count();
         //given a new statement with a reciprocal property (has broader)
         /** @var ConceptAttribute $statement */
-        $statement = factory(ConceptAttribute::class)->states('resource', 'has_reciprocal')->create();
+        $statement = factory(ConceptAttribute::class)->states('resource', 'has_reciprocal')->create([
+                'created_user_id' => $this->admin->id,
+                'updated_user_id' => $this->admin->id,
+            ]);
         //then then a new reciprocal is added to the database
         /** @var ConceptAttribute $reciprocal */
         $reciprocal = $statement->reciprocal;
@@ -74,7 +76,10 @@ class ReciprocalConceptTest extends TestCase
         $historyCount   = ConceptAttributeHistory::count();
         //given a new statement with a reciprocal property (has broader)
         /** @var ConceptAttribute $statement */
-        $statement       = factory(ConceptAttribute::class)->states('resource', 'has_inverse')->create();
+        $statement       = factory(ConceptAttribute::class)->states('resource', 'has_inverse')->create([
+            'created_user_id' => $this->user->id,
+            'updated_user_id' => $this->user->id,
+        ]);
         //then then a new reciprocal is added to the database
         /** @var ConceptAttribute $reciprocal */
         $reciprocal = $statement->reciprocal;
@@ -113,7 +118,10 @@ class ReciprocalConceptTest extends TestCase
         $historyCount   = ConceptAttributeHistory::count();
         //given a new statement with a reciprocal property (has broader)
         /** @var ConceptAttribute $statement */
-        $statement = factory(ConceptAttribute::class)->states('resource', 'has_reciprocal')->create();
+        $statement = factory(ConceptAttribute::class)->states('resource', 'has_reciprocal')->create([
+            'created_user_id' => $this->admin->id,
+            'updated_user_id' => $this->admin->id,
+        ]);
         //then then a new reciprocal is added to the database
         /** @var ConceptAttribute $reciprocal */
         $reciprocal = ConceptAttribute::find($statement->reciprocal_concept_property_id);
@@ -140,6 +148,8 @@ class ReciprocalConceptTest extends TestCase
         $statement = factory(ConceptAttribute::class)->states('resource', 'has_inverse')->create([
             'object'             => 'http://rdaregistry.info/termList/RDAMediaType/1004',
             'related_concept_id' => 478,
+            'created_user_id' => $this->admin->id,
+            'updated_user_id' => $this->admin->id,
         ]);
         $profileProperty = $statement->profile_property;
         //then a new reciprocal is added to the database
