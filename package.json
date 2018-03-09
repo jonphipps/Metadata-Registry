@@ -29,5 +29,8 @@
     "uiv": "^0.18.0",
     "vue": "^2.5.7",
     "webpack-rtl-plugin": "^1.6.0"
+  },
+  "dependencies": {
+    "eslint": "^4.18.2"
   }
 }
