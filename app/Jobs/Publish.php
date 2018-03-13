@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Exceptions\GithubAuthenticationException;
 use App\Models\Release;
 use App\Notifications\Frontend\ReleaseWasPublished;
 use App\Services\Publish\Git;
@@ -12,6 +13,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Redirect;
 
 class Publish implements ShouldQueue
 {
@@ -79,12 +81,17 @@ class Publish implements ShouldQueue
             Git::updateRemote($this->release, $this->disk);
             //push the release to GitHub
             $gitHub = new GitHubService($this->release);
-            $gitHub->setRelease();
+            try {
+                $gitHub->setRelease();
+            }
+            catch (GithubAuthenticationException $e) {
+                Redirect::back()->withErrors(['You\'re trying to access GitHub, but you don\'t seem to have any current GitHub credentials.', 'You must logout of the OMR, and login to the OMR again using the \'Login with GitHub\' link.']);
+            }
         } else {
             //tag the commit with the version
             Git::tagDir($project, $this->release->tag_name, $this->disk);
         }
-        //run the GenerateDocs job
+        //todo: run the GenerateDocs job
         //notify the user that it's done
         $this->release->User->notify(new ReleaseWasPublished($this->release));
     }
