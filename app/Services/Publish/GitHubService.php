@@ -4,6 +4,7 @@
 
 namespace App\Services\Publish;
 
+use App\Exceptions\GithubAuthenticationException;
 use App\Models\Release;
 use Github\Client as GitHubClient;
 use Github\Exception\RuntimeException;
@@ -63,6 +64,7 @@ class GitHubService
     /**
      * @return \App\Models\Release
      * @throws \Github\Exception\InvalidArgumentException
+     * @throws \App\Exceptions\GithubAuthenticationException
      */
     public function setRelease()
     {
@@ -80,6 +82,10 @@ class GitHubService
         $client   = new GitHubClient();
         $token    = auth()->user()->githubToken;
         $nickname = auth()->user()->nickname;
+
+        if(!$token){
+            throw new GithubAuthenticationException();
+        }
 
         $client->authenticate($nickname, $token, GitHubClient::AUTH_HTTP_PASSWORD);
 

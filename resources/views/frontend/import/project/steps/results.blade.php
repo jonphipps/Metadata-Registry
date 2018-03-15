@@ -1,6 +1,7 @@
 @php
-    /** @var array $worksheets */
-    $data = json_encode($wizard_data['results']);
+    /** @var array $results */
+    $results = $wizard_data['results'];
+    $data = json_encode($results);
     $props = "{
     width: 1000,
     autoheight: true,
@@ -21,6 +22,8 @@
         {text: 'Deleted', datafield: 'deleted', width: 240, cellsalign: 'center'},
         {text: 'Changed', datafield: 'updated', width: 240, cellsalign: 'center'},
         {text: 'Errors', datafield: 'errors', width: 240, cellsalign: 'center'},
+        {text: 'History', datafield: 'history', width: 240, cellsalign: 'center'},
     ]}";
 @endphp
+
 @include('vendor.backpack.crud.form_content', [ 'fields' => $crud->getFields('create'), 'action' => 'create' ])

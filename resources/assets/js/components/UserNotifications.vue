@@ -51,4 +51,8 @@
     //}
   }
 </script>
-<style scoped></style>
+<style scoped>
+    ul.dropdown-menu {
+        width: 24em !important;
+    }
+</style>
