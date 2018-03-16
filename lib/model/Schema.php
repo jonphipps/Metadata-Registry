@@ -1028,9 +1028,11 @@ SELECT reg_schema_property_element.id,
   reg_schema_property_element.schema_property_id,
   reg_schema_property_element.profile_property_id,
   reg_schema_property_element.object,
-  reg_schema_property_element.language
-FROM reg_schema_property_element
+  reg_schema_property_element.language,
+  profile_property.has_language
+  FROM reg_schema_property_element
 JOIN reg_schema_property ON reg_schema_property_element.schema_property_id = reg_schema_property.id
+JOIN profile_property on reg_schema_property_element.profile_property_id = profile_property.id
 WHERE reg_schema_property.schema_id = $id
 $deprecatedSQL
 $deleteSQL
@@ -1046,7 +1048,8 @@ SQL
       $result['object'] = $rs->getString('object');
       $result['id']     = $rs->getInt('id');
 
-      $results[$id][$rs->getInt('profile_property_id')][$rs->getString('language')][] = $result;
+      $language = $rs->getBoolean('has_language') ? $rs->getString('language') : '';
+      $results[$id][$rs->getInt('profile_property_id')][$language][] = $result;
     }
 
     return $results;
