@@ -402,10 +402,12 @@ SELECT reg_concept_property.id,
   reg_concept_property.object,
   reg_concept_property.language,
   reg_status.display_name as status,
-  reg_concept.uri
+  reg_concept.uri,
+  profile_property.has_language
 FROM reg_concept_property
 JOIN reg_concept ON reg_concept_property.concept_id = reg_concept.id
 JOIN reg_status on reg_concept.status_id = reg_status.id
+JOIN profile_property on reg_concept_property.profile_property_id = profile_property.id
 WHERE reg_concept.vocabulary_id = $id
 $deprecatedSQL
 $deleteSQL
@@ -421,7 +423,8 @@ SQL
 
       $result['object'] = $rs->getString('object');
       $result['id']     = $rs->getInt('id');
-      $results[$concept_id][$rs->getInt('profile_property_id')][$rs->getString('language')][] = $result;
+      $language = $rs->getBoolean('has_language') ? $rs->getString('language') : '';
+      $results[$concept_id][$rs->getInt('profile_property_id')][$language][] = $result;
 
       //fixme: adding in the concept status and uri data manually because it's not in the vocab properties
       $result['object']             = $rs->getString('status');
