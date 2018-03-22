@@ -27,6 +27,9 @@ class GenerateRdf implements ShouldQueue
     public const  REPO_ROOT    = 'repos';
     public const  PROJECT_ROOT = 'projects';
     private const URLARRAY     = [self::VOCABULARY => 'vocabularies/', self::ELEMENTSET => 'elementsets/'];
+
+    public $timeout            = 180;
+
     /** @var int $projectId */
     private $projectId;
     /** @var string $class */
@@ -194,6 +197,7 @@ class GenerateRdf implements ShouldQueue
     /**
      * @param $mimeType
      *
+     * @throws \Symfony\Component\Process\Exception\InvalidArgumentException
      * @throws \Symfony\Component\Process\Exception\ProcessFailedException
      * @throws \Symfony\Component\Process\Exception\RuntimeException
      * @throws \Symfony\Component\Process\Exception\LogicException
@@ -207,6 +211,7 @@ class GenerateRdf implements ShouldQueue
         $sourcePath = Storage::disk($this->disk)->path($this->getStoragePath('xml'));
         $outputPath = Storage::disk($this->disk)->path($this->getStoragePath($mimeType));
         $process    = new Process("curl --data-urlencode content@{$sourcePath} http://rdf-translator.appspot.com/convert/xml/{$mimeType}/content > {$outputPath}");
+        $process->setTimeout(180);
         $process->run();
 
         // executes after the command finishes
