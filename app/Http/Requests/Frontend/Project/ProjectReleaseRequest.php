@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Frontend\Project;
 
-class ReleaseRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
+use Backpack\CRUD\app\Http\Requests\CrudRequest;
+
+class ProjectReleaseRequest extends CrudRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +25,8 @@ class ReleaseRequest extends \Backpack\CRUD\app\Http\Requests\CrudRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|min:5|max:255'
+            'name' => 'required|min:2|max:191',
+            'tag_name' => 'required|min:2|max:191',
         ];
     }
 

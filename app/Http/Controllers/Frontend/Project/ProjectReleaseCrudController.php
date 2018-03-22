@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Frontend\Project;
 
-use App\Http\Requests\ReleaseRequest as StoreRequest;
-use App\Http\Requests\ReleaseRequest as UpdateRequest;
+use App\Http\Requests\Frontend\Project\ProjectReleaseRequest as StoreRequest;
+use App\Http\Requests\Frontend\Project\ProjectReleaseRequest as UpdateRequest;
 use App\Http\Traits\UsesPolicies;
 use App\Jobs\Publish;
 use App\Models\Access\User\User;
