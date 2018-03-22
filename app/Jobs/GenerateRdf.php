@@ -66,7 +66,7 @@ class GenerateRdf implements ShouldQueue
         $this->filePath  = rtrim(parse_url($model->uri)['path'], '/');
         $this->fileName  = str_replace_first($basePath, '', parse_url($model->uri)['path']);
         $this->disk      = $disk;
-        Git::initDir($model->project, $this->disk);
+        Git::initDir($model->project, $this->disk,$release->user);
         $this->release = $release;
     }
 
