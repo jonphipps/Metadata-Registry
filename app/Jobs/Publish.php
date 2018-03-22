@@ -54,9 +54,10 @@ class Publish implements ShouldQueue
         //todo:lot's more try/catch here
         $project = $this->release->project;
         $repo    = $project->repo;
+        $user    = $this->release->user;
 
         //todo: rdf generator shouldn't responsible for storage management
-        Git::initDir($project, $this->disk);
+        Git::initDir($project, $this->disk,$user);
 
         //todo: this section should be in a transaction
         $this->release->published_at = Carbon::now();

@@ -5,6 +5,7 @@
 namespace App\Services\Publish;
 
 use App\Jobs\GenerateRdf;
+use App\Models\Access\User\User;
 use App\Models\Project;
 use App\Models\Release;
 use GitWrapper\GitException;
@@ -38,17 +39,16 @@ class Git
     }
 
     /**
-     * @param \App\Models\Project $project
-     * @param string              $disk
+     * @param \App\Models\Project          $project
+     * @param string                       $disk
+     * @param \App\Models\Access\User\User $user
      *
      * @return void
-     * @throws \League\Flysystem\RootViolationException
-     * @throws GitException
      */
-    public static function initDir(Project $project, $disk = GenerateRdf::REPO_ROOT): void
+    public static function initDir(Project $project, $disk = GenerateRdf::REPO_ROOT, User $user): void
     {
         $projectPath = self::getProjectPath($project->id);
-        $repo        = self::getProjectRepo($project);
+        $repo        = self::getProjectRepo($project,$user);
         $dir         = Storage::disk($disk)->path($projectPath);
         /** @var GitWrapper $wrapper */
         $wrapper = static::getWrapper();
@@ -80,15 +80,15 @@ class Git
         return GenerateRdf::PROJECT_ROOT . "/{$projectId}/";
     }
 
-    public static function getProjectRepo(Project $project): ?string
+    public static function getProjectRepo(Project $project, User $user): ?string
     {
         $repo   = $project->repo;
         $access = '';
 
         if ($repo) {
-            if (auth()->user()->githubToken) {
-                $token    = auth()->user()->githubToken;
-                $nickname = auth()->user()->nickname;
+            if ($user->githubToken) {
+                $token    = $user->githubToken;
+                $nickname = $user->nickname;
                 $access   = "{$nickname}:{$token}@";
             }
 
