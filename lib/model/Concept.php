@@ -140,12 +140,16 @@ class Concept extends BaseConcept
 
   } // getUpdatedUser()
 
-  /**
-  * description
-  *
-  * @return return_type
-  * @param  var_type $var
-  */
+    /**
+     * description
+     *
+     * @param int         $userId
+     * @param null|string $prefLabel
+     * @param null|string $language
+     * @param null|int    $statusId
+     *
+     * @return void
+     */
   public function updateFromRequest($userId, $prefLabel = null, $language = null, $statusId = null)
   {
     //upsert the preflabel concept property
@@ -157,6 +161,7 @@ class Concept extends BaseConcept
     {
       $conceptProperty = new ConceptProperty();
       $conceptProperty->setSkosPropertyId(SkosProperty::getPrefLabelId());
+      $conceptProperty->setProfilePropertyId(ConceptPropertyPeer::PREF_LABEL_PROFILE_PROPERTY_ID);
       $conceptProperty->setCreatedUserId($userId);
       $conceptProperty->setPrimaryPrefLabel(1);
     }
@@ -203,8 +208,6 @@ class Concept extends BaseConcept
     $this->setUpdatedUserId($userId);
     $this->setConceptProperty($conceptProperty);
     $this->save();
-
-    return;
 
   } //updateFromRequest()
 

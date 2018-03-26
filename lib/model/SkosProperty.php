@@ -19,16 +19,15 @@ class SkosProperty extends BaseSkosProperty
     return $this->getName();
   }
 
-  /**
-  * description
-  *
-  * @return return_type
-  * @param  var_type $var
-  */
-  static public function getPrefLabelId()
+    /**
+     * description
+     *
+     * @return int
+     */
+  public static function getPrefLabelId()
   {
-    //TODO: This is clearly not the best way to do this
-    return '19';
+    //fixme: This is clearly not the best way to do this
+    return 19;
   }
 
 } // SkosProperty

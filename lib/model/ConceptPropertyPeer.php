@@ -10,26 +10,28 @@
 class ConceptPropertyPeer extends BaseConceptPropertyPeer
 {
 	/** the column name for the VOCABULARY_ID field */
-	const VOCABULARY_ID = 'reg_concept.VOCABULARY_ID';
+	public const VOCABULARY_ID = 'reg_concept.VOCABULARY_ID';
 
 	/** the column name for the VOCABULARY_NAME field */
-	const VOCABULARY_NAME = 'reg_vocabulary.NAME';
+    public const VOCABULARY_NAME = 'reg_vocabulary.NAME';
 
 	/** the column name for the SKOS_PROPERTY_NAME field */
-	const SKOS_PROPERTY_NAME = 'reg_skos_property.NAME';
+    public const SKOS_PROPERTY_NAME = 'reg_skos_property.NAME';
 
 	/** the column name for the PREF_LABEL field */
-	const CONCEPT_PREF_LABEL = 'reg_concept.PREF_LABEL';
+    public const CONCEPT_PREF_LABEL = 'reg_concept.PREF_LABEL';
 
-	/**
-   * sets the criteria and returns the few columns needed for concept property search results
-   *
-   * @param Criteria $criteria The Criteria object used to build the SELECT statement.
-	* @param Connection $con
-	* @return array Array of selected Objects
-	* @throws PropelException Any exceptions caught during processing will be
-	*		 rethrown wrapped into a PropelException.
-   */
+	/** the PREF_LABEL profile property id */
+	public const PREF_LABEL_PROFILE_PROPERTY_ID = 45;
+
+    /**
+     * sets the criteria and returns the few columns needed for concept property search results
+     *
+     * @param \Criteria  $c
+     * @param Connection $con
+     *
+     * @return array Array of selected Objects
+     */
    public static function doSelectSearchResults(Criteria $c, $con = null)
 	{
 		$c = clone $c;

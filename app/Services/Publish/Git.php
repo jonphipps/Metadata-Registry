@@ -138,13 +138,14 @@ class Git
     }
 
     /**
-     * @param \App\Models\Release $release
-     * @param string              $disk
+     * @param \App\Models\Release          $release
+     * @param string                       $disk
+     * @param \App\Models\Access\User\User $user
      *
      * @return void
      * @throws \GitWrapper\GitException
      */
-    public static function updateRemote(Release $release, $disk = GenerateRdf::REPO_ROOT): void
+    public static function updateRemote(Release $release, $disk = GenerateRdf::REPO_ROOT, User $user): void
     {
         $projectId   = $release->project_id;
         $tag         = $release->tag_name;
@@ -154,6 +155,8 @@ class Git
         /** @var GitWrapper $wrapper */
         $wrapper = static::getWrapper();
         $git     = $wrapper->workingCopy($dir);
+        $git->config('user.name', $user->nickname);
+        $git->config('user.email', $user->email);
 
         try {
             if ($git->hasRemote('origin')) {
