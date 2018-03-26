@@ -79,7 +79,7 @@ class Publish implements ShouldQueue
 
         if ($project->repo) {
             //push the repo to github
-            Git::updateRemote($this->release, $this->disk);
+            Git::updateRemote($this->release, $this->disk,);
             //push the release to GitHub
             $gitHub = new GitHubService($this->release);
             try {
