@@ -257,6 +257,9 @@ class ConceptProperty extends BaseConceptProperty
             $this->setUpdatedUserId($userId);
         }
 
+        if (! $this->getProfilePropertyId()) {
+            $this->setProfilePropertyId(ProfilePropertyPeer::retrieveBySkosID($this->getSkosPropertyId())->getId());
+        }
 
         if ($concept) {
             if ($userId) {
@@ -303,6 +306,7 @@ class ConceptProperty extends BaseConceptProperty
         $history->setConceptId($this->getConceptId());
         $history->setConceptPropertyId($this->getId());
         $history->setSkosPropertyId($this->getSkosPropertyId());
+        $history->setProfilePropertyId($this->getProfilePropertyId());
         $history->setObject($this->getObject());
         $history->setSchemeId($this->getSchemeId());
         $history->setRelatedConceptId($this->getRelatedConceptId());
