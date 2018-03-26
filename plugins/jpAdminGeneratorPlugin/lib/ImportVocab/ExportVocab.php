@@ -158,6 +158,7 @@ class ExportVocab {
         $writer->setStream( fopen( $filename, 'w' ) );
 
         //get the header array, which also contains the profilePropertyId map
+        //fixme: When all of the rows are deprecated, this creates an empty CSV with no columns at all. HeaderArray and ColumnCount are emppty
         $headerArray = $this->getColumnArray();
         $this->setHeaderCount(count($headerArray));
         $columnCount = $this->getHeaderCount();
@@ -274,6 +275,9 @@ class ExportVocab {
 
     $headerArray     = [];
     $columnCounts    = $this->findColumns();
+    if(!$columnCounts){
+        return null;
+    }
     $selectedColumns = $this->selectedColumns;
     $column          = 1; //we reserve column 0 for the reg_id
     $max             = count($selectedColumns);
@@ -326,15 +330,25 @@ class ExportVocab {
         $this->languages = $languages;
     }
 
-  public function findColumns()
-  {
-    $propertiesInUse = $this->schema->getColumnCounts($this->excludeDeprecated,
-        $this->includeGenerated,
-        $this->includeDeleted, $this->includeNotAccepted,  $this->languages);
-    $this->setColumns($propertiesInUse);
+    /**
+     * @return null|array
+     */
+    public function findColumns()
+    {
+        $propertiesInUse = $this->schema->getColumnCounts($this->excludeDeprecated,
+            $this->includeGenerated,
+            $this->includeDeleted,
+            $this->includeNotAccepted,
+            $this->languages);
 
-    return $this->getColumns();
-  }
+        if (empty($propertiesInUse)) {
+            return null;
+        }
+
+        $this->setColumns($propertiesInUse);
+
+        return $this->getColumns();
+    }
 
     /**
      * @return array

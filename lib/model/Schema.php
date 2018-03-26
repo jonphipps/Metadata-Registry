@@ -944,8 +944,10 @@ SQL
       foreach ($languages as $language) {
         $languageSQL .= " or reg_schema_property_element.language = '$language'";
       }
-      $languageSQL .= ")";
-    }    /** @var ResultSet $rs */
+      $languageSQL .= ')';
+    }
+
+    /** @var ResultSet $rs */
     $rs = $con->executeQuery(/** @lang MySQL */
         <<<SQL
 select profile_property_id, lang, max(cnt) as maxcnt from (
