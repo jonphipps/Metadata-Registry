@@ -154,7 +154,7 @@ class vocabularyActions extends autoVocabularyActions
     {
         $language = 'en';
         if ( ! $this->vocabulary) {
-            $this->vocabulary = VocabularyPeer::retrieveByPk($this->getRequestParameter('id'));
+            $this->vocabulary = VocabularyPeer::retrieveByPK($this->getRequestParameter('id'));
         }
         if (isset( $this->vocabulary )) {
             $language = $this->vocabulary->getLanguage();

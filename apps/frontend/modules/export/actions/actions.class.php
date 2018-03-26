@@ -1,4 +1,5 @@
 <?php
+
 use ImportVocab\ExportVocab;
 
 /**
@@ -50,22 +51,24 @@ class exportActions extends autoExportActions
       $this->setFlash('propertiesInUse', json_encode($props));
     }
 
-    $userId = sfContext::getInstance()->getUser()->getSubscriberId();
-    if ($userId) {
-      $export_history->setUserId($userId);
-    }
-
     $profileId = $schemaObj->getProfileId();
     $export_history->setProfileId($profileId);
 
-    //todo: check if there was an export for this vocab for this user first, and then get the last for any vocab
-    $lastExportForUser = ExportHistoryPeer::getLastExportForUser($userId, $profileId);
-    if ($lastExportForUser) {
-      $export_history->setSelectedLanguage($lastExportForUser->getSelectedLanguage());
-      $export_history->setSelectedColumns($lastExportForUser->getSelectedColumns());
-    }
+      $userId = sfContext::getInstance()->getUser()->getSubscriberId();
+      if ($userId) {
+          $export_history->setUserId($userId);
 
-    parent::setDefaults($export_history);
+          //todo: check if there was an export for this vocab for this user first, and then get the last for any vocab
+          $lastExportForUser = ExportHistoryPeer::getLastExportForUser($userId, $profileId, $schemaObj);
+          if ($lastExportForUser) {
+              if (in_array($lastExportForUser->getSelectedLanguage(), $schemaObj->getLanguages(), true)) {
+                  $export_history->setSelectedLanguage($lastExportForUser->getSelectedLanguage());
+              }
+              $export_history->setSelectedColumns($lastExportForUser->getSelectedColumns());
+          }
+      }
+
+      parent::setDefaults($export_history);
   }
 
 
