@@ -214,7 +214,7 @@ class Vocabulary extends BaseVocabulary
     $criteria = new Criteria();
     $criteria->add(ConceptPeer::VOCABULARY_ID, $this->getId());
     $criteria->addJoin(ConceptPropertyPeer::CONCEPT_ID, ConceptPeer::ID);
-    $criteria->addJoin(ProfilePropertyPeer::SKOS_ID, ConceptPropertyPeer::SKOS_PROPERTY_ID);
+    $criteria->addJoin(ProfilePropertyPeer::ID, ConceptPropertyPeer::PROFILE_PROPERTY_ID);
     $criteria->clearSelectColumns();
     $criteria->addSelectColumn(ProfilePropertyPeer::URI);
     $criteria->setDistinct();
