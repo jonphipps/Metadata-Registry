@@ -57,7 +57,7 @@ class Publish implements ShouldQueue
         $user    = $this->release->user;
 
         //todo: rdf generator shouldn't responsible for storage management
-        Git::initDir($project, $this->disk,$user);
+        Git::initDir($project, $this->disk, $user);
 
         //todo: this section should be in a transaction
         $this->release->published_at = Carbon::now();
@@ -79,14 +79,17 @@ class Publish implements ShouldQueue
 
         if ($project->repo) {
             //push the repo to github
-            Git::updateRemote($this->release, $this->disk,);
+            Git::updateRemote($this->release, $this->disk, $user);
             //push the release to GitHub
             $gitHub = new GitHubService($this->release);
             try {
                 $gitHub->setRelease();
             }
             catch (GithubAuthenticationException $e) {
-                Redirect::back()->withErrors(['You\'re trying to access GitHub, but you don\'t seem to have any current GitHub credentials.', 'You must logout of the OMR, and login to the OMR again using the \'Login with GitHub\' link.']);
+                Redirect::back()->withErrors([
+                    'You\'re trying to access GitHub, but you don\'t seem to have any current GitHub credentials.',
+                    'You must logout of the OMR, and login to the OMR again using the \'Login with GitHub\' link.',
+                ]);
             }
         } else {
             //tag the commit with the version
