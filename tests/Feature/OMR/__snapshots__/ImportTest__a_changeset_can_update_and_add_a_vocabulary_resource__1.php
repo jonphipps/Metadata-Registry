@@ -4,7 +4,7 @@
   'updated_at' => NULL,
   'deleted_at' => NULL,
   'created_user_id' => 73,
-  'updated_user_id' => 1,
+  'updated_user_id' => 36,
   'uri' => 'http://rdaregistry.info/termList/RDAMediaType/9999',
   'lexical_alias' => NULL,
   'pref_label' => 'fubar',
