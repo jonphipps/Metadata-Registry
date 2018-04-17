@@ -117,6 +117,7 @@ class ImportVocabulary implements ShouldQueue
                 }
                 if (\count($this->updatedStatements)) {
                     try {
+                        $this->resource->updated_user_id = $this->userId;
                         $this->resource->updateFromStatements($this->updatedStatements);
                     } catch (Exception $e) {
                         //log the error
@@ -237,6 +238,9 @@ class ImportVocabulary implements ShouldQueue
         } else {
             $this->resource = Concept::make(['vocabulary_id' => $vocabId]);
         }
+
+        $this->resource->created_user_id = $this->userId;
+        $this->resource->updated_user_id = $this->userId;
 
         return $this->resource;
     }

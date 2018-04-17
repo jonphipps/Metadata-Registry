@@ -283,7 +283,7 @@ class ImportTest extends TestCase
         $this->assertSame(1288, $concept->pref_label_id);
         $this->assertSame('http://rdaregistry.info/termList/RDAMediaType/9999', $concept->uri);
         $this->assertSame(8, $concept->status_id);
-        $this->assertSame(1, $concept->updated_user_id);
+        $this->assertSame($import->user_id, $concept->updated_user_id);
         //this is the add part
         $element             = Concept::with('statements')->where('pref_label', 'fubar')->first();
         $element->created_at = null;
