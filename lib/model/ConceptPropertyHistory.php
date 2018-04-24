@@ -70,21 +70,17 @@ class ConceptPropertyHistory extends BaseConceptPropertyHistory
   /**
   * gets the previous change if the action is 'modified'
   *
-  * @return ConceptPropertyHistory object
+  * @return ConceptPropertyHistory object|null
   */
-  function getPrevious()
+  public function getPrevious()
   {
     $propertyId = $this->getConceptPropertyId();
     $timestamp = $this->getCreatedAt();
 
     //build the query string
     $c = new Criteria();
-    $crit0 = $c->getNewCriterion(ConceptPropertyHistoryPeer::CONCEPT_PROPERTY_ID, $propertyId);
-    $crit1 = $c->getNewCriterion(ConceptPropertyHistoryPeer::CREATED_AT, $timestamp, Criteria::LESS_THAN);
-
-    // Perform AND at level 0 ($crit0 $crit1 )
-    $crit0->addAnd($crit1);
-    $c->add($crit0);
+    $c->add(ConceptPropertyHistoryPeer::CONCEPT_PROPERTY_ID, $propertyId);
+    $c->add(ConceptPropertyHistoryPeer::CREATED_AT, $timestamp, Criteria::LESS_EQUAL);
 
     //set order and limits
     $c->setLimit(1);
@@ -95,10 +91,10 @@ class ConceptPropertyHistory extends BaseConceptPropertyHistory
     //return the resulting object
     if (count($result))
     {
-        $result = $result[0];
+        return $result[0];
     }
 
-    return $result;
+    return null;
   }
 
   //feed related properties

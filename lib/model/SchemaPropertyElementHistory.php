@@ -1,4 +1,5 @@
 <?php
+
 use ForceUTF8\Encoding;
 
 /**
@@ -44,42 +45,34 @@ class SchemaPropertyElementHistory extends BaseSchemaPropertyElementHistory
 
   } // getPropertyUri
 
-  /**
-  * gets the previous change if the action is 'modified'
-  *
-  * @return ConceptPropertyHistory object
-  * @param  string $historyTimestamp
-  * @param  string $propertyId
-  */
-  function getPrevious()
-  {
-    $propertyId = $this->getSchemaPropertyElementId();
-    $timestamp = $this->getCreatedAt();
-
-    //build the query string
-    $c = new Criteria();
-    $crit0 = $c->getNewCriterion(SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ELEMENT_ID, $propertyId);
-    $crit1 = $c->getNewCriterion(SchemaPropertyElementHistoryPeer::CREATED_AT, $timestamp, Criteria::LESS_THAN);
-
-    // Perform AND at level 0 ($crit0 $crit1 )
-    $crit0->addAnd($crit1);
-    $c->add($crit0);
-
-    //set order and limits
-    $c->setLimit(1);
-    $c->addDescendingOrderByColumn(SchemaPropertyElementHistoryPeer::CREATED_AT);
-
-    $result = SchemaPropertyElementHistoryPeer::doSelect($c);
-
-    //return the resulting object
-    if (count($result))
+    /**
+     * gets the previous change if the action is 'modified'
+     *
+     * @return ConceptPropertyHistory|null
+     */
+    function getPrevious()
     {
-        $result = $result[0];
-    }
+        $propertyId = $this->getSchemaPropertyElementId();
+        $timestamp  = $this->getCreatedAt();
 
-    return $result;
+        //build the query string
+        $c = new Criteria();
+        $c->add(SchemaPropertyElementHistoryPeer::SCHEMA_PROPERTY_ELEMENT_ID, $propertyId);
+        $c->add(SchemaPropertyElementHistoryPeer::CREATED_AT, $timestamp, Criteria::LESS_EQUAL);
 
-  } //getPrevious
+        //set order and limits
+        $c->setLimit(1);
+        $c->addDescendingOrderByColumn(SchemaPropertyElementHistoryPeer::CREATED_AT);
+
+        $result = SchemaPropertyElementHistoryPeer::doSelect($c);
+
+        //return the resulting object
+        if (count($result)) {
+            return $result[0];
+        }
+
+        return null;
+    } //getPrevious
 
   //feed related properties
 
