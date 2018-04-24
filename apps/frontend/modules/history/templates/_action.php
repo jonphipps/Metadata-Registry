@@ -1,23 +1,23 @@
 <?php
 
-  // use the following instead of 'updated...' when we get the jscript working...
-  //<a class="load-local" href="#update_$id" rel="#update_$id">updated...</a>
+// use the following instead of 'updated...' when we get the jscript working...
+//<a class="load-local" href="#update_$id" rel="#update_$id">updated...</a>
 
-  $action = $concept_property_history->getAction();
-  if ('updated' == $action)
-  {
+$action = $concept_property_history->getAction();
+if ($action === 'updated') {
     $object   = $concept_property_history->getObject();
     $language = $concept_property_history->getLanguage();
     $status   = $concept_property_history->getStatus();
-    $id = $concept_property_history->getId();
+    $id       = $concept_property_history->getId();
 
-    /** @var ConceptPropertyHistory **/
+    /** @var ConceptPropertyHistory * */
     $previous = $concept_property_history->getPrevious();
-    $oldAction = $previous->getAction();
-    $oldObject = $previous->getObject();
-    $oldStatus = $previous->getStatus();
-    $oldLanguage = $previous->getLanguage();
-    $str = <<<EOD
+    if ($previous) {
+        $oldAction   = $previous->getAction();
+        $oldObject   = $previous->getObject();
+        $oldStatus   = $previous->getStatus();
+        $oldLanguage = $previous->getLanguage();
+        $str         = <<<EOD
 <a class="load-local" href="#detail_$id" rel="#detail_$id" title="Change Detail">updated...</a>
 <div id="detail_$id" class="rowDetail">
   <table class="rowDetail">
@@ -55,9 +55,10 @@
   </table>
 </div>
 EOD;
-    echo $str;
-  }
-  else
-  {
+        echo $str;
+    } else {
+        echo $action;
+    }
+} else {
     echo $action;
-  }
+}

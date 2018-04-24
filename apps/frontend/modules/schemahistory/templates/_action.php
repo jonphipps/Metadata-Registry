@@ -1,25 +1,22 @@
 <?php
 
-  //FIXME this is almost the same code that is used in concept history, so this should be refactored
-  //<a class="load-local" href="#update_$id" rel="#update_$id">updated...</a>
+//<a class="load-local" href="#update_$id" rel="#update_$id">updated...</a>
 
-  $action = $schema_property_element_history->getAction();
-  if ('updated' == $action)
-  {
+$action = $schema_property_element_history->getAction();
+if ($action === 'updated') {
     $object   = $schema_property_element_history->getObject();
     $language = $schema_property_element_history->getLanguage();
     $status   = $schema_property_element_history->getStatus();
-    $id = $schema_property_element_history->getId();
+    $id       = $schema_property_element_history->getId();
 
-    /** @var ConceptPropertyHistory **/
+    /** @var ConceptPropertyHistory * */
     $previous = $schema_property_element_history->getPrevious();
-    if ($previous)
-    {
-      $oldAction = $previous->getAction();
-      $oldObject = $previous->getObject();
-      $oldStatus = $previous->getStatus();
-      $oldLanguage = $previous->getLanguage();
-      $str = <<<EOD
+    if ($previous) {
+        $oldAction   = $previous->getAction();
+        $oldObject   = $previous->getObject();
+        $oldStatus   = $previous->getStatus();
+        $oldLanguage = $previous->getLanguage();
+        $str         = <<<EOD
 <a class="load-local" href="#detail_$id" rel="#detail_$id" title="Change Detail">updated...</a>
 <div id="detail_$id">
   <table cellpadding="0" cellspacing="0" class="rowDetail">
@@ -57,14 +54,10 @@
   </table>
 </div>
 EOD;
-      echo $str;
+        echo $str;
+    } else {
+        echo $action;
     }
-    else
-    {
-      echo $action;
-    }
-  }
-  else
-  {
+} else {
     echo $action;
-  }
+}
