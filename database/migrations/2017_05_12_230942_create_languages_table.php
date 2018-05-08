@@ -2,7 +2,7 @@
 /**
  * Support file for Laravel-Backpack/LangFileManager
  * https://github.com/Laravel-Backpack/LangFileManager
- * 
+ *
  */
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -18,8 +18,9 @@ class CreateLanguagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('languages',
-            function(Blueprint $table) {
+        Schema::create(
+            'languages',
+            function (Blueprint $table) {
                 $table->increments('id');
                 $table->string('name', 100);
                 $table->string('app_name', 100);
@@ -31,7 +32,8 @@ class CreateLanguagesTable extends Migration
                 $table->boolean('default')->default(0);
                 $table->timestamps();
                 $table->softDeletes();
-            });
+            }
+        );
     }
 
     /**

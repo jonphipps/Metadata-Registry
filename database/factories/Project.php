@@ -4,8 +4,9 @@
 use App\Models\Project;
 
 /** @var Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(App\Models\Project::class,
-    function(Faker\Generator $faker) {
+$factory->define(
+    App\Models\Project::class,
+    function (Faker\Generator $faker) {
         return [
             'created_by'       => getRandomClassId('Access\User\User'),
             'updated_by'       => getRandomClassId('Access\User\User'),
@@ -42,22 +43,28 @@ $factory->define(App\Models\Project::class,
             // obsolete 'name'             => $faker->name,
             // obsolete 'label'            => $faker->word,
         ];
-    });
+    }
+);
 
-$factory->state(Project::class,
+$factory->state(
+    Project::class,
     'private',
     [
         'is_private' => true,
-    ]);
+    ]
+);
 
-$factory->state(Project::class,
+$factory->state(
+    Project::class,
     'public',
     [
         'is_private' => false,
-    ]);
+    ]
+);
 
-$factory->define(App\Models\ProjectUser::class,
-    function(Faker\Generator $faker) {
+$factory->define(
+    App\Models\ProjectUser::class,
+    function (Faker\Generator $faker) {
         return [
             'user_id'           => getRandomClassId('Access\User\User'),
             'agent_id'          => getRandomClassId('Project'),
@@ -69,4 +76,5 @@ $factory->define(App\Models\ProjectUser::class,
             'default_language'  => $faker->languageCode,
             'current_language'  => $faker->languageCode,
         ];
-    });
+    }
+);

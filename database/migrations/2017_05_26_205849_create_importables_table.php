@@ -14,13 +14,15 @@ class CreateImportablesTable extends Migration
      */
     public function up()
     {
-        Schema::create('importables',
-            function(Blueprint $table) {
+        Schema::create(
+            'importables',
+            function (Blueprint $table) {
                 $table->increments('id');
                 $table->timestamps();
                 $table->morphs('importable');
                 $table->unsignedInteger('import_id')->index();
-            });
+            }
+        );
     }
 
     /**

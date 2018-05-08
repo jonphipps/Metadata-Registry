@@ -12,12 +12,12 @@ class LoggedInFormTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 
-  public static function setUpBeforeClass()
-  {
+    public static function setUpBeforeClass()
+    {
 
-    self::$setupDatabase = true;
-    parent::setUpBeforeClass();
-  }
+        self::$setupDatabase = true;
+        parent::setUpBeforeClass();
+    }
 
     public function setUp()
     {
@@ -76,13 +76,15 @@ class LoggedInFormTest extends BrowserKitTestCase
                 ->press('update-profile')
                 ->seePageIs('/login')
                 ->see('You must confirm your new e-mail address')
-                 ->seeInDatabase(config('access.users_table'),
+                 ->seeInDatabase(
+                     config('access.users_table'),
                      [
                      'email' => '2_'.$this->user->email,
                      'first_name' => $this->user->first_name.'_'.$rand,
                      'last_name' => $this->user->last_name.'_'.$rand,
                      'nickname' => $this->user->nickname.'_'.$rand
-                     ]);
+                     ]
+                 );
         } else {
             $this->actingAs($this->user)
                 ->visit('/account')
@@ -93,12 +95,14 @@ class LoggedInFormTest extends BrowserKitTestCase
                 ->press('update-profile')
                 ->seePageIs('/account')
                 ->see('Profile successfully updated.')
-                ->seeInDatabase(config('access.users_table'),
-                [
+                ->seeInDatabase(
+                    config('access.users_table'),
+                    [
                     'first_name' => $this->user->first_name.'_'.$rand,
                     'last_name' => $this->user->last_name.'_'.$rand,
                     'nickname'  => $this->user->nickname.'_'.$rand
-                ]);
+                    ]
+                );
         }
     }
 

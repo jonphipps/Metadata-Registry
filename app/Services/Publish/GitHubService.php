@@ -83,7 +83,7 @@ class GitHubService
         $token    = auth()->user()->githubToken;
         $nickname = auth()->user()->nickname;
 
-        if(!$token){
+        if (!$token) {
             throw new GithubAuthenticationException();
         }
 

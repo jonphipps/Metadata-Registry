@@ -332,14 +332,16 @@ class ConceptAttribute extends Model
         if ($attribute->isPrefLabel()) {
             //if it's a prefLabel, then lookup the label+language combination and eager load the related concepts
             $vocabId                 = $attribute->concept->vocabulary_id;
-            $matchingAttributesCount = self::join(Concept::TABLE,
+            $matchingAttributesCount = self::join(
+                Concept::TABLE,
                 self::TABLE . '.concept_id',
                 '=',
-                Concept::TABLE . '.id')->where([
+                Concept::TABLE . '.id'
+            )->where([
                 ['object', '=', $attribute->object],
                 [self::TABLE . '.language', '=', $attribute->getAttributeFromArray('language')],
                 [Concept::TABLE . '.vocabulary_id', '=', $vocabId],
-            ])->count();
+                ])->count();
             //check the vocabulary Ids and see if any of them are the same
             //if they are, then throw a DuplicatePrefLabel exception
             if ($matchingAttributesCount) {

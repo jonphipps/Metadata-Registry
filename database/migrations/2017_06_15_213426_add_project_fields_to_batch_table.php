@@ -19,7 +19,7 @@ class AddProjectFieldsToBatchTable extends Migration
             $table->unsignedInteger('project_id')->nullable()->index();
             $table->foreign('project_id')->references('id')->on('reg_agent')->onUpdate('NO ACTION')->onDelete('CASCADE');
             $table->unsignedInteger('user_id')->nullable()->index();
-            $table->foreign('user_id' )->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('CASCADE');
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('NO ACTION')->onDelete('CASCADE');
             $table->string('next_step')->nullable();
             $table->mediumText('step_data')->nullable();
             $table->integer('total_count')->default(0);

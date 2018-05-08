@@ -48,8 +48,10 @@ class UserTableController extends Controller
                 // Note: If you have a provider that does not have a corresponding
                 // font-awesome icon, you can override it here
                 foreach ($user->providers as $social) {
-                    $accounts[] = '<a href="' . route('admin.access.user.social.unlink',
-                            [$user, $social]) . '" data-toggle="tooltip" data-placement="top" title="' . trans('buttons.backend.access.users.unlink') . '" data-method="delete"><i class="fa fa-' . $social->provider . '"></i></a>';
+                    $accounts[] = '<a href="' . route(
+                        'admin.access.user.social.unlink',
+                        [$user, $social]
+                    ) . '" data-toggle="tooltip" data-placement="top" title="' . trans('buttons.backend.access.users.unlink') . '" data-method="delete"><i class="fa fa-' . $social->provider . '"></i></a>';
                 }
 
                 return count($accounts) ? implode(' ', $accounts) : 'None';

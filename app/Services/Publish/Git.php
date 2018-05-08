@@ -48,7 +48,7 @@ class Git
     public static function initDir(Project $project, $disk = GenerateRdf::REPO_ROOT, User $user): void
     {
         $projectPath = self::getProjectPath($project->id);
-        $repo        = self::getProjectRepo($project,$user);
+        $repo        = self::getProjectRepo($project, $user);
         $dir         = Storage::disk($disk)->path($projectPath);
         /** @var GitWrapper $wrapper */
         $wrapper = static::getWrapper();

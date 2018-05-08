@@ -28,6 +28,6 @@ class UpdateUserPasswordRequest extends Request
     {
         return [
         'password' => 'required|min:6|confirmed',
-    ];
+        ];
     }
 }

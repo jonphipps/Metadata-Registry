@@ -95,7 +95,7 @@ class ImportErrorsTest extends TestCase
         //given a data set pulled from a worksheet
         $data   = collect($this->getVocabularyWorksheetData());
         //remove the URI and status columns
-        $data = $data->map(function($item, $key){
+        $data = $data->map(function ($item, $key) {
             unset($item[15], $item[16]);
             return $item;
         });
@@ -105,8 +105,10 @@ class ImportErrorsTest extends TestCase
         //when i pass them to the importer
         $changeSet = $importer->getChangeset();
         //then i get an error
-        $this->assertSame('The required attribute columns: "*uri", "*status" ...are missing',
-            $importer->getErrors()['fatal']);
+        $this->assertSame(
+            'The required attribute columns: "*uri", "*status" ...are missing',
+            $importer->getErrors()['fatal']
+        );
         $this->assertSame($changeSet->count(), 0);
     }
 
@@ -158,8 +160,10 @@ class ImportErrorsTest extends TestCase
         //when i pass them to the importer
         $changeSet = $importer->getChangeset();
         //then i get an error
-        $this->assertSame('The required attribute column: "*uri" ...is missing',
-            $importer->getErrors()['fatal']);
+        $this->assertSame(
+            'The required attribute column: "*uri" ...is missing',
+            $importer->getErrors()['fatal']
+        );
         $this->assertSame($changeSet->count(), 0);
     }
 
@@ -185,8 +189,10 @@ class ImportErrorsTest extends TestCase
         $importer = new DataImporter($data, $export);
         //when i pass them to the importer
         $changeSet = $importer->getChangeset();
-        $this->assertNotSame($changeSet->get('add')->first()->get('*status')['new value'],
-            '[ERROR: Empty required attribute]');
+        $this->assertNotSame(
+            $changeSet->get('add')->first()->get('*status')['new value'],
+            '[ERROR: Empty required attribute]'
+        );
         $this->assertCount(0, $importer->getErrors());
     }
 
@@ -216,7 +222,7 @@ class ImportErrorsTest extends TestCase
         //given a data set pulled from a worksheet
         $data = collect($this->getVocabularyWorksheetData());
         //add a foobar column
-        $data   = $data->map(function($item, $key) {
+        $data   = $data->map(function ($item, $key) {
             $item[17]='foobar';
             return $item;
         });
@@ -226,8 +232,10 @@ class ImportErrorsTest extends TestCase
         //when i pass them to the importer
         $changeSet = $importer->getChangeset();
         //then i get an error
-        $this->assertSame('The column: "foobar" ...is unknown and need to be registered with the Profile',
-            $importer->getErrors()['fatal']);
+        $this->assertSame(
+            'The column: "foobar" ...is unknown and need to be registered with the Profile',
+            $importer->getErrors()['fatal']
+        );
         $this->assertSame($changeSet->count(), 0);
     }
 
@@ -238,7 +246,7 @@ class ImportErrorsTest extends TestCase
         //given a data set pulled from a worksheet
         $data = collect($this->getVocabularyWorksheetData());
         //duplicate the reg_id column
-        $data   = $data->map(function($item, $key) {
+        $data   = $data->map(function ($item, $key) {
             $item[17]='reg_id';
             return $item;
         });
@@ -248,8 +256,10 @@ class ImportErrorsTest extends TestCase
         //when i pass them to the importer
         $changeSet = $importer->getChangeset();
         //then i get an error
-        $this->assertSame('"reg_id" is a duplicate attribute column. Columns cannot be duplicated',
-            $importer->getErrors()['fatal']);
+        $this->assertSame(
+            '"reg_id" is a duplicate attribute column. Columns cannot be duplicated',
+            $importer->getErrors()['fatal']
+        );
         $this->assertSame($changeSet->count(), 0);
     }
 }

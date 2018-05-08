@@ -198,13 +198,15 @@ class UserRepository extends BaseRepository
             // Get users first name and last name from their full name
             $nameParts = $this->getNameParts($data->getName());
 
-            $user = $this->create([
+            $user = $this->create(
+                [
                 'first_name' => $nameParts['first_name'],
                 'last_name'  => $nameParts['last_name'],
                 'nickname'   => $data->nickname,
                 'email'      => $user_email,
-            ],
-                true);
+                ],
+                true
+            );
         }
 
         // See if the user has logged in with this social account before

@@ -22,10 +22,12 @@ trait Languages
     {
         $value = $value ?? config('app.locale');
 
-        return Cache::get('language_' . $value,
+        return Cache::get(
+            'language_' . $value,
             function () use ($value) {
                 return self::listLanguages($value);
-            });
+            }
+        );
     }
 
     public function showLanguagesCommaDelimited(): string

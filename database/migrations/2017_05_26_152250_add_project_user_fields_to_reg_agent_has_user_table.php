@@ -14,13 +14,15 @@ class AddProjectUserFieldsToRegAgentHasUserTable extends Migration
      */
     public function up()
     {
-        Schema::table('reg_agent_has_user',
-            function(Blueprint $table) {
+        Schema::table(
+            'reg_agent_has_user',
+            function (Blueprint $table) {
                 $table->boolean('is_maintainer_for')->nullable()->default(1);
                 $table->text('languages')->nullable();
                 $table->char('default_language', 6)->default('en');
                 $table->char('current_language', 6)->nullable();
-            });
+            }
+        );
     }
 
     /**

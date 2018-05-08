@@ -111,10 +111,12 @@ class AppServiceProvider extends ServiceProvider
         if (! \in_array($environment, ['production', 'testing'], true)) {
             $this->app->register(LaravelTracyServiceProvider::class);
         }
-        $this->app->bind('path.public',
+        $this->app->bind(
+            'path.public',
             function () {
                 return base_path() . '/web';
-            });
+            }
+        );
         $this->app->alias('bugsnag.multi', \Illuminate\Contracts\Logging\Log::class);
         $this->app->alias('bugsnag.multi', \Psr\Log\LoggerInterface::class);
     }

@@ -14,12 +14,14 @@ class CreateAssignedRolesTable extends Migration
      */
     public function up()
     {
-        Schema::create('assigned_roles',
-            function(Blueprint $table) {
+        Schema::create(
+            'assigned_roles',
+            function (Blueprint $table) {
                 $table->increments('id');
                 $table->unsignedInteger('user_id')->nullable()->index();
                 $table->unsignedInteger('role_id')->index();
-            });
+            }
+        );
     }
 
     /**

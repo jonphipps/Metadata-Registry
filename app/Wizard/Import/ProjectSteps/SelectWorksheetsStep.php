@@ -115,9 +115,11 @@ class SelectWorksheetsStep extends Step
 
     public function validate(Request $request)
     {
-        Validator::make(['selected_worksheets' => json_decode($request->selected_worksheets)],
+        Validator::make(
+            ['selected_worksheets' => json_decode($request->selected_worksheets)],
             ['selected_worksheets'          => 'required'],
-            ['selected_worksheets.required' => 'You must select at least one worksheet before you can move to the next step.'])
+            ['selected_worksheets.required' => 'You must select at least one worksheet before you can move to the next step.']
+        )
             ->validate();
     }
 

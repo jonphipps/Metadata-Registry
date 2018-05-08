@@ -55,5 +55,4 @@ class RDFGeneratorTest extends TestCase
         $upload = Storage::disk('repos')->putFileAs('', $file, $file->name);
         Storage::disk('repos')->assertExists($upload);
     }
-
 }

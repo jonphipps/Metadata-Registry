@@ -1,5 +1,5 @@
 <?php return array (
-  478 => 
+  478 =>
   array (
     '*preferred label[0]_en' => 1284,
     '*preferred label[0]_fr' => 21448,

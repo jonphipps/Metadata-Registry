@@ -12,13 +12,13 @@ use Tests\TestCase;
 class ProjectTest extends TestCase
 {
 
-  use DatabaseTransactions;
+    use DatabaseTransactions;
 
-  public function setUp()
-  {
-    $this->dontSetupDatabase();
-    parent::setUp();
-  }
+    public function setUp()
+    {
+        $this->dontSetupDatabase();
+        parent::setUp();
+    }
 
     /**
      * @test
@@ -27,7 +27,7 @@ class ProjectTest extends TestCase
     {
         //given there are public and private projects
         $projectCount = Project::count();
-        $project1     = factory(Project::class)->create( [ 'is_private' => false ]);
+        $project1     = factory(Project::class)->create([ 'is_private' => false ]);
         $project2     = factory(Project::class)->create([ 'is_private' => true ]);
         $this->assertEquals($projectCount + 2, Project::count());
         //when I request only public projects
@@ -42,16 +42,17 @@ class ProjectTest extends TestCase
         //given a project with a language maintainer
         $project = create(Project::class);
         $user = create(User::class);
-        $ProjectUser = create(ProjectUser::class,
+        $ProjectUser = create(
+            ProjectUser::class,
             [
                 'agent_id'        => $project->id,
                 'user_id'           => $user->id,
                 'is_maintainer_for' => true,
                 'languages'         => serialize([ 'en', 'fr' ]),
-            ]);
+            ]
+        );
         //when I ask if user is a maintainer for a language for this project
         $this->assertTrue($ProjectUser->isMaintainerForLanguage('fr'));
         //then I get back the user
     }
-
 }

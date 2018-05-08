@@ -12,7 +12,7 @@ class ProjectReleaseController extends Controller
 {
     public function publish($project_id, Release $release)
     {
-        if ($release->project->repo && $release->user->github_token === null){
+        if ($release->project->repo && $release->user->github_token === null) {
             return Redirect::back()->withErrors([
                 'You\'re trying to access GitHub, but you don\'t seem to have any current GitHub credentials.',
                 'You must logout of the OMR, and login to the OMR again using the \'Login with GitHub\' link.'

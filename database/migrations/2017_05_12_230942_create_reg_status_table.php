@@ -14,13 +14,15 @@ class CreateRegStatusTable extends Migration
      */
     public function up()
     {
-        Schema::create('reg_status',
-            function(Blueprint $table) {
+        Schema::create(
+            'reg_status',
+            function (Blueprint $table) {
                 $table->increments('id');
                 $table->integer('display_order')->nullable()->index();
                 $table->string('display_name')->nullable();
                 $table->string('uri')->nullable();
-            });
+            }
+        );
     }
 
     /**

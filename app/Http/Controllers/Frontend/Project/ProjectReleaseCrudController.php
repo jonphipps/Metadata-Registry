@@ -172,21 +172,27 @@ class ProjectReleaseCrudController extends CrudController
             ],
         ]);
 
-        $this->crud->setColumnDetails('is_prerelease',
+        $this->crud->setColumnDetails(
+            'is_prerelease',
             [
                 'type'  => 'boolean',
                 'label' => 'Pre-release?',
 
-            ]);
-        $this->crud->setColumnDetails('body',
+            ]
+        );
+        $this->crud->setColumnDetails(
+            'body',
             [
                 'type'  => 'markdown',
-            ]);
+            ]
+        );
 
-        $this->crud->setColumnsDetails(['body', 'tag_name'],
+        $this->crud->setColumnsDetails(
+            ['body', 'tag_name'],
             [
                 'list'    => false,
-            ]);
+            ]
+        );
 
         // $this->crud->setColumnsDetails(['column_1', 'column_2'], ['attribute' => 'value']);
 

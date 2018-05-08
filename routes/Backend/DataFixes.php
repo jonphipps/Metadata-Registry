@@ -121,7 +121,8 @@ Route::get('check_github', function () {
         return '<table>' . $e->xdebug_message . '</table>';
     }
 });
-Route::get('hack_rda_prefix',
+Route::get(
+    'hack_rda_prefix',
     function () {
         $rdaPrefixes   = [
             'rdaar'   => 'http://rdaregistry.info/termList/AspectRatio/',
@@ -209,4 +210,5 @@ Route::get('hack_rda_prefix',
             $element->prefixes = $rdaPrefixes;
             $element->save();
         }
-    });
+    }
+);
