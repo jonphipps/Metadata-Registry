@@ -14,8 +14,9 @@ class CreateProfilePropertyTable extends Migration
      */
     public function up()
     {
-        Schema::create('profile_property',
-            function(Blueprint $table) {
+        Schema::create(
+            'profile_property',
+            function (Blueprint $table) {
                 $table->increments('id');
                 $table->unsignedInteger('skos_id')->default(0)->index();
                 $table->timestamps();
@@ -53,7 +54,8 @@ class CreateProfilePropertyTable extends Migration
                 $table->boolean('is_object_prop')->default(1);
                 $table->boolean('is_in_form')->default(0);
                 $table->string('namespce')->default('');
-            });
+            }
+        );
     }
 
     /**

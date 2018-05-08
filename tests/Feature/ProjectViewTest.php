@@ -39,18 +39,22 @@ class ProjectViewTest extends BrowserKitTestCase
         /** @var Project $project */
         $project = factory(Project::class)->create();
         \DB::commit();
-        $this->user->projects()->attach($project,
+        $this->user->projects()->attach(
+            $project,
             [
                 'is_registrar_for' => true,
                 'is_admin_for'     => true,
-            ]);
-        $this->seeInDatabase(ProjectUser::TABLE,
+            ]
+        );
+        $this->seeInDatabase(
+            ProjectUser::TABLE,
             [
                 'is_registrar_for' => true,
                 'is_admin_for'     => true,
                 'agent_id'         => $project->id,
                 'user_id'          => $this->user->id,
-            ]);
+            ]
+        );
         //check the list for editability
         $this->actingAs($this->user);
         $this->visit($this->baseUrl . '/projects')

@@ -175,23 +175,29 @@ class User extends Authenticatable
 
     public function vocabularies(): ?BelongsToMany
     {
-        return $this->belongsToMany(Vocabulary::class,
+        return $this->belongsToMany(
+            Vocabulary::class,
             VocabularyUser::TABLE,
             'user_id',
-            'vocabulary_id')->withPivot('is_maintainer_for',
+            'vocabulary_id'
+        )->withPivot(
+            'is_maintainer_for',
             'is_registrar_for',
             'is_admin_for',
             'languages',
             'default_language',
-            'current_language')->withTimestamps();
+            'current_language'
+        )->withTimestamps();
     }
 
     public function elementsets(): ?BelongsToMany
     {
-        return $this->belongsToMany(Elementset::class,
+        return $this->belongsToMany(
+            Elementset::class,
             ElementsetUser::TABLE,
             'user_id',
-            'schema_id')->withPivot('is_registrar_for', 'is_admin_for', 'is_maintainer_for')->withTimestamps();
+            'schema_id'
+        )->withPivot('is_registrar_for', 'is_admin_for', 'is_maintainer_for')->withTimestamps();
     }
 
     public function getGithubTokenAttribute()

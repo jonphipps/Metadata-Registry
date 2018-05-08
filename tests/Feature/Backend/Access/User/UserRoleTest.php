@@ -4,6 +4,7 @@ namespace Tests\Feature\Backend\Access\User;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\BrowserKitTestCase;
+
 /**
  * Class UserRoleTest.
  */

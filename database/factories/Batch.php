@@ -2,8 +2,9 @@
 /** Created by PhpStorm,  User: jonphipps,  Date: 2017-05-26,  Time: 6:11 PM */
 
 /** @var Illuminate\Database\Eloquent\Factory $factory */
-$factory->define( App\Models\Batch::class,
-    function( Faker\Generator $faker ) {
+$factory->define(
+    App\Models\Batch::class,
+    function (Faker\Generator $faker) {
         return [
             'run_time'          => $faker->dateTimeBetween(),
             'run_description'   => $faker->text,
@@ -15,4 +16,5 @@ $factory->define( App\Models\Batch::class,
             'registry_uri'      => $faker->word,
             'project_id'        => getRandomClassId('Project'),
         ];
-    } );
+    }
+);

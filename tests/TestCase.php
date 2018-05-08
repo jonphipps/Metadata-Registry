@@ -10,15 +10,14 @@ use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
  */
 abstract class TestCase extends BaseTestCase
 {
-  use CreatesApplication;
+    use CreatesApplication;
   //use DatabaseTransactions;
-  use SetsUpTests;
+    use SetsUpTests;
 
 
-  public function setUp()
-  {
-    parent::setUp();
-    $this->setUpTests();
-  }
-
+    public function setUp()
+    {
+        parent::setUp();
+        $this->setUpTests();
+    }
 }

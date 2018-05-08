@@ -13,7 +13,7 @@ class ProjectPage extends BasePage
     /**
      * ProjectPage constructor.
      */
-    public function __construct(Project $project )
+    public function __construct(Project $project)
     {
         $this->project=$project;
     }
@@ -35,9 +35,9 @@ class ProjectPage extends BasePage
      *
      * @return void
      */
-    public function assert( Browser $browser )
+    public function assert(Browser $browser)
     {
-        $browser->assertPathIs( $this->url() );
+        $browser->assertPathIs($this->url());
     }
 
     /**

@@ -21,7 +21,8 @@ class HistoryLogTest extends BrowserKitTestCase
             ->withClass('bg-green')
             ->log();
 
-        $this->seeInDatabase('history',
+        $this->seeInDatabase(
+            'history',
             [
                 'type_id'   => 1,
                 'user_id'   => $this->admin->id,
@@ -29,7 +30,8 @@ class HistoryLogTest extends BrowserKitTestCase
                 'icon'      => 'plus',
                 'class'     => 'bg-green',
                 'text'      => trans('history.backend.users.created').$this->user->name,
-            ])
+            ]
+        )
              ->visit('/admin/dashboard')
              ->see('<strong>'.$this->admin->name.'</strong> '.trans('history.backend.users.created').$this->user->name);
     }
@@ -46,7 +48,8 @@ class HistoryLogTest extends BrowserKitTestCase
             ->withClass('bg-green')
             ->log();
 
-        $this->seeInDatabase('history',
+        $this->seeInDatabase(
+            'history',
             [
                 'type_id'   => 1,
                 'user_id'   => $this->admin->id,
@@ -54,7 +57,8 @@ class HistoryLogTest extends BrowserKitTestCase
                 'icon'      => 'plus',
                 'class'     => 'bg-green',
                 'text'      => trans('history.backend.users.created').$this->user->name,
-            ])
+            ]
+        )
              ->visit('/admin/dashboard')
              ->see('<strong>'.$this->admin->name.'</strong> '.trans('history.backend.users.created').$this->user->name);
     }

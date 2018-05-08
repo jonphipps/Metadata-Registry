@@ -180,5 +180,4 @@ class ReciprocalConceptTest extends TestCase
         //history count should increase by 2
         $this->assertEquals($historyCount + 4, ConceptAttributeHistory::count());
     }
-
 }

@@ -14,8 +14,9 @@ class CreateHistoryTable extends Migration
      */
     public function up()
     {
-        Schema::create('history',
-            function(Blueprint $table) {
+        Schema::create(
+            'history',
+            function (Blueprint $table) {
                 $table->increments('id');
                 $table->unsignedInteger('type_id')->nullable()->index();
                 $table->unsignedInteger('user_id')->nullable()->index();
@@ -25,7 +26,8 @@ class CreateHistoryTable extends Migration
                 $table->string('text')->nullable();
                 $table->text('assets')->nullable();
                 $table->timestamps();
-            });
+            }
+        );
     }
 
     /**

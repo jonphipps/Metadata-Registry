@@ -15,7 +15,6 @@ use Tests\Traits\TestData;
  * @mixin TestCase
  */
 trait ProjectTest
-
 {
     /** @var ProjectPage  */
     protected $projectPage;

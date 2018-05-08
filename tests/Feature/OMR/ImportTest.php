@@ -29,8 +29,8 @@ class ImportTest extends TestCase
 
     public function setUp()
     {
-      $this->dontSetupDatabase();
-      parent::setUp();
+        $this->dontSetupDatabase();
+        parent::setUp();
     }
 
     /** @test */
@@ -44,7 +44,7 @@ class ImportTest extends TestCase
         $batch = factory(Batch::class)->create([ 'project_id' => 177, 'user_id' => $user->id ]);
         $batch->addImports([ $import]);
         event(new ImportFinished($import));
-        Notification::assertSentTo($user, ImportWasCompleted::class, function($notification, $channels) use ($batch) {
+        Notification::assertSentTo($user, ImportWasCompleted::class, function ($notification, $channels) use ($batch) {
             return $notification->batch->id === $batch->id;
         });
         Notification::assertSentTo([ $user ], ImportWasCompleted::class, 1);
@@ -61,7 +61,7 @@ class ImportTest extends TestCase
         $batch = factory(Batch::class)->create([ 'project_id' => 177, 'user_id' => $user->id ]);
         $batch->addImports([ $import]);
         event(new ImportParseFinished($import));
-        Notification::assertSentTo($user, ImportEvaluationWasCompleted::class, function($notification, $channels) use ($batch) {
+        Notification::assertSentTo($user, ImportEvaluationWasCompleted::class, function ($notification, $channels) use ($batch) {
             return $notification->batch->id === $batch->id;
         });
         Notification::assertSentTo([ $user ], ImportEvaluationWasCompleted::class, 1);
@@ -80,11 +80,13 @@ class ImportTest extends TestCase
         $batch->addImports([ $import, $import2 ]);
         event(new ImportFinished($import));
         event(new ImportFinished($import2));
-        Notification::assertSentTo($user,
+        Notification::assertSentTo(
+            $user,
             ImportWasCompleted::class,
-            function($notification, $channels) use ($batch) {
+            function ($notification, $channels) use ($batch) {
                 return $notification->batch->id === $batch->id;
-            });
+            }
+        );
         Notification::assertSentTo([ $user ], ImportWasCompleted::class, 1);
     }
 
@@ -157,15 +159,18 @@ class ImportTest extends TestCase
         $lexical = ElementAttribute::withTrashed()->find(128175);
         $this->assertNotNull($lexical->deleted_at);
         $this->assertEquals($lexical->deleted_user_id, 1);
-        $this->assertDatabaseHas(ElementAttribute::TABLE,
+        $this->assertDatabaseHas(
+            ElementAttribute::TABLE,
             [
                 'id'              => 180596,
                 'object'          => 'foobar',
                 'updated_user_id' => 1,
                 'last_import_id'  => $import->id,
-            ]);
+            ]
+        );
         //assert that the value of name, language french, is bingo
-        $this->assertDatabaseHas(ElementAttribute::TABLE,
+        $this->assertDatabaseHas(
+            ElementAttribute::TABLE,
             [
                 'object'              => 'bingo',
                 'language'            => 'fr',
@@ -174,12 +179,13 @@ class ImportTest extends TestCase
                 'created_user_id'     => $import->user_id,
                 'updated_user_id'     => $import->user_id,
                 'last_import_id' => $import->id,
-            ]);
+            ]
+        );
         //this is the add part
         $element = Element::with('statements')->where('name', 'EnglishName')->first();
         $element->created_at = null;
         $element->updated_at = null;
-        $element->statements->map(function($values){
+        $element->statements->map(function ($values) {
             $values['created_at'] = null;
             $values['updated_at'] = null;
             $values['last_import_id'] = null;
@@ -209,14 +215,17 @@ class ImportTest extends TestCase
         $lexical = ConceptAttribute::withTrashed()->find(24412);
         $this->assertNotNull($lexical->deleted_at);
         $this->assertEquals(1, $lexical->deleted_by);
-        $this->assertDatabaseHas(ConceptAttribute::TABLE,
+        $this->assertDatabaseHas(
+            ConceptAttribute::TABLE,
             [
                 'id'              => 24411,
                 'object'          => 'foobar',
                 'updated_user_id' => 1,
-            ]);
+            ]
+        );
         //assert that the value of name, language french, is bingo
-        $this->assertDatabaseHas(ConceptAttribute::TABLE,
+        $this->assertDatabaseHas(
+            ConceptAttribute::TABLE,
             [
                 'object'              => 'bingo',
                 'language'            => 'fr',
@@ -224,7 +233,8 @@ class ImportTest extends TestCase
                 'profile_property_id' => 34,
                 'created_user_id'     => 36,
                 'updated_user_id'     => 36,
-            ]);
+            ]
+        );
     }
 
     /** @test */
@@ -288,7 +298,7 @@ class ImportTest extends TestCase
         $element             = Concept::with('statements')->where('pref_label', 'fubar')->first();
         $element->created_at = null;
         $element->updated_at = null;
-        $element->statements->map(function($values) {
+        $element->statements->map(function ($values) {
             $values['created_at'] = null;
             $values['updated_at'] = null;
             $values['last_import_id'] = null;

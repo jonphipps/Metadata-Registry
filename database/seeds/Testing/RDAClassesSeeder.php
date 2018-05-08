@@ -21,31 +21,31 @@ class RDAClassesSeeder extends Seeder
      */
     public function run()
     {
-        $this->call( ProjectSeeder::class );
+        $this->call(ProjectSeeder::class);
 
         $this->disableForeignKeys();
 
         ElementsetUser::truncate();
-        $updateStatement = file_get_contents( __DIR__ . '/sql/RDAClassesUsers.sql' );
-        DB::statement( $updateStatement );
+        $updateStatement = file_get_contents(__DIR__ . '/sql/RDAClassesUsers.sql');
+        DB::statement($updateStatement);
 
         Elementset::truncate();
-        $updateStatement = file_get_contents( __DIR__ . '/sql/RDAClassesElementSet.sql' );
-        DB::statement( $updateStatement );
+        $updateStatement = file_get_contents(__DIR__ . '/sql/RDAClassesElementSet.sql');
+        DB::statement($updateStatement);
 
         Element::truncate();
-        $updateStatement = file_get_contents( __DIR__ . '/sql/RDAClasses_elements.sql' );
-        DB::statement( $updateStatement );
+        $updateStatement = file_get_contents(__DIR__ . '/sql/RDAClasses_elements.sql');
+        DB::statement($updateStatement);
 
         ElementAttribute::truncate();
         $updateStatement =
-            file_get_contents( __DIR__ . '/sql/RDAClasses_element_attributes_fr_en.sql' );
-        DB::statement( $updateStatement );
+            file_get_contents(__DIR__ . '/sql/RDAClasses_element_attributes_fr_en.sql');
+        DB::statement($updateStatement);
 
         ElementAttributeHistory::truncate();
         $updateStatement =
-            file_get_contents( __DIR__ . '/sql/RDAClasses_element_attributes_history_fr_en.sql' );
-        DB::statement( $updateStatement );
+            file_get_contents(__DIR__ . '/sql/RDAClasses_element_attributes_history_fr_en.sql');
+        DB::statement($updateStatement);
 
         $this->enableForeignKeys();
     }

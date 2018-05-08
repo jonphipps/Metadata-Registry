@@ -16,7 +16,7 @@ use Tests\BrowserKitTestCase;
  */
 class RoleFormTest extends BrowserKitTestCase
 {
-  use DatabaseTransactions;
+    use DatabaseTransactions;
 
     public function testCreateRoleRequiredFieldsAll()
     {
@@ -33,7 +33,7 @@ class RoleFormTest extends BrowserKitTestCase
     {
         if (config('access.roles.role_must_contain_permission')) {
         // Custom Permissions
-        $this->actingAs($this->admin)
+            $this->actingAs($this->admin)
              ->visit('/admin/access/role/create')
              ->type('Test Role', 'name')
              ->select('custom', 'associated-permissions')
@@ -156,7 +156,7 @@ class RoleFormTest extends BrowserKitTestCase
     public function testUpdateRoleRequiresPermission()
     {
         if (config('access.roles.role_must_contain_permission')) {
-        $this->actingAs($this->admin)
+            $this->actingAs($this->admin)
              ->visit('/admin/access/role/3/edit')
              ->uncheck('permissions[4]')
              ->press('Update')

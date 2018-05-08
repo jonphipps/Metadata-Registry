@@ -10,14 +10,14 @@ use Laravel\BrowserKitTesting\TestCase as BaseTestCase;
  */
 abstract class BrowserKitTestCase extends BaseTestCase
 {
-  use CreatesApplication;
+    use CreatesApplication;
   //use DatabaseTransactions;
-  use SetsUpTests;
+    use SetsUpTests;
 
 
-  public function setUp()
-  {
-    parent::setUp();
-    $this->setUpTests();
-  }
+    public function setUp()
+    {
+        parent::setUp();
+        $this->setUpTests();
+    }
 }

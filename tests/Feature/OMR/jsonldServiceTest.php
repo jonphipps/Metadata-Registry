@@ -38,5 +38,4 @@ class jsonldServiceTest extends TestCase
         $jsonService = new jsonldVocabularyService($vocab);
         $this->assertMatchesJsonSnapshot($jsonService->getJsonLd());
     }
-
 }

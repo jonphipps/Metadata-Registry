@@ -39,8 +39,10 @@ class ProjectDashboardTest extends BrowserKitTestCase
         $this->as_a_guest_I_can_see_the_project_dashboard($publicProject);
         $this->as_a_guest_I_can_NOT_see_the_project_dashboard_of_a_PRIVATE_project($privateProject);
         $this->as_a_registered_user_I_can_see_the_project_dashboard_of_a_public_project_I_dont_own($publicProject);
-        $this->if_there_are_no_vocabularies_or_element_sets_there_should_be_no_add_release_or_add_import_buttons($publicProject,
-            $user);
+        $this->if_there_are_no_vocabularies_or_element_sets_there_should_be_no_add_release_or_add_import_buttons(
+            $publicProject,
+            $user
+        );
         $this->if_there_ARE_vocabularies_or_element_sets_there_should_be_an_add_release_and_add_import_buttons($publicProject, $user);
 
         //todo:fix this test
@@ -60,7 +62,7 @@ class ProjectDashboardTest extends BrowserKitTestCase
 
     private function as_a_guest_I_can_NOT_see_the_project_dashboard_of_a_PRIVATE_project($privateProject)
     {
-       $this->get("/projects/{$privateProject->id}")->assertResponseStatus(404);
+        $this->get("/projects/{$privateProject->id}")->assertResponseStatus(404);
     }
 
     private function as_a_registered_user_I_can_see_the_project_dashboard_of_a_public_project_I_dont_own($publicProject)

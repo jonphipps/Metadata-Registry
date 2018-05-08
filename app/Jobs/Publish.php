@@ -84,8 +84,7 @@ class Publish implements ShouldQueue
             $gitHub = new GitHubService($this->release);
             try {
                 $gitHub->setRelease();
-            }
-            catch (GithubAuthenticationException $e) {
+            } catch (GithubAuthenticationException $e) {
                 Redirect::back()->withErrors([
                     'You\'re trying to access GitHub, but you don\'t seem to have any current GitHub credentials.',
                     'You must logout of the OMR, and login to the OMR again using the \'Login with GitHub\' link.',

@@ -2,8 +2,9 @@
 /** Created by PhpStorm,  User: jonphipps,  Date: 2017-05-27,  Time: 9:44 AM */
 
 /** @var Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(App\Models\ConceptAttributeHistory::class,
-    function(Faker\Generator $faker) {
+$factory->define(
+    App\Models\ConceptAttributeHistory::class,
+    function (Faker\Generator $faker) {
         return [
             'created_by'          => getRandomClassId('Access\User\User'),
             'action'              => getRandomAction($faker),
@@ -21,4 +22,5 @@ $factory->define(App\Models\ConceptAttributeHistory::class,
             'import_id'           => getRandomClassId('Import'),
             'profile_property_id' => getRandomConceptProfilePropertyId(),
         ];
-    });
+    }
+);

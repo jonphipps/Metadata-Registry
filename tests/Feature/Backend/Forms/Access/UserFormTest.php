@@ -19,7 +19,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
  */
 class UserFormTest extends BrowserKitTestCase
 {
-  use DatabaseTransactions;
+    use DatabaseTransactions;
 
     public function testCreateUserRequiredFields()
     {
@@ -123,8 +123,10 @@ class UserFormTest extends BrowserKitTestCase
              ->press('Create')
              ->seePageIs('/admin/access/user')
              ->see('The user was successfully created.')
-             ->seeInDatabase(config('access.users_table'),
-                 ['first_name' => $firstName, 'last_name' => $lastName, 'nickname' => $name, 'email' => $email, 'status' => 1, 'confirmed' => 0]);
+             ->seeInDatabase(
+                 config('access.users_table'),
+                 ['first_name' => $firstName, 'last_name' => $lastName, 'nickname' => $name, 'email' => $email, 'status' => 1, 'confirmed' => 0]
+             );
         $latestId = User::orderby('created_at', 'desc')
                         ->first()->id;
         $this->seeInDatabase(config('access.role_user_table'), ['user_id' => $latestId, 'role_id' => 2])
@@ -134,8 +136,10 @@ class UserFormTest extends BrowserKitTestCase
         $user = User::where('email', $email)->first();
 
         // Check that the user was sent the confirmation email
-        Notification::assertSentTo([$user],
-            UserNeedsConfirmation::class);
+        Notification::assertSentTo(
+            [$user],
+            UserNeedsConfirmation::class
+        );
 
         Event::assertDispatched(UserCreated::class);
     }
@@ -193,7 +197,8 @@ class UserFormTest extends BrowserKitTestCase
              ->press('Update')
              ->seePageIs('/admin/access/user')
              ->see('The user was successfully updated.')
-             ->seeInDatabase(config('access.users_table'),
+             ->seeInDatabase(
+                 config('access.users_table'),
                  [
                      'id'        => $this->user->id,
                      'first_name'      => 'User',
@@ -201,7 +206,8 @@ class UserFormTest extends BrowserKitTestCase
                      'nickname'  => 'UserNew',
                      'email'     => 'user2@user.com',
                      'status'    => 0,
-                 ])
+                 ]
+             )
              ->seeInDatabase(config('access.role_user_table'), ['user_id' => $this->user->id, 'role_id' => 2])
              ->notSeeInDatabase(config('access.role_user_table'), ['user_id' => $this->user->id, 'role_id' => 3]);
 

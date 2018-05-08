@@ -2,8 +2,9 @@
 /** Created by PhpStorm,  User: jonphipps,  Date: 2017-05-27,  Time: 11:29 AM */
 /** @var Illuminate\Database\Eloquent\Factory $factory */
 
-$factory->define(App\Models\Elementset::class,
-    function(Faker\Generator $faker) {
+$factory->define(
+    App\Models\Elementset::class,
+    function (Faker\Generator $faker) {
         return [
             'created_user_id'       => getRandomClassId('Access\User\User'),
             'updated_user_id'       => getRandomClassId('Access\User\User'),
@@ -31,10 +32,12 @@ $factory->define(App\Models\Elementset::class,
             'worksheet'             => $faker->word,
             'prefix'                => $faker->word,
         ];
-    });
+    }
+);
 
-$factory->define(App\Models\ElementsetUser::class,
-    function(Faker\Generator $faker) {
+$factory->define(
+    App\Models\ElementsetUser::class,
+    function (Faker\Generator $faker) {
         return [
             'schema_id'         => getRandomClassId('Elementset'),
             'user_id'           => getRandomClassId('Access\User\User'),
@@ -45,4 +48,5 @@ $factory->define(App\Models\ElementsetUser::class,
             'default_language'  => $faker->languageCode,
             'current_language'  => $faker->languageCode,
         ];
-    });
+    }
+);

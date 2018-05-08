@@ -6,55 +6,66 @@ use App\Models\Access\User\User;
 
 /** @var Illuminate\Database\Eloquent\Factory $factory */
 
-$factory->define(App\Models\History\History::class,
-    function(Faker\Generator $faker) {
+$factory->define(
+    App\Models\History\History::class,
+    function (Faker\Generator $faker) {
         return [
-            'type_id'   => getRandomClassId('App\Models\History\HistoryType'),
-            'user_id'   => getRandomClassId('Access\User\User',['is_administrator','=', true]),
-            'entity_id' => getRandomClassId('App\Models\Access\Role\Role'),
+            'type_id'   => getRandomClassId(\App\Models\History\HistoryType::class),
+            'user_id'   => getRandomClassId('Access\User\User', ['is_administrator','=', true]),
+            'entity_id' => getRandomClassId(\App\Models\Access\Role\Role::class),
             'icon'      => $faker->word,
             'class'     => $faker->word,
             'text'      => $faker->word,
             'assets'    => $faker->text,
         ];
-    });
+    }
+);
 
-$factory->define(App\Models\History\HistoryType::class,
-    function(Faker\Generator $faker) {
+$factory->define(
+    App\Models\History\HistoryType::class,
+    function (Faker\Generator $faker) {
         return [
             'name' => $faker->name,
         ];
-    });
+    }
+);
 
-$factory->define(App\Models\Access\Permission\Permission::class,
-    function(Faker\Generator $faker) {
+$factory->define(
+    App\Models\Access\Permission\Permission::class,
+    function (Faker\Generator $faker) {
         return [
             'name'         => $faker->name,
             'display_name' => $faker->word,
             'sort'         => $faker->randomNumber(),
         ];
-    });
+    }
+);
 
-$factory->define(App\Models\Access\Role\Role::class,
-    function(Faker\Generator $faker) {
+$factory->define(
+    App\Models\Access\Role\Role::class,
+    function (Faker\Generator $faker) {
         return [
             'name'         => $faker->name,
             'display_name' => $faker->word,
             'all'  => 0,
             'sort' => $faker->numberBetween(1, 100),
         ];
-    });
+    }
+);
 
-$factory->state(Role::class,
+$factory->state(
+    Role::class,
     'admin',
-    function() {
+    function () {
         return [
             'all' => 1,
         ];
-    });
+    }
+);
 
-$factory->define(App\Models\Access\User\SocialLogin::class,
-    function(Faker\Generator $faker) {
+$factory->define(
+    App\Models\Access\User\SocialLogin::class,
+    function (Faker\Generator $faker) {
         return [
             'user_id'     => getRandomClassId('Access\User\User'),
             'provider'    => $faker->word,
@@ -62,10 +73,12 @@ $factory->define(App\Models\Access\User\SocialLogin::class,
             'token'       => $faker->word,
             'avatar'      => $faker->word,
         ];
-    });
+    }
+);
 
-$factory->define(User::class,
-    function(Faker\Generator $faker) {
+$factory->define(
+    User::class,
+    function (Faker\Generator $faker) {
         static $password;
         $name = $faker->unique()->userName; //TODO: Remove either name or nickname
 
@@ -84,47 +97,60 @@ $factory->define(User::class,
             // 'salutation'        => $faker->title,
             // 'status'            => $faker->boolean,
         ];
-    });
+    }
+);
 
-$factory->state(User::class,
+$factory->state(
+    User::class,
     'active',
-    function() {
+    function () {
         return [
             'status' => 1,
         ];
-    });
+    }
+);
 
-$factory->state(User::class,
+$factory->state(
+    User::class,
     'inactive',
-    function() {
+    function () {
         return [
             'status' => 0,
         ];
-    });
+    }
+);
 
-$factory->state(User::class,
+$factory->state(
+    User::class,
     'confirmed',
-    function() {
+    function () {
         return [
             'confirmed' => 1,
         ];
-    });
+    }
+);
 
-$factory->state(User::class,
+$factory->state(
+    User::class,
     'unconfirmed',
-    function() {
+    function () {
         return [
             'confirmed' => 0,
         ];
-    });
+    }
+);
 
-$factory->defineAs(User::class,
+$factory->defineAs(
+    User::class,
     'super_admin',
-    function(Faker\Generator $faker) use ($factory) {
+    function (Faker\Generator $faker) use ($factory) {
         $user = $factory->raw(App\Models\Element::class);
 
-        return array_merge($user,
+        return array_merge(
+            $user,
             [
                 'is_administrator' => true,
-            ]);
-    });
+            ]
+        );
+    }
+);

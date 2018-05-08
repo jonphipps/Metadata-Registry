@@ -2,8 +2,9 @@
 /** Created by PhpStorm,  User: jonphipps,  Date: 2017-05-27,  Time: 10:54 AM */
 
 /** @var Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(App\Models\Vocabulary::class,
-    function(Faker\Generator $faker) {
+$factory->define(
+    App\Models\Vocabulary::class,
+    function (Faker\Generator $faker) {
         return [
             'agent_id'              => getRandomClassId('Project'),
             'created_user_id'       => getRandomClassId('Access\User\User'),
@@ -28,10 +29,12 @@ $factory->define(App\Models\Vocabulary::class,
             'repo'                  => $faker->url,
             'prefix'                => $faker->word,
         ];
-    });
+    }
+);
 
-$factory->define(App\Models\VocabularyUser::class,
-    function(Faker\Generator $faker) {
+$factory->define(
+    App\Models\VocabularyUser::class,
+    function (Faker\Generator $faker) {
         return [
             'vocabulary_id'     => getRandomClassId('Vocabulary'),
             'user_id'           => getRandomClassId('Access\User\User'),
@@ -42,5 +45,5 @@ $factory->define(App\Models\VocabularyUser::class,
             'default_language'  => $faker->languageCode,
             'current_language'  => $faker->languageCode,
         ];
-    });
-
+    }
+);

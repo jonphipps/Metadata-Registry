@@ -14,10 +14,12 @@ class AddForeignKeysToSocialLoginsTable extends Migration
      */
     public function up()
     {
-        Schema::table('social_logins',
-            function(Blueprint $table) {
+        Schema::table(
+            'social_logins',
+            function (Blueprint $table) {
                 $table->foreign('user_id')->references('id')->on('users')->onUpdate('RESTRICT')->onDelete('CASCADE');
-            });
+            }
+        );
     }
 
     /**
@@ -27,9 +29,11 @@ class AddForeignKeysToSocialLoginsTable extends Migration
      */
     public function down()
     {
-        Schema::table('social_logins',
-            function(Blueprint $table) {
+        Schema::table(
+            'social_logins',
+            function (Blueprint $table) {
                 $table->dropForeign('social_logins_user_id_foreign');
-            });
+            }
+        );
     }
 }

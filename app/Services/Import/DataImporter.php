@@ -60,8 +60,7 @@ class DataImporter
             $this->rowMap     = self::getRowMap($export->map, $props);
             try {
                 $this->columnProfileMap = self::getColumnProfileMap($export, $columnHeaders, $props);
-            }
-            //these are all fatal errors
+            } //these are all fatal errors
             catch (DuplicateAttributesException $e) {
                 $this->errors = collect(['fatal' => $e->getMessage()]);
                 $this->setStats();
@@ -386,15 +385,19 @@ class DataImporter
                     'old value'  => $property->object,
                     'updated_at' => $property->updated_at,
                 ];
-            })->prepend([
+            })->prepend(
+                [
                 'old value'  => $concept->uri,
                 'updated_at' => $concept->updated_at,
-            ],
-                '*uri')->prepend([
+                ],
+                '*uri'
+            )->prepend(
+                [
                     'old value'  => $concept->status->display_name,
                     'updated_at' => $concept->updated_at,
-                ],
-                    '*status');
+                    ],
+                '*status'
+            );
         });
     }
 

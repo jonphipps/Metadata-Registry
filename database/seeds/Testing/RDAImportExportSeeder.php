@@ -22,8 +22,8 @@ class RDAImportExportSeeder extends Seeder
         $this->disableForeignKeys();
 
         Import::truncate();
-        $updateStatement = file_get_contents( __DIR__ . '/sql/RDAImports.sql' );
-        DB::statement( $updateStatement );
+        $updateStatement = file_get_contents(__DIR__ . '/sql/RDAImports.sql');
+        DB::statement($updateStatement);
 
         Export::truncate();
         $updateStatement = file_get_contents(__DIR__ . '/sql/RDAExports.sql');

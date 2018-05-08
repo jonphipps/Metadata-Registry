@@ -107,9 +107,11 @@ class SetSpreadsheetStep extends Step
             $spread_worksheets = $spread_sheet->getWorksheets()->toArray();
         } catch (Google_Service_Exception $e) {
             //we know this is a 403 already, but we're doing this to take advantage of the validate() method's instant redirect
-            Validator::make(['code' => $e->getCode()],
+            Validator::make(
+                ['code' => $e->getCode()],
                 ['code'        => 'not_in:403'],
-                ['code.not_in' => 'The import service has not been authorized to read data from this spreadsheet'])
+                ['code.not_in' => 'The import service has not been authorized to read data from this spreadsheet']
+            )
                 ->validate();
         }
         $this->sheet = $spread_sheet;
@@ -125,9 +127,11 @@ class SetSpreadsheetStep extends Step
 
         // run the worksheet reader
         // compare with known exports and generate a report
-        Validator::make(['worksheets' => $worksheets],
+        Validator::make(
+            ['worksheets' => $worksheets],
             ['worksheets'          => 'required'],
-            ['worksheets.required' => 'The supplied spreadsheet has no worksheets that can be matched to an export.'])->validate();
+            ['worksheets.required' => 'The supplied spreadsheet has no worksheets that can be matched to an export.']
+        )->validate();
 
         $this->worksheets = $worksheets;
     }
