@@ -8,7 +8,7 @@ $factory->define(
     function ($faker) {
         return [
             'id'              => \Ramsey\Uuid\Uuid::uuid4()->toString(),
-            'type'            => 'App\Notifications\Frontend\ReleaseWasPublished',
+            'type'            => \App\Notifications\Frontend\ReleaseWasPublished::class,
             'notifiable_id'   => function () {
                 return auth()->id() ?: factory(\App\Models\Access\User\User::class)->create()->id;
             },

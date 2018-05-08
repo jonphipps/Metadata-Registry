@@ -50,7 +50,7 @@ $factory->state(
         return [
             'release_id'      => getRandomClassId('Release'),
             'releaseable_id'  => getRandomClassId('Vocabulary'),
-            'releasable_type' => 'App\Models\Vocabulary',
+            'releasable_type' => \App\Models\Vocabulary::class,
         ];
     }
 );
@@ -62,7 +62,7 @@ $factory->state(
         return [
             'release_id'      => getRandomClassId('Release'),
             'releaseable_id'  => getRandomClassId('ElementSet'),
-            'releasable_type' => 'App\Models\Elementset',
+            'releasable_type' => \App\Models\Elementset::class,
         ];
     }
 );

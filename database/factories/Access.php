@@ -10,9 +10,9 @@ $factory->define(
     App\Models\History\History::class,
     function (Faker\Generator $faker) {
         return [
-            'type_id'   => getRandomClassId('App\Models\History\HistoryType'),
+            'type_id'   => getRandomClassId(\App\Models\History\HistoryType::class),
             'user_id'   => getRandomClassId('Access\User\User', ['is_administrator','=', true]),
-            'entity_id' => getRandomClassId('App\Models\Access\Role\Role'),
+            'entity_id' => getRandomClassId(\App\Models\Access\Role\Role::class),
             'icon'      => $faker->word,
             'class'     => $faker->word,
             'text'      => $faker->word,
