@@ -127,6 +127,13 @@ class ProjectCrudController extends CrudController
                 'tab'   => 'Project Defaults',
             ],
             [
+                'name'  => 'generate_statements',
+                'label' => 'Generate Statements?',
+                'type'  => 'checkbox',
+                'hint'  => 'Allow automatic generation by the OMR of inverse and symmetric staemnets on related Concepts and Elements.',
+                'tab'   => 'Project Defaults',
+            ],
+            [
                 'name'            => 'languages',
                 'label'           => 'Languages in use',
                 'type'            => 'select2_from_array',
@@ -257,6 +264,7 @@ class ProjectCrudController extends CrudController
             'deleted_at',
             'deleted_by',
             'description',
+            'generate_statements',
             'google_sheet_url',
             'label',
             'languages',

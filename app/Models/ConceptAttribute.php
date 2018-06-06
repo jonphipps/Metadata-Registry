@@ -151,7 +151,9 @@ class ConceptAttribute extends Model
             if ($attribute->reciprocal_concept_property_id) {
                 return;
             }
+
             $attribute->createHistory('added');
+
             if ($attribute->createReciprocal()) {
                 //Sometimes we just update this attribute instead of creating a reciprocal.
                 //This deletes the extra new history that was been added when we do that
@@ -171,9 +173,16 @@ class ConceptAttribute extends Model
                 }
                 if ($attribute->isDirty('object')) {
                     if ($attribute->reciprocal_concept_property_id) {
+
+                        //only procede if we allow statement generation
+                        if (! $attribute->project()->generate_statements) {
+                            return;
+                        }
+
                         $attribute->reciprocal->createHistory('deleted');
                         $attribute->reciprocal()->delete();
                     }
+
                     $attribute->createReciprocal();
 
                     return;
@@ -184,6 +193,12 @@ class ConceptAttribute extends Model
 
         static::deleted(function (self $attribute) {
             $attribute->createHistory('deleted');
+
+            //only procede if we allow statement generation
+            if (! $attribute->project()->generate_statements) {
+                return;
+            }
+
             if ($attribute->reciprocal_concept_property_id) {
                 $reciprocal = self::find($attribute->reciprocal_concept_property_id);
                 if ($reciprocal) {
@@ -269,8 +284,12 @@ class ConceptAttribute extends Model
         }
     }
 
-    public function createReciprocal()
+    public function createReciprocal(): ?bool
     {
+        //only procede if we allow statement generation
+        if (! $this->project()->generate_statements) {
+            return false;
+        }
         //is the object a uri?
         if (! filter_var($this->object, FILTER_VALIDATE_URL)) {
             return false;
@@ -317,12 +336,13 @@ class ConceptAttribute extends Model
             'updated_user_id'                => $this->updated_user_id,
         ]);
         $this->update(['reciprocal_concept_property_id' => $attribute->id]);
+
+        return null;
     }
 
     /**
-     * @param ConceptAttribute $attribute
+     * @param self $attribute
      *
-     * @throws DuplicatePrefLabelException
      * @throws \App\Exceptions\DuplicatePrefLabelException
      */
     private static function checkForDuplicatePrefLabel(self $attribute): void
@@ -371,6 +391,11 @@ class ConceptAttribute extends Model
     public function inverse(): ?HasOne
     {
         return $this->hasOne(self::class, 'reciprocal_concept_property_id', 'id');
+    }
+
+    public function project()
+    {
+        return $this->concept->vocabulary->project;
     }
 
     /*
