@@ -325,12 +325,12 @@ class ElementAttribute extends Model
 
     public function reciprocal(): ?HasOne
     {
-        return $this->hasOne(self::class, 'reciprocal_property_element_id', 'id');
+        return $this->hasOne(Element::class, 'id', 'reciprocal_property_element_id');
     }
 
     public function inverse(): ?HasOne
     {
-        return $this->hasOne(self::class, 'reciprocal_property_element_id', 'id');
+        return $this->hasOne(Element::class, 'id', 'related_schema_property_id');
     }
 
     public function project()
