@@ -130,7 +130,7 @@ class ProjectCrudController extends CrudController
                 'name'  => 'generate_statements',
                 'label' => 'Generate Statements?',
                 'type'  => 'checkbox',
-                'hint'  => 'Allow automatic generation by the OMR of inverse and symmetric staemnets on related Concepts and Elements.',
+                'hint'  => 'Allow automatic generation by the OMR of inverse and symmetric statements on related Concepts and Elements.',
                 'tab'   => 'Project Defaults',
             ],
             [
