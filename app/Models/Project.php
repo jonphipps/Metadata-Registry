@@ -63,7 +63,7 @@ use Laracasts\Matryoshka\Cacheable;
  * @property string|null $prefixes
  * @property string|null $google_sheet_url
  * @property int|null $repo_is_valid
- * @property int $generate_statements
+ * @property bool $generate_statements
  * @property-read \App\Models\Access\User\User|null $creator
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Elementset[] $elementsets
  * @property-read \App\Models\Access\User\User|null $eraser
