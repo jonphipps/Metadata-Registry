@@ -47,7 +47,7 @@ class ConceptTest extends TestCase
         //given a new statement with a reciprocal property (has broader)
         $statement = factory(ConceptAttribute::class)->states('resource', 'has_reciprocal')->create();
         //when it is added
-        //then then a new related is added to the database
+        //then a new related is added to the database
         $related = $statement->related_concept;
         $this->assertEquals($related->id, $statement->related_concept_id);
     }

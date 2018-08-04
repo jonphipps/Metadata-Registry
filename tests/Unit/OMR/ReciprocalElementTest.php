@@ -33,7 +33,7 @@ class ReciprocalElementTest extends TestCase
             'created_user_id' => $this->admin->id,
             'updated_user_id' => $this->admin->id,
         ]);
-        //then then a new reciprocal is added to the database
+        //then a new reciprocal is added to the database
         /** @var ElementAttribute $reciprocal */
         $reciprocal = $statement->reciprocal;
         //we should have created 2 and only 2 attributes
@@ -59,7 +59,7 @@ class ReciprocalElementTest extends TestCase
             'updated_user_id' => $this->admin->id,
         ]);
         $profileProperty = $statement->profile_property;
-        //then then a new reciprocal is added to the database
+        //then a new reciprocal is added to the database
         /** @var ElementAttribute $reciprocal */
         $reciprocal = $statement->reciprocal;
         //we should have created 2 and only 2 attributes
@@ -84,7 +84,7 @@ class ReciprocalElementTest extends TestCase
             'created_user_id' => $this->user->id,
             'updated_user_id' => $this->user->id,
         ]);
-        //then then a new reciprocal is added to the database
+        //then a new reciprocal is added to the database
         /** @var ElementAttribute $reciprocal */
         $reciprocal = $statement->reciprocal;
         //we should have created 2 and only 2 attributes
@@ -103,7 +103,7 @@ class ReciprocalElementTest extends TestCase
         //given a new statement with a reciprocal property (has broader)
         /** @var ElementAttribute $statement */
         $statement       = factory(ElementAttribute::class)->states('resource', 'has_inverse')->create(['object'=> 'http://foobar.com', 'related_schema_property_id' => null]);
-        //then then a new reciprocal is added to the database
+        //then a new reciprocal is added to the database
         /** @var ElementAttribute $reciprocal */
         $reciprocal = $statement->reciprocal;
         //we should have created 2 and only 2 attributes
@@ -126,7 +126,7 @@ class ReciprocalElementTest extends TestCase
             'created_user_id' => $this->admin->id,
             'updated_user_id' => $this->admin->id,
         ]);
-        //then then a new reciprocal is added to the database
+        //then a new reciprocal is added to the database
         /** @var ElementAttribute $reciprocal */
         $reciprocal = ElementAttribute::find($statement->reciprocal_property_element_id);
         //we should have created 2 and only 2 attributes
@@ -232,7 +232,7 @@ class ReciprocalElementTest extends TestCase
             'updated_user_id'    => $this->admin->id,
             'schema_property_id' => $element->id,
         ]);
-        //then then a new reciprocal is added to the database
+        //then a new reciprocal is added to the database
         /** @var ElementAttribute $reciprocal */
         $reciprocal = $statement->reciprocal;
         //we should have created 2 and only 2 attributes

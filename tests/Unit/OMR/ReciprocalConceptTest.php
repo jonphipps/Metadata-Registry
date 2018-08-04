@@ -42,7 +42,7 @@ class ReciprocalConceptTest extends TestCase
             'concept_id'      => $concept->id
 
         ]);
-        //then then a new reciprocal is added to the database
+        //then a new reciprocal is added to the database
         /** @var ConceptAttribute $reciprocal */
         $reciprocal = $statement->reciprocal;
         //we should have created 2 and only 2 attributes
@@ -67,7 +67,7 @@ class ReciprocalConceptTest extends TestCase
             'updated_user_id' => $this->admin->id,
         ]);
         $profileProperty = $statement->profile_property;
-        //then then a new reciprocal is added to the database
+        //then a new reciprocal is added to the database
         /** @var ConceptAttribute $reciprocal */
         $reciprocal = $statement->reciprocal;
         //we should have created 2 and only 2 attributes
@@ -92,7 +92,7 @@ class ReciprocalConceptTest extends TestCase
             'created_user_id' => $this->user->id,
             'updated_user_id' => $this->user->id,
         ]);
-        //then then a new reciprocal is added to the database
+        //then a new reciprocal is added to the database
         /** @var ConceptAttribute $reciprocal */
         $reciprocal = $statement->reciprocal;
         //we should have created 2 and only 2 attributes
@@ -111,7 +111,7 @@ class ReciprocalConceptTest extends TestCase
         //given a new statement with a reciprocal property (has broader)
         /** @var ConceptAttribute $statement */
         $statement       = factory(ConceptAttribute::class)->states('resource', 'has_inverse')->create(['object'=> 'http://foobar.com', 'related_concept_id' => null]);
-        //then then a new reciprocal is added to the database
+        //then a new reciprocal is added to the database
         /** @var ConceptAttribute $reciprocal */
         $reciprocal = $statement->reciprocal;
         //we should have created 2 and only 2 attributes
@@ -134,7 +134,7 @@ class ReciprocalConceptTest extends TestCase
             'created_user_id' => $this->admin->id,
             'updated_user_id' => $this->admin->id,
         ]);
-        //then then a new reciprocal is added to the database
+        //then a new reciprocal is added to the database
         /** @var ConceptAttribute $reciprocal */
         $reciprocal = ConceptAttribute::find($statement->reciprocal_concept_property_id);
         //we should have created 2 and only 2 attributes
