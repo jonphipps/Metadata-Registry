@@ -3,16 +3,21 @@ jobs:
   build:
     docker:
     - image: circleci/php:7.1-cli-node-browsers
+      environment:
+        MYSQL_ROOT_HOST: %
     - image: circleci/mysql:5.7.19
+      environment:
+        MYSQL_ALLOW_EMPTY_PASSWORD: true
+        MYSQL_ROOT_HOST: %
+        MYSQL_DATABASE: circle_test
+        MYSQL_USER: root
+        MYSQL_PASSWORD:
     working_directory: ~/jonphipps/Metadata-Registry
     parallelism: 1
     shell: /bin/bash --login
     environment:
       CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
       CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
-      MYSQL_DATABASE: circle_test
-      MYSQL_USER: ubuntu
-      MYSQL_PASSWORD: ubuntu
     command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
     steps:
       - checkout
@@ -22,9 +27,7 @@ jobs:
       - run: sudo apt-get install -y libpng-dev
       - run: sudo docker-php-ext-install gd
       - run: sudo docker-php-ext-install pdo_mysql
-      - run:
-          working_directory: ~/jonphipps/Metadata-Registry
-          command: sudo apt-get install raptor2-utils
+      - run: sudo apt-get install raptor2-utils
     # Checkout
     #   This would typically go in either a build or a build-and-test job when using workflows
     # This is based on your 1.0 configuration file or project settings
