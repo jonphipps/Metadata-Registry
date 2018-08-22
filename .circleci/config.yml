@@ -1,5 +1,4 @@
 version: 2
-
 jobs:
   build:
     docker:
@@ -15,7 +14,7 @@ jobs:
       - checkout
       - run:
           working_directory: ~/jonphipps/Metadata-Registry
-          command: sudo apt-get install raptor-utils
+          command: sudo apt-get install raptor2-utils
       - run:
           working_directory: ~/jonphipps/Metadata-Registry
           command: 'sudo redis-cli ping >/dev/null 2>&1 || sudo service redis-server
