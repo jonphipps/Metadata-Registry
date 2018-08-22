@@ -12,18 +12,12 @@ jobs:
 
     steps:
       - checkout
+      - run: sudo docker-php-ext-install zip
+      - run: sudo apt-get install -y libpng-dev
+      - run: sudo docker-php-ext-install gd
       - run:
           working_directory: ~/jonphipps/Metadata-Registry
           command: sudo apt-get install raptor2-utils
-      - run:
-          working_directory: ~/jonphipps/Metadata-Registry
-          command: 'sudo redis-cli ping >/dev/null 2>&1 || sudo service redis-server
-            start; sudo service memcached status || sudo service memcached start; '
-      - run:
-          working_directory: ~/jonphipps/Metadata-Registry
-          command: |-
-            printf '127.0.0.1       registry.dev
-            ' | sudo tee -a /etc/hosts
     # Checkout
     #   This would typically go in either a build or a build-and-test job when using workflows
     # This is based on your 1.0 configuration file or project settings
