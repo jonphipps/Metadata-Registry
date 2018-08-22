@@ -1,0 +1,94 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+    - image: circleci/php:7.1-cli-node-browsers
+    working_directory: ~/jonphipps/Metadata-Registry
+    parallelism: 1
+    shell: /bin/bash --login
+    environment:
+      CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
+      CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
+
+    steps:
+      - checkout
+      - run:
+          working_directory: ~/jonphipps/Metadata-Registry
+          command: sudo apt-get install raptor-utils
+      - run:
+          working_directory: ~/jonphipps/Metadata-Registry
+          command: 'sudo redis-cli ping >/dev/null 2>&1 || sudo service redis-server
+            start; sudo service memcached status || sudo service memcached start; '
+      - run:
+          working_directory: ~/jonphipps/Metadata-Registry
+          command: |-
+            printf '127.0.0.1       registry.dev
+            ' | sudo tee -a /etc/hosts
+    # Checkout
+    #   This would typically go in either a build or a build-and-test job when using workflows
+    # This is based on your 1.0 configuration file or project settings
+      - run: mv .env.circle .env
+    # Dependencies
+    #   This would typically go in either a build or a build-and-test job when using workflows
+    # Restore the dependency cache
+      - restore_cache:
+          keys:
+          # This branch if available
+          - v1-dep-{{ .Branch }}-
+          # Default branch if not
+          - v1-dep-beta-
+          # Any branch if there are none on the default branch - this should be unnecessary if you have your default branch configured correctly
+          - v1-dep-
+    # This is based on your 1.0 configuration file or project settings
+      - run: yarn
+      - run: sudo composer self-update && composer --version
+      - run: sudo chown ubuntu ~/.composer -R
+      - run: composer install --prefer-dist --no-interaction
+    # Save dependency cache
+      - save_cache:
+          key: v1-dep-{{ .Branch }}-{{ epoch }}
+          paths:
+          # This is a broad list of cache paths to include many possible development environments
+          # You can probably delete some of these entries
+          # These cache paths were specified in the 1.0 config
+          - ~/.composer
+          - ~/.cache/yarn
+          - ./node_modules
+    # Test
+    #   This would typically be a build job when using workflows, possibly combined with build
+    # This is based on your 1.0 configuration file or project settings
+      - run: npm run production
+      - run: php artisan migrate -vvv --seed --force
+      - run: php artisan key:generate --force
+      - run:
+          command: ./vendor/laravel/dusk/bin/chromedriver-linux
+          background: true
+      - run:
+          command: php artisan serve
+          background: true
+    # This is based on your 1.0 configuration file or project settings
+      - run: ./vendor/bin/phpunit
+      - run: php artisan dusk
+    # Deployment
+    # Your existing circle.yml file contains deployment steps.
+    # The config translation tool does not support translating deployment steps
+    # since deployment in CircleCI 2.0 are better handled through workflows.
+    # See the documentation for more information https://circleci.com/docs/2.0/workflows/
+    # Teardown
+    #   If you break your build into multiple jobs with workflows, you will probably want to do the parts of this that are relevant in each
+    # Save test results
+      - store_test_results:
+          path: /tmp/circleci-test-results
+    # Save artifacts
+      - store_artifacts:
+          path: /tmp/circleci-artifacts
+      - store_artifacts:
+          path: tests/Browser/screenshots
+      - store_artifacts:
+          path: tests/Browser/console
+      - store_artifacts:
+          path: storage/logs
+      - store_artifacts:
+          path: /tmp/circleci-test-results
+
