@@ -3,18 +3,25 @@ jobs:
   build:
     docker:
     - image: circleci/php:7.1-cli-node-browsers
+    - image: circleci/mysql:5.7.19
     working_directory: ~/jonphipps/Metadata-Registry
     parallelism: 1
     shell: /bin/bash --login
     environment:
       CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
       CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
-
+      MYSQL_DATABASE: circle_test
+      MYSQL_USER: ubuntu
+      MYSQL_PASSWORD: ubuntu
+    command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
     steps:
       - checkout
       - run: sudo docker-php-ext-install zip
+      - run: sudo docker-php-ext-install pcntl
+      - run: sudo docker-php-ext-install intl
       - run: sudo apt-get install -y libpng-dev
       - run: sudo docker-php-ext-install gd
+      - run: sudo docker-php-ext-install pdo_mysql
       - run:
           working_directory: ~/jonphipps/Metadata-Registry
           command: sudo apt-get install raptor2-utils
