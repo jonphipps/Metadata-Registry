@@ -4,14 +4,14 @@ jobs:
     docker:
     - image: circleci/php:7.1-cli-node-browsers
       environment:
-        MYSQL_ROOT_HOST: %
+        - MYSQL_ROOT_HOST=%
     - image: circleci/mysql:5.7.19
       environment:
-        MYSQL_ALLOW_EMPTY_PASSWORD: true
-        MYSQL_ROOT_HOST: %
-        MYSQL_DATABASE: circle_test
-        MYSQL_USER: root
-        MYSQL_PASSWORD:
+        - MYSQL_ROOT_HOST=%
+        - MYSQL_ALLOW_EMPTY_PASSWORD=true
+        - MYSQL_DATABASE=circle_test
+        - MYSQL_USER=root
+        - MYSQL_PASSWORD=
     working_directory: ~/jonphipps/Metadata-Registry
     parallelism: 1
     shell: /bin/bash --login
