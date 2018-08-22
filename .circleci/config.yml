@@ -36,7 +36,6 @@ jobs:
     # This is based on your 1.0 configuration file or project settings
       - run: yarn
       - run: sudo composer self-update && composer --version
-      - run: sudo chown ubuntu ~/.composer -R
       - run: composer install --prefer-dist --no-interaction
     # Save dependency cache
       - save_cache:
