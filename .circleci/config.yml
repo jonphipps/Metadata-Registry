@@ -6,23 +6,24 @@ jobs:
       environment:
         - MYSQL_ROOT_HOST=%
     - image: circleci/mysql:5.7-ram
+      command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
       environment:
         - MYSQL_ROOT_HOST=%
         - MYSQL_ALLOW_EMPTY_PASSWORD=true
         - MYSQL_DATABASE=circle_test
         - MYSQL_USER=root
         - MYSQL_PASSWORD=
-    - image: redis:2.8.19
+    - image: redis
     working_directory: ~/jonphipps/Metadata-Registry
     parallelism: 1
     shell: /bin/bash --login
     environment:
       CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
       CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
-    command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
     steps:
       - checkout
       - run: sudo apt-get update
+      - run: sudo docker-php-ext-install mysqli
       - run: sudo docker-php-ext-install zip
       - run: sudo docker-php-ext-install pcntl
       - run: sudo docker-php-ext-install intl
