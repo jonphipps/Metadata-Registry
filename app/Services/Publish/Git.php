@@ -60,6 +60,8 @@ class Git
                 //todo: this is much too heavy-handed. There may be previously published vocabs that aren't being published now
                 //delete the dir
                 Storage::disk($disk)->deleteDir($projectPath);
+            } else {
+                $git->pull();
             }
         }
         if (! Storage::disk($disk)->exists($projectPath)) {

@@ -1,14 +1,14 @@
 # default values
 all:
-  title_prefix:        "The Registry! :: "
-  base_domain:         "http://registry/uri/"
-  default_language:    en
-  default_status_id:   1
-  default_conneg_type: rdf
-  schema_profile_id:   1
-
+  title_prefix:          "The Registry! :: "
+  base_domain:           "http://registry/uri/"
+  default_language:      en
+  default_status_id:     1
+  default_conneg_type:   rdf
+  schema_profile_id:     1
+  vocabulary_profile_id: 2
 # these values may be edited for a localized install
-  admin_email:         sysadmin@metadataregistry.org
-  mysql_command:       mysql
-  db_load_filename:    swregistry.sql
-  sf_root_dir_local:   {insert full path to the root of the symfony code}}
+  admin_email:           sysadmin@metadataregistry.org
+  mysql_command:         mysql
+  db_load_filename:      swregistry.sql
+  sf_root_dir_local:     {insert full path to the root of the symfony code}}

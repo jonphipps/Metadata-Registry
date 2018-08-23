@@ -74,7 +74,7 @@ class GitHubService
             'tag_name'         => $this->release->tag_name,
             'target_commitish' => $this->release->target_commitish,
             'name'             => $this->release->name,
-            'body'             => $this->release->body,
+            'body'             => $this->release->body ?? '',
             'draft'            => $this->release->is_draft ?? false,
             'prerelease'       => $this->release->is_prerelease ?? false,
         ];

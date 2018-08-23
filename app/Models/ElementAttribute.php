@@ -154,9 +154,16 @@ class ElementAttribute extends Model
                 }
                 if ($attribute->isDirty('object')) {
                     if ($attribute->reciprocal_property_element_id) {
+
+                        //only procede if we allow statement generation
+                        if (! $attribute->project()->generate_statements) {
+                            return;
+                        }
+
                         $attribute->reciprocal->createHistory('deleted');
                         $attribute->reciprocal()->delete();
                     }
+
                     $attribute->createReciprocal();
 
                     return;
@@ -167,6 +174,12 @@ class ElementAttribute extends Model
 
         static::deleted(function (ElementAttribute $attribute) {
             $attribute->createHistory('deleted');
+
+            //only procede if we allow statement generation
+            if (! $attribute->project()->generate_statements) {
+                return;
+            }
+
             if ($attribute->reciprocal_property_element_id) {
                 $reciprocal = self::find($attribute->reciprocal_property_element_id);
                 if ($reciprocal) {
@@ -248,6 +261,10 @@ class ElementAttribute extends Model
 
     public function createReciprocal()
     {
+        //only procede if we allow statement generation
+        if (! $this->project()->generate_statements) {
+            return false;
+        }
         //is the object a uri?
         if (! filter_var($this->object, FILTER_VALIDATE_URL)) {
             return false;
@@ -308,12 +325,17 @@ class ElementAttribute extends Model
 
     public function reciprocal(): ?HasOne
     {
-        return $this->hasOne(self::class, 'reciprocal_property_element_id', 'id');
+        return $this->hasOne(ElementAttribute::class, 'reciprocal_property_element_id');
     }
 
     public function inverse(): ?HasOne
     {
-        return $this->hasOne(self::class, 'reciprocal_property_element_id', 'id');
+        return $this->hasOne(ElementAttribute::class, 'related_schema_property_id');
+    }
+
+    public function project()
+    {
+        return $this->element->elementset->project;
     }
 
     /*

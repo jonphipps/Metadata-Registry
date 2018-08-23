@@ -78,7 +78,7 @@ trait UsesSymfony
         return '.env.testing';
     }
 
-    protected static function clearSymfonyCache(): void
+    protected function clearSymfonyCache(): void
     {
         $process = new Process('php symfony cc');
         $process->run();

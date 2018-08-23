@@ -3,8 +3,10 @@
 
 namespace Tests\Unit\OMR;
 
+use App\Models\Concept;
 use App\Models\ConceptAttribute;
 use App\Models\ConceptAttributeHistory;
+use App\Models\Project;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Spatie\Snapshots\MatchesSnapshots;
 use Tests\TestCase;
@@ -26,13 +28,21 @@ class ReciprocalConceptTest extends TestCase
         $this->actingAs($this->admin);
         $statementCount = ConceptAttribute::count();
         $historyCount = ConceptAttributeHistory::count();
+        $concept = factory(Concept::class)->create();
+        //given a project with the generate_statements atrribute set to true
+        $project                      = $concept->vocabulary->project;
+        $project->generate_statements = true;
+        $project->save();
+
         //given a new statement with a reciprocal property (has broader)
         /** @var ConceptAttribute $statement */
-        $statement = factory(ConceptAttribute::class)->states('resource', 'has_reciprocal')->create([
-                'created_user_id' => $this->admin->id,
-                'updated_user_id' => $this->admin->id,
-            ]);
-        //then then a new reciprocal is added to the database
+        $statement = factory(ConceptAttribute::class)->states('resource', 'has_inverse')->create([
+            'created_user_id' => $this->admin->id,
+            'updated_user_id' => $this->admin->id,
+            'concept_id'      => $concept->id
+
+        ]);
+        //then a new reciprocal is added to the database
         /** @var ConceptAttribute $reciprocal */
         $reciprocal = $statement->reciprocal;
         //we should have created 2 and only 2 attributes
@@ -41,7 +51,6 @@ class ReciprocalConceptTest extends TestCase
         $this->assertEquals($statement->id, $reciprocal->reciprocal_concept_property_id);
         $this->assertEquals($statement->concept_id, $reciprocal->related_concept_id);
         $this->assertEquals($statement->related_concept_id, $reciprocal->concept_id);
-        $this->assertEquals($statement->profile_property_id, $reciprocal->profile_property_id);
         $this->assertTrue($reciprocal->is_generated);
     }
 
@@ -58,7 +67,7 @@ class ReciprocalConceptTest extends TestCase
             'updated_user_id' => $this->admin->id,
         ]);
         $profileProperty = $statement->profile_property;
-        //then then a new reciprocal is added to the database
+        //then a new reciprocal is added to the database
         /** @var ConceptAttribute $reciprocal */
         $reciprocal = $statement->reciprocal;
         //we should have created 2 and only 2 attributes
@@ -83,7 +92,7 @@ class ReciprocalConceptTest extends TestCase
             'created_user_id' => $this->user->id,
             'updated_user_id' => $this->user->id,
         ]);
-        //then then a new reciprocal is added to the database
+        //then a new reciprocal is added to the database
         /** @var ConceptAttribute $reciprocal */
         $reciprocal = $statement->reciprocal;
         //we should have created 2 and only 2 attributes
@@ -102,7 +111,7 @@ class ReciprocalConceptTest extends TestCase
         //given a new statement with a reciprocal property (has broader)
         /** @var ConceptAttribute $statement */
         $statement       = factory(ConceptAttribute::class)->states('resource', 'has_inverse')->create(['object'=> 'http://foobar.com', 'related_concept_id' => null]);
-        //then then a new reciprocal is added to the database
+        //then a new reciprocal is added to the database
         /** @var ConceptAttribute $reciprocal */
         $reciprocal = $statement->reciprocal;
         //we should have created 2 and only 2 attributes
@@ -125,7 +134,7 @@ class ReciprocalConceptTest extends TestCase
             'created_user_id' => $this->admin->id,
             'updated_user_id' => $this->admin->id,
         ]);
-        //then then a new reciprocal is added to the database
+        //then a new reciprocal is added to the database
         /** @var ConceptAttribute $reciprocal */
         $reciprocal = ConceptAttribute::find($statement->reciprocal_concept_property_id);
         //we should have created 2 and only 2 attributes
@@ -181,4 +190,34 @@ class ReciprocalConceptTest extends TestCase
         $this->assertEquals($historyCount + 4, ConceptAttributeHistory::count());
     }
 
+    /** @test inverse */
+    public function when_a_concept_attribute_is_created_that_has_an_inverse_profile_property_then_a_reciprocal_is_NOT_generated_if_the_generator_is_disabled_by_the_project()
+    {
+        $this->actingAs($this->admin);
+        $statementCount = ConceptAttribute::count();
+        $historyCount   = ConceptAttributeHistory::count();
+        $concept = factory(Concept::class)->create();
+        //given a project with the generate_statements atrribute set to false
+        $project = $concept->vocabulary->project;
+        $project->generate_statements = false;
+        $project->save();
+
+        //given a new statement with a reciprocal property (has broader)
+        /** @var ConceptAttribute $statement */
+        $statement = factory(ConceptAttribute::class)->states('resource', 'has_inverse')->create([
+            'created_user_id' => $this->admin->id,
+            'updated_user_id' => $this->admin->id,
+            'concept_id' => $concept->id
+
+        ]);
+
+        //then a new reciprocal is NOT added to the database
+        /** @var ConceptAttribute $reciprocal */
+        $reciprocal = $statement->reciprocal;
+        //we should have created 2 and only 2 attributes
+        $this->assertEquals($statementCount + 1, ConceptAttribute::count());
+        $this->assertEquals($historyCount + 1, ConceptAttributeHistory::count());
+        $this->assertNull($reciprocal);
+        $this->assertNull($statement->review_reciprocal);
+    }
 }

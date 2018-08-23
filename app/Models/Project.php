@@ -63,6 +63,7 @@ use Laracasts\Matryoshka\Cacheable;
  * @property string|null $prefixes
  * @property string|null $google_sheet_url
  * @property int|null $repo_is_valid
+ * @property bool $generate_statements
  * @property-read \App\Models\Access\User\User|null $creator
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Elementset[] $elementsets
  * @property-read \App\Models\Access\User\User|null $eraser
@@ -88,6 +89,7 @@ use Laracasts\Matryoshka\Cacheable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereDeletedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereGenerateStatements($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereGoogleSheetUrl($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Project whereIndAffiliation($value)
