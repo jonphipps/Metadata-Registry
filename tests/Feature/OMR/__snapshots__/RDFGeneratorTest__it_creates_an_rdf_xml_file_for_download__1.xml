@@ -19,21 +19,6 @@
     <rdakit:toolkitLabel xml:lang="fr">audio</rdakit:toolkitLabel>
     <rdakit:toolkitDefinition xml:lang="en">A media type used to store recorded sound, designed for use with a playback device such as a turntable, audiocassette player, CD player, or MP3 player.</rdakit:toolkitDefinition>
   </skos:Concept>
-  <!-- Concept: computer  -->
-  <skos:Concept rdf:about="http://rdaregistry.info/termList/RDAMediaType/1003" xml:lang="en">
-    <skos:inScheme rdf:resource="http://rdaregistry.info/termList/RDAMediaType"/>
-    <reg:status rdf:resource="http://metadataregistry.org/uri/RegStatus/1001"/>
-    <reg:identifier rdf:resource="http://metadataregistry.org/concepts/477"/>
-    <skos:prefLabel xml:lang="en">computer</skos:prefLabel>
-    <skos:definition xml:lang="en">A media type used to store electronic files, designed for use with a computer.</skos:definition>
-    <skos:scopeNote xml:lang="en">Media that are accessed remotely through file servers as well as direct-access media such as computer tapes and discs are included.</skos:scopeNote>
-    <skos:prefLabel xml:lang="fr">informatique</skos:prefLabel>
-    <skos:definition xml:lang="fr">Média servant à emmagasiner des fichiers électroniques et conçu pour une utilisation au moyen d’un ordinateur.</skos:definition>
-    <skos:scopeNote xml:lang="fr">Comprend tout média accessible à distance par serveur aussi bien que tout média en accès direct tel que des bandes et des disques informatiques.</skos:scopeNote>
-    <rdakit:toolkitLabel xml:lang="en">computer</rdakit:toolkitLabel>
-    <rdakit:toolkitLabel xml:lang="fr">informatique</rdakit:toolkitLabel>
-    <rdakit:toolkitDefinition xml:lang="en">A media type used to store electronic files, designed for use with a computer.</rdakit:toolkitDefinition>
-  </skos:Concept>
   <!-- Concept: microform  -->
   <skos:Concept rdf:about="http://rdaregistry.info/termList/RDAMediaType/1002" xml:lang="en">
     <skos:inScheme rdf:resource="http://rdaregistry.info/termList/RDAMediaType"/>
@@ -48,6 +33,21 @@
     <rdakit:toolkitLabel xml:lang="en">microform</rdakit:toolkitLabel>
     <rdakit:toolkitLabel xml:lang="fr">microforme</rdakit:toolkitLabel>
     <rdakit:toolkitDefinition xml:lang="en">A media type used to store reduced-size images not readable to the human eye, designed for use with a device such as a microfilm or microfiche reader.</rdakit:toolkitDefinition>
+  </skos:Concept>
+  <!-- Concept: computer  -->
+  <skos:Concept rdf:about="http://rdaregistry.info/termList/RDAMediaType/1003" xml:lang="en">
+    <skos:inScheme rdf:resource="http://rdaregistry.info/termList/RDAMediaType"/>
+    <reg:status rdf:resource="http://metadataregistry.org/uri/RegStatus/1001"/>
+    <reg:identifier rdf:resource="http://metadataregistry.org/concepts/477"/>
+    <skos:prefLabel xml:lang="en">computer</skos:prefLabel>
+    <skos:definition xml:lang="en">A media type used to store electronic files, designed for use with a computer.</skos:definition>
+    <skos:scopeNote xml:lang="en">Media that are accessed remotely through file servers as well as direct-access media such as computer tapes and discs are included.</skos:scopeNote>
+    <skos:prefLabel xml:lang="fr">informatique</skos:prefLabel>
+    <skos:definition xml:lang="fr">Média servant à emmagasiner des fichiers électroniques et conçu pour une utilisation au moyen d’un ordinateur.</skos:definition>
+    <skos:scopeNote xml:lang="fr">Comprend tout média accessible à distance par serveur aussi bien que tout média en accès direct tel que des bandes et des disques informatiques.</skos:scopeNote>
+    <rdakit:toolkitLabel xml:lang="en">computer</rdakit:toolkitLabel>
+    <rdakit:toolkitLabel xml:lang="fr">informatique</rdakit:toolkitLabel>
+    <rdakit:toolkitDefinition xml:lang="en">A media type used to store electronic files, designed for use with a computer.</rdakit:toolkitDefinition>
   </skos:Concept>
   <!-- Concept: microscopic  -->
   <skos:Concept rdf:about="http://rdaregistry.info/termList/RDAMediaType/1004" xml:lang="en">

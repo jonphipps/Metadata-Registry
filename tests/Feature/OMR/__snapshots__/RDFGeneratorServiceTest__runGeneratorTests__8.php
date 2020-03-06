@@ -13,19 +13,6 @@
 <http://rdaregistry.info/termList/RDAMediaType/1001> <http://metadataregistry.org/uri/profile/rdakit/toolkitLabel> "audio"@en .
 <http://rdaregistry.info/termList/RDAMediaType/1001> <http://metadataregistry.org/uri/profile/rdakit/toolkitLabel> "audio"@fr .
 <http://rdaregistry.info/termList/RDAMediaType/1001> <http://metadataregistry.org/uri/profile/rdakit/toolkitDefinition> "A media type used to store recorded sound, designed for use with a playback device such as a turntable, audiocassette player, CD player, or MP3 player."@en .
-<http://rdaregistry.info/termList/RDAMediaType/1003> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
-<http://rdaregistry.info/termList/RDAMediaType/1003> <http://www.w3.org/2004/02/skos/core#inScheme> <http://rdaregistry.info/termList/RDAMediaType> .
-<http://rdaregistry.info/termList/RDAMediaType/1003> <http://metadataregistry.org/uri/profile/regap/status> <http://metadataregistry.org/uri/RegStatus/1001> .
-<http://rdaregistry.info/termList/RDAMediaType/1003> <http://metadataregistry.org/uri/profile/regap/identifier> <http://metadataregistry.org/concepts/477> .
-<http://rdaregistry.info/termList/RDAMediaType/1003> <http://www.w3.org/2004/02/skos/core#prefLabel> "computer"@en .
-<http://rdaregistry.info/termList/RDAMediaType/1003> <http://www.w3.org/2004/02/skos/core#definition> "A media type used to store electronic files, designed for use with a computer."@en .
-<http://rdaregistry.info/termList/RDAMediaType/1003> <http://www.w3.org/2004/02/skos/core#scopeNote> "Media that are accessed remotely through file servers as well as direct-access media such as computer tapes and discs are included."@en .
-<http://rdaregistry.info/termList/RDAMediaType/1003> <http://www.w3.org/2004/02/skos/core#prefLabel> "informatique"@fr .
-<http://rdaregistry.info/termList/RDAMediaType/1003> <http://www.w3.org/2004/02/skos/core#definition> "M\\u00E9dia servant \\u00E0 emmagasiner des fichiers \\u00E9lectroniques et con\\u00E7u pour une utilisation au moyen d\\u2019un ordinateur."@fr .
-<http://rdaregistry.info/termList/RDAMediaType/1003> <http://www.w3.org/2004/02/skos/core#scopeNote> "Comprend tout m\\u00E9dia accessible \\u00E0 distance par serveur aussi bien que tout m\\u00E9dia en acc\\u00E8s direct tel que des bandes et des disques informatiques."@fr .
-<http://rdaregistry.info/termList/RDAMediaType/1003> <http://metadataregistry.org/uri/profile/rdakit/toolkitLabel> "computer"@en .
-<http://rdaregistry.info/termList/RDAMediaType/1003> <http://metadataregistry.org/uri/profile/rdakit/toolkitLabel> "informatique"@fr .
-<http://rdaregistry.info/termList/RDAMediaType/1003> <http://metadataregistry.org/uri/profile/rdakit/toolkitDefinition> "A media type used to store electronic files, designed for use with a computer."@en .
 <http://rdaregistry.info/termList/RDAMediaType/1002> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
 <http://rdaregistry.info/termList/RDAMediaType/1002> <http://www.w3.org/2004/02/skos/core#inScheme> <http://rdaregistry.info/termList/RDAMediaType> .
 <http://rdaregistry.info/termList/RDAMediaType/1002> <http://metadataregistry.org/uri/profile/regap/status> <http://metadataregistry.org/uri/RegStatus/1001> .
@@ -39,6 +26,19 @@
 <http://rdaregistry.info/termList/RDAMediaType/1002> <http://metadataregistry.org/uri/profile/rdakit/toolkitLabel> "microform"@en .
 <http://rdaregistry.info/termList/RDAMediaType/1002> <http://metadataregistry.org/uri/profile/rdakit/toolkitLabel> "microforme"@fr .
 <http://rdaregistry.info/termList/RDAMediaType/1002> <http://metadataregistry.org/uri/profile/rdakit/toolkitDefinition> "A media type used to store reduced-size images not readable to the human eye, designed for use with a device such as a microfilm or microfiche reader."@en .
+<http://rdaregistry.info/termList/RDAMediaType/1003> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<http://rdaregistry.info/termList/RDAMediaType/1003> <http://www.w3.org/2004/02/skos/core#inScheme> <http://rdaregistry.info/termList/RDAMediaType> .
+<http://rdaregistry.info/termList/RDAMediaType/1003> <http://metadataregistry.org/uri/profile/regap/status> <http://metadataregistry.org/uri/RegStatus/1001> .
+<http://rdaregistry.info/termList/RDAMediaType/1003> <http://metadataregistry.org/uri/profile/regap/identifier> <http://metadataregistry.org/concepts/477> .
+<http://rdaregistry.info/termList/RDAMediaType/1003> <http://www.w3.org/2004/02/skos/core#prefLabel> "computer"@en .
+<http://rdaregistry.info/termList/RDAMediaType/1003> <http://www.w3.org/2004/02/skos/core#definition> "A media type used to store electronic files, designed for use with a computer."@en .
+<http://rdaregistry.info/termList/RDAMediaType/1003> <http://www.w3.org/2004/02/skos/core#scopeNote> "Media that are accessed remotely through file servers as well as direct-access media such as computer tapes and discs are included."@en .
+<http://rdaregistry.info/termList/RDAMediaType/1003> <http://www.w3.org/2004/02/skos/core#prefLabel> "informatique"@fr .
+<http://rdaregistry.info/termList/RDAMediaType/1003> <http://www.w3.org/2004/02/skos/core#definition> "M\\u00E9dia servant \\u00E0 emmagasiner des fichiers \\u00E9lectroniques et con\\u00E7u pour une utilisation au moyen d\\u2019un ordinateur."@fr .
+<http://rdaregistry.info/termList/RDAMediaType/1003> <http://www.w3.org/2004/02/skos/core#scopeNote> "Comprend tout m\\u00E9dia accessible \\u00E0 distance par serveur aussi bien que tout m\\u00E9dia en acc\\u00E8s direct tel que des bandes et des disques informatiques."@fr .
+<http://rdaregistry.info/termList/RDAMediaType/1003> <http://metadataregistry.org/uri/profile/rdakit/toolkitLabel> "computer"@en .
+<http://rdaregistry.info/termList/RDAMediaType/1003> <http://metadataregistry.org/uri/profile/rdakit/toolkitLabel> "informatique"@fr .
+<http://rdaregistry.info/termList/RDAMediaType/1003> <http://metadataregistry.org/uri/profile/rdakit/toolkitDefinition> "A media type used to store electronic files, designed for use with a computer."@en .
 <http://rdaregistry.info/termList/RDAMediaType/1004> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
 <http://rdaregistry.info/termList/RDAMediaType/1004> <http://www.w3.org/2004/02/skos/core#inScheme> <http://rdaregistry.info/termList/RDAMediaType> .
 <http://rdaregistry.info/termList/RDAMediaType/1004> <http://metadataregistry.org/uri/profile/regap/status> <http://metadataregistry.org/uri/RegStatus/1001> .
