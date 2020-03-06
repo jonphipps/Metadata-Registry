@@ -199,7 +199,7 @@ class sfCore
     {
       ini_set('unserialize_callback_func', '__autoload');
 
-      function __autoload($class)
+      function spl_autoload_register($class)
       {
         foreach (sfCore::getAutoloadCallables() as $callable)
         {
@@ -277,15 +277,6 @@ class sfCore
       ini_set('unserialize_callback_func', 'spl_autoload_call');
 
       spl_autoload_register(array('sfCore', 'splSimpleAutoload'));
-    }
-    elseif (!function_exists('__autoload'))
-    {
-      ini_set('unserialize_callback_func', '__autoload');
-
-      function __autoload($class)
-      {
-        return sfCore::splSimpleAutoload($class);
-      }
     }
   }
 }
