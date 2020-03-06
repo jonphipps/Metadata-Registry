@@ -232,7 +232,7 @@ class EloquentHistoryRepository implements HistoryContract
      */
     public function renderDescription($text, $assets = false)
     {
-        $assets      = json_decode($assets, true);
+        $assets      = json_decode($assets, true) ?? [];
         $count       = 1;
         $asset_count = count($assets) + 1;
 
