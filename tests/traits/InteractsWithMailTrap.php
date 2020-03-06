@@ -202,7 +202,8 @@ trait InteractsWithMailTrap
     public function receivedAnEmailWithTextBody($textBody)
     {
         $message = $this->fetchLastMessage();
-        $this->assertEquals($textBody, $message['text_body']);
+        $mailBody = $this->client->get($message['txt_path'])->getBody()->getContents();
+        $this->assertEquals($textBody, $mailBody);
     }
 
 
@@ -216,7 +217,8 @@ trait InteractsWithMailTrap
     public function receivedAnEmailWithHtmlBody($htmlBody)
     {
         $message = $this->fetchLastMessage();
-        $this->assertEquals($htmlBody, $message['html_body']);
+        $mailBody = $this->client->get($message['html_path'])->getBody()->getContents();
+        $this->assertEquals($htmlBody, $mailBody);
     }
 
 
@@ -230,7 +232,8 @@ trait InteractsWithMailTrap
     public function seeInEmailTextBody($expected)
     {
         $email = $this->fetchLastMessage();
-        $this->assertContains($expected, $email['text_body'], 'Email body contains text');
+        $textBody = $this->client->get($email['txt_path'])->getBody()->getContents();
+        $this->assertContains($expected, $textBody, 'Email body contains text');
     }
 
 
@@ -244,7 +247,8 @@ trait InteractsWithMailTrap
     public function seeInEmailHtmlBody($expected)
     {
         $email = $this->fetchLastMessage();
-        $this->assertContains($expected, $email['html_body'], 'Email body contains HTML');
+        $htmlBody = $this->client->get($email['html_path'])->getBody()->getContents();
+        $this->assertContains($expected, $htmlBody, 'Email body contains HTML');
     }
 
 
