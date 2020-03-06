@@ -105,3 +105,4 @@ styles.html
 /web/apple-touch-icon.png
 /web/android-chrome-256x256.png
 /web/android-chrome-192x192.png
+*.orig
