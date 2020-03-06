@@ -22,7 +22,7 @@
     "laravel-mix": "^2.0",
     "lodash": "^4.17.4",
     "pace": "^0.0.4",
-    "popper.js": "^1.12",
+    "popper.js": "^1.16",
     "purify-css": "^1.2.5",
     "purifycss-webpack": "^0.7.0",
     "pusher-js": "^4.2.2",
