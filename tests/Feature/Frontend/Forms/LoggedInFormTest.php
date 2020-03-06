@@ -63,7 +63,7 @@ class LoggedInFormTest extends BrowserKitTestCase
      */
     public function testUpdateProfileForm()
     {
-        $rand = rand();
+        $rand = mt_rand();
 
         if (config('access.users.change_email')) {
             $this->actingAs($this->user)
