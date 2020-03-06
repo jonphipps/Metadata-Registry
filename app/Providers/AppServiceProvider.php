@@ -7,6 +7,7 @@ use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Carbon\Carbon;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
@@ -73,6 +74,13 @@ class AppServiceProvider extends ServiceProvider
 
         //register validation rules
         Validator::extend('googleUrl', ValidateGoogleUrl::class . '@validateSheet');
+
+        //throttle emails if it gets crazy (mostly for testing)
+        $throttleRate = config('mail.throttleToMessagesPerMin');
+        if ($throttleRate) {
+            $throttlerPlugin = new \Swift_Plugins_ThrottlerPlugin($throttleRate, \Swift_Plugins_ThrottlerPlugin::MESSAGES_PER_MINUTE);
+            Mail::getSwiftMailer()->registerPlugin($throttlerPlugin);
+        }
     }
 
     /**

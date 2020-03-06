@@ -120,4 +120,7 @@ return [
         ],
     ],
 
+    //set the rate to throttle emails
+    //https://mailtrap.io has a rate limit of 2 emails/sec per inbox, but consider being even more conservative.
+    'throttleToMessagesPerMin' => env('MAIL_THROTTLE_TO_MESSAGES_PER_MIN', null),
 ];
