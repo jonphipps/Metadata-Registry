@@ -6,6 +6,8 @@ use App\Jobs\Publish;
 use App\Models\Access\User\User;
 use App\Models\Releasable;
 use App\Models\Release;
+use Database\TruncateTable;
+use DB;
 use Doctrine\DBAL\Schema\Table;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\Notification;
@@ -43,8 +45,8 @@ class PublishTest extends TestCase
         $release->elementsets()->attach(83);
 
         //start with an empty test directory
-        storage::disk('test')->deleteDirectory('projects');
-        DatabaseNotification::truncate();
+        Storage::disk('test')->deleteDirectory('projects');
+        DB::table('notifications')->truncate();
 
         //when I pass the release to the publish function
         dispatch(new Publish($release, 'test'));
