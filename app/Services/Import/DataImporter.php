@@ -251,9 +251,10 @@ class DataImporter
     public function getStats(): Collection
     {
         $errorCount = 0;
-        if ($this->errors !== null) {
-            foreach ($this->errors as $error) {
-                $errorCount += \count($error);
+        if ($this->errors->isNotEmpty()) {
+            $errors = $this->errors->all();
+            foreach ($errors as $error) {
+                $errorCount += is_array($error) ? \count($error) : 1;
             }
         }
 
@@ -504,7 +505,7 @@ class DataImporter
      */
     private function validateRequired($value, array $column): string
     {
-        if (empty($value) && $column['required']) {
+        if (empty($value) && ($column['required'] ?? False)) {
             $error = self::makeErrorMessage('Empty required attribute');
             $this->logRowError($error, $column['label'], $this->currentRowName, 'Row Fatal');
         }
