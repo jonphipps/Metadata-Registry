@@ -313,24 +313,24 @@ class DataImporter
         }
 
         //check for unknown columns
-        if (\count($newColumns)) {
-            if (\count($newColumns) > 1) {
-                $unknown = 'columns: ';
-                foreach ($newColumns as $item) {
+        if (count($newColumns)) {
+            $unknownCount = 0;
+            $unknown      = '';
+            foreach ($newColumns as $item) {
+                if ($item['id'] === "") {
                     $unknown .= '"' . $item['label'] . '", ';
-                }
-                $unknown = rtrim($unknown, ', ') . ' ...are';
-            } else {
-                $unknown = 'column: ';
-                foreach ($newColumns as $item) {
-                    $unknown .= '"' . $item['label'] . '" ...is';
+                    $unknownCount++;
                 }
             }
-            throw new UnknownAttributeException('The ' . $unknown . ' unknown and need to be registered with the Profile');
+            if ($unknownCount) {
+                $message =
+                    $unknownCount > 1 ? "The columns: " . rtrim($unknown, ", ") . " are unknown and need to be registered with the Profile" :
+                        "The column: " . rtrim($unknown, ", ") . " is unknown and needs to be registered with the Profile";
+                throw new UnknownAttributeException($message);
+            }
         }
 
         //check for missing required columns
-
         $missingRequired = $mapHeaders->filter(function ($value, $key) use ($columnHeaders) {
             return $value['required'] && ! $columnHeaders->contains($key);
         })->map(function ($item, $key) {
