@@ -106,3 +106,5 @@ styles.html
 /web/android-chrome-256x256.png
 /web/android-chrome-192x192.png
 *.orig
+/apps/frontend/config/app.yml
+/config/properties.ini
