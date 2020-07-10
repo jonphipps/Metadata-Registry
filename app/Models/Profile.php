@@ -127,8 +127,11 @@ class Profile extends Model
         $label    = explode('[', $test[0])[0];
         //get the property by looking up the label
         $profile = $this->profile_properties()->where('label', $label)->first();
+        $id = $profile ? $profile->id : '';
+        $required = $profile ? $profile->is_required : false;
+        $object = $profile ? $profile->is_object_prop : false;
 
         //return the property id, the label, and the language
-        return ['id' => $profile ? $profile->id : '', 'label' => $header, 'language' => $language];
+        return ['id' => $id, 'label' => $header, 'language' => $language, 'required' => $required, 'object' => $object];
     }
 }
