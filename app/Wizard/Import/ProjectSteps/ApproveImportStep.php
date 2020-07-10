@@ -39,10 +39,10 @@ class ApproveImportStep extends Step
                 $stats                    = $import->preprocess;
                 $datum['id']              = $import->id;
                 $datum['worksheet']       = $import->worksheet;
-                $datum['added']           = $stats['added'];
-                $datum['updated']         = $stats['updated'];
-                $datum['deleted']         = $stats['deleted'];
-                $datum['errors']          = $stats['errors'];
+                $datum['added']           = $stats['added'] ?? 0;
+                $datum['updated']         = $stats['updated'] ?? 0;
+                $datum['deleted']         = $stats['deleted'] ?? 0;
+                $datum['errors']          = $stats['errors'] ?? 0;
                 $datum['errors_detail']   = ($stats['errors'] > 0) ? $import->errors : '';
                 $data[]                   = $datum;
                 if ($stats['errors']) {
