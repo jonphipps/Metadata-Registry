@@ -13,6 +13,7 @@ use App\Models\Export;
 use App\Models\ProfileProperty;
 use Illuminate\Database\Eloquent\Collection as DBCollection;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use const null;
 use function collect;
 
@@ -462,20 +463,28 @@ class DataImporter
      */
     private function makeFqn($prefixes, $uri): string
     {
-        $result = $uri;
+        //if the $uri is fully formed or isn't a curie just return it
+        if($this->validate_url($uri) or ! Str::contains($uri, ':')) {
+            return $uri;
+        }
         foreach ($prefixes as $prefix => $fullUri) {
-            $result = preg_replace('#' . $prefix . ':#uis', $fullUri, $uri);
-            if ($result !== $uri) {
-                break;
+            //is there a trailing slash or hash in fulluri? --> use it
+            //if no trailing hash or slash add slash to fulluri
+            if(! preg_match('|^.*[#/]$|uis', $fullUri)) {
+                $fullUri .= '/';
+            }
+            //look for the prefix followed by a colon in the uri
+            if (preg_match('|' . $prefix . ':|uis', $uri)) {
+                //replace the prefix+colon in the uri with $fulluri
+                return preg_replace('|' . $prefix . ':|uis', $fullUri, $uri);
             }
         }
-        if ($uri === $result && strpos($uri, ':') && ! strpos($uri, '://')) {
-            //we have an unregistered prefix
-            $prefix = str_before($uri, ':');
-            $this->logRowError(self::makeErrorMessage("'$prefix' is an unregistered prefix and cannot be expanded to form a full URI"), $this->currentColumnName, $this->currentRowName, 'warning');
-        }
+        //We get here if there is no prefix match
+        //we have an unregistered prefix
+        $prefix = str_before($uri, ':');
+        $this->logRowError(self::makeErrorMessage("'$prefix' is an unregistered prefix and cannot be expanded to form a full URI"), $this->currentColumnName, $this->currentRowName, 'warning');
 
-        return $result;
+        return $uri;
     }
 
     /**
@@ -511,5 +520,14 @@ class DataImporter
         }
 
         return $value;
+    }
+
+    private function validate_url($url): bool
+    {
+        $path         = parse_url($url, PHP_URL_PATH);
+        $encoded_path = array_map('urlencode', explode('/', $path));
+        $url          = str_replace($path, implode('/', $encoded_path), $url);
+
+        return filter_var($url, FILTER_VALIDATE_URL) ? true : false;
     }
 }
