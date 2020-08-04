@@ -112,7 +112,7 @@
         "symfony/config"                 : "^3.3",
         "symfony/dom-crawler"            : "^3.3",
         "symfony/filesystem"             : "^3.3",
-        "symfony/intl"                   : "^4.0",
+        "symfony/intl"                   : "^5.1",
         "symfony/psr-http-message-bridge": "^1.0",
         "techlab/smartwizard"            : "^4.2",
         "thedevsaddam/laravel-schema"    : "^2.0",
