@@ -24,14 +24,14 @@ class ImportErrorsTest extends TestCase
     use DatabaseTransactions;
     use MatchesSnapshots, UsesWorksheetData;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->dontSetupDatabase();
         parent::setUp();
     }
 
     /** @test duplicate prefLabel */
-    public function a_concept_cannot_have_the_same_preflabel_language_combination_as_another_concept()
+    public function a_concept_cannot_have_the_same_preflabel_language_combination_as_another_concept() : void
     {
         self::markTestIncomplete('this needs to be reimplemented');
         $this->expectException(DuplicatePrefLabelException::class);
@@ -84,7 +84,7 @@ class ImportErrorsTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_an_error_if_required_attribute_columns_are_missing()
+    public function it_returns_an_error_if_required_attribute_columns_are_missing() : void
     {
         $this->artisan('db:seed', [ '--class' => 'RDAMediaTypeSeeder' ]);
         //change the profile
@@ -111,7 +111,7 @@ class ImportErrorsTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_an_error_if_individual_required_attribute_values_are_missing()
+    public function it_returns_an_error_if_individual_required_attribute_values_are_missing(): void
     {
         $this->artisan('db:seed', [ '--class' => 'RDAMediaTypeSeeder' ]);
         //change the profile
@@ -164,7 +164,7 @@ class ImportErrorsTest extends TestCase
     }
 
     /** @test */
-    public function it_DOES_NOT_return_an_error_if_individual_required_attribute_values_are_missing_and_the_profile_was_changed_after_the_export()
+    public function it_DOES_NOT_return_an_error_if_individual_required_attribute_values_are_missing_and_the_profile_was_changed_after_the_export(): void
     {
         $this->artisan('db:seed', [ '--class' => 'RDAMediaTypeSeeder' ]);
 
@@ -191,7 +191,7 @@ class ImportErrorsTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_an_error_if_individual_attribute_values_contain_an_unknown_prefix()
+    public function it_returns_an_error_if_individual_attribute_values_contain_an_unknown_prefix(): void
     {
         $this->artisan('db:seed', [ '--class' => 'RDAMediaTypeSeeder' ]);
         //given a data set pulled from a worksheet
@@ -210,7 +210,7 @@ class ImportErrorsTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_an_error_if_there_are_unknown_attributes()
+    public function it_returns_an_error_if_there_are_unknown_attributes(): void
     {
         $this->artisan('db:seed', [ '--class' => 'RDAMediaTypeSeeder' ]);
         //given a data set pulled from a worksheet
@@ -232,7 +232,7 @@ class ImportErrorsTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_an_error_if_there_are_duplicate_attributes()
+    public function it_returns_an_error_if_there_are_duplicate_attributes() : void
     {
         $this->artisan('db:seed', [ '--class' => 'RDAMediaTypeSeeder' ]);
         //given a data set pulled from a worksheet
