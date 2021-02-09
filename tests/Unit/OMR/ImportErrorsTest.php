@@ -33,7 +33,7 @@ class ImportErrorsTest extends TestCase
     /** @test duplicate prefLabel */
     public function a_concept_cannot_have_the_same_preflabel_language_combination_as_another_concept()
     {
-        $this->markTestIncomplete('this needs to be reimplemented');
+        self::markTestIncomplete('this needs to be reimplemented');
         $this->expectException(DuplicatePrefLabelException::class);
         $this->actingAs($this->admin);
         $concept1 = factory(Concept::class)->create([ 'vocabulary_id' => 37]);
@@ -57,7 +57,7 @@ class ImportErrorsTest extends TestCase
         //we should see an exception thrown
     }
     /** @test not duplicate prefLabel */
-    public function a_concept_can_have_the_same_preflabel_language_combination_as_another_concept_if_vocabs_are_different()
+    public function a_concept_can_have_the_same_preflabel_language_combination_as_another_concept_if_vocabs_are_different(): void
     {
         $this->actingAs($this->admin);
         $vocabulary = factory(Vocabulary::class)->create();
@@ -80,7 +80,7 @@ class ImportErrorsTest extends TestCase
                 'concept_id' => $concept2->id,
             ]);
         //we should not see an exception thrown
-        $this->assertNotNull($statement2->id);
+        self::assertNotNull($statement2->id);
     }
 
     /** @test */
@@ -105,9 +105,9 @@ class ImportErrorsTest extends TestCase
         //when i pass them to the importer
         $changeSet = $importer->getChangeset();
         //then i get an error
-        $this->assertSame('The required attribute columns: "*uri", "*status" ...are missing',
+        self::assertSame('The required attribute columns: "*uri", "*status" ...are missing',
             $importer->getErrors()['fatal']);
-        $this->assertSame($changeSet->count(), 0);
+        self::assertSame($changeSet->count(), 0);
     }
 
     /** @test */
@@ -132,7 +132,7 @@ class ImportErrorsTest extends TestCase
         $changeSet = $importer->getChangeset();
         $this->assertNull($changeSet->get('add')->first()->get('*status')['new value']);
         $errors = collect([ 'new row: 0','*status','[ERROR: Empty required attribute]','Row Fatal']);
-        $this->assertEquals($errors, $importer->getErrors()['row'][0]);
+        self::assertEquals($errors, $importer->getErrors()['row'][0]);
     }
 
     /** @test */
@@ -158,9 +158,9 @@ class ImportErrorsTest extends TestCase
         //when i pass them to the importer
         $changeSet = $importer->getChangeset();
         //then i get an error
-        $this->assertSame('The required attribute column: "*uri" ...is missing',
+        self::assertSame('The required attribute column: "*uri" ...is missing',
             $importer->getErrors()['fatal']);
-        $this->assertSame($changeSet->count(), 0);
+        self::assertSame($changeSet->count(), 0);
     }
 
     /** @test */
@@ -206,7 +206,7 @@ class ImportErrorsTest extends TestCase
         //when i pass them to the importer
         $changeSet = $importer->getChangeset();
         $errors = collect([ 'new row: 0','*uri','[ERROR: \'foo\' is an unregistered prefix and cannot be expanded to form a full URI]','warning']);
-        $this->assertEquals($errors, $importer->getErrors()['row'][0]);
+        self::assertEquals($errors, $importer->getErrors()['row'][0]);
     }
 
     /** @test */
@@ -226,9 +226,9 @@ class ImportErrorsTest extends TestCase
         //when i pass them to the importer
         $changeSet = $importer->getChangeset();
         //then i get an error
-        $this->assertSame('The column: "foobar" ...is unknown and need to be registered with the Profile',
+        self::assertSame('The column: "foobar" is unknown and needs to be registered with the Profile',
             $importer->getErrors()['fatal']);
-        $this->assertSame($changeSet->count(), 0);
+        self::assertSame($changeSet->count(), 0);
     }
 
     /** @test */
@@ -248,8 +248,8 @@ class ImportErrorsTest extends TestCase
         //when i pass them to the importer
         $changeSet = $importer->getChangeset();
         //then i get an error
-        $this->assertSame('"reg_id" is a duplicate attribute column. Columns cannot be duplicated',
+        self::assertSame('"reg_id" is a duplicate attribute column. Columns cannot be duplicated',
             $importer->getErrors()['fatal']);
-        $this->assertSame($changeSet->count(), 0);
+        self::assertSame($changeSet->count(), 0);
     }
 }

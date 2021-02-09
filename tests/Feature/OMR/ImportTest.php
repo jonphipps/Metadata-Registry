@@ -156,7 +156,7 @@ class ImportTest extends TestCase
         //then I should see the changes in the database
         $lexical = ElementAttribute::withTrashed()->find(128175);
         $this->assertNotNull($lexical->deleted_at);
-        $this->assertEquals($lexical->deleted_user_id, 1);
+        self::assertEquals($lexical->deleted_user_id, 1);
         $this->assertDatabaseHas(ElementAttribute::TABLE,
             [
                 'id'              => 180596,
@@ -208,7 +208,7 @@ class ImportTest extends TestCase
         //then I should see the changes in the database
         $lexical = ConceptAttribute::withTrashed()->find(24412);
         $this->assertNotNull($lexical->deleted_at);
-        $this->assertEquals(1, $lexical->deleted_by);
+        self::assertEquals(1, $lexical->deleted_by);
         $this->assertDatabaseHas(ConceptAttribute::TABLE,
             [
                 'id'              => 24411,

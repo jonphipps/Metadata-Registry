@@ -36,8 +36,8 @@ class ElementSetTest extends TestCase
         //when it's added to the database
         //then a history table entry is added
         $element->fresh('history');
-        $this->assertEquals(1, $element->history()->count());
-        $this->assertEquals(29, $element->history()->first()->import_id);
+        self::assertEquals(1, $element->history()->count());
+        self::assertEquals(29, $element->history()->first()->import_id);
     }
 
     /** @test */
@@ -51,7 +51,7 @@ class ElementSetTest extends TestCase
         //when it's added to the database
         //then a history table entry is added
         $element->fresh('history');
-        $this->assertEquals(3, $element->history()->count());
+        self::assertEquals(3, $element->history()->count());
         $history             = $element->history()->latest()->first();
         $history->created_at = null;
         $history->updated_at = null;
@@ -71,7 +71,7 @@ class ElementSetTest extends TestCase
         //when it's added to the database
         //then a history table entry is added
         $element->fresh('history');
-        $this->assertEquals(3, $element->history()->count());
+        self::assertEquals(3, $element->history()->count());
         $history             = $element->history()->latest()->first();
         $history->created_at = null;
         $history->updated_at = null;

@@ -36,9 +36,9 @@ class DataImporterTest extends TestCase
         //when i pass them to the importer
         $changeSet = $importer->getChangeset();
         //then i get back a list of fields that will change, none in this case
-        $this->assertEquals(0, $changeSet['update']->count());
-        $this->assertEquals(0, $changeSet['delete']->count());
-        $this->assertEquals(1, $changeSet['add']->count());
+        self::assertEquals(0, $changeSet['update']->count());
+        self::assertEquals(0, $changeSet['delete']->count());
+        self::assertEquals(1, $changeSet['add']->count());
     }
 
     /** @test */
@@ -58,9 +58,9 @@ class DataImporterTest extends TestCase
         });
         $changeSet->put('update', $updates);
         //then i get back a list of fields that will change, none in this case
-        $this->assertEquals(0, $changeSet['update']->count());
-        $this->assertEquals(0, $changeSet['delete']->count());
-        $this->assertEquals(1, $changeSet['add']->count());
+        self::assertEquals(0, $changeSet['update']->count());
+        self::assertEquals(0, $changeSet['delete']->count());
+        self::assertEquals(1, $changeSet['add']->count());
     }
 
     /** @test */
@@ -80,7 +80,7 @@ class DataImporterTest extends TestCase
         //when i pass them to the importer
         $changeSet = $importer->getChangeset();
         //then i get back a list of fields that will change, one in this case
-        $this->assertEquals(1, $changeSet['update']->count());
+        self::assertEquals(1, $changeSet['update']->count());
         $this->assertMatchesSnapshot($changeSet['update']->toArray());
     }
 
@@ -101,9 +101,9 @@ class DataImporterTest extends TestCase
         //when i pass them to the importer
         $changeSet = $importer->getChangeset();
         //then i get back a list of records that will change, one in this case
-        $this->assertEquals(1, $changeSet['update']->count());
+        self::assertEquals(1, $changeSet['update']->count());
         //then i get back a list of fields that will change, three in this case
-        $this->assertEquals(3, $changeSet['update']->first()->count());
+        self::assertEquals(3, $changeSet['update']->first()->count());
         $this->assertMatchesSnapshot($changeSet['update']->toArray());
         //when I store it in the database
         $import = Import::create(['instructions' => $changeSet]);
@@ -114,7 +114,7 @@ class DataImporterTest extends TestCase
         //when we ask for the instructions from the database
         $savedInstruction = $attachedImport->instructions;
         //then we get one
-        $this->assertEquals($savedInstruction, $changeSet->toArray());
+        self::assertEquals($savedInstruction, $changeSet->toArray());
     }
 
     /** @test */
@@ -139,7 +139,7 @@ class DataImporterTest extends TestCase
         });
         $changeSet->put('update', $updates);
         //then i get back a list of fields that will change, none in this case
-        $this->assertEquals(13, $changeSet['update']->count());
+        self::assertEquals(13, $changeSet['update']->count());
         $this->assertMatchesSnapshot($changeSet['update']->toArray());
     }
 
@@ -274,10 +274,10 @@ class DataImporterTest extends TestCase
         $deletedRows = $importer->getDeleteRows()->count();
         $updatedRows = $importer->getUpdateRows()->count();
         $addedRows = $importer->getAddRows()->count();
-        $this->assertEquals(1,$importer->getStats()['deleted']);
-        $this->assertEquals(7,$importer->getStats()['updated']);
-        $this->assertEquals(1,$importer->getStats()['added']);
-        $this->assertEquals(0,$importer->getStats()['errors']);
+        self::assertEquals(1,$importer->getStats()['deleted']);
+        self::assertEquals(7,$importer->getStats()['updated']);
+        self::assertEquals(1,$importer->getStats()['added']);
+        self::assertEquals(0,$importer->getStats()['errors']);
         //when I store it in the database
         $import = Import::create([ 'results' => $importer->getStats()]);
         $export->addImports($import);
@@ -287,7 +287,7 @@ class DataImporterTest extends TestCase
         //when we ask for the stats from the database
         $savedStats = $attachedImport->results;
         //then we get one
-        $this->assertEquals($savedStats, $importer->getStats()->toArray());
+        self::assertEquals($savedStats, $importer->getStats()->toArray());
     }
 
     /** @test */

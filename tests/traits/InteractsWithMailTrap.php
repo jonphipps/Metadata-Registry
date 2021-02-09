@@ -83,7 +83,7 @@ trait InteractsWithMailTrap
         $message = $this->fetchLastMessage();
 
         foreach ($params as $param => $value) {
-            $this->assertEquals($value, $message[$param]);
+            self::assertEquals($value, $message[$param]);
         }
     }
 
@@ -132,7 +132,7 @@ trait InteractsWithMailTrap
     public function receivedAnEmailFromEmail($senderEmail)
     {
         $message = $this->fetchLastMessage();
-        $this->assertEquals($senderEmail, $message['from_email']);
+        self::assertEquals($senderEmail, $message['from_email']);
     }
 
 
@@ -146,7 +146,7 @@ trait InteractsWithMailTrap
     public function receivedAnEmailFromName($senderName)
     {
         $message = $this->fetchLastMessage();
-        $this->assertEquals($senderName, $message['from_name']);
+        self::assertEquals($senderName, $message['from_name']);
     }
 
 
@@ -160,7 +160,7 @@ trait InteractsWithMailTrap
     public function receivedAnEmailToEmail($recipientEmail)
     {
         $message = $this->fetchLastMessage();
-        $this->assertEquals($recipientEmail, $message['to_email']);
+        self::assertEquals($recipientEmail, $message['to_email']);
     }
 
 
@@ -174,7 +174,7 @@ trait InteractsWithMailTrap
     public function receivedAnEmailToName($recipientName)
     {
         $message = $this->fetchLastMessage();
-        $this->assertEquals($recipientName, $message['to_name']);
+        self::assertEquals($recipientName, $message['to_name']);
     }
 
 
@@ -188,7 +188,7 @@ trait InteractsWithMailTrap
     public function receivedAnEmailWithSubject($subject)
     {
         $message = $this->fetchLastMessage();
-        $this->assertEquals($subject, $message['subject']);
+        self::assertEquals($subject, $message['subject']);
     }
 
 
@@ -203,7 +203,7 @@ trait InteractsWithMailTrap
     {
         $message = $this->fetchLastMessage();
         $mailBody = $this->client->get($message['txt_path'])->getBody()->getContents();
-        $this->assertEquals($textBody, $mailBody);
+        self::assertEquals($textBody, $mailBody);
     }
 
 
@@ -218,7 +218,7 @@ trait InteractsWithMailTrap
     {
         $message = $this->fetchLastMessage();
         $mailBody = $this->client->get($message['html_path'])->getBody()->getContents();
-        $this->assertEquals($htmlBody, $mailBody);
+        self::assertEquals($htmlBody, $mailBody);
     }
 
 
@@ -261,7 +261,7 @@ trait InteractsWithMailTrap
     {
         $attachments = $this->fetchAttachmentsOfLastMessage();
 
-        $this->assertEquals($count, count($attachments));
+        self::assertEquals($count, count($attachments));
     }
 
 
@@ -274,6 +274,6 @@ trait InteractsWithMailTrap
     {
         $attachments = $this->fetchAttachmentsOfLastMessage();
 
-        $this->assertEquals($bool, count($attachments) > 0);
+        self::assertEquals($bool, count($attachments) > 0);
     }
 }

@@ -37,12 +37,12 @@ class ReciprocalElementTest extends TestCase
         /** @var ElementAttribute $reciprocal */
         $reciprocal = $statement->reciprocal;
         //we should have created 2 and only 2 attributes
-        $this->assertEquals($statementCount+2, ElementAttribute::count());
-        $this->assertEquals($historyCount+2, ElementAttributeHistory::count());
-        $this->assertEquals($statement->id, $reciprocal->reciprocal_property_element_id);
-        $this->assertEquals($statement->schema_property_id, $reciprocal->related_schema_property_id);
-        $this->assertEquals($statement->related_schema_property_id, $reciprocal->schema_property_id);
-        $this->assertEquals($statement->profile_property_id, $reciprocal->profile_property_id);
+        self::assertEquals($statementCount+2, ElementAttribute::count());
+        self::assertEquals($historyCount+2, ElementAttributeHistory::count());
+        self::assertEquals($statement->id, $reciprocal->reciprocal_property_element_id);
+        self::assertEquals($statement->schema_property_id, $reciprocal->related_schema_property_id);
+        self::assertEquals($statement->related_schema_property_id, $reciprocal->schema_property_id);
+        self::assertEquals($statement->profile_property_id, $reciprocal->profile_property_id);
         $this->assertTrue($reciprocal->is_generated);
     }
 
@@ -63,12 +63,12 @@ class ReciprocalElementTest extends TestCase
         /** @var ElementAttribute $reciprocal */
         $reciprocal = $statement->reciprocal;
         //we should have created 2 and only 2 attributes
-        $this->assertEquals($statementCount + 2, ElementAttribute::count());
-        $this->assertEquals($historyCount + 2, ElementAttributeHistory::count());
-        $this->assertEquals($statement->id, $reciprocal->reciprocal_property_element_id);
-        $this->assertEquals($statement->schema_property_id, $reciprocal->related_schema_property_id);
-        $this->assertEquals($statement->related_schema_property_id, $reciprocal->schema_property_id);
-        $this->assertEquals($profileProperty->inverse_profile_property_id, $reciprocal->profile_property_id);
+        self::assertEquals($statementCount + 2, ElementAttribute::count());
+        self::assertEquals($historyCount + 2, ElementAttributeHistory::count());
+        self::assertEquals($statement->id, $reciprocal->reciprocal_property_element_id);
+        self::assertEquals($statement->schema_property_id, $reciprocal->related_schema_property_id);
+        self::assertEquals($statement->related_schema_property_id, $reciprocal->schema_property_id);
+        self::assertEquals($profileProperty->inverse_profile_property_id, $reciprocal->profile_property_id);
         $this->assertTrue($reciprocal->is_generated);
     }
 
@@ -88,8 +88,8 @@ class ReciprocalElementTest extends TestCase
         /** @var ElementAttribute $reciprocal */
         $reciprocal = $statement->reciprocal;
         //we should have created 2 and only 2 attributes
-        $this->assertEquals($statementCount + 1, ElementAttribute::count());
-        $this->assertEquals($historyCount + 1, ElementAttributeHistory::count());
+        self::assertEquals($statementCount + 1, ElementAttribute::count());
+        self::assertEquals($historyCount + 1, ElementAttributeHistory::count());
         $this->assertNull($reciprocal);
         $this->assertNull($statement->review_reciprocal);
     }
@@ -107,8 +107,8 @@ class ReciprocalElementTest extends TestCase
         /** @var ElementAttribute $reciprocal */
         $reciprocal = $statement->reciprocal;
         //we should have created 2 and only 2 attributes
-        $this->assertEquals($statementCount + 1, ElementAttribute::count());
-        $this->assertEquals($historyCount + 1, ElementAttributeHistory::count());
+        self::assertEquals($statementCount + 1, ElementAttribute::count());
+        self::assertEquals($historyCount + 1, ElementAttributeHistory::count());
         $this->assertNull($reciprocal);
         $this->assertTrue($statement->review_reciprocal);
     }
@@ -130,14 +130,14 @@ class ReciprocalElementTest extends TestCase
         /** @var ElementAttribute $reciprocal */
         $reciprocal = ElementAttribute::find($statement->reciprocal_property_element_id);
         //we should have created 2 and only 2 attributes
-        $this->assertEquals($statementCount + 2, ElementAttribute::count());
-        $this->assertEquals($historyCount + 2, ElementAttributeHistory::count());
+        self::assertEquals($statementCount + 2, ElementAttribute::count());
+        self::assertEquals($historyCount + 2, ElementAttributeHistory::count());
         $this->assertNotNull($reciprocal);
         $statement->delete();
         $reciprocal = ElementAttribute::find($reciprocal->id);
         $this->assertNull($reciprocal);
-        $this->assertEquals($statementCount, ElementAttribute::count());
-        $this->assertEquals($historyCount + 4, ElementAttributeHistory::count());
+        self::assertEquals($statementCount, ElementAttribute::count());
+        self::assertEquals($historyCount + 4, ElementAttributeHistory::count());
     }
 
 
@@ -160,10 +160,10 @@ class ReciprocalElementTest extends TestCase
         /** @var ElementAttribute $reciprocal */
         $reciprocal = $statement->reciprocal;
         //we should have created 2 and only 2 attributes
-        $this->assertEquals($statementCount + 2, ElementAttribute::count());
-        $this->assertEquals($historyCount + 2, ElementAttributeHistory::count());
+        self::assertEquals($statementCount + 2, ElementAttribute::count());
+        self::assertEquals($historyCount + 2, ElementAttributeHistory::count());
         $this->assertNotNull($reciprocal);
-        $this->assertEquals($statement->related_schema_property_id, $reciprocal->schema_property_id);
+        self::assertEquals($statement->related_schema_property_id, $reciprocal->schema_property_id);
         //update the statement
         $statement->update(['object' => 'http://rdaregistry.info/Elements/c/C10002']);
         //ding dong the old reciprocal is dead
@@ -171,15 +171,15 @@ class ReciprocalElementTest extends TestCase
         $this->assertNull($reciprocal);
         //get the new reciprocal
         $reciprocal = $statement->reciprocal;
-        $this->assertEquals($statement->id, $reciprocal->reciprocal_property_element_id);
-        $this->assertEquals($statement->schema_property_id, $reciprocal->related_schema_property_id);
-        $this->assertEquals($statement->related_schema_property_id, $reciprocal->schema_property_id);
-        $this->assertEquals($profileProperty->inverse_profile_property_id, $reciprocal->profile_property_id);
+        self::assertEquals($statement->id, $reciprocal->reciprocal_property_element_id);
+        self::assertEquals($statement->schema_property_id, $reciprocal->related_schema_property_id);
+        self::assertEquals($statement->related_schema_property_id, $reciprocal->schema_property_id);
+        self::assertEquals($profileProperty->inverse_profile_property_id, $reciprocal->profile_property_id);
         $this->assertTrue($reciprocal->is_generated);
         //statement count increase should be the same as before
-        $this->assertEquals($statementCount + 2, ElementAttribute::count());
+        self::assertEquals($statementCount + 2, ElementAttribute::count());
         //history count should increase by 2
-        $this->assertEquals($historyCount + 4, ElementAttributeHistory::count());
+        self::assertEquals($historyCount + 4, ElementAttributeHistory::count());
     }
 
     /** @test inverse */
@@ -206,8 +206,8 @@ class ReciprocalElementTest extends TestCase
         /** @var ElementAttribute $reciprocal */
         $reciprocal = $statement->reciprocal;
         //we should have created 1 and only 1 attributes
-        $this->assertEquals($statementCount + 1, ElementAttribute::count());
-        $this->assertEquals($historyCount + 1, ElementAttributeHistory::count());
+        self::assertEquals($statementCount + 1, ElementAttribute::count());
+        self::assertEquals($historyCount + 1, ElementAttributeHistory::count());
         $this->assertNull($reciprocal);
         $this->assertNull($statement->review_reciprocal);
     }
@@ -236,12 +236,12 @@ class ReciprocalElementTest extends TestCase
         /** @var ElementAttribute $reciprocal */
         $reciprocal = $statement->reciprocal;
         //we should have created 2 and only 2 attributes
-        $this->assertEquals($statementCount + 2, ElementAttribute::count());
-        $this->assertEquals($historyCount + 2, ElementAttributeHistory::count());
-        $this->assertEquals($statement->id, $reciprocal->reciprocal_property_element_id);
-        $this->assertEquals($statement->schema_property_id, $reciprocal->related_schema_property_id);
-        $this->assertEquals($statement->related_schema_property_id, $reciprocal->schema_property_id);
-        $this->assertEquals($statement->profile_property_id, $reciprocal->profile_property_id);
+        self::assertEquals($statementCount + 2, ElementAttribute::count());
+        self::assertEquals($historyCount + 2, ElementAttributeHistory::count());
+        self::assertEquals($statement->id, $reciprocal->reciprocal_property_element_id);
+        self::assertEquals($statement->schema_property_id, $reciprocal->related_schema_property_id);
+        self::assertEquals($statement->related_schema_property_id, $reciprocal->schema_property_id);
+        self::assertEquals($statement->profile_property_id, $reciprocal->profile_property_id);
         $this->assertTrue($reciprocal->is_generated);
     }
 }

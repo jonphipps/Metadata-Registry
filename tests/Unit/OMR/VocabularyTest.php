@@ -36,8 +36,8 @@ class VocabularyTest extends TestCase
         //when it's added to the database
         //then a history table entry is added
         $concept->fresh('history');
-        $this->assertEquals(1, $concept->history()->count());
-        $this->assertEquals(29, $concept->history()->first()->import_id);
+        self::assertEquals(1, $concept->history()->count());
+        self::assertEquals(29, $concept->history()->first()->import_id);
     }
 
     /** @test */

@@ -58,14 +58,14 @@ class UpdateRelatedIdsTest extends TestCase
         $conceptHistoryCount = ConceptAttributeHistory::count();
         dispatch(new UpdateRelatedIds($batch));
         //see the statement now has a uri
-        $this->assertEquals($concept->id, $statement->fresh()->related_concept_id);
-        $this->assertEquals($element->id, $statement2->fresh()->related_schema_property_id);
+        self::assertEquals($concept->id, $statement->fresh()->related_concept_id);
+        self::assertEquals($element->id, $statement2->fresh()->related_schema_property_id);
         //it shouldn't make a new history entry
-        $this->assertEquals($conceptHistoryCount, ConceptAttributeHistory::count());
-        $this->assertEquals($elementHistoryCount, ElementAttributeHistory::count());
+        self::assertEquals($conceptHistoryCount, ConceptAttributeHistory::count());
+        self::assertEquals($elementHistoryCount, ElementAttributeHistory::count());
         //the history should be updated
-        $this->assertEquals($concept->id, $history->fresh()->related_concept_id);
-        $this->assertEquals($element->id, $history2->fresh()->related_schema_property_id);
+        self::assertEquals($concept->id, $history->fresh()->related_concept_id);
+        self::assertEquals($element->id, $history2->fresh()->related_schema_property_id);
     }
 
     /** @test */
@@ -96,7 +96,7 @@ class UpdateRelatedIdsTest extends TestCase
         //pass the batch to the updateRelatedIds job
         dispatch(new UpdateRelatedIds($batch));
         //see the statement relationship is still null
-        $this->assertEquals(null, $statement->fresh()->related_concept_id);
-        $this->assertEquals(null, $statement2->fresh()->related_schema_property_id);
+        self::assertEquals(null, $statement->fresh()->related_concept_id);
+        self::assertEquals(null, $statement2->fresh()->related_schema_property_id);
     }
 }

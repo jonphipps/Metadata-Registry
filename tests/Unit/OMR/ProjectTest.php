@@ -29,11 +29,11 @@ class ProjectTest extends TestCase
         $projectCount = Project::count();
         $project1     = factory(Project::class)->create( [ 'is_private' => false ]);
         $project2     = factory(Project::class)->create([ 'is_private' => true ]);
-        $this->assertEquals($projectCount + 2, Project::count());
+        self::assertEquals($projectCount + 2, Project::count());
         //when I request only public projects
         //then I don't see any private projects in the response
-        $this->assertEquals($projectCount + 1, Project::public()->count());
-        $this->assertEquals(1, Project::private()->count());
+        self::assertEquals($projectCount + 1, Project::public()->count());
+        self::assertEquals(1, Project::private()->count());
     }
 
     /** @test */

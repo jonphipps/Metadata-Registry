@@ -46,11 +46,11 @@ class ReciprocalConceptTest extends TestCase
         /** @var ConceptAttribute $reciprocal */
         $reciprocal = $statement->reciprocal;
         //we should have created 2 and only 2 attributes
-        $this->assertEquals($statementCount+2, ConceptAttribute::count());
-        $this->assertEquals($historyCount+2, ConceptAttributeHistory::count());
-        $this->assertEquals($statement->id, $reciprocal->reciprocal_concept_property_id);
-        $this->assertEquals($statement->concept_id, $reciprocal->related_concept_id);
-        $this->assertEquals($statement->related_concept_id, $reciprocal->concept_id);
+        self::assertEquals($statementCount+2, ConceptAttribute::count());
+        self::assertEquals($historyCount+2, ConceptAttributeHistory::count());
+        self::assertEquals($statement->id, $reciprocal->reciprocal_concept_property_id);
+        self::assertEquals($statement->concept_id, $reciprocal->related_concept_id);
+        self::assertEquals($statement->related_concept_id, $reciprocal->concept_id);
         $this->assertTrue($reciprocal->is_generated);
     }
 
@@ -71,12 +71,12 @@ class ReciprocalConceptTest extends TestCase
         /** @var ConceptAttribute $reciprocal */
         $reciprocal = $statement->reciprocal;
         //we should have created 2 and only 2 attributes
-        $this->assertEquals($statementCount + 2, ConceptAttribute::count());
-        $this->assertEquals($historyCount + 2, ConceptAttributeHistory::count());
-        $this->assertEquals($statement->id, $reciprocal->reciprocal_concept_property_id);
-        $this->assertEquals($statement->concept_id, $reciprocal->related_concept_id);
-        $this->assertEquals($statement->related_concept_id, $reciprocal->concept_id);
-        $this->assertEquals($profileProperty->inverse_profile_property_id, $reciprocal->profile_property_id);
+        self::assertEquals($statementCount + 2, ConceptAttribute::count());
+        self::assertEquals($historyCount + 2, ConceptAttributeHistory::count());
+        self::assertEquals($statement->id, $reciprocal->reciprocal_concept_property_id);
+        self::assertEquals($statement->concept_id, $reciprocal->related_concept_id);
+        self::assertEquals($statement->related_concept_id, $reciprocal->concept_id);
+        self::assertEquals($profileProperty->inverse_profile_property_id, $reciprocal->profile_property_id);
         $this->assertTrue($reciprocal->is_generated);
     }
 
@@ -96,8 +96,8 @@ class ReciprocalConceptTest extends TestCase
         /** @var ConceptAttribute $reciprocal */
         $reciprocal = $statement->reciprocal;
         //we should have created 2 and only 2 attributes
-        $this->assertEquals($statementCount + 1, ConceptAttribute::count());
-        $this->assertEquals($historyCount + 1, ConceptAttributeHistory::count());
+        self::assertEquals($statementCount + 1, ConceptAttribute::count());
+        self::assertEquals($historyCount + 1, ConceptAttributeHistory::count());
         $this->assertNull($reciprocal);
         $this->assertNull($statement->review_reciprocal);
     }
@@ -115,8 +115,8 @@ class ReciprocalConceptTest extends TestCase
         /** @var ConceptAttribute $reciprocal */
         $reciprocal = $statement->reciprocal;
         //we should have created 2 and only 2 attributes
-        $this->assertEquals($statementCount + 1, ConceptAttribute::count());
-        $this->assertEquals($historyCount + 1, ConceptAttributeHistory::count());
+        self::assertEquals($statementCount + 1, ConceptAttribute::count());
+        self::assertEquals($historyCount + 1, ConceptAttributeHistory::count());
         $this->assertNull($reciprocal);
         $this->assertTrue($statement->review_reciprocal);
     }
@@ -138,14 +138,14 @@ class ReciprocalConceptTest extends TestCase
         /** @var ConceptAttribute $reciprocal */
         $reciprocal = ConceptAttribute::find($statement->reciprocal_concept_property_id);
         //we should have created 2 and only 2 attributes
-        $this->assertEquals($statementCount + 2, ConceptAttribute::count());
-        $this->assertEquals($historyCount + 2, ConceptAttributeHistory::count());
+        self::assertEquals($statementCount + 2, ConceptAttribute::count());
+        self::assertEquals($historyCount + 2, ConceptAttributeHistory::count());
         $this->assertNotNull($reciprocal);
         $statement->delete();
         $reciprocal = ConceptAttribute::find($reciprocal->id);
         $this->assertNull($reciprocal);
-        $this->assertEquals($statementCount, ConceptAttribute::count());
-        $this->assertEquals($historyCount + 4, ConceptAttributeHistory::count());
+        self::assertEquals($statementCount, ConceptAttribute::count());
+        self::assertEquals($historyCount + 4, ConceptAttributeHistory::count());
     }
 
 
@@ -168,10 +168,10 @@ class ReciprocalConceptTest extends TestCase
         /** @var ConceptAttribute $reciprocal */
         $reciprocal = $statement->reciprocal;
         //we should have created 2 and only 2 attributes
-        $this->assertEquals($statementCount + 2, ConceptAttribute::count());
-        $this->assertEquals($historyCount + 2, ConceptAttributeHistory::count());
+        self::assertEquals($statementCount + 2, ConceptAttribute::count());
+        self::assertEquals($historyCount + 2, ConceptAttributeHistory::count());
         $this->assertNotNull($reciprocal);
-        $this->assertEquals($statement->related_concept_id, $reciprocal->concept_id);
+        self::assertEquals($statement->related_concept_id, $reciprocal->concept_id);
         //update the statement
         $statement->update(['object' => 'http://rdaregistry.info/termList/RDAMediaType/1001']);
         //ding dong the old reciprocal is dead
@@ -179,15 +179,15 @@ class ReciprocalConceptTest extends TestCase
         $this->assertNull($reciprocal);
         //get the new reciprocal
         $reciprocal = $statement->reciprocal;
-        $this->assertEquals($statement->id, $reciprocal->reciprocal_concept_property_id);
-        $this->assertEquals($statement->concept_id, $reciprocal->related_concept_id);
-        $this->assertEquals($statement->related_concept_id, $reciprocal->concept_id);
-        $this->assertEquals($profileProperty->inverse_profile_property_id, $reciprocal->profile_property_id);
+        self::assertEquals($statement->id, $reciprocal->reciprocal_concept_property_id);
+        self::assertEquals($statement->concept_id, $reciprocal->related_concept_id);
+        self::assertEquals($statement->related_concept_id, $reciprocal->concept_id);
+        self::assertEquals($profileProperty->inverse_profile_property_id, $reciprocal->profile_property_id);
         $this->assertTrue($reciprocal->is_generated);
         //statement count increase should be the same as before
-        $this->assertEquals($statementCount + 2, ConceptAttribute::count());
+        self::assertEquals($statementCount + 2, ConceptAttribute::count());
         //history count should increase by 2
-        $this->assertEquals($historyCount + 4, ConceptAttributeHistory::count());
+        self::assertEquals($historyCount + 4, ConceptAttributeHistory::count());
     }
 
     /** @test inverse */
@@ -215,8 +215,8 @@ class ReciprocalConceptTest extends TestCase
         /** @var ConceptAttribute $reciprocal */
         $reciprocal = $statement->reciprocal;
         //we should have created 2 and only 2 attributes
-        $this->assertEquals($statementCount + 1, ConceptAttribute::count());
-        $this->assertEquals($historyCount + 1, ConceptAttributeHistory::count());
+        self::assertEquals($statementCount + 1, ConceptAttribute::count());
+        self::assertEquals($historyCount + 1, ConceptAttributeHistory::count());
         $this->assertNull($reciprocal);
         $this->assertNull($statement->review_reciprocal);
     }

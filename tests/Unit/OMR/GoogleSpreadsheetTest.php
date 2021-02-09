@@ -85,7 +85,7 @@ class GoogleSpreadsheetTest extends TestCase
             //when I request the data for a worksheet
             $title = $sheet->getSpreadsheetTitle();
             //then i get the data back
-            $this->assertEquals('Registry tests', $title);
+            self::assertEquals('Registry tests', $title);
         } else {
             $this->assertTrue(true, 'no client secret file available');
         }

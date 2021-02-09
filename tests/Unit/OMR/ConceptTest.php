@@ -49,7 +49,7 @@ class ConceptTest extends TestCase
         //when it is added
         //then a new related is added to the database
         $related = $statement->related_concept;
-        $this->assertEquals($related->id, $statement->related_concept_id);
+        self::assertEquals($related->id, $statement->related_concept_id);
     }
 
 }
