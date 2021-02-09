@@ -130,7 +130,8 @@ class ImportErrorsTest extends TestCase
         $importer = new DataImporter($data, $export);
         //when i pass them to the importer
         $changeSet = $importer->getChangeset();
-        $this->assertNull($changeSet->get('add')->first()->get('*status')['new value']);
+        // self::assertNull($changeSet->get('add')->first()->get('*status')['new value']);
+        self::assertEmpty($changeSet->get('add')->first()->get('*status'));
         $errors = collect([ 'new row: 0','*status','[ERROR: Empty required attribute]','Row Fatal']);
         self::assertEquals($errors, $importer->getErrors()['row'][0]);
     }
@@ -185,9 +186,8 @@ class ImportErrorsTest extends TestCase
         $importer = new DataImporter($data, $export);
         //when i pass them to the importer
         $changeSet = $importer->getChangeset();
-        $this->assertNotSame($changeSet->get('add')->first()->get('*status')['new value'],
-            '[ERROR: Empty required attribute]');
-        $this->assertCount(0, $importer->getErrors());
+        self::assertEmpty($changeSet->get('add')->first()->get('*status'));
+        self::assertCount(0, $importer->getErrors());
     }
 
     /** @test */

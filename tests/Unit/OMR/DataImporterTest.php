@@ -54,7 +54,10 @@ class DataImporterTest extends TestCase
         $changeSet = $importer->getChangeset();
         //reject the errors
         $updates = $changeSet->pull('update')->reject(function($value, $key){
-            return $value->get('*name_fr')['new value'] = '[ERROR: Empty required attribute]';
+            if (! empty($value->get('*name_fr'))){
+                return $value->get('*name_fr')['new value'] === '[ERROR: Empty required attribute]';
+            }
+            return true;
         });
         $changeSet->put('update', $updates);
         //then i get back a list of fields that will change, none in this case
@@ -135,7 +138,7 @@ class DataImporterTest extends TestCase
         $changeSet = $importer->getChangeset();
         //reject the errors
         $updates = $changeSet->pull('update')->reject(function($value, $key) {
-            return $value->get('*name_fr')['new value'] === '[ERROR: Empty required attribute]';
+            return is_null($value->get('*name_fr')) ? false : $value->get('*name_fr')['new value'] === '[ERROR: Empty required attribute]' ;
         });
         $changeSet->put('update', $updates);
         //then i get back a list of fields that will change, none in this case
@@ -330,7 +333,7 @@ class DataImporterTest extends TestCase
     }
 
     /** @test */
-    public function it_retrieves_an_associative_array_of_data_for_a_dataset_that_has_no_regsitry_ids()
+    public function it_retrieves_an_associative_array_of_data_for_a_dataset_that_has_no_registry_ids()
     {
         //given a set of normal raw csv-style data
         $data     = collect([
