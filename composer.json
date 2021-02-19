@@ -69,7 +69,7 @@
         "doctrine/dbal": "^2.6",
         "easyrdf/easyrdf": "^0.9.1",
         "erusev/parsedown-extra": "^0.7.1",
-        "fideloper/proxy": "~3.3",
+        "fideloper/proxy": "~4.4",
         "google/apiclient": "^2.1",
         "graham-campbell/github": "^8.9",
         "guzzlehttp/guzzle": "~6.0",
