@@ -143,7 +143,7 @@
         "recca0120/laravel-tracy": "^1.8",
         "spatie/laravel-db-snapshots": "^1.0",
         "spatie/phpunit-snapshot-assertions": "^1.0",
-        "stechstudio/laravel-vfs-adapter": "^2.0",
+        "stechstudio/laravel-vfs-adapter": "^3.1",
         "tightenco/mailthief": "^0.3.4",
         "xethron/migrations-generator": "^2.0"
     },
