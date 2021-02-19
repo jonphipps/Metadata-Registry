@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "46ef6970e4594b7ed05b7d64d4e323a1",
+    "content-hash": "8a70166116f32f8ffdc08a1446033ac2",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -1726,6 +1726,20 @@
                 "redis",
                 "xcache"
             ],
+            "funding": [
+                {
+                    "url": "https://www.doctrine-project.org/sponsorship.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.patreon.com/phpdoctrine",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fcache",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-07-07T18:54:01+00:00"
         },
         {
@@ -2001,6 +2015,20 @@
                 "uppercase",
                 "words"
             ],
+            "funding": [
+                {
+                    "url": "https://www.doctrine-project.org/sponsorship.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.patreon.com/phpdoctrine",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Finflector",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-05-29T07:19:59+00:00"
         },
         {
@@ -2062,6 +2090,20 @@
                 "lexer",
                 "parser",
                 "php"
+            ],
+            "funding": [
+                {
+                    "url": "https://www.doctrine-project.org/sponsorship.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.patreon.com/phpdoctrine",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Flexer",
+                    "type": "tidelift"
+                }
             ],
             "time": "2020-05-25T17:44:05+00:00"
         },
@@ -3950,6 +3992,20 @@
                 }
             ],
             "description": "Update helper",
+            "funding": [
+                {
+                    "url": "https://github.com/kylekatarnls",
+                    "type": "github"
+                },
+                {
+                    "url": "https://opencollective.com/Carbon",
+                    "type": "open_collective"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/nesbot/carbon",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-04-07T20:44:10+00:00"
         },
         {
@@ -4854,6 +4910,12 @@
             "keywords": [
                 "stream",
                 "zip"
+            ],
+            "funding": [
+                {
+                    "url": "https://opencollective.com/zipstream",
+                    "type": "open_collective"
+                }
             ],
             "time": "2020-05-30T13:11:16+00:00"
         },
@@ -6345,6 +6407,20 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
+            "funding": [
+                {
+                    "url": "https://marcus.bointon.com/donations/",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/Synchro",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.patreon.com/marcusbointon",
+                    "type": "patreon"
+                }
+            ],
             "time": "2020-03-19T14:29:37+00:00"
         },
         {
@@ -8809,6 +8885,20 @@
                 "interfaces",
                 "interoperability",
                 "standards"
+            ],
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
             ],
             "time": "2020-07-06T13:19:58+00:00"
         },
@@ -12598,25 +12688,24 @@
         },
         {
             "name": "mpociot/laravel-test-factory-helper",
-            "version": "0.5.0",
+            "version": "v1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mpociot/laravel-test-factory-helper.git",
-                "reference": "3d122e7517454800f69531b6a3151b254da2a285"
+                "reference": "cae981ca2be738e964d3f1f66bad178dcebdb9f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mpociot/laravel-test-factory-helper/zipball/3d122e7517454800f69531b6a3151b254da2a285",
-                "reference": "3d122e7517454800f69531b6a3151b254da2a285",
+                "url": "https://api.github.com/repos/mpociot/laravel-test-factory-helper/zipball/cae981ca2be738e964d3f1f66bad178dcebdb9f4",
+                "reference": "cae981ca2be738e964d3f1f66bad178dcebdb9f4",
                 "shasum": ""
             },
             "require": {
                 "doctrine/dbal": "~2.3",
-                "illuminate/console": "^5.0",
-                "illuminate/filesystem": "^5.0",
-                "illuminate/support": "^5.0",
-                "php": ">=5.6.0",
-                "symfony/class-loader": "^2.3|3.*"
+                "illuminate/console": "^5.5|^6.0",
+                "illuminate/filesystem": "^5.5|^6.0",
+                "illuminate/support": "^5.5|^6.0",
+                "php": ">=7.0"
             },
             "type": "library",
             "extra": {
@@ -12641,7 +12730,7 @@
                 "laravel",
                 "tests"
             ],
-            "time": "2017-10-09T18:00:57+00:00"
+            "time": "2019-12-02T13:47:48+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -14725,71 +14814,6 @@
                 "vfs"
             ],
             "time": "2018-05-20T18:59:57+00:00"
-        },
-        {
-            "name": "symfony/class-loader",
-            "version": "v3.4.47",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/class-loader.git",
-                "reference": "a22265a9f3511c0212bf79f54910ca5a77c0e92c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/class-loader/zipball/a22265a9f3511c0212bf79f54910ca5a77c0e92c",
-                "reference": "a22265a9f3511c0212bf79f54910ca5a77c0e92c",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.5.9|>=7.0.8"
-            },
-            "require-dev": {
-                "symfony/finder": "~2.8|~3.0|~4.0",
-                "symfony/polyfill-apcu": "~1.1"
-            },
-            "suggest": {
-                "symfony/polyfill-apcu": "For using ApcClassLoader on HHVM"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\ClassLoader\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony ClassLoader Component",
-            "homepage": "https://symfony.com",
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2020-10-24T10:57:07+00:00"
         },
         {
             "name": "theseer/tokenizer",
