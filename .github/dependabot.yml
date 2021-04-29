@@ -1,0 +1,49 @@
+version: 2
+updates:
+- package-ecosystem: composer
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "10:00"
+  open-pull-requests-limit: 10
+  target-branch: beta
+  ignore:
+  - dependency-name: phpseclib/phpseclib
+    versions:
+    - 3.0.7
+  - dependency-name: symfony/intl
+    versions:
+    - 5.2.1
+    - 5.2.3
+  - dependency-name: phpoffice/phpspreadsheet
+    versions:
+    - 1.16.0
+  - dependency-name: laravel/framework
+    versions:
+    - 5.5.50
+  - dependency-name: graham-campbell/github
+    versions:
+    - 8.9.1
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "10:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: eslint
+    versions:
+    - 7.18.0
+    - 7.19.0
+    - 7.20.0
+    - 7.21.0
+    - 7.22.0
+    - 7.23.0
+    - 7.24.0
+  - dependency-name: uiv
+    versions:
+    - 1.2.2
+    - 1.2.3
+  - dependency-name: lodash
+    versions:
+    - 4.17.20
