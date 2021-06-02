@@ -27,7 +27,7 @@
     "purifycss-webpack": "^0.7.0",
     "pusher-js": "^4.2.2",
     "uiv": "^0.18.0",
-    "vue": "^2.5.7",
+    "vue": "^2.6.13",
     "webpack-rtl-plugin": "^1.6.0"
   },
   "dependencies": {
