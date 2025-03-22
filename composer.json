@@ -135,7 +135,7 @@
         "laravel/browser-kit-testing": "^2.0",
         "laravel/dusk": "^2.0",
         "mockery/mockery": "0.9.*",
-        "mpociot/laravel-test-factory-helper": "^0.5.0",
+        "mpociot/laravel-test-factory-helper": "^1.3",
         "nunomaduro/collision": "^1.1",
         "orangehill/iseed": "^2.3",
         "pbmedia/laravel-browser-kit-macro": "^1.0",
